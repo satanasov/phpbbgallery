@@ -24,7 +24,7 @@ class main_module
 
 	function main($id, $mode)
 	{
-		global $auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path, $phpbb_ext_gallery;
+		global $auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path, $phpbb_ext_gallery, $table_prefix, $phpbb_dispatcher;
 
 
 		$phpbb_ext_gallery = new \phpbbgallery\core\core($auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path);
@@ -53,8 +53,27 @@ class main_module
 
 	function overview()
 	{
-		global $auth, $config, $db, $template, $user, $phpbb_ext_gallery;
+		global $auth, $config, $db, $template, $user, $phpbb_ext_gallery, $table_prefix, $phpbb_dispatcher;
+		
+		$albums_table = $table_prefix . 'gallery_albums';
+		$roles_table = $table_prefix . 'gallery_roles';
+		$permissions_table = $table_prefix . 'gallery_permissions';
+		$modscache_table = $table_prefix . 'gallery_modscache';
+		$contests_table = $table_prefix . 'gallery_contests';
+		$users_table = $table_prefix . 'gallery_users';
+		$images_table = $table_prefix . 'gallery_images';
+		// Init album
+		$phpbb_ext_gallery_core_album = new \phpbbgallery\core\album\album();
+		
+		// init users
+		$phpbb_gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $users_table);
+		
+		// init image
+		$phpbb_gallery_image = new \phpbbgallery\core\image\image();
 
+		// init config
+		$phpbb_ext_gallery_config = new \phpbbgallery\core\config($config);
+		
 		$action = request_var('action', '');
 		$id = request_var('i', '');
 		$mode = 'overview';
@@ -83,7 +102,7 @@ class main_module
 				break;
 				case 'reset_rating':
 					$album_id = request_var('reset_album_id', 0);
-					$album_data = phpbb_ext_gallery_core_album::get_info($album_id);
+					$album_data = $phpbb_ext_gallery_core_album->get_info($album_id);
 					$confirm = true;
 					$confirm_lang = sprintf($user->lang['RESET_RATING_CONFIRM'], $album_data['album_name']);
 				break;
@@ -124,13 +143,14 @@ class main_module
 						trigger_error($user->lang['NO_USER'] . adm_back_link($this->u_action), E_USER_WARNING);
 					}
 
-					$image_user = new phpbb_gallery_user($db, $user_row['user_id']);
-					$album_id = $image_user->get_data('personal_album_id');
+					$image_user = $phpbb_gallery_user->set_user_id($user_row['user_id']);
+					$album_id = $phpbb_gallery_user->get_data('personal_album_id');
+
 					if ($album_id)
 					{
 						trigger_error($user->lang('PEGA_ALREADY_EXISTS', $user_row['username']) . adm_back_link($this->u_action), E_USER_WARNING);
 					}
-					phpbb_ext_gallery_core_album::generate_personal_album($user_row['username'], $user_row['user_id'], $user_row['user_colour'], $image_user);
+					$phpbb_ext_gallery_core_album->generate_personal_album($user_row['username'], $user_row['user_id'], $user_row['user_colour'], $phpbb_gallery_user);
 
 					trigger_error($user->lang('PEGA_CREATED', $user_row['username']) . adm_back_link($this->u_action));
 				break;
@@ -157,12 +177,12 @@ class main_module
 					}
 
 					$total_images = $total_comments = 0;
-					phpbb_gallery_user::update_users('all', array('user_images' => 0));
+					$phpbb_gallery_user->update_users('all', array('user_images' => 0));
 
 					$sql = 'SELECT COUNT(image_id) AS num_images, image_user_id AS user_id, SUM(image_comments) AS num_comments
-						FROM ' . GALLERY_IMAGES_TABLE . '
-						WHERE image_status <> ' . phpbb_gallery_image::STATUS_UNAPPROVED . '
-							AND image_status <> ' . phpbb_gallery_image::STATUS_ORPHAN . '
+						FROM ' . $images_table . '
+						WHERE image_status <> ' . $phpbb_gallery_image::STATUS_UNAPPROVED . '
+							AND image_status <> ' . $phpbb_gallery_image::STATUS_ORPHAN . '
 						GROUP BY image_user_id';
 					$result = $db->sql_query($sql);
 
@@ -189,11 +209,11 @@ class main_module
 						trigger_error($user->lang['NO_AUTH_OPERATION'] . adm_back_link($this->u_action), E_USER_WARNING);
 					}
 
-					phpbb_gallery_user::update_users('all', array('personal_album_id' => 0));
+					$phpbb_gallery_user->update_users('all', array('personal_album_id' => 0));
 
 					$sql = 'SELECT album_id, album_user_id
-						FROM ' . GALLERY_ALBUMS_TABLE . '
-						WHERE album_user_id <> ' . phpbb_ext_gallery_core_album::PUBLIC_ALBUM . '
+						FROM ' . $albums_table . '
+						WHERE album_user_id <> ' . $phpbb_ext_gallery_core_album::PUBLIC_ALBUM . '
 							AND parent_id = 0
 						GROUP BY album_user_id, album_id';
 					$result = $db->sql_query($sql);
@@ -201,19 +221,19 @@ class main_module
 					$number_of_personals = 0;
 					while ($row = $db->sql_fetchrow($result))
 					{
-						$image_user = new phpbb_gallery_user($db, $row['album_user_id'], false);
-						$image_user->update_data(array(
+						$image_user = $phpbb_gallery_user->set_user_id($row['album_user_id'], false);
+						$phpbb_gallery_user->update_data(array(
 							'personal_album_id'		=> $row['album_id'],
 						));
 						$number_of_personals++;
 					}
 					$db->sql_freeresult($result);
-					$phpbb_ext_gallery->config->set('num_pegas', $number_of_personals);
+					$phpbb_ext_gallery_config->set('num_pegas', $number_of_personals);
 
 					// Update the config for the statistic on the index
 					$sql_array = array(
 						'SELECT'		=> 'a.album_id, u.user_id, u.username, u.user_colour',
-						'FROM'			=> array(GALLERY_ALBUMS_TABLE => 'a'),
+						'FROM'			=> array($albums_table => 'a'),
 
 						'LEFT_JOIN'		=> array(
 							array(
@@ -222,7 +242,7 @@ class main_module
 							),
 						),
 
-						'WHERE'			=> 'a.album_user_id <> ' . phpbb_ext_gallery_core_album::PUBLIC_ALBUM . ' AND a.parent_id = 0',
+						'WHERE'			=> 'a.album_user_id <> ' . $phpbb_ext_gallery_core_album::PUBLIC_ALBUM . ' AND a.parent_id = 0',
 						'ORDER_BY'		=> 'a.album_id DESC',
 					);
 					$sql = $db->sql_build_query('SELECT', $sql_array);
@@ -231,10 +251,10 @@ class main_module
 					$newest_pgallery = $db->sql_fetchrow($result);
 					$db->sql_freeresult($result);
 
-					$phpbb_ext_gallery->config->set('newest_pega_user_id', $newest_pgallery['user_id']);
-					$phpbb_ext_gallery->config->set('newest_pega_username', $newest_pgallery['username']);
-					$phpbb_ext_gallery->config->set('newest_pega_user_colour', $newest_pgallery['user_colour']);
-					$phpbb_ext_gallery->config->set('newest_pega_album_id', $newest_pgallery['album_id']);
+					$phpbb_ext_gallery_config->set('newest_pega_user_id', $newest_pgallery['user_id']);
+					$phpbb_ext_gallery_config->set('newest_pega_username', $newest_pgallery['username']);
+					$phpbb_ext_gallery_config->set('newest_pega_user_colour', $newest_pgallery['user_colour']);
+					$phpbb_ext_gallery_config->set('newest_pega_album_id', $newest_pgallery['album_id']);
 
 					trigger_error($user->lang['RESYNCED_PERSONALS'] . adm_back_link($this->u_action));
 				break;
@@ -247,7 +267,7 @@ class main_module
 
 					// Hopefully this won't take to long! >> I think we must make it batchwise
 					$sql = 'SELECT image_id, image_filename
-						FROM ' . GALLERY_IMAGES_TABLE . '
+						FROM ' . $images_table . '
 						WHERE filesize_upload = 0';
 					$result = $db->sql_query($sql);
 					while ($row = $db->sql_fetchrow($result))
@@ -257,7 +277,7 @@ class main_module
 							'filesize_medium'		=> @filesize($phpbb_ext_gallery->url->path('medium') . $row['image_filename']),
 							'filesize_cache'		=> @filesize($phpbb_ext_gallery->url->path('thumbnail') . $row['image_filename']),
 						);
-						$sql = 'UPDATE ' . GALLERY_IMAGES_TABLE . '
+						$sql = 'UPDATE ' . $images_table . '
 							SET ' . $db->sql_build_array('UPDATE', $sql_ary) . '
 							WHERE ' . $db->sql_in_set('image_id', $row['image_id']);
 						$db->sql_query($sql);
@@ -269,12 +289,12 @@ class main_module
 
 				case 'last_images':
 					$sql = 'SELECT album_id
-						FROM ' . GALLERY_ALBUMS_TABLE;
+						FROM ' . $albums_table;
 					$result = $db->sql_query($sql);
 					while ($row = $db->sql_fetchrow($result))
 					{
 						// 5 sql's per album, but you don't run this daily ;)
-						phpbb_ext_gallery_core_album::update_info($row['album_id']);
+						$phpbb_ext_gallery_core_album::update_info($row['album_id']);
 					}
 					$db->sql_freeresult($result);
 					trigger_error($user->lang['RESYNCED_LAST_IMAGES'] . adm_back_link($this->u_action));
@@ -285,7 +305,7 @@ class main_module
 
 					$image_ids = array();
 					$sql = 'SELECT image_id
-						FROM ' . GALLERY_IMAGES_TABLE . '
+						FROM ' . $images_table . '
 						WHERE image_album_id = ' . $album_id;
 					$result = $db->sql_query($sql);
 					while ($row = $db->sql_fetchrow($result))
@@ -328,7 +348,7 @@ class main_module
 					}
 					@closedir($medium_dir);
 
-					for ($i = 1; $i <= $phpbb_ext_gallery->config->get('current_upload_dir'); $i++)
+					for ($i = 1; $i <= $phpbb_ext_gallery_config->get('current_upload_dir'); $i++)
 					{
 						$cache_dir = @opendir($phpbb_ext_gallery->url->path('thumbnail') . $i . '/');
 						while ($cache_file = @readdir($cache_dir))
@@ -355,7 +375,7 @@ class main_module
 						'filesize_medium'		=> 0,
 						'filesize_cache'		=> 0,
 					);
-					$sql = 'UPDATE ' . GALLERY_IMAGES_TABLE . '
+					$sql = 'UPDATE ' . $images_table . '
 						SET ' . $db->sql_build_array('UPDATE', $sql_ary);
 					$db->sql_query($sql);
 
@@ -370,14 +390,14 @@ class main_module
 		$images_per_day = sprintf('%.2f', $config['num_images'] / $boarddays);
 
 		$sql = 'SELECT COUNT(album_user_id) AS num_albums
-			FROM phpbb_gallery_albums
+			FROM ' . $albums_table . '
 			WHERE album_user_id = 0';
 		$result = $db->sql_query($sql);
 		$num_albums = (int) $db->sql_fetchfield('num_albums');
 		$db->sql_freeresult($result);
 
 		$sql = 'SELECT SUM(filesize_upload) AS stat, SUM(filesize_medium) AS stat_medium, SUM(filesize_cache) AS stat_cache
-			FROM phpbb_gallery_images';
+			FROM ' . $images_table;
 		$result = $db->sql_query($sql);
 		$dir_sizes = $db->sql_fetchrow($result);
 		$db->sql_freeresult($result);
@@ -396,7 +416,7 @@ class main_module
 			'CACHE_DIR_SIZE'		=> get_formatted_filesize($dir_sizes['stat_cache']),
 			'GALLERY_VERSION'		=> $config['phpbb_gallery_version'],
 			'U_FIND_USERNAME'		=> $phpbb_ext_gallery->url->append_sid('phpbb', 'memberlist', 'mode=searchuser&amp;form=action_create_pega_form&amp;field=username&amp;select_single=true'),
-		//	'S_SELECT_ALBUM'		=> phpbb_ext_gallery_core_album::get_albumbox(false, 'reset_album_id', false, false, false, phpbb_ext_gallery_core_album::PUBLIC_ALBUM, phpbb_ext_gallery_core_album::TYPE_UPLOAD),
+			'S_SELECT_ALBUM'		=> $phpbb_ext_gallery_core_album->get_albumbox(false, 'reset_album_id', false, false, false, $phpbb_ext_gallery_core_album::PUBLIC_ALBUM, $phpbb_ext_gallery_core_album::TYPE_UPLOAD),
 
 			'S_FOUNDER'				=> ($user->data['user_type'] == USER_FOUNDER) ? true : false,
 			'U_ACTION'				=> $this->u_action,

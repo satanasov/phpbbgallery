@@ -12,12 +12,9 @@
 * @ignore
 */
 
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
+namespace phpbbgallery\core;
 
-class phpbb_ext_gallery_core_contest
+class contest
 {
 	const NUM_IMAGES = 3;
 
@@ -47,10 +44,11 @@ class phpbb_ext_gallery_core_contest
 	*/
 	function get_contest($id, $mode = 'contest', $throw_error = true)
 	{
-		global $db;
+		global $db, $table_prefix;
+		$contests_table = $table_prefix . 'gallery_contests';
 
 		$sql = 'SELECT *
-			FROM ' . GALLERY_CONTESTS_TABLE . '
+			FROM ' . $contests_table . '
 			WHERE ' . (($mode = 'album') ? 'contest_album_id' : 'contest_id') . ' = ' . (int) $id;
 		$result = $db->sql_query_limit($sql, 1);
 		$row = $db->sql_fetchrow($result);

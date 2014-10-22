@@ -53,6 +53,9 @@ class albums_module
 		
 		// Init album display
 		$phpbb_ext_gallery_core_album_display = new \phpbbgallery\core\album\display($auth, $config, $helper, $db, $pagination, $request, $template, $user, $phpbb_ext_gallery_core_auth, $gallery_user, $phpbb_root_path, $phpEx, $albums_table, $contests_table, $moderators_table, $tracking_table);
+		
+		// Init contest
+		$phpbb_gallery_contest = new \phpbbgallery\core\contest();
 
 		$this->tpl_name = 'gallery_albums';
 		$this->page_title = 'ACP_GALLERY_MANAGE_ALBUMS';

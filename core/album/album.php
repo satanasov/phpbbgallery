@@ -92,10 +92,11 @@ class album
 			$user_id = (int) $user_id;
 		}
 
-		global $db;
+		global $db, $table_prefix;
 
+		$albums_table = $table_prefix . 'gallery_albums';
 		$sql = 'SELECT album_id
-			FROM ' . GALLERY_ALBUMS_TABLE . '
+			FROM ' . $albums_table . '
 			WHERE album_id = ' . (int) $album_id . '
 				AND album_user_id = ' . $user_id;
 		$result = $db->sql_query($sql);
@@ -154,7 +155,7 @@ class album
 			$list = false;
 			if ($row['album_user_id'] != $last_a_u_id)
 			{
-				if (!$last_a_u_id && $phpbb_ext_gallery->auth->acl_check('a_list', phpbb_ext_gallery_core_auth::PERSONAL_ALBUM) && !$ignore_personals)
+				if (!$last_a_u_id && $phpbb_ext_gallery->auth->acl_check('a_list', $phpbb_ext_gallery_core_auth::PERSONAL_ALBUM) && !$ignore_personals)
 				{
 					$album_list .= '<option disabled="disabled" class="disabled-option">' . $user->lang['PERSONAL_ALBUMS'] . '</option>';
 				}
@@ -207,10 +208,10 @@ class album
 					if (!$c_access_own)
 					{
 						$c_access_own = true;
-						$access_own = $phpbb_ext_gallery->auth->acl_check('a_list', phpbb_ext_gallery_core_auth::OWN_ALBUM);
+						$access_own = $phpbb_ext_gallery->auth->acl_check('a_list', $phpbb_ext_gallery_core_auth::OWN_ALBUM);
 						if ($requested_permission)
 						{
-							$requested_own = !$phpbb_ext_gallery->auth->acl_check($requested_permission, phpbb_ext_gallery_core_auth::OWN_ALBUM);
+							$requested_own = !$phpbb_ext_gallery->auth->acl_check($requested_permission, $phpbb_ext_gallery_core_auth::OWN_ALBUM);
 						}
 						else
 						{
@@ -225,10 +226,10 @@ class album
 					if (!$c_access_personal)
 					{
 						$c_access_personal = true;
-						$access_personal = $phpbb_ext_gallery->auth->acl_check('a_list', phpbb_ext_gallery_core_auth::PERSONAL_ALBUM);
+						$access_personal = $phpbb_ext_gallery->auth->acl_check('a_list', $phpbb_ext_gallery_core_auth::PERSONAL_ALBUM);
 						if ($requested_permission)
 						{
-							$requested_personal = !$phpbb_ext_gallery->auth->acl_check($requested_permission, phpbb_ext_gallery_core_auth::PERSONAL_ALBUM);
+							$requested_personal = !$phpbb_ext_gallery->auth->acl_check($requested_permission, $phpbb_ext_gallery_core_auth::PERSONAL_ALBUM);
 						}
 						else
 						{
@@ -366,8 +367,11 @@ class album
 	*/
 	public static function generate_personal_album($album_name, $user_id, $user_colour, $gallery_user)
 	{
-		global $cache, $db;
+		global $cache, $db, $table_prefix, $config;
 
+		$phpbb_gallery_config = new \phpbbgallery\core\config($config);
+		$albums_table = $table_prefix . 'gallery_albums';
+		
 		$album_data = array(
 			'album_name'					=> $album_name,
 			'parent_id'						=> 0,
@@ -381,23 +385,23 @@ class album
 			'album_last_username'			=> '',
 			'album_last_user_colour'		=> $user_colour,
 		);
-		$db->sql_query('INSERT INTO ' . GALLERY_ALBUMS_TABLE . ' ' . $db->sql_build_array('INSERT', $album_data));
+		$db->sql_query('INSERT INTO ' . $albums_table . ' ' . $db->sql_build_array('INSERT', $album_data));
 		$personal_album_id = $db->sql_nextid();
 
 		$gallery_user->update_data(array(
 				'personal_album_id'	=> $personal_album_id,
 		));
 
-		phpbb_gallery_config::inc('num_pegas', 1);
+		$phpbb_gallery_config->inc('num_pegas', 1);
 
 		// Update the config for the statistic on the index
-		phpbb_gallery_config::set('newest_pega_user_id', $user_id);
-		phpbb_gallery_config::set('newest_pega_username', $album_name);
-		phpbb_gallery_config::set('newest_pega_user_colour', $user_colour);
-		phpbb_gallery_config::set('newest_pega_album_id', $personal_album_id);
+		$phpbb_gallery_config->set('newest_pega_user_id', $user_id);
+		$phpbb_gallery_config->set('newest_pega_username', $album_name);
+		$phpbb_gallery_config->set('newest_pega_user_colour', $user_colour);
+		$phpbb_gallery_config->set('newest_pega_album_id', $personal_album_id);
 
 		$cache->destroy('_albums');
-		$cache->destroy('sql', GALLERY_ALBUMS_TABLE);
+		$cache->destroy('sql', $albums_table);
 
 		return $personal_album_id;
 	}

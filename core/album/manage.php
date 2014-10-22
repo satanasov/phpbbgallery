@@ -67,6 +67,7 @@ class manage
 
 		// define support class
 		$phpbb_ext_gallery_core_album = new \phpbbgallery\core\album\album();
+		$phpbb_ext_gallery_core_image = new \phpbbgallery\core\image\image();
 		
 		$errors = array();
 
@@ -176,7 +177,7 @@ class manage
 			if ($album_data_sql['parent_id'])
 			{
 				$sql = 'SELECT left_id, right_id, album_type
-					FROM ' . GALLERY_ALBUMS_TABLE . '
+					FROM ' . $table_prefix . 'gallery_albums
 					WHERE album_id = ' . $album_data_sql['parent_id'];
 				$result = $db->sql_query($sql);
 				$row = $db->sql_fetchrow($result);
@@ -189,13 +190,13 @@ class manage
 
 				if (!$add_on_top)
 				{
-					$sql = 'UPDATE ' . GALLERY_ALBUMS_TABLE . '
+					$sql = 'UPDATE ' . $table_prefix . 'gallery_albums
 						SET left_id = left_id + 2, right_id = right_id + 2
 						WHERE album_user_id = 0
 							AND left_id > ' . $row['right_id'];
 					$db->sql_query($sql);
 
-					$sql = 'UPDATE ' . GALLERY_ALBUMS_TABLE . '
+					$sql = 'UPDATE ' . $table_prefix . 'gallery_albums
 						SET right_id = right_id + 2
 						WHERE album_user_id = 0
 							AND ' . $row['left_id'] . ' BETWEEN left_id AND right_id';
@@ -206,13 +207,13 @@ class manage
 				}
 				else
 				{
-					$sql = 'UPDATE ' . GALLERY_ALBUMS_TABLE . '
+					$sql = 'UPDATE ' . $table_prefix . 'gallery_albums
 						SET left_id = left_id + 2, right_id = right_id + 2
 						WHERE album_user_id = 0
 							AND left_id > ' . $row['left_id'];
 					$db->sql_query($sql);
 
-					$sql = 'UPDATE ' . GALLERY_ALBUMS_TABLE . '
+					$sql = 'UPDATE ' . $table_prefix . 'gallery_albums
 						SET right_id = right_id + 2
 						WHERE album_user_id = 0
 							AND ' . $row['left_id'] . ' BETWEEN left_id AND right_id';
@@ -238,7 +239,7 @@ class manage
 				}
 				else
 				{
-					$sql = 'UPDATE ' . GALLERY_ALBUMS_TABLE . '
+					$sql = 'UPDATE ' . $table_prefix . 'gallery_albums
 						SET left_id = left_id + 2, right_id = right_id + 2
 						WHERE album_user_id = 0';
 					$db->sql_query($sql);
@@ -259,11 +260,11 @@ class manage
 				$contest_data_sql['contest_album_id'] = $album_data['album_id'];
 				$contest_data_sql['contest_marked'] = $phpbb_ext_gallery_core_image::IN_CONTEST;
 
-				$sql = 'INSERT INTO ' . GALLERY_CONTESTS_TABLE . ' ' . $db->sql_build_array('INSERT', $contest_data_sql);
+				$sql = 'INSERT INTO ' . $table_prefix . 'gallery_contests ' . $db->sql_build_array('INSERT', $contest_data_sql);
 				$db->sql_query($sql);
 				$album_data['album_contest'] = (int) $db->sql_nextid();
 
-				$sql = 'UPDATE ' . GALLERY_ALBUMS_TABLE . '
+				$sql = 'UPDATE ' . $table_prefix . 'gallery_albums
 					SET album_contest = ' . $album_data['album_contest'] . '
 					WHERE album_id = ' . $album_data['album_id'];
 				$db->sql_query($sql);
