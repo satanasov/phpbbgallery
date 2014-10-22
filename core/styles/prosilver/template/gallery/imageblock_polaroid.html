@@ -1,0 +1,23 @@
+<!-- BEGIN imageblock -->
+<span class="clear"></span>
+<!-- IF imageblock.U_BLOCK --><h2><a href="{imageblock.U_BLOCK}">{imageblock.BLOCK_NAME}</a></h2><!-- ENDIF -->
+
+<!-- BEGIN image -->
+<div class="polaroid">
+	<a href="{imageblock.image.U_IMAGE}" style="font-weight: bold; font-size: 1.2em;">{imageblock.image.UC_IMAGE_NAME}</a>
+	<hr />
+	<img src="{imageblock.image.UC_THUMBNAIL}" alt="{imageblock.image.UC_IMAGE_NAME}" title="{imageblock.image.UC_IMAGE_NAME}" />
+
+	<hr />
+	<!-- IF imageblock.image.U_ALBUM -->{L_ALBUM_NAME}{L_COLON} <a href="{imageblock.image.U_ALBUM}" style="font-weight: bold;" title="{imageblock.image.ALBUM_NAME_FULL}">{imageblock.image.ALBUM_NAME}</a><br /><!-- ENDIF -->
+	<!-- IF imageblock.image.POSTER -->{L_UPLOADED_BY_USER}{L_COLON} {imageblock.image.POSTER}<br /><!-- ENDIF -->
+	<!-- IF imageblock.image.TIME -->{L_UPLOADED_ON_DATE}{L_COLON} {imageblock.image.TIME}<br /><!-- ENDIF -->
+	<!-- IF imageblock.image.S_RATINGS -->{L_RATING}{L_COLON} <a href="{imageblock.image.U_RATINGS}">{imageblock.image.S_RATINGS}</a><br /><!-- ENDIF -->
+	<!-- IF imageblock.image.S_COMMENTS -->{imageblock.image.L_COMMENTS}{L_COLON} <a href="{imageblock.image.U_COMMENTS}">{imageblock.image.S_COMMENTS}</a><br /><!-- ENDIF -->
+</div>
+
+<!-- IF imageblock.image.S_LAST_ROW -->
+	<span class="clear"></span>
+<!-- ENDIF -->
+<!-- END image -->
+<!-- END imageblock -->

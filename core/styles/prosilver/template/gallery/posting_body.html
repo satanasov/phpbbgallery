@@ -1,0 +1,228 @@
+<!-- INCLUDE gallery/gallery_header.html -->
+
+<!-- IF S_ALBUM_SELECT -->
+<br />
+<form method="post" id="mcp" action="{S_ALBUM_ACTION}">
+<div class="panel" id="message">
+	<div class="inner"><span class="corners-top"><span></span></span>
+		<h3>{L_UPLOAD_IMAGE}</h3>
+
+		<p>
+			{L_SELECT_ALBUM}: <select name="album_id">{S_ALBUM_SELECT}</select>
+			<input class="button2" type="submit" name="move" value="{L_SUBMIT}" />
+			{S_FORM_TOKEN}{S_HIDDEN_FIELDS}
+		</p>
+	<span class="corners-bottom"><span></span></span></div>
+</div>
+</form>
+<!-- ELSEIF S_UPLOAD -->
+<script type="text/javascript">
+//<![CDATA[
+	var num_displayed_fields = 1;
+	var limit_fields = {S_UPLOAD_LIMIT};
+	function add_field()
+	{
+		if (num_displayed_fields < limit_fields)
+		{
+			dE('upload_field_' + num_displayed_fields);
+			num_displayed_fields++;
+			if (num_displayed_fields == limit_fields)
+			{
+				dE('add_field_link', -1);
+			}
+		}
+	}
+//]]>
+</script>
+
+<h2><a href="{U_VIEW_ALBUM}">{ALBUM_NAME}</a></h2>
+
+<form id="postform" action="{S_ALBUM_ACTION}" method="post" enctype="multipart/form-data">
+
+<div class="panel" id="postingbox">
+	<div class="inner"><span class="corners-top"><span></span></span>
+		<h3>{L_UPLOAD_IMAGE}</h3>
+		<fieldset class="fields1">
+			<!-- IF ERROR --><p class="error">{ERROR}</p><!-- ENDIF -->
+
+			<!-- IF CAPTCHA_TEMPLATE -->
+				<!-- INCLUDE {CAPTCHA_TEMPLATE} -->
+			<!-- ENDIF -->
+
+			<!-- IF not S_USER_LOGGED_IN -->
+			<dl>
+				<dt><label for="username">{L_USERNAME}:</label></dt>
+				<dd id="username"><input class="inputbox autowidth" type="text" tabindex="1" name="username" value="{USERNAME}" size="60" maxlength="32" /></dd>
+			</dl>
+			<!-- ENDIF -->
+			<!-- IF S_COMMENTS_ENABLED -->
+				<dl>
+					<dt><label for="allow_comments">{L_COMMENTS}:</label></dt>
+					<dd><input type="checkbox" class="checkbox" name="allow_comments" id="allow_comments"<!-- IF S_ALLOW_COMMENTS --> checked="checked"<!-- ENDIF --> value="1" /> <label for="allow_comments">{L_ALLOW_COMMENTS}</label></dd>
+				</dl>
+			<!-- ENDIF -->
+			<!-- IF CAPTCHA_TEMPLATE or not S_USER_LOGGED_IN or S_COMMENTS_ENABLED --><hr /><!-- ENDIF -->
+			<dl>
+				<dt><label>{L_MAX_DIMENSIONS}:</label></dt>
+				<dd>{L_FILE_SIZE}: {S_MAX_FILESIZE}</dd>
+				<dd>{L_IMAGE_WIDTH}: {S_MAX_WIDTH}</dd>
+				<dd>{L_IMAGE_HEIGHT}: {S_MAX_HEIGHT}</dd>
+			</dl>
+			<dl>
+				<dt><label>{L_ALLOWED_FILETYPES}:</label></dt>
+				<dd>{S_ALLOWED_FILETYPES}</dd>
+			</dl>
+			<hr />
+			<!-- BEGIN upload_image -->
+				<dl id="upload_field_{upload_image.S_ROW_COUNT}">
+					<dt><label for="image_file_{upload_image.S_ROW_COUNT}">{L_FILE}:</label></dt>
+					<dd><input class="inputbox autowidth" type="file" onchange="javascript: add_field();" tabindex="1{upload_image.S_ROW_COUNT}" id="image_file_{upload_image.S_ROW_COUNT}" name="image_file_{upload_image.S_ROW_COUNT}" size="52" /></dd>
+					<!-- IF S_ALLOW_ROTATE -->
+						<dd><input type="radio" name="rotate[{upload_image.S_ROW_COUNT}]" id="rotate_{upload_image.S_ROW_COUNT}_0" value="0" checked="checked" /> <label for="rotate_{upload_image.S_ROW_COUNT}_0">{L_ROTATE_NONE}</label> &nbsp;
+							<input type="radio" name="rotate[{upload_image.S_ROW_COUNT}]" id="rotate_{upload_image.S_ROW_COUNT}_270" value="270" /> <label for="rotate_{upload_image.S_ROW_COUNT}_270">{L_ROTATE_RIGHT}</label> &nbsp;
+						<input type="radio" name="rotate[{upload_image.S_ROW_COUNT}]" id="rotate_{upload_image.S_ROW_COUNT}_180" value="180" /> <label for="rotate_{upload_image.S_ROW_COUNT}_180">{L_ROTATE_UPSIDEDOWN}</label> &nbsp;
+							<input type="radio" name="rotate[{upload_image.S_ROW_COUNT}]" id="rotate_{upload_image.S_ROW_COUNT}_90" value="90" /> <label for="rotate_{upload_image.S_ROW_COUNT}_90">{L_ROTATE_LEFT}</label></dd>
+					<!-- ENDIF -->
+				</dl>
+			<!-- END upload_image -->
+
+			<a id="add_field_link" style="display: none;" href="javascript: add_field();">{L_ADD_UPLOAD_FIELD}</a>
+			<script type="text/javascript">
+			//<![CDATA[
+				for (i = 1; i < limit_fields; i++)
+				{
+					dE('upload_field_' + i);
+				}
+				if (limit_fields > 1)
+				{
+					dE('add_field_link');
+				}
+			//]]>
+			</script>
+		</fieldset>
+	<span class="corners-bottom"><span></span></span></div>
+</div>
+
+<div class="panel bg2">
+	<div class="inner"><span class="corners-top"><span></span></span>
+		<fieldset class="submit-buttons">
+			{S_HIDDEN_FIELDS}{S_CAPTCHA_HIDDEN_FIELDS}
+			<input type="reset" accesskey="r" tabindex="200" value="{L_RESET}" class="button2" />&nbsp;
+			<input type="submit" accesskey="s" tabindex="201" name="submit" value="{L_CONTINUE}" class="button1" />&nbsp;
+		</fieldset>
+		{S_FORM_TOKEN}
+	<span class="corners-bottom"><span></span></span></div>
+</div>
+</form>
+<!-- ELSE -->
+
+<!-- INCLUDE gallery/posting_javascript.html -->
+
+<h2><!-- IF U_VIEW_IMAGE --><a href="{U_VIEW_IMAGE}">{IMAGE_NAME}</a><!-- ELSE --><a href="{U_VIEW_ALBUM}">{ALBUM_NAME}</a><!-- ENDIF --></h2>
+
+<form id="postform" action="{S_ALBUM_ACTION}" method="post">
+
+<div class="panel" id="postingbox">
+	<div class="inner"><span class="corners-top"><span></span></span>
+		<h3><!-- IF S_UPLOAD_EDIT -->{L_UPLOAD_IMAGE}<!-- ELSEIF S_EDIT -->{L_EDIT_IMAGE}<!-- ELSEIF S_REPORT -->{L_REPORT_IMAGE}<!-- ENDIF --></h3>
+		<fieldset class="fields1 gallery">
+			<!-- IF ERROR --><p class="error">{ERROR}</p><!-- ENDIF -->
+
+			<!-- IF not S_USER_LOGGED_IN -->
+				<dl>
+					<dt><label for="username">{L_USERNAME}:</label></dt>
+					<dd id="username"><input class="inputbox autowidth" type="text" tabindex="1" name="username" value="{S_USERNAME}" size="60" maxlength="32" /></dd>
+				</dl>
+			<!-- ENDIF -->
+			<!-- IF BBCODE_STATUS -->
+			<dl>
+				<dt><label>{L_BBCODES}:</label></dt>
+				<!-- IF S_BBCODE_ALLOWED --><dd><!-- INCLUDE posting_buttons.html --></dd><!-- ENDIF -->
+				<dd>{BBCODE_STATUS}<!-- IF S_BBCODE_ALLOWED -->; {IMG_STATUS} {FLASH_STATUS}; {URL_STATUS}; {SMILIES_STATUS}<!-- ENDIF --></dd>
+			</dl>
+			<!-- ENDIF -->
+			<!-- IF S_SMILIES_ALLOWED and .smiley -->
+				<dl>
+					<dt><label>{L_SMILIES}:</label></dt>
+					<dd><!-- BEGIN smiley --><a href="#" onclick="insert_text('{smiley.A_SMILEY_CODE}', true); return false;"><img src="{smiley.SMILEY_IMG}" width="{smiley.SMILEY_WIDTH}" height="{smiley.SMILEY_HEIGHT}" alt="{smiley.SMILEY_CODE}" title="{smiley.SMILEY_DESC}" /></a> <!-- END smiley --></dd>
+					<!-- IF S_SHOW_SMILEY_LINK and S_SMILIES_ALLOWED--><dd><a href="{U_MORE_SMILIES}" onclick="gallery_popup(this.href, 300, 350, '_phpbbsmilies'); return false;">{L_MORE_SMILIES}</a></dd><!-- ENDIF -->
+				</dl>
+			<!-- ENDIF -->
+
+			<!-- BEGIN image -->
+				<hr />
+				<dl>
+					<dt class="simulate-dt<!-- IF image.S_FIRST_ROW and (NUM_IMAGES > 1) --> first<!-- ENDIF -->">{image.U_IMAGE}</dt>
+					<dd class="simulate-dt"><label for="image_name_{image.S_ROW_COUNT}">{L_IMAGE_NAME}:</label></dd>
+					<!-- IF image.S_FIRST_ROW and (NUM_IMAGES > 1) -->
+						<dd class="simulate-dd"><input type="checkbox" name="same_name" id="same_name" value="1" onchange="change_read_write();" /> <label for="same_name">{L_USE_SAME_NAME}</label></dd>
+						<dd class="simulate-dd">{L_USE_NUM} <input class="inputbox autowidth" type="text" id="image_num" name="image_num" size="5" onchange="update_all('image_name'); update_all('message');" onkeyup="update_all('image_name'); update_all('message');" value="1" /></dd>
+					<!-- ENDIF -->
+					<dd class="simulate-dd"><input class="inputbox autowidth" type="text" tabindex="1{image.S_ROW_COUNT}" id="image_name_{image.S_ROW_COUNT}" name="image_name[{image.S_ROW_COUNT}]" value="{image.IMAGE_NAME}"<!-- IF image.S_FIRST_ROW --> onchange="update_all('image_name');" onselect="update_all('image_name');" onclick="update_all('image_name');" onkeyup="update_all('image_name');"<!-- ENDIF --> size="60" maxlength="128" /></dd>
+					<dd class="simulate-dt"><label for="message_{image.S_ROW_COUNT}">{L_IMAGE_DESC}:</label></dd>
+					<dd class="simulate-dd" id="desc_length_{image.S_ROW_COUNT}">{L_DESCRIPTION_LENGTH}</dd>
+					<dd class="simulate-dd"><textarea name="message[{image.S_ROW_COUNT}]" id="message_{image.S_ROW_COUNT}" rows="4" cols="76" tabindex="3" onchange="set_text_field({image.S_ROW_COUNT});<!-- IF image.S_FIRST_ROW --> update_all('message');<!-- ENDIF -->" onselect="set_text_field({image.S_ROW_COUNT});<!-- IF image.S_FIRST_ROW --> update_all('message');<!-- ENDIF --> storeCaret(this);" onclick="set_text_field({image.S_ROW_COUNT});<!-- IF image.S_FIRST_ROW --> update_all('message');<!-- ENDIF --> storeCaret(this);" onkeyup="set_text_field({image.S_ROW_COUNT});<!-- IF image.S_FIRST_ROW --> update_all('message');<!-- ENDIF --> storeCaret(this);" class="inputbox">{image.IMAGE_DESC}</textarea></dd>
+					<!-- IF S_ALLOW_ROTATE -->
+					<dd class="simulate-dt"><label for="rotate_{image.S_ROW_COUNT}_0">{L_ROTATE_IMAGE}:</label></dd>
+					<dd class="simulate-dd"><input type="radio" name="rotate[{image.S_ROW_COUNT}]" id="rotate_{image.S_ROW_COUNT}_0" value="0" checked="checked" /> <label for="rotate_{image.S_ROW_COUNT}_0">{L_ROTATE_NONE}</label> &nbsp;
+						<input type="radio" name="rotate[{image.S_ROW_COUNT}]" id="rotate_{image.S_ROW_COUNT}_270" value="270" /> <label for="rotate_{image.S_ROW_COUNT}_270">{L_ROTATE_RIGHT}</label> &nbsp;
+						<input type="radio" name="rotate[{image.S_ROW_COUNT}]" id="rotate_{image.S_ROW_COUNT}_180" value="180" /> <label for="rotate_{image.S_ROW_COUNT}_180">{L_ROTATE_UPSIDEDOWN}</label> &nbsp;
+						<input type="radio" name="rotate[{image.S_ROW_COUNT}]" id="rotate_{image.S_ROW_COUNT}_90" value="90" /> <label for="rotate_{image.S_ROW_COUNT}_90">{L_ROTATE_LEFT}</label></dd>
+					<!-- ENDIF -->
+				</dl>
+			<!-- END image -->
+
+			<!-- IF S_REPORT -->
+				<div><textarea name="message" id="message" rows="4" cols="76" tabindex="3" class="inputbox"></textarea></dd></div>
+			<!-- ENDIF -->
+		</fieldset>
+	<span class="corners-bottom"><span></span></span></div>
+</div>
+
+<!-- IF S_MOVE_PERSONAL or S_COMMENTS_ENABLED or S_CHANGE_AUTHOR -->
+<div class="panel">
+	<div class="inner"><span class="corners-top"><span></span></span>
+		<fieldset class="fields1">
+			<!-- IF S_MOVE_PERSONAL -->
+				<dl>
+					<dt><label for="move_to_personal">{L_MOVE_TO_PERSONAL}:</label></dt>
+					<dd><input type="checkbox" class="checkbox" name="move_to_personal" id="move_to_personal" value="1" /> <!-- IF S_MOVE_MODERATOR -->{L_MOVE_TO_PERSONAL_MOD}<!-- ELSE -->{L_MOVE_TO_PERSONAL_EXPLAIN}<!-- ENDIF --></dd>
+				</dl>
+			<!-- ENDIF -->
+			<!-- IF S_COMMENTS_ENABLED -->
+				<dl>
+					<dt><label for="allow_comments">{L_COMMENTS}:</label></dt>
+					<dd><input type="checkbox" class="checkbox" name="allow_comments" id="allow_comments"<!-- IF S_ALLOW_COMMENTS --> checked="checked"<!-- ENDIF --> value="1" /> <label for="allow_comments">{L_ALLOW_COMMENTS}</label></dd>
+				</dl>
+			<!-- ENDIF -->
+			<!-- IF S_CHANGE_AUTHOR and U_FIND_USERNAME -->
+				<dl>
+					<dt><label for="change_author">{L_CHANGE_AUTHOR}:</label></dt>
+					<dd><input type="text" class="inputbox autowidth" name="change_author" id="change_author" value="" size="32" /> [ <a href="{U_FIND_USERNAME}" onclick="find_username(this.href); return false;">{L_FIND_USERNAME}</a> ]</dd>
+				</dl>
+			<!-- ENDIF -->
+		</fieldset>
+	<span class="corners-bottom"><span></span></span></div>
+</div>
+<!-- ENDIF -->
+
+<script type="text/javascript">
+//<![CDATA[
+	set_text_field(0);
+//]]>
+</script>
+
+<div class="panel bg2">
+	<div class="inner"><span class="corners-top"><span></span></span>
+		<fieldset class="submit-buttons">
+			{S_HIDDEN_FIELDS}
+			<input type="reset" accesskey="r" tabindex="200" value="{L_RESET}" class="button2" />&nbsp;
+			<input type="submit" accesskey="s" tabindex="201" name="submit" value="{L_SUBMIT}" class="button1" />&nbsp;
+		</fieldset>
+		{S_FORM_TOKEN}
+	<span class="corners-bottom"><span></span></span></div>
+</div>
+</form>
+<!-- ENDIF -->
+
+<!-- INCLUDE gallery/gallery_footer.html -->

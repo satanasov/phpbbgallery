@@ -1,0 +1,11 @@
+Subject: New image notification - "{ALBUM_NAME}"
+
+Hello {USERNAME},
+
+You are receiving this notification because you are watching the album, "{ALBUM_NAME}" at "{SITENAME}". This album has received a new image since your last visit, "{IMAGE_NAME}". You can use the following link to view album.
+
+{U_ALBUM}
+
+If you no longer wish to watch this album you can click the "Unsubscribe album" link found in the link above.
+
+{EMAIL_SIG}

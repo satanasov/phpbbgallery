@@ -1,0 +1,326 @@
+<!-- INCLUDE overall_header.html -->
+<script type="text/javascript">
+function toggle_permissions_panel(c_mask, v_mask, cat)
+{
+	<!-- BEGIN c_rows -->
+		var block = document.getElementById('options' + c_mask + v_mask + {c_rows.S_ROW_COUNT});
+		block.style.display = "none";
+		var old_tab = document.getElementById('tab' + c_mask + v_mask + {c_rows.S_ROW_COUNT});
+		old_tab.className = old_tab.className.replace(/\ activetab/g, '');
+	<!-- END c_rows -->
+
+	var block = document.getElementById('options' + c_mask + v_mask + cat);
+	block.style.display = "";
+	var new_tab = document.getElementById('tab' + c_mask + v_mask + cat);
+	new_tab.className = new_tab.className + ' activetab';
+}
+
+function inherit_album(c_mask, value)
+{
+	var block = document.getElementById('c_mask' + c_mask);
+	if (value == 0)
+	{
+		block.style.display = "";
+	}
+	else
+	{
+		block.style.display = "none";
+	}
+}
+
+function inherit_victim(c_mask, v_mask, value)
+{
+	var block = document.getElementById('advanced' + c_mask + v_mask);
+	if (value == 0)
+	{
+		block.style.display = "";
+	}
+	else
+	{
+		block.style.display = "none";
+	}
+}
+
+function gallery_set_colours(id, quick)
+{
+	var tab = document.getElementById('tab' + id);
+
+	if (typeof(quick) != 'undefined') 
+	{
+		if (tab.className.indexOf("activetab") > 0)
+		{
+			tab.className = 'permissions-preset-' + quick + ' activetab';
+		}
+		else
+		{
+			tab.className = 'permissions-preset-' + quick;
+		}
+		return;
+	}
+}
+
+function gallery_init_colours(block_id, quick)
+{
+	var block = document.getElementById('advanced' + block_id);
+	var panels = block.getElementsByTagName('div');
+	var tab = document.getElementById('tab' + block_id);
+
+	for (var i = 0; i < panels.length; i++)
+	{
+		if (panels[i].className == 'permissions-panel')
+		{
+			gallery_set_colours(panels[i].id.replace(/options/, ''), quick);
+		}
+	}
+}
+</script>
+<script type="text/javascript" src="style/permissions.js"></script>
+<a name="maincontent"></a>
+<!-- IF not S_COPY_PERMISSIONS -->
+	<h1>{L_PERMISSIONS}</h1>
+	<p>{L_PERMISSIONS_EXPLAIN}</p>
+<!-- ELSE -->
+	<h1>{L_PERMISSIONS_COPY}</h1>
+	<p>{L_PERMISSIONS_COPY_EXPLAIN}</p>
+<!-- ENDIF -->
+
+<!-- IF S_PERMISSION_C_MASK -->
+	<form action="{U_ACTION}" method="post" id="gallery_acp">
+		<fieldset>
+			<legend>{L_SELECT_PERM_SYS}</legend>
+				<dl><dt><input id="p_system_0" name="p_system" class="radio" type="radio" checked="checked" value="0" /><label for="p_system_0">&nbsp;{L_SELECTED_ALBUMS}</label></dt>
+					<dd><select id="target" name="album_id[]" multiple="multiple">{ALBUM_LIST}</select></dd>
+				</dl>
+				<dl><dt><input id="p_system_2" name="p_system" class="radio" type="radio" value="{C_OWN_PERSONAL_ALBUMS}" /><label for="p_system_2">&nbsp;{L_OWN_PERSONAL_ALBUMS}</label><br /><span>{L_OWN_PERSONAL_ALBUMS_EXPLAIN}</span></dt></dl>
+				<dl><dt><input id="p_system_3" name="p_system" class="radio" type="radio" value="{C_PERSONAL_ALBUMS}" /><label for="p_system_3">&nbsp;{L_PERSONAL_ALBUMS}</label><br /><span>{L_PERSONAL_ALBUMS_EXPLAIN}</span></dt></dl>
+		</fieldset>
+		<fieldset class="submit-buttons">
+			<legend>{L_SUBMIT}</legend>
+			{S_FORM_TOKEN}{S_HIDDEN_FIELDS}
+			<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />
+		</fieldset>
+	</form>
+
+<!-- ELSEIF S_PERMISSION_V_MASK -->
+
+	<!-- IF C_MASKS_NAMES -->
+		<p><strong>{L_C_MASKS}:</strong> {C_MASKS_NAMES}</p>
+	<!-- ENDIF -->
+
+	<div style="float: {S_CONTENT_FLOW_BEGIN}; width: 48%;">
+	<!-- IF S_CAN_SELECT_USER -->
+		<h1>{L_USERS}</h1>
+
+		<form id="users" method="post" action="{U_ACTION}">
+			<fieldset>
+				<legend>{L_MANAGE_USERS}</legend>
+				<dl>
+					<dd class="full"><select style="width: 100%;" name="user_id[]" multiple="multiple" size="5">{S_DEFINED_USER_OPTIONS}</select></dd>
+					<!--dd class="full" style="text-align: right;"><label><input type="checkbox" class="radio" name="all_users" value="1" /> {L_ALL_USERS}</label></dd-->
+				</dl>
+			</fieldset>
+
+			<fieldset class="quick">
+				{S_HIDDEN_FIELDS}
+				{S_FORM_TOKEN}
+				<input type="submit" class="button2" name="delete" value="{L_REMOVE_PERMISSIONS}" style="width: 46% !important;" /> &nbsp; <input class="button1" type="submit" name="submit_edit_options" value="{L_EDIT_PERMISSIONS}" style="width: 46% !important;" />
+			</fieldset>
+		</form>
+
+		<form id="add_user" method="post" action="{U_ACTION}">
+
+			<fieldset>
+				<legend>{L_ADD_USERS}</legend>
+				<p>{L_USERNAMES_EXPLAIN}</p>
+				<dl>
+					<dd class="full"><textarea id="username" name="usernames" rows="5" cols="5" style="width: 100%; height: 60px;"></textarea></dd>
+					<dd class="full" style="text-align: left;"><div style="float: {S_CONTENT_FLOW_END};">[ <a href="{U_FIND_USERNAME}" onclick="find_username(this.href); return false;">{L_FIND_USERNAME}</a> ]</div><label><input type="checkbox" class="radio" id="anonymous" name="user_id[]" value="{ANONYMOUS_USER_ID}" /> {L_SELECT_ANONYMOUS}</label></dd>
+				</dl>
+			</fieldset>
+
+			<fieldset class="quick">
+				{S_HIDDEN_FIELDS}
+				{S_FORM_TOKEN}
+				<input class="button1" type="submit" name="submit_add_options" value="{L_ADD_PERMISSIONS}" />
+			</fieldset>
+		</form>
+	<!-- ENDIF -->
+	</div>
+	<div style="float: {S_CONTENT_FLOW_END}; width: 48%">
+	<!-- IF S_CAN_SELECT_GROUP -->
+		<h1>{L_USERGROUPS}</h1>
+
+		<form id="groups" method="post" action="{U_ACTION}">
+			<fieldset>
+				<legend>{L_MANAGE_GROUPS}</legend>
+				<dl>
+					<dd class="full"><select style="width: 100%;" name="group_id[]" multiple="multiple" size="5">{S_DEFINED_GROUP_OPTIONS}</select></dd>
+					<!--dd class="full" style="text-align: right;"><label><input type="checkbox" class="radio" name="all_groups" value="1" /> {L_ALL_GROUPS}</label></dd-->
+				</dl>
+			</fieldset>
+
+			<fieldset class="quick">
+				{S_HIDDEN_FIELDS}
+				{S_FORM_TOKEN}
+				<input class="button2" type="submit" name="delete" value="{L_REMOVE_PERMISSIONS}" style="width: 46% !important;" /> &nbsp; <input class="button1" type="submit" name="submit_edit_options" value="{L_EDIT_PERMISSIONS}" style="width: 46% !important;" />
+			</fieldset>
+		</form>
+
+		<form id="add_groups" method="post" action="{U_ACTION}">
+			<fieldset>
+				<legend>{L_ADD_GROUPS}</legend>
+				<dl>
+					<dd class="full"><select name="group_id[]" style="width: 100%; height: 107px;" multiple="multiple">{S_ADD_GROUP_OPTIONS}</select></dd>
+				</dl>
+			</fieldset>
+
+			<fieldset class="quick">
+				{S_HIDDEN_FIELDS}
+				{S_FORM_TOKEN}
+				<input type="submit" class="button1" name="submit_add_options" value="{L_ADD_PERMISSIONS}" />
+			</fieldset>
+		</form>
+	<!-- ENDIF -->
+	</div>
+
+<!-- ELSEIF S_PERMISSION_P_MASK -->
+
+<form action="{U_ACTION}" method="post" id="gallery_acp">
+
+<!-- BEGIN c_mask -->
+	<h3>{c_mask.C_MASK_NAME}</h3>
+	<!-- IF c_mask.INHERIT_C_MASKS --><p>{L_INHERIT_PERMISSIONS_ALBUM}: <select name="inherit[{c_mask.C_MASK_ID}][full]" id="inherit[{c_mask.C_MASK_ID}][full]" onchange="inherit_album({c_mask.S_ROW_COUNT}, this.options[this.selectedIndex].value);">{c_mask.INHERIT_C_MASKS}</select></p><!-- ENDIF -->
+
+	<div id="c_mask{c_mask.S_ROW_COUNT}">
+	<!-- BEGIN v_mask -->
+	<fieldset class="permissions" id="perm{c_mask.S_ROW_COUNT}{c_mask.v_mask.S_ROW_COUNT}">
+		<legend>{c_mask.v_mask.VICTIM_NAME}</legend>
+		<div class="permissions-switch">
+			<div class="permissions-reset">
+				<a href="#" onclick="mark_options('perm{c_mask.S_ROW_COUNT}{c_mask.v_mask.S_ROW_COUNT}', 'y'); gallery_init_colours('{c_mask.S_ROW_COUNT}{c_mask.v_mask.S_ROW_COUNT}', 'yes'); return false;">{L_ALL_YES}</a>
+				&middot; <a href="#" onclick="mark_options('perm{c_mask.S_ROW_COUNT}{c_mask.v_mask.S_ROW_COUNT}', 'u'); gallery_init_colours('{c_mask.S_ROW_COUNT}{c_mask.v_mask.S_ROW_COUNT}', 'no'); return false;">{L_ALL_NO}</a>
+				&middot; <a href="#" onclick="mark_options('perm{c_mask.S_ROW_COUNT}{c_mask.v_mask.S_ROW_COUNT}', 'n'); gallery_init_colours('{c_mask.S_ROW_COUNT}{c_mask.v_mask.S_ROW_COUNT}', 'never'); return false;">{L_ALL_NEVER}</a>
+			</div>
+		</div>
+		<dl class="permissions-simple">
+			<dt style="width: 20%"><label for="inherit[{c_mask.C_MASK_ID}][{c_mask.v_mask.VICTIM_ID}]">{L_INHERIT_PERMISSIONS_VICTIM}:</label></dt>
+			<dd><select name="inherit[{c_mask.C_MASK_ID}][{c_mask.v_mask.VICTIM_ID}]" id="inherit[{c_mask.C_MASK_ID}][{c_mask.v_mask.VICTIM_ID}]" onchange="inherit_victim({c_mask.S_ROW_COUNT}, {c_mask.v_mask.S_ROW_COUNT}, this.options[this.selectedIndex].value);">{c_mask.v_mask.INHERIT_VICTIMS}</select></dd>
+		</dl>
+		<div class="permissions-advanced" id="advanced{c_mask.S_ROW_COUNT}{c_mask.v_mask.S_ROW_COUNT}">
+		<div class="permissions-category">
+			<ul>
+			<!-- BEGIN category -->
+				<!-- IF c_mask.v_mask.category.S_YES -->
+					<li class="permissions-preset-yes<!-- IF c_mask.v_mask.category.S_FIRST_ROW --> activetab<!-- ENDIF -->" id="tab{c_mask.S_ROW_COUNT}{c_mask.v_mask.S_ROW_COUNT}{c_mask.v_mask.category.S_ROW_COUNT}">
+				<!-- ELSEIF c_mask.v_mask.category.S_NEVER -->
+					<li class="permissions-preset-never<!-- IF c_mask.v_mask.category.S_FIRST_ROW --> activetab<!-- ENDIF -->" id="tab{c_mask.S_ROW_COUNT}{c_mask.v_mask.S_ROW_COUNT}{c_mask.v_mask.category.S_ROW_COUNT}">
+				<!-- ELSEIF c_mask.v_mask.category.S_NO -->
+					<li class="permissions-preset-no<!-- IF c_mask.v_mask.category.S_FIRST_ROW --> activetab<!-- ENDIF -->" id="tab{c_mask.S_ROW_COUNT}{c_mask.v_mask.S_ROW_COUNT}{c_mask.v_mask.category.S_ROW_COUNT}">
+				<!-- ELSE -->
+					<li class="permissions-preset-custom<!-- IF c_mask.v_mask.category.S_FIRST_ROW --> activetab<!-- ENDIF -->" id="tab{c_mask.S_ROW_COUNT}{c_mask.v_mask.S_ROW_COUNT}{c_mask.v_mask.category.S_ROW_COUNT}">
+				<!-- ENDIF -->
+				<a href="#" onclick="javascript: toggle_permissions_panel({c_mask.S_ROW_COUNT}, {c_mask.v_mask.S_ROW_COUNT}, {c_mask.v_mask.category.S_ROW_COUNT}); return false;"><span class="tabbg"><span class="colour"></span>{c_mask.v_mask.category.CAT_NAME}</span></a></li>
+			<!-- END category -->
+			</ul>
+		</div>
+
+	<!-- BEGIN category -->
+		<div class="permissions-panel" id="options{c_mask.S_ROW_COUNT}{c_mask.v_mask.S_ROW_COUNT}{c_mask.v_mask.category.S_ROW_COUNT}" <!-- IF not c_mask.v_mask.category.S_FIRST_ROW --> style="display: none;"<!-- ENDIF -->>
+			<span class="corners-top"><span></span></span>
+			<div class="tablewrap">
+				<table id="table{c_mask.S_ROW_COUNT}{c_mask.v_mask.S_ROW_COUNT}{c_mask.v_mask.category.S_ROW_COUNT}" cellspacing="1">
+				<colgroup>
+					<col class="permissions-name" />
+					<col class="permissions-yes" />
+					<col class="permissions-no" />
+					<col class="permissions-never" />
+				</colgroup>
+				<thead>
+				<tr>
+					<th class="name" scope="col"><strong>{L_PERMISSION_SETTING}</strong></th>
+					<th class="value permissions-yes" scope="col" style="width: 10%;" ><a href="#" onclick="mark_options('options{c_mask.S_ROW_COUNT}{c_mask.v_mask.S_ROW_COUNT}{c_mask.v_mask.category.S_ROW_COUNT}', 'y');  reset_role('role{c_mask.S_ROW_COUNT}{c_mask.v_mask.S_ROW_COUNT}'); set_colours('{c_mask.S_ROW_COUNT}{c_mask.v_mask.S_ROW_COUNT}{c_mask.v_mask.category.S_ROW_COUNT}', false, 'yes'); return false;">{L_PERMISSION_YES}</a></th>
+					<th class="value permissions-no" scope="col" style="width: 10%;"><a href="#" onclick="mark_options('options{c_mask.S_ROW_COUNT}{c_mask.v_mask.S_ROW_COUNT}{c_mask.v_mask.category.S_ROW_COUNT}', 'u'); reset_role('role{c_mask.S_ROW_COUNT}{c_mask.v_mask.S_ROW_COUNT}'); set_colours('{c_mask.S_ROW_COUNT}{c_mask.v_mask.S_ROW_COUNT}{c_mask.v_mask.category.S_ROW_COUNT}', false, 'no'); return false;">{L_PERMISSION_NO}</a></th>
+					<th class="value permissions-never" scope="col" style="width: 10%;"><a href="#" onclick="mark_options('options{c_mask.S_ROW_COUNT}{c_mask.v_mask.S_ROW_COUNT}{c_mask.v_mask.category.S_ROW_COUNT}', 'n'); reset_role('role{c_mask.S_ROW_COUNT}{c_mask.v_mask.S_ROW_COUNT}'); set_colours('{c_mask.S_ROW_COUNT}{c_mask.v_mask.S_ROW_COUNT}{c_mask.v_mask.category.S_ROW_COUNT}', false, 'never'); return false;">{L_PERMISSION_NEVER}</a></th>
+				</tr>
+				</thead>
+				<tbody>
+				<!-- BEGIN mask -->
+					<!-- IF c_mask.v_mask.category.mask.S_ROW_COUNT is even --><tr class="row4"><!-- ELSE --><tr class="row3"><!-- ENDIF -->
+					<th class="permissions-name<!-- IF c_mask.v_mask.category.mask.S_ROW_COUNT is even --> row4<!-- ELSE --> row3<!-- ENDIF -->">{c_mask.v_mask.category.mask.PERMISSION}<!-- IF c_mask.v_mask.category.mask.PERMISSION_EXPLAIN --><br />&nbsp;<em>{c_mask.v_mask.category.mask.PERMISSION_EXPLAIN}</em><!-- ENDIF --></th>
+						<!-- IF not c_mask.v_mask.category.mask.S_COUNT_FIELD -->
+							<td class="value permissions-yes"><label for="{c_mask.v_mask.category.mask.S_FIELD_NAME}_y"><input onclick="reset_role('role{c_mask.S_ROW_COUNT}{c_mask.v_mask.S_ROW_COUNT}'); set_colours('{c_mask.S_ROW_COUNT}{c_mask.v_mask.S_ROW_COUNT}{c_mask.v_mask.category.S_ROW_COUNT}', false)" id="{c_mask.v_mask.category.mask.S_FIELD_NAME}_y" name="{c_mask.v_mask.category.mask.S_FIELD_NAME}" class="radio" type="radio"<!-- IF c_mask.v_mask.category.mask.S_YES --> checked="checked"<!-- ENDIF --> value="1" /></label></td>
+							<td class="value permissions-no"><label for="{c_mask.v_mask.category.mask.S_FIELD_NAME}_u"><input onclick="reset_role('role{c_mask.S_ROW_COUNT}{c_mask.v_mask.S_ROW_COUNT}'); set_colours('{c_mask.S_ROW_COUNT}{c_mask.v_mask.S_ROW_COUNT}{c_mask.v_mask.category.S_ROW_COUNT}', false)" id="{c_mask.v_mask.category.mask.S_FIELD_NAME}_u" name="{c_mask.v_mask.category.mask.S_FIELD_NAME}" class="radio" type="radio"<!-- IF not c_mask.v_mask.category.mask.S_YES and not c_mask.v_mask.category.mask.S_NEVER --> checked="checked"<!-- ENDIF --> value="-1" /></label></td>
+							<td class="value permissions-never"><label for="{c_mask.v_mask.category.mask.S_FIELD_NAME}_n"><input onclick="reset_role('role{c_mask.S_ROW_COUNT}{c_mask.v_mask.S_ROW_COUNT}'); set_colours('{c_mask.S_ROW_COUNT}{c_mask.v_mask.S_ROW_COUNT}{c_mask.v_mask.category.S_ROW_COUNT}', false)" id="{c_mask.v_mask.category.mask.S_FIELD_NAME}_n" name="{c_mask.v_mask.category.mask.S_FIELD_NAME}" class="radio" type="radio"<!-- IF c_mask.v_mask.category.mask.S_NEVER --> checked="checked"<!-- ENDIF --> value="0" /></label></td>
+						<!-- ELSE -->
+							<td class="permissions" colspan="3"><input class="text medium" type="text" id="{c_mask.v_mask.category.mask.S_FIELD_NAME}" name="{c_mask.v_mask.category.mask.S_FIELD_NAME}" value="{c_mask.v_mask.category.mask.S_VALUE}" maxlength="7" /></td>
+						<!-- ENDIF -->
+				</tr>
+				<!-- END mask -->
+				</tbody>
+				</table>
+			</div>
+
+			<span class="corners-bottom"><span></span></span>
+		</div>
+	<!-- END category -->
+	</div>
+			<div class="clearfix"></div>
+	</fieldset>
+	<!-- END v_mask -->
+	</div>
+<!-- END c_mask -->
+	<fieldset class="submit-buttons">
+		<legend>{L_SUBMIT}</legend>
+		{S_FORM_TOKEN}{S_HIDDEN_FIELDS}
+		<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
+		<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+	</fieldset>
+</form>
+
+<!-- ELSEIF S_COPY_PERMISSIONS -->
+
+	<form action="{U_ACTION}" method="post" id="gallery_acp">
+
+	<fieldset>
+		<legend>{L_LOOK_UP_ALBUM}</legend>
+
+		<dl>
+			<dt><label for="src_album">{L_COPY_PERMISSIONS_FROM}:</label><br /><span>{L_COPY_PERMISSIONS_ALBUM_FROM_EXPLAIN}</span></dt>
+			<dd><select id="src_album" name="src_album_id"><option value="0">{L_SELECT_ALBUM}</option><option value="-1">------------------</option>{S_ALBUM_OPTIONS}</select></dd>
+		</dl>
+	</fieldset>
+
+	<fieldset>
+		<legend>{L_LOOK_UP_ALBUM}</legend>
+		<p>{L_LOOK_UP_ALBUMS_EXPLAIN}</p>
+
+		<dl>
+			<dt><label for="dest_albums">{L_COPY_PERMISSIONS_TO}:</label><br /><span>{L_COPY_PERMISSIONS_ALBUM_TO_EXPLAIN}</span></dt>
+			<dd><select id="dest_albums" name="dest_album_ids[]" multiple="multiple" size="10">{S_ALBUM_OPTIONS}</select></dd>
+		</dl>
+	</fieldset>
+
+	<fieldset class="submit-buttons">
+		<legend>{L_SUBMIT}</legend>
+		<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
+		<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+		{S_HIDDEN_FIELDS}
+		{S_FORM_TOKEN}
+	</fieldset>
+
+	</form>
+
+<!-- ENDIF -->
+
+<!--
+	I request you retain the full copyright notice below including the link to www.flying-bits.org.
+	This not only gives respect to the large amount of time given freely by the developer
+	but also helps build interest, traffic and use of phpBB Gallery. If you (honestly) cannot retain
+	the full copyright I ask you at least leave in place the "Powered by phpBB Gallery" line, with
+	"phpBB Gallery" linked to www.flying-bits.org. If you refuse to include even this then support on my
+	forums may be affected.
+
+	phpBB Gallery, nickvergessen : 2009
+	Powered by phpBB Gallery (http://www.flying-bits.org/) &copy; 2007, 2009 nickvergessen (http://www.flying-bits.org/)
+//-->
+<!-- INCLUDE overall_footer.html -->

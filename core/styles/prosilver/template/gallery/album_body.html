@@ -1,0 +1,145 @@
+<!-- INCLUDE gallery/gallery_header.html -->
+
+<!-- IF not S_IN_GALLERY_POPUP and U_MCP --><p>[&nbsp;<a href="{U_MCP}">{L_MCP}</a>&nbsp;]</p><!-- ENDIF -->
+<h2><a href="{U_VIEW_ALBUM}">{ALBUM_NAME}</a></h2>
+
+<!-- IF not S_IN_GALLERY_POPUP and ALBUM_DESC or MODERATORS or U_MCP -->
+<div>
+	<!-- NOTE: remove the style="display: none !important;" when you want to have the album description on the album body -->
+	<!-- IF ALBUM_DESC --><div style="display: none !important;">{ALBUM_DESC}<br /></div><!-- ENDIF -->
+	<!-- IF ALBUM_CONTEST_START --><span>{ALBUM_CONTEST_START}<br /></span><!-- ENDIF -->
+	<!-- IF ALBUM_CONTEST_RATING --><span>{ALBUM_CONTEST_RATING}<br /></span><!-- ENDIF -->
+	<!-- IF ALBUM_CONTEST_END --><span>{ALBUM_CONTEST_END}<br /><br /></span><!-- ENDIF -->
+	<!-- IF MODERATORS --><strong>{L_MODERATORS}:</strong> {MODERATORS}<br /><!-- ENDIF -->
+	<!-- IF U_EDIT_ALBUM --><br /><strong><a href="{U_EDIT_ALBUM}">{L_EDIT_ALBUM}</a></strong><!-- ENDIF -->
+	<!-- IF U_CREATE_ALBUM --><br /><strong><a href="{U_CREATE_ALBUM}">{L_CREATE_SUBALBUM}</a></strong><!-- ENDIF -->
+</div>
+<!-- ENDIF -->
+
+<!-- IF .albumrow -->
+	<!-- IF not S_IS_BOT and U_MARK_ALBUMS -->
+	<ul class="linklist">
+		<li class="rightside"><a href="{U_MARK_ALBUMS}">{L_MARK_ALBUMS_READ}</a></li>
+	</ul>
+	<!-- ENDIF -->
+	<!-- INCLUDE gallery/albumlist_polaroid.html -->
+<!-- ENDIF -->
+
+<!-- IF S_IS_POSTABLE and (U_UPLOAD_IMAGE or PAGINATION or TOTAL_IMAGES or (U_SLIDE_SHOW and not S_IS_BOT)) -->
+	<div class="topic-actions" <!-- IF S_HAS_SUBALBUM -->style="margin-top: 2em;"<!-- ENDIF -->>
+
+	<!-- IF not S_IN_GALLERY_POPUP and U_UPLOAD_IMAGE -->
+		<div class="buttons">
+			<div class="<!-- IF S_IS_LOCKED -->locked-icon<!-- ELSE -->upload-icon<!-- ENDIF -->"><a href="{U_UPLOAD_IMAGE}" title="<!-- IF S_IS_LOCKED -->{L_ALBUM_LOCKED}<!-- ELSE -->{L_UPLOAD_IMAGE}<!-- ENDIF -->"><span></span><!-- IF S_IS_LOCKED -->{L_ALBUM_LOCKED}<!-- ELSE -->{L_UPLOAD_IMAGE}<!-- ENDIF --></a></div>
+		</div>
+	<!-- ENDIF -->
+
+	<!-- IF not S_IN_GALLERY_POPUP and S_DISPLAY_SEARCHBOX -->
+		<div class="search-box">
+			<form method="post" id="album-search" action="{S_SEARCHBOX_ACTION}">
+			<fieldset>
+				<input class="inputbox search tiny" type="text" name="keywords" id="search_keywords" size="20" value="{L_SEARCH_ALBUM}" onclick="if (this.value == '{LA_SEARCH_ALBUM}') this.value = '';" onblur="if (this.value == '') this.value = '{LA_SEARCH_ALBUM}';" />
+				<input class="button2" type="submit" value="{L_SEARCH}" />
+				<input type="hidden" value="{ALBUM_ID}" name="aid[]" />
+			</fieldset>
+			</form>
+		</div>
+	<!-- ENDIF -->
+
+	<!-- IF .pagination or TOTAL_IMAGES -->
+		<div class="pagination">
+			{TOTAL_IMAGES}
+			<!-- IF .pagination -->
+				 &bull; <!-- INCLUDE pagination.html -->
+			<!-- ELSE -->
+				 &bull; {PAGE_NUMBER}
+			<!-- ENDIF -->
+		</div>
+	<!-- ENDIF -->
+
+	<!-- IF not S_IN_GALLERY_POPUP and S_IS_POSTABLE and U_SLIDE_SHOW and not S_IS_BOT -->
+		<div class="pagination"><a href="{U_SLIDE_SHOW}">{L_SLIDE_SHOW}</a><!-- IF PAGINATION or TOTAL_IMAGES or U_SLIDE_SHOW --> &bull;&nbsp;<!-- ENDIF --></div>
+	<!-- ENDIF -->
+
+	</div>
+<!-- ENDIF -->
+
+<!-- IF .imageblock -->
+	<!-- IF S_IN_GALLERY_POPUP -->
+		<!-- INCLUDE gallery/imageblock_popup.html -->
+	<!-- ELSE -->
+		<!-- INCLUDE gallery/imageblock_polaroid.html -->
+	<!-- ENDIF -->
+<!-- ELSE -->
+	<!-- IF S_IS_POSTABLE -->
+	<div class="panel">
+		<div class="inner"><span class="corners-top"><span></span></span>
+		<strong>{L_NO_IMAGES_LONG}</strong>
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+	<!-- ENDIF -->
+<!-- ENDIF -->
+
+<!-- IF S_IS_POSTABLE -->
+	<!-- IF S_SELECT_SORT_KEY or PREVIOUS_PAGE or NEXT_PAGE -->
+	<form action="{S_ALBUM_ACTION}" method="post">
+	<fieldset class="display-options">
+		<!-- IF PREVIOUS_PAGE --><a href="{PREVIOUS_PAGE}" class="left-box {S_CONTENT_FLOW_BEGIN}">{L_PREVIOUS}</a><!-- ENDIF -->
+		<!-- IF NEXT_PAGE --><a href="{NEXT_PAGE}" class="right-box {S_CONTENT_FLOW_END}">{L_NEXT}</a><!-- ENDIF -->
+		<!-- IF S_SELECT_SORT_KEY -->
+			<label>{L_SORT_BY} {S_SELECT_SORT_KEY}</label>
+			<label>{S_SELECT_SORT_DIR} <input type="submit" name="sort" value="{L_GO}" class="button2" /></label>
+		<!-- ENDIF -->
+	</fieldset>
+	</form>
+	<hr />
+	<!-- ENDIF -->
+	<!-- IF .imageblock -->
+	<div class="topic-actions">
+		<!-- IF U_UPLOAD_IMAGE -->
+			<div class="buttons">
+				<div class="<!-- IF S_IS_LOCKED -->locked-icon<!-- ELSE -->upload-icon<!-- ENDIF -->"><a href="{U_UPLOAD_IMAGE}" title="<!-- IF S_IS_LOCKED -->{L_ALBUM_LOCKED}<!-- ELSE -->{L_UPLOAD_IMAGE}<!-- ENDIF -->"><span></span><!-- IF S_IS_LOCKED -->{L_ALBUM_LOCKED}<!-- ELSE -->{L_UPLOAD_IMAGE}<!-- ENDIF --></a></div>
+			</div>
+		<!-- ENDIF -->
+
+		<!-- IF .pagination or TOTAL_IMAGES -->
+		<div class="pagination">
+			{TOTAL_IMAGES}
+			<!-- IF .pagination -->
+				 &bull; <!-- INCLUDE pagination.html -->
+			<!-- ELSE -->
+				 &bull; {PAGE_NUMBER}
+			<!-- ENDIF -->
+		</div>
+		<!-- ENDIF -->
+	</div>
+	<br />
+	<!-- ENDIF -->
+<!-- ENDIF -->
+
+<p class="jumpbox-return"><a href="{U_RETURN_LINK}" class="left-box arrow-{S_CONTENT_FLOW_BEGIN}" accesskey="r">{L_RETURN_LINK}</a></p>
+<!-- IF ALBUM_JUMPBOX -->
+	<form method="post" id="jumpbox" action="{S_JUMPBOX_ACTION}" onsubmit="if(this.album_id.value == -1){return false;}">
+		<fieldset class="jumpbox">
+			<label for="album_id" accesskey="album_id">{L_JUMP_TO}:</label>
+			<select name="album_id" id="album_id" onchange="if(this.options[this.selectedIndex].value != -1){ document.forms['jumpbox'].submit() }">
+				{ALBUM_JUMPBOX}
+			</select>
+			<input type="submit" value="{L_GO}" class="button2" />
+		</fieldset>
+	</form>
+<!-- ELSE -->
+	<br /><br />
+<!-- ENDIF -->
+
+<!-- IF not S_IN_GALLERY_POPUP and S_DISPLAY_ONLINE_LIST -->
+	<h3><a href="{U_VIEWONLINE}">{L_WHO_IS_ONLINE}</a></h3>
+	<p>{LOGGED_IN_USER_LIST}</p>
+<!-- ENDIF -->
+
+<!-- IF not S_IN_GALLERY_POPUP and S_IS_POSTABLE -->
+	<h3>{L_ALBUM_PERMISSIONS}</h3>
+	<p><!-- BEGIN rules -->{rules.RULE}<br /><!-- END rules --></p>
+<!-- ENDIF -->
+
+<!-- INCLUDE gallery/gallery_footer.html -->

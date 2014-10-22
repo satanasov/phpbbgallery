@@ -1,0 +1,331 @@
+<!-- INCLUDE gallery/gallery_header.html -->
+
+<h2>{L_MCP}</h2>
+
+<!-- IF not S_MOVING_IMAGES and not S_MODE_OVERVIEW -->
+<p class="linkmcp">
+	[ <a href="{U_VIEW_ALBUM}">{ALBUM_NAME}</a> | <a href="{U_MOD_ALBUM}">{L_MODERATE_ALBUM}</a> | <a href="{U_MCP_OVERVIEW}">{L_GALLERY_MCP_OVERVIEW}</a> ]
+</p>
+
+<div id="tabs">
+	<ul>
+		<!-- BEGIN tabs -->
+			<li <!-- IF tabs.TAB_ACTIVE --> class="activetab"<!-- ENDIF -->><a href="{tabs.U_TAB}"><span>{tabs.TAB_NAME}</span></a></li>
+		<!-- END tabs -->
+	</ul>
+</div>
+
+<div class="panel bg3">
+	<div class="inner"><span class="corners-top"><span></span></span>
+	<div style="width: 100%;">
+	<div id="cp-menu">
+		<div id="navigation">
+			<ul>
+				<!-- BEGIN tabs -->
+					<!-- BEGIN modes -->
+						<li <!-- IF tabs.modes.MODE_ACTIVE --> id="active-subsection"<!-- ENDIF -->><a href="{tabs.modes.U_MODE}"><span>{tabs.modes.MODE_NAME}</span></a></li>
+					<!-- END modes -->
+				<!-- END tabs -->
+			</ul>
+		</div>
+	</div>
+
+	<div id="cp-main" class="mcp-main">
+	<h2>{SUBSECTION} - <a href="{U_VIEW_ALBUM}">{L_ALBUM}: {ALBUM_NAME}</a></h2>
+
+	<!-- IF S_GALLERY_MCP_VIEWALBUM or S_QUEUE_LIST or S_REPORT_LIST -->
+		<div class="panel">
+			<div class="inner"><span class="corners-top"><span></span></span>
+
+			<!-- IF TITLE --><h3>{TITLE}</h3><!-- ENDIF -->
+			<!-- IF DESCRIPTION --><p>{DESCRIPTION}</p><!-- ENDIF -->
+
+			<form method="post" id="mcp" action="{S_MCP_ACTION}">
+			<!-- IF .image_row -->
+				<ul class="topiclist">
+					<li class="header">
+						<dl>
+							<dt>{L_IMAGES}</dt>
+							<!-- IF S_COMMENTS --><dd class="g_comments">{L_COMMENTS}</dd><!-- ENDIF -->
+							<!-- IF S_RATINGS --><dd class="g_rating">{L_RATING}</dd><!-- ENDIF -->
+							<!-- IF S_REPORTER --><dd class="moderation"><span>{L_REPORTER_AND_ALBUM}</span></dd><!-- ENDIF -->
+							<!-- IF S_STATUS --><dd class="g_status">{L_STATUS}</dd><!-- ENDIF -->
+							<!-- IF S_MARK --><dd class="mark">{L_MARK}</dd><!-- ENDIF -->
+						</dl>
+					</li>
+				</ul>
+
+				<ul class="topiclist cplist">
+				<!-- BEGIN image_row -->
+					<li class="row<!-- IF image_row.S_ROW_COUNT is odd --> bg1<!-- ELSE --> bg2<!-- ENDIF --><!-- IF image_row.S_REPORTED --> reported<!-- ENDIF -->">
+						<dl>
+							<dt>
+								<!-- IF DISP_FAKE_THUMB and image_row.THUMBNAIL --><span style="float: left; text-align: center; width: {FAKE_THUMB_SIZE}px; padding-right: 5px;">{image_row.THUMBNAIL}</span><!-- ENDIF -->
+								<a href="<!-- IF not S_REPORT -->{image_row.U_IMAGE_PAGE}<!-- ELSE -->{image_row.U_REPORT}<!-- ENDIF -->" class="topictitle">{image_row.IMAGE_NAME}</a><!-- IF image_row.S_REPORTED --> <a href="{image_row.U_REPORT}">{REPORTED_IMG}</a><!-- ENDIF --><!-- IF image_row.S_UNAPPROVED --> <a href="{image_row.U_QUEUE}">{UNAPPROVED_IMG}</a><!-- ENDIF --><br />
+								<span>{L_POST_BY_AUTHOR} {image_row.UPLOADER}<br />
+								&raquo; {image_row.IMAGE_TIME}
+								<!-- IF image_row.REPORT_MOD --><br />{L_REPORT_MOD} {image_row.REPORT_MOD}<!-- ENDIF --></span>
+							</dt>
+							<!-- IF S_COMMENTS --><dd class="g_comments">{image_row.COMMENTS}</dd><!-- ENDIF -->
+							<!-- IF S_RATINGS --><dd class="g_rating">{image_row.RATING}</dd><!-- ENDIF -->
+							<!-- IF S_REPORTER -->
+								<dd class="moderation">
+									<span>{L_REPORT_BY} {image_row.REPORTER}<br />
+									{image_row.REPORT_TIME}<br />
+									{L_ALBUM}: <a href="{U_VIEW_ALBUM}" style="font-weight: bold;">{ALBUM_NAME}</a></span>
+								</dd>
+							<!-- ENDIF -->
+							<!-- IF S_STATUS --><dd class="g_status">{image_row.STATUS}<!-- IF image_row.S_REPORTED --><br />{L_IMAGE_REPORTED}<!-- ENDIF --></dd><!-- ENDIF -->
+							<!-- IF S_MARK --><dd class="mark"><input type="checkbox" name="image_id_ary[]" value="<!-- IF not S_REPORT_LIST -->{image_row.IMAGE_ID}<!-- ELSE -->{image_row.REPORT_ID}<!-- ENDIF -->" /></dd><!-- ENDIF -->
+						</dl>
+					</li>
+				<!-- END image_row -->
+				</ul>
+
+				<fieldset class="display-options">
+					<!-- IF NEXT_PAGE --><a href="{NEXT_PAGE}" class="right-box {S_CONTENT_FLOW_END}">{L_NEXT}</a><!-- ENDIF -->
+					<!-- IF PREVIOUS_PAGE --><a href="{PREVIOUS_PAGE}" class="left-box {S_CONTENT_FLOW_BEGIN}">{L_PREVIOUS}</a><!-- ENDIF -->
+					<label>{L_SORT_BY} 
+						<select name="sk">
+							<option<!-- IF S_SORT_KEY == 'image_time' --> selected="selected"<!-- ENDIF --> value='image_time'>{L_TIME}</option>
+							<option<!-- IF S_SORT_KEY == 'image_name' --> selected="selected"<!-- ENDIF --> value='image_name'>{L_IMAGE_NAME}</option>
+							<option<!-- IF S_SORT_KEY == 'image_username' --> selected="selected"<!-- ENDIF --> value='image_username'>{L_SORT_USERNAME}</option>
+							<!-- IF not S_REPORT_LIST or S_QUEUE_LIST -->
+								<option<!-- IF S_SORT_KEY == 'image_view_count' --> selected="selected"<!-- ENDIF --> value='image_view_count'>{L_GALLERY_VIEWS}</option>
+							<!-- ENDIF -->
+							<!-- IF S_REPORT_LIST -->
+								<option<!-- IF S_SORT_KEY == 'reporter_name' --> selected="selected"<!-- ENDIF --> value='reporter_name'>{L_REPORTER}</option>
+								<option<!-- IF S_SORT_KEY == 'mod_username' --> selected="selected"<!-- ENDIF --> value='mod_username'>{L_MODERATOR}</option>
+							<!-- ENDIF -->
+							<!-- IF S_RATINGS -->
+								<option<!-- IF S_SORT_KEY == 'image_rate_avg' --> selected="selected"<!-- ENDIF --> value='image_rate_avg'>{L_RATING}</option>
+							<!-- ENDIF -->
+							<!-- IF S_COMMENTS -->
+								<option<!-- IF S_SORT_KEY == 'image_comments' --> selected="selected"<!-- ENDIF --> value='image_comments'>{L_COMMENTS}</option>
+								<option<!-- IF S_SORT_KEY == 'image_last_comment' --> selected="selected"<!-- ENDIF --> value='image_last_comment'>{L_LAST_COMMENT}</option>
+							<!-- ENDIF -->
+						</select>
+					</label> 
+					<label>
+						<select name="sd">
+							<option<!-- IF S_SORT_DESC --> selected="selected"<!-- ENDIF --> value='DESC'>{L_SORT_DESCENDING}</option>
+							<option<!-- IF not S_SORT_DESC --> selected="selected"<!-- ENDIF --> value='ASC'>{L_SORT_ASCENDING}</option>
+						</select>
+					<input type="submit" name="sort" value="{L_GO}" class="button2" /></label>
+				</fieldset>
+			<!-- ELSE -->
+				<!-- IF NO_IMAGES_NOTE -->
+				<ul class="topiclist">
+					<li><p class="notopics">{NO_IMAGES_NOTE}</p></li>
+				</ul>
+				<!-- ENDIF -->
+			<!-- ENDIF -->
+
+			<!-- IF PAGINATION or TOTAL_IMAGES -->
+				<hr />
+				<ul class="linklist">
+					<li class="rightside pagination">
+						<!-- IF TOTAL_IMAGES --> {TOTAL_IMAGES}<!-- ENDIF -->
+						<!-- IF PAGE_NUMBER --><!-- IF PAGINATION --> &bull; <a href="#" onclick="jumpto(); return false;" title="{L_JUMP_TO_PAGE}">{PAGE_NUMBER}</a> &bull; <span>{PAGINATION}</span><!-- ELSE --> &bull; {PAGE_NUMBER}<!-- ENDIF --><!-- ENDIF -->
+					</li>
+				</ul>
+			<!-- ENDIF -->
+
+			<span class="corners-bottom"><span></span></span></div>
+		</div>
+		<fieldset class="display-actions">
+			<select name="action">
+				<option value="" selected="selected">{L_CHOOSE_ACTION}</option>
+				<!-- IF S_ALLOWED_MOVE and not S_REPORT_LIST and not S_QUEUE_LIST -->
+					<option value="images_move">{L_QUEUES_A_MOVE}</option>
+				<!-- ENDIF -->
+				<!-- IF S_ALLOWED_STATUS and not S_REPORT_LIST -->
+					<option value="images_unapprove">{L_QUEUE_A_UNAPPROVE}</option>
+					<option value="images_approve">{L_QUEUE_A_APPROVE}</option>
+					<option value="images_lock">{L_QUEUE_A_LOCK}</option>
+				<!-- ENDIF -->
+				<!-- IF S_ALLOWED_DELETE and not S_REPORT_LIST -->
+					<option value="images_delete">{L_QUEUE_A_DELETE}</option>
+				<!-- ENDIF -->
+				<!-- IF S_ALLOWED_REPORT and S_REPORT_LIST -->
+					<option value="reports_close">{L_REPORT_A_CLOSE}</option>
+					<option value="reports_open">{L_REPORT_A_OPEN}</option>
+					<option value="reports_delete">{L_REPORT_A_DELETE}</option>
+				<!-- ENDIF -->
+			</select>
+			<input class="button2" type="submit" value="{L_SUBMIT}" />
+			<div><a href="#" onclick="marklist('mcp', 'image_id_ary', true); return false;">{L_MARK_ALL}</a> :: <a href="#" onclick="marklist('mcp', 'image_id_ary', false); return false;">{L_UNMARK_ALL}</a></div>
+		</fieldset>
+		</form>
+
+	<!-- ENDIF -->
+
+	<!-- IF S_GALLERY_MCP_REPO_DETAIL or S_GALLERY_MCP_QUEUE_DETAIL -->
+		<div class="panel">
+			<div class="inner"><span class="corners-top"><span></span></span>
+
+			<div class="postbody">
+				<ul class="profile-icons">
+					<li class="edit-icon"><a href="{U_EDIT_IMAGE}" title="{L_EDIT_IMAGE}"><span>{L_EDIT_IMAGE}</span></a></li>
+					<li class="delete-icon"><a href="{U_DELETE_IMAGE}" title="{L_DELETE_IMAGE}"><span>{L_DELETE_IMAGE}</span></a></li>
+				</ul>
+				<h3>{IMAGE_NAME}</h3>
+				<p class="author">
+					{L_POST_BY_AUTHOR} {UPLOADER}<br />
+					{IMAGE_TIME}<br />
+					{L_ALBUM}: <a href="{U_VIEW_ALBUM}" style="font-weight: bold;">{ALBUM_NAME}</a><!-- IF U_MOVE_IMAGE --> &raquo; <a href="{U_MOVE_IMAGE}" style="font-weight: bold;">{L_MOVE}</a><!-- ENDIF --><br />
+					{L_STATUS}: <span style="font-weight: bold;">{STATUS}</span>
+				</p>
+
+				<div class="content">
+					<div style="text-align: center; padding: 20px;">{UC_IMAGE}</div>
+					<!-- IF IMAGE_DESC -->
+						<hr />
+						<span style="font-weight: bold;">{L_IMAGE_DESC}:</span><br />
+						{IMAGE_DESC}
+					<!-- ENDIF -->
+				</div>
+			</div>
+
+			<span class="corners-bottom"><span></span></span></div>
+		</div>
+
+		<!-- IF S_GALLERY_MCP_REPO_DETAIL -->
+			<div id="report" class="panel">
+				<div class="inner"><span class="corners-top"><span></span></span>
+
+				<div class="postbody">
+					<p class="author">{L_REPORT_BY} {REPORTER} &raquo; {REPORT_TIME}</p>
+					<div class="content">{REPORT_NOTE}</div>
+				</div>
+
+				<span class="corners-bottom"><span></span></span></div>
+			</div>
+		<!-- ENDIF -->
+
+		<form method="post" action="{S_MCP_ACTION}">
+			<fieldset class="submit-buttons">
+				<select name="action">
+					<option value="" selected="selected">{L_CHOOSE_ACTION}</option>
+					<!-- IF S_GALLERY_MCP_QUEUE_DETAIL -->
+						<!-- IF IMAGE_STATUS == 0 -->
+							<option value="images_approve">{L_QUEUE_A_APPROVE}</option>
+							<option value="images_lock">{L_QUEUE_A_LOCK}</option>
+						<!-- ELSEIF IMAGE_STATUS == 1 -->
+							<option value="images_unapprove">{L_QUEUE_A_UNAPPROVE}</option>
+							<option value="images_lock">{L_QUEUE_A_LOCK}</option>
+						<!-- ELSE -->
+							<option value="images_unapprove">{L_QUEUE_A_UNAPPROVE}</option>
+							<option value="images_approve">{L_QUEUE_A_APPROVE}</option>
+						<!-- ENDIF -->
+						<option value="images_delete">{L_QUEUE_A_DELETE}</option>
+					<!-- ELSE -->
+						<!-- IF REPORT_STATUS -->
+							<option value="reports_close">{L_REPORT_A_CLOSE}</option>
+						<!-- ELSE -->
+							<option value="reports_open">{L_REPORT_A_OPEN}</option>
+						<!-- ENDIF -->
+						<option value="reports_delete">{L_REPORT_A_DELETE}</option>
+					<!-- ENDIF -->
+				</select>
+				<input class="button2" type="submit" value="{L_SUBMIT}" />
+				<input type="hidden" value="{REPORT_ID}" name="image_id_ary[{REPORT_ID}]" />
+			</fieldset>
+		</form>
+	<!-- ENDIF -->
+	</div>
+	<div class="clear"></div>
+
+	</div>
+	<span class="corners-bottom"><span></span></span></div>
+</div>
+<!-- ELSEIF S_MODE_OVERVIEW -->
+<div class="panel bg3">
+	<div class="inner"><span class="corners-top"><span></span></span>
+	<div style="width: 100%;">
+	<div id="cp-menu">&nbsp;</div>
+
+	<div id="cp-main" class="mcp-main">
+	<h2>{SUBSECTION}</h2>
+
+	<div class="panel">
+		<div class="inner"><span class="corners-top"><span></span></span>
+
+		<h3>{L_LATEST_IMAGES_UNAPPROVED}</h3>
+
+		<!-- IF .queue_row -->
+		<ul class="topiclist cplist">
+			<!-- BEGIN queue_row -->
+			<li class="row<!-- IF queue_row.S_ROW_COUNT is odd --> bg1<!-- ELSE --> bg2<!-- ENDIF -->">
+				<dl>
+					<dt>
+						<!-- IF DISP_FAKE_THUMB and queue_row.THUMBNAIL --><span style="float: left; text-align: center; width: {FAKE_THUMB_SIZE}px; padding-right: 5px;">{queue_row.THUMBNAIL}</span><!-- ENDIF -->
+						<a href="{queue_row.U_IMAGE_PAGE}" class="topictitle">{queue_row.IMAGE_NAME} {UNAPPROVED_IMG}</a><br />
+						<span>{L_POST_BY_AUTHOR} {queue_row.UPLOADER}<br />
+						&raquo; {queue_row.IMAGE_TIME}</span>
+					</dt>
+				</dl>
+			</li>
+			<!-- END queue_row -->
+		</ul>
+		<!-- ELSE -->
+			<strong>{NO_UNAPPROVED_IMAGE}</strong>
+		<!-- ENDIF -->
+
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+
+	<div class="panel">
+		<div class="inner"><span class="corners-top"><span></span></span>
+
+		<h3>{L_LATEST_IMAGES_REPORTED}</h3>
+
+		<!-- IF .report_row -->
+		<ul class="topiclist cplist">
+			<!-- BEGIN report_row -->
+			<li class="row<!-- IF report_row.S_ROW_COUNT is odd --> bg1<!-- ELSE --> bg2<!-- ENDIF -->">
+			<dl>
+				<dt>
+					<!-- IF DISP_FAKE_THUMB and report_row.THUMBNAIL --><span style="float: left; text-align: center; width: {FAKE_THUMB_SIZE}px; padding-right: 5px;">{report_row.THUMBNAIL}</span><!-- ENDIF -->
+					<a href="<!-- IF not S_REPORT -->{report_row.U_IMAGE_PAGE}<!-- ELSE -->{report_row.U_REPORT}<!-- ENDIF -->" class="topictitle">{report_row.IMAGE_NAME}</a><!-- IF report_row.S_REPORTED --> <a href="{report_row.U_REPORT}">{REPORTED_IMG}</a><!-- ENDIF --><!-- IF report_row.S_UNAPPROVED --> <a href="{report_row.U_QUEUE}">{UNAPPROVED_IMG}</a><!-- ENDIF --><br />
+					<span>{L_POST_BY_AUTHOR} {report_row.UPLOADER}<br />
+					&raquo; {report_row.IMAGE_TIME}
+					<!-- IF report_row.REPORT_MOD --><br />{L_REPORT_MOD} {report_row.REPORT_MOD}<!-- ENDIF --></span>
+				</dt>
+				<dd class="moderation">
+					<span>{L_REPORT_BY} {report_row.REPORTER}<br />
+					{report_row.REPORT_TIME}
+				</dd>
+			</dl>
+			</li>
+			<!-- END report_row -->
+		</ul>
+		<!-- ELSE -->
+			<strong>{NO_REPORTED_IMAGE}</strong>
+		<!-- ENDIF -->
+
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+
+	</div>
+	<div class="clear"></div>
+
+	</div>
+	<span class="corners-bottom"><span></span></span></div>
+</div>
+<!-- ELSE -->
+<form method="post" id="mcp" action="{S_MCP_ACTION}">
+<div class="panel" id="message">
+	<div class="inner"><span class="corners-top"><span></span></span>
+		<h2>{L_MOVE}</h2>
+		<p>
+			{L_MOVE_TO_ALBUM} &nbsp; {S_ALBUM_SELECT} &nbsp;
+			<input class="button2" type="submit" name="move" value="{L_MOVE}" />
+			{S_HIDDEN_FIELDS}{S_FORM_TOKEN}
+		</p>
+	<span class="corners-bottom"><span></span></span></div>
+</div>
+</form>
+<!-- ENDIF -->
+
+<!-- INCLUDE gallery/gallery_footer.html -->

@@ -1,0 +1,55 @@
+<!-- INCLUDE gallery/imageblock_body.html -->
+
+<!-- IF .commentrow -->
+	<h4><!-- IF not COLLAPSE_COMMENTS --><!-- IF U_G_SEARCH_COMMENTED --><a href="{U_G_SEARCH_COMMENTED}">{L_RECENT_COMMENTS}</a><!-- ELSE -->{L_RECENT_COMMENTS}<!-- ENDIF --><!-- ELSE --><a href="javascript: dE('recent-comments');">{L_RECENT_COMMENTS}</a><!-- ENDIF --></h4>
+	<div id="recent-comments"<!-- IF COLLAPSE_COMMENTS --> style="display: none;"<!-- ENDIF -->>
+	<!-- BEGIN commentrow -->
+	<a id="comment_{commentrow.COMMENT_ID}"></a>
+	<div class="post <!-- IF commentrow.S_ROW_COUNT is odd -->bg1<!-- ELSE -->bg2<!-- ENDIF -->">
+		<div class="inner">
+			<span class="corners-top"><span></span></span>
+			<div class="postbody">
+				<!-- IF commentrow.U_DELETE or commentrow.U_EDIT or commentrow.U_INFO or commentrow.U_QUOTE -->
+					<ul class="profile-icons">
+						<!-- IF commentrow.U_EDIT --><li class="edit-icon"><a href="{commentrow.U_EDIT}" title="{L_EDIT_COMMENT}"><span>{L_EDIT_COMMENT}</span></a></li><!-- ENDIF -->
+						<!-- IF commentrow.U_DELETE --><li class="delete-icon"><a href="{commentrow.U_DELETE}" title="{L_DELETE_COMMENT}"><span>{L_DELETE_COMMENT}</span></a></li><!-- ENDIF -->
+						<!-- IF commentrow.U_INFO --><li class="info-icon"><a href="{commentrow.U_INFO}" title="{L_IP}" onclick="popup(this.href, 750, 500); return false;"><span>{L_IP}</span></a></li><!-- ENDIF -->
+						<!-- IF commentrow.U_QUOTE --><li class="quote-icon"><a href="{commentrow.U_QUOTE}" title="{L_QUOTE_COMMENT}"><span>{L_QUOTE_COMMENT}</span></a></li><!-- ENDIF -->
+					</ul>
+				<!-- ENDIF -->
+				<p class="author"><a href="{commentrow.U_COMMENT}">{MINI_POST_IMG}</a>&nbsp;{L_POST_BY_AUTHOR} <strong>{commentrow.POST_AUTHOR_FULL}</strong> &raquo; {commentrow.TIME} </p>
+				<div class="content">{commentrow.TEXT}</div>
+			</div>
+			<dl class="postprofile" id="profile{commentrow.COMMENT_ID}">
+				<dd>{L_COMMENT_ON}:</dd>
+				<dd>{commentrow.UC_IMAGE_NAME}</dd>
+				<dt>{commentrow.UC_THUMBNAIL}</dt>
+				<dd>&nbsp;</dd>
+
+				<dd>{L_UPLOADED_BY_USER} {commentrow.IMAGE_AUTHOR}</dd>
+				<dd>{commentrow.IMAGE_TIME}</dd>
+			</dl>
+			<span class="corners-bottom"><span></span></span>
+		</div>
+	</div>
+	<!-- END commentrow -->
+	</div>
+<!-- ENDIF -->
+
+<!-- IF (.recent or .random or .contest or .commentrow) and not S_IN_GALLERY -->
+<!--
+	I request you retain the full copyright notice below including the link to www.flying-bits.org.
+	This not only gives respect to the large amount of time given freely by the developer
+	but also helps build interest, traffic and use of phpBB Gallery. If you (honestly) cannot retain
+	the full copyright I ask you at least leave in place the "Powered by phpBB Gallery" line, with
+	"phpBB Gallery" linked to www.flying-bits.org. If you refuse to include even this then support on my
+	forums may be affected.
+
+	phpBB Gallery, nickvergessen : 2009
+//-->
+<div class="copyright">
+	Powered by <a href="http://www.flying-bits.org/">phpBB Gallery</a> &copy; 2007, 2009 <a href="http://www.flying-bits.org/">nickvergessen</a>
+	<!-- IF GALLERY_TRANSLATION_INFO --><br />{GALLERY_TRANSLATION_INFO}<!-- ENDIF -->
+</div>
+<br />
+<!-- ENDIF -->

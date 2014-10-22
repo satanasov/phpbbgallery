@@ -1,0 +1,55 @@
+<!-- BEGIN imageblock -->
+<div class="forumbg">
+	<div class="inner">
+		<span class="corners-top"><span></span></span>
+		<ul class="topiclist">
+			<li class="header">
+				<dl class="icon">
+					<dt>{imageblock.BLOCK_NAME}</dt>
+				</dl>
+			</li>
+		</ul>
+		<ul class="topiclist topics">
+			<li class="bg2">
+				<table width="100%" cellpadding="2" cellspacing="10" border="0" class="forumline">
+					<!-- BEGIN imagerow -->
+					<tr>
+						<!-- BEGIN image -->
+						<td class="bg2" valign="top" style="width: {imageblock.S_COL_WIDTH};">
+							<table width="100%" cellpadding="2" cellspacing="5" border="0" class="forumline">
+								<tr>
+									<td align="center" style="height: {S_THUMBNAIL_SIZE}px;" class="bg1">
+										<span class="genmed">{imageblock.imagerow.image.UC_THUMBNAIL}</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="bg2" valign="top">
+										<div class="gensmall" style="overflow: hidden;">
+											<!-- IF imageblock.imagerow.image.UC_IMAGE_NAME -->{L_IMAGE_NAME}: {imageblock.imagerow.image.UC_IMAGE_NAME}<br /><!-- ENDIF -->
+											<!-- IF imageblock.imagerow.image.U_ALBUM -->{L_ALBUM_NAME}: <a href="{imageblock.imagerow.image.U_ALBUM}" style="font-weight: bold;" title="{imageblock.imagerow.image.ALBUM_NAME_FULL}">{imageblock.imagerow.image.ALBUM_NAME}</a><br /><!-- ENDIF -->
+											<!-- IF imageblock.imagerow.image.POSTER -->{L_UPLOADED_BY_USER}: {imageblock.imagerow.image.POSTER}<br /><!-- ENDIF -->
+											<!-- IF imageblock.imagerow.image.TIME -->{L_UPLOADED_ON_DATE}: {imageblock.imagerow.image.TIME}<br /><!-- ENDIF -->
+											<span style="display: none;" id="inserted_{imageblock.S_ROW_COUNT}_{imageblock.imagerow.S_ROW_COUNT}_{imageblock.imagerow.image.S_ROW_COUNT}">[ {L_IMAGE_INSERTED} ]<br /></span>
+											<input type="button" class="button2" name="gallery_button" value="{L_INSERT_IMAGE_POST}" onclick="insert_image({imageblock.imagerow.image.IMAGE_ID}, '{imageblock.S_ROW_COUNT}_{imageblock.imagerow.S_ROW_COUNT}_{imageblock.imagerow.image.S_ROW_COUNT}');" title="{L_INSERT_IMAGE_POST}" />
+										</div>
+									</td>
+								</tr>
+							</table>
+						</td>
+						<!-- END image -->
+						<!-- BEGIN no_image --> 
+							<td class="bg2" valign="top" style="width: {imageblock.S_COL_WIDTH};">
+								<table width="100%" cellpadding="2" cellspacing="10" border="0" class="forumline"><tr>
+								<td style="height: {S_THUMBNAIL_SIZE}px;" class="bg1"></td>
+								</tr></table>
+							</td> 
+						<!-- END no_image -->
+					</tr>
+					<!-- END imagerow -->
+				</table>
+			</li>
+		</ul>
+		<span class="corners-bottom"><span></span></span>
+	</div>
+</div>
+<!-- END imageblock -->

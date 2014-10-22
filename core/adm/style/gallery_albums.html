@@ -1,0 +1,421 @@
+<!-- INCLUDE overall_header.html -->
+
+<a name="maincontent"></a>
+
+<!-- IF S_EDIT_ALBUM -->
+
+	<script type="text/javascript">
+	// <![CDATA[
+		/**
+		* Handle displaying/hiding several options based on the album type
+		*
+		* borrowed from phpBB3
+		* @author: phpBB Group
+		* @location: acp_forums.html
+		*/
+		function display_options(value)
+		{
+			<!-- IF not S_ADD_ACTION and S_ALBUM_ORIG_CAT -->
+				if (value == {ALBUM_CONTEST})
+				{
+					dE('cat_to_contest_actions', 1);
+				}
+				else
+				{
+					dE('cat_to_contest_actions', -1);
+				}
+			<!-- ENDIF -->
+
+			<!-- IF not S_ADD_ACTION and S_ALBUM_ORIG_CONTEST -->
+				if (value != {ALBUM_CONTEST})
+				{
+					dE('contest_change_type_actions', 1);
+				}
+				else
+				{
+					dE('contest_change_type_actions', -1);
+				}
+			<!-- ENDIF -->
+
+			<!-- IF not S_ADD_ACTION and S_ALBUM_ORIG_UPLOAD -->
+				if (value == {ALBUM_CAT})
+				{
+					dE('type_actions', 1);
+				}
+				else
+				{
+					dE('type_actions', -1);
+				}
+				if (value == {ALBUM_CONTEST})
+				{
+					dE('album_to_contest_actions', 1);
+				}
+				else
+				{
+					dE('album_to_contest_actions', -1);
+				}
+			<!-- ENDIF -->
+
+			if (value == {ALBUM_CONTEST})
+			{
+				dE('album_contest_options', 1);
+				dE('album_upload_options', 1);
+			}
+			else if (value == {ALBUM_UPLOAD})
+			{
+				dE('album_upload_options', 1);
+				dE('album_contest_options', -1);
+			}
+			else if (value == {ALBUM_CAT})
+			{
+				dE('album_upload_options', -1);
+				dE('album_contest_options', -1);
+			}
+		}
+
+		/**
+		* Init the wanted display functionality if javascript is enabled.
+		* If javascript is not available, the user is still able to properly administrate.
+		*/
+		onload = function()
+		{
+			<!-- IF not S_ADD_ACTION and S_ALBUM_ORIG_CAT -->
+				<!-- IF S_ALBUM_CAT -->
+					dE('cat_to_contest_actions', -1);
+				<!-- ENDIF -->
+			<!-- ENDIF -->
+			<!-- IF not S_ADD_ACTION and S_ALBUM_ORIG_UPLOAD -->
+				<!-- IF S_ALBUM_UPLOAD -->
+					dE('type_actions', -1);
+					dE('album_to_contest_actions', -1);
+				<!-- ENDIF -->
+			<!-- ENDIF -->
+			<!-- IF not S_ADD_ACTION and S_ALBUM_ORIG_CONTEST -->
+				<!-- IF S_ALBUM_CONTEST -->
+					dE('contest_change_type_actions', -1);
+				<!-- ENDIF -->
+			<!-- ENDIF -->
+
+
+			<!-- IF not S_ALBUM_ORIG_CONTEST -->
+				dE('album_contest_options', -1);
+			<!-- ENDIF -->
+			<!-- IF S_ALBUM_CAT -->
+				dE('album_upload_options', -1);
+			<!-- ENDIF -->
+		}
+
+	// ]]>
+	</script>
+
+	<a href="{U_BACK}" style="float: {S_CONTENT_FLOW_END};">&laquo; {L_BACK}</a>
+
+	<h1>{L_TITLE} <!-- IF ALBUM_NAME -->:: {ALBUM_NAME}<!-- ENDIF --></h1>
+
+	<p>{L_ALBUM_EDIT_EXPLAIN}</p>
+
+	<!-- IF S_ERROR -->
+		<div class="errorbox">
+			<h3>{L_WARNING}</h3>
+			<p>{ERROR_MSG}</p>
+		</div>
+	<!-- ENDIF -->
+
+	<!-- IF not S_ADD_ACTION -->
+		<!-- IF S_ALBUM_ORIG_CAT -->
+		<div class="errorbox" id="cat_to_contest_actions">
+			<h3>{L_WARNING}</h3>
+			<p>{L_ALBUM_NO_TYPE_CHANGE_TO_CONTEST}</p>
+		</div>
+		<!-- ENDIF -->
+		<!-- IF S_ALBUM_ORIG_UPLOAD -->
+		<div class="errorbox" id="album_to_contest_actions">
+			<h3>{L_WARNING}</h3>
+			<p>{L_ALBUM_NO_TYPE_CHANGE_TO_CONTEST}</p>
+		</div>
+		<!-- ENDIF -->
+		<!-- IF S_ALBUM_ORIG_CONTEST -->
+		<div class="errorbox" id="contest_change_type_actions">
+			<h3>{L_WARNING}</h3>
+			<p>{L_ALBUM_WITH_CONTEST_NO_TYPE_CHANGE}</p>
+		</div>
+		<!-- ENDIF -->
+	<!-- ENDIF -->
+
+	<form id="acp_gallery" method="post" action="{U_EDIT_ACTION}">
+
+	<fieldset>
+		<legend>{L_ALBUM_SETTINGS}</legend>
+		<dl>
+			<dt><label for="album_type">{L_ALBUM_TYPE}:</label></dt>
+			<dd><select id="album_type" name="album_type" onchange="display_options(this.options[this.selectedIndex].value);">{S_ALBUM_TYPE_OPTIONS}</select></dd>
+		</dl>
+	<!-- IF not S_ADD_ACTION and S_ALBUM_ORIG_UPLOAD -->
+	<div id="type_actions">
+		<dl>
+			<dt><label for="type_action">{L_DECIDE_MOVE_DELETE_CONTENT}:</label></dt>
+			<dd><label><input type="radio" class="radio" name="type_action" value="delete"<!-- IF not S_MOVE_ALBUM_OPTIONS --> checked="checked" id="type_action"<!-- ENDIF --> /> {L_DELETE_ALL_IMAGES}</label></dd>
+			<!-- IF S_MOVE_ALBUM_OPTIONS --><dd><label><input type="radio" class="radio" name="type_action" id="type_action" value="move" checked="checked" /> {L_MOVE_IMAGES_TO}</label> <select name="to_album_id">{S_MOVE_ALBUM_OPTIONS}</select></dd><!-- ENDIF -->
+		</dl>
+	</div>
+	<!-- ENDIF -->
+		<dl>
+			<dt><label for="parent_id">{L_ALBUM_PARENT}:</label></dt>
+			<dd><select id="parent_id" name="parent_id"><option value="0"<!-- IF not S_ALBUM_PARENT_ID --> selected="selected"<!-- ENDIF -->>{L_NO_PARENT_ALBUM}</option>{S_PARENT_OPTIONS}</select></dd>
+		</dl>
+		<dl>
+			<dt><label for="album_name">{L_ALBUM_NAME}:</label></dt>
+			<dd><input class="text medium" type="text" id="album_name" name="album_name" value="{ALBUM_NAME}" maxlength="255" /></dd>
+		</dl>
+		<dl>
+			<dt><label for="album_desc">{L_ALBUM_DESC}:</label><br /><span>{L_ALBUM_DESC_EXPLAIN}</span></dt>
+			<dd><textarea id="album_desc" name="album_desc" rows="5" cols="45">{ALBUM_DESC}</textarea></dd>
+		<dd><label><input type="checkbox" class="radio" name="desc_parse_bbcode"<!-- IF S_DESC_BBCODE_CHECKED --> checked="checked"<!-- ENDIF --> /> {L_PARSE_BBCODE}</label>
+			<label><input type="checkbox" class="radio" name="desc_parse_smilies"<!-- IF S_DESC_SMILIES_CHECKED --> checked="checked"<!-- ENDIF --> /> {L_PARSE_SMILIES}</label>
+			<label><input type="checkbox" class="radio" name="desc_parse_urls"<!-- IF S_DESC_URLS_CHECKED --> checked="checked"<!-- ENDIF --> /> {L_PARSE_URLS}</label></dd>
+		</dl>
+		<dl>
+			<dt><label for="album_image">{L_ALBUM_IMAGE}:</label><br /><span>{L_ALBUM_IMAGE_EXPLAIN}</span></dt>
+			<dd><input class="text medium" type="text" id="album_image" name="album_image" value="{ALBUM_IMAGE}" maxlength="255" /></dd>
+		<!-- IF ALBUM_IMAGE_SRC -->
+			<dd><img src="{ALBUM_IMAGE_SRC}" alt="{L_ALBUM_IMAGE}" /></dd>
+		<!-- ENDIF -->
+		</dl>
+		<!-- IF ALBUM_PASSWORD_OPTION_IS_INCLUDED -->
+		<dl>
+			<dt><label for="album_password">{L_ALBUM_PASSWORD}:</label><br /><span>{L_ALBUM_PASSWORD_EXPLAIN}</span></dt>
+			<dd><input type="password" id="album_password" name="album_password" value="<!-- IF S_ALBUM_PASSWORD_SET -->&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;<!-- ENDIF -->" /></dd>
+		</dl>
+		<dl>
+			<dt><label for="album_password_confirm">{L_ALBUM_PASSWORD_CONFIRM}:</label><br /><span>{L_ALBUM_PASSWORD_CONFIRM_EXPLAIN}</span></dt>
+			<dd><input type="password" id="album_password_confirm" name="album_password_confirm" value="<!-- IF S_ALBUM_PASSWORD_SET -->&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;<!-- ENDIF -->" /></dd>
+		</dl>
+		<!-- IF S_ALBUM_PASSWORD_SET -->
+		<dl>
+			<dt><label for="album_password_unset">{L_ALBUM_PASSWORD_UNSET}:</label><br /><span>{L_ALBUM_PASSWORD_UNSET_EXPLAIN}</span></dt>
+			<dd><input id="album_password_unset" name="album_password_unset" type="checkbox" /></dd>
+		</dl>
+		<!-- ENDIF -->
+		<!-- ENDIF -->
+		<dl>
+			<dt><label for="album_perm_from">{L_COPY_PERMISSIONS}:</label><br /><span>{L_COPY_PERMISSIONS_EXPLAIN}</span></dt>
+			<dd><select id="album_perm_from" name="album_perm_from"><option value="0" selected="selected">{L_DONT_COPY_PERMISSIONS}</option>{S_ALBUM_OPTIONS}</select></dd>
+		</dl>
+		<!-- IF S_ADD_ACTION -->
+		<dl>
+			<dt><label>{L_ADD_ALBUM_ON_TOP}:</label></dt>
+			<dd><label><input type="radio" class="radio" name="add_on_top" value="1" /> {L_YES}</label>
+				<label><input type="radio" class="radio" name="add_on_top" value="0" id="add_on_top" checked="checked" /> {L_NO}</label></dd>
+		</dl>
+		<!-- ENDIF -->
+	</fieldset>
+	<div id="album_upload_options">
+		<fieldset>
+			<legend>{L_GENERAL_ALBUM_SETTINGS}</legend>
+		<dl>
+			<dt><label for="album_status">{L_ALBUM_STATUS}:</label></dt>
+			<dd><select id="album_status" name="album_status">{S_STATUS_OPTIONS}</select></dd>
+		</dl>
+		<dl>
+			<dt><label for="album_watermark">{L_ALBUM_WATERMARK}:</label><br /><span>{L_ALBUM_WATERMARK_EXPLAIN}</span></dt>
+			<dd><label><input type="radio" class="radio" name="album_watermark" value="1"<!-- IF S_ALBUM_WATERMARK --> id="album_watermark" checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+				<label><input type="radio" class="radio" name="album_watermark" value="0"<!-- IF not S_ALBUM_WATERMARK --> id="album_watermark" checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
+		</dl>
+		<dl>
+			<dt><label for="album_sort_key">{L_DEFAULT_SORT_METHOD}:</label><br /><span>{L_DEFAULT_SORT_EXPLAIN}</span></dt>
+			<dd><select name="album_sort_key" id="album_sort_key">{ALBUM_SORT_KEY_OPTIONS}</select></dd>
+		</dl>
+		<dl>
+			<dt><label for="album_sort_dir">{L_DEFAULT_SORT_ORDER}:</label><br /><span>{L_DEFAULT_SORT_EXPLAIN}</span></dt>
+			<dd><select name="album_sort_dir" id="album_sort_dir">{ALBUM_SORT_DIR_OPTIONS}</select></dd>
+		</dl>
+		<dl>
+			<dt><label for="display_in_rrc">{L_DISPLAY_IN_RRC}:</label></dt>
+			<dd><label><input type="radio" class="radio" name="display_in_rrc" value="1"<!-- IF S_DISPLAY_IN_RRC --> id="display_in_rrc" checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+				<label><input type="radio" class="radio" name="display_in_rrc" value="0"<!-- IF not S_DISPLAY_IN_RRC --> id="display_in_rrc" checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
+		</dl>
+		<dl>
+			<dt><label for="display_subalbum_list">{L_LIST_SUBALBUMS}:</label><br /><span>{L_LIST_SUBALBUMS_EXPLAIN}</span></dt>
+			<dd><label><input type="radio" class="radio" name="display_subalbum_list" value="1"<!-- IF S_DISPLAY_SUBALBUM_LIST --> id="display_subalbum_list" checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+				<label><input type="radio" class="radio" name="display_subalbum_list" value="0"<!-- IF not S_DISPLAY_SUBALBUM_LIST --> id="display_subalbum_list" checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
+		</dl>
+		<dl>
+			<dt><label for="display_on_index">{L_LIST_INDEX}:</label><br /><span>{L_LIST_INDEX_EXPLAIN}</span></dt>
+			<dd><label><input type="radio" class="radio" name="display_on_index" value="1"<!-- IF S_DISPLAY_ON_INDEX --> id="display_on_index" checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+				<label><input type="radio" class="radio" name="display_on_index" value="0"<!-- IF not S_DISPLAY_ON_INDEX --> id="display_on_index" checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
+		</dl>
+		<!-- EVENT gallery_adm_album_upload_options -->
+		</fieldset>
+	</div>
+	<div id="album_contest_options">
+		<fieldset>
+			<legend>{L_CONTEST_SETTINGS}</legend>
+		<dl>
+			<dt><label for="contest_start">{L_CONTEST_START}:</label><br/><span>{L_CONTEST_START_EXPLAIN}</span><br/><span>{L_CONTEST_DATE_EXPLAIN}</span></dt>
+			<dd><input class="text" type="text" id="contest_start" name="contest_start" value="{S_CONTEST_START}" /></dd>
+		</dl>
+		<dl>
+			<dt><label for="contest_rating">{L_CONTEST_RATING}:</label><br/><span>{L_CONTEST_RATING_EXPLAIN}</span><br/><span>{L_CONTEST_DATE_EXPLAIN}</span></dt>
+			<dd><input class="text" type="text" id="contest_rating" name="contest_rating" value="{CONTEST_RATING}" /></dd>
+		</dl>
+		<dl>
+			<dt><label for="contest_end">{L_CONTEST_END}:</label><br /><span>{L_CONTEST_END_EXPLAIN}</span><br/><span>{L_CONTEST_DATE_EXPLAIN}</span></dt>
+			<dd><input class="text" type="text" id="contest_end" name="contest_end" value="{CONTEST_END}" /></dd>
+		</dl>
+		</fieldset>
+	</div>
+	<fieldset class="submit-buttons">
+		<legend>{L_SUBMIT}</legend>
+		<input class="button1" type="submit" id="submit" name="update" value="{L_SUBMIT}" />&nbsp;
+		<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+		{S_FORM_TOKEN}
+	</fieldset>
+</form>
+
+<!-- ELSEIF S_DELETE_ALBUM -->
+
+	<a href="{U_BACK}" style="float: {S_CONTENT_FLOW_END};">&laquo; {L_BACK}</a>
+
+	<h1>{L_ALBUM_DELETE}</h1>
+
+	<p>{L_ALBUM_DELETE_EXPLAIN}</p>
+
+	<!-- IF S_ERROR -->
+		<div class="errorbox">
+			<h3>{L_WARNING}</h3>
+			<p>{ERROR_MSG}</p>
+		</div>
+	<!-- ENDIF -->
+
+	<form id="acp_gallery" method="post" action="{U_ACTION}">
+
+		<fieldset>
+			<legend>{L_ALBUM_DELETE}</legend>
+		<dl>
+			<dt><label>{L_ALBUM_NAME}:</label></dt>
+			<dd><strong>{ALBUM_NAME}</strong></dd>
+		</dl>
+		<!-- IF S_ALBUM_POST -->
+			<dl>
+				<dt><label for="delete_action">{L_ACTION}:</label></dt>
+				<dd><label><input type="radio" class="radio" id="delete_action" name="action_images" value="delete" checked="checked" /> {L_DELETE_ALL_IMAGES}</label></dd>
+				<!-- IF S_MOVE_ALBUM_OPTIONS -->
+					<dd><label><input type="radio" class="radio" name="action_images" value="move" /> {L_MOVE_IMAGES_TO}</label> <select name="images_to_id">{S_MOVE_ALBUM_OPTIONS}</select></dd>
+				<!-- ENDIF -->
+			</dl>
+		<!-- ENDIF -->
+		<!-- IF S_HAS_SUBALBUMS -->
+			<dl>
+				<dt><label for="sub_delete_action">{L_ACTION}:</label></dt>
+				<dd><label><input type="radio" class="radio" id="sub_delete_action" name="action_subalbums" value="delete" checked="checked" /> {L_DELETE_SUBALBUMS}</label></dd>
+				<!-- IF S_ALBUMS_LIST -->
+					<dd><label><input type="radio" class="radio" name="action_subalbums" value="move" /> {L_MOVE_SUBALBUMS_TO}</label> <select name="subalbums_to_id">{S_ALBUMS_LIST}</select></dd>
+				<!-- ENDIF -->
+			</dl>
+		<!-- ENDIF -->
+
+		<p class="quick">
+			<input class="button1" type="submit" name="update" value="{L_SUBMIT}" />
+		</p>
+		{S_FORM_TOKEN}
+		</fieldset>
+	</form>
+<!-- ELSE -->
+
+	<h1>{L_ALBUM_ADMIN}</h1>
+
+	<p>{L_ALBUM_ADMIN_EXPLAIN}</p>
+
+	<!-- IF ERROR_MSG -->
+		<div class="errorbox">
+			<h3>{L_WARNING}</h3>
+			<p>{ERROR_MSG}</p>
+		</div>
+	<!-- ENDIF -->
+
+	<!-- IF S_RESYNCED -->
+		<script type="text/javascript">
+		// <![CDATA[
+			var close_waitscreen = 1;
+		// ]]>
+		</script>
+
+		<div class="successbox">
+			<h3>{L_NOTIFY}</h3>
+			<p>{L_ALBUM_RESYNCED}</p>
+		</div>
+	<!-- ENDIF -->
+
+	<p><strong>{NAVIGATION}<!-- IF S_NO_ALBUMS --> [<a href="{U_EDIT}">{L_EDIT}</a> | <a href="{U_DELETE}">{L_DELETE}</a> | <a href="{U_SYNC}">{L_RESYNC}</a>]<!-- ENDIF --></strong></p>
+
+	<!-- IF .albums -->
+		<table cellspacing="1">
+			<col class="row1" /><col class="row1" /><col class="row2" />
+		<tbody>
+		<!-- BEGIN albums -->
+			<tr>
+				<td style="width: 5%; text-align: center;">{albums.FOLDER_IMAGE}</td>
+				<td>
+					<!-- IF albums.ALBUM_IMAGE_SRC --><div style="float: {S_CONTENT_FLOW_BEGIN}; margin-right: 5px;"><img src="{albums.ALBUM_IMAGE_SRC}" alt="{albums.ALBUM_NAME}" /></div><!-- ENDIF -->
+					<strong><a href="{albums.U_ALBUM}">{albums.ALBUM_NAME}</a></strong>
+					<!-- IF albums.ALBUM_DESCRIPTION --><br /><span>{albums.ALBUM_DESCRIPTION}</span><!-- ENDIF -->
+					<!-- IF albums.S_ALBUM_POST --><br /><br /><span>{L_IMAGES}: <strong>{albums.ALBUM_IMAGES}</strong></span><!-- ENDIF -->
+				</td>
+				<td style="vertical-align: top; width: 100px; text-align: right; white-space: nowrap;">
+					<!-- IF albums.S_FIRST_ROW && not albums.S_LAST_ROW -->
+						{ICON_MOVE_UP_DISABLED}
+						<a href="{albums.U_MOVE_DOWN}">{ICON_MOVE_DOWN}</a>
+					<!-- ELSEIF not albums.S_FIRST_ROW && not albums.S_LAST_ROW-->
+						<a href="{albums.U_MOVE_UP}">{ICON_MOVE_UP}</a>
+						<a href="{albums.U_MOVE_DOWN}">{ICON_MOVE_DOWN}</a>
+					<!-- ELSEIF albums.S_LAST_ROW && not albums.S_FIRST_ROW -->
+						<a href="{albums.U_MOVE_UP}">{ICON_MOVE_UP}</a>
+						{ICON_MOVE_DOWN_DISABLED}
+					<!-- ELSE -->
+						{ICON_MOVE_UP_DISABLED}
+						{ICON_MOVE_DOWN_DISABLED}
+					<!-- ENDIF -->
+					<a href="{albums.U_EDIT}">{ICON_EDIT}</a>
+					<a href="{albums.U_SYNC}" onclick="popup_progress_bar();">{ICON_SYNC}</a>
+					<a href="{albums.U_DELETE}">{ICON_DELETE}</a>
+				</td>
+			</tr>
+		<!-- END albums -->
+		</tbody>
+		</table>
+	<!-- ENDIF -->
+
+	<form id="aselect" method="post" action="{U_SEL_ACTION}">
+
+	<fieldset class="quick">
+		{L_SELECT_ALBUM}: <select name="parent_id" onchange="if(this.options[this.selectedIndex].value != -1){ this.form.submit(); }">{ALBUM_BOX}</select>
+
+		<input class="button2" type="submit" value="{L_GO}" />
+		{S_FORM_TOKEN}
+	</fieldset>
+	</form>
+
+	<form id="albums" method="post" action="{U_ACTION}">
+
+	<fieldset class="quick">
+		<input type="hidden" name="action" value="add" />
+
+		<input type="text" name="album_name" value="" maxlength="255" />
+		<input class="button2" name="addalbum" type="submit" value="{L_CREATE_ALBUM}" />
+		{S_FORM_TOKEN}
+	</fieldset>
+	</form>
+<!-- ENDIF -->
+
+<!--
+	I request you retain the full copyright notice below including the link to www.flying-bits.org.
+	This not only gives respect to the large amount of time given freely by the developer
+	but also helps build interest, traffic and use of phpBB Gallery. If you (honestly) cannot retain
+	the full copyright I ask you at least leave in place the "Powered by phpBB Gallery" line, with
+	"phpBB Gallery" linked to www.flying-bits.org. If you refuse to include even this then support on my
+	forums may be affected.
+
+	phpBB Gallery, nickvergessen : 2009
+	Powered by phpBB Gallery (http://www.flying-bits.org/) &copy; 2007, 2009 nickvergessen (http://www.flying-bits.org/)
+//-->
+<!-- INCLUDE overall_footer.html -->
