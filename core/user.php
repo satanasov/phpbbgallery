@@ -263,7 +263,7 @@ class user
 		$sql = 'INSERT INTO ' . $this->table_name . '
 			' . $this->db->sql_build_array('INSERT', $sql_ary);
 		$this->db->sql_query($sql);
-		$error = $this->db->sql_error_triggered;
+		$error = $this->db->get_sql_error_triggered();
 
 		$this->db->sql_return_on_error(false);
 

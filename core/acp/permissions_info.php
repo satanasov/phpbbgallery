@@ -8,15 +8,9 @@
 *
 */
 
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
+namespace phpbbgallery\core\acp;
 
-/**
-* @package module_install
-*/
-class phpbb_ext_gallery_core_acp_permissions_info
+class permissions_info
 {
 	function module()
 	{
@@ -25,8 +19,16 @@ class phpbb_ext_gallery_core_acp_permissions_info
 			'title'		=> 'PHPBB_GALLERY',
 			'version'	=> '1.0.0',
 			'modes'		=> array(
-				'manage'	=> array('title' => 'ACP_GALLERY_ALBUM_PERMISSIONS',		'auth' => 'acl_a_gallery_albums',	'cat' => array('PHPBB_GALLERY')),
-				'copy'		=> array('title' => 'ACP_GALLERY_ALBUM_PERMISSIONS_COPY',	'auth' => 'acl_a_gallery_albums',	'cat' => array('PHPBB_GALLERY')),
+				'manage'	=> array(
+					'title' => 'ACP_GALLERY_ALBUM_PERMISSIONS',
+					'auth' => 'acl_a_gallery_albums',
+					'cat' => array('PHPBB_GALLERY')
+				),
+				'copy'		=> array(
+					'title' => 'ACP_GALLERY_ALBUM_PERMISSIONS_COPY',
+					'auth' => 'acl_a_gallery_albums',
+					'cat' => array('PHPBB_GALLERY')
+				),
 			),
 		);
 	}

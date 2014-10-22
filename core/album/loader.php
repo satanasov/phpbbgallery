@@ -31,7 +31,7 @@ class loader
 	* @param \phpbb\user				$user		User object
 	* @param string					$albums_table	Gallery albums table
 	*/
-	public function __construct(\phpbb\db\driver\driver $db, \phpbb\user $user, $albums_table)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, $albums_table)
 	{
 		$this->db = $db;
 		$this->user = $user;

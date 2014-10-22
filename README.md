@@ -53,4 +53,3 @@ The following ideas are not part of the 1.1 code
 The current code for 1.2-dev from this github branch should **NOT** be installed in a live board.
 
 Additional **NO SUPPORT** will be given, until a final version of 1.2 is released!
-
