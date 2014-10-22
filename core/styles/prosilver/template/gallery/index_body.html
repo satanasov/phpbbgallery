@@ -1,0 +1,122 @@
+<!-- INCLUDE gallery/gallery_header.html -->
+
+<p class="{S_CONTENT_FLOW_END}<!-- IF S_USER_LOGGED_IN --> rightside<!-- ENDIF -->"><!-- IF S_USER_LOGGED_IN -->{LAST_VISIT_DATE}<!-- ELSE -->{CURRENT_TIME}<!-- ENDIF --></p>
+<!-- IF U_MCP --><p>{CURRENT_TIME} <br />[&nbsp;<a href="{U_MCP}">{L_MCP}</a>&nbsp;]</p><!-- ELSEIF S_USER_LOGGED_IN --><p>{CURRENT_TIME}</p><!-- ENDIF -->
+
+<!-- IF S_USER_LOGGED_IN and not S_IS_BOT -->
+<ul class="linklist">
+	<li class="rightside">
+		<div class="dropdown-container dropdown-button-control topic-tools dropdown-right dropdown-down">
+			<span title="{L_NEWS_FILTER_BY_CATEGORY}" class="dropdown-trigger dropdown-select dropdown-select-icon tools-icon dropdown-toggle"></span>
+			<div class="dropdown hidden">
+				<div class="pointer"><div class="pointer-inner"></div></div>
+				<ul class="dropdown-contents">
+					<!-- IF not S_IS_BOT and U_MARK_ALBUMS -->
+						<li><a href="{U_MARK_ALBUMS}" accesskey="m">{L_MARK_ALBUMS_READ}</a></li>
+					<!-- ENDIF -->
+					<li><a href="{U_GALLERY_SEARCH}">{L_SEARCH}</a></li>
+					<li><a href="{U_G_SEARCH_RECENT}">{L_VIEW_SEARCH_RECENT}</a></li>
+					<!-- IF U_G_SEARCH_COMMENTED -->
+						<li><a href="{U_G_SEARCH_COMMENTED}">{L_VIEW_SEARCH_COMMENTED}</a></li>
+					<!-- ENDIF -->
+					<!-- IF U_G_SEARCH_TOPRATED -->
+						<li><a href="{U_G_SEARCH_TOPRATED}">{L_VIEW_SEARCH_TOPRATED}</a></li>
+					<!-- ENDIF -->
+					<!-- IF U_G_SEARCH_CONTESTS -->
+						<li><a href="{U_G_SEARCH_CONTESTS}">{L_VIEW_SEARCH_CONTESTS}</a></li>
+					<!-- ENDIF -->
+					<!-- IF S_USER_LOGGED_IN -->
+						<li><a href="{U_G_SEARCH_SELF}">{L_VIEW_SEARCH_SELF}</a></li>
+					<!-- ENDIF -->
+				</ul>
+			</div>
+		</div>
+	</li>
+</ul>
+<!-- ENDIF -->
+
+<!-- IF S_PERSONAL_GALLERY and U_USERS_PERSONAL_GALLERIES -->
+	<div class="panel">
+		<div class="inner"><span class="corners-top"><span></span></span>
+
+		<ul class="linklist">
+			<li>
+				<strong style="font-size: 0.95em;">
+				<!-- IF U_YOUR_PERSONAL_GALLERY --><a href="{U_YOUR_PERSONAL_GALLERY}">{L_YOUR_PERSONAL_ALBUM}</a>&nbsp;&laquo;&nbsp;<!-- ENDIF -->
+				<a href="{U_USERS_PERSONAL_GALLERIES}">{L_ALL}</a>&nbsp;
+				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=a">A</a>&nbsp;
+				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=b">B</a>&nbsp;
+				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=c">C</a>&nbsp;
+				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=d">D</a>&nbsp;
+				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=e">E</a>&nbsp;
+				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=f">F</a>&nbsp;
+				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=g">G</a>&nbsp;
+				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=h">H</a>&nbsp;
+				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=i">I</a>&nbsp;
+				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=j">J</a>&nbsp;
+				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=k">K</a>&nbsp;
+				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=l">L</a>&nbsp;
+				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=m">M</a>&nbsp;
+				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=n">N</a>&nbsp;
+				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=o">O</a>&nbsp;
+				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=p">P</a>&nbsp;
+				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=q">Q</a>&nbsp;
+				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=r">R</a>&nbsp;
+				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=s">S</a>&nbsp;
+				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=t">T</a>&nbsp;
+				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=u">U</a>&nbsp;
+				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=v">V</a>&nbsp;
+				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=w">W</a>&nbsp;
+				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=x">X</a>&nbsp;
+				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=y">Y</a>&nbsp;
+				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=z">Z</a>&nbsp;
+				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=other">#</a></strong>
+			</li>
+		</ul>
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+<!-- ENDIF -->
+
+<!-- INCLUDE gallery/albumlist_polaroid.html -->
+
+<!-- IF S_PERSONAL_GALLERY -->
+	<div class="topic-actions">
+		<div class="pagination">{TOTAL_PGALLERIES_SHORT}<!-- IF PAGINATION --> &bull; <a href="#" onclick="jumpto(); return false;" title="{L_JUMP_TO_PAGE}">{PAGE_NUMBER}</a> &bull; <span>{PAGINATION}</span><!-- ENDIF --></div>
+	</div>
+<!-- ENDIF -->
+
+<!-- IF S_USERS_PERSONAL_GALLERIES --><h4><!-- IF S_PERSONAL_GALLERY --><a href="{U_GALLERY_MOD}">{L_GALLERY}</a>&nbsp;&lsaquo;&nbsp;{L_USERS_PERSONAL_ALBUMS}<!-- ELSE -->{L_GALLERY}&nbsp;&lsaquo;&nbsp;<a href="{U_USERS_PERSONAL_GALLERIES}">{L_USERS_PERSONAL_ALBUMS}</a><!-- ENDIF --><!-- IF U_YOUR_PERSONAL_GALLERY -->&nbsp;&raquo;&nbsp;<a href="{U_YOUR_PERSONAL_GALLERY}">{L_YOUR_PERSONAL_ALBUM}</a><!-- ENDIF --></h4><br /><!-- ENDIF -->
+
+<!-- INCLUDE gallery/recent_body.html -->
+
+<!-- IF not S_USER_LOGGED_IN and not S_IS_BOT and S_DISP_LOGIN -->
+	<form method="post" action="{S_LOGIN_ACTION}" class="headerspace">
+	<h3><a href="{U_LOGIN_LOGOUT}">{L_LOGIN_LOGOUT}</a><!-- IF S_REGISTER_ENABLED -->&nbsp; &bull; &nbsp;<a href="{U_REGISTER}">{L_REGISTER}</a><!-- ENDIF --></h3>
+		<fieldset class="quick-login">
+			<label for="username">{L_USERNAME}:</label>&nbsp;<input type="text" name="username" id="username" size="10" class="inputbox" title="{L_USERNAME}" />
+			<label for="password">{L_PASSWORD}:</label>&nbsp;<input type="password" name="password" id="password" size="10" class="inputbox" title="{L_PASSWORD}" />
+			<!-- IF S_AUTOLOGIN_ENABLED -->
+				| <label for="autologin">{L_LOG_ME_IN} <input type="checkbox" name="autologin" id="autologin" /></label>
+			<!-- ENDIF -->
+			<input type="submit" name="login" value="{L_LOGIN}" class="button2" />
+		</fieldset>
+	</form>
+<!-- ENDIF -->
+
+<!-- IF S_DISPLAY_ONLINE_LIST -->
+	<!-- IF U_VIEWONLINE --><h3><a href="{U_VIEWONLINE}">{L_WHO_IS_ONLINE}</a></h3><!-- ELSE --><h3>{L_WHO_IS_ONLINE}</h3><!-- ENDIF -->
+	<p>{TOTAL_USERS_ONLINE} ({L_ONLINE_EXPLAIN})<br />{RECORD_USERS}<br /> <br />{LOGGED_IN_USER_LIST}
+	<!-- IF LEGEND --><br /><em>{L_LEGEND}{L_COLON} {LEGEND}</em><!-- ENDIF --></p>
+<!-- ENDIF -->
+
+<!-- IF S_DISPLAY_BIRTHDAY_LIST -->
+	<h3>{L_BIRTHDAYS}</h3>
+	<p><!-- IF .birthdays -->{L_CONGRATULATIONS}{L_COLON} <strong><!-- BEGIN birthdays -->{birthdays.USERNAME}<!-- IF birthdays.AGE !== '' --> ({birthdays.AGE})<!-- ENDIF --><!-- IF not birthdays.S_LAST_ROW -->, <!-- ENDIF --><!-- END birthdays --></strong><!-- ELSE -->{L_NO_BIRTHDAYS}<!-- ENDIF --></p>
+<!-- ENDIF -->
+
+<!-- IF TOTAL_IMAGES -->
+	<h3>{L_STATISTICS}</h3>
+	<p>{TOTAL_IMAGES}<!-- IF TOTAL_COMMENTS --> &bull; {TOTAL_COMMENTS}<!-- ENDIF --><!-- IF TOTAL_PGALLERIES --> &bull; {TOTAL_PGALLERIES}<!-- IF NEWEST_PGALLERIES --> &bull; {NEWEST_PGALLERIES}<!-- ENDIF --><!-- ENDIF --></p>
+<!-- ENDIF -->
+
+<!-- INCLUDE gallery/gallery_footer.html -->

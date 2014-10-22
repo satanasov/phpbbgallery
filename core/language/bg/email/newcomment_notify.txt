@@ -1,0 +1,11 @@
+Subject: New comment notification - "{IMAGE_NAME}"
+
+Hello {USERNAME},
+
+You are receiving this notification because you are watching the image, "{IMAGE_NAME}" at "{SITENAME}". This image has received a new comment since your last visit. You can use the following link to read the comment.
+
+{U_IMAGE}
+
+If you no longer wish to watch this image/album you can click the "Unsubscribe image" link found in the link above.
+
+{EMAIL_SIG}

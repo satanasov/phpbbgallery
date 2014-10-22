@@ -1,0 +1,65 @@
+<!-- BEGIN albumrow -->
+	<!-- IF (albumrow.S_IS_CAT and not albumrow.S_FIRST_ROW) or albumrow.S_NO_CAT -->
+		<span class="clear"></span>
+	<!-- ENDIF -->
+
+	<!-- IF albumrow.S_IS_CAT or albumrow.S_FIRST_ROW or albumrow.S_NO_CAT  -->
+		<span class="clear"></span>
+		<h2<!-- IF albumrow.S_FIRST_ROW --> class="invade-linklist"<!-- ENDIF -->><!-- IF albumrow.S_IS_CAT --><a href="{albumrow.U_VIEWALBUM}">{albumrow.ALBUM_NAME}</a><!-- ELSE -->{L_ALBUM}<!-- ENDIF --></h2>
+	<!-- ENDIF -->
+
+	<!-- IF not albumrow.S_IS_CAT -->
+		<div class="polaroid">
+			<a href="{albumrow.U_VIEWALBUM}" style="font-weight: bold; font-size: 1.2em;<!-- IF S_PERSONAL_GALLERY and albumrow.ALBUM_COLOUR --> color: {albumrow.ALBUM_COLOUR};<!-- ENDIF -->">{albumrow.ALBUM_NAME}</a>
+			<hr />
+			<!-- IF albumrow.UC_THUMBNAIL -->
+				<img src="{albumrow.UC_THUMBNAIL}" alt="{albumrow.UC_IMAGE_NAME}" title="{albumrow.UC_IMAGE_NAME}" />
+			<!-- ENDIF -->
+
+			<hr />
+			{L_IMAGES}{L_COLON} <strong>{albumrow.IMAGES} <!-- IF albumrow.UNAPPROVED_IMAGES --> + <span class="reported-images-number">{albumrow.UNAPPROVED_IMAGES}</span><!-- ENDIF --></strong><br />
+
+			<!-- IF albumrow.LAST_IMAGE_TIME -->
+				<span>
+					<!-- IF albumrow.UC_IMAGE_NAME -->{albumrow.UC_IMAGE_NAME}<br /><!-- ENDIF -->
+					{L_LAST_IMAGE_BY}{L_COLON} {albumrow.LAST_USER_FULL} {albumrow.UC_LASTIMAGE_ICON}<br />
+					{albumrow.LAST_IMAGE_TIME}
+				</span>
+			<!-- ENDIF -->
+
+			<!-- IF EXTENDED_POLAROID and albumrow.MODERATORS -->
+				<hr />
+				<strong>{albumrow.L_MODERATOR_STR}{L_COLON}</strong> {albumrow.MODERATORS}
+			<!-- ENDIF --><br />
+
+			<!-- IF .albumrow.subalbum and albumrow.S_LIST_SUBALBUMS -->
+				<div class="dropdown-container">
+					<a href="#" class="responsive-menu-link dropdown-trigger">{albumrow.L_SUBALBUM_STR}</a>
+					<div class="dropdown" style="display: none;">
+						<div class="pointer"><div class="pointer-inner"></div></div>
+						<div class="dropdown-contents">
+							<!-- BEGIN subalbum -->
+								<a href="{albumrow.subalbum.U_SUBALBUM}" class="subforum<!-- IF albumrow.subalbum.S_UNREAD --> unread<!-- ELSE --> read<!-- ENDIF -->" title="<!-- IF albumrow.subalbum.UNREAD -->{L_UNREAD_IMAGES}<!-- ELSE -->{L_NO_UNREAD_IMAGES}<!-- ENDIF -->">{albumrow.subalbum.SUBALBUM_NAME}</a><!-- IF not albumrow.subalbum.S_LAST_ROW --><br /><!-- ENDIF -->
+							<!-- END subalbum -->
+						</div>
+					</div>
+				</div>
+			<!-- ENDIF -->
+		</div>
+	<!-- ENDIF -->
+
+	<!-- IF albumrow.S_LAST_ROW -->
+		<span class="clear"></span>
+	<!-- ENDIF -->
+
+<!-- BEGINELSE -->
+	<div class="panel">
+		<div class="inner">
+			<strong>{L_NO_ALBUMS}</strong>
+		</div>
+	</div>
+<!-- END albumrow -->
+
+<!-- IF .albumrow -->
+	<!-- INCLUDEJS gallery/gallery.js -->
+<!-- ENDIF -->

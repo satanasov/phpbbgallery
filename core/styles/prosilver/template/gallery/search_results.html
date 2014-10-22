@@ -1,0 +1,133 @@
+<!-- INCLUDE gallery/gallery_header.html -->
+<script type="text/javascript">
+function getElement(iElementId)
+{
+	if (document.all) 
+	{
+		return document.all[iElementId];
+	}
+	if (document.getElementById)
+	{
+		return document.getElementById(iElementId);
+	}
+}
+
+function toggleElement(oElement)
+{
+	if (oElement.style.display == "none")
+	{
+		oElement.style.display = "";
+	}
+	else
+	{
+		oElement.style.display = "none";
+	}
+}
+</script>
+<h2><!-- IF SEARCH_TITLE -->{SEARCH_TITLE}<!-- ELSE -->{SEARCH_MATCHES}<!-- ENDIF --><!-- IF SEARCH_WORDS -->: <a href="{U_SEARCH_WORDS}">{SEARCH_WORDS}</a><!-- ENDIF --></h2>
+<!-- IF IGNORED_WORDS --> <p>{L_IGNORED_TERMS}: <strong>{IGNORED_WORDS}</strong></p><!-- ENDIF -->
+
+<!-- IF U_GALLERY_SEARCH --><p><a class="{S_CONTENT_FLOW_BEGIN}" href="{U_GALLERY_SEARCH}" title="{L_SEARCH_ADV}">{L_RETURN_TO_SEARCH_ADV}</a></p><!-- ENDIF -->
+
+<!-- IF PAGINATION or SEARCH_MATCHES or PAGE_NUMBER -->
+	<form method="post" action="{S_SEARCH_ACTION}">
+	<div class="topic-actions">
+
+	<!-- IF SEARCH_MATCHES -->
+		<div class="search-box">
+			<!-- IF SEARCH_IN_RESULTS -->
+				<label for="add_keywords">{L_SEARCH_IN_RESULTS}: <input type="text" name="add_keywords" id="add_keywords" value="" class="inputbox narrow" /></label>
+				<input type="hidden" name="show_results" value="posts" />
+				<input class="button2" type="submit" name="submit" value="{L_SEARCH}" />
+			<!-- ENDIF -->
+		</div>
+	<!-- ENDIF -->
+
+	<!-- IF .pagination or SEARCH_MATCHES -->
+		<div class="pagination">
+			{SEARCH_MATCHES} &bull; 
+			<!-- IF .pagination -->
+				<!-- INCLUDE pagination.html -->
+			<!-- ELSE -->
+				{PAGE_NUMBER}
+			<!-- ENDIF -->
+		</div>
+	<!-- ENDIF -->
+
+	</div>
+	</form>
+<!-- ENDIF -->
+
+<!-- IF SEARCH_IMAGES and .imageblock -->
+	<!-- IF S_IN_GALLERY_POPUP -->
+		<!-- INCLUDE gallery/imageblock_popup.html -->
+	<!-- ELSE -->
+		<!-- INCLUDE gallery/imageblock_body.html -->
+	<!-- ENDIF -->
+<!-- ENDIF -->
+
+<!-- IF .commentrow -->
+<div id="recent-comments">
+	<!-- BEGIN commentrow -->
+	<a id="{commentrow.COMMENT_ID}"></a>
+	<div class="post <!-- IF commentrow.S_ROW_COUNT is odd -->bg1<!-- ELSE -->bg2<!-- ENDIF -->">
+		<div class="inner">
+			<span class="corners-top"><span></span></span>
+			<div class="postbody">
+				<!-- IF commentrow.U_DELETE or commentrow.U_EDIT or commentrow.U_INFO or commentrow.U_QUOTE -->
+					<ul class="profile-icons">
+						<!-- IF commentrow.U_EDIT --><li class="edit-icon"><a href="{commentrow.U_EDIT}" title="{L_EDIT_COMMENT}"><span>{L_EDIT_COMMENT}</span></a></li><!-- ENDIF -->
+						<!-- IF commentrow.U_DELETE --><li class="delete-icon"><a href="{commentrow.U_DELETE}" title="{L_DELETE_COMMENT}"><span>{L_DELETE_COMMENT}</span></a></li><!-- ENDIF -->
+						<!-- IF commentrow.U_INFO --><li class="info-icon"><a href="{commentrow.U_INFO}" title="{L_IP}" onclick="popup(this.href, 750, 500); return false;"><span>{L_IP}</span></a></li><!-- ENDIF -->
+						<!-- IF commentrow.U_QUOTE --><li class="quote-icon"><a href="{commentrow.U_QUOTE}" title="{L_QUOTE_COMMENT}"><span>{L_QUOTE_COMMENT}</span></a></li><!-- ENDIF -->
+					</ul>
+				<!-- ENDIF -->
+				<p class="author"><a href="{commentrow.U_COMMENT}">{MINI_POST_IMG}</a>&nbsp;{L_POST_BY_AUTHOR} <strong>{commentrow.POST_AUTHOR_FULL}</strong> &raquo; {commentrow.TIME} </p>
+				<div class="content">{commentrow.TEXT}</div>
+			</div>
+			<dl class="postprofile" id="profile{commentrow.COMMENT_ID}">
+				<dd>{L_COMMENT_ON}:</dd>
+				<dd>{commentrow.UC_IMAGE_NAME}</dd>
+				<dt>{commentrow.UC_THUMBNAIL}</dt><br />
+
+				<dd>{L_UPLOADED_BY_USER} {commentrow.IMAGE_AUTHOR}</dd>
+				<dd>{commentrow.IMAGE_TIME}</dd>
+			</dl>
+			<span class="corners-bottom"><span></span></span>
+		</div>
+	</div>
+	<!-- END commentrow -->
+</div>
+<!-- ENDIF -->
+
+<!-- IF PAGINATION or .imageblock or ((S_SELECT_SORT_KEY or S_SELECT_SORT_DAYS) and SEARCH_IN_RESULTS) -->
+	<form method="post" action="{S_SEARCH_ACTION}">
+
+	<fieldset class="display-options">
+		<!-- IF PREVIOUS_PAGE --><a href="{PREVIOUS_PAGE}" class="left-box {S_CONTENT_FLOW_BEGIN}">{L_PREVIOUS}</a><!-- ENDIF -->
+		<!-- IF NEXT_PAGE --><a href="{NEXT_PAGE}" class="right-box {S_CONTENT_FLOW_END}">{L_NEXT}</a><!-- ENDIF -->
+		<!-- IF S_SELECT_SORT_KEY and SEARCH_IN_RESULTS -->
+			<label>{L_SORT_BY} {S_SELECT_SORT_KEY}</label>
+			<label>{S_SELECT_SORT_DIR} <input type="submit" name="sort" value="{L_GO}" class="button2" /></label>
+		<!-- ENDIF -->
+	</fieldset>
+
+	</form>
+
+	<hr />
+<!-- ENDIF -->
+
+<!-- IF .pagination or SEARCH_MATCHES -->
+	<div class="topic-actions">
+		<div class="pagination">
+			{SEARCH_MATCHES} &bull; 
+			<!-- IF .pagination -->
+				<!-- INCLUDE pagination.html -->
+			<!-- ELSE -->
+				{PAGE_NUMBER}
+			<!-- ENDIF -->
+		</div>
+	</div>
+<!-- ENDIF -->
+
+<!-- INCLUDE gallery/gallery_footer.html -->

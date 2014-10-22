@@ -1,0 +1,83 @@
+<!-- INCLUDE gallery/gallery_header.html -->
+
+<h2 class="solo">{L_SEARCH}</h2>
+
+<form method="get" action="{S_SEARCH_ACTION}">
+
+<div class="panel">
+	<div class="inner"><span class="corners-top"><span></span></span>
+	<h3>{L_SEARCH_QUERY}</h3>
+
+	<fieldset>
+	<dl>
+		<dt><label for="keywords">{L_SEARCH_KEYWORDS}:</label><!-- IF S_IMPLEMENTED --><br /><span>{L_SEARCH_KEYWORDS_EXPLAIN}</span><!-- ENDIF --></dt>
+		<dd><input type="text" class="inputbox" name="keywords" id="keywords" size="40" title="{L_SEARCH_KEYWORDS}" /></dd>
+		<dd><label for="terms1"><input type="radio" name="terms" id="terms1" value="all" checked="checked" /> {L_SEARCH_ALL_TERMS}</label></dd>
+		<dd><label for="terms2"><input type="radio" name="terms" id="terms2" value="any" /> {L_SEARCH_ANY_TERMS}</label></dd>
+	</dl>
+	<dl>
+		<dt><label for="username">{L_SEARCH_AUTHOR}:</label><br /><span>{L_SEARCH_AUTHOR_EXPLAIN}</span></dt>
+		<dd><input type="text" class="inputbox" name="username" id="username" size="40" title="{L_SEARCH_AUTHOR}" /></dd>
+	</dl>
+	</fieldset>
+
+	<span class="corners-bottom"><span></span></span></div>
+</div>
+
+<div class="panel bg2">
+	<div class="inner"><span class="corners-top"><span></span></span>
+
+	<h3>{L_SEARCH_OPTIONS}</h3>
+
+	<fieldset>
+	<dl>
+		<dt><label for="search_album">{L_SEARCH_ALBUMS}:</label><!-- IF S_IMPLEMENTED --><br /><span>{L_SEARCH_ALBUMS_EXPLAIN}</span><!-- ENDIF --></dt>
+		<dd><select name="aid[]" id="search_album" multiple="multiple" size="8" title="{L_SEARCH_ALBUMS}">{S_ALBUM_OPTIONS}</select></dd>
+	</dl>
+	<!-- IF S_IMPLEMENTED -->
+	<dl>
+		<dt><label for="search_child1">{L_SEARCH_SUBALBUMS}:</label></dt>
+		<dd>
+			<label for="search_child1"><input type="radio" name="sc" id="search_child1" value="1" checked="checked" /> {L_YES}</label> 
+			<label for="search_child2"><input type="radio" name="sc" id="search_child2" value="0" /> {L_NO}</label>
+		</dd>
+	</dl>
+	<!-- ENDIF -->
+	<!-- IF S_IMPLEMENTED -->
+	<dl>
+		<dt><label for="sf1">{L_SEARCH_WITHIN}:</label></dt>
+		<dd><label for="sf1"><input type="radio" name="sf" id="sf1" value="all" checked="checked" /> {L_SEARCH_IMAGE_COMMENTS}</label></dd>
+		<dd><label for="sf2"><input type="radio" name="sf" id="sf2" value="msgonly" /> {L_SEARCH_IMAGE_VALUES}</label></dd>
+		<dd><label for="sf3"><input type="radio" name="sf" id="sf3" value="titleonly" /> {L_SEARCH_IMAGENAME}</label></dd>
+		<dd><label for="sf4"><input type="radio" name="sf" id="sf4" value="firstpost" /> {L_SEARCH_COMMENTS}</label></dd>
+	</dl>
+	<!-- ENDIF -->
+
+	<hr class="dashed" />
+
+	<dl>
+		<dt><label for="sd">{L_RESULT_SORT}:</label></dt>
+		<dd>{S_SELECT_SORT_KEY}&nbsp;
+			<label for="sa"><input type="radio" name="sd" id="sa" value="a" /> {L_SORT_ASCENDING}</label> 
+			<label for="sd"><input type="radio" name="sd" id="sd" value="d" checked="checked" /> {L_SORT_DESCENDING}</label>
+		</dd>
+	</dl>
+	</fieldset>
+
+	<span class="corners-bottom"><span></span></span></div>
+</div>
+
+<div class="panel bg3">
+	<div class="inner"><span class="corners-top"><span></span></span>
+
+	<fieldset class="submit-buttons">
+		{S_HIDDEN_FIELDS}<input type="reset" value="{L_RESET}" name="reset" class="button2" />&nbsp; 
+		<input type="submit" name="submit" value="{L_SEARCH}" class="button1" />
+	</fieldset>
+
+	<span class="corners-bottom"><span></span></span></div>
+</div>
+
+</form>
+
+<!-- INCLUDE gallery/gallery_footer.html -->

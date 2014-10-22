@@ -1,0 +1,62 @@
+phpbbgallery_index:
+    pattern: /gallery
+    defaults: { _controller: phpbbgallery.core.controller.index:index }
+phpbbgallery_personal:
+    pattern: /gallery/users
+    defaults: { _controller: phpbbgallery.core.controller.index:personal }
+
+phpbbgallery_album:
+    pattern: /gallery/album/{album_id}
+    defaults: { _controller: phpbbgallery.core.controller.album:base, page: 1 }
+phpbbgallery_album_page:
+    pattern: /gallery/album/{album_id}/page/{page}
+    defaults: { _controller: phpbbgallery.core.controller.album:base }
+phpbbgallery_album_upload:
+    pattern: /gallery/album/{album_id}/upload
+    defaults: { _controller: phpbbgallery.core.controller.album:base }
+
+phpbbgallery_image:
+    pattern: /gallery/image/{image_id}
+    defaults: { _controller: phpbbgallery.core.controller.image:base }
+phpbbgallery_image_delete:
+    pattern: /gallery/image/{image_id}/delete
+    defaults: { _controller: phpbbgallery.core.controller.image:delete }
+phpbbgallery_image_edit:
+    pattern: /gallery/image/{image_id}/edit
+    defaults: { _controller: phpbbgallery.core.controller.image:edit }
+phpbbgallery_image_report:
+    pattern: /gallery/image/{image_id}/report
+    defaults: { _controller: phpbbgallery.core.controller.image:report }
+
+phpbbgallery_image_file_source:
+    pattern: /gallery/image/{image_id}/source
+    defaults: { _controller: phpbbgallery.core.controller.file:source }
+phpbbgallery_image_file_medium:
+    pattern: /gallery/image/{image_id}/medium
+    defaults: { _controller: phpbbgallery.core.controller.file:medium }
+phpbbgallery_image_file_mini:
+    pattern: /gallery/image/{image_id}/mini
+    defaults: { _controller: phpbbgallery.core.controller.file:mini }
+
+phpbbgallery_moderate_album:
+    pattern: /gallery/moderate/album/{album_id}
+    defaults: { _controller: phpbbgallery.core.controller.moderate:base }
+phpbbgallery_moderate_image:
+    pattern: /gallery/moderate/image/{image_id}
+    defaults: { _controller: phpbbgallery.core.controller.moderate:base }
+
+phpbbgallery_search:
+    pattern: /gallery/search
+    defaults: { _controller: phpbbgallery.core.controller.search:base }
+phpbbgallery_search_commented:
+    pattern: /gallery/search/commented
+    defaults: { _controller: phpbbgallery.core.controller.search:base }
+phpbbgallery_search_recent:
+    pattern: /gallery/search/recent
+    defaults: { _controller: phpbbgallery.core.controller.search:base }
+phpbbgallery_search_egosearch:
+    pattern: /gallery/search/self
+    defaults: { _controller: phpbbgallery.core.controller.search:base }
+phpbbgallery_search_toprated:
+    pattern: /gallery/search/toprated
+    defaults: { _controller: phpbbgallery.core.controller.search:base }

@@ -1,0 +1,148 @@
+<!-- INCLUDE overall_header.html -->
+
+<a name="maincontent"></a>
+
+<h1>{ACP_GALLERY_TITLE}</h1>
+<p>{ACP_GALLERY_TITLE_EXPLAIN}</p>
+
+
+<!-- BEGIN mods -->
+
+	<fieldset>
+		<legend>{L_VERSION_CHECK}</legend>
+		<p style="font-weight: bold; color: <!-- IF mods.S_UP_TO_DATE -->#228822<!-- ELSE -->#BC2A4D<!-- ENDIF -->;">{mods.UP_TO_DATE}</p>
+		<dl>
+			<dt><label>{L_CURRENT_VERSION}</label></dt>
+			<dd><strong>{mods.CURRENT_VERSION}</strong></dd>
+		</dl>
+		<dl>
+			<dt><label>{L_LATEST_VERSION}</label></dt>
+			<dd><strong>{mods.LATEST_VERSION}</strong></dd>
+		</dl>
+		<!-- IF not mods.S_UP_TO_DATE -->
+			<dl>
+				<dt><label>{L_DOWNLOAD_LATEST}</label></dt>
+				<dd><strong><a href="{mods.DOWNLOAD}">{L_DOWNLOAD} {mods.TITLE} {mods.LATEST_VERSION}</a></strong></dd>
+			</dl>
+			<dl>
+				<dt><label>{L_ANNOUNCEMENT_TOPIC}</label></dt>
+				<dd><strong><a href="{mods.ANNOUNCEMENT}">{L_RELEASE_ANNOUNCEMENT}</a></strong></dd>
+			</dl>
+		<!-- ENDIF -->
+	</fieldset>
+<!-- END mods -->
+
+<!-- IF S_GALLERY_OVERVIEW -->
+	<table cellspacing="1">
+		<caption>{L_GALLERY_STATS}</caption>
+		<col class="col1" /><col class="col2" /><col class="col1" /><col class="col2" />
+	<thead>
+	<tr>
+		<th>{L_STATISTIC}</th>
+		<th>{L_VALUE}</th>
+		<th>{L_STATISTIC}</th>
+		<th>{L_VALUE}</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td>{L_NUMBER_IMAGES}: </td>
+		<td><strong>{TOTAL_IMAGES}</strong></td>
+		<td>{L_IMAGES_PER_DAY}: </td>
+		<td><strong>{IMAGES_PER_DAY}</strong></td>
+	</tr>
+	<tr>
+		<td>{L_NUMBER_ALBUMS}: </td>
+		<td><strong>{TOTAL_ALBUMS}</strong></td>
+		<td>{L_NUMBER_PERSONALS}: </td>
+		<td><strong>{TOTAL_PERSONALS}</strong></td>
+	</tr>
+	<tr>
+		<td>{L_GUPLOAD_DIR_SIZE}: </td>
+		<td><strong>{GUPLOAD_DIR_SIZE}</strong></td>
+		<td>{L_MEDIUM_DIR_SIZE}: </td>
+		<td><strong>{MEDIUM_DIR_SIZE}</strong></td>
+	</tr>
+	<tr>
+		<td>{L_CACHE_DIR_SIZE}: </td>
+		<td><strong>{CACHE_DIR_SIZE}</strong></td>
+		<td>{L_GALLERY_VERSION}: </td>
+		<td><strong>{GALLERY_VERSION}</strong></td>
+	</tr>
+	</tbody>
+	</table>
+
+	<fieldset>
+		<form id="action_images_form" method="post" action="{U_ACTION}">
+			<dl>
+				<dt><label for="action_images">{L_RESYNC_IMAGECOUNTS}</label>
+					<br /><span>{L_RESYNC_IMAGECOUNTS_EXPLAIN}</span></dt>
+				<dd><input type="hidden" name="action" value="images" /><input class="button2" type="submit" id="action_images" name="action_images" value="{L_RUN}" /></dd>
+			</dl>
+		</form>
+
+		<form id="action_personals_form" method="post" action="{U_ACTION}">
+			<dl>
+				<dt><label for="action_personals">{L_RESYNC_PERSONALS}</label></dt>
+				<dd><input type="hidden" name="action" value="personals" /><input class="button2" type="submit" id="action_personals" name="action_personals" value="{L_RUN}" /></dd>
+			</dl>
+		</form>
+
+		<form id="action_stats_form" method="post" action="{U_ACTION}">
+			<dl>
+				<dt><label for="action_stats">{L_RESYNC_STATS}</label></dt>
+				<dd><input type="hidden" name="action" value="stats" /><input class="button2" type="submit" id="action_stats" name="action_stats" value="{L_RUN}" /></dd>
+			</dl>
+		</form>
+
+		<form id="action_last_images_form" method="post" action="{U_ACTION}">
+			<dl>
+				<dt><label for="action_last_images">{L_RESYNC_LAST_IMAGES}</label></dt>
+				<dd><input type="hidden" name="action" value="last_images" /><input class="button2" type="submit" id="action_last_images" name="action_last_images" value="{L_RUN}" /></dd>
+			</dl>
+		</form>
+
+		<!-- IF S_FOUNDER -->
+		<form id="action_purge_cache_form" method="post" action="{U_ACTION}">
+			<dl>
+				<dt><label for="action_purge_cache">{L_PURGE_CACHE}</label>
+					<br /><span>{L_GALLERY_PURGE_CACHE_EXPLAIN}</span></dt>
+				<dd><input type="hidden" name="action" value="purge_cache" /><input class="button2" type="submit" id="action_purge_cache" name="action_purge_cache" value="{L_RUN}" /></dd>
+			</dl>
+		</form>
+		<!-- ENDIF -->
+	</fieldset>
+
+	<fieldset>
+		<form id="action_reset_rating_form" method="post" action="{U_ACTION}">
+			<dl>
+				<dt><label for="reset_album_id">{L_RESET_RATING}</label>
+					<br /><span>{L_RESET_RATING_EXPLAIN}</span></dt>
+				<dd>{S_SELECT_ALBUM}
+					<input type="hidden" name="action" value="reset_rating" /><input class="button2" type="submit" id="action_reset_rating" name="action_reset_rating" value="{L_RUN}" /></dd>
+			</dl>
+		</form>
+
+		<form id="action_create_pega_form" method="post" action="{U_ACTION}">
+			<dl>
+				<dt><label for="username">{L_CREATE_USERS_PEGA}</label></dt>
+				<dd><input class="inputbox autowidth" type="text" id="username" name="username" size="15" value="" />
+					<input type="hidden" name="action" value="create_pega" /><input class="button2" type="submit" id="action_create_pega" name="action_create_pega" value="{L_CREATE}" /></dd>
+				<dd>[ <a href="{U_FIND_USERNAME}" onclick="find_username(this.href); return false;">{L_FIND_USERNAME}</a> ]</dd>
+			</dl>
+		</form>
+	</fieldset>
+<!-- ENDIF -->
+
+<!--
+	I request you retain the full copyright notice below including the link to www.flying-bits.org.
+	This not only gives respect to the large amount of time given freely by the developer
+	but also helps build interest, traffic and use of phpBB Gallery. If you (honestly) cannot retain
+	the full copyright I ask you at least leave in place the "Powered by phpBB Gallery" line, with
+	"phpBB Gallery" linked to www.flying-bits.org. If you refuse to include even this then support on my
+	forums may be affected.
+
+	phpBB Gallery, nickvergessen : 2009
+	Powered by phpBB Gallery (http://www.flying-bits.org/) &copy; 2007, 2009 nickvergessen (http://www.flying-bits.org/)
+//-->
+<!-- INCLUDE overall_footer.html -->

@@ -1,0 +1,281 @@
+<!-- INCLUDE ucp_header.html -->
+<!-- IF S_PERSONAL_SETTINGS -->
+<form id="ucp_gallery" method="post" action="{S_UCP_ACTION}">
+<h2>{L_TITLE}</h2>
+<div class="panel">
+	<div class="inner"><span class="corners-top"><span></span></span>
+		<p>{L_TITLE_EXPLAIN}</p>
+		<fieldset>
+		<dl>
+			<dt><label for="watch_own1">{L_WATCH_OWN}:</label></dt>
+			<dd>
+				<label for="watch_own1"><input type="radio" name="watch_own" id="watch_own1" value="1"<!-- IF S_WATCH_OWN --> checked="checked"<!-- ENDIF --> /> {L_YES}</label> 
+				<label for="watch_own0"><input type="radio" name="watch_own" id="watch_own0" value="0"<!-- IF not S_WATCH_OWN --> checked="checked"<!-- ENDIF --> /> {L_NO}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="watch_com1">{L_WATCH_COM}:</label></dt>
+			<dd>
+				<label for="watch_com1"><input type="radio" name="watch_com" id="watch_com1" value="1"<!-- IF S_WATCH_COM --> checked="checked"<!-- ENDIF --> /> {L_YES}</label> 
+				<label for="watch_com0"><input type="radio" name="watch_com" id="watch_com0" value="0"<!-- IF not S_WATCH_COM --> checked="checked"<!-- ENDIF --> /> {L_NO}</label>
+			</dd>
+		</dl>
+		<!-- EVENT gallery_ucp_settings_watch -->
+		<hr />
+		<!-- IF S_COMMENTS_ENABLED -->
+		<dl>
+			<dt><label for="allow_comments1">{L_USER_ALLOW_COMMENTS}:</label></dt>
+			<dd>
+				<label for="allow_comments1"><input type="radio" name="allow_comments" id="allow_comments1" value="1"<!-- IF S_ALLOW_COMMENTS --> checked="checked"<!-- ENDIF --> /> {L_YES}</label> 
+				<label for="allow_comments0"><input type="radio" name="allow_comments" id="allow_comments0" value="0"<!-- IF not S_ALLOW_COMMENTS --> checked="checked"<!-- ENDIF --> /> {L_NO}</label>
+			</dd>
+		</dl>
+		<!-- ENDIF -->
+		<!-- EVENT gallery_ucp_settings_fieldset -->
+		</fieldset>
+
+	<span class="corners-bottom"><span></span></span></div>
+</div>
+
+<!-- EVENT gallery_ucp_settings_form -->
+
+	<fieldset class="submit-buttons">
+		<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />&nbsp;
+		<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />
+		{S_FORM_TOKEN}
+	</fieldset>
+</form>
+<!-- ENDIF -->
+
+<!-- IF S_INFO_CREATE -->
+<h2>{L_TITLE}</h2>
+<div class="panel">
+	<div class="inner"><span class="corners-top"><span></span></span>
+	<p>{L_TITLE_EXPLAIN}</p>
+	<form id="ucp" method="post" action="{S_UCP_ACTION}"{S_FORM_ENCTYPE}>
+		<fieldset class="submit-buttons">
+			{S_HIDDEN_FIELDS}
+			<input type="submit" name="submit" value="{L_CREATE_PERSONAL_ALBUM}" class="button1" />
+			{S_FORM_TOKEN}
+		</fieldset>
+	</form>
+	<span class="corners-bottom"><span></span></span></div>
+</div>
+<!-- ENDIF -->
+
+<!-- IF S_CREATE_SUBALBUM || S_EDIT_SUBALBUM -->
+<form id="acp_gallery" method="post" action="{U_ACTION}">
+	<h2>{L_TITLE}</h2>
+	<div class="panel">
+		<div class="inner"><span class="corners-top"><span></span></span>
+			<p>{L_TITLE_EXPLAIN}</p>
+			<fieldset>
+			<!-- IF not S_PERSONAL_ALBUM -->
+				<dl>
+					<dt><label for="parent_id">{L_ALBUM_PARENT}:</label></dt>
+					<dd><select id="parent_id" name="parent_id">{S_PARENT_OPTIONS}</select></dd>
+				</dl>
+				<dl>
+					<dt><label for="album_name">{L_ALBUM_NAME}:</label></dt>
+					<dd><input class="inputbox" type="text" id="album_name" name="album_name" value="{ALBUM_NAME}" maxlength="255" /></dd>
+				</dl>
+			<!-- ENDIF -->
+			<!-- IF S_AUTH_ACCESS_OPTIONS -->
+				<dl>
+					<dt><label for="album_auth_access">{L_ALBUM_ACCESS}:</label><br /><span>{L_ALBUM_ACCESS_EXPLAIN}</span></dt>
+					<dd><select id="album_auth_access" name="album_auth_access">{S_AUTH_ACCESS_OPTIONS}</select></dd>
+				</dl>
+			<!-- ENDIF -->
+			<dl>
+				<dt><label for="album_desc">{L_ALBUM_DESC}:</label></dt>
+				<dd><textarea class="inputbox" id="album_desc" name="album_desc" rows="5" cols="45">{ALBUM_DESC}</textarea></dd>
+				<dd><label><input type="checkbox" class="radio" name="desc_parse_bbcode"<!-- IF S_DESC_BBCODE_CHECKED --> checked="checked"<!-- ENDIF --> /> {L_PARSE_BBCODE}</label>
+					<label><input type="checkbox" class="radio" name="desc_parse_smilies"<!-- IF S_DESC_SMILIES_CHECKED --> checked="checked"<!-- ENDIF --> /> {L_PARSE_SMILIES}</label>
+					<label><input type="checkbox" class="radio" name="desc_parse_urls"<!-- IF S_DESC_URLS_CHECKED --> checked="checked"<!-- ENDIF --> /> {L_PARSE_URLS}</label></dd>
+			</dl>
+			</fieldset>
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+	<fieldset class="submit-buttons">
+		<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />&nbsp;
+		<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />
+		{S_FORM_TOKEN}
+	</fieldset>
+</form>
+<!-- ENDIF -->
+
+<!-- IF S_MANAGE_SUBALBUMS -->
+<h2>{L_TITLE}</h2>
+<div class="panel">
+	<div class="inner"><span class="corners-top"><span></span></span>
+	<p><strong>{NAVIGATION}<!-- IF S_ALBUM --> [<a href="{U_EDIT}">{L_EDIT}</a> | <a href="{U_DELETE}">{L_DELETE}</a> | <a href="{U_GOTO}">{L_GOTO}</a> | <a href="{U_UPLOAD}">{L_UPLOAD_IMAGE}</a>]<!-- ENDIF --></strong></p>
+	<ul class="topiclist">
+		<li class="header">
+			<dl class="icon">
+				<dt><!-- IF .album_row -->{L_ATTACHED_SUBALBUMS}<!-- ELSEIF U_CREATE_SUBALBUM -->{L_NO_SUBALBUMS}<!-- ENDIF --></dt>
+			</dl>
+		</li>
+	</ul>
+	<!-- IF .album_row -->
+	<ul class="topiclist cplist">
+		<!-- BEGIN album_row -->
+		<li class="row<!-- IF album_row.S_ROW_COUNT is odd --> bg1<!-- ELSE --> bg2<!-- ENDIF -->">
+			<dl class="icon" style="background-image: url({album_row.FOLDER_IMAGE}); background-repeat: no-repeat;">
+				<dt title="{album_row.ALBUM_NAME}">
+					<!-- IF album_row.FORUM_IMAGE --><div style="float: {S_CONTENT_FLOW_BEGIN}; margin-right: 5px;">{album_row.FORUM_IMAGE}</div><!-- ENDIF -->
+					<a href="{album_row.U_ALBUM}" class="topictitle">{album_row.ALBUM_NAME}</a>
+					<!-- IF album_row.ALBUM_DESCRIPTION --><br />{album_row.ALBUM_DESCRIPTION}<!-- ENDIF -->
+				</dt>
+				<dd class="mark" style="width: 120px;">
+					<!-- IF album_row.S_FIRST_ROW && not album_row.S_LAST_ROW -->
+						{ICON_MOVE_UP_DISABLED}
+						<a href="{album_row.U_MOVE_DOWN}">{ICON_MOVE_DOWN}</a>
+					<!-- ELSEIF not album_row.S_FIRST_ROW && not album_row.S_LAST_ROW-->
+						<a href="{album_row.U_MOVE_UP}">{ICON_MOVE_UP}</a>
+						<a href="{album_row.U_MOVE_DOWN}">{ICON_MOVE_DOWN}</a>
+					<!-- ELSEIF album_row.S_LAST_ROW && not album_row.S_FIRST_ROW -->
+						<a href="{album_row.U_MOVE_UP}">{ICON_MOVE_UP}</a>
+						{ICON_MOVE_DOWN_DISABLED}
+					<!-- ELSE -->
+						{ICON_MOVE_UP_DISABLED}
+						{ICON_MOVE_DOWN_DISABLED}
+					<!-- ENDIF -->
+					<a href="{album_row.U_EDIT}">{ICON_EDIT}</a>
+					<a href="{album_row.U_DELETE}">{ICON_DELETE}</a>
+				</dd>
+			</dl>
+		</li>
+		<!-- END album_row -->
+	</ul>
+	<!-- ENDIF -->
+	<!-- IF U_CREATE_SUBALBUM -->
+		<form id="albums" method="post" action="{U_CREATE_SUBALBUM}">
+
+			<fieldset class="quick">
+				<!--input type="hidden" name="action" value="add" /-->
+				<input class="button2" name="addforum" type="submit" value="{L_CREATE_SUBALBUM}" />
+				{S_FORM_TOKEN}
+			</fieldset>
+		</form>
+	<!-- ENDIF -->
+	<span class="corners-bottom"><span></span></span></div>
+</div>
+<!-- ENDIF -->
+
+<!-- IF S_MANAGE_SUBSCRIPTIONS -->
+<h2>{L_TITLE}</h2>
+<div class="panel">
+	<div class="inner"><span class="corners-top"><span></span></span>
+	<p>{L_TITLE_EXPLAIN}</p>
+	<form id="ucp_gallery" method="post" action="{S_UCP_ACTION}">
+				<!-- IF .album_row -->
+					<ul class="topiclist">
+						<li class="header">
+							<dl>
+								<dt>{L_ALBUMS}</dt>
+								<dd class="moderation">{L_LAST_IMAGE}</dd>
+								<dd class="mark">{L_MARK}</dd>
+							</dl>
+						</li>
+					</ul>
+
+					<ul class="topiclist cplist">
+					<!-- BEGIN album_row -->
+						<li class="row<!-- IF album_row.S_ROW_COUNT is odd --> bg1<!-- ELSE --> bg2<!-- ENDIF --><!-- IF album_row.S_REPORTED --> reported<!-- ENDIF -->">
+							<dl>
+								<dt>
+									<a href="{album_row.U_VIEW_ALBUM}" class="topictitle">{album_row.ALBUM_NAME}</a><br />
+									<span>{album_row.ALBUM_DESC}</span>
+								</dt>
+								<!-- IF album_row.LAST_IMAGE -->
+									<dd class="g_moderation moderation">
+										<!-- IF album_row.UC_FAKE_THUMBNAIL --><span style="float: left; text-align: center; width: {FAKE_THUMB_SIZE}px; padding-right: 5px;">{album_row.UC_FAKE_THUMBNAIL}</span><!-- ENDIF -->
+										<dfn>{L_LAST_IMAGE}</dfn> {album_row.UC_IMAGE_NAME}
+										{L_POST_BY_AUTHOR} {album_row.UPLOADER}<br />
+										{album_row.LAST_IMAGE_TIME}
+									</dd>
+								<!-- ENDIF -->
+								<dd class="mark"><input type="checkbox" name="album_id_ary[]" value="{album_row.ALBUM_ID}" /></dd>
+							</dl>
+						</li>
+					<!-- END album_row -->
+					</ul>
+					<div><a href="#" onclick="marklist('ucp_gallery', 'album_id_ary', true); return false;">{L_MARK_ALL}</a> :: <a href="#" onclick="marklist('ucp_gallery', 'album_id_ary', false); return false;">{L_UNMARK_ALL}</a><br /></div>
+				<!-- ENDIF -->
+
+			<!-- IF .image_row -->
+				<ul class="topiclist">
+					<li class="header">
+						<dl>
+							<dt>{L_IMAGES}</dt>
+							<dd class="moderation">{L_LAST_COMMENT}</dd>
+							<dd class="mark">{L_MARK}</dd>
+						</dl>
+					</li>
+				</ul>
+
+				<ul class="topiclist cplist">
+				<!-- BEGIN image_row -->
+					<li class="row<!-- IF image_row.S_ROW_COUNT is odd --> bg1<!-- ELSE --> bg2<!-- ENDIF --><!-- IF image_row.S_REPORTED --> reported<!-- ENDIF -->">
+						<dl>
+							<dt>
+								<!-- IF image_row.UC_FAKE_THUMBNAIL --><span style="float: left; text-align: center; width: {FAKE_THUMB_SIZE}px; padding-right: 5px;">{image_row.UC_FAKE_THUMBNAIL}</span><!-- ENDIF -->
+								<dfn>{L_LAST_IMAGE}</dfn> {image_row.UC_IMAGE_NAME}<br />
+								{L_UPLOADED_BY_USER} {image_row.UPLOADER}<br />
+								{image_row.IMAGE_TIME}<br />
+								{L_ALBUM}: <a href="{image_row.U_VIEW_ALBUM}" style="font-weight: bold;">{image_row.ALBUM_NAME}</a>
+							</dt>
+								<dd class="moderation">
+									<!-- IF image_row.COMMENT -->
+										<span>{L_POST_BY_AUTHOR} {image_row.LAST_COMMENT_BY}<br />
+										{image_row.LAST_COMMENT_TIME}</span>
+									<!-- ELSE -->&nbsp;<!-- ENDIF -->
+								</dd>
+							<dd class="mark"><input type="checkbox" name="image_id_ary[]" value="{image_row.IMAGE_ID}" /></dd>
+						</dl>
+					</li>
+				<!-- END image_row -->
+				</ul>
+				<div><a href="#" onclick="marklist('ucp_gallery', 'image_id_ary', true); return false;">{L_MARK_ALL}</a> :: <a href="#" onclick="marklist('ucp_gallery', 'image_id_ary', false); return false;">{L_UNMARK_ALL}</a></div>
+			<!-- ELSE -->
+				<ul class="topiclist">
+					<li><p class="notopics">{L_NO_SUBSCRIPTIONS}</p></li>
+				</ul>
+			<!-- ENDIF -->
+
+			<!-- IF PAGINATION or TOTAL_IMAGES -->
+				<ul class="linklist">
+					<li class="rightside pagination">
+						<!-- IF TOTAL_IMAGES --> {TOTAL_IMAGES}<!-- ENDIF -->
+						<!-- IF PAGE_NUMBER --><!-- IF PAGINATION --> &bull; <a href="#" onclick="jumpto(); return false;" title="{L_JUMP_TO_PAGE}">{PAGE_NUMBER}</a> &bull; <span>{PAGINATION}</span><!-- ELSE --> &bull; {PAGE_NUMBER}<!-- ENDIF --><!-- ENDIF -->
+					</li>
+				</ul>
+			<!-- ENDIF -->
+
+		<fieldset class="display-actions">
+			<select name="action">
+				<option value="" selected="selected">{L_CHOOSE_ACTION}</option>
+				<option value="unsubscribe">{L_UNSUBSCRIBE}</option>
+			</select>
+			<input class="button2" type="submit" value="{L_SUBMIT}" />
+		</fieldset>
+	</form>
+	<span class="corners-bottom"><span></span></span></div>
+</div>
+<!-- ENDIF -->
+
+<!--
+	I request you retain the full copyright notice below including the link to www.flying-bits.org.
+	This not only gives respect to the large amount of time given freely by the developer
+	but also helps build interest, traffic and use of phpBB Gallery. If you (honestly) cannot retain
+	the full copyright I ask you at least leave in place the "Powered by phpBB Gallery" line, with
+	"phpBB Gallery" linked to www.flying-bits.org. If you refuse to include even this then support on my
+	forums may be affected.
+
+	phpBB Gallery, nickvergessen : 2009
+//-->
+<div class="copyright">
+	Powered by <a href="http://www.flying-bits.org/">phpBB Gallery</a> &copy; 2007, 2009 <a href="http://www.flying-bits.org/">nickvergessen</a>
+	<!-- IF GALLERY_TRANSLATION_INFO --><br />{GALLERY_TRANSLATION_INFO}<!-- ENDIF -->
+</div>
+<!-- INCLUDE ucp_footer.html -->

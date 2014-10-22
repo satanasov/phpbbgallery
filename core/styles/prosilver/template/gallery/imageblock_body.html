@@ -1,0 +1,68 @@
+<!-- BEGIN imageblock -->
+<div class="forumbg">
+	<div class="inner">
+		<span class="corners-top"><span></span></span>
+		<ul class="topiclist">
+			<li class="header">
+				<dl class="icon">
+					<dt><!-- IF imageblock.U_BLOCK --><a href="{imageblock.U_BLOCK}">{imageblock.BLOCK_NAME}</a><!-- ELSE -->{imageblock.BLOCK_NAME}<!-- ENDIF --></dt>
+				</dl>
+			</li>
+		</ul>
+		<ul class="topiclist topics">
+			<li class="bg2">
+				<table style="width: 100%;" border="0" class="forumline">
+					<!-- BEGIN imagerow -->
+					<tr>
+						<!-- BEGIN image -->
+						<td style="vertical-align: top; width: {imageblock.S_COL_WIDTH}; padding: 10px;">
+							<table style="width: 100%;" class="bg2 forumline">
+								<tr>
+									<td style="vertical-align: middle; text-align: center; height: {S_THUMBNAIL_SIZE}px;" class="bg1<!-- IF imageblock.imagerow.image.S_UNAPPROVED --> g_unapproved<!-- ENDIF --><!-- IF imageblock.imagerow.image.S_LOCKED --> g_locked<!-- ENDIF --><!-- IF imageblock.imagerow.image.S_REPORTED --> g_reported<!-- ENDIF -->">
+										<span class="genmed">{imageblock.imagerow.image.UC_THUMBNAIL}</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="bg2" style="vertical-align: top;">
+										<div class="gensmall" style="overflow: hidden;">
+											<!-- IF imageblock.imagerow.image.CONTEST_RANK -->{L_CONTEST_RESULT}: <strong>{imageblock.imagerow.image.CONTEST_RANK}</strong><br /><!-- ENDIF -->
+											<!-- IF imageblock.imagerow.image.UC_IMAGE_NAME -->{L_IMAGE_NAME}: {imageblock.imagerow.image.UC_IMAGE_NAME}<br /><!-- ENDIF -->
+											<!-- IF imageblock.imagerow.image.U_ALBUM -->{L_ALBUM_NAME}: <a href="{imageblock.imagerow.image.U_ALBUM}" style="font-weight: bold;" title="{imageblock.imagerow.image.ALBUM_NAME_FULL}">{imageblock.imagerow.image.ALBUM_NAME}</a><br /><!-- ENDIF -->
+											<!-- IF imageblock.imagerow.image.POSTER -->{L_UPLOADED_BY_USER}: {imageblock.imagerow.image.POSTER}<br /><!-- ENDIF -->
+											<!-- IF imageblock.imagerow.image.TIME -->{L_UPLOADED_ON_DATE}: {imageblock.imagerow.image.TIME}<br /><!-- ENDIF -->
+											<!-- IF imageblock.imagerow.image.VIEW > -1 -->{L_GALLERY_VIEWS}: {imageblock.imagerow.image.VIEW}<br /><!-- ENDIF -->
+											<!-- IF imageblock.imagerow.image.S_RATINGS -->{L_RATING}: <a href="{imageblock.imagerow.image.U_RATINGS}">{imageblock.imagerow.image.S_RATINGS}</a><br /><!-- ENDIF -->
+											<!-- IF imageblock.imagerow.image.S_COMMENTS -->{imageblock.imagerow.image.L_COMMENTS}: <a href="{imageblock.imagerow.image.U_COMMENTS}">{imageblock.imagerow.image.S_COMMENTS}</a><br /><!-- ENDIF -->
+											<!-- IF imageblock.imagerow.image.S_IP -->{L_IP}: {imageblock.imagerow.image.S_IP} &#187; <a href="{imageblock.imagerow.image.U_WHOIS}" onclick="popup(this.href, 750, 500); return false;">{L_WHOIS}</a><br /><!-- ENDIF -->
+											<!-- IF imageblock.imagerow.image.U_REPORT or imageblock.imagerow.image.U_STATUS or imageblock.imagerow.image.U_MOVE or  imageblock.imagerow.image.U_EDIT or imageblock.imagerow.image.U_DELETE -->
+											<a href="javascript: dE('moderate_imageblock_{imageblock.S_ROW_COUNT}_imagerow_{imageblock.imagerow.image.IMAGE_ID}');">{L_MODERATE}</a>
+											<div id="moderate_imageblock_{imageblock.S_ROW_COUNT}_imagerow_{imageblock.imagerow.image.IMAGE_ID}" style="display: none;">
+												<!-- IF imageblock.imagerow.image.U_REPORT -->&#187; <a href="{imageblock.imagerow.image.U_REPORT}" class="reported-images-number">{L_READ_REPORT}</a><br /><!-- ENDIF -->
+												<!-- IF imageblock.imagerow.image.U_STATUS -->&#187; <a href="{imageblock.imagerow.image.U_STATUS}">{imageblock.imagerow.image.L_STATUS}</a><br /><!-- ENDIF -->
+												<!-- IF imageblock.imagerow.image.U_MOVE -->&#187; <a href="{imageblock.imagerow.image.U_MOVE}">{L_MOVE}</a><br /><!-- ENDIF -->
+												<!-- IF imageblock.imagerow.image.U_EDIT -->&#187; <a href="{imageblock.imagerow.image.U_EDIT}">{L_EDIT_IMAGE}</a><br /><!-- ENDIF -->
+												<!-- IF imageblock.imagerow.image.U_DELETE -->&#187; <a href="{imageblock.imagerow.image.U_DELETE}">{L_DELETE_IMAGE}</a><br /><!-- ENDIF -->
+											</div>
+											<!-- ENDIF -->
+										</div>
+									</td>
+								</tr>
+							</table>
+						</td>
+						<!-- END image -->
+						<!-- BEGIN no_image --> 
+							<td class="bg2"  style="vertical-align: top; width: {imageblock.S_COL_WIDTH};">
+								<table width="100%" cellpadding="2" cellspacing="10" border="0" class="forumline"><tr>
+								<td style="height: {S_THUMBNAIL_SIZE}px;" class="bg1"></td>
+								</tr></table>
+							</td> 
+						<!-- END no_image -->
+					</tr>
+					<!-- END imagerow -->
+				</table>
+			</li>
+		</ul>
+		<span class="corners-bottom"><span></span></span>
+	</div>
+</div>
+<!-- END imageblock -->
