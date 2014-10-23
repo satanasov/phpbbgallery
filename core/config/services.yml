@@ -14,6 +14,10 @@ parameters:
     tables.phpbbgallery.users: %core.table_prefix%gallery_users
 
 services:
+    phpbbgallery.core.album:
+        class: phpbbgallery\core\album\album
+    phpbbgallery.core.misc:
+        class: phpbbgallery\core\misc
     phpbbgallery.core.album.display:
         class: phpbbgallery\core\album\display
         arguments:
@@ -85,7 +89,15 @@ services:
             - @dbal.conn
             - @dispatcher
             - %tables.phpbbgallery.users%
-
+    phpbbgallery.core.controller.upload:
+        class: phpbbgallery\core\controller\upload
+        arguments:
+            - @user
+            - @phpbbgallery.core.album
+            - @phpbbgallery.core.misc
+            - @phpbbgallery.core.auth
+            - @phpbbgallery.core.album.display
+            - @controller.helper
     phpbbgallery.core.controller.album:
         class: phpbbgallery\core\controller\album
         arguments:
@@ -146,3 +158,7 @@ services:
             - @phpbbgallery.core.album.display
             - %core.root_path%
             - %core.php_ext%
+    phpbbgallery.core.config:
+        class: phpbbgallery\core\config
+        arguments:
+            - @config

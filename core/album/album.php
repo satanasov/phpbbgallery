@@ -22,6 +22,14 @@ class album
 	const STATUS_LOCKED		= 1;
 
 	/**
+	* Get locked
+	*/
+	static public function status_locked()
+	{
+		return 1;
+	}
+	
+	/**
 	* Get album information
 	*/
 	static public function get_info($album_id, $extended_info = true)

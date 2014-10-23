@@ -178,4 +178,9 @@ class config
 		$old = $this->config['phpbb_gallery_' . $name];
 		$this->config->set('phpbb_gallery_' . $name, ((int) $old + (int) $value));
 	}
+	public function dec($name, $value)
+	{
+		$old = $this->config['phpbb_gallery_' . $name];
+		$this->config->set('phpbb_gallery_' . $name, ((int) $old - (int) $value));
+	}
 }

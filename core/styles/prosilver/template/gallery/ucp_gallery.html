@@ -120,7 +120,8 @@
 	<ul class="topiclist cplist">
 		<!-- BEGIN album_row -->
 		<li class="row<!-- IF album_row.S_ROW_COUNT is odd --> bg1<!-- ELSE --> bg2<!-- ENDIF -->">
-			<dl class="icon" style="background-image: url({album_row.FOLDER_IMAGE}); background-repeat: no-repeat;">
+			<!--<dl class="icon" style="background-image: url({album_row.FOLDER_IMAGE}); background-repeat: no-repeat;"> -->
+			<dl class="icon" style="background-repeat: no-repeat;">
 				<dt title="{album_row.ALBUM_NAME}">
 					<!-- IF album_row.FORUM_IMAGE --><div style="float: {S_CONTENT_FLOW_BEGIN}; margin-right: 5px;">{album_row.FORUM_IMAGE}</div><!-- ENDIF -->
 					<a href="{album_row.U_ALBUM}" class="topictitle">{album_row.ALBUM_NAME}</a>
