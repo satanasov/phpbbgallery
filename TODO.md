@@ -10,3 +10,5 @@ TO DO:
 	\phpbbgallery\acp\permissions_module
 		- Copy permissions from other album not working
 	
+	\phpbbgallery\core\gallery\upload
+		- Make it work
