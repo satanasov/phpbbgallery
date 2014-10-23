@@ -22,8 +22,16 @@ class main_info
 			'title'		=> 'PHPBB_GALLERY',
 			'version'	=> '1.0.0',
 			'modes'		=> array(
-				'manage_albums'			=> array('title' => 'UCP_GALLERY_PERSONAL_ALBUMS', 'auth' => 'ext_phpbbgallery/core', 'cat' => array('PHPBB_GALLERY')),
-				'manage_subscriptions'	=> array('title' => 'UCP_GALLERY_WATCH', 'auth' => 'ext_phpbbgallery/core', 'cat' => array('PHPBB_GALLERY')),
+				'manage_albums'			=> array(
+					'title' => 'UCP_GALLERY_PERSONAL_ALBUMS', 
+					'auth' => 'ext_phpbbgallery/core', 
+					'cat' => array('PHPBB_GALLERY')
+				),
+				'manage_subscriptions'	=> array(
+					'title' => 'UCP_GALLERY_WATCH', 
+					'auth' => 'ext_phpbbgallery/core', 
+					'cat' => array('PHPBB_GALLERY')
+				),
 			),
 		);
 	}

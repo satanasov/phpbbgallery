@@ -41,9 +41,11 @@ class albums_module
 		$user->add_lang_ext('phpbbgallery/core', array('gallery_acp', 'gallery'));
 		
 		// Init auth
-		$gallery_cache = new \phpbbgallery\core\cache($cache, $db);
-		$gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $table_name);
-		$phpbb_ext_gallery_core_auth = new \phpbbgallery\core\auth\auth($gallery_cache, $db, $gallery_user, $permissions_table, $roles_table, $users_table);
+		//$gallery_cache = new \phpbbgallery\core\cache($cache, $db);
+		//$gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $table_name);
+		$gallery_user = $phpbb_container->get('phpbbgallery.core.user');
+		//$phpbb_ext_gallery_core_auth = new \phpbbgallery\core\auth\auth($gallery_cache, $db, $gallery_user, $permissions_table, $roles_table, $users_table);
+		$phpbb_ext_gallery_core_auth = $phpbb_container->get('phpbbgallery.core.auth');
 		
 		// Init manage albums
 		$manage_albums = new \phpbbgallery\core\album\manage(request_var('user_id', 0), request_var('parent_id', 0), $this->u_action);
@@ -51,8 +53,7 @@ class albums_module
 		// Init album
 		$phpbb_ext_gallery_core_album = new \phpbbgallery\core\album\album();
 		
-		// Init album display
-		$phpbb_ext_gallery_core_album_display = new \phpbbgallery\core\album\display($auth, $config, $helper, $db, $pagination, $request, $template, $user, $phpbb_ext_gallery_core_auth, $gallery_user, $phpbb_root_path, $phpEx, $albums_table, $contests_table, $moderators_table, $tracking_table);
+		$phpbb_ext_gallery_core_album_display = $phpbb_container->get('phpbbgallery.core.album.display');
 		
 		// Init contest
 		$phpbb_gallery_contest = new \phpbbgallery\core\contest();
@@ -610,7 +611,7 @@ class albums_module
 		{
 			$navigation = '<a href="' . $this->u_action . '">' . $user->lang['GALLERY_INDEX'] . '</a>';
 
-			$albums_nav = phpbb_ext_gallery_core_album_display::get_branch(phpbb_ext_gallery_core_album::PUBLIC_ALBUM, $this->parent_id, 'parents', 'descending');
+			$albums_nav = $phpbb_ext_gallery_core_album_display->get_branch($phpbb_ext_gallery_core_album::PUBLIC_ALBUM, $this->parent_id, 'parents', 'descending');
 			foreach ($albums_nav as $row)
 			{
 				if ($row['album_id'] == $this->parent_id)
@@ -678,7 +679,7 @@ class albums_module
 		}
 		else if ($this->parent_id)
 		{
-			$row = phpbb_ext_gallery_core_album::get_info($this->parent_id);
+			$row = $phpbb_ext_gallery_core_album->get_info($this->parent_id);
 
 			$url = $this->u_action . '&amp;parent_id=' . $this->parent_id . '&amp;a=' . $row['album_id'];
 

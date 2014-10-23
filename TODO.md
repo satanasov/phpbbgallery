@@ -1,4 +1,8 @@
 TO DO:
+	ALL:
+		- Change class definition with $phpbb_container->get('service');
+		- Move class definition in main as globals
+
 	\phpbbgallery\core\album\manage 
 		- Contest times should be in UTC
 		- Make log log to gallery log actions
