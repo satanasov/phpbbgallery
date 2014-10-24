@@ -178,6 +178,7 @@ class auth
 
 		while ($row = $this->db->sql_fetchrow($result))
 		{
+
 			switch ($row['perm_system'])
 			{
 				case self::PERSONAL_ALBUM:
@@ -258,7 +259,7 @@ class auth
 			// The album we have permissions for does not exist any more, so do nothing.
 			return;
 		}
-
+		
 		foreach (self::$_permissions as $permission)
 		{
 			if (strpos($permission, '_count') === false)
@@ -491,7 +492,7 @@ class auth
 		$p_id = $a_id;
 		if ($u_id)
 		{
-
+			$this->user->set_user_id($u_id);
 			if ($this->user->is_user($u_id))
 			{
 				$p_id = self::OWN_ALBUM;

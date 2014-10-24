@@ -41,6 +41,14 @@ class image
 	* The image is element of an open contest. Only moderators can see the user_name of the user.
 	*/
 	const IN_CONTEST = 1;
+	
+	/**
+	* return int orphan status
+	*/
+	public function get_status_orphan()
+	{
+		return 3;
+	}
 
 	public function get_new_author_info($username)
 	{

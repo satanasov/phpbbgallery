@@ -8,16 +8,9 @@
 *
 */
 
-/**
-* @ignore
-*/
+namespace phpbbgallery\core;
 
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-class phpbb_ext_gallery_core_upload
+class upload
 {
 	/**
 	* Number of Files per Directory
@@ -59,16 +52,17 @@ class phpbb_ext_gallery_core_upload
 	*/
 	public function __construct($album_id, $num_files = 0)
 	{
-		global $user, $phpbb_ext_gallery;
+		global $auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path, $phpbb_ext_gallery, $phpbb_container, $phpbb_ext_gallery_config;
+		
+		$phpbb_ext_gallery = new \phpbbgallery\core\core($auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path);
+		$phpbb_ext_gallery->init();
+		
+		$phpbb_ext_gallery_config = $phpbb_container->get('phpbbgallery.core.config');
+		
+		$this->upload = new \phpbbgallery\core\upload\fileupload();
+		$this->upload->fileupload('', self::get_allowed_types(), (4 * $phpbb_ext_gallery_config->get('max_filesize')));
 
-		if (!class_exists('fileupload'))
-		{
-			$phpbb_ext_gallery->url->_include('functions_upload', 'phpbb');
-		}
-		$this->upload = new fileupload();
-		$this->upload->fileupload('', self::get_allowed_types(), (4 * $phpbb_ext_gallery->config->get('max_filesize')));
-
-		$this->tools = new phpbb_ext_gallery_core_file($phpbb_ext_gallery->config->get('gdlib_version'));
+		$this->tools = new \phpbbgallery\core\file\file($phpbb_ext_gallery_config->get('gdlib_version'));
 
 		$this->album_id = (int) $album_id;
 		$this->file_limit = (int) $num_files;
@@ -86,7 +80,9 @@ class phpbb_ext_gallery_core_upload
 			return false;
 		}
 		$this->file_count = (int) $file_count;
+
 		$this->file = $this->upload->form_upload('image_file_' . $this->file_count);
+		
 		if (!$this->file->uploadname)
 		{
 			return false;
@@ -273,10 +269,10 @@ class phpbb_ext_gallery_core_upload
 	*/
 	public function prepare_file()
 	{
-		global $user, $phpbb_ext_gallery, $phpbb_dispatcher;
+		global $user, $phpbb_ext_gallery, $phpbb_dispatcher, $phpbb_ext_gallery_config;
 
-		$upload_dir = self::get_current_upload_dir();
-
+		$upload_dir = $this->get_current_upload_dir();
+var_dump($upload_dir);
 		// Rename the file, move it to the correct location and set chmod
 		if (!$upload_dir)
 		{
@@ -305,14 +301,14 @@ class phpbb_ext_gallery_core_upload
 		$vars = array('additional_sql_data', 'file');
 		extract($phpbb_dispatcher->trigger_event('gallery.core.upload.prepare_file_before', compact($vars)));
 
-		$this->tools->set_image_options($phpbb_ext_gallery->config->get('max_filesize'), $phpbb_ext_gallery->config->get('max_height'), $phpbb_ext_gallery->config->get('max_width'));
+		$this->tools->set_image_options($phpbb_ext_gallery_config->get('max_filesize'), $phpbb_ext_gallery_config->get('max_height'), $phpbb_ext_gallery_config->get('max_width'));
 		$this->tools->set_image_data($this->file->destination_file, '', $this->file->filesize, true);
 
 
 		// Rotate the image
-		if ($phpbb_ext_gallery->config->get('allow_rotate') && $this->get_rotating())
+		if ($phpbb_ext_gallery_config->get('allow_rotate') && $this->get_rotating())
 		{
-			$this->tools->rotate_image($this->get_rotating(), $phpbb_ext_gallery->config->get('allow_resize'));
+			$this->tools->rotate_image($this->get_rotating(), $phpbb_ext_gallery_config->get('allow_resize'));
 			if ($this->tools->rotated)
 			{
 				$this->file->height = $this->tools->image_size['height'];
@@ -321,11 +317,11 @@ class phpbb_ext_gallery_core_upload
 		}
 
 		// Resize oversized images
-		if (($this->file->width > $phpbb_ext_gallery->config->get('max_width')) || ($this->file->height > $phpbb_ext_gallery->config->get('max_height')))
+		if (($this->file->width > $phpbb_ext_gallery_config->get('max_width')) || ($this->file->height > $phpbb_ext_gallery_config->get('max_height')))
 		{
-			if ($phpbb_ext_gallery->config->get('allow_resize'))
+			if ($phpbb_ext_gallery_config->get('allow_resize'))
 			{
-				$this->tools->resize_image($phpbb_ext_gallery->config->get('max_width'), $phpbb_ext_gallery->config->get('max_height'));
+				$this->tools->resize_image($phpbb_ext_gallery_config->get('max_width'), $phpbb_ext_gallery_config->get('max_height'));
 				if ($this->tools->resized)
 				{
 					$this->file->height = $this->tools->image_size['height'];
@@ -342,7 +338,7 @@ class phpbb_ext_gallery_core_upload
 			}
 		}
 
-		if ($this->file->filesize > (1.2 * $phpbb_ext_gallery->config->get('max_filesize')))
+		if ($this->file->filesize > (1.2 * $phpbb_ext_gallery_config->get('max_filesize')))
 		{
 			global $user;
 
@@ -393,8 +389,12 @@ class phpbb_ext_gallery_core_upload
 	*/
 	public function file_to_database($additional_sql_ary)
 	{
-		global $user, $db;
-
+		global $user, $db, $table_prefix;
+		
+		$images_table = $table_prefix . 'gallery_images';
+		$phpbb_ext_gallery_core_image = new \phpbbgallery\core\image\image();
+		
+		
 		$image_name = str_replace("_", " ", utf8_substr($this->file->uploadname, 0, utf8_strrpos($this->file->uploadname, '.')));
 
 		$sql_ary = array_merge(array(
@@ -411,15 +411,15 @@ class phpbb_ext_gallery_core_upload
 			'image_user_ip'			=> $user->ip,
 
 			'image_album_id'		=> $this->album_id,
-			'image_status'			=> phpbb_ext_gallery_core_image::STATUS_ORPHAN,
-			'image_contest'			=> phpbb_ext_gallery_core_image::NO_CONTEST,
+			'image_status'			=> $phpbb_ext_gallery_core_image::STATUS_ORPHAN,
+			'image_contest'			=> $phpbb_ext_gallery_core_image::NO_CONTEST,
 			'image_allow_comments'	=> $this->allow_comments,
 			'image_desc'			=> '',
 			'image_desc_uid'		=> '',
 			'image_desc_bitfield'	=> '',
 		), $additional_sql_ary);
 
-		$sql = 'INSERT INTO ' . GALLERY_IMAGES_TABLE . ' ' . $db->sql_build_array('INSERT', $sql_ary);
+		$sql = 'INSERT INTO ' . $images_table . ' ' . $db->sql_build_array('INSERT', $sql_ary);
 		$db->sql_query($sql);
 
 		$image_id = (int) $db->sql_nextid();
@@ -457,29 +457,32 @@ class phpbb_ext_gallery_core_upload
 
 	static private function get_current_upload_dir()
 	{
-		global $phpbb_ext_gallery;
+		global $phpbb_ext_gallery, $phpbb_ext_gallery_config, $phpbb_root_path, $phpEx;
+
+		$phpbb_ext_gallery_url = new \phpbbgallery\core\url($phpbb_root_path, $phpEx);
 
 		if (self::NUM_FILES_PER_DIR <= 0)
 		{
 			return 0;
 		}
 
-		$phpbb_ext_gallery->config->inc('current_upload_dir_size', 1);
-		if ($phpbb_ext_gallery->config->get('current_upload_dir_size') >= self::NUM_FILES_PER_DIR)
+		$phpbb_ext_gallery_config->inc('current_upload_dir_size', 1);
+		if ($phpbb_ext_gallery_config->get('current_upload_dir_size') >= self::NUM_FILES_PER_DIR)
 		{
-			$phpbb_ext_gallery->config->set('current_upload_dir_size', 0, true);
-			$phpbb_ext_gallery->config->inc('current_upload_dir', 1);
-			mkdir($phpbb_ext_gallery->url->path('upload') . $phpbb_ext_gallery->config->get('current_upload_dir'));
-			mkdir($phpbb_ext_gallery->url->path('medium') . $phpbb_ext_gallery->config->get('current_upload_dir'));
-			mkdir($phpbb_ext_gallery->url->path('thumbnail') . $phpbb_ext_gallery->config->get('current_upload_dir'));
-			copy($phpbb_ext_gallery->url->path('upload') . 'index.htm', $phpbb_ext_gallery->url->path('upload') . $phpbb_ext_gallery->config->get('current_upload_dir') . '/index.htm');
-			copy($phpbb_ext_gallery->url->path('upload') . 'index.htm', $phpbb_ext_gallery->url->path('medium') . $phpbb_ext_gallery->config->get('current_upload_dir') . '/index.htm');
-			copy($phpbb_ext_gallery->url->path('upload') . 'index.htm', $phpbb_ext_gallery->url->path('thumbnail') . $phpbb_ext_gallery->config->get('current_upload_dir') . '/index.htm');
-			copy($phpbb_ext_gallery->url->path('upload') . '.htaccess', $phpbb_ext_gallery->url->path('upload') . $phpbb_ext_gallery->config->get('current_upload_dir') . '/.htaccess');
-			copy($phpbb_ext_gallery->url->path('upload') . '.htaccess', $phpbb_ext_gallery->url->path('medium') . $phpbb_ext_gallery->config->get('current_upload_dir') . '/.htaccess');
-			copy($phpbb_ext_gallery->url->path('upload') . '.htaccess', $phpbb_ext_gallery->url->path('thumbnail') . $phpbb_ext_gallery->config->get('current_upload_dir') . '/.htaccess');
+			$phpbb_ext_gallery_config->set('current_upload_dir_size', 0, true);
+			$phpbb_ext_gallery_config->inc('current_upload_dir', 1);
+			mkdir($phpbb_ext_gallery_url->path('upload') . $phpbb_ext_gallery_config->get('current_upload_dir'));
+			mkdir($phpbb_ext_gallery_url->path('medium') . $phpbb_ext_gallery_config->get('current_upload_dir'));
+			mkdir($phpbb_ext_gallery_url->path('thumbnail') . $phpbb_ext_gallery_config->get('current_upload_dir'));
+			copy($phpbb_ext_gallery_url->path('upload') . 'index.htm', $phpbb_ext_gallery_url->path('upload') . $phpbb_ext_gallery_config->get('current_upload_dir') . '/index.htm');
+			copy($phpbb_ext_gallery_url->path('upload') . 'index.htm', $phpbb_ext_gallery_url->path('medium') . $phpbb_ext_gallery_config->get('current_upload_dir') . '/index.htm');
+			copy($phpbb_ext_gallery_url->path('upload') . 'index.htm', $phpbb_ext_gallery_url->path('thumbnail') . $phpbb_ext_gallery_config->get('current_upload_dir') . '/index.htm');
+			copy($phpbb_ext_gallery_url->path('upload') . '.htaccess', $phpbb_ext_gallery_url->path('upload') . $phpbb_ext_gallery_config->get('current_upload_dir') . '/.htaccess');
+			copy($phpbb_ext_gallery_url->path('upload') . '.htaccess', $phpbb_ext_gallery_url->path('medium') . $phpbb_ext_gallery_config->get('current_upload_dir') . '/.htaccess');
+			copy($phpbb_ext_gallery_url->path('upload') . '.htaccess', $phpbb_ext_gallery_url->path('thumbnail') . $phpbb_ext_gallery_config->get('current_upload_dir') . '/.htaccess');
 		}
-		return $phpbb_ext_gallery->config->get('current_upload_dir');
+		var_dump($phpbb_ext_gallery_config->get('current_upload_dir'));
+		return $phpbb_ext_gallery_config->get('current_upload_dir');
 	}
 
 	public function quota_error()
@@ -613,26 +616,26 @@ class phpbb_ext_gallery_core_upload
 	*/
 	static public function get_allowed_types($get_types = false, $ignore_zip = false)
 	{
-		global $user, $phpbb_ext_gallery;
+		global $user, $phpbb_ext_gallery, $phpbb_ext_gallery_config;
 
 		$extensions = $types = array();
-		if ($phpbb_ext_gallery->config->get('allow_jpg'))
+		if ($phpbb_ext_gallery_config->get('allow_jpg'))
 		{
 			$types[] = $user->lang['FILETYPES_JPG'];
 			$extensions[] = 'jpg';
 			$extensions[] = 'jpeg';
 		}
-		if ($phpbb_ext_gallery->config->get('allow_gif'))
+		if ($phpbb_ext_gallery_config->get('allow_gif'))
 		{
 			$types[] = $user->lang['FILETYPES_GIF'];
 			$extensions[] = 'gif';
 		}
-		if ($phpbb_ext_gallery->config->get('allow_png'))
+		if ($phpbb_ext_gallery_config->get('allow_png'))
 		{
 			$types[] = $user->lang['FILETYPES_PNG'];
 			$extensions[] = 'png';
 		}
-		if (!$ignore_zip && $phpbb_ext_gallery->config->get('allow_zip'))
+		if (!$ignore_zip && $phpbb_ext_gallery_config->get('allow_zip'))
 		{
 			$types[] = $user->lang['FILETYPES_ZIP'];
 			$extensions[] = 'zip';

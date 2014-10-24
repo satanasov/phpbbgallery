@@ -15,11 +15,14 @@ class albums_info
 	function module()
 	{
 		return array(
-			'filename'	=> 'acp_gallery_albums',
 			'title'		=> 'PHPBB_GALLERY',
 			'version'	=> '1.0.0',
 			'modes'		=> array(
-				'manage'	=> array('title' => 'ACP_GALLERY_MANAGE_ALBUMS', 'auth' => 'acl_a_gallery_albums', 'cat' => array('PHPBB_GALLERY')),
+				'manage'	=> array(
+					'title' => 'ACP_GALLERY_MANAGE_ALBUMS',
+					'auth' => 'ext_phpbbgallery/core && acl_a_gallery_albums',
+					'cat' => array('PHPBB_GALLERY')
+				),
 			),
 		);
 	}

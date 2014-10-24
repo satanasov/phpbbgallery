@@ -33,14 +33,20 @@ class upload
 	* @param \phpbbgallery\core\album\display	$display	Display class
 	*/
 	
-	public function __construct(\phpbb\user $user, \phpbbgallery\core\album\album $album, \phpbbgallery\core\misc $misc, \phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\album\display $display, \phpbb\controller\helper $helper)
+	public function __construct( \phpbb\request\request $request, \phpbb\db\driver\driver_interface $db,  \phpbb\user $user, \phpbb\template\template $template, \phpbbgallery\core\album\album $album, \phpbbgallery\core\misc $misc, \phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\album\display $display, \phpbb\controller\helper $helper, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\image\image $image, $images_table)
 	{
+		$this->request = $request;
+		$this->db = $db;
 		$this->user = $user;
+		$this->template = $template;
 		$this->album = $album;
 		$this->misc = $misc;
 		$this->auth = $auth;
 		$this->display = $display;
 		$this->helper = $helper;
+		$this->gallery_config = $gallery_config;
+		$this->image = $image;
+		$this->images_table = $images_table;
 	}
 	
 	public function upload($album_id)
@@ -48,13 +54,283 @@ class upload
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
 		$album_data = $this->album->get_info($album_id);
 		$this->display->generate_navigation($album_data);
+		add_form_key('gallery');
 		$album_backlink = './index.php';
 		$album_loginlink;
 		//Let's get authorization
-		if ($this->auth->acl_check('i_upload', $album_id, $album_data['album_user_id']) || ($album_data['album_status'] == $this->album->status_locked()))
+		$this->auth->load_user_premissions($this->user->data['user_id']);
+		if (!$this->auth->acl_check('i_upload', $album_id, $album_data['album_user_id']) || ($album_data['album_status'] == $this->album->status_locked()))
 		{
-			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+			//$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+			trigger_error('Fuck');
 		}
-		return $this->helper->render('gallery/album_body.html', $page_title);
+		$page_title = 'Upload to "' . $album_data['album_name'] . '"';
+		
+		$submit = $this->request->variable('submit', false);
+		$error = '';
+		$mode = 'upload';
+		if ($mode == 'upload')
+		{
+			// Upload Quota Check
+			// 1. Check album-configuration Quota
+			if (($this->gallery_config->get('album_images') >= 0) && ($album_data['album_images'] >= $this->gallery_config->get('album_images')))
+			{
+				//@todo: Add return link
+				trigger_error('ALBUM_REACHED_QUOTA');
+			}
+
+			// 2. Check user-limit, if he is not allowed to go unlimited
+			if (!$this->auth->acl_check('i_unlimited', $album_id, $album_data['album_user_id']))
+			{
+				$sql = 'SELECT COUNT(image_id) count
+					FROM ' . $this->images_table . '
+					WHERE image_user_id = ' . $this->user->data['user_id'] . '
+						AND image_status <> ' . $this->image->get_status_orphan() . '
+						AND image_album_id = ' . $album_id;
+				$result = $this->db->sql_query($sql);
+				$own_images = (int) $this->db->sql_fetchfield('count');
+				$this->db->sql_freeresult($result);
+				if ($own_images >= $this->auth->acl_check('i_count', $album_id, $album_data['album_user_id']))
+				{
+					//@todo: Add return link
+					trigger_error($this->user->lang('USER_REACHED_QUOTA', $this->auth->acl_check('i_count', $album_id, $album_data['album_user_id'])));
+				}
+			}
+
+			if ($this->misc->display_captcha('upload'))
+			{
+				phpbb_gallery_url::_include('captcha/captcha_factory', 'phpbb');
+				$captcha =& phpbb_captcha_factory::get_instance($config['captcha_plugin']);
+				$captcha->init(CONFIRM_POST);
+				$s_captcha_hidden_fields = '';
+			}
+
+			$upload_files_limit = ($this->auth->acl_check('i_unlimited', $album_id, $album_data['album_user_id'])) ? $this->gallery_config->get('num_uploads') : min(($this->auth->acl_check('i_count', $album_id, $album_data['album_user_id']) - $own_images), $this->gallery_config->get('num_uploads'));
+			$process = new \phpbbgallery\core\upload($album_id, $upload_files_limit);
+			if ($submit)
+			{
+				if (!check_form_key('gallery'))
+				{
+					trigger_error('FORM_INVALID');
+				}
+
+				//$process = new \phpbbgallery\core\upload($album_id, $upload_files_limit);
+				$process->set_rotating($this->request->variable('rotate', array(0)));
+				$process->set_allow_comments($this->request->variable('allow_comments', false));
+
+				/*if ($this->misc->display_captcha('upload'))
+				{
+					$captcha_error = $captcha->validate();
+					if ($captcha_error !== false)
+					{
+						$process->new_error($captcha_error);
+					}
+				}
+				*/
+				if (!$this->user->data['is_registered'])
+				{
+					$username = $this->request->variable('username', $user->data['username']);
+					if ($result = validate_username($username))
+					{
+						$this->user->add_lang('ucp');
+						$error_array[] = $this->user->lang[$result . '_USERNAME'];
+					}
+					else
+					{
+						$process->set_username($username);
+					}
+				}
+				
+
+				if (empty($process->errors))
+				{
+
+					for ($file_count = 0; $file_count < $upload_files_limit; $file_count++)
+					{
+						/**
+						* Upload an image from the FILES-array,
+						* call some functions (rotate, resize, ...)
+						* and store the image to the database
+						*/
+						$file = $this->request->file('image_file_' . $file_count, '');
+						if ($file['size'] > 0)
+						{
+							$process->upload_file($file_count);
+						}
+					}
+				}
+
+				if (!$process->uploaded_files)
+				{
+					$process->new_error($this->user->lang['UPLOAD_NO_FILE']);
+				}
+				else
+				{
+					$mode = 'upload_edit';
+					// Remove submit, so we get the first screen of step 2.
+					$submit = false;
+				}
+
+				$error = implode('<br />', $process->errors);
+
+				/*if (phpbb_gallery_misc::display_captcha('upload'))
+				{
+					$captcha->reset();
+				}*/
+			}
+
+			if (!$submit || (isset($process) && !$process->uploaded_files))
+			{
+				for ($i = 0; $i < $upload_files_limit; $i++)
+				{
+					$this->template->assign_block_vars('upload_image', array());
+				}
+			}
+			if ($mode == 'upload')
+			{
+				$this->template->assign_vars(array(
+					'ERROR'					=> $error,
+					'S_MAX_FILESIZE'		=> get_formatted_filesize($this->gallery_config->get('max_filesize')),
+					'S_MAX_WIDTH'			=> $this->gallery_config->get('max_width'),
+					'S_MAX_HEIGHT'			=> $this->gallery_config->get('max_height'),
+					'S_ALLOWED_FILETYPES'	=> implode(', ', $process->get_allowed_types(true)),
+					'S_ALBUM_ACTION'		=> append_sid('./gallery/album/'. $album_id .'/upload'),
+					'S_UPLOAD'				=> true,
+					'S_ALLOW_ROTATE'		=> ($this->gallery_config->get('allow_rotate') && function_exists('imagerotate')),
+					'S_UPLOAD_LIMIT'		=> $upload_files_limit,
+					'S_COMMENTS_ENABLED'	=> $this->gallery_config->get('allow_comments') && $this->gallery_config->get('comment_user_control'),
+					'S_ALLOW_COMMENTS'		=> true,
+					'L_ALLOW_COMMENTS'		=> $this->user->lang('ALLOW_COMMENTS_ARY', $upload_files_limit),
+				));
+
+				/*if (phpbb_gallery_misc::display_captcha('upload'))
+				{
+					if (!$submit || !$captcha->is_solved())
+					{
+						$template->assign_vars(array(
+							'S_CONFIRM_CODE'			=> true,
+							'CAPTCHA_TEMPLATE'			=> $captcha->get_template(),
+						));
+					}
+					$template->assign_vars(array(
+						'S_CAPTCHA_HIDDEN_FIELDS'	=> $s_captcha_hidden_fields,
+					));
+				}*/
+			}
+		}
+		if ($mode == 'upload_edit')
+		{
+			$phpbb_gallery_image = new \phpbbgallery\core\image\image();
+			if ($submit)
+			{
+				// Upload Quota Check
+				// 1. Check album-configuration Quota
+				if (($this->gallery_config->get('album_images') >= 0) && ($album_data['album_images'] >= $this->gallery_config->get('album_images')))
+				{
+					//@todo: Add return link
+					trigger_error('ALBUM_REACHED_QUOTA');
+				}
+
+				// 2. Check user-limit, if he is not allowed to go unlimited
+				if (!$this->auth->acl_check('i_unlimited', $album_id, $album_data['album_user_id']))
+				{
+					$sql = 'SELECT COUNT(image_id) count
+						FROM ' . $this->images_table . '
+						WHERE image_user_id = ' . $this->user->data['user_id'] . '
+							AND image_status <> ' . $this->image->get_status_orphan() . '
+							AND image_album_id = ' . $album_id;
+					$result = $this->db->sql_query($sql);
+					$own_images = (int) $this->db->sql_fetchfield('count');
+					$this->db->sql_freeresult($result);
+					if ($own_images >= $this->auth->acl_check('i_count', $album_id, $album_data['album_user_id']))
+					{
+						//@todo: Add return link
+						trigger_error($user->lang('USER_REACHED_QUOTA', $this->auth->acl_check('i_count', $album_id, $album_data['album_user_id'])));
+					}
+				}
+
+				$upload_files_limit = ($this->auth->acl_check('i_unlimited', $album_id, $album_data['album_user_id'])) ? $this->gallery_config->get('num_uploads') : min(($this->auth->acl_check('i_count', $album_id, $album_data['album_user_id']) - $own_images), $this->gallery_config->get('num_uploads'));
+
+				$upload_ids = $this->request->variable('upload_ids', array(''));
+
+				$process = new \phpbbgallery\core\upload($album_id, $upload_files_limit);
+				$process->set_rotating($this->request->variable('rotate', array(0)));
+				$process->get_images($upload_ids);
+				$image_names = $this->request->variable('image_name', array(''), true);
+				$process->set_names($image_names);
+				$process->set_descriptions(request_var('message', array(''), true));
+				$process->set_image_num(request_var('image_num', 0));
+				$process->use_same_name(request_var('same_name', false));
+
+				$success = true;
+				foreach ($process->images as $image_id)
+				{
+					$success = $success && $process->update_image($image_id, !$this->auth->acl_check('i_approve', $album_id, $album_data['album_user_id']), $album_data['album_contest']);
+					if (phpbb_gallery::$user->get_data('watch_own'))
+					{
+						phpbb_gallery_notification::add($image_id);
+					}
+				}
+
+				$message = '';
+				$error = implode('<br />', $process->errors);
+				if (phpbb_gallery::$auth->acl_check('i_approve', $album_id, $album_data['album_user_id']))
+				{
+					$message .= (!$error) ? $user->lang['ALBUM_UPLOAD_SUCCESSFUL'] : $user->lang('ALBUM_UPLOAD_SUCCESSFUL_ERROR', $error);
+					$meta_refresh_time = ($success) ? 3 : 20;
+				}
+				else
+				{
+					$message .= (!$error) ? $user->lang['ALBUM_UPLOAD_NEED_APPROVAL'] : $user->lang('ALBUM_UPLOAD_NEED_APPROVAL_ERROR', $error);
+					$meta_refresh_time = 20;
+				}
+				$message .= '<br /><br />' . sprintf($user->lang['CLICK_RETURN_ALBUM'], '<a href="' . $album_backlink . '">', '</a>');
+
+				phpbb_gallery_notification::send_notification('album', $album_id, $image_names[0]);
+				phpbb_gallery_image::handle_counter($process->images, true);
+				phpbb_gallery_album::update_info($album_id);
+
+				meta_refresh($meta_refresh_time, $album_backlink);
+				trigger_error($message);
+			}
+
+			$num_images = 0;
+			foreach ($process->images as $image_id)
+			{
+				$data = $process->image_data[$image_id];
+				$this->template->assign_block_vars('image', array(
+					'U_IMAGE'		=> $phpbb_gallery_image->generate_link('thumbnail', 'plugin', $image_id, $data['image_name'], $album_id),
+					'IMAGE_NAME'	=> $data['image_name'],
+					'IMAGE_DESC'	=> $data['image_desc'],
+				));
+				$num_images++;
+			}
+
+			$s_hidden_fields = build_hidden_fields(array(
+				'upload_ids'	=> $process->generate_hidden_fields(),
+			));
+
+			$s_can_rotate = ($this->gallery_config->get('allow_rotate') && function_exists('imagerotate'));
+			$this->template->assign_vars(array(
+				'ERROR'				=> $error,
+				//'S_ALBUM_ACTION'	=> phpbb_gallery_url::append_sid('posting', "mode=upload_edit&amp;album_id=$album_id"),
+				'S_UPLOAD_EDIT'		=> true,
+				'S_ALLOW_ROTATE'	=> $s_can_rotate,
+
+				'S_USERNAME'		=> (!$this->user->data['is_registered']) ? $username : '',
+				'NUM_IMAGES'		=> $num_images,
+				'COLOUR_ROWSPAN'	=> ($s_can_rotate) ? $num_images * 3 : $num_images * 2,
+
+				'L_DESCRIPTION_LENGTH'	=> $this->user->lang('DESCRIPTION_LENGTH', $this->gallery_config->get('description_length')),
+				'S_HIDDEN_FIELDS'	=> $s_hidden_fields,
+			));
+		}
+		return $this->helper->render('gallery/posting_body.html', $page_title);
+	}
+	public function var_display($i)
+	{
+		echo '<pre>';
+		var_dump($i);
+		echo '</pre>';
 	}
 }
