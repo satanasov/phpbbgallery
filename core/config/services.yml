@@ -92,12 +92,17 @@ services:
     phpbbgallery.core.controller.upload:
         class: phpbbgallery\core\controller\upload
         arguments:
+            - @dbal.conn
             - @user
+            - @template
             - @phpbbgallery.core.album
             - @phpbbgallery.core.misc
             - @phpbbgallery.core.auth
             - @phpbbgallery.core.album.display
             - @controller.helper
+            - @phpbbgallery.core.config
+            - @phpbbgallery.core.image
+            - %tables.phpbbgallery.images%
     phpbbgallery.core.controller.album:
         class: phpbbgallery\core\controller\album
         arguments:

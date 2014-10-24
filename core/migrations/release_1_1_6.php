@@ -350,43 +350,43 @@ class release_1_1_6 extends \phpbb\db\migration\migration
 				'module_basename'	=> '\phpbbgallery\core\acp\main_module',
 				'module_langname'	=> 'ACP_GALLERY_OVERVIEW',
 				'module_mode'		=> 'overview',
-				'module_auth'		=> 'acl_a_gallery_manage',
+				'module_auth'		=> 'ext_phpbbgallery/core && acl_a_gallery_manage',
 			))),
 			array('module.add', array('acp', 'PHPBB_GALLERY', array(
 				'module_basename'	=> '\phpbbgallery\core\acp\config_module',
 				'module_langname'	=> 'ACP_GALLERY_CONFIGURE_GALLERY',
 				'module_mode'		=> 'main',
-				'module_auth'		=> 'acl_a_gallery_manage',
+				'module_auth'		=> 'ext_phpbbgallery/core && acl_a_gallery_manage',
 			))),
 			array('module.add', array('acp', 'PHPBB_GALLERY', array(
 				'module_basename'	=> '\phpbbgallery\core\acp\albums_module',
 				'module_langname'	=> 'ACP_GALLERY_MANAGE_ALBUMS',
 				'module_mode'		=> 'manage',
-				'module_auth'		=> 'acl_a_gallery_albums',
+				'module_auth'		=> 'ext_phpbbgallery/core && acl_a_gallery_albums',
 			))),
 			array('module.add', array('acp', 'PHPBB_GALLERY', array(
 				'module_basename'	=> '\phpbbgallery\core\acp\permissions_module',
 				'module_langname'	=> 'ACP_GALLERY_ALBUM_PERMISSIONS',
 				'module_mode'		=> 'manage',
-				'module_auth'		=> 'acl_a_gallery_albums',
+				'module_auth'		=> 'ext_phpbbgallery/core && acl_a_gallery_albums',
 			))),
 			array('module.add', array('acp', 'PHPBB_GALLERY', array(
 				'module_basename'	=> '\phpbbgallery\core\acp\permissions_module',
 				'module_langname'	=> 'ACP_GALLERY_ALBUM_PERMISSIONS_COPY',
 				'module_mode'		=> 'copy',
-				'module_auth'		=> 'acl_a_gallery_albums',
+				'module_auth'		=> 'ext_phpbbgallery/core && acl_a_gallery_albums',
 			))),
 			array('module.add', array('acp', 'PHPBB_GALLERY', array(
 				'module_basename'	=> '\phpbbgallery\core\acp\gallery_module',
 				'module_langname'	=> 'ACP_IMPORT_ALBUMS',
 				'module_mode'		=> 'import_images',
-				'module_auth'		=> 'acl_a_gallery_import',
+				'module_auth'		=> 'ext_phpbbgallery/core && acl_a_gallery_import',
 			))),
 			array('module.add', array('acp', 'PHPBB_GALLERY', array(
 				'module_basename'	=> '\phpbbgallery\core\acp\gallery_module',
 				'module_langname'	=> 'ACP_GALLERY_CLEANUP',
 				'module_mode'		=> 'cleanup',
-				'module_auth'		=> 'acl_a_gallery_cleanup',
+				'module_auth'		=> 'ext_phpbbgallery/core && acl_a_gallery_cleanup',
 			))),
 
 			// UCP
@@ -395,26 +395,26 @@ class release_1_1_6 extends \phpbb\db\migration\migration
 				'module_basename'	=> '\phpbbgallery\core\ucp\main_module',
 				'module_langname'	=> 'UCP_GALLERY_SETTINGS',
 				'module_mode'		=> 'manage_settings',
-				'module_auth'		=> '',
+				'module_auth'		=> 'ext_phpbbgallery/core',
 			))),
 			array('module.add', array('ucp', 'UCP_GALLERY', array(
 				'module_basename'	=> '\phpbbgallery\core\ucp\main_module',
 				'module_langname'	=> 'UCP_GALLERY_PERSONAL_ALBUMS',
 				'module_mode'		=> 'manage_albums',
-				'module_auth'		=> '',
+				'module_auth'		=> 'ext_phpbbgallery/core',
 			))),
 			array('module.add', array('ucp', 'UCP_GALLERY', array(
 				'module_basename'	=> '\phpbbgallery\core\ucp\main_module',
 				'module_langname'	=> 'UCP_GALLERY_WATCH',
 				'module_mode'		=> 'manage_subscriptions',
-				'module_auth'		=> '',
+				'module_auth'		=> 'ext_phpbbgallery/core',
 			))),
 			//@todo move
 			array('module.add', array('ucp', 'UCP_GALLERY', array(
 				'module_basename'	=> '\phpbbgallery\core\ucp\main_module',
 				'module_langname'	=> 'UCP_GALLERY_FAVORITES',
 				'module_mode'		=> 'manage_favorites',
-				'module_auth'		=> '',
+				'module_auth'		=> 'ext_phpbbgallery/core',
 			))),
 
 			// Logs
@@ -422,7 +422,7 @@ class release_1_1_6 extends \phpbb\db\migration\migration
 				'module_basename'	=> 'logs',
 				'module_langname'	=> 'ACP_GALLERY_LOGS',
 				'module_mode'		=> 'gallery',
-				'module_auth'		=> 'acl_a_viewlogs',
+				'module_auth'		=> 'ext_phpbbgallery/core && acl_a_viewlogs',
 			))),
 
 			// @todo: ADD BBCODE

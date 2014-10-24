@@ -10,15 +10,11 @@
 
 namespace phpbbgallery\core\acp;
 
-/**
-* @package module_install
-*/
 class main_info
 {
 	function module()
 	{
 		return array(
-			'filename'	=> 'acp_gallery',
 			'title'		=> 'PHPBB_GALLERY',
 			'version'	=> '1.0.0',
 			'modes'		=> array(
