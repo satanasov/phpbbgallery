@@ -22,6 +22,7 @@ class main_module
 		global $auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path, $phpbb_ext_gallery, $phpbb_container, $table_prefix;
 		global $phpbb_ext_gallery_core_album, $albums_table, $phpbb_ext_gallery_core_auth, $phpbb_ext_gallery_core_album_display, $images_table;
 		global $phpbb_gallery_image, $users_table, $phpbb_ext_gallery_config, $comments_table, $rates_table, $reports_table, $watch_table, $contests_table;
+		global $phpbb_ext_gallery_user;
 
 		$phpbb_ext_gallery = new \phpbbgallery\core\core($auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path);
 		$phpbb_ext_gallery->init();
@@ -36,6 +37,8 @@ class main_module
 		$phpbb_ext_gallery_core_album_display = $phpbb_container->get('phpbbgallery.core.album.display');
 		
 		$phpbb_gallery_image = new \phpbbgallery\core\image\image();
+		
+		$phpbb_ext_gallery_user = $phpbb_container->get('phpbbgallery.core.user');
 		
 		$albums_table = $table_prefix . 'gallery_albums';
 		$roles_table = $table_prefix . 'gallery_roles';
@@ -100,7 +103,7 @@ class main_module
 					default:
 						$title = 'UCP_GALLERY_PERSONAL_ALBUMS';
 						$this->page_title = $user->lang[$title];
-						if (!$phpbb_ext_gallery->user->get_data('personal_album_id'))
+						if (!$phpbb_ext_gallery_user->get_data('personal_album_id'))
 						{
 							$this->info();
 						}
@@ -122,9 +125,9 @@ class main_module
 
 	function info()
 	{
-		global $template, $user, $phpbb_ext_gallery;
+		global $template, $user, $phpbb_ext_gallery, $phpbb_ext_gallery_user;
 
-		if (!$phpbb_ext_gallery->user->get_data('personal_album_id'))
+		if (!$phpbb_ext_gallery_user->get_data('personal_album_id'))
 		{
 			// User will probally go to initialise_album()
 			$template->assign_vars(array(
@@ -137,15 +140,17 @@ class main_module
 		}
 		else
 		{
-			$phpbb_ext_gallery->redirect('phpbb', 'ucp', 'i=-phpbbgallery-core-ucp-main_module&amp;mode=manage_albums');
+			$phpbb_ext_gallery->url->redirect('phpbb', 'ucp', 'i=-phpbbgallery-core-ucp-main_module&amp;mode=manage_albums');
 		}
 	}
 
 	function initialise_album()
 	{
-		global $cache, $db, $template, $user, $phpbb_ext_gallery, $phpbb_ext_gallery_core_auth, $phpbb_ext_gallery_core_album, $phpbb_ext_gallery_config, $albums_table;
+		global $cache, $db, $template, $user, $phpbb_ext_gallery, $phpbb_ext_gallery_core_auth, $phpbb_ext_gallery_core_album, $phpbb_ext_gallery_config, $albums_table, $phpbb_ext_gallery_user;
 
-		if (!$phpbb_ext_gallery->user->get_data('personal_album_id'))
+		// we will have to initialse $phpbb_ext_gallery_user
+		$phpbb_ext_gallery_user->set_user_id($user->data['user_id']);
+		if (!$phpbb_ext_gallery_user->get_data('personal_album_id'))
 		{
 			// Check if the user is allowed to have one
 			if (!$phpbb_ext_gallery->auth->acl_check('i_upload', $phpbb_ext_gallery_core_auth::OWN_ALBUM))
@@ -169,7 +174,7 @@ class main_module
 			$db->sql_query('INSERT INTO ' . $albums_table . ' ' . $db->sql_build_array('INSERT', $album_data));
 			$album_id = $db->sql_nextid();
 
-			$phpbb_ext_gallery->user->update_data(array(
+			$phpbb_ext_gallery_user->update_data(array(
 				'personal_album_id'	=> $album_id,
 			));
 

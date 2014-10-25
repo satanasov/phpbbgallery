@@ -11,23 +11,6 @@ namespace phpbbgallery\core\migrations;
 
 class release_1_1_6 extends \phpbb\db\migration\migration
 {
-	public function effectively_installed()
-	{
-		$sql = 'SELECT config_value
-			FROM ' . $this->table_prefix . "config
-			WHERE config_name = 'phpbb_gallery_version'";
-		$result = $this->db->sql_query($sql);
-		$version = $this->db->sql_fetchfield('config_value');
-		$this->db->sql_freeresult($result);
-
-		return $version && (version_compare($version, '1.1.6') >= 0);
-	}
-
-	static public function depends_on()
-	{
-		return array('\phpbb\db\migration\data\v310\dev');
-	}
-
 	public function update_schema()
 	{
 		return array(

@@ -272,7 +272,7 @@ class upload
 		global $user, $phpbb_ext_gallery, $phpbb_dispatcher, $phpbb_ext_gallery_config;
 
 		$upload_dir = $this->get_current_upload_dir();
-var_dump($upload_dir);
+
 		// Rename the file, move it to the correct location and set chmod
 		if (!$upload_dir)
 		{
@@ -294,7 +294,6 @@ var_dump($upload_dir);
 			return false;
 		}
 		@chmod($this->file->destination_file, 0777);
-
 		$additional_sql_data = array();
 		$file = $this->file;
 
@@ -349,10 +348,11 @@ var_dump($upload_dir);
 
 		if ($this->tools->rotated || $this->tools->resized)
 		{
-			$this->tools->write_image($this->file->destination_file, $phpbb_ext_gallery->config->get('jpg_quality'), true);
+			$this->tools->write_image($this->file->destination_file, $phpbb_ext_gallery_config->get('jpg_quality'), true);
 		}
 
 		// Everything okay, now add the file to the database and return the image_id
+
 		return $this->file_to_database($additional_sql_data);
 	}
 
