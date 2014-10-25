@@ -52,7 +52,7 @@ class upload
 	*/
 	public function __construct($album_id, $num_files = 0)
 	{
-		global $auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path, $phpbb_ext_gallery, $phpbb_container, $phpbb_ext_gallery_config;
+		global $auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path, $phpbb_ext_gallery, $phpbb_container, $phpbb_ext_gallery_config, $table_prefix, $images_table;
 		
 		$phpbb_ext_gallery = new \phpbbgallery\core\core($auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path);
 		$phpbb_ext_gallery->init();
@@ -67,6 +67,9 @@ class upload
 		$this->album_id = (int) $album_id;
 		$this->file_limit = (int) $num_files;
 		$this->username = $user->data['username'];
+		
+		// define some table (to do - move it to services)
+		$images_table = $table_prefix . 'gallery_images';
 	}
 
 	/**
@@ -202,6 +205,7 @@ class upload
 	*/
 	public function update_image($image_id, $needs_approval = false, $is_in_contest = false)
 	{
+		global $phpbb_root_path, $phpEx;
 		if ($this->file_limit && ($this->uploaded_files >= $this->file_limit))
 		{
 			global $user;
@@ -209,7 +213,7 @@ class upload
 			return false;
 		}
 		$this->file_count = (int) $this->array_id2row[$image_id];
-
+		include($phpbb_root_path . 'includes/message_parser.' . $phpEx);
 		$message_parser				= new parse_message();
 		$message_parser->message	= utf8_normalize_nfc($this->get_description());
 		if ($message_parser->message)
@@ -579,7 +583,9 @@ class upload
 
 	public function get_images($uploaded_ids)
 	{
-		global $db;
+		global $db, $images_table;
+		
+		$phpbb_ext_gallery_core_image = new \phpbbgallery\core\image\image();
 
 		$image_ids = $filenames = array();
 		foreach ($uploaded_ids as $row => $check)
@@ -594,8 +600,8 @@ class upload
 		if (empty($image_ids)) return;
 
 		$sql = 'SELECT *
-			FROM ' . GALLERY_IMAGES_TABLE . '
-			WHERE image_status = ' . phpbb_ext_gallery_core_image::STATUS_ORPHAN . '
+			FROM ' . $images_table . '
+			WHERE image_status = ' . $phpbb_ext_gallery_core_image::STATUS_ORPHAN . '
 				AND ' . $db->sql_in_set('image_id', $image_ids);
 		$result = $db->sql_query($sql);
 

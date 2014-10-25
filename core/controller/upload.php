@@ -68,7 +68,7 @@ class upload
 		
 		$submit = $this->request->variable('submit', false);
 		$error = '';
-		$mode = 'upload';
+		$mode = $this->request->variable('mode', 'upload'); 
 		if ($mode == 'upload')
 		{
 			// Upload Quota Check
