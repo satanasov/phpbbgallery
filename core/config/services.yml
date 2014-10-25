@@ -92,6 +92,7 @@ services:
     phpbbgallery.core.controller.upload:
         class: phpbbgallery\core\controller\upload
         arguments:
+            - @request
             - @dbal.conn
             - @user
             - @template

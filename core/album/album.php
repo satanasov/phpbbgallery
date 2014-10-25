@@ -413,4 +413,9 @@ class album
 
 		return $personal_album_id;
 	}
+	
+	public function get_status_locked()
+	{
+		return 1;
+	}
 }

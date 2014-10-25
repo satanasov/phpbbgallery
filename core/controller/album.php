@@ -158,8 +158,9 @@ class album
 		));
 
 		if ($album_data['album_type'] != \phpbbgallery\core\album\album::TYPE_CAT
-			&& $album_data['album_images_real'] > 0)
+			&& $album_data['album_images_real'] == 0)
 		{
+			
 			$this->display_images($album_id, $album_data, ($page - 1) * 20, 20);
 		}
 
