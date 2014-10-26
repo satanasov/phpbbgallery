@@ -70,7 +70,7 @@ class file
 	* @param \phpbbgallery\core\auth\auth	$gallery_auth	Gallery auth object
 	* @param \phpbbgallery\core\user	$gallery_user	Gallery user object
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver $db, \phpbb\user $user, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\file\file $tool, $source_path, $medium_path, $mini_path, $watermark_file, $albums_table, $images_table)
+	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\file\file $tool, $source_path, $medium_path, $mini_path, $watermark_file, $albums_table, $images_table)
 	{
 		$this->config = $config;
 		$this->db = $db;
@@ -186,6 +186,7 @@ class file
 
 	public function load_data($image_id)
 	{
+		
 		$sql = 'SELECT *
 			FROM ' . $this->table_images . ' i
 			LEFT JOIN ' . $this->table_albums . ' a
@@ -193,6 +194,7 @@ class file
 			WHERE i.image_id = ' . (int) $image_id;
 		$result = $this->db->sql_query($sql);
 		$this->data = $this->db->sql_fetchrow($result);
+		error_log($this->db->sql_query($sql));
 		$this->db->sql_freeresult($result);
 
 		if (!$this->data || !$this->data['album_id'])

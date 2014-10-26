@@ -102,6 +102,7 @@ services:
             - @phpbbgallery.core.album.display
             - @controller.helper
             - @phpbbgallery.core.config
+            - @phpbbgallery.core.user
             - @phpbbgallery.core.image
             - %tables.phpbbgallery.images%
     phpbbgallery.core.controller.album:

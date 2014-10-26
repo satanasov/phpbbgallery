@@ -292,16 +292,19 @@ class image
 	*/
 	public function handle_counter($image_id_ary, $add, $readd = false)
 	{
-		global $db, $phpbb_ext_gallery;
+		global $db, $phpbb_ext_gallery, $table_prefix, $phpbb_container;
 
 		if (empty($image_id_ary))
 		{
 			return;
 		}
 
+		$phpbb_ext_gallery_config = $phpbb_container->get('phpbbgallery.core.config');
+		$image_user = $phpbb_container->get('phpbbgallery.core.user');
+		
 		$num_images = $num_comments = 0;
 		$sql = 'SELECT SUM(image_comments) comments
-			FROM ' . GALLERY_IMAGES_TABLE . '
+			FROM ' . $table_prefix . 'gallery_images
 			WHERE image_status ' . (($readd) ? '=' : '<>') . ' ' . self::STATUS_UNAPPROVED . '
 				AND ' . $db->sql_in_set('image_id', $image_id_ary) . '
 			GROUP BY image_user_id';
@@ -310,7 +313,7 @@ class image
 		$db->sql_freeresult($result);
 
 		$sql = 'SELECT COUNT(image_id) images, image_user_id
-			FROM ' . GALLERY_IMAGES_TABLE . '
+			FROM ' . $table_prefix . 'gallery_images
 			WHERE image_status ' . (($readd) ? '=' : '<>') . ' ' . self::STATUS_UNAPPROVED . '
 				AND ' . $db->sql_in_set('image_id', $image_id_ary) . '
 			GROUP BY image_user_id';
@@ -326,20 +329,20 @@ class image
 
 			$num_images = $num_images + $row['images'];
 
-			$image_user = new phpbb_ext_gallery_core_user($db, (int) $row['image_user_id'], false);
+			$image_user->set_user_id((int) $row['image_user_id'], false);
 			$image_user->update_images((($add) ? $row['images'] : 0 - $row['images']));
 		}
 		$db->sql_freeresult($result);
 
 		if ($add)
 		{
-			$phpbb_ext_gallery->config->inc('num_images', $num_images);
-			$phpbb_ext_gallery->config->inc('num_comments', $num_comments);
+			$phpbb_ext_gallery_config->inc('num_images', $num_images);
+			$phpbb_ext_gallery_config->inc('num_comments', $num_comments);
 		}
 		else
 		{
-			$phpbb_ext_gallery->config->dec('num_images', $num_images);
-			$phpbb_ext_gallery->config->dec('num_comments', $num_comments);
+			$phpbb_ext_gallery_config->dec('num_images', $num_images);
+			$phpbb_ext_gallery_config->dec('num_comments', $num_comments);
 		}
 	}
 }
