@@ -47,7 +47,7 @@ class notification
 	*/
 	static public function add_albums($album_ids, $user_id = false)
 	{
-		global $db, $user;
+		global $db, $user, $table_prefix;
 
 		$album_ids = self::cast_mixed_int2array($album_ids);
 		$user_id = (int) (($user_id) ? $user_id : $user->data['user_id']);
@@ -143,7 +143,7 @@ class notification
 	*/
 	static public function send_notification($mode, $handle_id, $image_name)
 	{
-		global $user, $db, $album_id, $image_id, $image_data, $album_data;
+		global $user, $db, $album_id, $image_id, $image_data, $album_data, $table_prefix;
 
 		$help_mode = $mode . '_id';
 		$mode_id = $$help_mode;

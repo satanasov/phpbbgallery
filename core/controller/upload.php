@@ -33,7 +33,7 @@ class upload
 	* @param \phpbbgallery\core\album\display	$display	Display class
 	*/
 	
-	public function __construct(\phpbb\request\request $request, \phpbb\db\driver\driver_interface $db,  \phpbb\user $user, \phpbb\template\template $template, \phpbbgallery\core\album\album $album, \phpbbgallery\core\misc $misc, \phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\album\display $display, \phpbb\controller\helper $helper, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\image\image $image, $images_table)
+	public function __construct(\phpbb\request\request $request, \phpbb\db\driver\driver_interface $db,  \phpbb\user $user, \phpbb\template\template $template, \phpbbgallery\core\album\album $album, \phpbbgallery\core\misc $misc, \phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\album\display $display, \phpbb\controller\helper $helper, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\image\image $image, $images_table)
 	{
 		$this->request = $request;
 		$this->db = $db;
@@ -45,6 +45,7 @@ class upload
 		$this->display = $display;
 		$this->helper = $helper;
 		$this->gallery_config = $gallery_config;
+		$this->gallery_user = $gallery_user;
 		$this->image = $image;
 		$this->images_table = $images_table;
 	}
@@ -263,32 +264,33 @@ class upload
 				$process->use_same_name(request_var('same_name', false));
 
 				$success = true;
+				$phpbb_gallery_notification = new \phpbbgallery\core\notification();
 				foreach ($process->images as $image_id)
 				{
 					$success = $success && $process->update_image($image_id, !$this->auth->acl_check('i_approve', $album_id, $album_data['album_user_id']), $album_data['album_contest']);
-					if (phpbb_gallery::$user->get_data('watch_own'))
+					if ($this->gallery_user->get_data('watch_own'))
 					{
-						phpbb_gallery_notification::add($image_id);
+						$phpbb_gallery_notification->add($image_id);
 					}
 				}
 
 				$message = '';
 				$error = implode('<br />', $process->errors);
-				if (phpbb_gallery::$auth->acl_check('i_approve', $album_id, $album_data['album_user_id']))
+				if ($this->auth->acl_check('i_approve', $album_id, $album_data['album_user_id']))
 				{
-					$message .= (!$error) ? $user->lang['ALBUM_UPLOAD_SUCCESSFUL'] : $user->lang('ALBUM_UPLOAD_SUCCESSFUL_ERROR', $error);
+					$message .= (!$error) ? $this->user->lang['ALBUM_UPLOAD_SUCCESSFUL'] : $this->user->lang('ALBUM_UPLOAD_SUCCESSFUL_ERROR', $error);
 					$meta_refresh_time = ($success) ? 3 : 20;
 				}
 				else
 				{
-					$message .= (!$error) ? $user->lang['ALBUM_UPLOAD_NEED_APPROVAL'] : $user->lang('ALBUM_UPLOAD_NEED_APPROVAL_ERROR', $error);
+					$message .= (!$error) ? $this->user->lang['ALBUM_UPLOAD_NEED_APPROVAL'] : $this->user->lang('ALBUM_UPLOAD_NEED_APPROVAL_ERROR', $error);
 					$meta_refresh_time = 20;
 				}
-				$message .= '<br /><br />' . sprintf($user->lang['CLICK_RETURN_ALBUM'], '<a href="' . $album_backlink . '">', '</a>');
+				$message .= '<br /><br />' . sprintf($this->user->lang['CLICK_RETURN_ALBUM'], '<a href="' . $album_backlink . '">', '</a>');
 
-				phpbb_gallery_notification::send_notification('album', $album_id, $image_names[0]);
-				phpbb_gallery_image::handle_counter($process->images, true);
-				phpbb_gallery_album::update_info($album_id);
+				$phpbb_gallery_notification->send_notification('album', $album_id, $image_names[0]);
+				$phpbb_gallery_image->handle_counter($process->images, true);
+				$this->album->update_info($album_id);
 
 				meta_refresh($meta_refresh_time, $album_backlink);
 				trigger_error($message);

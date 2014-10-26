@@ -158,7 +158,7 @@ class album
 		));
 
 		if ($album_data['album_type'] != \phpbbgallery\core\album\album::TYPE_CAT
-			&& $album_data['album_images_real'] == 0)
+			&& $album_data['album_images_real'] > 0)
 		{
 			
 			$this->display_images($album_id, $album_data, ($page - 1) * 20, 20);
@@ -235,7 +235,7 @@ class album
 				AND image_status <> " . \phpbbgallery\core\image\image::STATUS_ORPHAN . "
 			ORDER BY $sql_sort_order" . $sql_help_sort;
 		$result = $this->db->sql_query_limit($sql, $limit, $start);
-
+var_dump($sql);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			// Assign the image to the template-block

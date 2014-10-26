@@ -25,7 +25,7 @@ class url
 	/**
 	* Path from the phpbb root, into gallery's root
 	*/
-	private $phpbb_gallery_path = 'gallery/';
+	private $phpbb_gallery_path = 'gallery_store/';
 
 	/**
 	* php-file extension
