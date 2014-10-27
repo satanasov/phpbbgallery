@@ -133,7 +133,7 @@ class release_1_1_6 extends \phpbb\db\migration\migration
 						'image_contest_rank'	=> array('UINT:3', 0),
 						'image_filemissing'		=> array('UINT:3', 0),
 						'image_has_exif'		=> array('UINT:3', 2),
-						'image_exif_data'		=> array('TEXT', ''),
+						'image_exif_data'		=> array('TEXT', 'no data'),
 						'image_rates'			=> array('UINT', 0),
 						'image_rate_points'		=> array('UINT', 0),
 						'image_rate_avg'		=> array('UINT', 0),
@@ -410,6 +410,7 @@ class release_1_1_6 extends \phpbb\db\migration\migration
 
 			// @todo: ADD BBCODE
 			array('custom', array(array(&$this, 'install_config'))),
+			array('custom', array(array(&$this, 'create_file_structure'))),
 		);
 	}
 

@@ -108,7 +108,6 @@ class image
 	public function base($image_id, $page = 0)
 	{
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
-
 		try
 		{
 			$sql = 'SELECT *

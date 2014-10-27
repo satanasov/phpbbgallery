@@ -141,9 +141,11 @@ class file
 	*/
 	public function medium($image_id)
 	{
+
 		$this->path = $this->path_medium;
 		$this->load_data($image_id);
 		$this->check_auth();
+		
 		$this->generate_image_src();
 
 		$this->tool->set_image_options($this->config['phpbb_gallery_max_filesize'], $this->config['phpbb_gallery_max_height'], $this->config['phpbb_gallery_max_width']);
@@ -186,7 +188,6 @@ class file
 
 	public function load_data($image_id)
 	{
-		
 		$sql = 'SELECT *
 			FROM ' . $this->table_images . ' i
 			LEFT JOIN ' . $this->table_albums . ' a
@@ -194,7 +195,6 @@ class file
 			WHERE i.image_id = ' . (int) $image_id;
 		$result = $this->db->sql_query($sql);
 		$this->data = $this->db->sql_fetchrow($result);
-		error_log($this->db->sql_query($sql));
 		$this->db->sql_freeresult($result);
 
 		if (!$this->data || !$this->data['album_id'])
@@ -207,6 +207,7 @@ class file
 
 	public function check_auth()
 	{
+		$this->auth->load_user_premissions($this->user->data['user_id']);
 		// Check permissions
 		if (($this->data['image_user_id'] != $this->user->data['user_id']) && ($this->data['image_status'] == \phpbbgallery\core\image\image::STATUS_ORPHAN))
 		{
@@ -225,6 +226,7 @@ class file
 
 	public function generate_image_src()
 	{
+		//var_dump($this->path_source);
 		$this->image_src = $this->path  . $this->data['image_filename'];
 
 		if ($this->data['image_filemissing'] || !file_exists($this->path_source . $this->data['image_filename']))

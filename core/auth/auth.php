@@ -456,6 +456,7 @@ class auth
 	public function acl_check($acl, $a_id, $u_id = -1)
 	{
 		$bit = self::$_permissions_flipped[$acl];
+		
 		if ($bit < 0)
 		{
 			$bit = $acl;

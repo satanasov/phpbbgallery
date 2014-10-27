@@ -56,7 +56,7 @@ class main_module
 		$this->tpl_name = 'gallery/ucp_gallery';
 		add_form_key('ucp_gallery');
 
-		$mode = request_var('mode', '');
+		$mode = request_var('mode', 'manage_albums');
 		$action = request_var('action', '');
 		$cancel = (isset($_POST['cancel'])) ? true : false;
 		if ($cancel)
@@ -127,8 +127,11 @@ class main_module
 	{
 		global $template, $user, $phpbb_ext_gallery, $phpbb_ext_gallery_user;
 
+		//We need to set user_ID so we can test for any other thing
+		$phpbb_ext_gallery_user->set_user_id($user->data['user_id']);
 		if (!$phpbb_ext_gallery_user->get_data('personal_album_id'))
 		{
+			var_dump('we are here');
 			// User will probally go to initialise_album()
 			$template->assign_vars(array(
 				'S_INFO_CREATE'				=> true,
@@ -140,7 +143,7 @@ class main_module
 		}
 		else
 		{
-			$phpbb_ext_gallery->url->redirect('phpbb', 'ucp', 'i=-phpbbgallery-core-ucp-main_module&amp;mode=manage_albums');
+			$phpbb_ext_gallery->url->redirect('phpbb', 'ucp', 'i=-phpbbgallery-core-ucp-main_module&mode=manage_albums&action=manage');
 		}
 	}
 

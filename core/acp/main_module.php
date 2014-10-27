@@ -53,8 +53,13 @@ class main_module
 
 	function overview()
 	{
-		global $auth, $config, $db, $template, $user, $phpbb_ext_gallery, $table_prefix, $phpbb_dispatcher;
+		global $auth, $config, $db, $template, $user, $phpbb_ext_gallery, $table_prefix, $phpbb_dispatcher, $phpbb_root_path;
 		
+		$phpbbgallery_core_file = $phpbb_root_path . 'files/phpbbgallery/core';
+		$phpbbgallery_core_file_medium = $phpbb_root_path . 'files/phpbbgallery/core/medium';
+		$phpbbgallery_core_file_mini = $phpbb_root_path . 'files/phpbbgallery/core/mini';
+		$phpbbgallery_core_file_source = $phpbb_root_path . 'files/phpbbgallery/core/source';
+	
 		$albums_table = $table_prefix . 'gallery_albums';
 		$roles_table = $table_prefix . 'gallery_roles';
 		$permissions_table = $table_prefix . 'gallery_permissions';
@@ -78,6 +83,27 @@ class main_module
 		$id = request_var('i', '');
 		$mode = 'overview';
 
+		// before we start let's check if directory structure is OK
+		
+		if (is_writable($phpbb_root_path . 'files'))
+		{
+			if (file_exists($phpbbgallery_core_file))
+			{
+				mkdir($phpbbgallery_core_file, 0755, true);
+			}
+			if (!file_exists($phpbbgallery_core_file_medium))
+			{
+				mkdir($phpbbgallery_core_file_medium, 0755, true);
+			}
+			if (!file_exists($phpbbgallery_core_file_mini))
+			{
+				mkdir($phpbbgallery_core_file_mini, 0755, true);
+			}
+			if (!file_exists($phpbbgallery_core_file_source))
+			{
+				mkdir($phpbbgallery_core_file_source, 0755, true);
+			}
+		}
 		if (!confirm_box(true))
 		{
 			$confirm = false;

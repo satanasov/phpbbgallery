@@ -62,7 +62,7 @@ class url
 			case 'gallery':
 				return $this->phpbb_gallery_relative;
 			case 'ext':
-				return $this->phpbb_root_path . 'ext/gallery/core/';
+				return $this->phpbb_root_path . 'ext/phpbbgallery/core/';
 			case 'phpbb':
 				return $this->phpbb_root_path;
 			case 'admin':
@@ -75,7 +75,7 @@ class url
 				return generate_board_url() . '/';
 
 			case 'images':
-				return $this->phpbb_gallery_relative . self::IMAGE_PATH;
+				return $this->phpbb_root_path . 'ext/phpbbgallery/core/' . self::IMAGE_PATH;
 			case 'upload':
 				return $this->phpbb_gallery_relative . self::IMAGE_PATH . self::UPLOAD_PATH;
 			case 'thumbnail':
