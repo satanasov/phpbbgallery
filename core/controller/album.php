@@ -174,7 +174,7 @@ class album
 		$sort_days	= request_var('st', 0);
 		$sort_key	= request_var('sk', ($album_data['album_sort_key']) ? $album_data['album_sort_key'] : $this->config['phpbb_gallery_default_sort_key']);
 		$sort_dir	= request_var('sd', ($album_data['album_sort_dir']) ? $album_data['album_sort_dir'] : $this->config['phpbb_gallery_default_sort_dir']);
-
+		
 		$image_status_check = ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED;
 		$image_counter = $album_data['album_images'];
 		if ($this->auth->acl_check('m_status', $album_id, $album_data['album_user_id']))
@@ -235,7 +235,7 @@ class album
 				AND image_status <> " . \phpbbgallery\core\image\image::STATUS_ORPHAN . "
 			ORDER BY $sql_sort_order" . $sql_help_sort;
 		$result = $this->db->sql_query_limit($sql, $limit, $start);
-var_dump($sql);
+
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			// Assign the image to the template-block
@@ -314,6 +314,7 @@ var_dump($sql);
 	 */
 	protected function check_permissions($album_id, $owner_id)
 	{
+		$this->auth->load_user_premissions($this->user->data['user_id']);
 		if (!$this->auth->acl_check('i_view', $album_id, $owner_id))
 		{
 			if ($this->user->data['is_bot'])
