@@ -79,8 +79,9 @@ class image
 	* @param string						$albums_table	Gallery albums table
 	* @param string						$users_table	Gallery users table
 	*/
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $db, \phpbb\event\dispatcher $dispatcher, \phpbb\pagination $pagination, \phpbb\template\template $template, \phpbb\user $user, \phpbbgallery\core\album\display $display, \phpbbgallery\core\album\loader $loader, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\auth\level $auth_level, $albums_table, $images_table, $users_table)
+	public function __construct(\phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $db, \phpbb\event\dispatcher $dispatcher, \phpbb\pagination $pagination, \phpbb\template\template $template, \phpbb\user $user, \phpbbgallery\core\album\display $display, \phpbbgallery\core\album\loader $loader, \phpbbgallery\core\album\album $album, \phpbbgallery\core\image\image $image, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\auth\level $auth_level, \phpbbgallery\core\url $url, \phpbbgallery\core\misc $misc, $albums_table, $images_table, $users_table)
 	{
+		$this->request = $request;
 		$this->auth = $auth;
 		$this->config = $config;
 		$this->helper = $helper;
@@ -91,8 +92,13 @@ class image
 		$this->user = $user;
 		$this->display = $display;
 		$this->loader = $loader;
+		$this->album = $album;
+		$this->image = $image;
 		$this->gallery_auth = $gallery_auth;
+		$this->gallery_config = $gallery_config;
 		$this->auth_level = $auth_level;
+		$this->url = $url;
+		$this->misc = $misc;
 		$this->table_albums = $albums_table;
 		$this->table_images = $images_table;
 		$this->table_users = $users_table;
@@ -281,12 +287,284 @@ class image
 		return $this->helper->render('gallery/viewimage_body.html', $page_title);
 	}
 
+	
+	public function edit($image_id)
+	{
+		$image_data = $this->image->get_image_data($image_id);
+		$album_id = $image_data['image_album_id'];
+		$album_data = $this->album->get_info($album_id);
+		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
+		$this->display->generate_navigation($album_data);
+		add_form_key('gallery');
+		$submit = $this->request->variable('submit', false);
+		$image_backlink = append_sid('./gallery/image/'. $image_id);
+		$album_backlink = append_sid('./gallery/album/'. $image_data['image_album_id']);
+		$disp_image_data = $image_data;
+		$owner_id = $image_data['image_user_id'];
+		$album_loginlink = './ucp.php?mode=login';
+		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		if (!$this->gallery_auth->acl_check('i_edit', $album_id, $owner_id) || ($image_status == \phpbbgallery\core\image\image::STATUS_ORPHAN))
+		{
+			if (!$this->gallery_auth->acl_check('m_edit', $album_id, $owner_id))
+			{
+				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+			}
+		}
+		if ($submit)
+		{
+			if (!check_form_key('gallery'))
+			{
+				trigger_error('FORM_INVALID');
+			}
+
+			$image_desc = request_var('message', array(''), true);
+			$image_desc = $image_desc[0];
+			$image_name = request_var('image_name', array(''), true);
+			$image_name = $image_name[0];
+
+			$message_parser				= new \phpbbgallery\core\parser\parse_message();
+			$message_parser->message	= utf8_normalize_nfc($image_desc);
+			if ($message_parser->message)
+			{
+				$message_parser->parse(true, true, true, true, false, true, true, true);
+			}
+
+			$sql_ary = array(
+				'image_name'				=> $image_name,
+				'image_name_clean'			=> utf8_clean_string($image_name),
+				'image_desc'				=> $message_parser->message,
+				'image_desc_uid'			=> $message_parser->bbcode_uid,
+				'image_desc_bitfield'		=> $message_parser->bbcode_bitfield,
+				'image_allow_comments'		=> request_var('allow_comments', 0),
+			);
+
+			$errors = array();
+			if (empty($sql_ary['image_name_clean']))
+			{
+				$errors[] = $user->lang['MISSING_IMAGE_NAME'];
+			}
+
+			if (!$this->gallery_config->get('allow_comments') || !$this->gallery_config->get('comment_user_control'))
+			{
+				unset($sql_ary['image_allow_comments']);
+			}
+
+			$change_image_count = false;
+			if ($this->gallery_auth->acl_check('m_edit', $album_id, $album_data['album_user_id']))
+			{
+				$user_data = $this->image->get_new_author_info(request_var('change_author', '', true));
+				if ($user_data)
+				{
+					$sql_ary = array_merge($sql_ary, array(
+						'image_user_id'			=> $user_data['user_id'],
+						'image_username'		=> $user_data['username'],
+						'image_username_clean'	=> utf8_clean_string($user_data['username']),
+						'image_user_colour'		=> $user_data['user_colour'],
+					));
+
+					if ($image_data['image_status'] != $this->image->get_status_unaproved())
+					{
+						$change_image_count = true;
+					}
+				}
+				else if (request_var('change_author', '', true))
+				{
+					$errors[] = $user->lang['INVALID_USERNAME'];
+				}
+			}
+
+			$move_to_personal = request_var('move_to_personal', 0);
+			if ($move_to_personal)
+			{
+				$personal_album_id = 0;
+				if ($user->data['user_id'] != $image_data['image_user_id'])
+				{
+					$image_user = new \phpbbgallery\core\user($db, $image_data['image_user_id']);
+					$personal_album_id = $image_user->get_data('personal_album_id');
+
+					// The User has no personal album, moderators can created that without the need of permissions
+					if (!$personal_album_id)
+					{
+						$personal_album_id = $this->album->generate_personal_album($image_data['image_username'], $image_data['image_user_id'], $image_data['image_user_colour'], $image_user);
+					}
+				}
+				else
+				{
+					$personal_album_id = $this->user->get_data('personal_album_id');
+					if (!$personal_album_id && $this->gallery_auth->acl_check('i_upload', $this->gallery_auth->get_own_album()))
+					{
+						$personal_album_id = $this->album->generate_personal_album($image_data['image_username'], $image_data['image_user_id'], $image_data['image_user_colour'], phpbb_gallery::$user);
+					}
+				}
+
+				if ($personal_album_id)
+				{
+					$sql_ary['image_album_id'] = $personal_album_id;
+				}
+			}
+
+			$rotate = request_var('rotate', array(0));
+			$rotate = (isset($rotate[0])) ? $rotate[0] : 0;
+			if ($this->gallery_config->get('allow_rotate') && ($rotate > 0) && (($rotate % 90) == 0))
+			{
+				$image_tools = new \phpbbgallery\core\file\file();
+				$image_tools->set_image_options($this->gallery_config->get('max_filesize'), $this->gallery_config->get('max_height'), $this->gallery_config->get('max_width'));
+				$image_tools->set_image_data($this->url->path('upload') . $image_data['image_filename']);
+
+				/*if (($image_data['image_has_exif'] != phpbb_gallery_exif::UNAVAILABLE) && ($image_data['image_has_exif'] != phpbb_gallery_exif::DBSAVED))
+				{
+					// Store exif-data to database if there are any and we didn't already do that.
+					$exif = new phpbb_gallery_exif($image_tools->image_source);
+					$exif->read();
+					$sql_ary['image_has_exif'] = $exif->status;
+					$sql_ary['image_exif_data'] = $exif->serialized;
+				}*/
+
+				// Rotate the image
+				$image_tools->rotate_image($rotate, $this->gallery_config->get('allow_rotate'));
+				if ($image_tools->rotated)
+				{
+					$image_tools->write_image($image_tools->image_source, $this->gallery_config->get('jpg_quality'), true);
+				}
+				@unlink($this->url->path('thumbnail') . $image_data['image_filename']);
+				@unlink($this->url->path('medium') . $image_data['image_filename']);
+			}
+
+			$error = implode('<br />', $errors);
+
+			if (!$error)
+			{
+				$sql = 'UPDATE ' . $this->table_images . ' 
+					SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . '
+					WHERE image_id = ' . $image_id;
+				$this->db->sql_query($sql);
+
+				$this->album->update_info($album_data['album_id']);
+				if ($move_to_personal && $personal_album_id)
+				{
+					$this->album->update_info($personal_album_id);
+				}
+
+				if ($change_image_count)
+				{
+					$new_user = new phpbb_gallery_user($db, $user_data['user_id'], false);
+					$new_user->update_images(1);
+					$old_user = new phpbb_gallery_user($db, $image_data['image_user_id'], false);
+					$old_user->update_images(-1);
+				}
+
+				if ($this->user->data['user_id'] != $image_data['image_user_id'])
+				{
+					add_log('gallery', $image_data['image_album_id'], $image_id, 'LOG_GALLERY_EDITED', $image_name);
+				}
+
+				$message = $this->user->lang['IMAGES_UPDATED_SUCCESSFULLY'];
+				$message .= '<br /><br />' . sprintf($this->user->lang['CLICK_RETURN_IMAGE'], '<a href="' . $image_backlink . '">', '</a>');
+				$message .= '<br /><br />' . sprintf($this->user->lang['CLICK_RETURN_ALBUM'], '<a href="' . $album_backlink . '">', '</a>');
+				meta_refresh(3, $image_backlink);
+				trigger_error($message);
+			}
+			$disp_image_data = array_merge($disp_image_data, $sql_ary);
+		}
+
+		$message_parser				= new \phpbbgallery\core\parser\parse_message();
+		$message_parser->message	= $disp_image_data['image_desc'];
+		$message_parser->decode_message($disp_image_data['image_desc_uid']);
+
+		$page_title = $disp_image_data['image_name'];
+		
+		$this->template->assign_block_vars('image', array(
+			'U_IMAGE'		=> $this->image->generate_link('thumbnail', 'plugin', $image_id, $image_data['image_name'], $album_id),
+			'IMAGE_NAME'	=> $disp_image_data['image_name'],
+			'IMAGE_DESC'	=> $message_parser->message,
+		));
+
+		$this->template->assign_vars(array(
+			'L_DESCRIPTION_LENGTH'	=> $this->user->lang('DESCRIPTION_LENGTH', $this->gallery_config->get('description_length')),
+			'S_EDIT'			=> true,
+			'S_ALBUM_ACTION'		=> append_sid('./gallery/image/'. $image_id .'/edit'),
+			'ERROR'				=> (isset($error)) ? $error : '',
+
+			'U_VIEW_IMAGE'		=> $this->url->append_sid('image_page', "album_id=$album_id&amp;image_id=$image_id"),
+			'IMAGE_NAME'		=> $image_data['image_name'],
+
+			'S_CHANGE_AUTHOR'	=> $this->gallery_auth->acl_check('m_edit', $album_id, $album_data['album_user_id']),
+			'U_FIND_USERNAME'	=> $this->url->append_sid('phpbb', 'memberlist', 'mode=searchuser&amp;form=postform&amp;field=change_author&amp;select_single=true'),
+			'S_COMMENTS_ENABLED'=> $this->gallery_config->get('allow_comments') && $this->gallery_config->get('comment_user_control'),
+			'S_ALLOW_COMMENTS'	=> $image_data['image_allow_comments'],
+
+			'NUM_IMAGES'		=> 1,
+			'S_ALLOW_ROTATE'	=> ($this->gallery_config->get('allow_rotate') && function_exists('imagerotate')),
+			//'S_MOVE_PERSONAL'	=> (($this->galley_auth->acl_check('i_upload', $this->galley_auth::OWN_ALBUM) || phpbb_gallery::$user->get_data('personal_album_id')) || ($user->data['user_id'] != $image_data['image_user_id'])) ? true : false,
+			'S_MOVE_MODERATOR'	=> ($this->user->data['user_id'] != $image_data['image_user_id']) ? true : false,
+		));
+		
+		return $this->helper->render('gallery/posting_body.html', $page_title);
+	}
+	public function delete($image_id)
+	{
+		$image_data = $this->image->get_image_data($image_id);
+		$album_id = $image_data['image_album_id'];
+		$album_data = $this->album->get_info($album_id);
+		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
+		$album_loginlink = './ucp.php?mode=login';
+		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		if (!$this->gallery_auth->acl_check('i_delete', $album_id, $owner_id) || ($image_status == \phpbbgallery\core\image\image::STATUS_ORPHAN))
+		{
+			if (!$this->gallery_auth->acl_check('m_dele', $album_id, $owner_id))
+			{
+				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+			}
+		}
+		$s_hidden_fields = build_hidden_fields(array(
+			'album_id'		=> $album_id,
+			'image_id'		=> $image_id,
+			'mode'			=> 'delete',
+		));
+		
+		$image_backlink = append_sid('./gallery/image/'. $image_id);
+		$album_backlink = append_sid('./gallery/album/'. $image_data['image_album_id']);
+		
+		if (confirm_box(true))
+		{
+			$this->image->handle_counter($image_id, false);
+			$this->image->delete_images(array($image_id), array($image_id => $image_data['image_filename']));
+			$this->album->update_info($album_id);
+
+			$message = $this->user->lang['DELETED_IMAGE'] . '<br />';
+			$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_ALBUM'], '<a href="' . $album_backlink . '">', '</a>');
+
+			if ($this->user->data['user_id'] != $image_data['image_user_id'])
+			{
+				add_log('gallery', $image_data['image_album_id'], $image_id, 'LOG_GALLERY_DELETED', $image_data['image_name']);
+			}
+
+			meta_refresh(3, $album_backlink);
+			trigger_error($message);
+		}
+		else
+		{
+			if (isset($_POST['cancel']))
+			{
+				$message = $this->user->lang['DELETED_IMAGE_NOT'] . '<br />';
+				$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_IMAGE'], '<a href="' . $image_backlink . '">', '</a>');
+				meta_refresh(3, $image_backlink);
+				trigger_error($message);
+			}
+			else
+			{
+				confirm_box(false, 'DELETE_IMAGE2', $s_hidden_fields);
+			}
+		}
+	}
+	
 	/**
 	 * @param	int		$album_id
 	 * @param	array	$album_data
 	 */
 	protected function check_permissions($album_id, $owner_id, $image_status)
 	{
+		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 		if (!$this->gallery_auth->acl_check('i_view', $album_id, $owner_id) || ($image_status == \phpbbgallery\core\image\image::STATUS_ORPHAN))
 		{
 			if ($this->user->data['is_bot'])
@@ -303,24 +581,14 @@ class image
 			}
 			else
 			{
-				return $this->error('NOT_AUTHORISED', 403);
+				//return $this->error('NOT_AUTHORISED', 403);
+				redirect('/gallery/album/' . $album_id);
 			}
 		}
 		if (!$this->gallery_auth->acl_check('m_status', $album_id, $owner_id) && ($image_status == \phpbbgallery\core\image\image::STATUS_UNAPPROVED))
 		{
-			return $this->error('NOT_AUTHORISED', 403);
+			//return $this->error('NOT_AUTHORISED', 403);
+			redirect('/gallery/album/' . $album_id);
 		}
-	}
-
-	protected function error($message, $status = 200, $title = '')
-	{
-		$title = $title ?: 'INFORMATION';
-
-		$this->template->assign_vars(array(
-			'MESSAGE_TITLE'		=> $this->user->lang($title),
-			'MESSAGE_TEXT'		=> $message,
-		));
-
-		return $this->helper->render('message_body.html', $this->user->lang($title), $status);
 	}
 }

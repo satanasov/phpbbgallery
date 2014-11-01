@@ -21,6 +21,7 @@ class auth
 	const ACCESS_REGISTERED		= 1;
 	const ACCESS_NOT_FOES		= 2;
 	const ACCESS_FRIENDS		= 3;
+	const ACCESS_SPECIAL_FRIENDS	= 4;
 
 	// ACL - slightly different
 	const ACL_NO		= 0;
@@ -100,6 +101,11 @@ class auth
 		self::$_permissions_flipped['a_count'] = 'a_count';
 	}
 
+	public function get_own_album()
+	{
+		return -2;
+	}
+	
 	public function load_user_premissions($user_id, $album_id = false)
 	{
 		$cached_permissions = $this->user->get_data('user_permissions');
@@ -455,6 +461,7 @@ class auth
 	*/
 	public function acl_check($acl, $a_id, $u_id = -1)
 	{
+		global $user;
 		$bit = self::$_permissions_flipped[$acl];
 		
 		if ($bit < 0)
@@ -489,11 +496,10 @@ class auth
 		{
 			$get_acl = 'get_count';
 		}
-
 		$p_id = $a_id;
 		if ($u_id)
 		{
-			$this->user->set_user_id($u_id);
+			$this->user->set_user_id($user->data['user_id']);
 			if ($this->user->is_user($u_id))
 			{
 				$p_id = self::OWN_ALBUM;

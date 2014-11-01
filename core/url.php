@@ -23,9 +23,14 @@ class url
 	private $phpbb_admin_path = 'adm/';
 
 	/**
+	* Path from the phpbb root, into gallery's file root
+	*/
+	private $phpbb_gallery_file_path = 'files/phpbbgallery/core/';
+	
+	/**
 	* Path from the phpbb root, into gallery's root
 	*/
-	private $phpbb_gallery_path = 'gallery_store/';
+	private $phpbb_gallery_path = 'gallery/';
 
 	/**
 	* php-file extension
@@ -34,8 +39,8 @@ class url
 
 
 	const IMAGE_PATH = 'images/';
-	const UPLOAD_PATH = 'upload/';
-	const THUMBNAIL_PATH = 'cache/';
+	const UPLOAD_PATH = 'source/';
+	const THUMBNAIL_PATH = 'mini/';
 	const MEDIUM_PATH = 'medium/';
 	const IMPORT_PATH = 'import/';
 
@@ -77,23 +82,23 @@ class url
 			case 'images':
 				return $this->phpbb_root_path . 'ext/phpbbgallery/core/' . self::IMAGE_PATH;
 			case 'upload':
-				return $this->phpbb_gallery_relative . self::IMAGE_PATH . self::UPLOAD_PATH;
+				return $this->phpbb_root_path . $this->phpbb_gallery_file_path . self::UPLOAD_PATH;
 			case 'thumbnail':
-				return $this->phpbb_gallery_relative . self::IMAGE_PATH . self::THUMBNAIL_PATH;
+				return $this->phpbb_root_path . $this->phpbb_gallery_file_path . self::THUMBNAIL_PATH;
 			case 'medium':
-				return $this->phpbb_gallery_relative . self::IMAGE_PATH . self::MEDIUM_PATH;
+				return $this->phpbb_root_path . $this->phpbb_gallery_file_path . self::MEDIUM_PATH;
 			case 'import':
-				return $this->phpbb_gallery_relative . self::IMAGE_PATH . self::IMPORT_PATH;
+				return $this->phpbb_root_path . $this->phpbb_gallery_file_path . self::IMPORT_PATH;
 
 				// stupid phpbb-upload class prepends the rootpath itself.
 			case 'upload_noroot':
-				return $this->phpbb_gallery_path . self::IMAGE_PATH . self::UPLOAD_PATH;
+				return $this->phpbb_gallery_file_path . self::UPLOAD_PATH;
 			case 'thumbnail_noroot':
-				return $this->phpbb_gallery_path . self::IMAGE_PATH . self::THUMBNAIL_PATH;
+				return $this->phpbb_gallery_file_path . self::THUMBNAIL_PATH;
 			case 'medium_noroot':
-				return $this->phpbb_gallery_path . self::IMAGE_PATH . self::MEDIUM_PATH;
+				return $this->phpbb_gallery_file_path . self::MEDIUM_PATH;
 			case 'import_noroot':
-				return $this->phpbb_gallery_path . self::IMAGE_PATH . self::IMPORT_PATH;
+				return $this->phpbb_gallery_file_path . self::IMPORT_PATH;
 		}
 
 		return false;
@@ -133,6 +138,11 @@ class url
 		return append_sid($params[0], $params[1], $params[2], $params[3]);
 	}
 
+	public function show_image($image_id, $size = 'medium')
+	{
+		return $this->phpbb_gallery_full_path . 'image/' . $image_id . '/' . $size;
+	}
+	
 	/**
 	* Removes the sid and replaces &amp; with normal &
 	*/

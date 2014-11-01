@@ -8,16 +8,9 @@
 *
 */
 
-/**
-* @ignore
-*/
+namespace phpbbgallery\core;
 
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-class phpbb_ext_gallery_core_rating
+class rating
 {
 	/**
 	* The image ID we want to rate
@@ -84,10 +77,10 @@ class phpbb_ext_gallery_core_rating
 	{
 		if ($this->image_data == null)
 		{
-			global $db;
+			global $db, $table_prefix;
 
 			$sql = 'SELECT *
-				FROM ' . GALLERY_IMAGES_TABLE . '
+				FROM ' . $table_prefix . 'gallery_images
 				WHERE image_id = ' . $this->image_id;
 			$result = $db->sql_query($sql);
 			$this->image_data = $db->sql_fetchrow($result);
@@ -112,10 +105,10 @@ class phpbb_ext_gallery_core_rating
 	{
 		if ($this->album_data == null)
 		{
-			global $db;
+			global $db, $table_prefix;
 
 			$sql = 'SELECT *
-				FROM ' . GALLERY_ALBUMS_TABLE . '
+				FROM ' . $table_prefix . 'gallery_albums
 				WHERE album_id = ' . (int) $this->image_data('album_id');
 			$result = $db->sql_query($sql);
 			$this->album_data = $db->sql_fetchrow($result);
@@ -264,6 +257,8 @@ class phpbb_ext_gallery_core_rating
 	*/
 	public function get_user_rating($user_id)
 	{
+		global $table_prefix;
+	
 		$user_id = (int) $user_id;
 		if (isset($this->user_rating[$user_id]))
 		{
@@ -277,7 +272,7 @@ class phpbb_ext_gallery_core_rating
 		global $db;
 
 		$sql = 'SELECT rate_point
-			FROM ' . GALLERY_RATES_TABLE . '
+			FROM ' . $table_prefix . 'gallery_rates
 			WHERE rate_image_id = ' . $this->image_id . '
 				AND rate_user_id = ' . $user_id;
 		$result = $db->sql_query($sql);
@@ -331,7 +326,7 @@ class phpbb_ext_gallery_core_rating
 	*/
 	private function insert_rating($user_id, $points, $user_ip = false)
 	{
-		global $db, $user;
+		global $db, $user, $table_prefix;
 
 		$sql_ary = array(
 			'rate_image_id'	=> $this->image_id,
@@ -339,7 +334,7 @@ class phpbb_ext_gallery_core_rating
 			'rate_user_ip'	=> ($user_ip) ? $user_ip : $user->ip,
 			'rate_point'	=> $points,
 		);
-		$db->sql_query('INSERT INTO ' . GALLERY_RATES_TABLE . ' ' . $db->sql_build_array('INSERT', $sql_ary));
+		$db->sql_query('INSERT INTO ' . $table_prefix . 'gallery_rates ' . $db->sql_build_array('INSERT', $sql_ary));
 	}
 
 	/**
@@ -349,7 +344,7 @@ class phpbb_ext_gallery_core_rating
 	*/
 	static public function recalc_image_rating($image_ids)
 	{
-		global $db;
+		global $db, $table_prefix;
 
 		if (is_array($image_ids))
 		{
@@ -361,14 +356,14 @@ class phpbb_ext_gallery_core_rating
 		}
 
 		$sql = 'SELECT rate_image_id, COUNT(rate_user_ip) image_rates, AVG(rate_point) image_rate_avg, SUM(rate_point) image_rate_points
-			FROM ' . GALLERY_RATES_TABLE . '
+			FROM ' . $table_prefix . 'gallery_rates
 			WHERE ' . $db->sql_in_set('rate_image_id', $image_ids, false, true) . '
 			GROUP BY rate_image_id';
 		$result = $db->sql_query($sql);
 
 		while ($row = $db->sql_fetchrow($result))
 		{
-			$sql = 'UPDATE ' . GALLERY_IMAGES_TABLE . '
+			$sql = 'UPDATE ' . $table_prefix . 'gallery_images
 				SET image_rates = ' . $row['image_rates'] . ',
 					image_rate_points = ' . $row['image_rate_points'] . ',
 					image_rate_avg = ' . round($row['image_rate_avg'], 2) * 100 . '
@@ -386,7 +381,7 @@ class phpbb_ext_gallery_core_rating
 	*/
 	static public function delete_ratings($image_ids, $reset_average = false)
 	{
-		global $db;
+		global $db, $table_prefix;
 
 		if (is_array($image_ids))
 		{
@@ -397,13 +392,13 @@ class phpbb_ext_gallery_core_rating
 			$image_ids = (int) $image_ids;
 		}
 
-		$sql = 'DELETE FROM ' . GALLERY_RATES_TABLE . '
+		$sql = 'DELETE FROM ' . $table_prefix . 'gallery_rates
 			WHERE ' . $db->sql_in_set('rate_image_id', $image_ids, false, true);
 		$result = $db->sql_query($sql);
 
 		if ($reset_average)
 		{
-			$sql = 'UPDATE ' . GALLERY_IMAGES_TABLE . '
+			$sql = 'UPDATE ' . $table_prefix . 'gallery_images
 				SET image_rates = 0,
 					image_rate_points = 0,
 					image_rate_avg = 0

@@ -285,7 +285,7 @@ class upload
 		if (!$upload_dir)
 		{
 			$this->file->clean_filename('unique_ext');
-			$this->file->move_file(substr($phpbb_ext_gallery->url->path('upload_noroot'), 0, -1), false, false, CHMOD_ALL);
+			$this->file->move_file(substr($phpbb_ext_gallery->url->path('upload'), 0, -1), false, false, CHMOD_ALL);
 		}
 		else
 		{
@@ -403,7 +403,7 @@ class upload
 		
 		
 		
-		$image_name = str_replace("_", " ", utf8_substr($this->file->uploadname, 0, utf8_strrpos($this->file->uploadname, '.')));
+		$image_name = str_replace("_", "_", utf8_substr($this->file->uploadname, 0, utf8_strrpos($this->file->uploadname, '.')));
 
 		$sql_ary = array_merge(array(
 			'image_name'			=> $image_name,
@@ -489,7 +489,6 @@ class upload
 			copy($phpbb_ext_gallery_url->path('upload') . '.htaccess', $phpbb_ext_gallery_url->path('medium') . $phpbb_ext_gallery_config->get('current_upload_dir') . '/.htaccess');
 			copy($phpbb_ext_gallery_url->path('upload') . '.htaccess', $phpbb_ext_gallery_url->path('thumbnail') . $phpbb_ext_gallery_config->get('current_upload_dir') . '/.htaccess');
 		}
-		var_dump($phpbb_ext_gallery_config->get('current_upload_dir'));
 		return $phpbb_ext_gallery_config->get('current_upload_dir');
 	}
 

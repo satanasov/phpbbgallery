@@ -49,6 +49,11 @@ class image
 	{
 		return 3;
 	}
+	
+	public function get_status_unaproved()
+	{
+		return 0;
+	}
 
 	public function get_new_author_info($username)
 	{
@@ -92,6 +97,14 @@ class image
 	*/
 	public function delete_images($images, $filenames = array(), $resync_albums = true, $skip_files = false)
 	{
+		global $phpbb_container, $table_prefix, $phpbb_dispatcher, $db;
+		$image_tools = $phpbb_container->get('phpbbgallery.core.file.tool');
+		$album = $phpbb_container->get('phpbbgallery.core.album');
+		$phpbb_gallery_image_rating = new \phpbbgallery\core\rating($images);
+		$phpbb_gallery_comment = new \phpbbgallery\core\comment();
+		$phpbb_gallery_notification = new \phpbbgallery\core\notification();
+		$phpbb_gallery_report = new \phpbbgallery\core\report();
+		$phpbb_gallery_contest = new \phpbbgallery\core\contest();
 		if (empty($images))
 		{
 			return;
@@ -109,20 +122,20 @@ class image
 				}
 			}
 			$filenames = array_merge($filenames, self::get_filenames($need_filenames));
-			phpbb_gallery_image_file::delete($filenames);
+			$image_tools->delete($filenames);
 		}
 
 		// Delete the ratings...
-		phpbb_gallery_image_rating::delete_ratings($images);
-		phpbb_gallery_comment::delete_images($images);
-		phpbb_gallery_notification::delete_images($images);
-		phpbb_gallery_report::delete_images($images);
+		$phpbb_gallery_image_rating->delete_ratings($images);
+		$phpbb_gallery_comment->delete_images($images);
+		$phpbb_gallery_notification->delete_images($images);
+		$phpbb_gallery_report->delete_images($images);
 
 		$vars = array('images', 'filenames');
 		extract($phpbb_dispatcher->trigger_event('gallery.core.image.delete_images', compact($vars)));
 
 		$sql = 'SELECT image_album_id, image_contest_rank
-			FROM ' . GALLERY_IMAGES_TABLE . '
+			FROM ' . $table_prefix . 'gallery_images
 			WHERE ' . $db->sql_in_set('image_id', $images) . '
 			GROUP BY image_album_id, image_contest_rank';
 		$result = $db->sql_query($sql);
@@ -139,17 +152,17 @@ class image
 		$resync_contests = array_unique($resync_contests);
 		$resync_album_ids = array_unique($resync_album_ids);
 
-		$sql = 'DELETE FROM ' . GALLERY_IMAGES_TABLE . '
+		$sql = 'DELETE FROM ' . $table_prefix . 'gallery_images
 			WHERE ' . $db->sql_in_set('image_id', $images);
 		$db->sql_query($sql);
 
 		// The images need to be deleted, before we grab the new winners.
-		phpbb_gallery_contest::resync_albums($resync_contests);
+		$phpbb_gallery_contest->resync_albums($resync_contests);
 		if ($resync_albums)
 		{
 			foreach ($resync_album_ids as $album_id)
 			{
-				phpbb_gallery_album::update_info($album_id);
+				$album->update_info($album_id);
 			}
 		}
 
@@ -197,13 +210,17 @@ class image
 	*/
 	public function generate_link($content, $mode, $image_id, $image_name, $album_id, $is_gif = false, $count = true, $additional_parameters = '', $next_image = 0)
 	{
-		global $user;
+		global $user, $phpbb_root_path, $phpEx;
 		global $phpbb_ext_gallery;//@todo: 
+		
+		$phpbb_ext_gallery_url = new \phpbbgallery\core\url($phpbb_root_path, $phpEx);
 
-		$image_page_url = $phpbb_ext_gallery->url->append_sid('image_page', "album_id=$album_id&amp;image_id=$image_id{$additional_parameters}");
-		$image_url = $phpbb_ext_gallery->url->append_sid('image', "album_id=$album_id&amp;image_id=$image_id{$additional_parameters}" . ((!$count) ? '&amp;view=no_count' : ''));
-		$thumb_url = $phpbb_ext_gallery->url->append_sid('image', "mode=thumbnail&amp;album_id=$album_id&amp;image_id=$image_id{$additional_parameters}");
-		$medium_url = $phpbb_ext_gallery->url->append_sid('image', "mode=medium&amp;album_id=$album_id&amp;image_id=$image_id{$additional_parameters}");
+		$image_page_url = $phpbb_ext_gallery_url->append_sid('image_page', "album_id=$album_id&amp;image_id=$image_id{$additional_parameters}");
+		//$image_url = $phpbb_ext_gallery_url->append_sid('image', "album_id=$album_id&amp;image_id=$image_id{$additional_parameters}" . ((!$count) ? '&amp;view=no_count' : ''));
+		$image_url = $phpbb_ext_gallery_url->show_image($image_id, 'medium');
+		$thumb_url = $phpbb_ext_gallery_url->show_image($image_id, 'mini');
+		$medium_url = $phpbb_ext_gallery_url->show_image($image_id, 'medium');
+		//$medium_url = $phpbb_ext_gallery_url->append_sid('image', "mode=medium&amp;album_id=$album_id&amp;image_id=$image_id{$additional_parameters}");
 		switch ($content)
 		{
 			case 'image_name':
@@ -343,6 +360,25 @@ class image
 		{
 			$phpbb_ext_gallery_config->dec('num_images', $num_images);
 			$phpbb_ext_gallery_config->dec('num_comments', $num_comments);
+		}
+	}
+	
+	public function get_image_data($image_id)
+	{
+		global $db, $table_prefix;
+		if (empty($image_id))
+		{
+			return;
+		}
+		
+		$sql = 'SELECT * FROM ' . $table_prefix . 'gallery_images WHERE image_id = ' . $image_id;
+		$result = $db->sql_query($sql);
+		$row = $db->sql_fetchrow($result);
+		$db->sql_freeresult($result);
+		
+		if ($row)
+		{
+			return $row;
 		}
 	}
 }

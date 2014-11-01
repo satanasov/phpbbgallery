@@ -558,10 +558,10 @@ class user
 			if ($config['allow_birthdays'] && !empty($row['user_birthday']))
 			{
 				list($bday_day, $bday_month, $bday_year) = array_map('intval', explode('-', $row['user_birthday']));
-
 				if ($bday_year)
 				{
-					$now = getdate(time() + $user->timezone + $user->dst - date('Z'));
+					$now = $user->create_datetime();
+					$now = phpbb_gmgetdate($now->getTimestamp() + $now->getOffset());
 
 					$diff = $now['mon'] - $bday_month;
 					if ($diff == 0)
@@ -572,9 +572,10 @@ class user
 					{
 						$diff = ($diff < 0) ? 1 : 0;
 					}
-
-					$user_cache[$user_id]['age'] = (int) ($now['year'] - $bday_year - $diff);
+					$age = max(0, (int) ($now['year'] - $bday_year - $diff));
 				}
+
+				$user_cache[$user_id]['age'] = $age;
 			}
 		}
 	}

@@ -172,13 +172,13 @@ class file
 		switch ($this->image_type)
 		{
 			case 'jpeg':
-				@imagejpeg($this->image, $destination, $quality);
+				imagejpeg($this->image, $destination, $quality);
 			break;
 			case 'png':
-				@imagepng($this->image, $destination);
+				imagepng($this->image, $destination);
 			break;
 			case 'gif':
-				@imagegif($this->image, $destination);
+				imagegif($this->image, $destination);
 			break;
 		}
 		@chmod($destination, $this->chmod);
@@ -409,7 +409,6 @@ class file
 			$this->errors[] = array('ROTATE_IMAGE_FUNCTION', $angle);
 			return;
 		}
-
 		if (($angle <= 0) || (($angle % 90) != 0))
 		{
 			$this->errors[] = array('ROTATE_IMAGE_ANGLE', $angle);
@@ -420,7 +419,6 @@ class file
 		{
 			$this->read_image();
 		}
-
 		if ((($angle / 90) % 2) == 1)
 		{
 			// Left or Right, we need to switch the height and width
@@ -441,7 +439,6 @@ class file
 			$this->image_size['height'] = $this->image_size['width'];
 			$this->image_size['width'] = $new_width;
 		}
-
 		$this->image = imagerotate($this->image, $angle, 0);
 
 		$this->rotated = true;
@@ -526,6 +523,8 @@ class file
 	*/
 	static public function delete($files, $locations = array('thumbnail', 'medium', 'upload'))
 	{
+		global $phpbb_container;
+		$phpbb_gallery_url = $phpbb_container->get('phpbbgallery.core.url');
 		if (!is_array($files))
 		{
 			$files = array(1 => $files);
@@ -535,7 +534,7 @@ class file
 		{
 			foreach ($locations as $location)
 			{
-				@unlink(phpbb_gallery_url::path($location) . $file);
+				unlink($phpbb_gallery_url->path($location) . $file);
 			}
 		}
 	}

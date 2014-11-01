@@ -56,14 +56,13 @@ class upload
 		$album_data = $this->album->get_info($album_id);
 		$this->display->generate_navigation($album_data);
 		add_form_key('gallery');
-		$album_backlink = './index.php';
-		$album_loginlink;
+		$album_backlink = './gallery/album/'.$album_id;
+		$album_loginlink = './ucp.php?mode=login';
 		//Let's get authorization
 		$this->auth->load_user_premissions($this->user->data['user_id']);
 		if (!$this->auth->acl_check('i_upload', $album_id, $album_data['album_user_id']) || ($album_data['album_status'] == $this->album->status_locked()))
 		{
-			//$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
-			trigger_error('Fuck');
+			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 		}
 		$page_title = 'Upload to "' . $album_data['album_name'] . '"';
 		

@@ -108,7 +108,7 @@ class notification
 	*/
 	static public function delete_images($image_ids)
 	{
-		global $db;
+		global $db, $table_prefix;
 
 		$image_ids = self::cast_mixed_int2array($image_ids);
 

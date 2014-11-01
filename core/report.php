@@ -26,7 +26,7 @@ class report
 	*/
 	static public function add($data)
 	{
-		global $db, $user;
+		global $db, $user, $table_prefix;
 
 		if (!isset($data['report_album_id']) || !isset($data['report_image_id']) || !isset($data['report_note']))
 		{
@@ -37,12 +37,12 @@ class report
 			'report_time'				=> time(),
 			'report_status'				=> self::OPEN,
 		);
-		$sql = 'INSERT INTO ' . GALLERY_REPORTS_TABLE . ' ' . $db->sql_build_array('INSERT', $data);
+		$sql = 'INSERT INTO ' . $table_prefix . 'gallery_reports ' . $db->sql_build_array('INSERT', $data);
 		$db->sql_query($sql);
 
 		$report_id = (int) $db->sql_nextid();
 
-		$sql = 'UPDATE ' . GALLERY_IMAGES_TABLE . ' 
+		$sql = 'UPDATE ' . $table_prefix . 'gallery_images 
 			SET image_reported = ' . $report_id . '
 			WHERE image_id = ' . (int) $data['report_image_id'];
 		$db->sql_query($sql);
@@ -56,7 +56,7 @@ class report
 	*/
 	static public function change_status($new_status, $report_ids, $user_id = false)
 	{
-		global $db, $user;
+		global $db, $user, $table_prefix;
 
 		$sql_ary = array(
 			'report_manager'		=> (int) (($user_id) ? $user_id : $user->data['user_id']),
@@ -64,13 +64,13 @@ class report
 		);
 		$report_ids = self::cast_mixed_int2array($report_ids);
 
-		$sql = 'UPDATE ' . GALLERY_REPORTS_TABLE . ' SET ' . $db->sql_build_array('UPDATE', $sql_ary) . '
+		$sql = 'UPDATE ' . $table_prefix . 'gallery_reports SET ' . $db->sql_build_array('UPDATE', $sql_ary) . '
 			WHERE ' . $db->sql_in_set('report_id', $report_ids);
 		$db->sql_query($sql);
 
 		if ($new_status == self::LOCKED)
 		{
-			$sql = 'UPDATE ' . GALLERY_IMAGES_TABLE . '
+			$sql = 'UPDATE ' . $table_prefix . 'gallery_images
 				SET image_reported = ' . self::UNREPORTED . '
 				WHERE ' . $db->sql_in_set('image_reported', $report_ids);
 			$db->sql_query($sql);
@@ -78,13 +78,13 @@ class report
 		else
 		{
 			$sql = 'SELECT report_image_id, report_id
-				FROM ' . GALLERY_REPORTS_TABLE . '
+				FROM ' . $table_prefix . 'gallery_reports
 				WHERE report_status = ' . self::OPEN . '
 					AND ' . $db->sql_in_set('report_id', $report_ids);
 			$result = $db->sql_query($sql);
 			while ($row = $db->sql_fetchrow($result))
 			{
-				$sql = 'UPDATE ' . GALLERY_IMAGES_TABLE . '
+				$sql = 'UPDATE ' . $table_prefix . 'gallery_images
 					SET image_reported = ' . (int) $row['report_id'] . '
 					WHERE image_id = ' . (int) $row['report_image_id'];
 				$db->sql_query($sql);
@@ -100,11 +100,11 @@ class report
 	*/
 	static public function move_images($image_ids, $move_to)
 	{
-		global $db;
+		global $db, $table_prefix;
 
 		$image_ids = self::cast_mixed_int2array($image_ids);
 
-		$sql = 'UPDATE ' . GALLERY_REPORTS_TABLE . '
+		$sql = 'UPDATE ' . $table_prefix . 'gallery_reports
 			SET report_album_id = ' . (int) $move_to . '
 			WHERE ' . $db->sql_in_set('report_image_id', $image_ids);
 		$db->sql_query($sql);
@@ -132,15 +132,15 @@ class report
 	*/
 	static public function delete($report_ids)
 	{
-		global $db;
+		global $db, $table_prefix;
 
 		$report_ids = self::cast_mixed_int2array($report_ids);
 
-		$sql = 'DELETE FROM ' . GALLERY_REPORTS_TABLE . '
+		$sql = 'DELETE FROM ' . $table_prefix . 'gallery_reports
 			WHERE ' . $db->sql_in_set('report_id', $report_ids);
 		$result = $db->sql_query($sql);
 
-		$sql = 'UPDATE ' . GALLERY_IMAGES_TABLE . '
+		$sql = 'UPDATE ' . $table_prefix . 'gallery_images
 			SET image_reported = ' . self::UNREPORTED . '
 			WHERE ' . $db->sql_in_set('image_reported', $report_ids);
 		$db->sql_query($sql);
@@ -154,11 +154,11 @@ class report
 	*/
 	static public function delete_images($image_ids)
 	{
-		global $db;
+		global $db, $table_prefix;
 
 		$image_ids = self::cast_mixed_int2array($image_ids);
 
-		$sql = 'DELETE FROM ' . GALLERY_REPORTS_TABLE . '
+		$sql = 'DELETE FROM ' . $table_prefix . 'gallery_reports
 			WHERE ' . $db->sql_in_set('report_image_id', $image_ids);
 		$result = $db->sql_query($sql);
 	}
@@ -171,11 +171,11 @@ class report
 	*/
 	static public function delete_albums($album_ids)
 	{
-		global $db;
+		global $db, $table_prefix;
 
 		$album_ids = self::cast_mixed_int2array($album_ids);
 
-		$sql = 'DELETE FROM ' . GALLERY_REPORTS_TABLE . '
+		$sql = 'DELETE FROM ' . $table_prefix . 'gallery_reports
 			WHERE ' . $db->sql_in_set('report_album_id', $album_ids);
 		$result = $db->sql_query($sql);
 	}

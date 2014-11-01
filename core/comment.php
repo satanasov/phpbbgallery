@@ -8,16 +8,9 @@
 *
 */
 
-/**
-* @ignore
-*/
+namespace phpbbgallery\core;
 
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-class phpbb_ext_gallery_core_comment
+class comment
 {
 	/**
 	* Is the user allowed to comment?
@@ -202,17 +195,17 @@ class phpbb_ext_gallery_core_comment
 	*/
 	static public function delete_images($image_ids, $reset_stats = false)
 	{
-		global $db;
+		global $db, $table_prefix;
 
 		$image_ids = self::cast_mixed_int2array($image_ids);
 
-		$sql = 'DELETE FROM ' . GALLERY_COMMENTS_TABLE . '
+		$sql = 'DELETE FROM ' .$table_prefix . 'gallery_comments
 			WHERE ' . $db->sql_in_set('comment_image_id', $image_ids);
 		$db->sql_query($sql);
 
 		if ($reset_stats)
 		{
-			$sql = 'UPDATE ' . GALLERY_IMAGES_TABLE . '
+			$sql = 'UPDATE ' . $table_prefix . 'gallery_images
 				SET image_comments = 0
 					image_last_comment = 0
 				WHERE ' . $db->sql_in_set('image_id', $image_ids);
