@@ -137,6 +137,7 @@ services:
     phpbbgallery.core.controller.image:
         class: phpbbgallery\core\controller\image
         arguments:
+            - @request
             - @auth
             - @config
             - @controller.helper
@@ -147,8 +148,13 @@ services:
             - @user
             - @phpbbgallery.core.album.display
             - @phpbbgallery.core.album.loader
+            - @phpbbgallery.core.album
+            - @phpbbgallery.core.image
             - @phpbbgallery.core.auth
+            - @phpbbgallery.core.config
             - @phpbbgallery.core.auth.level
+            - @phpbbgallery.core.url
+            - @phpbbgallery.core.misc
             - %tables.phpbbgallery.albums%
             - %tables.phpbbgallery.images%
             - %tables.phpbbgallery.users%
@@ -169,3 +175,8 @@ services:
         class: phpbbgallery\core\config
         arguments:
             - @config
+    phpbbgallery.core.url:
+        class: phpbbgallery\core\url
+        arguments:
+           - %core.root_path%
+           - %core.php_ext%

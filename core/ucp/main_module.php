@@ -131,7 +131,6 @@ class main_module
 		$phpbb_ext_gallery_user->set_user_id($user->data['user_id']);
 		if (!$phpbb_ext_gallery_user->get_data('personal_album_id'))
 		{
-			var_dump('we are here');
 			// User will probally go to initialise_album()
 			$template->assign_vars(array(
 				'S_INFO_CREATE'				=> true,
@@ -634,7 +633,7 @@ class main_module
 			$album_data['album_auth_access'] = min(3, max(0, $album_data['album_auth_access']));
 			if ($row['album_auth_access'] != $album_data['album_auth_access'])
 			{
-				$phpbb_ext_gallery_core_auth::set_user_permissions('all', '');
+				$phpbb_ext_gallery_core_auth->set_user_permissions('all', '');
 			}
 
 			$sql = 'UPDATE ' . $albums_table . ' 

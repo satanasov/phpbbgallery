@@ -54,6 +54,7 @@ class main_module
 	function overview()
 	{
 		global $auth, $config, $db, $template, $user, $phpbb_ext_gallery, $table_prefix, $phpbb_dispatcher, $phpbb_root_path;
+		global $phpbb_container;
 		
 		$phpbbgallery_core_file = $phpbb_root_path . 'files/phpbbgallery/core';
 		$phpbbgallery_core_file_medium = $phpbb_root_path . 'files/phpbbgallery/core/medium';
@@ -87,7 +88,7 @@ class main_module
 		
 		if (is_writable($phpbb_root_path . 'files'))
 		{
-			if (file_exists($phpbbgallery_core_file))
+			if (!file_exists($phpbbgallery_core_file))
 			{
 				mkdir($phpbbgallery_core_file, 0755, true);
 			}
@@ -217,7 +218,8 @@ class main_module
 						$total_images += $row['num_images'];
 						$total_comments += $row['num_comments'];
 
-						$image_user = new phpbb_gallery_user($db, $row['user_id'], false);
+						$image_user = $phpbb_container->get('phpbbgallery.core.user');
+						$image_user->set_user_id($row['user_id'], false);
 						$image_user->update_data(array(
 							'user_images'		=> $row['num_images'],
 						));

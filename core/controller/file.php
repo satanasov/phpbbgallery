@@ -147,7 +147,12 @@ class file
 		$this->check_auth();
 		
 		$this->generate_image_src();
-
+		
+		if (!file_exists($this->image_src))
+		{
+			$this->resize($image_id, $this->config['phpbb_gallery_medium_width'], $this->config['phpbb_gallery_medium_height'], 'filesize_medium');
+			$this->generate_image_src();
+		}
 		$this->tool->set_image_options($this->config['phpbb_gallery_max_filesize'], $this->config['phpbb_gallery_max_height'], $this->config['phpbb_gallery_max_width']);
 		$this->tool->set_image_data($this->image_src, $this->data['image_name']);
 		if ($this->error || !$this->user->data['is_registered'])
@@ -174,6 +179,11 @@ class file
 		$this->check_auth();
 		$this->generate_image_src();
 
+		if (!file_exists($this->image_src))
+		{
+			$this->resize($image_id, $this->config['phpbb_gallery_thumbnail_width'], $this->config['phpbb_gallery_thumbnail_height'], 'filesize_cache');
+			$this->generate_image_src();
+		}
 		$this->tool->set_image_options($this->config['phpbb_gallery_max_filesize'], $this->config['phpbb_gallery_max_height'], $this->config['phpbb_gallery_max_width']);
 		$this->tool->set_image_data($this->image_src, $this->data['image_name']);
 		if ($this->error || !$this->user->data['is_registered'])
@@ -215,7 +225,6 @@ class file
 			// trigger_error('NOT_AUTHORISED');
 			$this->error = 'not_authorised.jpg';
 		}
-
 		if ((!$this->auth->acl_check('i_view', $this->data['album_id'], $this->data['album_user_id'])) || (!$this->auth->acl_check('m_status', $this->data['album_id'], $this->data['album_user_id']) && ($this->data['image_status'] == \phpbbgallery\core\image\image::STATUS_UNAPPROVED)))
 		{
 			// Missing permissions

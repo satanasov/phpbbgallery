@@ -84,7 +84,6 @@ class settings_module
 				'user_allow_comments'	=> $this->request->variable('allow_comments', false),
 			);
 			$additional_settings = array();
-
 			$vars = array('additional_settings');
 			extract($this->dispatcher->trigger_event('gallery.core.ucp.set_settings_submit', compact($vars)));
 
@@ -94,7 +93,7 @@ class settings_module
 			{
 				unset($gallery_settings['user_allow_comments']);
 			}
-
+			$this->gallery_user->set_user_id($this->user->data['user_id']);
 			$this->gallery_user->update_data($gallery_settings);
 
 			meta_refresh(3, $this->u_action);

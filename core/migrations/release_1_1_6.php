@@ -410,7 +410,6 @@ class release_1_1_6 extends \phpbb\db\migration\migration
 
 			// @todo: ADD BBCODE
 			array('custom', array(array(&$this, 'install_config'))),
-			array('custom', array(array(&$this, 'create_file_structure'))),
 		);
 	}
 
