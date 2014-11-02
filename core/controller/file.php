@@ -112,7 +112,8 @@ class file
 
 		$this->generate_image_src();
 		// @todo Enable watermark
-		// $this->use_watermark = $this->config['phpbb_gallery_watermark_enabled'] && $this->data['album_watermark'] && !$this->auth->acl_check('i_watermark', $this->data['album_id'], $this->data['album_user_id']);
+		$this->auth->load_user_premissions($this->user->data['user_id']);
+		$this->use_watermark = $this->config['phpbb_gallery_watermark_enabled'] && $this->data['album_watermark'] && !$this->auth->acl_check('i_watermark', $this->data['album_id'], $this->data['album_user_id']);
 
 		$this->tool->set_image_options($this->config['phpbb_gallery_max_filesize'], $this->config['phpbb_gallery_max_height'], $this->config['phpbb_gallery_max_width']);
 		$this->tool->set_image_data($this->image_src, $this->data['image_name']);
@@ -153,6 +154,8 @@ class file
 			$this->resize($image_id, $this->config['phpbb_gallery_medium_width'], $this->config['phpbb_gallery_medium_height'], 'filesize_medium');
 			$this->generate_image_src();
 		}
+		$this->auth->load_user_premissions($this->user->data['user_id']);
+		$this->use_watermark = $this->config['phpbb_gallery_watermark_enabled'] && $this->data['album_watermark'] && !$this->auth->acl_check('i_watermark', $this->data['album_id'], $this->data['album_user_id']);
 		$this->tool->set_image_options($this->config['phpbb_gallery_max_filesize'], $this->config['phpbb_gallery_max_height'], $this->config['phpbb_gallery_max_width']);
 		$this->tool->set_image_data($this->image_src, $this->data['image_name']);
 		if ($this->error || !$this->user->data['is_registered'])
@@ -276,8 +279,8 @@ class file
 		// Watermark
 		if ($this->use_watermark)
 		{
-//			$this->tool->set_last_modified(@filemtime($this->path_watermark));
-//			$this->tool->watermark_image($this->path_watermark, $this->config['phpbb_gallery_watermark_position'], $this->config['phpbb_gallery_watermark_height'], $this->config['phpbb_gallery_watermark_width']);
+			$this->tool->set_last_modified(@filemtime($this->path_watermark));
+			$this->tool->watermark_image($this->path_watermark, $this->config['phpbb_gallery_watermark_position'], $this->config['phpbb_gallery_watermark_height'], $this->config['phpbb_gallery_watermark_width']);
 		}
 
 		$this->tool->send_image_to_browser();
