@@ -279,8 +279,10 @@ class file
 		// Watermark
 		if ($this->use_watermark)
 		{
-			$this->tool->set_last_modified(@filemtime($this->path_watermark));
-			$this->tool->watermark_image($this->path_watermark, $this->config['phpbb_gallery_watermark_position'], $this->config['phpbb_gallery_watermark_height'], $this->config['phpbb_gallery_watermark_width']);
+			//$this->tool->set_last_modified(@filemtime($this->path_watermark));
+			//$this->tool->watermark_image($this->path_watermark, $this->config['phpbb_gallery_watermark_position'], $this->config['phpbb_gallery_watermark_height'], $this->config['phpbb_gallery_watermark_width']);
+			$this->tool->set_last_modified(@filemtime($this->config['watermark_source']));
+			$this->tool->watermark_image($this->config['watermark_source'], $this->config['phpbb_gallery_watermark_position'], $this->config['phpbb_gallery_watermark_height'], $this->config['phpbb_gallery_watermark_width']);
 		}
 
 		$this->tool->send_image_to_browser();
