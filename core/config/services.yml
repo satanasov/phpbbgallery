@@ -2,7 +2,7 @@ parameters:
     phpbbgallery.core.file.source: %core.root_path%files/phpbbgallery/core/source/
     phpbbgallery.core.file.medium: %core.root_path%files/phpbbgallery/core/medium/
     phpbbgallery.core.file.mini: %core.root_path%files/phpbbgallery/core/mini/
-    phpbbgallery.core.file.watermark: %core.root_path%files/phpbbgallery/core/watermark.png
+    phpbbgallery.core.file.watermark: %core.root_path%ext/phpbbgallery/core/images/watermark.png
 
     tables.phpbbgallery.albums: %core.table_prefix%gallery_albums
     tables.phpbbgallery.contests: %core.table_prefix%gallery_contests

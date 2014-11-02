@@ -489,22 +489,24 @@ class file
 			$this->errors[] = array('WATERMARK_IMAGE_IMAGECREATE');
 		}
 
+		
+		$phpbb_gallery_constants = new \phpbbgallery\core\constants();
 		// Where do we display the watermark? up-left, down-right, ...?
 		$dst_x = (($this->image_size['width'] * 0.5) - ($this->watermark_size[0] * 0.5));
 		$dst_y = ($this->image_size['height'] - $this->watermark_size[1] - 5);
-		if ($watermark_position & phpbb_gallery_constants::WATERMARK_LEFT)
+		if ($watermark_position & $phpbb_gallery_constants::WATERMARK_LEFT)
 		{
 			$dst_x = 5;
 		}
-		elseif ($watermark_position & phpbb_gallery_constants::WATERMARK_RIGHT)
+		elseif ($watermark_position & $phpbb_gallery_constants::WATERMARK_RIGHT)
 		{
 			$dst_x = ($this->image_size['width'] - $this->watermark_size[0] - 5);
 		}
-		if ($watermark_position & phpbb_gallery_constants::WATERMARK_TOP)
+		if ($watermark_position & $phpbb_gallery_constants::WATERMARK_TOP)
 		{
 			$dst_y = 5;
 		}
-		elseif ($watermark_position & phpbb_gallery_constants::WATERMARK_MIDDLE)
+		elseif ($watermark_position & $phpbb_gallery_constants::WATERMARK_MIDDLE)
 		{
 			$dst_y = (($this->image_size['height'] * 0.5) - ($this->watermark_size[1] * 0.5));
 		}
@@ -522,6 +524,23 @@ class file
 	* @param	array		$locations	Array of valid url::path()s where the image should be deleted from
 	*/
 	static public function delete($files, $locations = array('thumbnail', 'medium', 'upload'))
+	{
+		global $phpbb_container;
+		$phpbb_gallery_url = $phpbb_container->get('phpbbgallery.core.url');
+		if (!is_array($files))
+		{
+			$files = array(1 => $files);
+		}
+
+		foreach ($files as $image_id => $file)
+		{
+			foreach ($locations as $location)
+			{
+				unlink($phpbb_gallery_url->path($location) . $file);
+			}
+		}
+	}
+	static public function delete_cache($files, $locations = array('thumbnail', 'medium'))
 	{
 		global $phpbb_container;
 		$phpbb_gallery_url = $phpbb_container->get('phpbbgallery.core.url');
