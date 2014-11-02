@@ -548,7 +548,7 @@ class release_1_1_6 extends \phpbb\db\migration\migration
 		'watermark_enabled'		=> true,
 		'watermark_height'		=> 50,
 		'watermark_position'	=> 20,
-		'watermark_source'		=> 'gallery/images/watermark.png',
+		'watermark_source'		=> 'ext/phpbbgallery/core/images/watermark.png',
 		'watermark_width'		=> 200,
 	);
 }
