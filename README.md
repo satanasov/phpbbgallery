@@ -2,54 +2,66 @@
 
 © 2012 - [nickvergessen](http://www.flying-bits.org)
 
-With phpBB 3.1 MODs will mostly be replaced with Extensions. The main difference is, that extensions are designed (by code) in a different way and won't require code edits. So I started to port the Gallery MOD to a Gallery Extension. While refactoring the code, I also split it into several Extensions.
+© 2014 - [Lucifer](http://www.anavaro.com)
 
-The aim behind this splitting is, to make it easily possible to disable some features and also be able to remove their code completly from the forum.
+This is direct port of [nickvergessen](https://github.com/nickvergessen)'s phpBB Gallery 1.1.6 for phpBB 3.0. As he has no time to support it or to port it, I have taken this on my self. The phpBB Gallery is very good project and I use it heavily. This is why I can't leave it and just wait for someone to port it or ti create alternative.
 
-So which Extensions will the Gallery include?
+In the [original](https://github.com/phpbbgallery/phpbb-gallery) initial port, the main developer have stated that he wants to split the gallery to smaller peaces - core and few non essentials. I can argue what should be in the core and what should be left as a plug-in. My main goal for now is to migrate the gallery as is. Not chopping "non essetials".
 
-© 2014 - [lucifer4o] (http://www.anavaro.com)
+The incoming 1.2 version of phpBB Gallery is going to be just a port of the original MOD. With as little changes as possible.
 
-This extension is forked from https://github.com/phpbbgallery/phpbb-gallery
+I still think that taking the non-essentials out of the core code is a good idea. Just won't do it so extensevly for the initial version.
 
-As [nickvergessen] abandoned it I will try my best to migrate it to PhpBB 3.1 and to keep working on it.
+Please bear in mind that this is WORK IN PROGRESS. It is as BETA as they comme.
 
-This is one really great peace of code and I am still in the process of understanding and migrating it. Please be patiant. 
+#What Works (for the moment)
 
-For the moment small parts of the Core is migrated.
+ - ACP
+    - Overview
+        - Create file structure and check if it is writable
+        - Resynchronize image count and personal albums
+        - Refresh "Last image"
+        - Puge cache
+        - Reset ratings for album (but the ratings are still not implemented)
+        - Create personal gallery for user
+    - Configure gallery (you can choose and set every option here)
+    - Manage albums (you can create, delete and manage every public album (it allows you to create contests, but the contests will be the one of the few things split as plug-in)
+    - Permissions (allow you to set all the permissions for all and every album)
+ - UCP
+    - Manage albums (create, delete and edit albums (zebra ACL is still not implemented))
+    - Manage subscritions (here you can manage images and and album you are subscribed to)
+    - Personal settings
+ - Controller (url ./gallery)
+    - You can see albums and images
+    - ACL seted in ACP -> Gallery -> Permissions are recongized for view, upload and edit
+    - Watermark
+    - You can see user albums
+    - You can upload pictures
+    - You can edit pictures
+    - You can delete pictures
+ - BBCode - extensio adds the album BBCode
 
-##Extensions
+#What Does not work (yet)
+ - Exif
+ - Comments
+ - Ratings
+ - Image subscription
+ - Image description
+ - Moderator panel of any kind
+ - Image subscription
+ - ACP clean up (this I think must stay in the core until atleast 1.2.1)
+ - ACP mass upload (still think it's a core function)
+ - Zebra ACL for albums/images
 
-###Already implemented
+#Future?
 
-* ACP CleanUp
-* ACP Import
-* Exif Data
-* Favorite
-* Feed
-    * todo: _Add links back to overall_header.html when the template event is commited._
+As I said the 1.2 version will be primarly targeted as backword compatible with phpBB Gallery 1.1.6 MOD (DB will be the same but you will have to manualy move your images to the new location). 1.2 will incorporate TRAVIS-CI tests (all my projects do).
 
-###Planned
+1.2.1 will be where the code clean up, new features and core separation will occure. I will strive to keep everything bakword compatible.
 
-* Comment
-* Rating
-* Contest:
-    * Rating required
-    * Comment required
-* Search
-* Notification (Mail)
-* Report
-* HighslideJS/Lytebox/Shadowbox/etc.
+Thank you for reading this long README. 
 
-###Ideas
+[here a travic-ci badge will be placed]
 
-The following ideas are not part of the 1.1 code
-
-* Custom image fields
-* Features image
-
-##Support/Testing/Installing
-
-The current code for 1.2-dev from this github branch should **NOT** be installed in a live board.
-
-Additional **NO SUPPORT** will be given, until a final version of 1.2 is released!
+Regards,
+Stanislav Atanasov
