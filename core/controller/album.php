@@ -99,17 +99,18 @@ class album
 
 		if ($album_data['album_contest'] == 1)
 		{
-			$album_contest_data = phpbb_gallery_contest::get_contest($album_id);
-			if ($album_data['contest_id'] && $album_data['contest_marked'] && (($album_data['contest_start'] + $album_data['contest_end']) < time()))
+			$phpbb_gallery_contest = new \phpbbgallery\core\contest();
+			$album_contest_data = $phpbb_gallery_contest->get_contest($album_id);
+			if ($album_contest_data['contest_id'] && $album_contest_data['contest_marked'] && (($album_contest_data['contest_start'] + $album_contest_data['contest_end']) < time()))
 			{
-				$contest_end_time = $album_data['contest_start'] + $album_data['contest_end'];
-				phpbb_gallery_contest::end($album_id, $album_data['contest_id'], $contest_end_time);
+				$contest_end_time = $album_contest_data['contest_start'] + $album_contest_data['contest_end'];
+				$phpbb_gallery_contest->end($album_id, $album_contest_data['contest_id'], $contest_end_time);
 
-				$album_data['contest_marked'] = phpbb_ext_gallery_core_image::NO_CONTEST;
+				$album_contest_data['contest_marked'] = phpbb_ext_gallery_core_image::NO_CONTEST;
 			}
 		}
 		$this->check_permissions($album_id, $album_data['album_user_id']);
-		$this->auth_level->display('album', $album_id, $album_data['album_status'], $album_data['album_user_id']);
+		$this->auth_level->display($album_id, $album_data['album_status'], $album_data['album_user_id']);
 
 		$this->display->generate_navigation($album_data);
 		$this->display->display_albums($album_data, $this->config['load_moderators']);

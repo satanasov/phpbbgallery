@@ -374,6 +374,10 @@ $lang = array_merge($lang, array(
 	'WATERMARK_WIDTH_EXP'			=> 'To avoid small images from being covered by the watermark, you may enter a minimum width of the image here. If the image is smaller, the watermark will not be viewed.',
 
 	'ZIP_ALLOWED'					=> 'Allowed to upload ZIP archives',
+
+	'NO_WRITE_ACCESS'				=> 'No write access',
+	'WRITE_ACCESS'					=> 'OK',
+	'DIR_CREATED'					=> 'Directory created',
 ));
 
 /**
