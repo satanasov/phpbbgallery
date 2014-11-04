@@ -133,7 +133,8 @@ class auth
 	*/
 	protected function query_auth_data($user_id)
 	{
-		$albums = array();//@todo $this->cache->obtain_album_list();
+		//$albums = array();//@todo $this->cache->obtain_album_list();
+		$albums = $this->cache->get('albums');
 		$user_groups_ary = self::get_usergroups($user_id);
 
 		$sql_select = '';
@@ -149,6 +150,7 @@ class auth
 
 		foreach ($albums as $album)
 		{
+			
 			if ($album['album_user_id'] == self::PUBLIC_ALBUM)
 			{
 				$this->_auth_data[$album['album_id']]		= new \phpbbgallery\core\auth\set();

@@ -2,7 +2,7 @@
 	"name": "phpbbgallery/core",
 	"type": "phpbb-extension",
 	"description": "",
-	"homepage": "https://github.com/nickvergessen/phpbb-gallery",
+	"homepage": "https://github.com/satanasov/phpbbgallery",
 	"version": "1.2.0",
 	"time": "2014-03-15",
 	"license": "GPL-2.0",
@@ -11,7 +11,11 @@
 			"name": "Joas Schilling",
 			"email": "nickvergessen@gmx.de",
 			"homepage": "http://github.com/nickvergessen",
-			"role": "Lead Developer"
+			"role": "Main Author",
+			"name": "Stanislav Atanasov",
+			"email": "lucifer@anavaro.com",
+			"homepage": "http://www.anavaro.com",
+			"role": "Developer"
 		}
 	],
 	"require": {
