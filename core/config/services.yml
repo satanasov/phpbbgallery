@@ -12,6 +12,7 @@ parameters:
     tables.phpbbgallery.roles: %core.table_prefix%gallery_roles
     tables.phpbbgallery.tracking: %core.table_prefix%gallery_albums_track
     tables.phpbbgallery.users: %core.table_prefix%gallery_users
+    tables.phpbbgallery.comments: %core.table_prefix%gallery_comments
 
 services:
     phpbbgallery.core.album:
@@ -155,9 +156,11 @@ services:
             - @phpbbgallery.core.auth.level
             - @phpbbgallery.core.url
             - @phpbbgallery.core.misc
+            - @phpbbgallery.core.comment
             - %tables.phpbbgallery.albums%
             - %tables.phpbbgallery.images%
             - %tables.phpbbgallery.users%
+            - %tables.phpbbgallery.comments%
     phpbbgallery.core.controller.index:
         class: phpbbgallery\core\controller\index
         arguments:
@@ -175,6 +178,14 @@ services:
         class: phpbbgallery\core\config
         arguments:
             - @config
+    phpbbgallery.core.comment:
+        class: phpbbgallery\core\comment
+        arguments:
+            - @user
+            - @phpbbgallery.core.config
+            - @phpbbgallery.core.auth
+            - @phpbbgallery.core.image
+            - @phpbbgallery.core.album
     phpbbgallery.core.url:
         class: phpbbgallery\core\url
         arguments:

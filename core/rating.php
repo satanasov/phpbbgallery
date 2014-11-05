@@ -128,8 +128,8 @@ class rating
 	*/
 	public function display_box()
 	{
-		global $template, $user;
-
+		global $template, $user, $config;
+		$gallery_config = new \phpbbgallery\core\config($config);
 		$template->assign_var('GALLERY_RATING', self::MODE_SELECT);//@todo: phpbb_ext_gallery_core_config::get('rating_mode'));
 
 		switch (self::MODE_SELECT)//@todo: phpbb_ext_gallery_core_config::get('rating_mode'))
@@ -138,7 +138,8 @@ class rating
 			//@todo: self::MODE_STARS:
 			case self::MODE_SELECT:
 			default:
-				if ($this->album_data('contest_id'))
+				// @TODO We do not have contests for now
+				/*if ($this->album_data('contest_id'))
 				{
 					if (time() < ($this->album_data('contest_start') + $this->album_data('contest_rating')))
 					{
@@ -150,8 +151,8 @@ class rating
 						$template->assign_var('GALLERY_NO_RATING_MESSAGE', $user->lang('CONTEST_RATING_ENDED', $user->format_date(($this->album_data('contest_start') + $this->album_data('contest_end')), false, true)));
 						return;
 					}
-				}
-				for ($i = 1; $i <= phpbb_ext_gallery_core_config::get('max_rating'); $i++)
+				}*/
+				for ($i = 1; $i <= $gallery_config->get('max_rating'); $i++)
 				{
 					$template->assign_block_vars('rate_scale', array(
 						'RATE_POINT'	=> $i,
@@ -207,14 +208,14 @@ class rating
 	*/
 	private function get_image_rating_value()
 	{
-		if (phpbb_ext_gallery_core_contest::$mode == phpbb_ext_gallery_core_contest::MODE_SUM)
+		/*if (phpbb_ext_gallery_core_contest::$mode == phpbb_ext_gallery_core_contest::MODE_SUM)
 		{
 			return $this->image_data('image_rate_points');
 		}
 		else
-		{
+		{*/
 			return ($this->image_data('image_rate_avg') / 100);
-		}
+		//}
 	}
 
 	/**
@@ -228,10 +229,11 @@ class rating
 	*/
 	public function is_allowed()
 	{
-		global $user, $phpbb_ext_gallery;
-		return $phpbb_ext_gallery->auth->acl_check('i_rate', $this->album_data('album_id'), $this->album_data('album_user_id')) &&
+		global $user, $phpbb_ext_gallery, $phpbb_container;
+		$gallery_auth = $phpbb_container->get('phpbbgallery.core.auth');
+		return $gallery_auth->acl_check('i_rate', $this->album_data('album_id'), $this->album_data('album_user_id')) &&
 			($user->data['user_id'] != $this->image_data('image_user_id')) && ($user->data['user_id'] != ANONYMOUS) &&
-			($this->album_data('album_status') != phpbb_ext_gallery_core_album::STATUS_LOCKED) && ($this->image_data('image_status') == phpbb_ext_gallery_core_image::STATUS_APPROVED);
+			($this->album_data('album_status') != \phpbbgallery\core\album\album::STATUS_LOCKED) && ($this->image_data('image_status') == \phpbbgallery\core\image\image\image::STATUS_APPROVED);
 	}
 
 	/**
