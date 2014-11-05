@@ -1,0 +1,11 @@
+services:
+    phpbbgallery.exif.listener:
+        class: phpbbgallery\exif\event\exif_listener
+        arguments:
+            - @user
+            - @phpbbgallery.core.config
+            - @phpbbgallery.core.auth
+            - @phpbbgallery.core.url
+            - @phpbbgallery.core.user
+        tags:
+            - { name: event.listener }

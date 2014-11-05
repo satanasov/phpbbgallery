@@ -1,0 +1,12 @@
+<!-- IF .exif_value -->
+	<h3 class="anti-postbody">{L_EXIF_DATA}<!-- IF not S_VIEWEXIF --> - <a href="javascript: dE('exif_data_fieldset');">{L_SHOW_EXIF}</a><!-- ENDIF --></h3>
+
+	<fieldset class="fields1 anti-postbody" id="exif_data_fieldset"<!-- IF not S_VIEWEXIF --> style="display: none;"<!-- ENDIF -->>
+	<!-- BEGIN exif_value -->
+		<dl class="<!-- IF exif_value.S_ROW_COUNT is even -->column1<!-- ELSE -->column2<!-- ENDIF -->">
+			<dt><label>{exif_value.EXIF_NAME}:</label></dt>
+			<dd>{exif_value.EXIF_VALUE}</dd>
+		</dl>
+	<!-- END exif_value -->
+	</fieldset>
+<!-- ENDIF -->

@@ -39,10 +39,9 @@ Please bear in mind that this is WORK IN PROGRESS. It is as BETA as they comme.
     - You can upload pictures
     - You can edit pictures
     - You can delete pictures
- - BBCode - extensio adds the album BBCode
+ - BBCode - extension adds the album BBCode
 
 #What Does not work (yet)
- - Exif
  - Comments
  - Ratings
  - Image subscription
@@ -53,6 +52,9 @@ Please bear in mind that this is WORK IN PROGRESS. It is as BETA as they comme.
  - ACP mass upload (still think it's a core function)
  - Zebra ACL for albums/images
 
+#Add ons
+ - Exif
+ 
 #Future?
 
 As I said the 1.2 version will be primarly targeted as backword compatible with phpBB Gallery 1.1.6 MOD (DB will be the same but you will have to manualy move your images to the new location). 1.2 will incorporate TRAVIS-CI tests (all my projects do).
