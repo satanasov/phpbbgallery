@@ -13,6 +13,25 @@ namespace phpbbgallery\core;
 class comment
 {
 	/**
+	* Constructor
+	*
+	* @param \phpbb\user						$user
+	* @param \phpbbgallery\core\config			$config
+	* @param \phpbbgallery\core\auth\auth		$auth
+	* @param \phpbbgallery\core\image\image		$image
+	* @param \phpbbgallery\core\album\album		$album
+	*/
+	
+	public function __construct(\phpbb\user $user, \phpbbgallery\core\config $config, \phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\image\image $image, \phpbbgallery\core\album\album $album)
+	{
+		$this->user = $user;
+		$this->config = $config;
+		$this->auth = $auth;
+		$this->image = $image;
+		$this->album = $album;
+	}
+	
+	/**
 	* Is the user allowed to comment?
 	* Following statements must be true:
 	*	- User must have permissions.
@@ -23,11 +42,11 @@ class comment
 	*/
 	static public function is_allowed($album_data, $image_data)
 	{
-		global $user, $phpbb_ext_gallery;
 
-		return $phpbb_ext_gallery->config->get('allow_comments') && (!$phpbb_ext_gallery->config->get('comment_user_control') || $image_data['image_allow_comments']) &&
-			($phpbb_ext_gallery->auth->acl_check('m_status', $album_data['album_id'], $album_data['album_user_id']) ||
-			 (($image_data['image_status'] == phpbb_gallery_image::STATUS_APPROVED) && ($album_data['album_status'] != phpbb_ext_gallery_core_album::STATUS_LOCKED)));
+
+		return $this->config->get('allow_comments') && (!$this->config->get('comment_user_control') || $image_data['image_allow_comments']) &&
+			($this->auth->acl_check('m_status', $album_data['album_id'], $album_data['album_user_id']) ||
+			 (($image_data['image_status'] == $this->image->get_status_approved()) && ($album_data['album_status'] != $this->album->get_status_locked())));
 	}
 
 	/**
@@ -40,8 +59,7 @@ class comment
 	*/
 	static public function is_able($album_data, $image_data)
 	{
-		global $user;
-		return self::is_allowed($album_data, $image_data) && phpbb_ext_gallery_core_contest::is_step('comment', $album_data);
+		return self::is_allowed($album_data, $image_data); //&& phpbb_ext_gallery_core_contest::is_step('comment', $album_data);
 	}
 
 	/**

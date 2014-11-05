@@ -7,6 +7,7 @@
 		<div style="text-align: center; padding: 20px;">
 			<img src="{UC_IMAGE}" alt="{IMAGE_NAME}" />
 			<!-- IF S_IMAGE_REPORTED --><br /><br /><a href="{U_IMAGE_REPORTED}"><span class="error">{L_IMAGE_REPORTED}</span></a><!-- ENDIF -->
+			<br /><span class="image-description">{IMAGE_DESC}</span>
 		</div>
 	<span class="corners-bottom"><span></span></span></div>
 </div>
@@ -14,15 +15,13 @@
 <div id="details" class="panel">
 	<div class="inner"><span class="corners-top"><span></span></span>
 		<div class="postbody">
-			<ul class="profile-icons">
-				<li>&nbsp;</li>
+			<ul class="post-buttons">
 				<!-- EVENT gallery_viewimage_actions -->
 					<!-- IF U_WATCH_TOPIC --><li <!-- IF S_WATCHING_TOPIC -->class="icon-unsubscribe"<!-- ELSE -->class="icon-subscribe"<!-- ENDIF -->><a href="{U_WATCH_TOPIC}" title="{L_WATCH_TOPIC}">{L_WATCH_TOPIC}</a></li><!-- ENDIF -->
-				<!-- IF U_EDIT --><li class="edit-icon"><a href="{U_EDIT}" title="{L_EDIT_IMAGE}"><span>{L_EDIT_IMAGE}</span></a></li><!-- ENDIF -->
-				<!-- IF U_DELETE --><li class="delete-icon"><a href="{U_DELETE}" title="{L_DELETE_IMAGE}"><span>{L_DELETE_IMAGE}</span></a></li><!-- ENDIF -->
-				<!-- IF U_REPORT --><li class="report-icon"><a href="{U_REPORT}" title="{L_REPORT_IMAGE}"><span>{L_REPORT_IMAGE}</span></a></li><!-- ENDIF -->
+				<!-- IF U_EDIT --><li><a href="{U_EDIT}" title="{L_EDIT_IMAGE}" class="button icon-button edit-icon"><span>{L_EDIT_IMAGE}</span></a></li><!-- ENDIF -->
+				<!-- IF U_DELETE --><li><a href="{U_DELETE}" title="{L_DELETE_IMAGE}" class="button icon-button delete-icon"><span>{L_DELETE_IMAGE}</span></a></li><!-- ENDIF -->
+				<!-- IF U_REPORT --><li><a href="{U_REPORT}" title="{L_REPORT_IMAGE}" class="button icon-button report-icon"><span>{L_REPORT_IMAGE}</span></a></li><!-- ENDIF -->
 			</ul>
-
 			<h3>{IMAGE_NAME}</h3>
 			<hr />
 
@@ -119,9 +118,7 @@
 			<!-- ENDIF -->
 		</dl>
 	<span class="corners-bottom"><span></span></span></div>
-</div>
-
-<!-- IF S_QUICK_MOD -->
+	<!-- IF S_QUICK_MOD -->
 	<form method="post" action="{S_MOD_ACTION}">
 	<fieldset class="quickmod" style="float: none; width: 100%;">
 		<label for="quick-mod-select">{L_QUICK_MOD}:</label>
@@ -140,8 +137,10 @@
 		{S_FORM_TOKEN}
 	</fieldset>
 	</form>
-<!-- ENDIF -->
+	<!-- ENDIF -->
+</div>
 
+<!--
 <!-- IF IMAGE_DESC -->
 <div class="panel">
 	<div class="inner"><span class="corners-top"><span></span></span>
@@ -150,7 +149,7 @@
 	<span class="corners-bottom"><span></span></span></div>
 </div>
 <!-- ENDIF -->
-
+-->
 <!-- IF not S_IS_BOT and (S_ALLOWED_TO_RATE or S_ALLOWED_TO_COMMENT) -->
 <a name="rating"></a>
 <form id="postform" action="{S_COMMENT_ACTION}" method="post">

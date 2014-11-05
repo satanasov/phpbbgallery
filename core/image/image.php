@@ -55,6 +55,16 @@ class image
 		return 0;
 	}
 
+	public function get_status_aproved()
+	{
+		return 1;
+	}
+	
+	public function get_status_locked()
+	{
+		return 2;
+	}
+
 	public function get_new_author_info($username)
 	{
 		// Who is the new uploader?
