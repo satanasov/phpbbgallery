@@ -27,6 +27,12 @@ phpbbgallery_image_edit:
 phpbbgallery_image_report:
     pattern: /gallery/image/{image_id}/report
     defaults: { _controller: phpbbgallery.core.controller.image:report }
+phpbbgallery_image_comment_add:
+    pattern: /gallery/comment/{image_id}/add/{comment_id}
+    defaults: { _controller: phpbbgallery.core.controller.comment:add }
+phpbbgallery_image_comment_edit:
+    pattern: /gallery/comment/{image_id}/edit/{comment_id}
+    defaults: { _controller: phpbbgallery.core.controller.comment:edit }
 
 phpbbgallery_image_file_source:
     pattern: /gallery/image/{image_id}/source

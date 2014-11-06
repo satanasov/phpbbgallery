@@ -97,7 +97,7 @@ class album
 
 		$album_data = $this->loader->get($album_id);
 
-		if ($album_data['album_contest'] == 1)
+		/*if ($album_data['album_contest'] == 1)
 		{
 			$phpbb_gallery_contest = new \phpbbgallery\core\contest();
 			$album_contest_data = $phpbb_gallery_contest->get_contest($album_id);
@@ -108,7 +108,7 @@ class album
 
 				$album_contest_data['contest_marked'] = phpbb_ext_gallery_core_image::NO_CONTEST;
 			}
-		}
+		}*/
 		$this->check_permissions($album_id, $album_data['album_user_id']);
 		$this->auth_level->display($album_id, $album_data['album_status'], $album_data['album_user_id']);
 

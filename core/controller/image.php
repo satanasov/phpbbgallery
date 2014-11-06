@@ -80,7 +80,7 @@ class image
 	* @param string						$albums_table	Gallery albums table
 	* @param string						$users_table	Gallery users table
 	*/
-	public function __construct(\phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $db, \phpbb\event\dispatcher $dispatcher, \phpbb\pagination $pagination, \phpbb\template\template $template, \phpbb\user $user, \phpbbgallery\core\album\display $display, \phpbbgallery\core\album\loader $loader, \phpbbgallery\core\album\album $album, \phpbbgallery\core\image\image $image, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\auth\level $auth_level, \phpbbgallery\core\url $url, \phpbbgallery\core\misc $misc, \phpbbgallery\core\comment $comment, $albums_table, $images_table, $users_table, $table_comments)
+	public function __construct(\phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $db, \phpbb\event\dispatcher $dispatcher, \phpbb\pagination $pagination, \phpbb\template\template $template, \phpbb\user $user, \phpbbgallery\core\album\display $display, \phpbbgallery\core\album\loader $loader, \phpbbgallery\core\album\album $album, \phpbbgallery\core\image\image $image, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\auth\level $auth_level, \phpbbgallery\core\url $url, \phpbbgallery\core\misc $misc, \phpbbgallery\core\comment $comment, $albums_table, $images_table, $users_table, $table_comments)
 	{
 		$this->request = $request;
 		$this->auth = $auth;
@@ -96,6 +96,7 @@ class image
 		$this->album = $album;
 		$this->image = $image;
 		$this->gallery_auth = $gallery_auth;
+		$this->gallery_user = $gallery_user;
 		$this->gallery_config = $gallery_config;
 		$this->auth_level = $auth_level;
 		$this->url = $url;
@@ -303,7 +304,7 @@ class image
 				'IMAGE_RATING'			=> $rating->get_image_rating($user_rating),
 				'S_ALLOWED_TO_RATE'		=> (!$user_rating && $rating->is_allowed()),
 				'S_VIEW_RATE'			=> ($this->gallery_auth->acl_check('i_rate', $album_id, $album_data['album_user_id'])) ? true : false,
-				'S_COMMENT_ACTION'		=> append_sid($this->url->path('full') . 'image/' . $image_id . '/comment'),
+				'S_COMMENT_ACTION'		=> append_sid($this->url->path('full') . 'comment/' . $image_id . '/add'),
 			));
 			unset($rating);
 		}
@@ -313,6 +314,7 @@ class image
 		$comments_disabled = (!$this->gallery_config->get('allow_comments') || ($this->gallery_config->get('comment_user_control') && !$image_data['image_allow_comments']));
 		if (!$comments_disabled && $this->gallery_auth->acl_check('c_post', $album_id, $album_data['album_user_id']) && ($album_data['album_status'] != $this->album->get_status_locked()) && (($image_data['image_status'] != $this->image->get_status_locked()) || $this->galley_auth->acl_check('m_status', $album_id, $album_data['album_user_id'])))
 		{
+			add_form_key('gallery');
 			$this->user->add_lang('posting');
 			$this->url->_include('functions_posting', 'phpbb');
 
@@ -370,7 +372,7 @@ class image
 			// Different link, when we rate and dont comment
 			if (!$s_hide_comment_input)
 			{
-				$this->template->assign_var('S_COMMENT_ACTION', append_sid($this->url->path('full') . 'image/' . $image_id . '/comment'));
+				$this->template->assign_var('S_COMMENT_ACTION', append_sid($this->url->path('full') . 'comment/' . $image_id . '/add/0'));
 			}
 		}
 		elseif ($this->gallery_config->get('comment_user_control') && !$image_data['image_allow_comments'])
@@ -392,12 +394,12 @@ class image
 			));
 
 			if ($image_data['image_comments'] > 0)
-			{
-				if (!class_exists('bbcode'))
+			{	if (!class_exists('bbcode'))
 				{
 					$this->url->_include('bbcode', 'phpbb');
 				}
-				$bbcode = new bbcode();
+				
+				$bbcode = new \bbcode();
 
 				$comments = $users = $user_cache = array();
 				$users[] = $image_data['image_user_id'];
@@ -405,7 +407,7 @@ class image
 					FROM ' . $this->table_comments . '
 					WHERE comment_image_id = ' . $image_id . '
 					ORDER BY comment_id ' . $sort_order;
-				$result = $this->db->sql_query_limit($sql, $config['posts_per_page'], $start);
+				$result = $this->db->sql_query_limit($sql, $this->config['posts_per_page'], $start);
 
 				while ($row = $this->db->sql_fetchrow($result))
 				{
@@ -425,7 +427,7 @@ class image
 
 					'LEFT_JOIN'	=> array(
 						array(
-							'FROM'	=> array(GALLERY_USERS_TABLE => 'gu'),
+							'FROM'	=> array($this->table_users => 'gu'),
 							'ON'	=> 'gu.user_id = u.user_id'
 						),
 					),
@@ -440,7 +442,7 @@ class image
 				}
 				$this->db->sql_freeresult($result);
 
-				if ($config['load_onlinetrack'] && sizeof($users))
+				if ($this->config['load_onlinetrack'] && sizeof($users))
 				{
 					// Load online-information
 					$sql = 'SELECT session_user_id, MAX(session_time) as online_time, MIN(session_viewonline) AS viewonline
@@ -449,10 +451,10 @@ class image
 						GROUP BY session_user_id';
 					$result = $this->db->sql_query($sql);
 
-					$update_time = $config['load_online_time'] * 60;
+					$update_time = $this->config['load_online_time'] * 60;
 					while ($row = $this->db->sql_fetchrow($result))
 					{
-						$user_cache[$row['session_user_id']]['online'] = (time() - $update_time < $row['online_time'] && (($row['viewonline']) || $auth->acl_get('u_viewonline'))) ? true : false;
+						$user_cache[$row['session_user_id']]['online'] = (time() - $update_time < $row['online_time'] && (($row['viewonline']) || $this->auth->acl_get('u_viewonline'))) ? true : false;
 					}
 					$this->db->sql_freeresult($result);
 				}
@@ -480,17 +482,17 @@ class image
 						$user_cache[$user_id]['sig'] = smiley_text($user_cache[$user_id]['sig']);
 						$user_cache[$user_id]['sig_parsed'] = true;
 					}
-
-					$template->assign_block_vars('commentrow', array(
-						'U_COMMENT'		=> phpbb_gallery_url::append_sid('image_page', "album_id=$album_id&amp;image_id=$image_id&amp;start=$start&amp;sort_order=$sort_order") . '#comment_' . $row['comment_id'],
+					
+					$this->template->assign_block_vars('commentrow', array(
+						'U_COMMENT'		=> append_sid($this->url->path('full') .'/image/' . $image_id),
 						'COMMENT_ID'	=> $row['comment_id'],
 						'TIME'			=> $this->user->format_date($row['comment_time']),
 						'TEXT'			=> generate_text_for_display($row['comment'], $row['comment_uid'], $row['comment_bitfield'], 7),
 						'EDIT_INFO'		=> $edit_info,
-						'U_DELETE'		=> ($this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']) || ($this->gallery_auth->acl_check('c_delete', $album_id, $album_data['album_user_id']) && ($row['comment_user_id'] == $this->user->data['user_id']) && $this->user->data['is_registered'])) ? phpbb_gallery_url::append_sid('comment', "album_id=$album_id&amp;image_id=$image_id&amp;mode=delete&amp;comment_id=" . $row['comment_id']) : '',
-						'U_QUOTE'		=> ($this->gallery_auth->acl_check('c_post', $album_id, $album_data['album_user_id'])) ? phpbb_gallery_url::append_sid('comment', "album_id=$album_id&amp;image_id=$image_id&amp;mode=add&amp;comment_id=" . $row['comment_id']) : '',
-						'U_EDIT'		=> ($this->gallery_auth->$auth->acl_check('m_comments', $album_id, $album_data['album_user_id']) || ($this->gallery_auth->acl_check('c_edit', $album_id, $album_data['album_user_id']) && ($row['comment_user_id'] == $this->user->data['user_id']) && $this->user->data['is_registered'])) ? phpbb_gallery_url::append_sid('comment', "album_id=$album_id&amp;image_id=$image_id&amp;mode=edit&amp;comment_id=" . $row['comment_id']) : '',
-						'U_INFO'		=> ($this->auth->acl_get('a_')) ? phpbb_gallery_url::append_sid('mcp', 'mode=whois&amp;ip=' . $row['comment_user_ip']) : '',
+						'U_DELETE'		=> ($this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']) || ($this->gallery_auth->acl_check('c_delete', $album_id, $album_data['album_user_id']) && ($row['comment_user_id'] == $this->user->data['user_id']) && $this->user->data['is_registered'])) ? append_sid($this->url->path('full') . 'comment/' . $image_id . '/delete/' . $row['comment_id']) : '',
+						'U_QUOTE'		=> ($this->gallery_auth->acl_check('c_post', $album_id, $album_data['album_user_id'])) ? append_sid($this->url->path('full') . 'comment/' . $image_id . '/add/' . $row['comment_id']) : '',
+						'U_EDIT'		=> ($this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']) || ($this->gallery_auth->acl_check('c_edit', $album_id, $album_data['album_user_id']) && ($row['comment_user_id'] == $this->user->data['user_id']) && $this->user->data['is_registered'])) ? append_sid($this->url->path('full') . 'comment/' . $image_id . '/edit/' . $row['comment_id']) : '',
+						'U_INFO'		=> ($this->auth->acl_get('a_')) ? $this->url->append_sid('mcp', 'mode=whois&amp;ip=' . $row['comment_user_ip']) : '',
 
 						'POST_AUTHOR_FULL'		=> get_username_string('full', $user_id, $row['comment_username'], $user_cache[$user_id]['user_colour']),
 						'POST_AUTHOR_COLOUR'	=> get_username_string('colour', $user_id, $row['comment_username'], $user_cache[$user_id]['user_colour']),
@@ -503,41 +505,41 @@ class image
 						'RANK_IMG_SRC'		=> $user_cache[$user_id]['rank_image_src'],
 						'POSTER_JOINED'		=> $user_cache[$user_id]['joined'],
 						'POSTER_POSTS'		=> $user_cache[$user_id]['posts'],
-						'POSTER_FROM'		=> $user_cache[$user_id]['from'],
+						'POSTER_FROM'		=> isset($user_cache[$user_id]['from']) ? $user_cache[$user_id]['from'] : '',
 						'POSTER_AVATAR'		=> $user_cache[$user_id]['avatar'],
 						'POSTER_WARNINGS'	=> $user_cache[$user_id]['warnings'],
 						'POSTER_AGE'		=> $user_cache[$user_id]['age'],
 
-						'ICQ_STATUS_IMG'	=> $user_cache[$user_id]['icq_status_img'],
-						'ONLINE_IMG'		=> ($user_id == ANONYMOUS || !$config['load_onlinetrack']) ? '' : (($user_cache[$user_id]['online']) ? $user->img('icon_user_online', 'ONLINE') : $user->img('icon_user_offline', 'OFFLINE')),
-						'S_ONLINE'			=> ($user_id == ANONYMOUS || !$config['load_onlinetrack']) ? false : (($user_cache[$user_id]['online']) ? true : false),
+						'ICQ_STATUS_IMG'	=> isset($user_cache[$user_id]['icq_status_img']) ? $user_cache[$user_id]['icq_status_img'] : '',
+						'ONLINE_IMG'		=> ($user_id == ANONYMOUS || !$this->config['load_onlinetrack']) ? '' : (($user_cache[$user_id]['online']) ? $this->user->img('icon_user_online', 'ONLINE') : $this->user->img('icon_user_offline', 'OFFLINE')),
+						'S_ONLINE'			=> ($user_id == ANONYMOUS || !$this->config['load_onlinetrack']) ? false : (($user_cache[$user_id]['online']) ? true : false),
 
 						'U_PROFILE'		=> $user_cache[$user_id]['profile'],
 						'U_SEARCH'		=> $user_cache[$user_id]['search'],
-						'U_PM'			=> ($user_id != ANONYMOUS && $config['allow_privmsg'] && $auth->acl_get('u_sendpm') && ($user_cache[$user_id]['allow_pm'] || $auth->acl_gets('a_', 'm_'))) ? phpbb_gallery_url::append_sid('phpbb', 'ucp', 'i=pm&amp;mode=compose&amp;u=' . $user_id) : '',
+						'U_PM'			=> ($user_id != ANONYMOUS && $this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm') && ($user_cache[$user_id]['allow_pm'] || $this->auth->acl_gets('a_', 'm_'))) ? $this->url->append_sid('phpbb', 'ucp', 'i=pm&amp;mode=compose&amp;u=' . $user_id) : '',
 						'U_EMAIL'		=> $user_cache[$user_id]['email'],
-						'U_WWW'			=> $user_cache[$user_id]['www'],
-						'U_ICQ'			=> $user_cache[$user_id]['icq'],
-						'U_AIM'			=> $user_cache[$user_id]['aim'],
-						'U_MSN'			=> $user_cache[$user_id]['msn'],
-						'U_YIM'			=> $user_cache[$user_id]['yim'],
-						'U_JABBER'		=> $user_cache[$user_id]['jabber'],
+						'U_WWW'			=> isset($user_cache[$user_id]['www']) ? $user_cache[$user_id]['www'] : '',
+						'U_ICQ'			=> isset($user_cache[$user_id]['icq']) ? $user_cache[$user_id]['icq'] : '',
+						'U_AIM'			=> isset($user_cache[$user_id]['aim']) ? $user_cache[$user_id]['aim'] : '',
+						'U_MSN'			=> isset($user_cache[$user_id]['msn']) ? $user_cache[$user_id]['msn'] : '',
+						'U_YIM'			=> isset($user_cache[$user_id]['yim']) ? $user_cache[$user_id]['yim'] : '',
+						'U_JABBER'		=> isset($user_cache[$user_id]['jabber']) ? $user_cache[$user_id]['jabber'] : '',
 
 						'U_GALLERY'			=> $user_cache[$user_id]['gallery_album'],
 						'GALLERY_IMAGES'	=> $user_cache[$user_id]['gallery_images'],
 						'U_GALLERY_SEARCH'	=> $user_cache[$user_id]['gallery_search'],
 					));
 				}
-				$db->sql_freeresult($result);
+				$this->db->sql_freeresult($result);
 
-				$template->assign_vars(array(
-					'DELETE_IMG'		=> $user->img('icon_post_delete', 'DELETE_COMMENT'),
-					'EDIT_IMG'			=> $user->img('icon_post_edit', 'EDIT_COMMENT'),
-					'QUOTE_IMG'			=> $user->img('icon_post_quote', 'QUOTE_COMMENT'),
-					'INFO_IMG'			=> $user->img('icon_post_info', 'IP'),
-					'MINI_POST_IMG'		=> $user->img('icon_post_target_unread', 'COMMENT'),
-					'PAGE_NUMBER'		=> sprintf($user->lang['PAGE_OF'], (floor($start / $config['posts_per_page']) + 1), ceil($image_data['image_comments'] / $config['posts_per_page'])),
-					'PAGINATION'		=> generate_pagination(phpbb_gallery_url::append_sid('image_page', "album_id=$album_id&amp;image_id=$image_id&amp;sort_order=$sort_order"), $image_data['image_comments'], $config['posts_per_page'], $start),
+				$this->template->assign_vars(array(
+					'DELETE_IMG'		=> $this->user->img('icon_post_delete', 'DELETE_COMMENT'),
+					'EDIT_IMG'			=> $this->user->img('icon_post_edit', 'EDIT_COMMENT'),
+					'QUOTE_IMG'			=> $this->user->img('icon_post_quote', 'QUOTE_COMMENT'),
+					'INFO_IMG'			=> $this->user->img('icon_post_info', 'IP'),
+					'MINI_POST_IMG'		=> $this->user->img('icon_post_target_unread', 'COMMENT'),
+					'PAGE_NUMBER'		=> sprintf($this->user->lang['PAGE_OF'], (floor($start / $this->config['posts_per_page']) + 1), ceil($image_data['image_comments'] / $this->config['posts_per_page'])),
+					//'PAGINATION'		=> generate_pagination($this->url->append_sid('image_page', "album_id=$album_id&amp;image_id=$image_id&amp;sort_order=$sort_order"), $image_data['image_comments'], $config['posts_per_page'], $start),
 				));
 			}
 		}
@@ -548,6 +550,9 @@ class image
 	
 	public function edit($image_id)
 	{
+		//we cheat a little but we will make good later
+		global $phpbb_root_path, $phpEx;
+		
 		$image_data = $this->image->get_image_data($image_id);
 		$album_id = $image_data['image_album_id'];
 		$album_data = $this->album->get_info($album_id);
@@ -577,7 +582,9 @@ class image
 			$image_name = $this->request->variable('image_name', array(''), true);
 			$image_name = $image_name[0];
 
-			$message_parser				= new \phpbbgallery\core\parser\parse_message();
+			// Create message parser instance
+			include_once($phpbb_root_path . 'includes/message_parser.' . $phpEx);
+			$message_parser = new \parse_message();
 			$message_parser->message	= utf8_normalize_nfc($image_desc);
 			if ($message_parser->message)
 			{

@@ -152,6 +152,7 @@ services:
             - @phpbbgallery.core.album
             - @phpbbgallery.core.image
             - @phpbbgallery.core.auth
+            - @phpbbgallery.core.user
             - @phpbbgallery.core.config
             - @phpbbgallery.core.auth.level
             - @phpbbgallery.core.url
@@ -174,6 +175,29 @@ services:
             - @phpbbgallery.core.album.display
             - %core.root_path%
             - %core.php_ext%
+    phpbbgallery.core.controller.comment:
+        class: phpbbgallery\core\controller\comment
+        arguments:
+            - @dbal.conn
+            - @user
+            - @auth
+            - @config
+            - @template
+            - @request
+            - @controller.helper
+            - @phpbbgallery.core.image
+            - @phpbbgallery.core.album.loader
+            - @phpbbgallery.core.album
+            - @phpbbgallery.core.album.display
+            - @phpbbgallery.core.url
+            - @phpbbgallery.core.auth
+            - @phpbbgallery.core.config
+            - @phpbbgallery.core.misc
+            - @phpbbgallery.core.comment
+            - @phpbbgallery.core.user
+            - %tables.phpbbgallery.comments%
+            - %core.root_path%
+            - %core.php_ext%
     phpbbgallery.core.config:
         class: phpbbgallery\core\config
         arguments:
@@ -189,5 +213,5 @@ services:
     phpbbgallery.core.url:
         class: phpbbgallery\core\url
         arguments:
-           - %core.root_path%
-           - %core.php_ext%
+            - %core.root_path%
+            - %core.php_ext%
