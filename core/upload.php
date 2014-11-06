@@ -209,7 +209,7 @@ class upload
 	*/
 	public function update_image($image_id, $needs_approval = false, $is_in_contest = false)
 	{
-		global $phpbb_root_path, $phpEx, $phpbb_ext_gallery_core_image;
+		global $phpbb_root_path, $phpEx, $phpbb_ext_gallery_core_image, $php_ext;
 		if ($this->file_limit && ($this->uploaded_files >= $this->file_limit))
 		{
 			global $user;
@@ -218,7 +218,9 @@ class upload
 		}
 		$this->file_count = (int) $this->array_id2row[$image_id];
 		
-		$message_parser				= new \phpbbgallery\core\parser\parse_message();
+		// Create message parser instance
+		include_once($phpbb_root_path . 'includes/message_parser.' . $phpEx);
+		$message_parser = new \parse_message();
 		$message_parser->message	= utf8_normalize_nfc($this->get_description());
 		if ($message_parser->message)
 		{

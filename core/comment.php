@@ -42,11 +42,15 @@ class comment
 	*/
 	static public function is_allowed($album_data, $image_data)
 	{
-
-
-		return $this->config->get('allow_comments') && (!$this->config->get('comment_user_control') || $image_data['image_allow_comments']) &&
-			($this->auth->acl_check('m_status', $album_data['album_id'], $album_data['album_user_id']) ||
-			 (($image_data['image_status'] == $this->image->get_status_approved()) && ($album_data['album_status'] != $this->album->get_status_locked())));
+		global $phpbb_container;
+		$config = $phpbb_container->get('phpbbgallery.core.config');
+		$auth = $phpbb_container->get('phpbbgallery.core.auth');
+		$album = $phpbb_container->get('phpbbgallery.core.album');
+		$image = $phpbb_container->get('phpbbgallery.core.image');
+		
+		return $config->get('allow_comments') && (!$config->get('comment_user_control') || $image_data['image_allow_comments']) &&
+			($auth->acl_check('m_status', $album_data['album_id'], $album_data['album_user_id']) ||
+			 (($image_data['image_status'] == $image->get_status_approved()) && ($album_data['album_status'] != $album->get_status_locked())));
 	}
 
 	/**
@@ -67,7 +71,8 @@ class comment
 	*/
 	static public function add($data, $comment_username = '')
 	{
-		global $db, $user, $phpbb_ext_gallery;
+		global $db, $user, $phpbb_ext_gallery, $table_prefix, $phpbb_container;
+		$config = $phpbb_container->get('phpbbgallery.core.config');
 
 		if (!isset($data['comment_image_id']) || !isset($data['comment']))
 		{
@@ -82,11 +87,11 @@ class comment
 			'comment_time'			=> time(),
 		);
 
-		$db->sql_query('INSERT INTO ' . GALLERY_COMMENTS_TABLE . ' ' . $db->sql_build_array('INSERT', $data));
+		$db->sql_query('INSERT INTO ' . $table_prefix . 'gallery_comments ' . $db->sql_build_array('INSERT', $data));
 		$newest_comment_id = (int) $db->sql_nextid();
-		$phpbb_ext_gallery->config->inc('num_comments', 1);
+		$config->inc('num_comments', 1);
 
-		$sql = 'UPDATE ' . GALLERY_IMAGES_TABLE . "
+		$sql = 'UPDATE ' . $table_prefix . "gallery_images 
 			SET image_comments = image_comments + 1,
 				image_last_comment = $newest_comment_id
 			WHERE image_id = " . (int) $data['comment_image_id'];
