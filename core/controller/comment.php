@@ -44,7 +44,10 @@ class comment
 	* @param \phpbbgallery\core\album\display		$display	phpBB Gallery Core album display
 	* @param \phpbbgallery\core\url					$url		phpBB Gallery Core url object
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\request\request $request, \phpbb\controller\helper $helper, \phpbbgallery\core\image\image $image, \phpbbgallery\core\album\loader $loader, \phpbbgallery\core\album\album $album, \phpbbgallery\core\album\display $display, \phpbbgallery\core\url $url, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\misc $misc, \phpbbgallery\core\comment $comment, \phpbbgallery\core\user $gallery_user, $table_comments, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\template\template $template, 
+\phpbb\request\request $request, \phpbb\controller\helper $helper, \phpbbgallery\core\image\image $image, \phpbbgallery\core\album\loader $loader, \phpbbgallery\core\album\album $album, 
+\phpbbgallery\core\album\display $display, \phpbbgallery\core\url $url, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\misc $misc, 
+\phpbbgallery\core\comment $comment, \phpbbgallery\core\user $gallery_user, $table_comments, $phpbb_root_path, $php_ext)
 	{
 		$this->db = $db;
 		$this->user = $user;
@@ -113,7 +116,7 @@ class comment
 		$this->user->add_lang('posting');
 
 		include_once($this->phpbb_root_path . 'includes/functions_posting.' . $this->php_ext);
-
+		
 		$bbcode_status	= ($this->config['allow_bbcode']) ? true : false;
 		$smilies_status	= ($this->config['allow_smilies']) ? true : false;
 		$img_status		= ($bbcode_status) ? true : false;
@@ -121,8 +124,9 @@ class comment
 		$flash_status	= false;
 		$quote_status	= true;
 
+		include_once($this->phpbb_root_path . 'includes/functions_display.' . $this->php_ext);
 		// Build custom bbcodes array
-		//display_custom_bbcodes();
+		display_custom_bbcodes();
 
 		// Build smilies array
 		generate_smilies('inline', 0);
@@ -350,8 +354,9 @@ class comment
 		$flash_status	= false;
 		$quote_status	= true;
 
+		include_once($this->phpbb_root_path . 'includes/functions_display.' . $this->php_ext);
 		// Build custom bbcodes array
-		//display_custom_bbcodes();
+		display_custom_bbcodes();
 
 		// Build smilies array
 		generate_smilies('inline', 0);
@@ -415,7 +420,7 @@ class comment
 			{
 				$error .= (($error) ? '<br />' : '') . $this->user->lang['COMMENT_TOO_LONG'];
 			}
-
+			include($this->phpbb_root_path . 'includes/bbcode.' . $this->php_ext);
 			include_once($this->phpbb_root_path . 'includes/message_parser.' . $this->php_ext);
 			$message_parser = new \parse_message();
 			$message_parser->message = utf8_normalize_nfc($comment_plain);
@@ -423,7 +428,7 @@ class comment
 			{
 				$message_parser->parse(true, true, true, true, false, true, true, true);
 			}
-var_dump('here be dragons');
+
 			$sql_ary = array_merge($sql_ary, array(
 				'comment'				=> $message_parser->message,
 				'comment_uid'			=> $message_parser->bbcode_uid,
@@ -436,7 +441,7 @@ var_dump('here be dragons');
 			{
 				$this->comment->edit($comment_id, $sql_ary);
 				$message .= $this->user->lang['COMMENT_STORED'] . '<br />';
-				if ($user->data['user_id'] != $comment_data['comment_user_id'])
+				if ($this->user->data['user_id'] != $comment_data['comment_user_id'])
 				{
 					add_log('gallery', $image_data['image_album_id'], $image_data['image_id'], 'LOG_GALLERY_COMMENT_EDITED', $image_data['image_name']);
 				}

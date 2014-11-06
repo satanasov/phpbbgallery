@@ -105,7 +105,7 @@ class comment
 	*/
 	static public function edit($comment_id, $data)
 	{
-		global $db, $user;
+		global $db, $user, $table_prefix;
 
 		if (!isset($data['comment']))
 		{
@@ -117,7 +117,7 @@ class comment
 			'comment_edit_user_id'	=> $user->data['user_id'],
 		);
 
-		$sql = 'UPDATE ' . GALLERY_COMMENTS_TABLE . '
+		$sql = 'UPDATE ' . $table_prefix . 'gallery_comments 
 			SET ' . $db->sql_build_array('UPDATE', $data) . '
 			WHERE comment_id = ' . (int) $comment_id;
 		$db->sql_query($sql);
@@ -130,7 +130,7 @@ class comment
 	*/
 	static public function sync_image_comments($image_ids = false)
 	{
-		global $db;
+		global $db, $table_prefix;
 
 		$sql_where = $sql_where_image = '';
 		$resync = array();
@@ -142,7 +142,7 @@ class comment
 		}
 
 		$sql = 'SELECT comment_image_id, COUNT(comment_id) AS num_comments, MAX(comment_id) AS last_comment
-			FROM ' . GALLERY_COMMENTS_TABLE . "
+			FROM ' . $table_prefix . "gallery_comments 
 			$sql_where
 			GROUP BY comment_image_id
 			ORDER BY comment_id DESC";
@@ -156,7 +156,7 @@ class comment
 		}
 		$db->sql_freeresult($result);
 
-		$sql = 'UPDATE ' . GALLERY_IMAGES_TABLE . '
+		$sql = 'UPDATE ' . $table_prefix . 'gallery_images 
 			SET image_last_comment = 0,
 				image_comments = 0
 			' . $sql_where_image;
@@ -166,7 +166,7 @@ class comment
 		{
 			foreach ($resync as $image_id => $data)
 			{
-				$sql = 'UPDATE ' . GALLERY_IMAGES_TABLE . '
+				$sql = 'UPDATE ' . $table_prefix . 'gallery_images 
 					SET image_last_comment = ' . $data['last_comment'] . ',
 						image_comments = ' . $data['num_comments'] . '
 					WHERE image_id = ' . $image_id;
@@ -182,12 +182,12 @@ class comment
 	*/
 	static public function delete_comments($comment_ids)
 	{
-		global $db;
+		global $db, $table_prefix;
 
 		$comment_ids = self::cast_mixed_int2array($comment_ids);
 
 		$sql = 'SELECT comment_image_id, COUNT(comment_id) AS num_comments
-			FROM ' . GALLERY_COMMENTS_TABLE . '
+			FROM ' . $table_prefix . 'gallery_comments 
 			WHERE ' . $db->sql_in_set('comment_id', $comment_ids) . '
 			GROUP BY comment_image_id';
 		$result = $db->sql_query($sql);
@@ -201,7 +201,7 @@ class comment
 		}
 		$db->sql_freeresult($result);
 
-		$sql = 'DELETE FROM ' . GALLERY_COMMENTS_TABLE . '
+		$sql = 'DELETE FROM ' . $table_prefix . 'gallery_images 
 			WHERE ' . $db->sql_in_set('comment_id', $comment_ids);
 		$db->sql_query($sql);
 
