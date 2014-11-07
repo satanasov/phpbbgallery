@@ -298,7 +298,7 @@ class file
 		{
 			return;
 		}
-		elseif ($this->image)
+		else if ($this->image)
 		{
 			$image_function = 'image' . $this->image_type;
 			$image_function($this->image);
@@ -489,7 +489,6 @@ class file
 			$this->errors[] = array('WATERMARK_IMAGE_IMAGECREATE');
 		}
 
-		
 		$phpbb_gallery_constants = new \phpbbgallery\core\constants();
 		// Where do we display the watermark? up-left, down-right, ...?
 		$dst_x = (($this->image_size['width'] * 0.5) - ($this->watermark_size[0] * 0.5));
@@ -498,7 +497,7 @@ class file
 		{
 			$dst_x = 5;
 		}
-		elseif ($watermark_position & $phpbb_gallery_constants::WATERMARK_RIGHT)
+		else if ($watermark_position & $phpbb_gallery_constants::WATERMARK_RIGHT)
 		{
 			$dst_x = ($this->image_size['width'] - $this->watermark_size[0] - 5);
 		}
@@ -506,7 +505,7 @@ class file
 		{
 			$dst_y = 5;
 		}
-		elseif ($watermark_position & $phpbb_gallery_constants::WATERMARK_MIDDLE)
+		else if ($watermark_position & $phpbb_gallery_constants::WATERMARK_MIDDLE)
 		{
 			$dst_y = (($this->image_size['height'] * 0.5) - ($this->watermark_size[1] * 0.5));
 		}
@@ -558,5 +557,3 @@ class file
 		}
 	}
 }
-
-?>

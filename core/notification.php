@@ -240,11 +240,11 @@ class notification
 					{
 						$i_view_ary[$row['perm_user_id']] = $row['i_view'];
 					}
-					elseif (($row['perm_system'] == phpbb_gallery_auth::OWN_ALBUM) && ($album['album_user_id'] == $row['perm_user_id']))
+					else if (($row['perm_system'] == phpbb_gallery_auth::OWN_ALBUM) && ($album['album_user_id'] == $row['perm_user_id']))
 					{
 						$i_view_ary[$row['perm_user_id']] = $row['i_view'];
 					}
-					elseif (($row['perm_system'] == phpbb_gallery_auth::PERSONAL_ALBUM) && ($album['album_user_id'] != $row['perm_user_id']))
+					else if (($row['perm_system'] == phpbb_gallery_auth::PERSONAL_ALBUM) && ($album['album_user_id'] != $row['perm_user_id']))
 					{
 						$i_view_ary[$row['perm_user_id']] = $row['i_view'];
 					}

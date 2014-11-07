@@ -420,7 +420,10 @@ class comment
 			{
 				$error .= (($error) ? '<br />' : '') . $this->user->lang['COMMENT_TOO_LONG'];
 			}
-			include($this->phpbb_root_path . 'includes/bbcode.' . $this->php_ext);
+			if (!class_exists('bbcode'))
+			{
+				include($this->phpbb_root_path . 'includes/bbcode.' . $this->php_ext);
+			}
 			include_once($this->phpbb_root_path . 'includes/message_parser.' . $this->php_ext);
 			$message_parser = new \parse_message();
 			$message_parser->message = utf8_normalize_nfc($comment_plain);
@@ -455,6 +458,157 @@ class comment
 			$comment_plain = $comment_ary['text'];
 			$comment_username = $comment_data['comment_username'];
 		}
+		
+		$this->template->assign_vars(array(
+			'ERROR'					=> $error,
+			'MESSAGE'				=> (isset($comment_plain)) ? $comment_plain : '',
+			'USERNAME'				=> (isset($comment_username)) ? $comment_username : '',
+			'REQ_USERNAME'			=> (!empty($comment_username_req)) ? true : false,
+			'L_COMMENT_LENGTH'		=> sprintf($this->user->lang['COMMENT_LENGTH'], $this->gallery_config->get('comment_length')),
+
+			'IMAGE_RSZ_WIDTH'		=> $this->gallery_config->get('medium_width'),
+			'IMAGE_RSZ_HEIGHT'		=> $this->gallery_config->get('medium_height'),
+			'U_IMAGE'				=> append_sid($this->url->path('full') . 'image/' . $image_id . '/medium'),
+			'U_VIEW_IMAGE'			=> append_sid($this->url->path('full') . 'image/' . $image_id),
+			'IMAGE_NAME'			=> $image_data['image_name'],
+
+			'S_SIGNATURE_CHECKED'	=> (isset($sig_checked) && $sig_checked) ? ' checked="checked"' : '',
+			'S_ALBUM_ACTION'		=> append_sid($this->url->path('full') . 'comment/' . $image_id . '/edit/'. $comment_id),
+		));
+
+		if ($submit && !$error)
+		{
+			$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_IMAGE'], '<a href="' . $image_backlink . '">', '</a>');
+			$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_ALBUM'], '<a href="' . $album_backlink . '">', '</a>');
+
+			meta_refresh(3, $image_backlink);
+			trigger_error($message);
+		}
+
+		return $this->helper->render('gallery/comment_body.html', $page_title);
+	}
+	
+		/**
+	* comment Controller
+	*	Route: gallery/comment/{image_id}/delete/{comment_id}
+	*
+	* @param int	$image_id	Image ID
+	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	*/
+	public function delete($image_id, $comment_id)
+	{
+		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
+		add_form_key('gallery');
+		
+		$submit = $this->request->variable('submit', false);
+		$error = $message = '';
+		// load Image Data
+		$image_data = $this->image->get_image_data($image_id);
+		$album_id = (int) $image_data['image_album_id'];
+		$album_data = $this->loader->get($album_id);
+		$this->display->generate_navigation($album_data);
+		$page_title = $image_data['image_name'];
+		
+		$image_backlink = append_sid($this->url->path('full') . 'image/' . $image_id);
+		$album_backlink = append_sid($this->url->path('full') . 'album/' . $album_id);
+		$image_loginlink = $this->url->append_sid('relative', 'image_page', "album_id=$album_id&amp;image_id=$image_id");
+		if ($comment_id != 0)
+		{
+			$sql = 'SELECT *
+				FROM ' . $this->table_comments . '
+				WHERE comment_id = ' . $comment_id;
+			$result = $this->db->sql_query($sql);
+			$comment_data = $this->db->sql_fetchrow($result);
+			$this->db->sql_freeresult($result);
+			$image_id = (int) $comment_data['comment_image_id'];
+		}
+		else
+		{
+			$this->misc->not_authorised($image_backlink, $image_loginlink);
+		}
+		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		if (!$this->gallery_auth->acl_check('c_edit', $album_id, $album_data['album_user_id']) && $mode == 'add')
+		{
+			if (!$this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']))
+			{
+				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+			}
+		}
+		else if (($comment_data['comment_user_id'] != $this->user->data['user_id']) && !$this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']))
+		{
+			$this->misc->not_authorised($image_backlink, $image_loginlink);
+		}
+		
+		add_form_key('gallery');
+		$this->user->add_lang('posting');
+
+		include_once($this->phpbb_root_path . 'includes/functions_posting.' . $this->php_ext);
+
+		$bbcode_status	= ($this->config['allow_bbcode']) ? true : false;
+		$smilies_status	= ($this->config['allow_smilies']) ? true : false;
+		$img_status		= ($bbcode_status) ? true : false;
+		$url_status		= ($this->config['allow_post_links']) ? true : false;
+		$flash_status	= false;
+		$quote_status	= true;
+
+		include_once($this->phpbb_root_path . 'includes/functions_display.' . $this->php_ext);
+		// Build custom bbcodes array
+		display_custom_bbcodes();
+
+		// Build smilies array
+		generate_smilies('inline', 0);
+
+
+		//$s_hide_comment_input = (time() < ($album_data['contest_start'] + $album_data['contest_end'])) ? true : false;
+		$s_hide_comment_input = false;
+
+		$this->template->assign_vars(array(
+			'BBCODE_STATUS'			=> ($bbcode_status) ? sprintf($this->user->lang['BBCODE_IS_ON'], '<a href="' . $this->url->append_sid('phpbb', 'faq', 'mode=bbcode') . '">', '</a>') : sprintf($this->user->lang['BBCODE_IS_OFF'], '<a href="' . $this->url->append_sid('phpbb', 'faq', 'mode=bbcode') . '">', '</a>'),
+			'IMG_STATUS'			=> ($img_status) ? $this->user->lang['IMAGES_ARE_ON'] : $this->user->lang['IMAGES_ARE_OFF'],
+			'FLASH_STATUS'			=> ($flash_status) ? $this->user->lang['FLASH_IS_ON'] : $this->user->lang['FLASH_IS_OFF'],
+			'SMILIES_STATUS'		=> ($smilies_status) ? $this->user->lang['SMILIES_ARE_ON'] : $this->user->lang['SMILIES_ARE_OFF'],
+			'URL_STATUS'			=> ($bbcode_status && $url_status) ? $this->user->lang['URL_IS_ON'] : $this->user->lang['URL_IS_OFF'],
+
+			'S_BBCODE_ALLOWED'			=> $bbcode_status,
+			'S_SMILIES_ALLOWED'			=> $smilies_status,
+			'S_LINKS_ALLOWED'			=> $url_status,
+			'S_BBCODE_IMG'			=> $img_status,
+			'S_BBCODE_URL'			=> $url_status,
+			'S_BBCODE_FLASH'		=> $flash_status,
+			'S_BBCODE_QUOTE'		=> $quote_status,
+		));
+
+		$s_hidden_fields = build_hidden_fields(array(
+			'album_id'		=> $album_id,
+			'image_id'		=> $image_id,
+			'comment_id'	=> $comment_id,
+			'mode'			=> 'delete',
+		));
+
+		if (confirm_box(true))
+		{
+			$this->comment->delete_comments($comment_id);
+			if ($this->user->data['user_id'] != $comment_data['comment_user_id'])
+			{
+				add_log('gallery', $image_data['image_album_id'], $image_data['image_id'], 'LOG_GALLERY_COMMENT_DELETED', $image_data['image_name']);
+			}
+
+			$message = $this->user->lang['DELETED_COMMENT'] . '<br />';
+			$submit = true;
+		}
+		else
+		{
+			if (isset($_POST['cancel']))
+			{
+				$message = $this->user->lang['DELETED_COMMENT_NOT'] . '<br />';
+				$submit = true;
+			}
+			else
+			{
+				confirm_box(false, 'DELETE_COMMENT2', $s_hidden_fields);
+			}
+		}
+		
 		
 		$this->template->assign_vars(array(
 			'ERROR'					=> $error,

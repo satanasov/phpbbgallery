@@ -79,10 +79,10 @@ class contest
 		{
 			case 'upload':
 				return (!$album_data['contest_id'] || ((($album_data['contest_start']) < time()) &&
-					 (time() < ($album_data['contest_start'] + $album_data['contest_rating']))));
+					(time() < ($album_data['contest_start'] + $album_data['contest_rating']))));
 			case 'rate':
 				return (!$album_data['contest_id'] || ((($album_data['contest_start'] + $album_data['contest_rating']) < time()) &&
-					 (time() < ($album_data['contest_start'] + $album_data['contest_end']))));
+					(time() < ($album_data['contest_start'] + $album_data['contest_end']))));
 			case 'comment':
 				return (!$album_data['contest_id'] || (time() > ($album_data['contest_start'] + $album_data['contest_end'])));
 		}

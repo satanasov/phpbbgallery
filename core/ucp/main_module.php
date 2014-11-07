@@ -1042,7 +1042,7 @@ class main_module
 	function subscribe_pegas($album_id)
 	{
 		global $db, $users_table;
-		 $phpbb_gallery_notification = new \phpbbgallery\core\notification();
+		$phpbb_gallery_notification = new \phpbbgallery\core\notification();
 
 		$sql = 'SELECT user_id
 			FROM ' . $users_table . '
