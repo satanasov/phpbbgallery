@@ -35,22 +35,28 @@ Please bear in mind that this is WORK IN PROGRESS. It is as BETA as they comme.
     - You can see albums and images
     - ACL seted in ACP -> Gallery -> Permissions are recongized for view, upload and edit
     - Watermark
+    - You see image description
     - You can see user albums
     - You can upload pictures
     - You can edit pictures
     - You can delete pictures
+    - You can comment/quote
+    - You can edit comment
+    - You can delete comment
  - BBCode - extension adds the album BBCode
 
 #What Does not work (yet)
- - Comments
+ - Comments:
+   - moderate comment
+   - can report comment
+   - Pagination
  - Ratings
  - Image subscription
- - Image description
  - Moderator panel of any kind
- - Image subscription
  - ACP clean up (this I think must stay in the core until atleast 1.2.1)
  - ACP mass upload (still think it's a core function)
  - Zebra ACL for albums/images
+ - Next and preveus image
 
 #Add ons
  - Exif
