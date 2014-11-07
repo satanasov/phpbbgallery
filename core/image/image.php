@@ -299,7 +299,6 @@ class image
 				$url = $image_url;
 				global $phpbb_dispatcher;
 
-
 				$tpl = '{CONTENT}';
 
 				$vars = array('mode', 'tpl');

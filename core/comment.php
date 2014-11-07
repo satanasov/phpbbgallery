@@ -47,10 +47,10 @@ class comment
 		$auth = $phpbb_container->get('phpbbgallery.core.auth');
 		$album = $phpbb_container->get('phpbbgallery.core.album');
 		$image = $phpbb_container->get('phpbbgallery.core.image');
-		
+
 		return $config->get('allow_comments') && (!$config->get('comment_user_control') || $image_data['image_allow_comments']) &&
 			($auth->acl_check('m_status', $album_data['album_id'], $album_data['album_user_id']) ||
-			 (($image_data['image_status'] == $image->get_status_approved()) && ($album_data['album_status'] != $album->get_status_locked())));
+			(($image_data['image_status'] == $image->get_status_approved()) && ($album_data['album_status'] != $album->get_status_locked())));
 	}
 
 	/**
@@ -182,7 +182,8 @@ class comment
 	*/
 	static public function delete_comments($comment_ids)
 	{
-		global $db, $table_prefix;
+		global $db, $table_prefix, $phpbb_container;
+		$config = $phpbb_container->get('phpbbgallery.core.config');
 
 		$comment_ids = self::cast_mixed_int2array($comment_ids);
 
@@ -201,13 +202,13 @@ class comment
 		}
 		$db->sql_freeresult($result);
 
-		$sql = 'DELETE FROM ' . $table_prefix . 'gallery_images 
+		$sql = 'DELETE FROM ' . $table_prefix . 'gallery_comments 
 			WHERE ' . $db->sql_in_set('comment_id', $comment_ids);
 		$db->sql_query($sql);
 
 		self::sync_image_comments($image_ids);
 
-		$phpbb_ext_gallery->config->dec('num_comments', $total_comments);
+		$config->dec('num_comments', $total_comments);
 	}
 
 	/**

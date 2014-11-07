@@ -33,6 +33,9 @@ phpbbgallery_image_comment_add:
 phpbbgallery_image_comment_edit:
     pattern: /gallery/comment/{image_id}/edit/{comment_id}
     defaults: { _controller: phpbbgallery.core.controller.comment:edit }
+phpbbgallery_image_comment_edit:
+    pattern: /gallery/comment/{image_id}/delete/{comment_id}
+    defaults: { _controller: phpbbgallery.core.controller.comment:delete }
 
 phpbbgallery_image_file_source:
     pattern: /gallery/image/{image_id}/source

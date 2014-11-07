@@ -59,7 +59,9 @@ class upload
 		
 		$phpbb_ext_gallery_config = $phpbb_container->get('phpbbgallery.core.config');
 		
-		$this->upload = new \phpbbgallery\core\upload\fileupload();
+		include_once($phpbb_root_path . 'includes/functions_upload.' . $phpEx);
+		$this->upload = new \fileupload();
+		//$this->upload = new \phpbbgallery\core\upload\fileupload();
 		$this->upload->fileupload('', self::get_allowed_types(), (4 * $phpbb_ext_gallery_config->get('max_filesize')));
 
 		$this->tools = new \phpbbgallery\core\file\file($phpbb_ext_gallery_config->get('gdlib_version'));

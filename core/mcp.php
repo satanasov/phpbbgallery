@@ -8,16 +8,9 @@
 *
 */
 
-/**
-* @ignore
-*/
+namespace \phpbbgallery\core;
 
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-class phpbb_ext_gallery_core_mcp
+class mcp
 {
 	static protected $allowed_sort_params = array('image_time', 'image_name_clean', 'image_username_clean', 'image_view_count', 'image_rate_avg', 'image_comments', 'image_last_comment');
 	static protected $allowed_sort_params_report = array('reporter_name', 'mod_username');
@@ -475,7 +468,6 @@ class phpbb_ext_gallery_core_mcp
 		{
 			$desc_string = $user->lang('WAITING_REPORTED_IMAGE', $count_images);
 		}
-
 
 		$template->assign_vars(array(
 			'S_SORT_DESC'			=> ($sort_dir == 'DESC') ? true : false,
