@@ -13,15 +13,7 @@
 /**
 * DO NOT CHANGE
 */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
 
-if (empty($lang) || !is_array($lang))
-{
-	$lang = array();
-}
 
 $lang = array_merge($lang, array(
 	'ACP_GALLERY_OVERVIEW'			=> 'phpBB Gallery',
@@ -386,7 +378,6 @@ $lang = array_merge($lang, array(
 	'NO_WRITE_ACCESS'				=> 'No write access',
 	'WRITE_ACCESS'					=> 'OK',
 	'DIR_CREATED'					=> 'Directory created',
-
 ));
 
 /**
@@ -403,5 +394,3 @@ $lang = array_merge($lang, array(
 	'UP_TO_DATE'			=> '%s is up to date',
 	'VERSION_CHECK'			=> 'MOD Version Check',
 ));
-
-?>

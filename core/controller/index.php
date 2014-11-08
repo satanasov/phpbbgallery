@@ -76,7 +76,7 @@ class index
 	*
 	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
 	*/
-	public function index()
+	public function base()
 	{
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
 		$this->display->display_albums(false, $this->config['load_moderators']);

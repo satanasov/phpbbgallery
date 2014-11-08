@@ -33,7 +33,7 @@ class config_module
 
 		$submit = (isset($_POST['submit'])) ? true : false;
 		$form_key = 'acp_time';
-        add_form_key($form_key);
+		add_form_key($form_key);
 
 		// Create the toolio config object
 		//$this->toolio_config = new phpbb_ext_gallery_core_config($config, $db, CONFIG_TABLE);
@@ -49,27 +49,27 @@ class config_module
 		$phpbb_gallery_configs = new \phpbbgallery\core\config($config);
 		$this->new_config = $phpbb_gallery_configs->get_all();
 		$cfg_array = (isset($_REQUEST['config'])) ? utf8_normalize_nfc(request_var('config', array('' => ''), true)) : $this->new_config;
-        $error = array();
+		$error = array();
 
         // We validate the complete config if whished
-        validate_config_vars($vars['vars'], $cfg_array, $error);
+		validate_config_vars($vars['vars'], $cfg_array, $error);
 		if ($submit && !check_form_key($form_key))
-        {
-            $error[] = $user->lang['FORM_INVALID'];
-        }
+		{
+			$error[] = $user->lang['FORM_INVALID'];
+		}
 
 		// Do not write values if there is an error
         if (sizeof($error))
-        {
-            $submit = false;
-        }
+		{
+			$submit = false;
+		}
 		//now we display the variables
 		foreach ($vars['vars'] as $config_name => $null)
 		{
 			if (!isset($cfg_array[$config_name]) || strpos($config_name, 'legend') !== false)
-            {
-                continue;
-            }
+			{
+				continue;
+			}
 			$this->new_config[$config_name] = $config_value = $cfg_array[$config_name];
 			
 			if ($submit)
@@ -470,7 +470,6 @@ class config_module
 		global $user;
 
 		$sort_order_options = '';//phpbb_gallery_plugins::uc_select($value, $key);
-
 
 		if ($key != 'link_imagepage')
 		{

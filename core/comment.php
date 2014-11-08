@@ -21,7 +21,7 @@ class comment
 	* @param \phpbbgallery\core\image\image		$image
 	* @param \phpbbgallery\core\album\album		$album
 	*/
-	
+
 	public function __construct(\phpbb\user $user, \phpbbgallery\core\config $config, \phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\image\image $image, \phpbbgallery\core\album\album $album)
 	{
 		$this->user = $user;
@@ -30,7 +30,7 @@ class comment
 		$this->image = $image;
 		$this->album = $album;
 	}
-	
+
 	/**
 	* Is the user allowed to comment?
 	* Following statements must be true:

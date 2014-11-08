@@ -197,7 +197,7 @@ class notification
 
 		// Get album_user_id to check for personal albums.
 		$sql = 'SELECT album_id, album_user_id
-			FROM ' . GALLERY_ALBUMS_TABLE . '
+			FROM ' . $table_prefix . 'gallery_albums
 			WHERE album_id = ' . $album_id;
 		$result = $db->sql_query($sql);
 		$album = $db->sql_fetchrow($result);
@@ -211,16 +211,16 @@ class notification
 		$i_view_ary = $groups_ary = $groups_row = array();
 		$sql_array = array(
 			'SELECT'		=> 'pr.i_view, p.perm_system, p.perm_group_id, p.perm_user_id',
-			'FROM'			=> array(GALLERY_PERMISSIONS_TABLE => 'p'),
+			'FROM'			=> array($table_prefix . 'gallery_permissions' => 'p'),
 
 			'LEFT_JOIN'		=> array(
 				array(
-					'FROM'		=> array(GALLERY_ROLES_TABLE => 'pr'),
+					'FROM'		=> array($table_prefix . 'gallery_roles' => 'pr'),
 					'ON'		=> 'p.perm_role_id = pr.role_id',
 				),
 			),
 
-			'WHERE'			=> (($album['album_user_id'] == phpbb_gallery_album::PUBLIC_ALBUM) ? 'p.perm_album_id = ' . $album_id : 'p.perm_system <> ' . phpbb_gallery_album::PUBLIC_ALBUM),
+			'WHERE'			=> (($album['album_user_id'] == \phpbbgallery\core\album\album::PUBLIC_ALBUM) ? 'p.perm_album_id = ' . $album_id : 'p.perm_system <> ' . \phpbbgallery\core\album\album::PUBLIC_ALBUM),
 			'ORDER_BY'		=> 'pr.i_view ASC',
 		);
 		$sql = $db->sql_build_query('SELECT', $sql_array);
@@ -240,11 +240,11 @@ class notification
 					{
 						$i_view_ary[$row['perm_user_id']] = $row['i_view'];
 					}
-					else if (($row['perm_system'] == phpbb_gallery_auth::OWN_ALBUM) && ($album['album_user_id'] == $row['perm_user_id']))
+					else if (($row['perm_system'] == \phpbbgallery\core\auth\auth::OWN_ALBUM) && ($album['album_user_id'] == $row['perm_user_id']))
 					{
 						$i_view_ary[$row['perm_user_id']] = $row['i_view'];
 					}
-					else if (($row['perm_system'] == phpbb_gallery_auth::PERSONAL_ALBUM) && ($album['album_user_id'] != $row['perm_user_id']))
+					else if (($row['perm_system'] ==\phpbbgallery\core\auth\auth::PERSONAL_ALBUM) && ($album['album_user_id'] != $row['perm_user_id']))
 					{
 						$i_view_ary[$row['perm_user_id']] = $row['i_view'];
 					}
@@ -269,11 +269,11 @@ class notification
 					{
 						$i_view_ary[$row['user_id']] = $groups_row[$row['group_id']]['i_view'];
 					}
-					else if (($groups_row[$row['group_id']]['perm_system'] == phpbb_gallery_auth::OWN_ALBUM) && ($album['album_user_id'] == $row['user_id']))
+					else if (($groups_row[$row['group_id']]['perm_system'] == \phpbbgallery\core\auth\auth::OWN_ALBUM) && ($album['album_user_id'] == $row['user_id']))
 					{
 						$i_view_ary[$row['user_id']] = $groups_row[$row['group_id']]['i_view'];
 					}
-					else if (($groups_row[$row['group_id']]['perm_system'] == phpbb_gallery_auth::PERSONAL_ALBUM) && ($album['album_user_id'] != $row['user_id']))
+					else if (($groups_row[$row['group_id']]['perm_system'] == \phpbbgallery\core\auth\auth::PERSONAL_ALBUM) && ($album['album_user_id'] != $row['user_id']))
 					{
 						$i_view_ary[$row['user_id']] = $groups_row[$row['group_id']]['i_view'];
 					}
@@ -286,7 +286,7 @@ class notification
 		$msg_users = $delete_ids = $update_notification = array();
 		foreach ($notify_rows as $user_id => $row)
 		{
-			if (($i_view_ary[$row['user_id']] != phpbb_gallery_auth::ACL_YES) || !trim($row['user_email']))
+			if (($i_view_ary[$row['user_id']] != \phpbbgallery\core\auth\auth::ACL_YES) || !trim($row['user_email']))
 			{
 				$delete_ids[$row['notify_type']][] = $row['user_id'];
 			}
@@ -303,7 +303,7 @@ class notification
 		{
 			if (!class_exists('messenger'))
 			{
-				phpbb_gallery_url::_include('functions_messenger', 'phpbb');
+				\phpbbgallery\core\url::_include('functions_messenger', 'phpbb');
 			}
 			$messenger = new messenger();
 
@@ -334,11 +334,11 @@ class notification
 						'IMAGE_NAME'	=> htmlspecialchars_decode($image_name),
 						'ALBUM_NAME'	=> htmlspecialchars_decode($album_data['album_name']),
 
-						'U_ALBUM'				=> phpbb_gallery_url::create_link('full', 'album', "album_id=$album_id"),
-						'U_IMAGE'				=> phpbb_gallery_url::create_link('full', 'image_page', "album_id=$album_id&amp;image_id=$image_id"),
-						'U_NEWEST_POST'			=> phpbb_gallery_url::create_link('full', 'viewtopic', "album_id=$album_id&amp;image_id=$image_id"),
-						'U_STOP_WATCHING_IMAGE'	=> phpbb_gallery_url::create_link('full', 'image_page', "mode=unwatch&amp;album_id=$album_id&amp;image_id=$image_id"),
-						'U_STOP_WATCHING_ALBUM'	=> phpbb_gallery_url::create_link('full', 'album', "mode=unwatch&amp;album_id=$album_id"),
+						'U_ALBUM'				=> \phpbbgallery\core\url::create_link('full', 'album', "album_id=$album_id"),
+						'U_IMAGE'				=> \phpbbgallery\core\url::create_link('full', 'image_page', "album_id=$album_id&amp;image_id=$image_id"),
+						'U_NEWEST_POST'			=> \phpbbgallery\core\url::create_link('full', 'viewtopic', "album_id=$album_id&amp;image_id=$image_id"),
+						'U_STOP_WATCHING_IMAGE'	=> \phpbbgallery\core\url::create_link('full', 'image_page', "mode=unwatch&amp;album_id=$album_id&amp;image_id=$image_id"),
+						'U_STOP_WATCHING_ALBUM'	=> \phpbbgallery\core\url::create_link('full', 'album', "mode=unwatch&amp;album_id=$album_id"),
 					));
 
 					$messenger->send($addr['method']);

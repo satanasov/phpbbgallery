@@ -134,5 +134,3 @@ $lang = array_merge($lang, array(
 		2			=> 'In total there are <span style="font-weight: bold;">%s</span> images waiting for approval.',
 	),
 ));
-
-?>

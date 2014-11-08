@@ -17,7 +17,7 @@ class release_1_1_6 extends \phpbb\db\migration\migration
 			'add_tables'		=> array(
 				$this->table_prefix . 'gallery_albums'	=> array(
 					'COLUMNS'		=> array(
-						'album_id'					=> array('UINT', NULL, 'auto_increment'),
+						'album_id'					=> array('UINT', null, 'auto_increment'),
 						'parent_id'					=> array('UINT', 0),
 						'left_id'					=> array('UINT', 1),
 						'right_id'					=> array('UINT', 2),
@@ -61,8 +61,8 @@ class release_1_1_6 extends \phpbb\db\migration\migration
 				),
 				$this->table_prefix . 'gallery_comments'	=> array(
 					'COLUMNS'		=> array(
-						'comment_id'			=> array('UINT', NULL, 'auto_increment'),
-						'comment_image_id'		=> array('UINT', NULL),
+						'comment_id'			=> array('UINT', null, 'auto_increment'),
+						'comment_image_id'		=> array('UINT', null),
 						'comment_user_id'		=> array('UINT', 0),
 						'comment_username'		=> array('VCHAR', ''),
 						'comment_user_colour'	=> array('VCHAR:6', ''),
@@ -86,7 +86,7 @@ class release_1_1_6 extends \phpbb\db\migration\migration
 				),
 				$this->table_prefix . 'gallery_contests'	=> array(
 					'COLUMNS'		=> array(
-						'contest_id'			=> array('UINT', NULL, 'auto_increment'),
+						'contest_id'			=> array('UINT', null, 'auto_increment'),
 						'contest_album_id'		=> array('UINT', 0),
 						'contest_start'			=> array('UINT:11', 0),
 						'contest_rating'		=> array('UINT:11', 0),
@@ -100,7 +100,7 @@ class release_1_1_6 extends \phpbb\db\migration\migration
 				),
 				$this->table_prefix . 'gallery_favorites'	=> array(
 					'COLUMNS'		=> array(
-						'favorite_id'			=> array('UINT', NULL, 'auto_increment'),
+						'favorite_id'			=> array('UINT', null, 'auto_increment'),
 						'user_id'				=> array('UINT', 0),
 						'image_id'				=> array('UINT', 0),
 					),
@@ -112,7 +112,7 @@ class release_1_1_6 extends \phpbb\db\migration\migration
 				),
 				$this->table_prefix . 'gallery_images'	=> array(
 					'COLUMNS'		=> array(
-						'image_id'				=> array('UINT', NULL, 'auto_increment'),
+						'image_id'				=> array('UINT', null, 'auto_increment'),
 						'image_filename'		=> array('VCHAR:255', ''),
 						'image_name'			=> array('VCHAR:255', ''),
 						'image_name_clean'		=> array('VCHAR:255', ''),
@@ -167,7 +167,7 @@ class release_1_1_6 extends \phpbb\db\migration\migration
 				),
 				$this->table_prefix . 'gallery_permissions'	=> array(
 					'COLUMNS'		=> array(
-						'perm_id'			=> array('UINT', NULL, 'auto_increment'),
+						'perm_id'			=> array('UINT', null, 'auto_increment'),
 						'perm_role_id'		=> array('UINT', 0),
 						'perm_album_id'		=> array('UINT', 0),
 						'perm_user_id'		=> array('UINT', 0),
@@ -187,7 +187,7 @@ class release_1_1_6 extends \phpbb\db\migration\migration
 				),
 				$this->table_prefix . 'gallery_reports'	=> array(
 					'COLUMNS'		=> array(
-						'report_id'				=> array('UINT', NULL, 'auto_increment'),
+						'report_id'				=> array('UINT', null, 'auto_increment'),
 						'report_album_id'		=> array('UINT', 0),
 						'report_image_id'		=> array('UINT', 0),
 						'reporter_id'			=> array('UINT', 0),
@@ -200,7 +200,7 @@ class release_1_1_6 extends \phpbb\db\migration\migration
 				),
 				$this->table_prefix . 'gallery_roles'	=> array(
 					'COLUMNS'		=> array(
-						'role_id'			=> array('UINT', NULL, 'auto_increment'),
+						'role_id'			=> array('UINT', null, 'auto_increment'),
 						'a_list'			=> array('UINT:3', 0),
 						'i_view'			=> array('UINT:3', 0),
 						'i_watermark'		=> array('UINT:3', 0),
@@ -251,7 +251,7 @@ class release_1_1_6 extends \phpbb\db\migration\migration
 				),
 				$this->table_prefix . 'gallery_watch'	=> array(
 					'COLUMNS'		=> array(
-						'watch_id'		=> array('UINT', NULL, 'auto_increment'),
+						'watch_id'		=> array('UINT', null, 'auto_increment'),
 						'album_id'		=> array('UINT', 0),
 						'image_id'		=> array('UINT', 0),
 						'user_id'		=> array('UINT', 0),

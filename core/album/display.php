@@ -403,7 +403,6 @@ class display
 		);
 		$sql_array['SELECT'] = $sql_array['SELECT'] . ', c.contest_marked';
 
-
 		$sql = $this->db->sql_build_query('SELECT', array(
 			'SELECT'	=> $sql_array['SELECT'],
 			'FROM'		=> $sql_array['FROM'],
@@ -533,7 +532,6 @@ class display
 				trigger_error($message);
 			}
 		}
-
 
 		// Grab moderators ... if necessary
 		if ($display_moderators)

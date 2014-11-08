@@ -11,7 +11,15 @@
 		</div>
 	<span class="corners-bottom"><span></span></span></div>
 </div>
-
+<!-- IF UC_PREV_IMAGE or UC_NEXT_IMAGE -->
+<div class="post bg2">
+	<div class="inner"><span class="corners-top"><span></span></span>
+		<div style="text-align: center; overflow: hidden;">
+			<!-- IF UC_PREV_IMAGE --><div style="float: left; text-align: left; width: 48%;">&laquo;&laquo; {UC_PREV_IMAGE}</div><!-- ENDIF --><!-- IF UC_NEXT_IMAGE --><div style="float: right; text-align: right; width: 48%;">{UC_NEXT_IMAGE} &raquo;&raquo; </div><!-- ENDIF -->
+		</div>
+	</div>
+</div>
+<!-- ENDIF -->
 <div id="details" class="panel">
 	<div class="inner"><span class="corners-top"><span></span></span>
 		<div class="postbody">
@@ -60,6 +68,26 @@
 					<dt><label>{L_RATING}:</label></dt>
 					<dd><!-- IF CONTEST_RESULT_HIDDEN -->{CONTEST_RESULT_HIDDEN}<!-- ELSE -->{IMAGE_RATING}<!-- ENDIF --><!-- IF S_YOUR_RATING --> ({L_YOUR_RATING}: {S_YOUR_RATING})<!-- ENDIF --></dd>
 				</dl>
+				<!-- ENDIF -->
+				<!-- IF S_ALLOWED_TO_RATE -->
+				<form id="postform" action="{S_RATE_ACTION}" method="post">
+				<dl class="column2">
+					<dt><label>{L_YOUR_RATING}:</label></dt>
+					<dd>
+						<!-- IF .rate_scale -->
+							<select name="rating" onchange="this.form.submit();">
+							<!-- BEGIN rate_scale -->
+								<!-- IF rate_scale.RATE_POINT == 1 --><option value="0">{L_DONT_RATE_IMAGE}</option><!-- ENDIF -->
+								<option value="{rate_scale.RATE_POINT}">{rate_scale.RATE_POINT}</option>
+							<!-- END rate_scale -->
+							</select>
+						<!-- ELSE -->
+							{CONTEST_RATING}
+						<!-- ENDIF -->
+					</dd>
+				</dl>
+				{S_FORM_TOKEN}
+				</form>
 				<!-- ENDIF -->
 			</fieldset>
 
@@ -150,33 +178,13 @@
 </div>
 <!-- ENDIF -->
 -->
-<!-- IF not S_IS_BOT and (S_ALLOWED_TO_RATE or S_ALLOWED_TO_COMMENT) -->
+<!-- IF not S_IS_BOT and S_ALLOWED_TO_COMMENT -->
 <a name="rating"></a>
 <form id="postform" action="{S_COMMENT_ACTION}" method="post">
 <div id="postingbox" class="panel">
 	<div class="inner"><span class="corners-top"><span></span></span>
-		<h3><!-- IF S_ALLOWED_TO_RATE and S_ALLOWED_TO_COMMENT -->{L_POST_COMMENT_RATE_IMAGE}<!-- ELSEIF S_ALLOWED_TO_COMMENT -->{L_POST_COMMENT}<!-- ELSE -->{L_RATE_IMAGE}<!-- ENDIF --></h3>
+		<h3>{L_POST_COMMENT}</h3>
 		<fieldset id="comment-box" class="fields1">
-			<!-- IF S_ALLOWED_TO_RATE -->
-				<dl>
-					<dt><label>{L_YOUR_RATING}:</label></dt>
-					<dd>
-						<!-- IF .rate_scale -->
-							<select name="rating">
-							<!-- BEGIN rate_scale -->
-								<!-- IF rate_scale.RATE_POINT == 1 --><option value="0">{L_DONT_RATE_IMAGE}</option><!-- ENDIF -->
-								<option value="{rate_scale.RATE_POINT}">{rate_scale.RATE_POINT}</option>
-							<!-- END rate_scale -->
-							</select>
-							<!-- IF (not S_ALLOWED_TO_COMMENT or S_HIDE_COMMENT_INPUT) and .rate_scale -->
-								<input type="submit" name="submit" value="{L_SUBMIT}" class="button1" />
-							<!-- ENDIF -->
-						<!-- ELSE -->
-							{CONTEST_RATING}
-						<!-- ENDIF -->
-					</dd>
-				</dl>
-			<!-- ENDIF -->
 			<!-- IF S_ALLOWED_TO_COMMENT and not S_HIDE_COMMENT_INPUT -->
 				<!-- IF not S_USER_LOGGED_IN -->
 					<dl>
@@ -249,10 +257,10 @@
 		</div>
 	</div>
 	<!-- ENDIF -->
-
+<br><br>
 	<!-- BEGIN commentrow -->
-	<a id="comment_{commentrow.COMMENT_ID}"></a>
 	<div class="post <!-- IF commentrow.S_ROW_COUNT is odd -->bg1<!-- ELSE -->bg2<!-- ENDIF --><!-- IF commentrow.S_ONLINE --> online<!-- ENDIF -->">
+	<a id="comment_{commentrow.COMMENT_ID}"></a>
 		<div class="inner"><span class="corners-top"><span></span></span>
 			<div class="postbody">
 				<!-- IF commentrow.U_DELETE or commentrow.U_EDIT or commentrow.U_INFO or commentrow.U_QUOTE -->

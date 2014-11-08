@@ -158,10 +158,13 @@ services:
             - @phpbbgallery.core.url
             - @phpbbgallery.core.misc
             - @phpbbgallery.core.comment
+            - @phpbbgallery.core.report
             - %tables.phpbbgallery.albums%
             - %tables.phpbbgallery.images%
             - %tables.phpbbgallery.users%
             - %tables.phpbbgallery.comments%
+            - %core.root_path%
+            - %core.php_ext%
     phpbbgallery.core.controller.index:
         class: phpbbgallery\core\controller\index
         arguments:
@@ -202,6 +205,8 @@ services:
         class: phpbbgallery\core\config
         arguments:
             - @config
+    phpbbgallery.core.report:
+        class: phpbbgallery\core\report
     phpbbgallery.core.comment:
         class: phpbbgallery\core\comment
         arguments:

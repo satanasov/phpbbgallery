@@ -334,7 +334,7 @@ class user
 		{
 			$sql_where = 'WHERE ' . $this->db->sql_in_set('user_id', array_map('intval', $user_ids));
 		}
-		elseif ($user_ids == 'all')
+		else if ($user_ids == 'all')
 		{
 			$sql_where = '';
 		}
@@ -521,7 +521,6 @@ class user
 				'sig'					=> $user_sig,
 				'sig_bbcode_uid'		=> (!empty($row['user_sig_bbcode_uid'])) ? $row['user_sig_bbcode_uid'] : '',
 				'sig_bbcode_bitfield'	=> (!empty($row['user_sig_bbcode_bitfield'])) ? $row['user_sig_bbcode_bitfield'] : '',
-
 
 				'avatar'		=> ($user->optionget('viewavatars')) ? phpbb_get_user_avatar($row) : '',
 				'age'			=> '',

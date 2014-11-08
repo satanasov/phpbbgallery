@@ -41,7 +41,7 @@ class image
 	* The image is element of an open contest. Only moderators can see the user_name of the user.
 	*/
 	const IN_CONTEST = 1;
-	
+
 	/**
 	* return int orphan status
 	*/
@@ -49,7 +49,7 @@ class image
 	{
 		return 3;
 	}
-	
+
 	public function get_status_unaproved()
 	{
 		return 0;
@@ -59,7 +59,7 @@ class image
 	{
 		return 1;
 	}
-	
+
 	public function get_status_locked()
 	{
 		return 2;
@@ -221,8 +221,8 @@ class image
 	public function generate_link($content, $mode, $image_id, $image_name, $album_id, $is_gif = false, $count = true, $additional_parameters = '', $next_image = 0)
 	{
 		global $user, $phpbb_root_path, $phpEx;
-		global $phpbb_ext_gallery;//@todo: 
-		
+		global $phpbb_ext_gallery;//@todo:
+
 		$phpbb_ext_gallery_url = new \phpbbgallery\core\url($phpbb_root_path, $phpEx);
 
 		$image_page_url = $phpbb_ext_gallery_url->append_sid('image_page', "album_id=$album_id&amp;image_id=$image_id{$additional_parameters}");
@@ -327,7 +327,7 @@ class image
 
 		$phpbb_ext_gallery_config = $phpbb_container->get('phpbbgallery.core.config');
 		$image_user = $phpbb_container->get('phpbbgallery.core.user');
-		
+
 		$num_images = $num_comments = 0;
 		$sql = 'SELECT SUM(image_comments) comments
 			FROM ' . $table_prefix . 'gallery_images
@@ -371,7 +371,7 @@ class image
 			$phpbb_ext_gallery_config->dec('num_comments', $num_comments);
 		}
 	}
-	
+
 	public function get_image_data($image_id)
 	{
 		global $db, $table_prefix;
@@ -379,12 +379,12 @@ class image
 		{
 			return;
 		}
-		
+
 		$sql = 'SELECT * FROM ' . $table_prefix . 'gallery_images WHERE image_id = ' . $image_id;
 		$result = $db->sql_query($sql);
 		$row = $db->sql_fetchrow($result);
 		$db->sql_freeresult($result);
-		
+
 		if ($row)
 		{
 			return $row;

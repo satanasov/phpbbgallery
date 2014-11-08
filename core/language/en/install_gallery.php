@@ -132,5 +132,3 @@ $lang = array_merge($lang, array(
 
 	'VERSION_NOT_SUPPORTED'		=> 'Sorry, but your updates prior to 1.0.6 are not supported from this install/update-system.',
 ));
-
-?>
