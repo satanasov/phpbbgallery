@@ -26,7 +26,7 @@ class url
 	* Path from the phpbb root, into gallery's file root
 	*/
 	private $phpbb_gallery_file_path = 'files/phpbbgallery/core/';
-	
+
 	/**
 	* Path from the phpbb root, into gallery's root
 	*/
@@ -142,7 +142,7 @@ class url
 	{
 		return $this->phpbb_gallery_full_path . 'image/' . $image_id . '/' . $size;
 	}
-	
+
 	/**
 	* Removes the sid and replaces &amp; with normal &
 	*/

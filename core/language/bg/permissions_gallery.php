@@ -32,4 +32,3 @@ $lang = array_merge($lang, array(
 	'acl_a_gallery_import'		=> array('lang' => 'Can use the import-function',				'cat' => 'gallery'),
 	'acl_a_gallery_cleanup'		=> array('lang' => 'Can clean up the phpBB Gallery',			'cat' => 'gallery'),
 ));
-?>

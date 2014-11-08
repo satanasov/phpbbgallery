@@ -80,5 +80,3 @@ $lang = array_merge($lang, array(
 	'WATCH_NOTE'					=> 'This option only affects on new images. All other images need to be added by the “subscribe image“ option.',
 	'WATCH_OWN'						=> 'Subscribe own images by default',
 ));
-
-?>

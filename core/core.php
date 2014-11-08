@@ -65,7 +65,7 @@ class core
 		{
 			$lang_sets = array_merge($lang_sets, $lang_set);
 		}
-		elseif (is_string($lang_set))
+		else if (is_string($lang_set))
 		{
 			$lang_sets[] = $lang_set;
 		}

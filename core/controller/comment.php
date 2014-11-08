@@ -14,25 +14,25 @@ class comment
 {
 	/* @var \phpbb\request\request */
 	protected $request;
-	
+
 	/* @var \phpbb\controller\helper */
 	protected $helper;
-	
+
 	/* @var \phpbbgallery\core\image\image */
 	protected $image;
 
 	/* @var \phpbbgallery\core\album\loader */
 	protected $loader;
-	
+
 	/* @var \phpbbgallery\core\album\album */
 	protected $album;
-	
+
 	/* @var \phpbbgallery\core\album\display */
 	protected $display;
-	
+
 	/* @var \phpbbgallery\core\url */
 	protected $url;
-	
+
 	/**
 	* Constructor
 	*
@@ -44,9 +44,9 @@ class comment
 	* @param \phpbbgallery\core\album\display		$display	phpBB Gallery Core album display
 	* @param \phpbbgallery\core\url					$url		phpBB Gallery Core url object
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\template\template $template, 
-\phpbb\request\request $request, \phpbb\controller\helper $helper, \phpbbgallery\core\image\image $image, \phpbbgallery\core\album\loader $loader, \phpbbgallery\core\album\album $album, 
-\phpbbgallery\core\album\display $display, \phpbbgallery\core\url $url, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\misc $misc, 
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\template\template $template,
+\phpbb\request\request $request, \phpbb\controller\helper $helper, \phpbbgallery\core\image\image $image, \phpbbgallery\core\album\loader $loader, \phpbbgallery\core\album\album $album,
+\phpbbgallery\core\album\display $display, \phpbbgallery\core\url $url, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\misc $misc,
 \phpbbgallery\core\comment $comment, \phpbbgallery\core\user $gallery_user, $table_comments, $phpbb_root_path, $php_ext)
 	{
 		$this->db = $db;
@@ -92,7 +92,7 @@ class comment
 			$this->db->sql_freeresult($result);
 			$image_id = (int) $comment_data['comment_image_id'];
 		}
-		
+
 		$submit = $this->request->variable('submit', false);
 		$error = $message = '';
 		// load Image Data
@@ -101,22 +101,22 @@ class comment
 		$album_data = $this->loader->get($album_id);
 		$this->display->generate_navigation($album_data);
 		$page_title = $image_data['image_name'];
-		
+
 		$image_backlink = append_sid($this->url->path('full') . 'image/' . $image_id);
 		$album_backlink = append_sid($this->url->path('full') . 'album/' . $album_id);
 		$image_loginlink = $this->url->append_sid('relative', 'image_page', "album_id=$album_id&amp;image_id=$image_id");
-		
+
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 		if (!$this->gallery_auth->acl_check('c_post', $album_id, $album_data['album_user_id']))
 		{
 			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 		}
-		
+
 		add_form_key('gallery');
 		$this->user->add_lang('posting');
 
 		include_once($this->phpbb_root_path . 'includes/functions_posting.' . $this->php_ext);
-		
+
 		$bbcode_status	= ($this->config['allow_bbcode']) ? true : false;
 		$smilies_status	= ($this->config['allow_smilies']) ? true : false;
 		$img_status		= ($bbcode_status) ? true : false;
@@ -130,7 +130,6 @@ class comment
 
 		// Build smilies array
 		generate_smilies('inline', 0);
-
 
 		//$s_hide_comment_input = (time() < ($album_data['contest_start'] + $album_data['contest_end'])) ? true : false;
 		$s_hide_comment_input = false;
@@ -200,8 +199,11 @@ class comment
 			{
 				$error .= (($error) ? '<br />' : '') . $this->user->lang['COMMENT_TOO_LONG'];
 			}
-			
-			
+
+			if (!class_exists('bbcode'))
+			{
+				include($this->phpbb_root_path . 'includes/bbcode.' . $this->php_ext);
+			}
 			include_once($this->phpbb_root_path . 'includes/message_parser.' . $this->php_ext);
 			$message_parser = new \parse_message();
 			$message_parser->message	= utf8_normalize_nfc($comment_plain);
@@ -230,7 +232,7 @@ class comment
 					$phpbb_gallery_notification->add($image_id);
 				}
 
-				$phpbb_gallery_notification->send_notification('image', $image_id, $image_data['image_name']);
+				//$phpbb_gallery_notification->send_notification('image', $image_id, $image_data['image_name']);
 				$message .= $this->user->lang['COMMENT_STORED'] . '<br />';
 			}
 			else if ($this->misc->display_captcha('comment'))
@@ -290,7 +292,7 @@ class comment
 
 		return $this->helper->render('gallery/comment_body.html', $page_title);
 	}
-	
+
 	/**
 	* comment Controller
 	*	Route: gallery/comment/{image_id}/edit/{comment_id}
@@ -341,8 +343,7 @@ class comment
 		{
 			$this->misc->not_authorised($image_backlink, $image_loginlink);
 		}
-		
-		add_form_key('gallery');
+
 		$this->user->add_lang('posting');
 
 		include_once($this->phpbb_root_path . 'includes/functions_posting.' . $this->php_ext);
@@ -360,7 +361,6 @@ class comment
 
 		// Build smilies array
 		generate_smilies('inline', 0);
-
 
 		//$s_hide_comment_input = (time() < ($album_data['contest_start'] + $album_data['contest_end'])) ? true : false;
 		$s_hide_comment_input = false;
@@ -488,7 +488,7 @@ class comment
 		return $this->helper->render('gallery/comment_body.html', $page_title);
 	}
 	
-		/**
+	/**
 	* comment Controller
 	*	Route: gallery/comment/{image_id}/delete/{comment_id}
 	*
@@ -538,8 +538,7 @@ class comment
 		{
 			$this->misc->not_authorised($image_backlink, $image_loginlink);
 		}
-		
-		add_form_key('gallery');
+
 		$this->user->add_lang('posting');
 
 		include_once($this->phpbb_root_path . 'includes/functions_posting.' . $this->php_ext);
@@ -557,7 +556,6 @@ class comment
 
 		// Build smilies array
 		generate_smilies('inline', 0);
-
 
 		//$s_hide_comment_input = (time() < ($album_data['contest_start'] + $album_data['contest_end'])) ? true : false;
 		$s_hide_comment_input = false;
@@ -608,8 +606,112 @@ class comment
 				confirm_box(false, 'DELETE_COMMENT2', $s_hidden_fields);
 			}
 		}
+			
+		$this->template->assign_vars(array(
+			'ERROR'					=> $error,
+			'MESSAGE'				=> (isset($comment_plain)) ? $comment_plain : '',
+			'USERNAME'				=> (isset($comment_username)) ? $comment_username : '',
+			'REQ_USERNAME'			=> (!empty($comment_username_req)) ? true : false,
+			'L_COMMENT_LENGTH'		=> sprintf($this->user->lang['COMMENT_LENGTH'], $this->gallery_config->get('comment_length')),
+
+			'IMAGE_RSZ_WIDTH'		=> $this->gallery_config->get('medium_width'),
+			'IMAGE_RSZ_HEIGHT'		=> $this->gallery_config->get('medium_height'),
+			'U_IMAGE'				=> append_sid($this->url->path('full') . 'image/' . $image_id . '/medium'),
+			'U_VIEW_IMAGE'			=> append_sid($this->url->path('full') . 'image/' . $image_id),
+			'IMAGE_NAME'			=> $image_data['image_name'],
+
+			'S_SIGNATURE_CHECKED'	=> (isset($sig_checked) && $sig_checked) ? ' checked="checked"' : '',
+			'S_ALBUM_ACTION'		=> append_sid($this->url->path('full') . 'comment/' . $image_id . '/edit/'. $comment_id),
+		));
+
+		if ($submit && !$error)
+		{
+			$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_IMAGE'], '<a href="' . $image_backlink . '">', '</a>');
+			$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_ALBUM'], '<a href="' . $album_backlink . '">', '</a>');
+
+			meta_refresh(3, $image_backlink);
+			trigger_error($message);
+		}
+
+		return $this->helper->render('gallery/comment_body.html', $page_title);
+	}
+	
+	public function rate($image_id)
+	{
+		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
+		add_form_key('gallery');
 		
+		$submit = $this->request->variable('submit', false);
+		$error = $message = '';
+		// load Image Data
+		$image_data = $this->image->get_image_data($image_id);
+		$album_id = (int) $image_data['image_album_id'];
+		$album_data = $this->loader->get($album_id);
+		$this->display->generate_navigation($album_data);
+		$page_title = $image_data['image_name'];
 		
+		$image_backlink = append_sid($this->url->path('full') . 'image/' . $image_id);
+		$album_backlink = append_sid($this->url->path('full') . 'album/' . $album_id);
+		$image_loginlink = $this->url->append_sid('relative', 'image_page', "album_id=$album_id&amp;image_id=$image_id");
+
+		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$rating = new \phpbbgallery\core\rating($image_id, $image_data, $album_data);
+		if (!($this->gallery_config->get('allow_rates') && $rating->is_able()))
+		{
+			// The user is unable to rate.
+			$this->misc->not_authorised($image_backlink, $image_loginlink);
+		}
+
+		$this->user->add_lang('posting');
+
+		include_once($this->phpbb_root_path . 'includes/functions_posting.' . $this->php_ext);
+
+		$bbcode_status	= ($this->config['allow_bbcode']) ? true : false;
+		$smilies_status	= ($this->config['allow_smilies']) ? true : false;
+		$img_status		= ($bbcode_status) ? true : false;
+		$url_status		= ($this->config['allow_post_links']) ? true : false;
+		$flash_status	= false;
+		$quote_status	= true;
+
+		include_once($this->phpbb_root_path . 'includes/functions_display.' . $this->php_ext);
+		// Build custom bbcodes array
+		display_custom_bbcodes();
+
+		// Build smilies array
+		generate_smilies('inline', 0);
+
+		/**
+		* Rating-System: now you can comment and rate in one form
+		*/
+		$s_user_rated = false;
+		if ($this->gallery_config->get('allow_rates'))
+		{
+			$user_rating = $rating->get_user_rating($this->user->data['user_id']);
+
+			// Check: User didn't rate yet, has permissions, it's not the users own image and the user is logged in
+			if (!$user_rating && $rating->is_allowed())
+			{
+				$rating->display_box();
+
+				// User just rated the image, so we store it
+				$rate_point = $this->request->variable('rating', 0);
+				if ($rating->rating_enabled && $rate_point > 0)
+				{
+					$rating->submit_rating();
+					$s_user_rated = true;
+
+					$message .= $this->user->lang['RATING_SUCCESSFUL'] . '<br />';
+				}
+				$this->template->assign_vars(array(
+					'S_ALLOWED_TO_RATE'			=> $rating->is_allowed(),
+				));
+			}
+			if ($mode == 'rate')
+			{
+				$s_album_action = '';
+			}
+		}
+
 		$this->template->assign_vars(array(
 			'ERROR'					=> $error,
 			'MESSAGE'				=> (isset($comment_plain)) ? $comment_plain : '',

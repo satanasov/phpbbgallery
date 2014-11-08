@@ -105,7 +105,7 @@ class auth
 	{
 		return -2;
 	}
-	
+
 	public function load_user_premissions($user_id, $album_id = false)
 	{
 		$cached_permissions = $this->user->get_data('user_permissions');
@@ -150,7 +150,6 @@ class auth
 
 		foreach ($albums as $album)
 		{
-			
 			if ($album['album_user_id'] == self::PUBLIC_ALBUM)
 			{
 				$this->_auth_data[$album['album_id']]		= new \phpbbgallery\core\auth\set();
@@ -267,7 +266,7 @@ class auth
 			// The album we have permissions for does not exist any more, so do nothing.
 			return;
 		}
-		
+
 		foreach (self::$_permissions as $permission)
 		{
 			if (strpos($permission, '_count') === false)
@@ -431,7 +430,7 @@ class auth
 		{
 			$sql_where = 'WHERE ' . $this->db->sql_in_set('user_id', array_map('intval', $user_ids));
 		}
-		elseif ($user_ids == 'all')
+		else if ($user_ids == 'all')
 		{
 			$sql_where = '';
 		}
@@ -465,7 +464,7 @@ class auth
 	{
 		global $user;
 		$bit = self::$_permissions_flipped[$acl];
-		
+
 		if ($bit < 0)
 		{
 			$bit = $acl;

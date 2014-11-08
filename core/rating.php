@@ -233,7 +233,7 @@ class rating
 		$gallery_auth = $phpbb_container->get('phpbbgallery.core.auth');
 		return $gallery_auth->acl_check('i_rate', $this->album_data('album_id'), $this->album_data('album_user_id')) &&
 			($user->data['user_id'] != $this->image_data('image_user_id')) && ($user->data['user_id'] != ANONYMOUS) &&
-			($this->album_data('album_status') != \phpbbgallery\core\album\album::STATUS_LOCKED) && ($this->image_data('image_status') == \phpbbgallery\core\image\image\image::STATUS_APPROVED);
+			($this->album_data('album_status') != \phpbbgallery\core\album\album::STATUS_LOCKED) && ($this->image_data('image_status') == \phpbbgallery\core\image\image::STATUS_APPROVED);
 	}
 
 	/**
@@ -247,7 +247,7 @@ class rating
 	public function is_able()
 	{
 		global $user;
-		return $this->is_allowed() && phpbb_ext_gallery_core_contest::is_step('rate', $this->album_data(true));
+		return $this->is_allowed(); //&& phpbb_ext_gallery_core_contest::is_step('rate', $this->album_data(true));
 	}
 
 	/**
@@ -260,7 +260,7 @@ class rating
 	public function get_user_rating($user_id)
 	{
 		global $table_prefix;
-	
+
 		$user_id = (int) $user_id;
 		if (isset($this->user_rating[$user_id]))
 		{
@@ -294,6 +294,9 @@ class rating
 	*/
 	public function submit_rating($user_id = false, $points = false, $user_ip = false)
 	{
+		global $phpbb_container;
+		$config = $phpbb_container->get('phpbbgallery.core.config');
+
 		switch (self::MODE_SELECT)//@todo: phpbb_ext_gallery_core_config::get('rating_mode'))
 		{
 			//@todo: self::MODE_THUMB:
@@ -304,7 +307,7 @@ class rating
 
 				$user_id = ($user_id) ? $user_id : $user->data['user_id'];
 				$points = ($points) ? $points : request_var('rating', 0);
-				$points = max(1, min($points, phpbb_ext_gallery_core_config::get('max_rating')));
+				$points = max(1, min($points, $config->get('max_rating')));
 			break;
 		}
 

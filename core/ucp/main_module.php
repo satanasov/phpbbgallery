@@ -27,19 +27,19 @@ class main_module
 		$phpbb_ext_gallery = new \phpbbgallery\core\core($auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path);
 		$phpbb_ext_gallery->init();
 		$phpbb_ext_gallery->url->_include('functions_display', 'phpbb');
-		
+
 		$phpbb_ext_gallery_core_album = new \phpbbgallery\core\album\album();
-		
+
 		$phpbb_ext_gallery_core_auth = $phpbb_container->get('phpbbgallery.core.auth');
-		
+
 		$phpbb_ext_gallery_config = $phpbb_container->get('phpbbgallery.core.config');
-		
+
 		$phpbb_ext_gallery_core_album_display = $phpbb_container->get('phpbbgallery.core.album.display');
-		
+
 		$phpbb_gallery_image = new \phpbbgallery\core\image\image();
-		
+
 		$phpbb_ext_gallery_user = $phpbb_container->get('phpbbgallery.core.user');
-		
+
 		$albums_table = $table_prefix . 'gallery_albums';
 		$roles_table = $table_prefix . 'gallery_roles';
 		$permissions_table = $table_prefix . 'gallery_permissions';

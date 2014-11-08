@@ -334,5 +334,3 @@ $lang = array_merge($lang, array(
 	'YOUR_PERSONAL_ALBUM'			=> 'Your Personal Album',
 	'YOUR_RATING'					=> 'Your rating',
 ));
-
-?>

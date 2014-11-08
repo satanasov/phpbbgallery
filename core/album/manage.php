@@ -107,7 +107,7 @@ class manage
 				$errors[] = sprintf($user->lang['CONTEST_RATING_INVALID'], $contest_data['contest_rating']);
 				$date_error = true;
 			}
-			elseif (!$start_date_error)
+			else if (!$start_date_error)
 			{
 				$contest_data['contest_rating'] = gmmktime($m[4], $m[5], 0, $m[2], $m[3], $m[1]) - ($user->data['user_timezone']) - $contest_data['contest_start'];
 			}
@@ -116,7 +116,7 @@ class manage
 				$errors[] = sprintf($user->lang['CONTEST_END_INVALID'], $contest_data['contest_end']);
 				$date_error = true;
 			}
-			elseif (!$start_date_error)
+			else if (!$start_date_error)
 			{
 				$contest_data['contest_end'] = gmmktime($m[4], $m[5], 0, $m[2], $m[3], $m[1]) - ($user->data['user_timezone']) - $contest_data['contest_start'];
 			}

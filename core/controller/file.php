@@ -146,9 +146,9 @@ class file
 		$this->path = $this->path_medium;
 		$this->load_data($image_id);
 		$this->check_auth();
-		
+
 		$this->generate_image_src();
-		
+
 		if (!file_exists($this->image_src))
 		{
 			$this->resize($image_id, $this->config['phpbb_gallery_medium_width'], $this->config['phpbb_gallery_medium_height'], 'filesize_medium');
@@ -282,7 +282,7 @@ class file
 			//$this->tool->set_last_modified(@filemtime($this->path_watermark));
 			//$this->tool->watermark_image($this->path_watermark, $this->config['phpbb_gallery_watermark_position'], $this->config['phpbb_gallery_watermark_height'], $this->config['phpbb_gallery_watermark_width']);
 			$this->tool->set_last_modified(@filemtime($this->config['watermark_source']));
-			$this->tool->watermark_image($this->config['watermark_source'], $this->config['phpbb_gallery_watermark_position'], $this->config['phpbb_gallery_watermark_height'], $this->config['phpbb_gallery_watermark_width']);
+			$this->tool->watermark_image($this->config['phpbb_gallery_watermark_source'], $this->config['phpbb_gallery_watermark_position'], $this->config['phpbb_gallery_watermark_height'], $this->config['phpbb_gallery_watermark_width']);
 		}
 
 		$this->tool->send_image_to_browser();

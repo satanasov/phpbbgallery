@@ -8,16 +8,9 @@
 *
 */
 
-/**
-* @ignore
-*/
+namespace phpbbgallery\core;
 
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-class phpbb_ext_gallery_core_cleanup
+class cleanup
 {
 	/**
 	* Delete source files without a database entry.

@@ -53,12 +53,12 @@ class upload
 	public function __construct($album_id, $num_files = 0)
 	{
 		global $auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path, $phpbb_ext_gallery, $phpbb_container, $phpbb_ext_gallery_config, $table_prefix, $images_table, $phpbb_ext_gallery_core_image;
-		
+
 		$phpbb_ext_gallery = new \phpbbgallery\core\core($auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path);
 		$phpbb_ext_gallery->init();
-		
+
 		$phpbb_ext_gallery_config = $phpbb_container->get('phpbbgallery.core.config');
-		
+
 		include_once($phpbb_root_path . 'includes/functions_upload.' . $phpEx);
 		$this->upload = new \fileupload();
 		//$this->upload = new \phpbbgallery\core\upload\fileupload();
@@ -69,13 +69,12 @@ class upload
 		$this->album_id = (int) $album_id;
 		$this->file_limit = (int) $num_files;
 		$this->username = $user->data['username'];
-		
+
 		// define some table (to do - move it to services)
 		$images_table = $table_prefix . 'gallery_images';
-		
+
 		$phpbb_ext_gallery_core_image = new \phpbbgallery\core\image\image();
-		
-		
+
 	}
 
 	/**
@@ -91,7 +90,7 @@ class upload
 		$this->file_count = (int) $file_count;
 
 		$this->file = $this->upload->form_upload('image_file_' . $this->file_count);
-		
+
 		if (!$this->file->uploadname)
 		{
 			return false;
@@ -161,7 +160,10 @@ class upload
 		$handle = opendir($current_dir);
 		while ($file = readdir($handle))
 		{
-			if ($file == '.' || $file == '..') continue;
+			if ($file == '.' || $file == '..')
+			{
+				continue;
+			}
 			if (is_dir($current_dir . $file))
 			{
 				$this->read_zip_folder($current_dir . $file . '/');
@@ -219,7 +221,7 @@ class upload
 			return false;
 		}
 		$this->file_count = (int) $this->array_id2row[$image_id];
-		
+
 		// Create message parser instance
 		include_once($phpbb_root_path . 'includes/message_parser.' . $phpEx);
 		$message_parser = new \parse_message();
@@ -315,7 +317,6 @@ class upload
 		$this->tools->set_image_options($phpbb_ext_gallery_config->get('max_filesize'), $phpbb_ext_gallery_config->get('max_height'), $phpbb_ext_gallery_config->get('max_width'));
 		$this->tools->set_image_data($this->file->destination_file, '', $this->file->filesize, true);
 
-
 		// Rotate the image
 		if ($phpbb_ext_gallery_config->get('allow_rotate') && $this->get_rotating())
 		{
@@ -379,7 +380,6 @@ class upload
 		$this->tools->set_image_options($phpbb_ext_gallery_config->get('max_filesize'), $phpbb_ext_gallery_config->get('max_height'), $phpbb_ext_gallery_config->get('max_width'));
 		$this->tools->set_image_data($phpbb_ext_gallery->url->path('upload') . $this->image_data[$image_id]['image_filename'], '', 0, true);
 
-
 		// Rotate the image
 		if ($phpbb_ext_gallery_config->get('allow_rotate') && $this->get_rotating())
 		{
@@ -390,9 +390,7 @@ class upload
 				@unlink($phpbb_ext_gallery->url->path('thumbnail') . $this->image_data[$image_id]['image_filename']);
 				@unlink($phpbb_ext_gallery->url->path('medium') . $this->image_data[$image_id]['image_filename']);
 			}
-
 		}
-
 		return $this->tools->rotated;
 	}
 
@@ -402,11 +400,9 @@ class upload
 	public function file_to_database($additional_sql_ary)
 	{
 		global $user, $db, $table_prefix, $phpbb_ext_gallery_core_image;
-		
+
 		$images_table = $table_prefix . 'gallery_images';
-		
-		
-		
+
 		$image_name = str_replace("_", "_", utf8_substr($this->file->uploadname, 0, utf8_strrpos($this->file->uploadname, '.')));
 
 		$sql_ary = array_merge(array(
@@ -498,7 +494,10 @@ class upload
 
 	public function quota_error()
 	{
-		if ($this->sent_quota_error) return;
+		if ($this->sent_quota_error)
+		{
+			return;
+		}
 
 		global $user;
 		$this->new_error($user->lang('USER_REACHED_QUOTA_SHORT', $this->file_limit));
@@ -591,20 +590,26 @@ class upload
 	public function get_images($uploaded_ids)
 	{
 		global $db, $images_table;
-		
+
 		$phpbb_ext_gallery_core_image = new \phpbbgallery\core\image\image();
 
 		$image_ids = $filenames = array();
 		foreach ($uploaded_ids as $row => $check)
 		{
-			if (strpos($check, '$') == false) continue;
+			if (strpos($check, '$') == false)
+			{
+				continue;
+			}
 			list($image_id, $filename) = explode('$', $check);
 			$image_ids[] = (int) $image_id;
 			$filenames[$image_id] = $filename;
 			$this->array_id2row[$image_id] = $row;
 		}
 
-		if (empty($image_ids)) return;
+		if (empty($image_ids))
+		{
+			return;
+		}
 
 		$sql = 'SELECT *
 			FROM ' . $images_table . '
