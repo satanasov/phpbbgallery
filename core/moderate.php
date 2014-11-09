@@ -79,6 +79,7 @@ class moderate
 					$users_array[$row['reporter_id']] = array('');
 					$users_array[$row['image_user_id']] = array('');
 				}
+				$this->db->sql_freeresult($result);
 
 				if (empty($users_array))
 				{
@@ -111,6 +112,68 @@ class moderate
 				{
 					$this->template->assign_vars(array(
 						'TOTAL_IMAGES_REPORTED' => $reported_images_count,
+					));
+				}
+			break;
+			
+			case 'image_waiting':
+				$sql = 'SELECT * 
+					FROM ' . $this->images_table . ' 
+					WHERE image_status = ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . '
+					ORDER BY image_id DESC';
+				if ($type == 'short')
+				{
+					//We build last 5 for short
+					$result = $this->db->sql_query_limit($sql, 5, 0);
+				}
+
+				$waiting_images = $users_array = array();
+				while($row = $this->db->sql_fetchrow($result))
+				{
+					$waiting_images[] = array(
+						'image_id' => $row['image_id'],
+						'image_name'	=> $row['image_name'],
+						'image_author'	=> $row['image_user_id'],
+						'image_time'	=> $row['image_time'],
+						'image_album_id'	=> $row['image_album_id'],
+					);
+					$users_array[$row['image_id']] = array('');
+				}
+				$this->db->sql_freeresult($result);
+
+				if (empty($users_array))
+				{
+					return;
+				}
+
+				// Load users
+				$this->user_loader->load_users(array_keys($users_array));
+
+				foreach ($waiting_images as $VAR)
+				{
+					$album = $this->album->get_info($VAR['image_album_id']);
+					$this->template->assign_block_vars('unaproved', array(
+						'U_IMAGE'	=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $VAR['image_id'])),
+						'U_IMAGE_URL'	=> $this->helper->route('phpbbgallery_image', array('image_id' => $VAR['image_id'])),
+						'U_IMAGE_NAME'	=> $VAR['image_name'],
+						'IMAGE_AUTHOR'	=> $this->user_loader->get_username($VAR['image_author'], 'full'),
+						'IMAGE_TIME'	=> $this->user->format_date($VAR['image_time']),
+						'IMAGE_ALBUM'	=> $album['album_name'],
+						'IMAGE_ALBUM_URL'	=> $this->helper->route('phpbbgallery_album', array('album_id' => $VAR['image_album_id'])),
+					));
+					unset($album);
+					$waiting_images ++;
+				}
+				if ($waiting_images > 0)
+				{
+					$this->template->assign_vars(array(
+						'TOTAL_IMAGES_WAITING' => $waiting_images,
+					));
+				}
+				else
+				{
+					$this->template->assign_vars(array(
+						'NO_IMAGES_WAITING' => sprintf($user->lang['WAITING_UNAPPROVED_IMAGE'], $waiting_images),
 					));
 				}
 			break;

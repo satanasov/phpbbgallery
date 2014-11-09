@@ -1,3 +1,4 @@
+
 #phpBB Gallery
 
 © 2012 - [nickvergessen](http://www.flying-bits.org)
@@ -43,20 +44,29 @@ Please bear in mind that this is WORK IN PROGRESS. It is as BETA as they comme.
     - You can comment/quote
     - You can edit comment
     - You can delete comment
- - BBCode - extension adds the album BBCode
+    - You can rate images
+    - You can report images
+    - Controller (url ./gallery/moderate)
+      - There is basic overview of queues
+      - Moderators can edit images
+      - Moderators can delete images
+      - Unaproved images are marked in album
 
 #What Does not work (yet)
+ - Moderation
+   - moderator can approve image
+   - moderator can reciew reports
+   - etc.
+ - BBCode
  - Comments:
    - moderate comment
    - can report comment
-   - Pagination
- - Ratings
+ - Serch (ego, latest, random, user, comment, rating)
+ - Notifications (on new image, new comment, new rating, image submited for moderation, image approved, image reported)
  - Image subscription
- - Moderator panel of any kind
  - ACP clean up (this I think must stay in the core until atleast 1.2.1)
  - ACP mass upload (still think it's a core function)
  - Zebra ACL for albums/images
- - Next and preveus image
 
 #Add ons
  - Exif
