@@ -89,6 +89,7 @@ class moderate
 		// We will use the special moderate helper
 		
 		$this->moderate->build_queue('short', 'report_image_open');
+		$this->moderate->build_queue('short', 'image_waiting');
 
 		return $this->helper->render('gallery/moderate_overview.html', $this->user->lang('GALLERY'));
 	}
@@ -109,11 +110,32 @@ class moderate
 			case 'image_edit':
 				redirect('gallery/image/' . $image_id . '/edit');
 			break;
-			case 'image_delete':
+			case 'images_delete':
 				redirect('gallery/image/' . $image_id . '/delete');
+			break;
+			case 'images_approve':
+				redirect('gallery/moderate/image/' . $image_id . '/approve');
 			break;
 		}
 		
 		return $this->helper->render('gallery/moderate_overview.html', $this->user->lang('GALLERY'));
+	}
+
+	/**
+	* Index Controller
+	*	Route: gallery/modarate/image/{image_id}/approve
+	*
+	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	*/
+	public function approve($image_id)
+	{
+		$action = $this->request->variable('submit', array());
+		if ($submit)
+		{
+		}
+		else
+		{
+			
+		}
 	}
 }
