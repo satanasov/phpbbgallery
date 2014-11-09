@@ -103,7 +103,7 @@ class m2_add_bbcode extends \phpbb\db\migration\migration
 			}
 		}
 	}
-	
+
 	public function remove_bbcode()
 	{
 		$sql = 'DELETE FROM ' . BBCODES_TABLE . ' WHERE bbcode_tag = \'album\'';

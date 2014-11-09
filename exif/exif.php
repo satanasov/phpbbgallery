@@ -106,7 +106,7 @@ class exif
 		{
 			$this->data = unserialize($data);
 		}
-		elseif (($this->status == self::AVAILABLE) || ($this->status == self::UNKNOWN))
+		else if (($this->status == self::AVAILABLE) || ($this->status == self::UNKNOWN))
 		{
 			$this->read();
 		}

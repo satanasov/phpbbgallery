@@ -27,5 +27,3 @@ class albums_info
 		);
 	}
 }
-
-?>

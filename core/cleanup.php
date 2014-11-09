@@ -109,7 +109,7 @@ class cleanup
 			$filenames[(int) $row['image_id']] = $row['image_filename'];
 
 			if (($row['image_status'] == phpbb_gallery_image::STATUS_UNAPPROVED) ||
-			 ($row['image_status'] == phpbb_gallery_image::STATUS_ORPHAN))
+			($row['image_status'] == phpbb_gallery_image::STATUS_ORPHAN))
 			{
 				continue;
 			}

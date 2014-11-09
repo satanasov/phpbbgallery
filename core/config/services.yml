@@ -13,6 +13,7 @@ parameters:
     tables.phpbbgallery.tracking: %core.table_prefix%gallery_albums_track
     tables.phpbbgallery.users: %core.table_prefix%gallery_users
     tables.phpbbgallery.comments: %core.table_prefix%gallery_comments
+    tables.phpbbgallery.reports: %core.table_prefix%gallery_reports
 
 services:
     phpbbgallery.core.album:
@@ -201,6 +202,20 @@ services:
             - %tables.phpbbgallery.comments%
             - %core.root_path%
             - %core.php_ext%
+    phpbbgallery.core.controller.moderate:
+        class: phpbbgallery\core\controller\moderate
+        arguments:
+            - @auth
+            - @config
+            - @dbal.conn
+            - @request
+            - @template
+            - @user
+            - @controller.helper
+            - @phpbbgallery.core.album.display
+            - @phpbbgallery.core.moderate
+            - %core.root_path%
+            - %core.php_ext%
     phpbbgallery.core.config:
         class: phpbbgallery\core\config
         arguments:
@@ -220,3 +235,14 @@ services:
         arguments:
             - %core.root_path%
             - %core.php_ext%
+    phpbbgallery.core.moderate:
+        class: phpbbgallery\core\moderate
+        arguments:
+            - @dbal.conn
+            - @template
+            - @controller.helper
+            - @user
+            - @user_loader
+            - @phpbbgallery.core.album
+            - %tables.phpbbgallery.images%
+            - %tables.phpbbgallery.reports%

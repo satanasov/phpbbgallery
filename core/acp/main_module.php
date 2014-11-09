@@ -8,12 +8,7 @@
 *
 */
 
-/**
-* @ignore
-*/
-
 namespace phpbbgallery\core\acp;
-
 
 /**
 * @package acp
@@ -25,7 +20,6 @@ class main_module
 	function main($id, $mode)
 	{
 		global $auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path, $phpbb_ext_gallery, $table_prefix, $phpbb_dispatcher;
-
 
 		$phpbb_ext_gallery = new \phpbbgallery\core\core($auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path);
 		$phpbb_ext_gallery->init();

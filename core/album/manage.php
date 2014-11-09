@@ -68,7 +68,7 @@ class manage
 		// define support class
 		$phpbb_ext_gallery_core_album = new \phpbbgallery\core\album\album();
 		$phpbb_ext_gallery_core_image = new \phpbbgallery\core\image\image();
-		
+
 		$errors = array();
 
 		if (!$album_data['album_name'])
@@ -539,7 +539,7 @@ class manage
 		$gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $table_name);
 		$users_table = $table_prefix . 'gallery_users';
 		$phpbb_gallery_auth = new \phpbbgallery\core\auth\auth($gallery_cache, $db, $gallery_user, $permissions_table, $roles_table, $users_table);
-		
+
 		$errors = array();
 		$log_action_images = $log_action_albums = $images_to_name = $subalbums_to_name = '';
 		$album_ids = array($album_id);

@@ -138,7 +138,7 @@ class config
 		$this->config = $config;
 
 	}
-	
+
 	public function get_all()
 	{
 		$config_ary = array();
@@ -155,7 +155,7 @@ class config
 		}
 		return $config_ary;
 	}
-	
+
 	public function get($key)
 	{
 		if (isset($this->config['phpbb_gallery_' . $key]))
@@ -167,12 +167,12 @@ class config
 			return $this->configs_array[$key];
 		}
 	}
-	
+
 	public function set($name, $value)
 	{
 		$this->config->set('phpbb_gallery_' . $name, $value);
 	}
-	
+
 	public function inc($name, $value)
 	{
 		$old = $this->config['phpbb_gallery_' . $name];

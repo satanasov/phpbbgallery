@@ -164,7 +164,6 @@ class album
 		if ($album_data['album_type'] != \phpbbgallery\core\album\album::TYPE_CAT
 			&& $album_data['album_images_real'] > 0)
 		{
-			
 			$this->display_images($album_id, $album_data, ($page - 1) * 20, 20);
 		}
 
@@ -178,7 +177,7 @@ class album
 		$sort_days	= request_var('st', 0);
 		$sort_key	= request_var('sk', ($album_data['album_sort_key']) ? $album_data['album_sort_key'] : $this->config['phpbb_gallery_default_sort_key']);
 		$sort_dir	= request_var('sd', ($album_data['album_sort_dir']) ? $album_data['album_sort_dir'] : $this->config['phpbb_gallery_default_sort_dir']);
-		
+
 		$image_status_check = ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED;
 		$image_counter = $album_data['album_images'];
 		if ($this->auth->acl_check('m_status', $album_id, $album_data['album_user_id']))
@@ -247,7 +246,6 @@ class album
 			$album_status = $image_data['album_status'];
 			$album_user_id = $image_data['album_user_id'];
 
-
 			//@todo: $rating = new phpbb_gallery_image_rating($image_data['image_id'], $image_data, $image_data);
 			$image_data['rating'] = '0';//@todo: $rating->get_image_rating(false, false);
 			//@todo: unset($rating);
@@ -290,7 +288,6 @@ class album
 			));
 		}
 		$this->db->sql_freeresult($result);
-
 
 		$this->pagination->generate_template_pagination(array(
 				'routes' => array(
