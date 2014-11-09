@@ -51,7 +51,7 @@ class config_module
 		$cfg_array = (isset($_REQUEST['config'])) ? utf8_normalize_nfc(request_var('config', array('' => ''), true)) : $this->new_config;
 		$error = array();
 
-        // We validate the complete config if whished
+		// We validate the complete config if whished
 		validate_config_vars($vars['vars'], $cfg_array, $error);
 		if ($submit && !check_form_key($form_key))
 		{
@@ -59,7 +59,7 @@ class config_module
 		}
 
 		// Do not write values if there is an error
-        if (sizeof($error))
+		if (sizeof($error))
 		{
 			$submit = false;
 		}
@@ -71,7 +71,7 @@ class config_module
 				continue;
 			}
 			$this->new_config[$config_name] = $config_value = $cfg_array[$config_name];
-			
+
 			if ($submit)
 			{
 				// Check for RRC-display-options
@@ -560,7 +560,7 @@ class config_module
 
 		return $bbcode_tpl;
 	}
-	
+
 	public function var_display($i)
 	{
 		echo '<pre>';

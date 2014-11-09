@@ -27,4 +27,3 @@ class main_info
 		);
 	}
 }
-?>

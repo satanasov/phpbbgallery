@@ -304,7 +304,7 @@ class comment
 	{
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
 		add_form_key('gallery');
-		
+
 		$submit = $this->request->variable('submit', false);
 		$error = $message = '';
 		// load Image Data
@@ -313,7 +313,7 @@ class comment
 		$album_data = $this->loader->get($album_id);
 		$this->display->generate_navigation($album_data);
 		$page_title = $image_data['image_name'];
-		
+
 		$image_backlink = append_sid($this->url->path('full') . 'image/' . $image_id);
 		$album_backlink = append_sid($this->url->path('full') . 'album/' . $album_id);
 		$image_loginlink = $this->url->append_sid('relative', 'image_page', "album_id=$album_id&amp;image_id=$image_id");
@@ -458,7 +458,7 @@ class comment
 			$comment_plain = $comment_ary['text'];
 			$comment_username = $comment_data['comment_username'];
 		}
-		
+
 		$this->template->assign_vars(array(
 			'ERROR'					=> $error,
 			'MESSAGE'				=> (isset($comment_plain)) ? $comment_plain : '',
@@ -487,7 +487,7 @@ class comment
 
 		return $this->helper->render('gallery/comment_body.html', $page_title);
 	}
-	
+
 	/**
 	* comment Controller
 	*	Route: gallery/comment/{image_id}/delete/{comment_id}
@@ -499,7 +499,7 @@ class comment
 	{
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
 		add_form_key('gallery');
-		
+
 		$submit = $this->request->variable('submit', false);
 		$error = $message = '';
 		// load Image Data
@@ -508,7 +508,7 @@ class comment
 		$album_data = $this->loader->get($album_id);
 		$this->display->generate_navigation($album_data);
 		$page_title = $image_data['image_name'];
-		
+
 		$image_backlink = append_sid($this->url->path('full') . 'image/' . $image_id);
 		$album_backlink = append_sid($this->url->path('full') . 'album/' . $album_id);
 		$image_loginlink = $this->url->append_sid('relative', 'image_page', "album_id=$album_id&amp;image_id=$image_id");
@@ -606,7 +606,7 @@ class comment
 				confirm_box(false, 'DELETE_COMMENT2', $s_hidden_fields);
 			}
 		}
-			
+	
 		$this->template->assign_vars(array(
 			'ERROR'					=> $error,
 			'MESSAGE'				=> (isset($comment_plain)) ? $comment_plain : '',
@@ -635,12 +635,12 @@ class comment
 
 		return $this->helper->render('gallery/comment_body.html', $page_title);
 	}
-	
+
 	public function rate($image_id)
 	{
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
 		add_form_key('gallery');
-		
+
 		$submit = $this->request->variable('submit', false);
 		$error = $message = '';
 		// load Image Data
@@ -649,7 +649,7 @@ class comment
 		$album_data = $this->loader->get($album_id);
 		$this->display->generate_navigation($album_data);
 		$page_title = $image_data['image_name'];
-		
+
 		$image_backlink = append_sid($this->url->path('full') . 'image/' . $image_id);
 		$album_backlink = append_sid($this->url->path('full') . 'album/' . $album_id);
 		$image_loginlink = $this->url->append_sid('relative', 'image_page', "album_id=$album_id&amp;image_id=$image_id");

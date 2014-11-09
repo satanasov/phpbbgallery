@@ -70,7 +70,7 @@ class m3_create_filesystem extends \phpbb\db\migration\migration
 		foreach(glob("{$directory}/*") as $file)
 		{
 			if(is_dir($file))
-			{ 
+			{
 				recursiveRemoveDirectory($file);
 			}
 			else {

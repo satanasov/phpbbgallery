@@ -109,7 +109,7 @@ class exif_listener implements EventSubscriberInterface
 		$image_data = $event['image_data'];
 
 		if (($image_data['image_has_exif'] == \phpbbgallery\exif\exif::AVAILABLE) ||
-		 ($image_data['image_has_exif'] == \phpbbgallery\exif\exif::UNKNOWN))
+		($image_data['image_has_exif'] == \phpbbgallery\exif\exif::UNKNOWN))
 		{
 			$additional_sql_data = $event['additional_sql_data'];
 
@@ -161,7 +161,7 @@ class exif_listener implements EventSubscriberInterface
 		$image_data = $event['image_data'];
 
 		if (($image_data['image_has_exif'] == \phpbbgallery\exif\exif::AVAILABLE) ||
-		 ($image_data['image_has_exif'] == \phpbbgallery\exif\exif::UNKNOWN))
+		($image_data['image_has_exif'] == \phpbbgallery\exif\exif::UNKNOWN))
 		{
 			$additional_sql_data = $event['additional_sql_data'];
 

@@ -32,4 +32,3 @@ class permissions_info
 		);
 	}
 }
-?>

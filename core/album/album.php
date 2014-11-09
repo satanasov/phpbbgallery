@@ -28,14 +28,14 @@ class album
 	{
 		return 1;
 	}
-	
+
 	/**
 	* Get album information
 	*/
 	static public function get_info($album_id, $extended_info = true)
 	{
 		global $db, $user, $table_prefix, $phpbb_root_path, $phpEx;
-		
+
 		$phpbb_gallery_url = new \phpbbgallery\core\url($phpbb_root_path, $phpEx);
 
 		$sql_array = array(
@@ -288,7 +288,7 @@ class album
 	static public function update_info($album_id)
 	{
 		global $db, $table_prefix;
-		
+
 		// Define some classes
 		$phpbb_ext_gallery_core_image = new \phpbbgallery\core\image\image();
 
@@ -378,7 +378,7 @@ class album
 
 		$phpbb_gallery_config = new \phpbbgallery\core\config($config);
 		$albums_table = $table_prefix . 'gallery_albums';
-		
+
 		$album_data = array(
 			'album_name'					=> $album_name,
 			'parent_id'						=> 0,
@@ -412,7 +412,7 @@ class album
 
 		return $personal_album_id;
 	}
-	
+
 	public function get_status_locked()
 	{
 		return 1;

@@ -44,7 +44,7 @@ $lang = array_merge($lang, array(
 
 	'MODERATE_ALBUM'				=> 'Moderate album',
 
-	'LATEST_IMAGES_REPORTED'		=> 'Latest 5 reports',
+	'LATEST_IMAGES_REPORTED'		=> 'Latest 5 images reported',
 	'LATEST_IMAGES_UNAPPROVED'		=> 'Latest 5 images awaiting approval',
 
 	'QUEUE_A_APPROVE'				=> 'Approve image',

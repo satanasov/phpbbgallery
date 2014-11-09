@@ -277,7 +277,6 @@ class albums_module
 					trigger_error($user->lang['NO_ALBUM'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
 				}
 
-
 				$sql = 'SELECT album_name, album_type
 					FROM ' . $table_prefix . "gallery_albums 
 					WHERE album_id = $album_id";
@@ -474,7 +473,7 @@ class albums_module
 						'S_ALBUMS_LIST'			=> $albums_list,
 					));
 				}
-				elseif ($uploadable_album_exists)
+				else if ($uploadable_album_exists)
 				{
 					$template->assign_vars(array(
 						'S_MOVE_ALBUM_OPTIONS'		=> $phpbb_ext_gallery_core_album->get_albumbox(true, '', $album_data['parent_id'], false, $album_id, 0, $phpbb_ext_gallery_core_album::TYPE_UPLOAD),

@@ -14,16 +14,16 @@ class upload
 {
 	/* @var \phpbb\user */
 	protected $user;
-	
+
 	/* @var \phpbbgallery\core\misc */
 	protected $misc;
-	
+
 	/* @var \phpbbgallery\core\album\album */
 	protected $album;
-	
+
 	/* @var \phpbbgallery\core\album\album */
 	protected $display;
-	
+
 	/**
 	* Constructor
 	*
@@ -32,7 +32,7 @@ class upload
 	* @param \phpbbgallery\core\album\album	$album	Album class
 	* @param \phpbbgallery\core\album\display	$display	Display class
 	*/
-	
+
 	public function __construct(\phpbb\request\request $request, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\template\template $template, \phpbbgallery\core\album\album $album, \phpbbgallery\core\misc $misc, \phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\album\display $display, \phpbb\controller\helper $helper, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\image\image $image, $images_table)
 	{
 		$this->request = $request;
@@ -49,7 +49,7 @@ class upload
 		$this->image = $image;
 		$this->images_table = $images_table;
 	}
-	
+
 	public function upload($album_id)
 	{
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
@@ -65,10 +65,10 @@ class upload
 			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 		}
 		$page_title = 'Upload to "' . $album_data['album_name'] . '"';
-		
+
 		$submit = $this->request->variable('submit', false);
 		$error = '';
-		$mode = $this->request->variable('mode', 'upload'); 
+		$mode = $this->request->variable('mode', 'upload');
 		if ($mode == 'upload')
 		{
 			// Upload Quota Check

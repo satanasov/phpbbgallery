@@ -53,12 +53,15 @@ phpbbgallery_image_file_mini:
     pattern: /gallery/image/{image_id}/mini
     defaults: { _controller: phpbbgallery.core.controller.file:mini }
 
+phpbbgallery_moderate:
+    pattern: /gallery/moderate
+    defaults: { _controller: phpbbgallery.core.controller.moderate:base }
 phpbbgallery_moderate_album:
     pattern: /gallery/moderate/album/{album_id}
     defaults: { _controller: phpbbgallery.core.controller.moderate:base }
 phpbbgallery_moderate_image:
     pattern: /gallery/moderate/image/{image_id}
-    defaults: { _controller: phpbbgallery.core.controller.moderate:base }
+    defaults: { _controller: phpbbgallery.core.controller.moderate:image }
 
 phpbbgallery_search:
     pattern: /gallery/search

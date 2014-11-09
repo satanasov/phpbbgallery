@@ -451,7 +451,7 @@ class permissions_module
 		{
 			trigger_error('NO_VICTIM_SELECTED', E_USER_WARNING);
 		}
-		elseif (sizeof($group_id))
+		else if (sizeof($group_id))
 		{
 			$victim_mode = 'group';
 			$victim_id = $group_id;
@@ -467,7 +467,6 @@ class permissions_module
 		{
 			$template->assign_block_vars('c_rows', array());
 		}
-
 
 		if ($victim_mode == 'group')
 		{
@@ -684,7 +683,7 @@ class permissions_module
 		{
 			trigger_error('NO_VICTIM_SELECTED', E_USER_WARNING);
 		}
-		elseif (sizeof($group_id))
+		else if (sizeof($group_id))
 		{
 			$victim_mode = 'group';
 			$victim_id = $group_id;
