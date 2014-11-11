@@ -12,7 +12,8 @@ namespace phpbbgallery\core;
 
 class moderate
 {
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\controller\helper $helper, \phpbb\user $user, \phpbb\user_loader $user_loader, \phpbbgallery\core\album\album $album, $images_table, $reports_table)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\controller\helper $helper, \phpbb\user $user, 
+	\phpbb\user_loader $user_loader, \phpbbgallery\core\album\album $album, \phpbbgallery\core\auth\auth $gallery_auth, $images_table, $reports_table)
 	{
 		$this->db = $db;
 		$this->template = $template;
@@ -20,6 +21,7 @@ class moderate
 		$this->user = $user;
 		$this->user_loader = $user_loader;
 		$this->album = $album;
+		$this->gallery_auth = $gallery_auth;
 		$this->images_table = $images_table;
 		$this->reports_table = $reports_table;
 	}
@@ -37,10 +39,20 @@ class moderate
 		{
 			return;
 		}
-
+		
+		// Let's get albums that user can moderate
+		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 		switch($target)
 		{
 			case 'report_image_open':
+				// Get albums we can approve in
+				$mod_array = $this->gallery_auth->acl_album_ids('m_report');
+
+				// If no albums we can approve - quit building queue
+				if (empty($mod_array))
+				{
+					return;
+				}
 				// Let's get reports and images
 				$sql_array = array(
 					'SELECT'	=> 'i.image_id, i.image_name, i.image_user_id, i.image_username, i.image_user_colour, i.image_time, i.image_album_id, r.report_id, r.reporter_id, r.report_time',
@@ -48,7 +60,7 @@ class moderate
 						$this->images_table => 'i',
 						$this->reports_table	=> 'r',
 					),
-					'WHERE'	=> 'i.image_id = r.report_image_id and i.image_reported and r.report_status = 1',
+					'WHERE'	=> 'i.image_id = r.report_image_id and i.image_reported and r.report_status = 1 and ' . $this->db->sql_in_set('i.image_album_id', $mod_array),
 					'ORBER_BY'	=> 'r.report_id DESC'
 				);
 				$sql = $this->db->sql_build_query('SELECT', $sql_array);
@@ -117,9 +129,18 @@ class moderate
 			break;
 			
 			case 'image_waiting':
+				// Get albums we can approve in
+				$mod_array = $this->gallery_auth->acl_album_ids('m_status');
+
+				// If no albums we can approve - quit building queue
+				if (empty($mod_array))
+				{
+					return;
+				}
+				// If user has no albums to have e return him
 				$sql = 'SELECT * 
 					FROM ' . $this->images_table . ' 
-					WHERE image_status = ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . '
+					WHERE image_status = ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ' and ' . $this->db->sql_in_set('image_album_id', $mod_array) . '
 					ORDER BY image_id DESC';
 				if ($type == 'short')
 				{
@@ -155,6 +176,7 @@ class moderate
 					$this->template->assign_block_vars('unaproved', array(
 						'U_IMAGE'	=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $VAR['image_id'])),
 						'U_IMAGE_URL'	=> $this->helper->route('phpbbgallery_image', array('image_id' => $VAR['image_id'])),
+						'U_IMAGE_MODERATE_URL'	=> $this->helper->route('phpbbgallery_moderate_image', array('image_id'	=> $VAR['image_id'])),
 						'U_IMAGE_NAME'	=> $VAR['image_name'],
 						'IMAGE_AUTHOR'	=> $this->user_loader->get_username($VAR['image_author'], 'full'),
 						'IMAGE_TIME'	=> $this->user->format_date($VAR['image_time']),

@@ -33,7 +33,7 @@ class cache
 		}
 	}
 
-	private function get_albums()
+	public function get_albums()
 	{
 		static $albums;
 

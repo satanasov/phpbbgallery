@@ -547,7 +547,7 @@ class auth
 			return true;
 		}
 
-		$albums = $this->cache->obtain_album_list();
+		$albums = $this->cache->get_albums();
 		foreach ($albums as $album)
 		{
 			if (!$album['album_user_id'] && $this->_auth_data[$album['album_id']]->get_bit($bit))
@@ -581,7 +581,7 @@ class auth
 
 		$album_list = '';
 		$album_array = array();
-		$albums = $this->cache->obtain_album_list();
+		$albums = $this->cache->get_albums();
 		foreach ($albums as $album)
 		{
 			if ($this->user->is_user($album['album_user_id']))

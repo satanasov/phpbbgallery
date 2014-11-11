@@ -214,6 +214,10 @@ services:
             - @controller.helper
             - @phpbbgallery.core.album.display
             - @phpbbgallery.core.moderate
+            - @phpbbgallery.core.auth
+            - @phpbbgallery.core.misc
+            - @phpbbgallery.core.album
+            - @phpbbgallery.core.image
             - %core.root_path%
             - %core.php_ext%
     phpbbgallery.core.config:
@@ -244,5 +248,6 @@ services:
             - @user
             - @user_loader
             - @phpbbgallery.core.album
+            - @phpbbgallery.core.auth
             - %tables.phpbbgallery.images%
             - %tables.phpbbgallery.reports%

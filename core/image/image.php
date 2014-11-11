@@ -111,7 +111,7 @@ class image
 		$image_tools = $phpbb_container->get('phpbbgallery.core.file.tool');
 		$album = $phpbb_container->get('phpbbgallery.core.album');
 		$phpbb_gallery_image_rating = new \phpbbgallery\core\rating($images);
-		$phpbb_gallery_comment = new \phpbbgallery\core\comment();
+		$phpbb_gallery_comment = $phpbb_container->get('phpbbgallery.core.comment');
 		$phpbb_gallery_notification = new \phpbbgallery\core\notification();
 		$phpbb_gallery_report = new \phpbbgallery\core\report();
 		$phpbb_gallery_contest = new \phpbbgallery\core\contest();
@@ -389,5 +389,35 @@ class image
 		{
 			return $row;
 		}
+	}
+	
+	/**
+	* Approve image
+	* @param (array)	$image_id	The image ID array to be approved
+	* return 0 on success
+	*/
+	public function approve_image($image_id_ary, $album_id)
+	{
+		global $db, $table_prefix;
+		
+		self::handle_counter($image_id_ary, true, true);
+
+		$sql = 'UPDATE ' . $table_prefix . 'gallery_images 
+			SET image_status = ' . self::STATUS_APPROVED . '
+			WHERE image_status <> ' . self::STATUS_ORPHAN . '
+				AND ' . $db->sql_in_set('image_id', $image_id_ary);
+		$db->sql_query($sql);
+
+		$image_names = array();
+		$sql = 'SELECT image_id, image_name
+			FROM ' . $table_prefix . 'gallery_images 
+			WHERE image_status <> ' . self::STATUS_ORPHAN . '
+				AND ' . $db->sql_in_set('image_id', $image_id_ary);
+		$result = $db->sql_query($sql);
+		while ($row = $db->sql_fetchrow($result))
+		{
+			add_log('gallery', $album_id, $row['image_id'], 'LOG_GALLERY_APPROVED', $row['image_name']);
+		}
+		$db->sql_freeresult($result);
 	}
 }

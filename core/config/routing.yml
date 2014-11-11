@@ -62,6 +62,9 @@ phpbbgallery_moderate_album:
 phpbbgallery_moderate_image:
     pattern: /gallery/moderate/image/{image_id}
     defaults: { _controller: phpbbgallery.core.controller.moderate:image }
+phpbbgallery_moderate_image_approve:
+    pattern: /gallery/moderate/image/{image_id}/approve
+    defaults: { _controller: phpbbgallery.core.controller.moderate:approve }
 
 phpbbgallery_search:
     pattern: /gallery/search
