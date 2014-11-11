@@ -193,7 +193,7 @@ class upload
 					'S_MAX_WIDTH'			=> $this->gallery_config->get('max_width'),
 					'S_MAX_HEIGHT'			=> $this->gallery_config->get('max_height'),
 					'S_ALLOWED_FILETYPES'	=> implode(', ', $process->get_allowed_types(true)),
-					'S_ALBUM_ACTION'		=> append_sid('./gallery/album/'. $album_id .'/upload'),
+					'S_ALBUM_ACTION'		=>  $this->helper->route('phpbbgallery_album_upload', array('album_id' => $album_id)),
 					'S_UPLOAD'				=> true,
 					'S_ALLOW_ROTATE'		=> ($this->gallery_config->get('allow_rotate') && function_exists('imagerotate')),
 					'S_UPLOAD_LIMIT'		=> $upload_files_limit,
@@ -313,7 +313,6 @@ class upload
 			$s_can_rotate = ($this->gallery_config->get('allow_rotate') && function_exists('imagerotate'));
 			$this->template->assign_vars(array(
 				'ERROR'				=> $error,
-				//'S_ALBUM_ACTION'	=> phpbb_gallery_url::append_sid('posting', "mode=upload_edit&amp;album_id=$album_id"),
 				'S_UPLOAD_EDIT'		=> true,
 				'S_ALLOW_ROTATE'	=> $s_can_rotate,
 
@@ -326,11 +325,5 @@ class upload
 			));
 		}
 		return $this->helper->render('gallery/posting_body.html', $page_title);
-	}
-	public function var_display($i)
-	{
-		echo '<pre>';
-		var_dump($i);
-		echo '</pre>';
 	}
 }
