@@ -4,7 +4,7 @@
 
 <!-- BEGIN image -->
 <div class="polaroid">
-	<p<!-- IF imageblock.image.S_STATUS_UNAPPROVED --> class="post-notice unapproved"<!-- ENDIF --> style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+	<p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
 		<a href="{imageblock.image.U_IMAGE}" style="font-weight: bold; font-size: 1.2em;">{imageblock.image.UC_IMAGE_NAME}</a>
 	</p>
 	<hr />
@@ -16,6 +16,15 @@
 	<!-- IF imageblock.image.TIME -->{L_UPLOADED_ON_DATE}{L_COLON} {imageblock.image.TIME}<br /><!-- ENDIF -->
 	<!-- IF imageblock.image.S_RATINGS -->{L_RATING}{L_COLON} <a href="{imageblock.image.U_RATINGS}">{imageblock.image.S_RATINGS}</a><br /><!-- ENDIF -->
 	<!-- IF imageblock.image.S_COMMENTS -->{imageblock.image.L_COMMENTS}{L_COLON} <a href="{imageblock.image.U_COMMENTS}">{imageblock.image.S_COMMENTS}</a><br /><!-- ENDIF -->
+	<!-- IF imageblock.image.S_STATUS_UNAPPROVED -->
+			<br />
+			<form method="post" class="mcp_approve" action="{imageblock.image.S_STATUS_UNAPPROVED_ACTION}">
+				<p class="post-notice unapproved">
+					<input class="button2" type="submit" value="Disapprove" name="action[disapprove]">
+					<input class="button1" type="submit" value="Approve" name="action[approve]">
+				</p>
+			</form>
+		<!-- ENDIF -->
 </div>
 
 <!-- IF imageblock.image.S_LAST_ROW -->

@@ -535,7 +535,7 @@ class file
 		{
 			foreach ($locations as $location)
 			{
-				unlink($phpbb_gallery_url->path($location) . $file);
+				@unlink($phpbb_gallery_url->path($location) . $file);
 			}
 		}
 	}
