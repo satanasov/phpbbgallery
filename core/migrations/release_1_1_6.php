@@ -62,7 +62,7 @@ class release_1_1_6 extends \phpbb\db\migration\migration
 				$this->table_prefix . 'gallery_comments'	=> array(
 					'COLUMNS'		=> array(
 						'comment_id'			=> array('UINT', null, 'auto_increment'),
-						'comment_image_id'		=> array('UINT', null),
+						'comment_image_id'		=> array('UINT', 0),
 						'comment_user_id'		=> array('UINT', 0),
 						'comment_username'		=> array('VCHAR', ''),
 						'comment_user_colour'	=> array('VCHAR:6', ''),

@@ -51,10 +51,11 @@ Please bear in mind that this is WORK IN PROGRESS. It is as BETA as they comme.
       - Moderators can edit images
       - Moderators can delete images
       - Unaproved images are marked in album
+	  - moderator can approve image
+	  - Moderator can disaprove image
 
 #What Does not work (yet)
  - Moderation
-   - moderator can approve image
    - moderator can reciew reports
    - etc.
  - BBCode
