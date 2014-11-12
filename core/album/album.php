@@ -137,14 +137,16 @@ class album
 	function get_albumbox($ignore_personals, $select_name, $select_id = false, $requested_permission = false, $ignore_id = false, $album_user_id = self::PUBLIC_ALBUM, $requested_album_type = -1)
 	{
 		global $db, $user, $phpbb_ext_gallery, $cache, $phpbb_dispatcher, $table_name, $permissions_table, $roles_table, $users_table;
+		global $phpbb_container;
 
 		// Inint auth
 		$gallery_cache = new \phpbbgallery\core\cache($cache, $db);
-		$gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $table_name);
-		$phpbb_ext_gallery_core_auth = new \phpbbgallery\core\auth\auth($gallery_cache, $db, $gallery_user, $permissions_table, $roles_table, $users_table);
+		//$gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $table_name);
+		$gallery_user = $phpbb_container->get('phpbbgallery.core.user');
+		$phpbb_ext_gallery_core_auth = $phpbb_container->get('phpbbgallery.core.auth');
 
 		// Instead of the query we use the cache
-		$album_data = $phpbb_ext_gallery->cache->get('albums');
+		$album_data = $gallery_cache->get('albums');
 
 		$right = $last_a_u_id = 0;
 		$access_own = $access_personal = $requested_own = $requested_personal = false;
@@ -152,6 +154,7 @@ class album
 		$padding_store = array('0' => '');
 		$padding = $album_list = '';
 		$check_album_type = ($requested_album_type >= 0) ? true : false;
+		$phpbb_ext_gallery_core_auth->load_user_premissions($user->data['user_id']);
 
 		// Sometimes it could happen that albums will be displayed here not be displayed within the index page
 		// This is the result of albums not displayed at index and a parent of a album with no permissions.
@@ -162,7 +165,7 @@ class album
 			$list = false;
 			if ($row['album_user_id'] != $last_a_u_id)
 			{
-				if (!$last_a_u_id && $phpbb_ext_gallery->auth->acl_check('a_list', $phpbb_ext_gallery_core_auth::PERSONAL_ALBUM) && !$ignore_personals)
+				if (!$last_a_u_id && $phpbb_ext_gallery_core_auth->acl_check('a_list', $phpbb_ext_gallery_core_auth::PERSONAL_ALBUM) && !$ignore_personals)
 				{
 					$album_list .= '<option disabled="disabled" class="disabled-option">' . $user->lang['PERSONAL_ALBUMS'] . '</option>';
 				}
@@ -188,7 +191,7 @@ class album
 			((is_array($ignore_id) && in_array($row['album_id'], $ignore_id)) || $row['album_id'] == $ignore_id)
 			||
 			// Need upload permissions (for moving)
-			(($requested_permission == 'm_move') && (($row['album_type'] == self::TYPE_CAT) || (!$phpbb_ext_gallery->auth->acl_check('i_upload', $row['album_id'], $row['album_user_id']) && !$phpbb_ext_gallery->auth->acl_check('m_move', $row['album_id'], $row['album_user_id']))))
+			(($requested_permission == 'm_move') && (($row['album_type'] == self::TYPE_CAT) || (!$phpbb_ext_gallery_core_auth->acl_check('i_upload', $row['album_id'], $row['album_user_id']) && !$phpbb_ext_gallery_core_auth->acl_check('m_move', $row['album_id'], $row['album_user_id']))))
 			||
 			// album_type does not fit
 			($check_album_type && ($row['album_type'] != $requested_album_type))
@@ -203,7 +206,7 @@ class album
 			}
 			else if (!$row['album_user_id'])
 			{
-				if ($phpbb_ext_gallery->auth->acl_check('a_list', $row['album_id'], $row['album_user_id']) || defined('IN_ADMIN'))
+				if ($phpbb_ext_gallery_core_auth->acl_check('a_list', $row['album_id'], $row['album_user_id']) || defined('IN_ADMIN'))
 				{
 					$list = true;
 				}
@@ -215,10 +218,10 @@ class album
 					if (!$c_access_own)
 					{
 						$c_access_own = true;
-						$access_own = $phpbb_ext_gallery->auth->acl_check('a_list', $phpbb_ext_gallery_core_auth::OWN_ALBUM);
+						$access_own = $phpbb_ext_gallery_core_auth->acl_check('a_list', $phpbb_ext_gallery_core_auth::OWN_ALBUM);
 						if ($requested_permission)
 						{
-							$requested_own = !$phpbb_ext_gallery->auth->acl_check($requested_permission, $phpbb_ext_gallery_core_auth::OWN_ALBUM);
+							$requested_own = !$phpbb_ext_gallery_core_auth->acl_check($requested_permission, $phpbb_ext_gallery_core_auth::OWN_ALBUM);
 						}
 						else
 						{
@@ -233,10 +236,10 @@ class album
 					if (!$c_access_personal)
 					{
 						$c_access_personal = true;
-						$access_personal = $phpbb_ext_gallery->auth->acl_check('a_list', $phpbb_ext_gallery_core_auth::PERSONAL_ALBUM);
+						$access_personal = $phpbb_ext_gallery_core_auth->acl_check('a_list', $phpbb_ext_gallery_core_auth::PERSONAL_ALBUM);
 						if ($requested_permission)
 						{
-							$requested_personal = !$phpbb_ext_gallery->auth->acl_check($requested_permission, $phpbb_ext_gallery_core_auth::PERSONAL_ALBUM);
+							$requested_personal = !$phpbb_ext_gallery_core_auth->acl_check($requested_permission, $phpbb_ext_gallery_core_auth::PERSONAL_ALBUM);
 						}
 						else
 						{

@@ -127,6 +127,9 @@ class moderate
 			case 'images_approve':
 				redirect('gallery/moderate/image/' . $image_id . '/approve');
 			break;
+			case 'images_move':
+				redirect('gallery/moderate/image/' . $image_id . '/move');
+			break;
 		}
 		
 		return $this->helper->render('gallery/moderate_overview.html', $this->user->lang('GALLERY'));
@@ -190,4 +193,44 @@ class moderate
 
 		return $this->helper->render('gallery/moderate_overview.html', $this->user->lang('GALLERY'));
 	}
+	public function move($image_id)
+	{
+		$image_data = $this->image->get_image_data($image_id);
+		$album_id = $image_data['image_album_id'];
+		$user_id = $image_data['image_user_id'];
+		$album_data =  $this->album->get_info($album_id);
+		$album_backlink = append_sid('/gallery/' . $album_id);
+		$image_backlink = append_sid('/gallery/image/' . $image_id);
+		$album_loginlink = append_sid('/ucp.php?mode=login');
+		$meta_refresh_time = 2;
+		$this->user->add_lang_ext('phpbbgallery/core', array('gallery_mcp'));
+		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
+		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		if (!$this->gallery_auth->acl_check('m_move', $image_data['image_album_id'], $album_data))
+		{
+			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+		}
+		$moving_target = $this->request->variable('moving_target', '');
+		
+		if ($moving_target)
+		{
+			$target = array($image_id);
+			$this->image->move_image($target, $moving_target);
+			$message = sprintf($this->user->lang['IMAGES_MOVED'][1]);
+			meta_refresh($meta_refresh_time, $image_backlink);
+			trigger_error($message);
+		}
+		else
+		{
+			$category_select = $this->album->get_albumbox(false, 'moving_target', $album_id, 'i_upload', $album_id);
+			$this->template->assign_vars(array(
+				'S_MOVING_IMAGES'	=> true,
+				'S_ALBUM_SELECT'	=> $category_select,
+				//'S_HIDDEN_FIELDS'	=> $s_hidden_fields,
+			));
+		}
+		
+		return $this->helper->render('gallery/mcp_body.html', $this->user->lang('GALLERY'));
+	}
+	
 }
