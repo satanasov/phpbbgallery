@@ -420,4 +420,34 @@ class image
 		}
 		$db->sql_freeresult($result);
 	}
+	
+	/**
+	* Move image
+	* @oaram (int)	$image_id	The image that we want to move_uploaded_file
+	* @param (int)	$album_id	The album we want to move image to
+	*/
+	public function move_image($image_id_ary, $album_id)
+	{
+		global $phpbb_container, $table_prefix, $db;
+		$album = $phpbb_container->get('phpbbgallery.core.album');
+		$report = $phpbb_container->get('phpbbgallery.core.report');
+
+		$target_data = $album->get_info($album_id);
+
+		//TO DO - Contests
+		$sql = 'UPDATE ' . $table_prefix . 'gallery_images 
+			SET image_album_id = ' . $album_id . '
+			WHERE ' . $db->sql_in_set('image_id', $image_id_ary);
+		$db->sql_query($sql);
+		
+		$report->move_images($image_id_ary, $album_id);
+
+		foreach ($image_id_ary as $image)
+		{
+			// TO DO make log work
+			//add_log('gallery', $album_id, $image, 'LOG_GALLERY_MOVED', $album_data['album_name'], $target_data['album_name']);
+		}
+		$album->update_info($album_id);
+
+	}
 }

@@ -53,10 +53,11 @@ Please bear in mind that this is WORK IN PROGRESS. It is as BETA as they comme.
       - Unaproved images are marked in album
 	  - moderator can approve image
 	  - Moderator can disaprove image
+	  - Moderator can move image
 
 #What Does not work (yet)
  - Moderation
-   - moderator can reciew reports
+   - moderator can review reports
    - etc.
  - BBCode
  - Comments:

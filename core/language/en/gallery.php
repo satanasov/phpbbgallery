@@ -333,4 +333,9 @@ $lang = array_merge($lang, array(
 	'YOUR_COMMENT'					=> 'Your comment',
 	'YOUR_PERSONAL_ALBUM'			=> 'Your Personal Album',
 	'YOUR_RATING'					=> 'Your rating',
+
+	'IMAGES_MOVED'					=> array(
+		1	=>	'Image moved',
+		2	=> 	'%s images moved',
+	),
 ));
