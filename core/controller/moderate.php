@@ -118,17 +118,23 @@ class moderate
 		// If we have quick mode (EDIT, DELETE) just send us to the page we need
 		switch($quick_action)
 		{
+			case 'images_move':
+				redirect('gallery/moderate/image/' . $image_id . '/move');
+			break;
 			case 'image_edit':
 				redirect('gallery/image/' . $image_id . '/edit');
 			break;
-			case 'images_delete':
-				redirect('gallery/image/' . $image_id . '/delete');
+			case 'images_unapprove':
+				redirect('gallery/moderate/image/' . $image_id . '/unapprove');
 			break;
 			case 'images_approve':
 				redirect('gallery/moderate/image/' . $image_id . '/approve');
 			break;
-			case 'images_move':
-				redirect('gallery/moderate/image/' . $image_id . '/move');
+			case 'images_lock':
+				redirect('gallery/moderate/image/' . $image_id . '/lock');
+			break;
+			case 'images_delete':
+				redirect('gallery/image/' . $image_id . '/delete');
 			break;
 		}
 		
@@ -149,7 +155,7 @@ class moderate
 		$album_backlink = append_sid('/gallery');
 		$image_backlink = append_sid('/gallery/image/' . $image_id);
 		$album_loginlink = append_sid('/ucp.php?mode=login');
-		$meta_refresh_time = 3;
+		$meta_refresh_time = 2;
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 		if (!$this->gallery_auth->acl_check('m_status', $image_data['image_album_id'], $album_data))
 		{
@@ -171,7 +177,7 @@ class moderate
 				$np = $this->request->variable('notify_poster', '');
 				$notify_poster = ($action == 'approve' && $np);
 				$image_id_ary = array($image_id);
-				$this->image->approve_image($image_id_ary, $album_data['album_id']);
+				$this->image->approve_images($image_id_ary, $album_data['album_id']);
 				// To DO - add notification
 				$message = sprintf($this->user->lang['WAITING_APPROVED_IMAGE'][1]);
 				meta_refresh($meta_refresh_time, $image_backlink);
@@ -193,6 +199,53 @@ class moderate
 
 		return $this->helper->render('gallery/moderate_overview.html', $this->user->lang('GALLERY'));
 	}
+
+	/**
+	* Index Controller
+	*	Route: gallery/modarate/image/{image_id}/approve
+	*
+	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	*/
+	public function unapprove($image_id)
+	{
+		$image_data = $this->image->get_image_data($image_id);
+		$album_data = $this->album->get_info($image_data['image_album_id']);
+		
+		$album_backlink = append_sid('/gallery');
+		$image_backlink = append_sid('/gallery/image/' . $image_id);
+		$album_loginlink = append_sid('/ucp.php?mode=login');
+		$meta_refresh_time = 2;
+		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		if (!$this->gallery_auth->acl_check('m_status', $image_data['image_album_id'], $album_data))
+		{
+			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+		}
+		
+		$this->user->add_lang_ext('phpbbgallery/core', array('gallery_mcp'));
+		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
+		$this->user->add_lang('mcp');
+		if (confirm_box(true))
+		{
+			$image_id_ary = array($image_id);
+			$this->image->unapprove_images($image_id_ary, $album_data['album_id']);
+			// To DO - add notification
+			$message = sprintf($this->user->lang['WAITING_UNAPPROVED_IMAGE'][1]);
+			meta_refresh($meta_refresh_time, $image_backlink);
+			trigger_error($message);
+		}
+		else
+		{
+			$s_hidden_fields = '';
+			confirm_box(false, 'QUEUE_A_UNAPPROVE2', $s_hidden_fields);
+		}
+	}
+
+	/**
+	* Index Controller
+	*	Route: gallery/modarate/image/{image_id}/move
+	*
+	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	*/
 	public function move($image_id)
 	{
 		$image_data = $this->image->get_image_data($image_id);
@@ -217,6 +270,8 @@ class moderate
 			$target = array($image_id);
 			$this->image->move_image($target, $moving_target);
 			$message = sprintf($this->user->lang['IMAGES_MOVED'][1]);
+			$this->album->update_info($album_id);
+			$this->album->update_info($moving_target);
 			meta_refresh($meta_refresh_time, $image_backlink);
 			trigger_error($message);
 		}
@@ -232,5 +287,43 @@ class moderate
 		
 		return $this->helper->render('gallery/mcp_body.html', $this->user->lang('GALLERY'));
 	}
-	
+
+	/**
+	* Index Controller
+	*	Route: gallery/modarate/image/{image_id}/lock
+	*
+	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	*/
+	public function lock($image_id)
+	{
+		$image_data = $this->image->get_image_data($image_id);
+		$album_id = $image_data['image_album_id'];
+		$user_id = $image_data['image_user_id'];
+		$album_data =  $this->album->get_info($album_id);
+		$album_backlink = append_sid('/gallery/' . $album_id);
+		$image_backlink = append_sid('/gallery/image/' . $image_id);
+		$album_loginlink = append_sid('/ucp.php?mode=login');
+		$meta_refresh_time = 2;
+		$this->user->add_lang_ext('phpbbgallery/core', array('gallery_mcp'));
+		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
+		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		if (!$this->gallery_auth->acl_check('m_status', $image_data['image_album_id'], $album_data))
+		{
+			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+		}
+		if (confirm_box(true))
+		{
+			$image_id_ary = array($image_id);
+			$this->image->lock_images($image_id_ary, $album_data['album_id']);
+			// To DO - add notification
+			$message = sprintf($this->user->lang['WAITING_LOCKED_IMAGE'][1]);
+			meta_refresh($meta_refresh_time, $image_backlink);
+			trigger_error($message);
+		}
+		else
+		{
+			$s_hidden_fields = '';
+			confirm_box(false, 'QUEUE_A_LOCK2', $s_hidden_fields);
+		}
+	}
 }

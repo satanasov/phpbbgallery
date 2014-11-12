@@ -393,10 +393,11 @@ class image
 	
 	/**
 	* Approve image
-	* @param (array)	$image_id	The image ID array to be approved
+	* @param (array)	$image_id_ary	The image ID array to be approved
+	* @param (int)		$album_id	The album image is approved to (just save some queries for log)
 	* return 0 on success
 	*/
-	public function approve_image($image_id_ary, $album_id)
+	public function approve_images($image_id_ary, $album_id)
 	{
 		global $db, $table_prefix;
 		
@@ -420,7 +421,35 @@ class image
 		}
 		$db->sql_freeresult($result);
 	}
-	
+
+	/**
+	* UnApprove image
+	* @param (array)	$image_id_ary	The image ID array to be unapproved
+	* @param (int)		$album_id	The album image is approved to (just save some queries for log)
+	*/
+	public function unapprove_images($image_id_ary, $album_id)
+	{
+		global $db, $table_prefix;
+		
+		self::handle_counter($image_id_ary, false);
+
+		$sql = 'UPDATE ' . $table_prefix . 'gallery_images 
+			SET image_status = ' . self::STATUS_UNAPPROVED . '
+			WHERE image_status <> ' . self::STATUS_ORPHAN . '
+				AND ' . $db->sql_in_set('image_id', $image_id_ary);
+		$db->sql_query($sql);
+
+		$sql = 'SELECT image_id, image_name
+			FROM ' . $table_prefix . 'gallery_images 
+			WHERE image_status <> ' . self::STATUS_ORPHAN . '
+				AND ' . $db->sql_in_set('image_id', $image_id_ary);
+		$result = $db->sql_query($sql);
+		while ($row = $db->sql_fetchrow($result))
+		{
+			add_log('gallery', $album_id, $row['image_id'], 'LOG_GALLERY_UNAPPROVED', $row['image_name']);
+		}
+		$db->sql_freeresult($result);
+	}
 	/**
 	* Move image
 	* @oaram (int)	$image_id	The image that we want to move_uploaded_file
@@ -447,7 +476,34 @@ class image
 			// TO DO make log work
 			//add_log('gallery', $album_id, $image, 'LOG_GALLERY_MOVED', $album_data['album_name'], $target_data['album_name']);
 		}
-		$album->update_info($album_id);
+		//You will need to take care for album sync for the target and source
+	}
 
+	/**
+	* Lock images
+	* @param (array)	$image_id_ary	Array of images we want to lock
+	* @param (int)		$album_id		Album id, so we can log the action
+	*/
+	public function lock_images($image_id_ary, $album_id)
+	{
+		global $db, $table_prefix;
+		self::handle_counter($image_id_ary, false);
+
+		$sql = 'UPDATE ' . $table_prefix . 'gallery_images 
+			SET image_status = ' . self::STATUS_LOCKED . '
+			WHERE image_status <> ' . self::STATUS_ORPHAN . '
+				AND ' . $db->sql_in_set('image_id', $image_id_ary);
+		$db->sql_query($sql);
+
+		$sql = 'SELECT image_id, image_name
+			FROM ' . $table_prefix . 'gallery_images 
+			WHERE image_status <> ' . self::STATUS_ORPHAN . '
+				AND ' . $db->sql_in_set('image_id', $image_id_ary);
+		$result = $db->sql_query($sql);
+		while ($row = $db->sql_fetchrow($result))
+		{
+			add_log('gallery', $album_id, $row['image_id'], 'LOG_GALLERY_LOCKED', $row['image_name']);
+		}
+		$db->sql_freeresult($result);
 	}
 }
