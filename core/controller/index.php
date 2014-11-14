@@ -86,7 +86,17 @@ class index
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
 		$this->display->display_albums(false, $this->config['load_moderators']);
 
-		//$this->personal();
+		if ($this->gallery_config->get('pegas_index_album'))
+		{
+			$this->personal();
+		}
+		else
+		{
+			$this->template->assign_vars(array(
+				'S_USERS_PERSONAL_GALLERIES'	=> true,
+				'U_USERS_PERSONAL_GALLERIES' => $this->helper->route('phpbbgallery_personal'),
+			));
+		}
 		$this->display_legend();
 		$this->display_brithdays();
 		$this->assign_dropdown_links('phpbbgallery_index');
@@ -110,7 +120,10 @@ class index
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
 		$this->display->display_albums('personal', $this->config['load_moderators']);
 
-		$this->assign_dropdown_links('phpbbgallery_personal');
+		if (!$this->gallery_config->get('pegas_index_album'))
+		{
+			$this->assign_dropdown_links('phpbbgallery_personal');
+		}
 
 		$first_char = $this->request->variable('first_char', '');
 		$s_char_options = '<option value=""' . ((!$first_char) ? ' selected="selected"' : '') . '>' . $this->user->lang('ALL') . '</option>';
@@ -144,8 +157,7 @@ class index
 			'TOTAL_IMAGES'		=> ($this->gallery_config->get('disp_statistic')) ? $this->user->lang('TOTAL_IMAGES_SPRINTF', $this->gallery_config->get('num_images')) : '',
 			'TOTAL_COMMENTS'	=> ($this->gallery_config->get('allow_comments')) ? $this->user->lang('TOTAL_COMMENTS_SPRINTF', $this->gallery_config->get('num_comments')) : '',
 			'TOTAL_PGALLERIES'	=> ($this->gallery_auth->acl_check('a_list', \phpbbgallery\core\auth\auth::PERSONAL_ALBUM)) ? $this->user->lang('TOTAL_PEGAS_SPRINTF', $this->gallery_config->get('num_pegas')) : '',
-			//'NEWEST_PGALLERIES'	=> ($this->gallery_config->get('num_pegas')) ? sprintf($this->user->lang['NEWEST_PGALLERY'], get_username_string('full', $this->gallery_config->get('newest_pega_user_id'), $this->gallery_config->get('newest_pega_username'), $this->gallery_config->get('newest_pega_user_colour'), '', '/gallery/album/' . $this->gallery_config->get('newest_pega_album_id'))) : '',
-			'NEWEST_PGALLERIES'	=> ($this->gallery_config->get('num_pegas')) ? sprintf($this->user->lang['NEWEST_PGALLERY'], '<a href="' . $this->helper->route('phpbbgallery_album', array('album_id' => $this->gallery_config->get('newest_pega_album_id'))) . '" '.($this->gallery_config->get('newest_pega_user_colour') ? 'class="username-coloured" style="color: #'.$this->gallery_config->get('newest_pega_user_colour').';"' : 'class="username"'.'>' . $this->gallery_config->get('newest_pega_username') . '</a>')) : '',
+			'NEWEST_PGALLERIES'	=> ($this->gallery_config->get('num_pegas')) ? sprintf($this->user->lang['NEWEST_PGALLERY'], '<a href="' . $this->helper->route('phpbbgallery_album', array('album_id' => $this->gallery_config->get('newest_pega_album_id'))) . '" '. ($this->gallery_config->get('newest_pega_user_colour') ? 'class="username-coloured" style="color: #' . $this->gallery_config->get('newest_pega_user_colour') . ';"' : 'class="username"') . '>' . $this->gallery_config->get('newest_pega_username') . '</a>') : '',
 		));
 
 		$this->template->assign_vars(array(
