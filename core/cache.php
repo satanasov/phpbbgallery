@@ -36,6 +36,8 @@ class cache
 	public function get_albums()
 	{
 		static $albums;
+		
+		global $table_prefix;
 
 		if (isset($albums))
 		{
@@ -45,7 +47,7 @@ class cache
 		if (($albums = $this->phpbb_cache->get('_albums')) === false)
 		{
 			$sql = 'SELECT a.album_id, a.parent_id, a.album_name, a.album_type, a.left_id, a.right_id, a.album_user_id, a.display_in_rrc, a.album_auth_access
-				FROM ' . 'phpbb_gallery_albums' . ' a
+				FROM ' . $table_prefix. 'gallery_albums a
 				LEFT JOIN ' . USERS_TABLE . ' u
 					ON (u.user_id = a.album_user_id)
 				ORDER BY u.username_clean, a.album_user_id, a.left_id ASC';

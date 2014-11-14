@@ -60,6 +60,7 @@ class core
 	*/
 	public function setup($lang_set = false, $update_session = true)
 	{
+		global $phpbb_container;
 		$lang_sets = array('common');
 		if (is_array($lang_set))
 		{
@@ -84,8 +85,10 @@ class core
 		$this->phpbb_user->data['user_id'] = (int) $this->phpbb_user->data['user_id'];
 		$user_id = ($this->phpbb_user->data['user_perm_from'] == 0) ? $this->phpbb_user->data['user_id'] : (int) $this->phpbb_user->data['user_perm_from'];
 
-		$this->user = new \phpbbgallery\core\user($this->phpbb_db, $this->dispatcher, $this->phpbb_user->data['user_id']);
-		$this->auth = new \phpbbgallery\core\auth\auth($this->cache, $this->phpbb_db, $this->user, 'phpbb_gallery_permissions', 'phpbb_gallery_roles', 'phpbb_gallery_users');
+		//$this->user = new \phpbbgallery\core\user($this->phpbb_db, $this->dispatcher, $this->phpbb_user->data['user_id']);
+		$this->user = $phpbb_container->get('phpbbgallery.core.user');
+		//$this->auth = new \phpbbgallery\core\auth\auth($this->cache, $this->phpbb_db, $this->user, 'phpbb_gallery_permissions', 'phpbb_gallery_roles', 'phpbb_gallery_users');
+		$this->auth = $phpbb_container->get('phpbbgallery.core.auth');
 
 		if ($this->config->get('mvc_time') < time())
 		{
@@ -149,6 +152,7 @@ class core
 	*/
 	public function init()
 	{
+		global $phpbb_container;
 		//@todo: phpbb_gallery_url::_include('functions_phpbb', 'phpbb', 'includes/gallery/');
 		//@todo: phpbb_gallery_plugins::init(phpbb_gallery_url::path());
 
@@ -156,9 +160,9 @@ class core
 		$this->phpbb_user->data['user_id'] = (int) $this->phpbb_user->data['user_id'];
 
 		//@todo hardcoded table names
-		$this->user = new \phpbbgallery\core\user($this->phpbb_db, $this->dispatcher, 'phpbb_gallery_users');
+		$this->user = $phpbb_container->get('phpbbgallery.core.user');
 		$this->user->set_user_id($this->phpbb_user->data['user_id']);
-		$this->auth = new \phpbbgallery\core\auth\auth($this->cache, $this->phpbb_db, $this->user, 'phpbb_gallery_permissions', 'phpbb_gallery_roles', 'phpbb_gallery_users');
+		$this->auth = $phpbb_container->get('phpbbgallery.core.auth');
 		$this->auth->load_user_premissions($this->phpbb_user->data['user_perm_from'] ?: $this->phpbb_user->data['user_id']);
 
 		if ($this->config['phpbb_gallery_mvc_time'] < time())

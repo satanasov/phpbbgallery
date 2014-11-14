@@ -66,7 +66,7 @@ class main_module
 		$phpbb_ext_gallery_core_album = new \phpbbgallery\core\album\album();
 		
 		// init users
-		$phpbb_gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $users_table);
+		$phpbb_gallery_user = $phpbb_container->get('phpbbgallery.core.user');
 		
 		// init image
 		$phpbb_gallery_image = new \phpbbgallery\core\image\image();
