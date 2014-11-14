@@ -33,6 +33,7 @@ services:
             - @user
             - @phpbbgallery.core.auth
             - @phpbbgallery.core.user
+            - @phpbbgallery.core.misc
             - %core.root_path%
             - %core.php_ext%
             - %tables.phpbbgallery.albums%
@@ -177,6 +178,8 @@ services:
             - @user
             - @controller.helper
             - @phpbbgallery.core.album.display
+            - @phpbbgallery.core.config
+            - @phpbbgallery.core.auth
             - %core.root_path%
             - %core.php_ext%
     phpbbgallery.core.controller.comment:

@@ -60,7 +60,9 @@ class misc
 	*/
 	static public function markread($mode, $album_id = false)
 	{
-		global $db, $user;
+		global $db, $user, $table_prefix, $phpbb_container;
+		
+		$gallery_user = $phpbb_container->get('phpbbgallery.core.user');
 
 		// Sorry, no guest support!
 		if ($user->data['user_id'] == ANONYMOUS)
@@ -73,11 +75,11 @@ class misc
 			if ($album_id === false || !sizeof($album_id))
 			{
 				// Mark all albums read (index page)
-				$sql = 'DELETE FROM ' . GALLERY_ATRACK_TABLE . '
+				$sql = 'DELETE FROM ' . $table_prefix . 'gallery_albums_track
 					WHERE user_id = ' . $user->data['user_id'];
 				$db->sql_query($sql);
 
-				phpbb_gallery::$user->update_data(array(
+				$gallery_user->update_data(array(
 						'user_lastmark'		=> time(),
 				));
 			}
@@ -93,7 +95,7 @@ class misc
 			}
 
 			$sql = 'SELECT album_id
-				FROM ' . GALLERY_ATRACK_TABLE . "
+				FROM ' . $table_prefix . "gallery_albums_track
 				WHERE user_id = {$user->data['user_id']}
 					AND " . $db->sql_in_set('album_id', $album_id);
 			$result = $db->sql_query($sql);
@@ -107,7 +109,7 @@ class misc
 
 			if (sizeof($sql_update))
 			{
-				$sql = 'UPDATE ' . GALLERY_ATRACK_TABLE . '
+				$sql = 'UPDATE ' . $table_prefix . 'gallery_albums_track
 					SET mark_time = ' . time() . "
 					WHERE user_id = {$user->data['user_id']}
 						AND " . $db->sql_in_set('album_id', $sql_update);
@@ -126,7 +128,7 @@ class misc
 					);
 				}
 
-				$db->sql_multi_insert(GALLERY_ATRACK_TABLE, $sql_ary);
+				$db->sql_multi_insert($table_prefix . 'gallery_albums_track', $sql_ary);
 			}
 
 			return;
@@ -138,7 +140,7 @@ class misc
 				return;
 			}
 
-			$sql = 'UPDATE ' . GALLERY_ATRACK_TABLE . '
+			$sql = 'UPDATE ' . $table_prefix . 'gallery_albums_track
 				SET mark_time = ' . time() . "
 				WHERE user_id = {$user->data['user_id']}
 					AND album_id = $album_id";
@@ -154,7 +156,7 @@ class misc
 					'mark_time'		=> time(),
 				);
 
-				$db->sql_query('INSERT INTO ' . GALLERY_ATRACK_TABLE . ' ' . $db->sql_build_array('INSERT', $sql_ary));
+				$db->sql_query('INSERT INTO ' . $table_prefix . 'gallery_albums_track ' . $db->sql_build_array('INSERT', $sql_ary));
 
 				$db->sql_return_on_error(false);
 			}
