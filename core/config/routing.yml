@@ -1,6 +1,9 @@
 phpbbgallery_index:
     pattern: /gallery
     defaults: { _controller: phpbbgallery.core.controller.index:base }
+phpbbgallery_index_slash:
+    pattern: /gallery/
+    defaults: { _controller: phpbbgallery.core.controller.index:base }
 phpbbgallery_personal:
     pattern: /gallery/users
     defaults: { _controller: phpbbgallery.core.controller.index:personal }

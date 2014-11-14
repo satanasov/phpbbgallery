@@ -29,7 +29,9 @@ class display
 	protected $table_moderators;
 	protected $table_tracking;
 
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $db, \phpbb\pagination $pagination, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\user $gallery_user, $root_path, $php_ext, $albums_table, $contests_table, $moderators_table, $tracking_table)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $db, 
+	\phpbb\pagination $pagination, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \phpbbgallery\core\auth\auth $gallery_auth, 
+	\phpbbgallery\core\user $gallery_user, \phpbbgallery\core\misc $misc, $root_path, $php_ext, $albums_table, $contests_table, $moderators_table, $tracking_table)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
@@ -41,6 +43,7 @@ class display
 		$this->pagination = $pagination;
 		$this->gallery_auth = $gallery_auth;
 		$this->gallery_user = $gallery_user;
+		$this->misc = $misc;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 		$this->table_albums = $albums_table;
@@ -514,12 +517,12 @@ class display
 			{
 				if ($mark_read == 'all')
 				{
-					phpbb_gallery_misc::markread('all');
+					$this->misc->markread('all');
 					$message = $this->user->lang('RETURN_INDEX', '<a href="' . $redirect . '">', '</a>');
 				}
 				else
 				{
-					phpbb_gallery_misc::markread('albums', $album_ids);
+					$this->misc->markread('albums', $album_ids);
 					$message = $this->user->lang('RETURN_ALBUM', '<a href="' . $redirect . '">', '</a>');
 				}
 				meta_refresh(3, $redirect);
