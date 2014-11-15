@@ -180,6 +180,29 @@ services:
             - @phpbbgallery.core.album.display
             - @phpbbgallery.core.config
             - @phpbbgallery.core.auth
+            - @phpbbgallery.core.search
+            - %core.root_path%
+            - %core.php_ext%
+    phpbbgallery.core.controller.search:
+        class: phpbbgallery\core\controller\search
+        arguments:
+            - @auth
+            - @config
+            - @dbal.conn
+            - @request
+            - @template
+            - @user
+            - @controller.helper
+            - @phpbbgallery.core.album.display
+            - @phpbbgallery.core.config
+            - @phpbbgallery.core.auth
+            - @phpbbgallery.core.album
+            - @phpbbgallery.core.image
+            - @phpbbgallery.core.url
+            - @phpbbgallery.core.search
+            - %tables.phpbbgallery.images%
+            - %tables.phpbbgallery.albums%
+            - %tables.phpbbgallery.comments%
             - %core.root_path%
             - %core.php_ext%
     phpbbgallery.core.controller.comment:
@@ -254,3 +277,24 @@ services:
             - @phpbbgallery.core.auth
             - %tables.phpbbgallery.images%
             - %tables.phpbbgallery.reports%
+    phpbbgallery.core.search:
+        class: phpbbgallery\core\search
+        arguments:
+            - @auth
+            - @config
+            - @dbal.conn
+            - @request
+            - @template
+            - @user
+            - @controller.helper
+            - @phpbbgallery.core.album.display
+            - @phpbbgallery.core.config
+            - @phpbbgallery.core.auth
+            - @phpbbgallery.core.album
+            - @phpbbgallery.core.image
+            - @phpbbgallery.core.url
+            - %tables.phpbbgallery.images%
+            - %tables.phpbbgallery.albums%
+            - %tables.phpbbgallery.comments%
+            - %core.root_path%
+            - %core.php_ext%
