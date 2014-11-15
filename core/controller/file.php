@@ -95,6 +95,7 @@ class file
 	*/
 	public function source($image_id)
 	{
+		$this->auth->load_user_premissions($this->user->data['user_id']);
 		$this->path = $this->path_source;
 		$this->load_data($image_id);
 		$this->check_auth();
@@ -112,7 +113,7 @@ class file
 
 		$this->generate_image_src();
 		// @todo Enable watermark
-		$this->auth->load_user_premissions($this->user->data['user_id']);
+		
 		$this->use_watermark = $this->config['phpbb_gallery_watermark_enabled'] && $this->data['album_watermark'] && !$this->auth->acl_check('i_watermark', $this->data['album_id'], $this->data['album_user_id']);
 
 		$this->tool->set_image_options($this->config['phpbb_gallery_max_filesize'], $this->config['phpbb_gallery_max_height'], $this->config['phpbb_gallery_max_width']);

@@ -293,7 +293,7 @@ class file
 			}
 			$cached = \set_modified_headers($this->last_modified, $user->browser);
 		}
-
+		
 		if ($cached)
 		{
 			return;
@@ -308,7 +308,7 @@ class file
 			// Try to deliver in chunks
 			@set_time_limit(0);
 
-			$fp = @fopen($this->image_source, 'rb');
+			$fp = fopen($this->image_source, 'rb');
 
 			if ($fp !== false)
 			{
