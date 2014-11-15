@@ -109,6 +109,15 @@ class file
 
 			// trigger_error('IMAGE_NOT_EXIST');
 			$this->error = 'image_not_exist.jpg';
+			$this->data['image_filename'] = 'image_not_exist.jpg';
+			$this->data['image_name'] = 'Image is missing!';
+			$this->data['image_user_id'] = 1;
+			$this->data['image_status'] = 2;
+			$this->data['album_id'] = 0;
+			$this->data['album_user_id'] = 1;
+			$this->data['image_filemissing'] = 0;
+			$this->data['image_filemissing'] = 0;
+			$this->data['album_watermark'] = 0;
 		}
 
 		$this->generate_image_src();
@@ -216,6 +225,16 @@ class file
 			// Image or album does not exist
 			// trigger_error('INVALID_IMAGE');
 			$this->error = 'not_authorised.jpg';
+			$this->data['image_filename'] = 'not_authorised.jpg';
+			$this->data['image_name'] = 'You are not authorized!';
+			$this->data['image_user_id'] = 1;
+			$this->data['image_status'] = 2;
+			$this->data['album_id'] = 0;
+			$this->data['album_user_id'] = 1;
+			$this->data['image_filemissing'] = 0;
+			$this->data['image_filemissing'] = 0;
+			$this->data['album_watermark'] = 0;
+			
 		}
 	}
 
@@ -228,12 +247,30 @@ class file
 			// The image is currently being uploaded
 			// trigger_error('NOT_AUTHORISED');
 			$this->error = 'not_authorised.jpg';
+			$this->data['image_filename'] = 'not_authorised.jpg';
+			$this->data['image_name'] = 'You are not authorized!';
+			$this->data['image_user_id'] = 1;
+			$this->data['image_status'] = 2;
+			$this->data['album_id'] = 0;
+			$this->data['album_user_id'] = 1;
+			$this->data['image_filemissing'] = 0;
+			$this->data['image_filemissing'] = 0;
+			$this->data['album_watermark'] = 0;
 		}
 		if ((!$this->auth->acl_check('i_view', $this->data['album_id'], $this->data['album_user_id'])) || (!$this->auth->acl_check('m_status', $this->data['album_id'], $this->data['album_user_id']) && ($this->data['image_status'] == \phpbbgallery\core\image\image::STATUS_UNAPPROVED)))
 		{
 			// Missing permissions
 			// trigger_error('NOT_AUTHORISED');
 			$this->error = 'not_authorised.jpg';
+			$this->data['image_filename'] = 'not_authorised.jpg';
+			$this->data['image_name'] = 'You are not authorized!';
+			$this->data['image_user_id'] = 1;
+			$this->data['image_status'] = 2;
+			$this->data['album_id'] = 0;
+			$this->data['album_user_id'] = 1;
+			$this->data['image_filemissing'] = 0;
+			$this->data['image_filemissing'] = 0;
+			$this->data['album_watermark'] = 0;
 		}
 	}
 
@@ -251,6 +288,15 @@ class file
 
 			// trigger_error('IMAGE_NOT_EXIST');
 			$this->error = 'image_not_exist.jpg';
+			$this->data['image_filename'] = 'image_not_exist.jpg';
+			$this->data['image_name'] = 'Image is missing!';
+			$this->data['image_user_id'] = 1;
+			$this->data['image_status'] = 2;
+			$this->data['album_id'] = 0;
+			$this->data['album_user_id'] = 1;
+			$this->data['image_filemissing'] = 0;
+			$this->data['image_filemissing'] = 0;
+			$this->data['album_watermark'] = 0;
 		}
 
 		// There was a reason to not display the image, so we send an error-image
