@@ -112,10 +112,6 @@ class album
 		$this->check_permissions($album_id, $album_data['album_user_id']);
 		$this->auth_level->display($album_id, $album_data['album_status'], $album_data['album_user_id']);
 
-		$this->template->assign_block_vars('navlinks', array(
-			'FORUM_NAME'	=> $this->user->lang['GALLERY'],
-			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_index'),
-		));
 		$this->display->generate_navigation($album_data);
 		$this->display->display_albums($album_data, $this->config['load_moderators']);
 

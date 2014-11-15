@@ -113,12 +113,6 @@ class display
 		// Get album parents
 		$album_parents = $this->get_parents($album_data);
 
-		// Before all - show me root please!
-		$this->template->assign_block_vars('navlinks', array(
-			'FORUM_NAME'	=> $this->user->lang['GALLERY'],
-			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_index'),
-		));
-
 		// Display username for personal albums
 		if ($album_data['album_user_id'] > \phpbbgallery\core\album\album::PUBLIC_ALBUM)
 		{
@@ -368,7 +362,7 @@ class display
 			}
 
 			$mode_personal = true;
-			$start = $this->request->variable('start', 0);
+			$start = $this->request->variable('start', 10);
 			$limit = $this->config['phpbb_gallery_pegas_per_page'];
 			$this->template->assign_vars(array(
 				'PAGINATION'				=> $this->pagination->generate_template_pagination(array(
