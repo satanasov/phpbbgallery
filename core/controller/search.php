@@ -56,7 +56,7 @@ class search
 	* @param string						$root_path	Root path
 	* @param string						$php_ext	php file extension
 	*/
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request, 
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\pagination $pagination, \phpbb\request\request $request, 
 	\phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbbgallery\core\album\display $display, \phpbbgallery\core\config $gallery_config, 
 	\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\album\album $album, \phpbbgallery\core\image\image $image, \phpbbgallery\core\url $url, \phpbbgallery\core\search $gallery_search,
 	$images_table, $albums_table, $comments_table, $root_path, $php_ext)
@@ -64,6 +64,7 @@ class search
 		$this->auth = $auth;
 		$this->config = $config;
 		$this->db = $db;
+		$this->pagination = $pagination;
 		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
@@ -121,7 +122,7 @@ class search
 		}
 		$this->template->assign_block_vars('navlinks', array(
 			'FORUM_NAME'	=> $this->user->lang['SEARCH'],
-			'U_VIEW_FORUM'	=> $this->url->append_sid('search'),
+			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_search'),
 		));
 
 		// Define some vars
@@ -545,7 +546,7 @@ class search
 	
 	/**
 	* Index Controller
-	*	Route: gallery/search
+	*	Route: gallery/search/random
 	*
 	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
 	*/
@@ -561,150 +562,73 @@ class search
 			$this->template->assign_var('S_NO_SEARCH', true);
 			trigger_error('NO_SEARCH');
 		}
-		
+		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->template->assign_block_vars('navlinks', array(
+			'FORUM_NAME'	=> $this->user->lang['GALLERY'],
+			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_index'),
+		));
 		$this->template->assign_block_vars('navlinks', array(
 			'FORUM_NAME'	=> $this->user->lang['SEARCH'],
-			'U_VIEW_FORUM'	=> $this->url->append_sid('search'),
-		));
-
-		// Define some vars
-		$images_per_page = $this->gallery_config->get('album_rows') * $this->gallery_config->get('album_columns');
-		$tot_unapproved = $image_counter = 0;
-		
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_search'),
+		));	
 		$this->template->assign_block_vars('navlinks', array(
 			'FORUM_NAME'	=> $this->user->lang['SEARCH_RANDOM'],
 			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_search_random'),
 		));
 
-		$l_search_title = $this->user->lang['SEARCH_RANDOM'];
-		$search_results = 'image';
-
-		switch ($this->db->get_sql_layer())
-		{
-			case 'postgres':
-				$sql_order = 'RANDOM()';
-			break;
-
-			case 'mssql':
-			case 'mssql_odbc':
-				$sql_order = 'NEWID()';
-			break;
-
-			default:
-				$sql_order = 'RAND()';
-			break;
-		}
-		$sql_limit = $images_per_page;
-		$sql = 'SELECT image_id
-			FROM ' . $this->images_table . '
-			WHERE image_status <> ' . \phpbbgallery\core\image\image::STATUS_ORPHAN . '
-				AND ((' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('i_view'), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
-					OR ' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('m_status'), false, true) . ')
-			ORDER BY ' . $sql_order;
-
-		if (!$sql_limit)
-		{
-			$result = $this->db->sql_query($sql);
-		}
-		else
-		{
-			$result = $this->db->sql_query_limit($sql, $sql_limit);
-		}
-
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$id_ary[] = $row[$search_results . '_id'];
-		}
-		$this->db->sql_freeresult($result);
-
-		$total_match_count = sizeof($id_ary);
-
-		$l_search_matches = $this->user->lang('FOUND_SEARCH_MATCHES', $total_match_count);
+		$this->gallery_search->random(20);
 		
-		// For some searches we need to print out the "no results" page directly to allow re-sorting/refining the search options.
-		if (!sizeof($id_ary))
+		return $this->helper->render('gallery/search_random.html', $this->user->lang('GALLERY'));
+	}
+	
+	/**
+	* Index Controller
+	*	Route: gallery/search/recent/{page}
+	*
+	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	*/
+	public function recent($page)
+	{
+		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
+		$this->user->add_lang('search');
+		
+		// Is user able to search? Has search been disabled?
+		if (!$this->auth->acl_get('u_search') || !$this->config['load_search'])
 		{
-			trigger_error('NO_SEARCH_RESULTS');
+			$this->template->assign_var('S_NO_SEARCH', true);
+			trigger_error('NO_SEARCH');
 		}
 		
-		$sql_where = $this->db->sql_in_set('i.image_id', $id_ary);
+		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->template->assign_block_vars('navlinks', array(
+			'FORUM_NAME'	=> $this->user->lang['GALLERY'],
+			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_index'),
+		));
+		$this->template->assign_block_vars('navlinks', array(
+			'FORUM_NAME'	=> $this->user->lang['SEARCH'],
+			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_search'),
+		));	
+		$this->template->assign_block_vars('navlinks', array(
+			'FORUM_NAME'	=> $this->user->lang['SEARCH'],
+			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_search_recent'),
+		));	
 		
-		// define some vars for urls
-		$hilit = '';
-
-		//phpbb_generate_template_pagination($template, $u_search, 'pagination', 'start', $total_match_count, $images_per_page, $start);
-
+		$limit = 20;
+		$start = ($page - 1) * 20;
+		$image_counter = $this->gallery_search->recent_count();
+		
+		$this->gallery_search->recent($limit, $start);
+		
 		$this->template->assign_vars(array(
-			'SEARCH_MATCHES'	=> $l_search_matches,
-			//'PAGE_NUMBER'		=> phpbb_on_page($template, $user, $u_search, $total_match_count, $images_per_page, $start),
-
-			'SEARCH_TITLE'		=> $l_search_title,
-			//@todo: 'IGNORED_WORDS'		=> (sizeof($search->common_words)) ? implode(' ', $search->common_words) : '',
-			'TOTAL_MATCHES'		=> $total_match_count,
-
-			'SEARCH_IMAGES'		=> ($search_results == 'image') ? true : false,
-			'S_THUMBNAIL_SIZE'	=> $this->gallery_config->get('thumbnail_height') + 20 + (($this->gallery_config->get('thumbnail_infoline')) ? \phpbbgallery\core\image\image::THUMBNAIL_INFO_HEIGHT : 0),
+			'TOTAL_IMAGES'				=> $this->user->lang('VIEW_ALBUM_IMAGES', $image_counter),
 		));
 		
-		$sql_array = array(
-			'SELECT'		=> 'i.*, a.album_name, a.album_status, a.album_user_id',
-			'FROM'			=> array($this->images_table => 'i'),
-
-			'LEFT_JOIN'		=> array(
-				array(
-					'FROM'		=> array($this->albums_table => 'a'),
-					'ON'		=> 'a.album_id = i.image_album_id',
-				),
-			),
-
-			'WHERE'			=> 'i.image_status <> ' . \phpbbgallery\core\image\image::STATUS_ORPHAN . ' AND ' . $sql_where,
-			'ORDER_BY'		=> $sql_order,
+		$this->pagination->generate_template_pagination(array(
+			'routes' => array(
+				'phpbbgallery_search_recent',
+				'phpbbgallery_search_recent_page',),
+				'params' => array()), 'pagination', 'page', $image_counter, $limit, $start
 		);
-		$sql = $this->db->sql_build_query('SELECT', $sql_array);
-		$result = $this->db->sql_query($sql);
-		$rowset = array();
-
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$rowset[] = $row;
-		}
-		$this->db->sql_freeresult($result);
-		
-		foreach ($rowset as $row)
-		{
-			$album_data = $this->album->get_info($row['image_album_id']);
-			
-			$this->template->assign_block_vars('imageblock_random.image', array(
-				'IMAGE_ID'		=> $row['image_id'],
-				'U_IMAGE'		=> $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id'])),
-				'UC_IMAGE_NAME'	=> $row['image_name'],//self::generate_link('image_name', $this->config['phpbb_gallery_link_image_name'], $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id'], false, true, "&amp;sk={$sk}&amp;sd={$sd}&amp;st={$st}"),
-				//'UC_THUMBNAIL'	=> 'self::generate_link('thumbnail', $phpbb_ext_gallery->config->get('link_thumbnail'), $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id']),
-				'UC_THUMBNAIL'		=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $row['image_id'])),
-				'S_UNAPPROVED'	=> ($this->gallery_auth->acl_check('m_status', $row['image_album_id'], $album_data['album_user_id']) && ($row['image_status'] == \phpbbgallery\core\image\image::STATUS_UNAPPROVED)) ? true : false,
-				'S_LOCKED'		=> ($row['image_status'] == \phpbbgallery\core\image\image::STATUS_LOCKED) ? true : false,
-				'S_REPORTED'	=> ($this->gallery_auth->acl_check('m_report', $row['image_album_id'], $album_data['album_user_id']) && $row['image_reported']) ? true : false,
-				'POSTER'		=> get_username_string('full', $row['image_user_id'], $row['image_username'], $row['image_user_colour']),
-				'TIME'			=> $this->user->format_date($row['image_time']),
-
-				'S_RATINGS'		=> ($this->config['phpbb_gallery_allow_rates'] && $this->gallery_auth->acl_check('i_rate', $row['image_album_id'], $album_data['album_user_id'])) ? $row['image_rate_avg'] : '',
-				'U_RATINGS'		=> $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id'])) . '#rating',
-				'L_COMMENTS'	=> ($row['image_comments'] == 1) ? $this->user->lang['COMMENT'] : $this->user->lang['COMMENTS'],
-				'S_COMMENTS'	=> ($this->config['phpbb_gallery_allow_comments'] && $this->gallery_auth->acl_check('c_read', $row['image_album_id'], $album_data['album_user_id'])) ? (($row['image_comments']) ? $row['image_comments'] : $this->user->lang['NO_COMMENTS']) : '',
-				'U_COMMENTS'	=> $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id'])) . '#comments',
-
-				'S_IMAGE_REPORTED'		=> $row['image_reported'],
-				'U_IMAGE_REPORTED'		=> '',//($image_data['image_reported']) ? $phpbb_ext_gallery->url->append_sid('mcp', "mode=report_details&amp;album_id={$image_data['image_album_id']}&amp;option_id=" . $image_data['image_reported']) : '',
-				'S_STATUS_APPROVED'		=> ($row['image_status'] == \phpbbgallery\core\image\image::STATUS_APPROVED),
-				'S_STATUS_UNAPPROVED'	=> ($this->gallery_auth->acl_check('m_status', $row['image_album_id'], $album_data['album_user_id']) && $row['image_status'] == \phpbbgallery\core\image\image::STATUS_UNAPPROVED) ? true : false,
-				'S_STATUS_UNAPPROVED_ACTION'	=> ($this->gallery_auth->acl_check('m_status', $row['image_album_id'], $album_data['album_user_id']) && $row['image_status'] == \phpbbgallery\core\image\image::STATUS_UNAPPROVED) ? $this->helper->route('phpbbgallery_moderate_image_approve', array('image_id' => $row['image_id'])) : '',
-				'S_STATUS_LOCKED'		=> ($row['image_status'] == \phpbbgallery\core\image\image::STATUS_LOCKED),
-
-				'U_REPORT'	=> ($this->gallery_auth->acl_check('m_report', $row['image_album_id'], $album_data['album_user_id']) && $row['image_reported']) ? '123'/*$this->url->append_sid('mcp', "mode=report_details&amp;album_id={$image_data['image_album_id']}&amp;option_id=" . $image_data['image_reported'])*/ : '',
-				'U_STATUS'	=> '',//($this->auth->acl_check('m_status', $image_data['image_album_id'], $album_user_id)) ? $phpbb_ext_gallery->url->append_sid('mcp', "mode=queue_details&amp;album_id={$image_data['image_album_id']}&amp;option_id=" . $image_data['image_id']) : '',
-				'L_STATUS'	=> ($row['image_status'] == \phpbbgallery\core\image\image::STATUS_UNAPPROVED) ? $this->user->lang['APPROVE_IMAGE'] : (($row['image_status'] == \phpbbgallery\core\image\image::STATUS_APPROVED) ? $this->user->lang['CHANGE_IMAGE_STATUS'] : $this->user->lang['UNLOCK_IMAGE']),
-			));
-		}
-		return $this->helper->render('gallery/search_random.html', $this->user->lang('GALLERY'));
+		return $this->helper->render('gallery/search_recent.html', $this->user->lang('GALLERY'));
 	}
 }

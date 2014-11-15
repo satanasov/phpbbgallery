@@ -84,11 +84,14 @@ phpbbgallery_search:
 phpbbgallery_search_random:
     pattern: /gallery/search/random
     defaults: { _controller: phpbbgallery.core.controller.search:random }
-phpbbgallery_search_commented:
-    pattern: /gallery/search/commented
-    defaults: { _controller: phpbbgallery.core.controller.search:base }
 phpbbgallery_search_recent:
     pattern: /gallery/search/recent
+    defaults: { _controller: phpbbgallery.core.controller.search:recent, page: 1 }
+phpbbgallery_search_recent_page:
+    pattern: /gallery/search/recent/{page}
+    defaults: { _controller: phpbbgallery.core.controller.search:recent }
+phpbbgallery_search_commented:
+    pattern: /gallery/search/commented
     defaults: { _controller: phpbbgallery.core.controller.search:base }
 phpbbgallery_search_egosearch:
     pattern: /gallery/search/self

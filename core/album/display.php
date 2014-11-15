@@ -113,6 +113,12 @@ class display
 		// Get album parents
 		$album_parents = $this->get_parents($album_data);
 
+		// Before all - show me root please!
+		$this->template->assign_block_vars('navlinks', array(
+			'FORUM_NAME'	=> $this->user->lang['GALLERY'],
+			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_index'),
+		));
+
 		// Display username for personal albums
 		if ($album_data['album_user_id'] > \phpbbgallery\core\album\album::PUBLIC_ALBUM)
 		{
