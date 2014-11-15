@@ -189,6 +189,7 @@ services:
             - @auth
             - @config
             - @dbal.conn
+            - @pagination
             - @request
             - @template
             - @user

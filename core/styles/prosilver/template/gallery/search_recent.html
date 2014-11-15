@@ -1,0 +1,29 @@
+<!-- INCLUDE gallery/gallery_header.html -->
+
+<!-- IF .pagination or TOTAL_IMAGES -->
+	<div class="pagination">
+		{TOTAL_IMAGES}
+		<!-- IF .pagination -->
+			 &bull; <!-- INCLUDE pagination.html -->
+		<!-- ELSE -->
+			 &bull; {PAGE_NUMBER}
+		<!-- ENDIF -->
+	</div>
+<!-- ENDIF -->
+
+
+<!-- INCLUDE gallery/imageblock_polaroid_rec.html -->
+
+<!-- IF .pagination or TOTAL_IMAGES -->
+	<div class="pagination">
+		{TOTAL_IMAGES}
+		<!-- IF .pagination -->
+			 &bull; <!-- INCLUDE pagination.html -->
+		<!-- ELSE -->
+			 &bull; {PAGE_NUMBER}
+		<!-- ENDIF -->
+	</div>
+<!-- ENDIF -->
+
+
+<!-- INCLUDE gallery/gallery_footer.html -->
