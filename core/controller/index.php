@@ -85,11 +85,11 @@ class index
 	public function base()
 	{
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
-		$this->display->display_albums(false, $this->config['load_moderators']);
+		$this->display->display_albums(false, $this->config['load_moderators'], false, '', 0, 20);
 
 		if ($this->gallery_config->get('pegas_index_album'))
 		{
-			$this->display->display_albums('personal', $this->config['load_moderators']);
+			$this->display->display_albums('personal', $this->config['load_moderators'], false, 'personal', 0, 4);
 		}
 		else
 		{
@@ -121,10 +121,10 @@ class index
 	*
 	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
 	*/
-	public function personal()
+	public function personal($page)
 	{
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
-		$this->display->display_albums('personal', $this->config['load_moderators']);
+		$this->display->display_albums('personal', $this->config['load_moderators'], false, 'personal', ($page - 1)*20, 20);
 
 		if (!$this->gallery_config->get('pegas_index_album'))
 		{

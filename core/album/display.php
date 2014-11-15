@@ -362,15 +362,22 @@ class display
 			}
 
 			$mode_personal = true;
-			$start = $this->request->variable('start', 10);
-			$limit = $this->config['phpbb_gallery_pegas_per_page'];
-			$this->template->assign_vars(array(
+			$start = $this->request->variable('start', 0);
+			//$limit = $this->config['phpbb_gallery_pegas_per_page'];
+			$limit = 20;
+			/*$this->template->assign_vars(array(
 				'PAGINATION'				=> $this->pagination->generate_template_pagination(array(
 						//todo 'mode=' . $mode . (($first_char) ? '&amp;first_char=' . $first_char : '')
 					), 'pagination', 'page', $num_pegas, $limit, $start),
 				'TOTAL_PGALLERIES_SHORT'	=> $this->user->lang('TOTAL_PEGAS_SHORT_SPRINTF', $num_pegas),
 				'PAGE_NUMBER'				=> $this->pagination->on_page($num_pegas, $limit, $start),
 			));
+			$this->pagination->generate_template_pagination(array(
+				'routes' => array(
+					'phpbbgallery_search_recent',
+					'phpbbgallery_search_recent_page',),
+					'params' => array()), 'pagination', 'page', $num_pegas, $limit, $start
+			);*/
 		}
 		else
 		{
@@ -651,6 +658,7 @@ class display
 			{
 				$lastimage_time = $lastimage_album_type = $lastimage_contest_marked = 0;
 				$lastimage_uc_fake_thumbnail = $lastimage_uc_thumbnail = $lastimage_uc_name = $lastimage_uc_icon = '';
+				$lastimage_uc_fake_thumbnail = $lastimage_uc_thumbnail = $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => 0));
 			}
 
 			// Output moderator listing ... if applicable

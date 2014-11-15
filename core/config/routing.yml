@@ -6,6 +6,9 @@ phpbbgallery_index_slash:
     defaults: { _controller: phpbbgallery.core.controller.index:base }
 phpbbgallery_personal:
     pattern: /gallery/users
+    defaults: { _controller: phpbbgallery.core.controller.index:personal, page: 1 }
+phpbbgallery_personal_page:
+    pattern: /gallery/users/{page}
     defaults: { _controller: phpbbgallery.core.controller.index:personal }
 
 phpbbgallery_album:

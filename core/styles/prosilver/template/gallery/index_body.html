@@ -77,7 +77,30 @@
 	</div>
 <!-- ENDIF -->
 
+<!-- IF .pagination or TOTAL_ALBUMS -->
+	<div class="pagination">
+		{TOTAL_ALBUMS}
+		<!-- IF .pagination -->
+			 &bull; <!-- INCLUDE pagination.html -->
+		<!-- ELSE -->
+			 &bull; {PAGE_NUMBER}
+		<!-- ENDIF -->
+	</div>
+<!-- ENDIF -->
+
 <!-- INCLUDE gallery/albumlist_polaroid.html -->
+
+
+<!-- IF .pagination or TOTAL_ALBUMS -->
+	<div class="pagination">
+		{TOTAL_ALBUMS}
+		<!-- IF .pagination -->
+			 &bull; <!-- INCLUDE pagination.html -->
+		<!-- ELSE -->
+			 &bull; {PAGE_NUMBER}
+		<!-- ENDIF -->
+	</div>
+<!-- ENDIF -->
 
 <!-- IF S_PERSONAL_GALLERY -->
 	<div class="topic-actions">
