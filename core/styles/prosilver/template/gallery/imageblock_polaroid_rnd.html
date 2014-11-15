@@ -1,0 +1,34 @@
+<!-- BEGIN random -->
+<span class="clear"></span>
+<!-- IF random.U_BLOCK --><h2><a href="#">{random.BLOCK_NAME}</a></h2><!-- ENDIF -->
+
+<!-- BEGIN image -->
+<div class="polaroid">
+	<p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+		<a href="{random.image.U_IMAGE}" style="font-weight: bold; font-size: 1.2em;">{random.image.UC_IMAGE_NAME}</a>
+	</p>
+	<hr />
+	<img src="{random.image.UC_THUMBNAIL}" alt="{random.image.UC_IMAGE_NAME}" title="{random.image.UC_IMAGE_NAME}" />
+
+	<hr />
+	<!-- IF random.image.U_ALBUM -->{L_ALBUM_NAME}{L_COLON} <a href="{random.image.U_ALBUM}" style="font-weight: bold;" title="{random.image.ALBUM_NAME_FULL}">{random.image.ALBUM_NAME}</a><br /><!-- ENDIF -->
+	<!-- IF random.image.POSTER -->{L_UPLOADED_BY_USER}{L_COLON} {random.image.POSTER}<br /><!-- ENDIF -->
+	<!-- IF random.image.TIME -->{L_UPLOADED_ON_DATE}{L_COLON} {random.image.TIME}<br /><!-- ENDIF -->
+	<!-- IF random.image.S_RATINGS -->{L_RATING}{L_COLON} <a href="{random.image.U_RATINGS}">{random.image.S_RATINGS}</a><br /><!-- ENDIF -->
+	<!-- IF random.image.S_COMMENTS -->{random.image.L_COMMENTS}{L_COLON} <a href="{random.image.U_COMMENTS}">{random.image.S_COMMENTS}</a><br /><!-- ENDIF -->
+	<!-- IF random.image.S_STATUS_UNAPPROVED -->
+			<br />
+			<form method="post" class="mcp_approve" action="{random.image.S_STATUS_UNAPPROVED_ACTION}">
+				<p class="post-notice unapproved">
+					<input class="button2" type="submit" value="Disapprove" name="action[disapprove]">
+					<input class="button1" type="submit" value="Approve" name="action[approve]">
+				</p>
+			</form>
+		<!-- ENDIF -->
+</div>
+
+<!-- IF random.image.S_LAST_ROW -->
+	<span class="clear"></span>
+<!-- ENDIF -->
+<!-- END image -->
+<!-- END random -->

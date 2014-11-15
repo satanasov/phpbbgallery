@@ -63,6 +63,7 @@ class misc
 		global $db, $user, $table_prefix, $phpbb_container;
 		
 		$gallery_user = $phpbb_container->get('phpbbgallery.core.user');
+		$gallery_user->set_user_id($user->data['user_id']);
 
 		// Sorry, no guest support!
 		if ($user->data['user_id'] == ANONYMOUS)
