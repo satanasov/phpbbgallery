@@ -58,7 +58,7 @@ class index
 	*/
 	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request, 
 	\phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbbgallery\core\album\display $display, \phpbbgallery\core\config $gallery_config, 
-	\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\search $gallery_search,
+	\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\search $gallery_search, \phpbb\pagination $pagination,
 	$root_path, $php_ext)
 	{
 		$this->auth = $auth;
@@ -72,6 +72,7 @@ class index
 		$this->gallery_config = $gallery_config;
 		$this->gallery_auth = $gallery_auth;
 		$this->gallery_search = $gallery_search;
+		$this->pagination = $pagination;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 	}
@@ -85,11 +86,11 @@ class index
 	public function base()
 	{
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
-		$this->display->display_albums(false, $this->config['load_moderators'], false, '', 0, 20);
+		$this->display->display_albums(false, $this->config['load_moderators']);
 
 		if ($this->gallery_config->get('pegas_index_album'))
 		{
-			$this->display->display_albums('personal', $this->config['load_moderators'], false, 'personal', 0, 4);
+			$this->display->display_albums('personal', $this->config['load_moderators']);
 		}
 		else
 		{
@@ -124,8 +125,21 @@ class index
 	public function personal($page)
 	{
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
-		$this->display->display_albums('personal', $this->config['load_moderators'], false, 'personal', ($page - 1)*20, 20);
+		$this->display->album_start = ($page - 1) * 20;
+		$this->display->album_limit = $this->gallery_config->get('pegas_per_page');
+		$this->display->album_mode = 'personal';
+		$this->display->display_albums('personal', $this->config['load_moderators']);
 
+		$this->pagination->generate_template_pagination(array(
+			'routes' => array(
+				'phpbbgallery_personal',
+				'phpbbgallery_personal_page',),
+				'params' => array()), 'pagination', 'page', $this->display->albums_total, $this->display->album_limit, $this->display->album_start
+		);
+		
+		$this->template->assign_vars(array(
+			'TOTAL_ALBUMS'	=> sprintf($this->user->lang['TOTAL_PEGAS_SHORT_SPRINTF'][2], $this->display->albums_total),
+		));
 		if (!$this->gallery_config->get('pegas_index_album'))
 		{
 			$this->assign_dropdown_links('phpbbgallery_personal');

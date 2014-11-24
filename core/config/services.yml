@@ -181,6 +181,7 @@ services:
             - @phpbbgallery.core.config
             - @phpbbgallery.core.auth
             - @phpbbgallery.core.search
+            - @pagination
             - %core.root_path%
             - %core.php_ext%
     phpbbgallery.core.controller.search:
