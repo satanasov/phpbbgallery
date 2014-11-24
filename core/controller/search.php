@@ -609,7 +609,7 @@ class search
 			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_search'),
 		));	
 		$this->template->assign_block_vars('navlinks', array(
-			'FORUM_NAME'	=> $this->user->lang['SEARCH'],
+			'FORUM_NAME'	=> $this->user->lang['SEARCH_RECENT'],
 			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_search_recent'),
 		));	
 		

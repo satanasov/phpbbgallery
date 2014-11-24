@@ -28,6 +28,10 @@ class display
 	protected $table_contests;
 	protected $table_moderators;
 	protected $table_tracking;
+	public $album_start;
+	public $album_limit;
+	public $albums_total;
+	public $album_mode;
 
 	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $db, 
 	\phpbb\pagination $pagination, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \phpbbgallery\core\auth\auth $gallery_auth, 
@@ -297,8 +301,8 @@ class display
 	{
 		$album_rows = $subalbums = $album_ids = $album_ids_moderator = $album_moderators = $active_album_ary = array();
 		$parent_id = $visible_albums = 0;
-		$mode = $this->request->variable('mode', '');
-
+		//$mode = $this->request->variable('mode', '');
+		$mode = $this->album_mode;
 		// Mark albums read?
 		$mark_read = $this->request->variable('mark', '');
 
@@ -362,9 +366,9 @@ class display
 			}
 
 			$mode_personal = true;
-			$start = $this->request->variable('start', 0);
+			$start = $this->album_start;
 			//$limit = $this->config['phpbb_gallery_pegas_per_page'];
-			$limit = 20;
+			$limit = $this->album_limit;
 			/*$this->template->assign_vars(array(
 				'PAGINATION'				=> $this->pagination->generate_template_pagination(array(
 						//todo 'mode=' . $mode . (($first_char) ? '&amp;first_char=' . $first_char : '')
@@ -738,6 +742,8 @@ class display
 		{
 			return array($active_album_ary, $album_moderators);
 		}
+
+		$this->albums_total = $visible_albums;
 
 		return array($active_album_ary, array());
 	}
