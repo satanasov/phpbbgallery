@@ -99,11 +99,14 @@ class index
 				'U_USERS_PERSONAL_GALLERIES' => $this->helper->route('phpbbgallery_personal'),
 			));
 		}
-		
-		$this->template->assign_vars(array(
-			'U_RANDOM'	=> true,
-		));
-		$this->gallery_search->random(4);
+		// Now before build random and recent ... let's check if we have images that can build it
+		if ($this->gallery_config->get('num_images') > 0)
+		{
+			$this->template->assign_vars(array(
+				'U_RANDOM'	=> true,
+			));
+			$this->gallery_search->random(4);
+		}
 		$this->display_legend();
 		$this->display_brithdays();
 		$this->assign_dropdown_links('phpbbgallery_index');
