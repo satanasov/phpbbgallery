@@ -125,6 +125,12 @@ class auth
 				return;
 			}
 		}*/
+		else {
+			$this->user->set_user_id($user_id);
+			$cached_permissions = $this->user->get_data('user_permissions');
+			$this->unserialize_auth_data($cached_permissions);
+			return;
+		}
 		$this->query_auth_data($user_id);
 	}
 

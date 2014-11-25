@@ -113,6 +113,7 @@ class search
 			FROM ' . $this->images_table . '
 			WHERE image_status <> ' . \phpbbgallery\core\image\image::STATUS_ORPHAN . '
 				AND ((' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('i_view'), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
+					OR (' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('a_list'), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
 					OR ' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('m_status'), false, true) . ')
 			ORDER BY ' . $sql_order;
 
