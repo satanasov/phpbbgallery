@@ -75,7 +75,8 @@ services:
         class: phpbbgallery\core\image\image
         arguments:
             - @dbal.conn
-            - @dispatcher
+            - @user
+            - @phpbbgallery.core.auth
             - %tables.phpbbgallery.images%
     phpbbgallery.core.listener:
         class: phpbbgallery\core\event\main_listener
@@ -183,6 +184,7 @@ services:
             - @phpbbgallery.core.search
             - @pagination
             - @phpbbgallery.core.user
+            - @phpbbgallery.core.image
             - %core.root_path%
             - %core.php_ext%
     phpbbgallery.core.controller.search:
