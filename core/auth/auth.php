@@ -544,13 +544,19 @@ class auth
 			return false;
 		}
 
-		if ($this->_auth_data[self::OWN_ALBUM]->get_bit($bit))
+		if ($this->_auth_data[self::OWN_ALBUM])
 		{
-			return true;
+			if ($this->_auth_data[self::OWN_ALBUM]->get_bit($bit))
+			{
+				return true;
+			}
 		}
-		if ($this->_auth_data[self::PERSONAL_ALBUM]->get_bit($bit))
+		if ($this->_auth_data[self::PERSONAL_ALBUM])
 		{
-			return true;
+			if ($this->_auth_data[self::PERSONAL_ALBUM]->get_bit($bit))
+			{
+				return true;
+			}
 		}
 
 		$albums = $this->cache->get_albums();
