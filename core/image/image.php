@@ -43,6 +43,17 @@ class image
 	const IN_CONTEST = 1;
 
 	/**
+	* construct
+	*/
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbbgallery\core\auth\auth $gallery_auth,
+								$table_images)
+	{
+		$this->db = $db;
+		$this->user = $user;
+		$this->gallery_auth = $gallery_auth;
+		$this->table_images = $table_images;
+	}
+	/**
 	* return int orphan status
 	*/
 	public function get_status_orphan()
@@ -505,5 +516,29 @@ class image
 			add_log('gallery', $album_id, $row['image_id'], 'LOG_GALLERY_LOCKED', $row['image_name']);
 		}
 		$db->sql_freeresult($result);
+	}
+	
+	/**
+	* Get last image id
+	* Return (int) image_id
+	**/
+	public function get_last_image()
+	{
+		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$sql_order = 'image_id DESC';
+		$sql_limit = 1;
+		$sql = 'SELECT * 
+			FROM ' . $this->table_images . '
+			WHERE image_status <> ' . self::STATUS_ORPHAN . '
+				AND ((' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('i_view'), false, true) . ' AND image_status <> ' . self::STATUS_UNAPPROVED . ')
+					OR ' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('m_status'), false, true) . ')
+			ORDER BY ' . $sql_order;
+		$result = $this->db->sql_query_limit($sql, $sql_limit);
+		
+		$row = $this->db->sql_fetchrow($result);
+		
+		$this->db->sql_freeresult($result);
+		
+		return $row;
 	}
 }
