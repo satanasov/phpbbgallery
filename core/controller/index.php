@@ -98,6 +98,10 @@ class index
 		else
 		{
 			$last_image = $this->image->get_last_image();
+			if (empty($last_image))
+			{
+				$last_image['image_id'] = 0;
+			}
 			$this->template->assign_vars(array(
 				'S_USERS_PERSONAL_GALLERIES'	=> true,
 				'U_USERS_PERSONAL_GALLERIES' => $this->helper->route('phpbbgallery_personal'),
