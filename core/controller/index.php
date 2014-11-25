@@ -95,10 +95,12 @@ class index
 		}
 		else
 		{
+			$last_image_id = $this->get_last_image_id();
 			$this->template->assign_vars(array(
 				'S_USERS_PERSONAL_GALLERIES'	=> true,
 				'U_USERS_PERSONAL_GALLERIES' => $this->helper->route('phpbbgallery_personal'),
 				'U_PERSONAL_GALLERIES_IMAGES'	=> $this->gallery_config->get('num_images'),
+				'U_PERSONAL_GALLERIES_LAST_IMAGE'	=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $last_image_id)),
 			));
 			$this->gallery_user->set_user_id($this->user->data['user_id']);
 			$personal_album = $this->gallery_user->get_own_root_album();
@@ -302,5 +304,31 @@ class index
 			}
 			$this->db->sql_freeresult($result);
 		}
+	}
+	
+	/**
+	* Get last image id
+	* Return (int) image_id
+	**/
+	protected function get_last_image_id()
+	{
+		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$sql_order = 'image_id DESC';
+		$sql_limit = 1;
+		$sql = 'SELECT image_id
+			FROM phpbb_gallery_images
+			WHERE image_status <> ' . \phpbbgallery\core\image\image::STATUS_ORPHAN . '
+				AND ((' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('i_view'), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
+					OR ' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('m_status'), false, true) . ')
+			ORDER BY ' . $sql_order;
+		$result = $this->db->sql_query_limit($sql, $sql_limit);
+		
+		$row = $this->db->sql_fetchrow($result);
+		
+		$this->db->sql_freeresult($result);
+		
+		$id = $row['image_id'] ? $row['image_id'] : 0;
+		
+		return (int) $id;
 	}
 }
