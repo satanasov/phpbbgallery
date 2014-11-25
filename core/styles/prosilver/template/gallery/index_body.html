@@ -131,6 +131,10 @@
 							<a href="{L_USERS_PERSONAL_ALBUMS}" class="icon-link"></a>
 							<div class="list-inner">
 								<a class="forumtitle" href="{U_USERS_PERSONAL_GALLERIES}">{L_USERS_PERSONAL_ALBUMS}</a>
+								<!-- IF S_PERSONAL_ALBUM -->
+									<br />
+									{L_YOUR_PERSONAL_ALBUM}{L_COLON} <a href="{U_PERSONAL_ALBUM}" <!-- IF !U_PERSONAL_ALBUM_COLOR -->class="username"<!-- ELSE -->class="username-coloured" style="color: #{U_PERSONAL_ALBUM_COLOR};"<!-- ENDIF -->>{U_PERSONAL_ALBUM_USER}</a>
+								<!-- ENDIF -->
 								<div class="responsive-show" style="display: none;">
 									{L_GALLERY_IMAGE}{L_COLON} <strong>{U_PERSONAL_GALLERIES_IMAGES}</strong>
 								</div>
@@ -151,7 +155,6 @@
 			</ul>
 		</div>
 	</div>
-&nbsp;&raquo;&nbsp;<a href="{U_YOUR_PERSONAL_GALLERY}">{L_YOUR_PERSONAL_ALBUM}</a></h4><br />
 <!-- ENDIF -->
 
 <!-- IF U_RANDOM -->

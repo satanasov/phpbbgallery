@@ -98,11 +98,18 @@ class index
 			$this->template->assign_vars(array(
 				'S_USERS_PERSONAL_GALLERIES'	=> true,
 				'U_USERS_PERSONAL_GALLERIES' => $this->helper->route('phpbbgallery_personal'),
+				'U_PERSONAL_GALLERIES_IMAGES'	=> $this->gallery_config->get('num_images'),
 			));
 			$this->gallery_user->set_user_id($this->user->data['user_id']);
-			if ($this->gallery_user->get_own_root_album())
+			$personal_album = $this->gallery_user->get_own_root_album();
+			if ($personal_album > 0)
 			{
-				
+				$this->template->assign_vars(array(
+					'S_PERSONAL_ALBUM'	=> true,
+					'U_PERSONAL_ALBUM'	=> $this->helper->route('phpbbgallery_album', array('album_id' => $personal_album)),
+					'U_PERSONAL_ALBUM_USER'	=> $this->user->data['username'],
+					'U_PERSONAL_ALBUM_COLOR'	=> $this->user->data['user_colour'],
+				));
 			}
 		}
 		// Now before build random and recent ... let's check if we have images that can build it

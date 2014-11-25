@@ -589,6 +589,6 @@ class user
 		$sql = 'SELECT personal_album_id FROM ' . $this->table_name . ' WHERE user_id = ' . $this->user_id;
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
-		return $row['personal_album_id'];
+		return (int) $row['personal_album_id'];
 	}
 }
