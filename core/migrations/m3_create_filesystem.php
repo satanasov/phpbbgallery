@@ -20,6 +20,7 @@ class m3_create_filesystem extends \phpbb\db\migration\migration
 	{
 		return array(
 			array('custom', array(array(&$this, 'create_file_system'))),
+			array('custom', array(array(&$this, 'copy_images'))),
 		);
 	}
 
@@ -65,6 +66,15 @@ class m3_create_filesystem extends \phpbb\db\migration\migration
 		$this->recursiveRemoveDirectory($phpbb_root_path . 'files/phpbbgallery');
 	}
 
+	public function copy_images()
+	{
+		global $phpbb_root_path;
+		$phpbbgallery_core_file_source = $phpbb_root_path . 'files/phpbbgallery/core/source';
+		$phpbbgallery_core_images_source = $phpbb_root_path . 'ext/phpbbgallery/core/images';
+		copy($phpbbgallery_core_images_source . '/upload/image_not_exist.jpg', $phpbbgallery_core_file_source . '/image_not_exist.jpg');
+		copy($phpbbgallery_core_images_source . '/upload/no_hotlinking.jpg', $phpbbgallery_core_file_source . '/no_hotlinking.jpg');
+		copy($phpbbgallery_core_images_source . '/upload/not_authorised.jpg', $phpbbgallery_core_file_source . '/not_authorised.jpg');
+	}
 	function recursiveRemoveDirectory($directory)
 	{
 		foreach(glob("{$directory}/*") as $file)
