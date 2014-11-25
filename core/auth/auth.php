@@ -109,28 +109,28 @@ class auth
 	public function load_user_premissions($user_id, $album_id = false)
 	{
 		$cached_permissions = $this->user->get_data('user_permissions');
-		if (/*($user_id == $user->data['user_id']) && */!empty($cached_permissions))
+		if (($user_id == $user->data['user_id']) && !empty($cached_permissions))
 		{
 			$this->unserialize_auth_data($cached_permissions);
 			return;
 		}
-		//@todo: No permission testing feature for now
-		/*else if ($user_id != $user->data['user_id'])
+
+		else if ($user_id != $user->data['user_id'])
 		{
-			$permissions_user = new \phpbbgallery\core\user($db, $user_id);
-			$cached_permissions = $permissions_user->get_data('user_permissions');
+			$this->user->set_user_id($user_id);
+			$cached_permissions = $this->user->get_data('user_permissions');
 			if (!empty($cached_permissions))
 			{
 				$this->unserialize_auth_data($cached_permissions);
 				return;
 			}
-		}*/
-		else {
+		}
+		/*else {
 			$this->user->set_user_id($user_id);
 			$cached_permissions = $this->user->get_data('user_permissions');
 			$this->unserialize_auth_data($cached_permissions);
 			return;
-		}
+		}*/
 		$this->query_auth_data($user_id);
 	}
 
@@ -544,19 +544,13 @@ class auth
 			return false;
 		}
 
-		if ($this->_auth_data[self::OWN_ALBUM])
+		if ($this->_auth_data[self::OWN_ALBUM]->get_bit($bit))
 		{
-			if ($this->_auth_data[self::OWN_ALBUM]->get_bit($bit))
-			{
-				return true;
-			}
+			return true;
 		}
-		if ($this->_auth_data[self::PERSONAL_ALBUM])
+		if ($this->_auth_data[self::PERSONAL_ALBUM]->get_bit($bit))
 		{
-			if ($this->_auth_data[self::PERSONAL_ALBUM]->get_bit($bit))
-			{
-				return true;
-			}
+			return true;
 		}
 
 		$albums = $this->cache->get_albums();

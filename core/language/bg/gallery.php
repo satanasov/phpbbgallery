@@ -130,8 +130,9 @@ $lang = array_merge($lang, array(
 	'FILETYPES_PNG'					=> 'png',
 	'FILETYPES_ZIP'					=> 'zip',
 
-	'GALLERY_IMAGE'					=> 'Image',
-	'GALLERY_VIEWS'					=> 'Views',
+	'GALLERY_IMAGE'					=> 'Изображение',
+	'GALLERY_IMAGES'					=> 'Изображения',
+	'GALLERY_VIEWS'					=> 'Прегледи',
 
 	'IGNORE_NOTUPTODATE_MESSAGE'		=> 'Remind me in 7 days',
 	'IMAGE_ALREADY_REPORTED'			=> 'The image was already reported.',

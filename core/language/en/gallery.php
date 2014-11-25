@@ -131,6 +131,7 @@ $lang = array_merge($lang, array(
 	'FILETYPES_ZIP'					=> 'zip',
 
 	'GALLERY_IMAGE'					=> 'Image',
+	'GALLERY_IMAGES'					=> 'Images',
 	'GALLERY_VIEWS'					=> 'Views',
 
 	'IGNORE_NOTUPTODATE_MESSAGE'		=> 'Remind me in 7 days',

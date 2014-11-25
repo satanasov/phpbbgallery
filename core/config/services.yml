@@ -182,6 +182,7 @@ services:
             - @phpbbgallery.core.auth
             - @phpbbgallery.core.search
             - @pagination
+            - @phpbbgallery.core.user
             - %core.root_path%
             - %core.php_ext%
     phpbbgallery.core.controller.search:

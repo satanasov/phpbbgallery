@@ -58,7 +58,7 @@ class index
 	*/
 	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request, 
 	\phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbbgallery\core\album\display $display, \phpbbgallery\core\config $gallery_config, 
-	\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\search $gallery_search, \phpbb\pagination $pagination,
+	\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\search $gallery_search, \phpbb\pagination $pagination, \phpbbgallery\core\user $gallery_user,
 	$root_path, $php_ext)
 	{
 		$this->auth = $auth;
@@ -73,6 +73,7 @@ class index
 		$this->gallery_auth = $gallery_auth;
 		$this->gallery_search = $gallery_search;
 		$this->pagination = $pagination;
+		$this->gallery_user = $gallery_user;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 	}
@@ -98,6 +99,11 @@ class index
 				'S_USERS_PERSONAL_GALLERIES'	=> true,
 				'U_USERS_PERSONAL_GALLERIES' => $this->helper->route('phpbbgallery_personal'),
 			));
+			$this->gallery_user->set_user_id($this->user->data['user_id']);
+			if ($this->gallery_user->get_own_root_album())
+			{
+				
+			}
 		}
 		// Now before build random and recent ... let's check if we have images that can build it
 		if ($this->gallery_config->get('num_images') > 0)

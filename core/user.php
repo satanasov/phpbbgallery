@@ -578,4 +578,17 @@ class user
 			}
 		}
 	}
+	
+	/**
+	* Get user personal album
+	* Checks and returns users personal album
+	* returns (int) $album_id or 0
+	*/
+	public function get_own_root_album()
+	{
+		$sql = 'SELECT personal_album_id FROM ' . $this->table_name . ' WHERE user_id = ' . $this->user_id;
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow($result);
+		return $row['personal_album_id'];
+	}
 }
