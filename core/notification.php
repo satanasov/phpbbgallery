@@ -198,7 +198,7 @@ class notification
 		// Get album_user_id to check for personal albums.
 		$sql = 'SELECT album_id, album_user_id
 			FROM ' . $table_prefix . 'gallery_albums
-			WHERE album_id = ' . $album_id;
+			WHERE album_id = ' . $handle_id;
 		$result = $db->sql_query($sql);
 		$album = $db->sql_fetchrow($result);
 		$db->sql_freeresult($result);

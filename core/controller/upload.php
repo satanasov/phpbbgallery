@@ -288,7 +288,9 @@ class upload
 				}
 				$message .= '<br /><br />' . sprintf($this->user->lang['CLICK_RETURN_ALBUM'], '<a href="' . $album_backlink . '">', '</a>');
 
-				$phpbb_gallery_notification->send_notification('album', $album_id, $image_names[0]);
+				// ToDo - notifications!!!
+				//$phpbb_gallery_notification->send_notification('album', $album_id, $image_names[0]);
+
 				$this->image->handle_counter($process->images, true);
 				$this->album->update_info($album_id);
 
@@ -301,7 +303,7 @@ class upload
 			{
 				$data = $process->image_data[$image_id];
 				$this->template->assign_block_vars('image', array(
-					'U_IMAGE'		=> $phpbb_gallery_image->generate_link('thumbnail', 'plugin', $image_id, $data['image_name'], $album_id),
+					'U_IMAGE'		=> $this->image->generate_link('thumbnail', 'plugin', $image_id, $data['image_name'], $album_id),
 					'IMAGE_NAME'	=> $data['image_name'],
 					'IMAGE_DESC'	=> $data['image_desc'],
 				));
