@@ -69,7 +69,7 @@ class main_module
 		$phpbb_gallery_user = $phpbb_container->get('phpbbgallery.core.user');
 		
 		// init image
-		$phpbb_gallery_image = new \phpbbgallery\core\image\image();
+		$phpbb_gallery_image = $phpbb_container->get('phpbbgallery.core.image');
 
 		// init config
 		$phpbb_ext_gallery_config = new \phpbbgallery\core\config($config);

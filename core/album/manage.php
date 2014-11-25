@@ -63,11 +63,11 @@ class manage
 	*/
 	public function update_album_data(&$album_data, &$contest_data)
 	{
-		global $db, $user, $cache, $table_prefix;
+		global $db, $user, $cache, $table_prefix, $phpbb_container;
 
 		// define support class
 		$phpbb_ext_gallery_core_album = new \phpbbgallery\core\album\album();
-		$phpbb_ext_gallery_core_image = new \phpbbgallery\core\image\image();
+		$phpbb_ext_gallery_core_image = $phpbb_container->get('phpbbgallery.core.image');
 
 		$errors = array();
 
@@ -740,11 +740,11 @@ class manage
 	*/
 	public function move_album_content($from_id, $to_id, $sync = true)
 	{
-		global $cache, $db, $phpbb_dispatcher, $table_prefix, $config;
+		global $cache, $db, $phpbb_dispatcher, $table_prefix, $config, $phpbb_container;
 
-		$phpbb_ext_gallery_core_image = new \phpbbgallery\core\image\image();
+		$phpbb_ext_gallery_core_image = $phpbb_container->get('phpbbgallery.core.image');
 		$phpbb_gallery_notification = new \phpbbgallery\core\notification();
-		$phpbb_gallery_config = new \phpbbgallery\core\config($config);
+		$phpbb_gallery_config = $phpbb_container->get('phpbbgallery.core.config');
 		$phpbb_gallery_report = new \phpbbgallery\core\report();
 		$phpbb_ext_gallery_core_album = new \phpbbgallery\core\album\album();
 		// Lucifer TODO - Log to gallery log
@@ -806,10 +806,10 @@ class manage
 	*/
 	public function delete_album_content($album_id)
 	{
-		global $cache, $db, $phpbb_dispatcher, $table_prefix, $config;
-		$phpbb_ext_gallery_core_image = new \phpbbgallery\core\image\image();
+		global $cache, $db, $phpbb_dispatcher, $table_prefix, $config, $phpbb_container;
+		$phpbb_ext_gallery_core_image = $phpbb_container->get('phpbbgallery.core.image');
 		$phpbb_gallery_notification = new \phpbbgallery\core\notification();
-		$phpbb_gallery_config = new \phpbbgallery\core\config($config);
+		$phpbb_gallery_config = $phpbb_container->get('phpbbgallery.core.config');
 		$album_id = (int) $album_id;
 
 		// Before we remove anything we make sure we are able to adjust the image counts later. ;)

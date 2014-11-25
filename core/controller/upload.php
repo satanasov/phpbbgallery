@@ -33,7 +33,10 @@ class upload
 	* @param \phpbbgallery\core\album\display	$display	Display class
 	*/
 
-	public function __construct(\phpbb\request\request $request, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\template\template $template, \phpbbgallery\core\album\album $album, \phpbbgallery\core\misc $misc, \phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\album\display $display, \phpbb\controller\helper $helper, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\image\image $image, $images_table)
+	public function __construct(\phpbb\request\request $request, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\template\template $template, 
+	\phpbbgallery\core\album\album $album, \phpbbgallery\core\misc $misc, \phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\album\display $display, 
+	\phpbb\controller\helper $helper, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\image\image $image, 
+	$images_table)
 	{
 		$this->request = $request;
 		$this->db = $db;
@@ -219,7 +222,6 @@ class upload
 		}
 		if ($mode == 'upload_edit')
 		{
-			$phpbb_gallery_image = new \phpbbgallery\core\image\image();
 			if ($submit)
 			{
 				// Upload Quota Check
@@ -287,7 +289,7 @@ class upload
 				$message .= '<br /><br />' . sprintf($this->user->lang['CLICK_RETURN_ALBUM'], '<a href="' . $album_backlink . '">', '</a>');
 
 				$phpbb_gallery_notification->send_notification('album', $album_id, $image_names[0]);
-				$phpbb_gallery_image->handle_counter($process->images, true);
+				$this->image->handle_counter($process->images, true);
 				$this->album->update_info($album_id);
 
 				meta_refresh($meta_refresh_time, $album_backlink);
