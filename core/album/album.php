@@ -290,10 +290,10 @@ class album
 	*/
 	static public function update_info($album_id)
 	{
-		global $db, $table_prefix;
+		global $db, $table_prefix, $phpbb_container;
 
 		// Define some classes
-		$phpbb_ext_gallery_core_image = new \phpbbgallery\core\image\image();
+		$phpbb_ext_gallery_core_image = $phpbb_container->get('phpbbgallery.core.image');
 
 		$images_real = $images = $album_user_id = 0;
 

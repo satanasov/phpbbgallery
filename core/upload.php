@@ -73,7 +73,7 @@ class upload
 		// define some table (to do - move it to services)
 		$images_table = $table_prefix . 'gallery_images';
 
-		$phpbb_ext_gallery_core_image = new \phpbbgallery\core\image\image();
+		$phpbb_ext_gallery_core_image = $phpbb_container->get('phpbbgallery.core.image');
 
 	}
 
@@ -589,9 +589,9 @@ class upload
 
 	public function get_images($uploaded_ids)
 	{
-		global $db, $images_table;
+		global $db, $images_table, $phpbb_container;
 
-		$phpbb_ext_gallery_core_image = new \phpbbgallery\core\image\image();
+		$phpbb_ext_gallery_core_image = $phpbb_container->get('phpbbgallery.core.image');
 
 		$image_ids = $filenames = array();
 		foreach ($uploaded_ids as $row => $check)

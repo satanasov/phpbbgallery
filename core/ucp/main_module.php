@@ -36,7 +36,7 @@ class main_module
 
 		$phpbb_ext_gallery_core_album_display = $phpbb_container->get('phpbbgallery.core.album.display');
 
-		$phpbb_gallery_image = new \phpbbgallery\core\image\image();
+		$phpbb_gallery_image = $phpbb_container->get('phpbbgallery.core.image');
 
 		$phpbb_ext_gallery_user = $phpbb_container->get('phpbbgallery.core.user');
 
