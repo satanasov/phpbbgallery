@@ -109,13 +109,13 @@ class auth
 	public function load_user_premissions($user_id, $album_id = false)
 	{
 		$cached_permissions = $this->user->get_data('user_permissions');
-		if (($user_id == $user->data['user_id']) && !empty($cached_permissions))
+		if (($user_id == $this->user->user_id) && !empty($cached_permissions))
 		{
 			$this->unserialize_auth_data($cached_permissions);
 			return;
 		}
 
-		else if ($user_id != $user->data['user_id'])
+		else if ($user_id != $this->user->user_id)
 		{
 			$this->user->set_user_id($user_id);
 			$cached_permissions = $this->user->get_data('user_permissions');
