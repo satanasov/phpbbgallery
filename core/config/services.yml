@@ -78,6 +78,7 @@ services:
             - @user
             - @phpbbgallery.core.auth
             - @phpbbgallery.core.album
+            - @phpbbgallery.core.config
             - %tables.phpbbgallery.images%
     phpbbgallery.core.listener:
         class: phpbbgallery\core\event\main_listener

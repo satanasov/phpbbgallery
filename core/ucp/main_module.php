@@ -900,8 +900,11 @@ class main_module
 
 	function manage_subscriptions()
 	{
-		global $db, $template, $user, $phpbb_ext_gallery, $phpbb_gallery_notification, $watch_table, $albums_table, $phpbb_ext_gallery_core_image, $contests_table;
-		global $phpbb_ext_gallery_config, $images_table, $comments_table;
+		global $db, $template, $user, $phpbb_container, $phpbb_ext_gallery, $phpbb_gallery_notification, $watch_table, $albums_table, $contests_table;
+		global $images_table, $comments_table;
+		
+		$phpbb_ext_gallery_core_image = $phpbb_container->get('phpbbgallery.core.image');
+		$phpbb_ext_gallery_config = $phpbb_container->get('phpbbgallery.core.config');
 
 		$action = request_var('action', '');
 		$image_id_ary = request_var('image_id_ary', array(0));
@@ -959,8 +962,8 @@ class main_module
 				'U_VIEW_ALBUM'		=> $phpbb_ext_gallery->url->append_sid('album', 'album_id=' . $row['album_id']),
 				'ALBUM_DESC'		=> generate_text_for_display($row['album_desc'], $row['album_desc_uid'], $row['album_desc_bitfield'], $row['album_desc_options']),
 
-				'UC_IMAGE_NAME'		=> $phpbb_ext_gallery_core_image->generate_link('image_name', $phpbb_ext_gallery->config->get('link_image_name'), $row['album_last_image_id'], $row['album_last_image_name'], $row['album_id']),
-				'UC_FAKE_THUMBNAIL'	=> $phpbb_ext_gallery_core_image->generate_link('fake_thumbnail', $phpbb_ext_gallery->config->get('link_thumbnail'), $row['album_last_image_id'], $row['album_last_image_name'], $row['album_id']),
+				'UC_IMAGE_NAME'		=> $phpbb_ext_gallery_core_image->generate_link('image_name', $phpbb_ext_gallery_config->get('link_image_name'), $row['album_last_image_id'], $row['album_last_image_name'], $row['album_id']),
+				'UC_FAKE_THUMBNAIL'	=> $phpbb_ext_gallery_core_image->generate_link('fake_thumbnail', $phpbb_ext_gallery_config->get('link_thumbnail'), $row['album_last_image_id'], $row['album_last_image_name'], $row['album_id']),
 				'UPLOADER'			=> (($row['album_type'] == $phpbb_ext_gallery_core_album::TYPE_CONTEST) && ($row['contest_marked'] && !$phpbb_ext_gallery->auth->acl_check('m_status', $row['album_id'], $row['album_user_id']))) ? $user->lang['CONTEST_USERNAME'] : get_username_string('full', $row['album_last_user_id'], $row['album_last_username'], $row['album_last_user_colour']),
 				'LAST_IMAGE_TIME'	=> $user->format_date($row['album_last_image_time']),
 				'LAST_IMAGE'		=> $row['album_last_image_id'],
@@ -1011,10 +1014,10 @@ class main_module
 				'UPLOADER'			=> ($row['image_contest'] && !$phpbb_ext_gallery->auth->acl_check('m_status', $row['image_album_id'])) ? $user->lang['CONTEST_USERNAME'] : get_username_string('full', $row['image_user_id'], $row['image_username'], $row['image_user_colour']),
 				'LAST_COMMENT_BY'	=> get_username_string('full', $row['comment_user_id'], $row['comment_username'], $row['comment_user_colour']),
 				'COMMENT'			=> $row['image_comments'],
-				'LAST_COMMENT_TIME'	=> $user->format_date($row['comment_time']),
-				'IMAGE_TIME'		=> $user->format_date($row['image_time']),
-				'UC_IMAGE_NAME'		=> $phpbb_ext_gallery_core_image->generate_link('image_name', $phpbb_ext_gallery->config->get('link_image_name'), $row['image_id'], $row['image_name'], $row['album_id']),
-				'UC_FAKE_THUMBNAIL'	=> $phpbb_ext_gallery_core_image->generate_link('fake_thumbnail', $phpbb_ext_gallery->config->get('link_thumbnail'), $row['image_id'], $row['image_name'], $row['album_id']),
+				//'LAST_COMMENT_TIME'	=> $user->format_date($row['comment_time']),
+				//'IMAGE_TIME'		=> $user->format_date($row['image_time']),
+				'UC_IMAGE_NAME'		=> $phpbb_ext_gallery_core_image->generate_link('image_name', $phpbb_ext_gallery_config->get('link_image_name'), $row['image_id'], $row['image_name'], $row['album_id']),
+				'UC_FAKE_THUMBNAIL'	=> $phpbb_ext_gallery_core_image->generate_link('fake_thumbnail', $phpbb_ext_gallery_config->get('link_thumbnail'), $row['image_id'], $row['image_name'], $row['album_id']),
 				'ALBUM_NAME'		=> $row['album_name'],
 				'IMAGE_ID'			=> $row['image_id'],
 				'U_VIEW_ALBUM'		=> $phpbb_ext_gallery->url->append_sid('album', 'album_id=' . $row['image_album_id']),
