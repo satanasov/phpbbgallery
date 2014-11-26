@@ -46,7 +46,7 @@ class image
 	* construct
 	*/
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\album\album $album,
-								\phpbbgallery\core\config $gallery_config, 
+								\phpbbgallery\core\config $gallery_config, \phpbb\controller\helper $helper, 
 								$table_images)
 	{
 		$this->db = $db;
@@ -54,6 +54,7 @@ class image
 		$this->gallery_auth = $gallery_auth;
 		$this->album = $album;
 		$this->gallery_config = $gallery_config;
+		$this->helper = $helper; 
 		$this->table_images = $table_images;
 	}
 	/**
@@ -239,7 +240,8 @@ class image
 
 		$phpbb_ext_gallery_url = new \phpbbgallery\core\url($phpbb_root_path, $phpEx);
 
-		$image_page_url = $phpbb_ext_gallery_url->append_sid('image_page', "album_id=$album_id&amp;image_id=$image_id{$additional_parameters}");
+		$image_page_url = $this->helper->route('phpbbgallery_image', array('image_id' => $image_id));
+		//$image_page_url = $phpbb_ext_gallery_url->append_sid('image_page', "album_id=$album_id&amp;image_id=$image_id{$additional_parameters}");
 		//$image_url = $phpbb_ext_gallery_url->append_sid('image', "album_id=$album_id&amp;image_id=$image_id{$additional_parameters}" . ((!$count) ? '&amp;view=no_count' : ''));
 		$image_url = $phpbb_ext_gallery_url->show_image($image_id, 'medium');
 		$thumb_url = $phpbb_ext_gallery_url->show_image($image_id, 'mini');
