@@ -45,12 +45,13 @@ class image
 	/**
 	* construct
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbbgallery\core\auth\auth $gallery_auth,
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\album\album $album,
 								$table_images)
 	{
 		$this->db = $db;
 		$this->user = $user;
 		$this->gallery_auth = $gallery_auth;
+		$this->album = $album;
 		$this->table_images = $table_images;
 	}
 	/**
@@ -525,16 +526,17 @@ class image
 	public function get_last_image()
 	{
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$public = $this->album->get_public_albums();
 		$sql_order = 'image_id DESC';
 		$sql_limit = 1;
 		$sql = 'SELECT * 
 			FROM ' . $this->table_images . '
 			WHERE image_status <> ' . self::STATUS_ORPHAN . '
 				AND ((' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('i_view'), false, true) . ' AND image_status <> ' . self::STATUS_UNAPPROVED . ')
-					OR ' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('m_status'), false, true) . ')
+					OR ' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('m_status'), false, true) . ') AND ' . $this->db->sql_in_set('image_album_id', $public, true, true) . '
 			ORDER BY ' . $sql_order;
 		$result = $this->db->sql_query_limit($sql, $sql_limit);
-		
+
 		$row = $this->db->sql_fetchrow($result);
 		
 		$this->db->sql_freeresult($result);
