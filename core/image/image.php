@@ -46,12 +46,14 @@ class image
 	* construct
 	*/
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\album\album $album,
+								\phpbbgallery\core\config $gallery_config, 
 								$table_images)
 	{
 		$this->db = $db;
 		$this->user = $user;
 		$this->gallery_auth = $gallery_auth;
 		$this->album = $album;
+		$this->gallery_config = $gallery_config;
 		$this->table_images = $table_images;
 	}
 	/**
@@ -246,11 +248,11 @@ class image
 		switch ($content)
 		{
 			case 'image_name':
-				$shorten_image_name = (utf8_strlen(htmlspecialchars_decode($image_name)) > $phpbb_ext_gallery->config->get('shortnames') + 3) ? (utf8_substr(htmlspecialchars_decode($image_name), 0, $phpbb_ext_gallery->config->get('shortnames')) . '...') : ($image_name);
+				$shorten_image_name = (utf8_strlen(htmlspecialchars_decode($image_name)) > $this->gallery_config->get('shortnames') + 3) ? (utf8_substr(htmlspecialchars_decode($image_name), 0, $this->gallery_config->get('shortnames')) . '...') : ($image_name);
 				$content = '<span style="font-weight: bold;">' . $shorten_image_name . '</span>';
 			break;
 			case 'image_name_unbold':
-				$shorten_image_name = (utf8_strlen(htmlspecialchars_decode($image_name)) > $phpbb_ext_gallery->config->get('shortnames') + 3) ? (utf8_substr(htmlspecialchars_decode($image_name), 0, $phpbb_ext_gallery->config->get('shortnames')) . '...') : ($image_name);
+				$shorten_image_name = (utf8_strlen(htmlspecialchars_decode($image_name)) > $this->gallery_config->get('shortnames') + 3) ? (utf8_substr(htmlspecialchars_decode($image_name), 0, $this->gallery_config->get('shortnames')) . '...') : ($image_name);
 				$content = $shorten_image_name;
 			break;
 			case 'thumbnail':
@@ -259,7 +261,7 @@ class image
 			break;
 			case 'fake_thumbnail':
 				$content = '<img src="{U_THUMBNAIL}" alt="{IMAGE_NAME}" title="{IMAGE_NAME}" style="max-width: {FAKE_THUMB_SIZE}px; max-height: {FAKE_THUMB_SIZE}px;" />';
-				$content = str_replace(array('{U_THUMBNAIL}', '{IMAGE_NAME}', '{FAKE_THUMB_SIZE}'), array($thumb_url, $image_name, $phpbb_ext_gallery->config->get('mini_thumbnail_size')), $content);
+				$content = str_replace(array('{U_THUMBNAIL}', '{IMAGE_NAME}', '{FAKE_THUMB_SIZE}'), array($thumb_url, $image_name, $this->gallery_config->get('mini_thumbnail_size')), $content);
 			break;
 			case 'medium':
 				$content = '<img src="{U_MEDIUM}" alt="{IMAGE_NAME}" title="{IMAGE_NAME}" />';
@@ -268,7 +270,7 @@ class image
 				if ($is_gif)
 				{
 					$content = '<img src="{U_MEDIUM}" alt="{IMAGE_NAME}" title="{IMAGE_NAME}" style="max-width: {MEDIUM_WIDTH_SIZE}px; max-height: {MEDIUM_HEIGHT_SIZE}px;" />';
-					$content = str_replace(array('{U_MEDIUM}', '{IMAGE_NAME}', '{MEDIUM_HEIGHT_SIZE}', '{MEDIUM_WIDTH_SIZE}'), array($image_url, $image_name, $phpbb_ext_gallery->config->get('medium_height'), $phpbb_ext_gallery->config->get('medium_width')), $content);
+					$content = str_replace(array('{U_MEDIUM}', '{IMAGE_NAME}', '{MEDIUM_HEIGHT_SIZE}', '{MEDIUM_WIDTH_SIZE}'), array($image_url, $image_name, $this->gallery_config->get('medium_height'), $this->gallery_config->get('medium_width')), $content);
 				}
 			break;
 			case 'lastimage_icon':
@@ -337,7 +339,7 @@ class image
 			return;
 		}
 
-		$phpbb_ext_gallery_config = $phpbb_container->get('phpbbgallery.core.config');
+		
 		$image_user = $phpbb_container->get('phpbbgallery.core.user');
 
 		$num_images = $num_comments = 0;
@@ -374,13 +376,13 @@ class image
 
 		if ($add)
 		{
-			$phpbb_ext_gallery_config->inc('num_images', $num_images);
-			$phpbb_ext_gallery_config->inc('num_comments', $num_comments);
+			$this->gallery_config->inc('num_images', $num_images);
+			$this->gallery_config->inc('num_comments', $num_comments);
 		}
 		else
 		{
-			$phpbb_ext_gallery_config->dec('num_images', $num_images);
-			$phpbb_ext_gallery_config->dec('num_comments', $num_comments);
+			$this->gallery_config->dec('num_images', $num_images);
+			$this->gallery_config->dec('num_comments', $num_comments);
 		}
 	}
 
