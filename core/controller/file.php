@@ -211,22 +211,11 @@ class file
 
 	public function load_data($image_id)
 	{
-		$sql = 'SELECT *
-			FROM ' . $this->table_images . ' i
-			LEFT JOIN ' . $this->table_albums . ' a
-				ON (i.image_album_id = a.album_id)
-			WHERE i.image_id = ' . (int) $image_id;
-		$result = $this->db->sql_query($sql);
-		$this->data = $this->db->sql_fetchrow($result);
-		$this->db->sql_freeresult($result);
-
-		if (!$this->data || !$this->data['album_id'])
+		if ($image_id == 0)
 		{
-			// Image or album does not exist
-			// trigger_error('INVALID_IMAGE');
-			$this->error = 'not_authorised.jpg';
-			$this->data['image_filename'] = 'not_authorised.jpg';
-			$this->data['image_name'] = 'You are not authorized!';
+			$this->error = 'image_not_exist.jpg';
+			$this->data['image_filename'] = 'image_not_exist.jpg';
+			$this->data['image_name'] = 'Image is missing!';
 			$this->data['image_user_id'] = 1;
 			$this->data['image_status'] = 2;
 			$this->data['album_id'] = 0;
@@ -234,7 +223,33 @@ class file
 			$this->data['image_filemissing'] = 0;
 			$this->data['image_filemissing'] = 0;
 			$this->data['album_watermark'] = 0;
-			
+		}
+		else {
+			$sql = 'SELECT *
+				FROM ' . $this->table_images . ' i
+				LEFT JOIN ' . $this->table_albums . ' a
+					ON (i.image_album_id = a.album_id)
+				WHERE i.image_id = ' . (int) $image_id;
+			$result = $this->db->sql_query($sql);
+			$this->data = $this->db->sql_fetchrow($result);
+			$this->db->sql_freeresult($result);
+
+			if (!$this->data || !$this->data['album_id'])
+			{
+				// Image or album does not exist
+				// trigger_error('INVALID_IMAGE');
+				$this->error = 'not_authorised.jpg';
+				$this->data['image_filename'] = 'not_authorised.jpg';
+				$this->data['image_name'] = 'You are not authorized!';
+				$this->data['image_user_id'] = 1;
+				$this->data['image_status'] = 2;
+				$this->data['album_id'] = 0;
+				$this->data['album_user_id'] = 1;
+				$this->data['image_filemissing'] = 0;
+				$this->data['image_filemissing'] = 0;
+				$this->data['album_watermark'] = 0;
+				
+			}
 		}
 	}
 
