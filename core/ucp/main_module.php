@@ -905,6 +905,7 @@ class main_module
 		
 		$phpbb_ext_gallery_core_image = $phpbb_container->get('phpbbgallery.core.image');
 		$phpbb_ext_gallery_config = $phpbb_container->get('phpbbgallery.core.config');
+		$phpbb_gallery_notification = new \phpbbgallery\core\notification();
 
 		$action = request_var('action', '');
 		$image_id_ary = request_var('image_id_ary', array(0));
@@ -959,7 +960,7 @@ class main_module
 			$template->assign_block_vars('album_row', array(
 				'ALBUM_ID'			=> $row['album_id'],
 				'ALBUM_NAME'		=> $row['album_name'],
-				'U_VIEW_ALBUM'		=> $phpbb_ext_gallery->url->append_sid('album', 'album_id=' . $row['album_id']),
+				'U_VIEW_ALBUM'		=> $phpbb_ext_gallery->url->show_album($row['image_album_id']),
 				'ALBUM_DESC'		=> generate_text_for_display($row['album_desc'], $row['album_desc_uid'], $row['album_desc_bitfield'], $row['album_desc_options']),
 
 				'UC_IMAGE_NAME'		=> $phpbb_ext_gallery_core_image->generate_link('image_name', $phpbb_ext_gallery_config->get('link_image_name'), $row['album_last_image_id'], $row['album_last_image_name'], $row['album_id']),
@@ -967,7 +968,7 @@ class main_module
 				'UPLOADER'			=> (($row['album_type'] == $phpbb_ext_gallery_core_album::TYPE_CONTEST) && ($row['contest_marked'] && !$phpbb_ext_gallery->auth->acl_check('m_status', $row['album_id'], $row['album_user_id']))) ? $user->lang['CONTEST_USERNAME'] : get_username_string('full', $row['album_last_user_id'], $row['album_last_username'], $row['album_last_user_colour']),
 				'LAST_IMAGE_TIME'	=> $user->format_date($row['album_last_image_time']),
 				'LAST_IMAGE'		=> $row['album_last_image_id'],
-				'U_IMAGE'			=> $phpbb_ext_gallery->url->append_sid('image_page', 'album_id=' . $row['album_id'] . '&amp;image_id=' . $row['album_last_image_id']),
+				'U_IMAGE'			=> $phpbb_ext_gallery->url->show_image($row['image_id']),
 			));
 		}
 		$db->sql_freeresult($result);
@@ -1020,8 +1021,8 @@ class main_module
 				'UC_FAKE_THUMBNAIL'	=> $phpbb_ext_gallery_core_image->generate_link('fake_thumbnail', $phpbb_ext_gallery_config->get('link_thumbnail'), $row['image_id'], $row['image_name'], $row['album_id']),
 				'ALBUM_NAME'		=> $row['album_name'],
 				'IMAGE_ID'			=> $row['image_id'],
-				'U_VIEW_ALBUM'		=> $phpbb_ext_gallery->url->append_sid('album', 'album_id=' . $row['image_album_id']),
-				'U_IMAGE'			=> $phpbb_ext_gallery->url->append_sid('image_page', 'album_id=' . $row['image_album_id'] . '&amp;image_id=' . $row['image_id']),
+				'U_VIEW_ALBUM'		=> $phpbb_ext_gallery->url->show_album($row['image_album_id']),
+				'U_IMAGE'			=> $phpbb_ext_gallery->url->show_image($row['image_id']),
 			));
 		}
 		$db->sql_freeresult($result);

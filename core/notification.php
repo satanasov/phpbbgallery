@@ -71,7 +71,7 @@ class notification
 	*/
 	static public function remove($image_ids, $user_ids = false)
 	{
-		global $db, $user;
+		global $db, $user, $table_prefix;
 
 		$image_ids = self::cast_mixed_int2array($image_ids);
 		$user_ids = self::cast_mixed_int2array((($user_ids) ? $user_ids : $user->data['user_id']));
