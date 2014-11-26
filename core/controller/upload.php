@@ -59,8 +59,9 @@ class upload
 		$album_data = $this->album->get_info($album_id);
 		$this->display->generate_navigation($album_data);
 		add_form_key('gallery');
-		$album_backlink = './gallery/album/'.$album_id;
-		$album_loginlink = './ucp.php?mode=login';
+		$album_backlink = 'gallery/album/'.$album_id;
+		$album_backlink_route = $this->helper->route('phpbbgallery_album', array('album_id'	=> $album_id));
+		$album_loginlink = 'ucp.php?mode=login';
 		//Let's get authorization
 		$this->auth->load_user_premissions($this->user->data['user_id']);
 		if (!$this->auth->acl_check('i_upload', $album_id, $album_data['album_user_id']) || ($album_data['album_status'] == $this->album->status_locked()))
@@ -286,7 +287,7 @@ class upload
 					$message .= (!$error) ? $this->user->lang['ALBUM_UPLOAD_NEED_APPROVAL'] : $this->user->lang('ALBUM_UPLOAD_NEED_APPROVAL_ERROR', $error);
 					$meta_refresh_time = 20;
 				}
-				$message .= '<br /><br />' . sprintf($this->user->lang['CLICK_RETURN_ALBUM'], '<a href="' . $album_backlink . '">', '</a>');
+				$message .= '<br /><br />' . sprintf($this->user->lang['CLICK_RETURN_ALBUM'], '<a href="' . $album_backlink_route . '">', '</a>');
 
 				// ToDo - notifications!!!
 				//$phpbb_gallery_notification->send_notification('album', $album_id, $image_names[0]);

@@ -420,4 +420,23 @@ class album
 	{
 		return 1;
 	}
+	
+	/**
+	* Create array of album IDs that are public
+	*/
+	public function get_public_albums()
+	{
+		global $db, $table_prefix;
+		$sql = 'SELECT album_id
+				FROM ' . $table_prefix . 'gallery_albums
+				WHERE album_user_id = ' . self::PUBLIC_ALBUM;
+		$result = $db->sql_query($sql);
+		$id_ary = array();
+		while ($row = $db->sql_fetchrow($result))
+		{
+			$id_ary[] = (int) $row['album_id'];
+		}
+		
+		return $id_ary;
+	}
 }
