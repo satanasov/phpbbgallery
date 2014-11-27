@@ -72,7 +72,7 @@ class main_module
 		$phpbb_gallery_image = $phpbb_container->get('phpbbgallery.core.image');
 
 		// init config
-		$phpbb_ext_gallery_config = new \phpbbgallery\core\config($config);
+		$phpbb_ext_gallery_config = $phpbb_container->get('phpbbgallery.core.config');
 		
 		$action = request_var('action', '');
 		$id = request_var('i', '');
@@ -311,8 +311,8 @@ class main_module
 					}
 					$db->sql_freeresult($result);
 
-					$phpbb_ext_gallery->config->set('num_images', $total_images);
-					$phpbb_ext_gallery->config->set('num_comments', $total_comments);
+					$phpbb_ext_gallery_config->set('num_images', $total_images);
+					$phpbb_ext_gallery_config->set('num_comments', $total_comments);
 					trigger_error($user->lang['RESYNCED_IMAGECOUNTS'] . adm_back_link($this->u_action));
 				break;
 

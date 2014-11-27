@@ -195,7 +195,6 @@ class image
 				'S_STATUS_LOCKED'		=> ($this->data['image_status'] == \phpbbgallery\core\image\image::STATUS_LOCKED),
 			));
 		}
-
 		$image_desc = generate_text_for_display($this->data['image_desc'], $this->data['image_desc_uid'], $this->data['image_desc_bitfield'], 7);
 
 		// Let's see if we can get next end prev
