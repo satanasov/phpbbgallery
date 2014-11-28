@@ -149,7 +149,7 @@ class index
 	public function personal($page)
 	{
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
-		$this->display->album_start = ($page - 1) * 20;
+		$this->display->album_start = ($page - 1) * $this->gallery_config['items_per_page'];
 		$this->display->album_limit = $this->gallery_config->get('items_per_page');
 		$this->display->album_mode = 'personal';
 		$this->display->display_albums('personal', $this->config['load_moderators']);
