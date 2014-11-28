@@ -446,7 +446,7 @@ class image
 		*/
 		if (($this->gallery_config->get('allow_comments') && $this->gallery_auth->acl_check('c_read', $album_id, $album_data['album_user_id'])) /*&& (time() > ($album_data['contest_start'] + $album_data['contest_end']))*/)
 		{
-			$this->display_comments($image_id, $this->data, $album_id, $album_data, ($page - 1) * 20, 20);
+			$this->display_comments($image_id, $this->data, $album_id, $album_data, ($page - 1) * $this->gallery_config['items_per_page'], $this->gallery_config['items_per_page']);
 		}
 
 		return $this->helper->render('gallery/viewimage_body.html', $page_title);

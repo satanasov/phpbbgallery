@@ -508,7 +508,6 @@ class release_1_1_6 extends \phpbb\db\migration\migration
 		'num_uploads'			=> 10,
 
 		'pegas_index_album'		=> false,
-		'pegas_per_page'		=> 15,
 		'profile_user_images'	=> true,
 		'profile_pega'			=> true,
 		'prune_orphan_time'		=> 0,
@@ -547,5 +546,7 @@ class release_1_1_6 extends \phpbb\db\migration\migration
 		'watermark_position'	=> 20,
 		'watermark_source'		=> 'ext/phpbbgallery/core/images/watermark.png',
 		'watermark_width'		=> 200,
+
+		'items_per_page'		=> 15,
 	);
 }

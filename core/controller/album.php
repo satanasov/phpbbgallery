@@ -60,7 +60,10 @@ class album
 	* @param \phpbbgallery\core\auth\level	$auth_level	Gallery auth level object
 	* @param string						$images_table	Gallery image table
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $db, \phpbb\pagination $pagination, \phpbb\template\template $template, \phpbb\user $user, \phpbbgallery\core\album\display $display, \phpbbgallery\core\album\loader $loader, \phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\auth\level $auth_level, $images_table)
+	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $db, 
+	\phpbb\pagination $pagination, \phpbb\template\template $template, \phpbb\user $user, \phpbbgallery\core\album\display $display, 
+	\phpbbgallery\core\album\loader $loader, \phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\auth\level $auth_level, 
+	$images_table)
 	{
 		$this->config = $config;
 		$this->helper = $helper;
@@ -164,7 +167,7 @@ class album
 		if ($album_data['album_type'] != \phpbbgallery\core\album\album::TYPE_CAT
 			&& $album_data['album_images_real'] > 0)
 		{
-			$this->display_images($album_id, $album_data, ($page - 1) * 20, 20);
+			$this->display_images($album_id, $album_data, ($page - 1) * $this->config['phpbb_gallery_items_per_page'], $this->config['phpbb_gallery_items_per_page']);
 		}
 
 //		phpbb_ext_gallery_core_misc::markread('album', $album_id);

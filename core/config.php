@@ -90,7 +90,7 @@ class config
 		'num_uploads'			=> 10,
 
 		'pegas_index_album'		=> false,
-		'pegas_per_page'		=> 15,
+		'items_per_page'		=> 15,
 		'profile_user_images'	=> true,
 		'profile_pega'			=> true,
 		'prune_orphan_time'		=> 0,
