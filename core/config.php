@@ -90,6 +90,8 @@ class config
 		'num_uploads'			=> 10,
 
 		'pegas_index_album'		=> false,
+		'pegas_index_random'	=> true,
+		'pegas_index_rnd_count'	=> 4,
 		'items_per_page'		=> 15,
 		'profile_user_images'	=> true,
 		'profile_pega'			=> true,
