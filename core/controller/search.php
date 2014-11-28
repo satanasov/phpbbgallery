@@ -576,7 +576,7 @@ class search
 			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_search_random'),
 		));
 
-		$this->gallery_search->random($this->gallery_config['items_per_page']);
+		$this->gallery_search->random($this->gallery_config->get('items_per_page'));
 		
 		return $this->helper->render('gallery/search_random.html', $this->user->lang('GALLERY'));
 	}
@@ -613,8 +613,8 @@ class search
 			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_search_recent'),
 		));	
 		
-		$limit = $this->gallery_config['items_per_page'];
-		$start = ($page - 1) * $this->gallery_config['items_per_page'];
+		$limit = $this->gallery_config->get('items_per_page');
+		$start = ($page - 1) * $this->gallery_config->get('items_per_page');
 		$image_counter = $this->gallery_search->recent_count();
 		
 		$this->gallery_search->recent($limit, $start);
