@@ -267,8 +267,6 @@ class config_module
 				),
 
 				'ALBUM_SETTINGS'	=> array(
-					'album_rows'			=> array('lang' => 'ROWS_PER_PAGE',			'validate' => 'int',	'type' => 'text:7:3'),
-					'album_columns'			=> array('lang' => 'COLS_PER_PAGE',			'validate' => 'int',	'type' => 'text:7:3'),
 					'album_display'			=> array('lang' => 'RRC_DISPLAY_OPTIONS',	'validate' => 'int',	'type' => 'custom',			'method' => 'rrc_display'),
 					'default_sort_key'		=> array('lang' => 'DEFAULT_SORT_METHOD',	'validate' => 'string',	'type' => 'custom',			'method' => 'sort_method_select'),
 					'default_sort_dir'		=> array('lang' => 'DEFAULT_SORT_ORDER',	'validate' => 'string',	'type' => 'custom',			'method' => 'sort_order_select'),
@@ -327,11 +325,8 @@ class config_module
 
 				'RRC_GINDEX'	=> array(
 					'rrc_gindex_mode'		=> array('lang' => 'RRC_GINDEX_MODE',		'validate' => 'int',	'type' => 'custom',			'explain' => true,	'method' => 'rrc_modes'),
-					'rrc_gindex_rows'		=> array('lang' => 'RRC_GINDEX_ROWS',		'validate' => 'int',	'type' => 'text:7:3'),
-					'rrc_gindex_columns'	=> array('lang' => 'RRC_GINDEX_COLUMNS',	'validate' => 'int',	'type' => 'text:7:3'),
 					'rrc_gindex_comments'	=> array('lang' => 'RRC_GINDEX_COMMENTS',	'validate' => 'bool',	'type' => 'radio:yes_no'),
-					'rrc_gindex_crows'		=> array('lang' => 'RRC_GINDEX_CROWS',		'validate' => 'int',	'type' => 'text:7:3'),
-					'rrc_gindex_contests'	=> array('lang' => 'RRC_GINDEX_CONTESTS',	'validate' => 'int',	'type' => 'text:7:3'),
+					//'rrc_gindex_contests'	=> array('lang' => 'RRC_GINDEX_CONTESTS',	'validate' => 'int',	'type' => 'text:7:3'),
 					'rrc_gindex_display'	=> array('lang' => 'RRC_DISPLAY_OPTIONS',	'validate' => '',		'type' => 'custom',			'method' => 'rrc_display'),
 					'rrc_gindex_pegas'		=> array('lang' => 'RRC_GINDEX_PGALLERIES',	'validate' => 'bool',	'type' => 'radio:yes_no'),
 				),
@@ -341,8 +336,7 @@ class config_module
 					'profile_user_images'		=> array('lang' => 'DISP_USER_IMAGES_PROFILE',		'validate' => 'bool',	'type' => 'radio:yes_no'),
 					'profile_pega'				=> array('lang' => 'DISP_PERSONAL_ALBUM_PROFILE',	'validate' => 'bool',	'type' => 'radio:yes_no'),
 					'rrc_profile_mode'			=> array('lang' => 'RRC_PROFILE_MODE',				'validate' => 'int',	'type' => 'custom',			'explain' => true,	'method' => 'rrc_modes'),
-					'rrc_profile_rows'			=> array('lang' => 'RRC_PROFILE_ROWS',				'validate' => 'int',	'type' => 'text:7:3'),
-					'rrc_profile_columns'		=> array('lang' => 'RRC_PROFILE_COLUMNS',			'validate' => 'int',	'type' => 'text:7:3'),
+					'rrc_profile_items'			=> array('lang' => 'RRC_PROFILE_ITEMS',				'validate' => 'int',	'type' => 'text:7:3'),
 					'rrc_profile_display'		=> array('lang' => 'RRC_DISPLAY_OPTIONS',			'validate' => 'int',	'type' => 'custom',			'method' => 'rrc_display'),
 					'rrc_profile_pegas'			=> array('lang' => 'RRC_GINDEX_PGALLERIES',			'validate' => 'bool',	'type' => 'radio:yes_no'),
 					'viewtopic_icon'			=> array('lang' => 'DISP_VIEWTOPIC_ICON',			'validate' => 'bool',	'type' => 'radio:yes_no'),
