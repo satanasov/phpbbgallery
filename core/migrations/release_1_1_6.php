@@ -441,10 +441,8 @@ class release_1_1_6 extends \phpbb\db\migration\migration
 	);
 
 	static public $configs = array(
-		'album_columns'		=> 3,
 		'album_display'		=> 254,
 		'album_images'		=> 2500,
-		'album_rows'		=> 4,
 		'allow_comments'	=> true,
 		'allow_gif'			=> true,
 		'allow_hotlinking'	=> true,
@@ -514,19 +512,14 @@ class release_1_1_6 extends \phpbb\db\migration\migration
 		'profile_pega'			=> true,
 		'prune_orphan_time'		=> 0,
 
-		'rrc_gindex_columns'	=> 4,
 		'rrc_gindex_comments'	=> false,
-		'rrc_gindex_contests'	=> 1,
-		'rrc_gindex_crows'		=> 5,
 		'rrc_gindex_display'	=> 173,
 		'rrc_gindex_mode'		=> 7,
 		'rrc_gindex_pegas'		=> true,
-		'rrc_gindex_rows'		=> 1,
-		'rrc_profile_columns'	=> 4,
 		'rrc_profile_display'	=> 141,
 		'rrc_profile_mode'		=> 3,
 		'rrc_profile_pegas'		=> true,
-		'rrc_profile_rows'		=> 1,
+		'rrc_profile_items'		=> 4,
 
 		'search_display'		=> 45,
 		'shortnames'			=> 25,
