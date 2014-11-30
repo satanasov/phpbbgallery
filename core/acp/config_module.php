@@ -542,7 +542,7 @@ class config_module
 	*/
 	function bbcode_tpl($value)
 	{
-		$gallery_url = phpbb_gallery_url::path('full');
+		$gallery_url = $phpbb_gallery_url->path('full');
 
 		if (($value == 'highslide') && in_array('highslide', phpbb_gallery_plugins::$plugins))
 		{
