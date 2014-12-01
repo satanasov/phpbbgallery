@@ -11,7 +11,7 @@ namespace phpbbgallery\tests\functional;
 /**
 * @group functional
 */
-class acp_test extends phpbbgallery_base
+class t01_core_acp_test extends phpbbgallery_base
 {
 	public function test_acp_pages()
 	{
