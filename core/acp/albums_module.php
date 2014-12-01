@@ -223,12 +223,12 @@ class albums_module
 						$acl_url = '&amp;mode=manage&amp;action=v_mask&amp;album_id[]=' . $album_data['album_id'];
 
 						$message = ($action == 'add') ? $user->lang['ALBUM_CREATED'] : $user->lang['ALBUM_UPDATED'];
-						$message .= '<br /><br />' . sprintf($user->lang['REDIRECT_ACL'], '<a href="' . $phpbb_ext_gallery->url->append_sid('admin' , 'index', 'i=gallery_permissions' . $acl_url) . '">', '</a>');
+						$message .= '<br /><br />' . sprintf($user->lang['REDIRECT_ACL'], '<a href="' . $phpbb_ext_gallery->url->append_sid('admin' , 'index', 'i=-phpbbgallery-core-acp-permissions_module' . $acl_url) . '">', '</a>');
 
 						// Redirect directly to permission settings screen
 						if ($action == 'add' && !$album_perm_from)
 						{
-							meta_refresh(5, $phpbb_ext_gallery->url->append_sid('admin' , 'index', 'i=gallery_permissions' . $acl_url));
+							meta_refresh(5, $phpbb_ext_gallery->url->append_sid('admin' , 'index', 'i=-phpbbgallery-core-acp-permissions_module' . $acl_url));
 						}
 
 						trigger_error($message . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id));
