@@ -13,7 +13,7 @@ namespace phpbbgallery\tests\functional;
 */
 class acp_test extends phpbbgallery_base
 {
-	public function test_acp_pages($mode)
+	public function test_acp_pages()
 	{
 		$this->login();
 		$this->admin_login();
