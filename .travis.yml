@@ -43,10 +43,13 @@ branches:
 install:
   - cd core
   - composer install --dev --no-interaction --prefer-source
+  - cd ../exif
+  - composer install --dev --no-interaction --prefer-source
   - cd ..
   - travis/prepare-phpbb.sh $EXTNAME $PHPBB_BRANCH
   - cd ../phpBB3
-  - travis/prepare-extension.sh $EXTNAME $PHPBB_BRANCH
+  - travis/prepare-extension.sh $EXTNAME/core $PHPBB_BRANCH
+  - travis/prepare-extension.sh $EXTNAME/exif $PHPBB_BRANCH
   - travis/setup-phpbb.sh $DB $TRAVIS_PHP_VERSION
 
 before_script:
