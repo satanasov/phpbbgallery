@@ -1,6 +1,6 @@
 <?php
 /**
-*
+* 
 * Gallery Control test
 *
 * @copyright (c) 2014 Stanislav Atanasov
@@ -34,7 +34,7 @@ class phpbbgallery_core_acp_test extends phpbbgallery_base
 		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
 		$this->add_lang_ext('phpbbgallery/exif', 'exif');
 		
-		$crawler = self::request('GET', 'adm/index.php?i=--phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
 		
 		$this->assertContainsLang('DISP_EXIF_DATA', $crawler->text());
 		
