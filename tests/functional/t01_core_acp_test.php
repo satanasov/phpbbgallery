@@ -18,6 +18,7 @@ class t01_core_acp_test extends phpbbgallery_base
 		$this->login();
 		$this->admin_login();
 		
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-main_module&mode=overview&sid=' . $this->sid);
 		$this->assertContains('zazazazazaza', $crawler->text());
 	}
 }
