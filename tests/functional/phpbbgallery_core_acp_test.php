@@ -18,7 +18,27 @@ class phpbbgallery_core_acp_test extends phpbbgallery_base
 		$this->login();
 		$this->admin_login();
 		
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-main_module&mode=overview&sid=' . $this->sid);
-		$this->assertContains('zazazazazaza', $crawler->text());
+		$this->assertContainsLang('ACP_GALLERY_OVERVIEW_EXPLAIN', $crawler->text());
+		
+		$this->logout();
+		%this->logout();
+	}
+	
+	public function test_exif_install()
+	{
+		$this->login();
+		$this->admin_login();
+		
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang_ext('phpbbgallery/exif', 'exif');
+		
+		$crawler = self::request('GET', 'adm/index.php?i=--phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		
+		$this->assertContainsLang('DISP_EXIF_DATA', $crawler->text());
+		
+		$this->logout();
+		%this->logout();
 	}
 }
