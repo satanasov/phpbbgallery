@@ -23,7 +23,7 @@ class phpbbgallery_core_acp_test extends phpbbgallery_base
 		$this->assertContainsLang('ACP_GALLERY_OVERVIEW_EXPLAIN', $crawler->text());
 		
 		$this->logout();
-		%this->logout();
+		$this->logout();
 	}
 	
 	public function test_exif_install()
@@ -39,6 +39,6 @@ class phpbbgallery_core_acp_test extends phpbbgallery_base
 		$this->assertContainsLang('DISP_EXIF_DATA', $crawler->text());
 		
 		$this->logout();
-		%this->logout();
+		$this->logout();
 	}
 }
