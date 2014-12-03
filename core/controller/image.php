@@ -242,13 +242,13 @@ class image
 		$sql_sort_order = $sort_by_sql[$sort_key] . ' ' . (($sort_dir == 'd') ? 'DESC' : 'ASC');
 
 		// Let's see if there is prieveus image
-		$sql = 'SELECT image_id, image_name FROM ' . $this->table_images . ' WHERE ' . $sort_by_sql[$sort_key] . ' < ' . $this->data[$sort_by_sql[$sort_key]] . ' and image_album_id = ' . $album_id . ' ORDER BY ' . $sort_by_sql[$sort_key] . ' ASC';
+		$sql = 'SELECT image_id, image_name FROM ' . $this->table_images . ' WHERE ' . $sort_by_sql[$sort_key] . ' < ' . $db->sql_escape($this->data[$sort_by_sql[$sort_key]]) . ' and image_album_id = ' . (int) $album_id . ' ORDER BY ' . $sort_by_sql[$sort_key] . ' ASC';
 		$result = $this->db->sql_query_limit($sql, 1, 0);
 		$prev = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 
 		// Now next
-		$sql = 'SELECT image_id, image_name FROM ' . $this->table_images . ' WHERE ' . $sort_by_sql[$sort_key] . ' > ' . $this->data[$sort_by_sql[$sort_key]] . ' and image_album_id = ' . $album_id . ' ORDER BY ' . $sort_by_sql[$sort_key] . ' ASC';
+		$sql = 'SELECT image_id, image_name FROM ' . $this->table_images . ' WHERE ' . $sort_by_sql[$sort_key] . ' > ' . $db->sql_escape($this->data[$sort_by_sql[$sort_key]]) . ' and image_album_id = ' . (int) $album_id . ' ORDER BY ' . $sort_by_sql[$sort_key] . ' ASC';
 		$result = $this->db->sql_query_limit($sql, 1, 0);
 		$next = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
