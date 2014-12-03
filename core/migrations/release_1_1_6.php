@@ -321,7 +321,6 @@ class release_1_1_6 extends \phpbb\db\migration\migration
 		return array(
 			array('permission.add', array('a_gallery_manage', true, 'a_board')),
 			array('permission.add', array('a_gallery_albums', true, 'a_board')),
-			array('permission.add', array('a_gallery_import', true, 'a_board')),
 			array('permission.add', array('a_gallery_cleanup', true, 'a_board')),
 
 			// ACP
@@ -355,12 +354,6 @@ class release_1_1_6 extends \phpbb\db\migration\migration
 				'module_langname'	=> 'ACP_GALLERY_ALBUM_PERMISSIONS_COPY',
 				'module_mode'		=> 'copy',
 				'module_auth'		=> 'ext_phpbbgallery/core && acl_a_gallery_albums',
-			))),
-			array('module.add', array('acp', 'PHPBB_GALLERY', array(
-				'module_basename'	=> '\phpbbgallery\core\acp\gallery_module',
-				'module_langname'	=> 'ACP_IMPORT_ALBUMS',
-				'module_mode'		=> 'import_images',
-				'module_auth'		=> 'ext_phpbbgallery/core && acl_a_gallery_import',
 			))),
 			array('module.add', array('acp', 'PHPBB_GALLERY', array(
 				'module_basename'	=> '\phpbbgallery\core\acp\gallery_module',

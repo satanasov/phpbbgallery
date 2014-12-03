@@ -1,0 +1,61 @@
+<!-- INCLUDE overall_header.html -->
+
+<a name="maincontent"></a>
+
+<h1>{ACP_GALLERY_TITLE}</h1>
+<p>{ACP_GALLERY_TITLE_EXPLAIN}</p>
+
+<form id="acp_gallery" method="post" action="{U_ACTION}">
+	<fieldset class="field1">
+		<legend>{L_ALBUM_SETTINGS}</legend>
+		<dl>
+			<dt><label for="album_id">{L_IMPORT_ALBUM}:</label></dt>
+			<dd>{S_SELECT_IMPORT}</dd>
+			<dd><input class="radio" type="checkbox" name="users_pega" id="users_pega" value="1" /> <label for="users_pega">{L_IMPORT_USERS_PEGA}</label></dd>
+		</dl>
+		<dl>
+			<dt><label<!-- IF .imagerow --> for="images"<!-- ENDIF -->>{L_IMAGES}:</label>
+				<br /><span>{L_IMPORT_SELECT}</span></dt>
+			<dd><!-- IF not .imagerow -->
+				{L_IMPORT_DIR_EMPTY}
+			<!-- ELSE -->
+				<select id="images" name="images[]" multiple="multiple" size="10">
+					<!-- BEGIN imagerow --><option value="{imagerow.FILE_NAME}">{imagerow.FILE_NAME}</option><!-- END imagerow -->
+				</select>
+			<!-- ENDIF --></dd>
+		</dl>
+		<dl>
+			<dt><label for="username">{L_IMPORT_USER}:</label>
+				<br /><span>{L_IMPORT_USER_EXP}</span></dt>
+			<dd><input class="inputbox autowidth" type="text" id="username" name="username" size="40" value="{USERNAME}" />&nbsp;
+				[ <a href="{U_FIND_USERNAME}" onclick="find_username(this.href); return false;">{L_FIND_USERNAME}</a> ]</dd>
+		</dl>
+		<dl>
+			<dt><label for="image_name">{L_IMAGE_NAME}:</label></dt>
+			<dd><input id="image_name" class="inputbox autowidth" type="text" name="image_name" size="60" value="{IMAGE_NAME}" /></dd>
+			<dd>{L_USE_NUM} <input class="inputbox autowidth" type="text" name="image_num" size="5" value="1" /></dd>
+			<dd><input class="button2 checkbox" type="checkbox" name="filename" value="filename" /> {L_ORIG_FILENAME}</dd>
+		</dl>
+	</fieldset>
+	<fieldset class="submit-buttons">
+		<legend>{L_SUBMIT}</legend>
+		<p class="submit-buttons">
+			<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
+			<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+			{S_FORM_TOKEN}
+		</p>
+	</fieldset>
+</form>
+
+<!--
+	I request you retain the full copyright notice below including the link to www.flying-bits.org.
+	This not only gives respect to the large amount of time given freely by the developer
+	but also helps build interest, traffic and use of phpBB Gallery. If you (honestly) cannot retain
+	the full copyright I ask you at least leave in place the "Powered by phpBB Gallery" line, with
+	"phpBB Gallery" linked to www.flying-bits.org. If you refuse to include even this then support on my
+	forums may be affected.
+
+	phpBB Gallery, nickvergessen : 2009
+	Powered by phpBB Gallery (http://www.flying-bits.org/) &copy; 2007, 2009 nickvergessen (http://www.flying-bits.org/)
+//-->
+<!-- INCLUDE overall_footer.html -->
