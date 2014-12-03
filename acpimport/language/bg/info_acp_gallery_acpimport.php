@@ -1,8 +1,8 @@
 <?php
 /**
 *
-* @package Gallery - ACP Import Extension [English]
-* @copyright (c) 2012 nickvergessen - http://www.flying-bits.org/
+* @package Gallery - ACP Import Extension [Bulgarian]
+* @copyright (c) 2014 Lucifer - http://www.anavaro.com/
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -21,23 +21,22 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'ACP_IMPORT_ALBUMS'					=> 'Import Images',
-	'ACP_IMPORT_ALBUMS'				=> 'Import Images',
-	'ACP_IMPORT_ALBUMS_EXPLAIN'		=> 'Here you can bulk import images from the file system. Before importing images, please be sure to resize them by hand.',
+	'ACP_IMPORT_ALBUMS'				=> 'Вкарване на изображения',
+	'ACP_IMPORT_ALBUMS_EXPLAIN'		=> 'Тук можете да вкарате голямо количество изображения от файловата система. Преди да вкарате изображенията, моля оразмерете ги на ръка.',
 
-	'IMPORT_ALBUM'					=> 'Album to import images to:',
-	'IMPORT_DEBUG_MES'				=> '%1$s images imported. There are still %2$s images remaining.',
-	'IMPORT_DIR_EMPTY'				=> 'The folder %s is empty. You need to upload the images, before you can import them.',
-	'IMPORT_FINISHED'				=> 'All %1$s images successful imported.',
-	'IMPORT_FINISHED_ERRORS'		=> '%1$s images were successful imported, but the following errors occurred:<br /><br />',
-	'IMPORT_MISSING_ALBUM'			=> 'Please select an album to import the images into.',
-	'IMPORT_SELECT'					=> 'Choose the images which you want to import. Successful uploaded images are deleted. All other images are still available.',
-	'IMPORT_SCHEMA_CREATED'			=> 'The import-schema was successfully created, please wait while the images get imported.',
-	'IMPORT_USER'					=> 'Uploaded by',
-	'IMPORT_USER_EXP'				=> 'You can add the images to another user here.',
-	'IMPORT_USERS_PEGA'				=> 'Upload to users personal gallery.',
+	'IMPORT_ALBUM'					=> 'Албум за изображенията:',
+	'IMPORT_DEBUG_MES'				=> '%1$s изображения са вкарани. Остават още %2$s изображения.',
+	'IMPORT_DIR_EMPTY'				=> 'Папката %s е празна. Трябва да качите изображенията, преди да ги вкарате.',
+	'IMPORT_FINISHED'				=> 'Всички %1$s изображения са успешно добавени.',
+	'IMPORT_FINISHED_ERRORS'		=> '%1$s изображения бяха успешно добавени, но възникна следната грешка:<br /><br />',
+	'IMPORT_MISSING_ALBUM'			=> 'Моля изберете албум в който да вкарате изображенията.',
+	'IMPORT_SELECT'					=> 'Изберете изображенията, които искате да вкарате. Успешно добавените изображения се изтриват. Всички други са налични.',
+	'IMPORT_SCHEMA_CREATED'			=> 'Таблицата за вкарване беше успешно създадена, моля изчакайте прехвърлянето на изображенията.',
+	'IMPORT_USER'					=> 'Качено от',
+	'IMPORT_USER_EXP'				=> 'Можете да добавите изображения от друг потребител тук.',
+	'IMPORT_USERS_PEGA'				=> 'Качи в потребителската галерия.',
 
-	'MISSING_IMPORT_SCHEMA'			=> 'The specified import-schema (%s) could not be found.',
+	'MISSING_IMPORT_SCHEMA'			=> 'Избраната таблица за вкарване (%s) не може да бъде открита.',
 
-	'NO_FILE_SELECTED'				=> 'You need to select atleast one file.',
+	'NO_FILE_SELECTED'				=> 'Трябва да изберете поне един фаил.',
 ));
