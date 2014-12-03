@@ -1,0 +1,30 @@
+{
+	"name": "phpbbgallery/acpimport",
+	"type": "phpbb-extension",
+	"description": "",
+	"homepage": "https://github.com/satanasov/phpbbgallery",
+	"version": "1.2.0",
+	"time": "2014-03-15",
+	"license": "GPL-2.0",
+	"authors": [
+		{
+			"name": "Joas Schilling",
+			"email": "nickvergessen@gmx.de",
+			"homepage": "http://github.com/nickvergessen",
+			"role": "Main Author",
+			"name": "Stanislav Atanasov",
+			"email": "lucifer@anavaro.com",
+			"homepage": "http://www.anavaro.com",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"php": ">=5.3"
+	},
+	"extra": {
+		"display-name": "phpBB Gallery Add-on: ACP Import",
+		"soft-require": {
+			"phpbb/phpbb": ">=3.1.0-RC2,<3.2.*@dev"
+		}
+	}
+}

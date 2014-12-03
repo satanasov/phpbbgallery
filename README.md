@@ -72,6 +72,7 @@ Please bear in mind that this is WORK IN PROGRESS. It is as BETA as they comme.
 
 #Add ons
  - Exif
+ - ACP Import
  
 #Future?
 
