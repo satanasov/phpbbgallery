@@ -7,7 +7,7 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 *
 */
-namespace phpbbgallery\tests\functional;
+namespace phpbbgallery\core\tests\functional;
 /**
 * @group functional
 */
