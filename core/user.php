@@ -578,7 +578,7 @@ class user
 			}
 		}
 	}
-	
+
 	/**
 	* Get user personal album
 	* Checks and returns users personal album
