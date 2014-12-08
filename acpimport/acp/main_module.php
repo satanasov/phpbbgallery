@@ -16,7 +16,7 @@ class main_module
 	function main($id, $mode)
 	{
 		global $auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path, $phpbb_container, $gallery_url, $gallery_config, $gallery_album;
-		
+
 		$gallery_url = $phpbb_container->get('phpbbgallery.core.url');
 		$gallery_config = $phpbb_container->get('phpbbgallery.core.config');
 		$gallery_album = $phpbb_container->get('phpbbgallery.core.album');

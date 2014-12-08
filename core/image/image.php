@@ -341,7 +341,6 @@ class image
 			return;
 		}
 
-		
 		$image_user = $phpbb_container->get('phpbbgallery.core.user');
 
 		$num_images = $num_comments = 0;
@@ -406,7 +405,7 @@ class image
 			return $row;
 		}
 	}
-	
+
 	/**
 	* Approve image
 	* @param (array)	$image_id_ary	The image ID array to be approved
@@ -416,7 +415,7 @@ class image
 	public function approve_images($image_id_ary, $album_id)
 	{
 		global $db, $table_prefix;
-		
+	
 		self::handle_counter($image_id_ary, true, true);
 
 		$sql = 'UPDATE ' . $table_prefix . 'gallery_images 
@@ -446,7 +445,7 @@ class image
 	public function unapprove_images($image_id_ary, $album_id)
 	{
 		global $db, $table_prefix;
-		
+
 		self::handle_counter($image_id_ary, false);
 
 		$sql = 'UPDATE ' . $table_prefix . 'gallery_images 
@@ -484,7 +483,7 @@ class image
 			SET image_album_id = ' . $album_id . '
 			WHERE ' . $db->sql_in_set('image_id', $image_id_ary);
 		$db->sql_query($sql);
-		
+
 		$report->move_images($image_id_ary, $album_id);
 
 		foreach ($image_id_ary as $image)
@@ -522,7 +521,7 @@ class image
 		}
 		$db->sql_freeresult($result);
 	}
-	
+
 	/**
 	* Get last image id
 	* Return (int) image_id
@@ -542,9 +541,9 @@ class image
 		$result = $this->db->sql_query_limit($sql, $sql_limit);
 
 		$row = $this->db->sql_fetchrow($result);
-		
+
 		$this->db->sql_freeresult($result);
-		
+
 		return $row;
 	}
 }

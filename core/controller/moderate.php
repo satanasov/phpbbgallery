@@ -56,8 +56,8 @@ class moderate
 	* @param string						$root_path	Root path
 	* @param string						$php_ext	php file extension
 	*/
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request, 
-	\phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbbgallery\core\album\display $display, \phpbbgallery\core\moderate $moderate, 
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request,
+	\phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbbgallery\core\album\display $display, \phpbbgallery\core\moderate $moderate,
 	\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\misc $misc, \phpbbgallery\core\album\album $album, \phpbbgallery\core\image\image $image,
 	$root_path, $php_ext)
 	{
@@ -98,13 +98,13 @@ class moderate
 		$this->display->display_albums(false, $this->config['load_moderators']);
 		// This is the overview page, so we will need to create some queries
 		// We will use the special moderate helper
-		
+
 		$this->moderate->build_queue('short', 'report_image_open');
 		$this->moderate->build_queue('short', 'image_waiting');
 
 		return $this->helper->render('gallery/moderate_overview.html', $this->user->lang('GALLERY'));
 	}
-	
+
 	/**
 	* Index Controller
 	*	Route: gallery/modarate/image/{image_id}
@@ -137,7 +137,7 @@ class moderate
 				redirect('gallery/image/' . $image_id . '/delete');
 			break;
 		}
-		
+
 		return $this->helper->render('gallery/moderate_overview.html', $this->user->lang('GALLERY'));
 	}
 
@@ -151,7 +151,7 @@ class moderate
 	{
 		$image_data = $this->image->get_image_data($image_id);
 		$album_data = $this->album->get_info($image_data['image_album_id']);
-		
+
 		$album_backlink = append_sid('/gallery');
 		$image_backlink = append_sid('/gallery/image/' . $image_id);
 		$album_loginlink = append_sid('/ucp.php?mode=login');
@@ -210,7 +210,7 @@ class moderate
 	{
 		$image_data = $this->image->get_image_data($image_id);
 		$album_data = $this->album->get_info($image_data['image_album_id']);
-		
+
 		$album_backlink = append_sid('/gallery');
 		$image_backlink = append_sid('/gallery/image/' . $image_id);
 		$album_loginlink = append_sid('/ucp.php?mode=login');
@@ -220,7 +220,7 @@ class moderate
 		{
 			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 		}
-		
+
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery_mcp'));
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
 		$this->user->add_lang('mcp');
