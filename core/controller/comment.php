@@ -606,7 +606,7 @@ class comment
 				confirm_box(false, 'DELETE_COMMENT2', $s_hidden_fields);
 			}
 		}
-	
+
 		$this->template->assign_vars(array(
 			'ERROR'					=> $error,
 			'MESSAGE'				=> (isset($comment_plain)) ? $comment_plain : '',

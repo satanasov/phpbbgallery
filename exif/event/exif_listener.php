@@ -46,7 +46,7 @@ class exif_listener implements EventSubscriberInterface
 	* @param \phpbbgallery\core\url			$gallery_url	Core gallery url object
 	* @param \phpbbgallery\core\user		$gallery_user	Core gallery user wraper
 	*/
-	
+
 	public function __construct(\phpbb\user $user, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\url $gallery_url, \phpbbgallery\core\user $gallery_user)
 	{
 		$this->user = $user;
@@ -55,7 +55,7 @@ class exif_listener implements EventSubscriberInterface
 		$this->gallery_url	= $gallery_url;
 		$this->gallery_user = $gallery_user;
 	}
-	
+
 	public function acp_config_get_display_vars($event)
 	{
 		if ($event['mode'] == 'main')
