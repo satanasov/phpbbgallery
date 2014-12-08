@@ -20,7 +20,7 @@ class m1_init extends \phpbb\db\migration\migration
 	{
 		return array(
 			// add config
-			array('config.add', array('disp_exifdata', 1))
+			array('config.add', array('phpbb_gallery_disp_exifdata', 1))
 		);
 	}
 	//lets create the needed table
