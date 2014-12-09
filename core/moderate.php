@@ -12,7 +12,7 @@ namespace phpbbgallery\core;
 
 class moderate
 {
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\controller\helper $helper, \phpbb\user $user, 
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\controller\helper $helper, \phpbb\user $user,
 	\phpbb\user_loader $user_loader, \phpbbgallery\core\album\album $album, \phpbbgallery\core\auth\auth $gallery_auth, $images_table, $reports_table)
 	{
 		$this->db = $db;
@@ -25,7 +25,7 @@ class moderate
 		$this->images_table = $images_table;
 		$this->reports_table = $reports_table;
 	}
-	
+
 	/**
 	* Helper function building queues
 	* @param	(string)	type	What type of queue are we building (short or full)
@@ -39,7 +39,7 @@ class moderate
 		{
 			return;
 		}
-		
+
 		// Let's get albums that user can moderate
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 		switch($target)
@@ -70,7 +70,7 @@ class moderate
 					//We build last 5 for short
 					$result = $this->db->sql_query_limit($sql, 5, 0);
 				}
-				
+
 				$reported_images = $users_array = array();
 
 				// Build few arrays
@@ -100,7 +100,7 @@ class moderate
 
 				// Load users
 				$this->user_loader->load_users(array_keys($users_array));
-				
+
 				$reported_images_count = 0;
 				foreach($reported_images as $VAR)
 				{
@@ -127,7 +127,7 @@ class moderate
 					));
 				}
 			break;
-			
+
 			case 'image_waiting':
 				// Get albums we can approve in
 				$mod_array = $this->gallery_auth->acl_album_ids('m_status');

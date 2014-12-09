@@ -902,7 +902,7 @@ class main_module
 	{
 		global $db, $template, $user, $phpbb_container, $phpbb_ext_gallery, $phpbb_gallery_notification, $watch_table, $albums_table, $contests_table;
 		global $images_table, $comments_table;
-		
+
 		$phpbb_ext_gallery_core_image = $phpbb_container->get('phpbbgallery.core.image');
 		$phpbb_ext_gallery_config = $phpbb_container->get('phpbbgallery.core.config');
 		$phpbb_gallery_notification = new \phpbbgallery\core\notification();
