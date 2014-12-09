@@ -61,7 +61,7 @@ class misc
 	static public function markread($mode, $album_id = false)
 	{
 		global $db, $user, $table_prefix, $phpbb_container;
-		
+
 		$gallery_user = $phpbb_container->get('phpbbgallery.core.user');
 		$gallery_user->set_user_id($user->data['user_id']);
 
