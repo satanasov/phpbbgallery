@@ -89,14 +89,14 @@ class search
 	*
 	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
 	*/
-	
+
 	public function base()
 	{
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
 		$this->user->add_lang('search');
-		
+
 		//search 
-		
+
 		$search_id		= request_var('search_id', '');
 		$start			= request_var('start', 0);
 		$image_id		= request_var('image_id', 0);
@@ -210,7 +210,7 @@ class search
 				}
 				*/
 			}
-			
+
 			// if we search in an existing search result just add the additional keywords. But we need to use "all search terms"-mode
 			// so we can keep the old keywords in their old mode, but add the new ones as required words
 			if ($add_keywords)
@@ -232,7 +232,7 @@ class search
 
 			$total_match_count = 0;
 			$sql_limit = 0;
-			
+
 			$search_query = '';
 			$matches = array('i.image_name', 'i.image_desc');
 
@@ -266,7 +266,7 @@ class search
 					' . (($user_id_ary) ? ' AND ' . $this->db->sql_in_set('i.image_user_id', $user_id_ary) : '') . '
 					' . (($search_album) ? ' AND ' . $this->db->sql_in_set('i.image_album_id', $search_album) : '') . '
 				ORDER BY ' . $sql_order;
-			
+
 			if ($sql)
 			{
 				if (!$sql_limit)
@@ -346,7 +346,7 @@ class search
 				'S_THUMBNAIL_SIZE'	=> $this->gallery_config->get('thumbnail_height') + 20 + (($this->gallery_config->get('thumbnail_infoline')) ? \phpbbgallery\core\image\image::THUMBNAIL_INFO_HEIGHT : 0),
 			));
 		}
-		
+
 		if ($sql_where)
 		{
 			// Search results are images
@@ -543,14 +543,14 @@ class search
 		));
 		return $this->helper->render('gallery/search_body.html', $this->user->lang('GALLERY'));
 	}
-	
+
 	/**
 	* Index Controller
 	*	Route: gallery/search/random
 	*
 	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
 	*/
-	
+
 	public function random()
 	{
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));

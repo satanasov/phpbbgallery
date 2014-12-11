@@ -56,8 +56,8 @@ class index
 	* @param string						$root_path	Root path
 	* @param string						$php_ext	php file extension
 	*/
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request, 
-	\phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbbgallery\core\album\display $display, \phpbbgallery\core\config $gallery_config, 
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request,
+	\phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbbgallery\core\album\display $display, \phpbbgallery\core\config $gallery_config,
 	\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\search $gallery_search, \phpbb\pagination $pagination, \phpbbgallery\core\user $gallery_user,
 	\phpbbgallery\core\image\image $image,
 	$root_path, $php_ext)
@@ -180,7 +180,7 @@ class index
 				'phpbbgallery_personal_page',),
 				'params' => array()), 'pagination', 'page', $this->display->albums_total, $this->display->album_limit, $this->display->album_start
 		);
-		
+
 		$this->template->assign_vars(array(
 			'TOTAL_ALBUMS'	=> sprintf($this->user->lang['TOTAL_PEGAS_SHORT_SPRINTF'][2], $this->display->albums_total),
 		));
@@ -217,7 +217,7 @@ class index
 	protected function assign_dropdown_links($base_route)
 	{
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
-		
+
 		$this->template->assign_vars(array(
 			'TOTAL_IMAGES'		=> ($this->gallery_config->get('disp_statistic')) ? $this->user->lang('TOTAL_IMAGES_SPRINTF', $this->gallery_config->get('num_images')) : '',
 			'TOTAL_COMMENTS'	=> ($this->gallery_config->get('allow_comments')) ? $this->user->lang('TOTAL_COMMENTS_SPRINTF', $this->gallery_config->get('num_comments')) : '',

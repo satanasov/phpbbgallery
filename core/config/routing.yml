@@ -19,7 +19,7 @@ phpbbgallery_album_page:
     defaults: { _controller: phpbbgallery.core.controller.album:base }
 phpbbgallery_album_upload:
     pattern: /gallery/album/{album_id}/upload
-    defaults: { _controller: phpbbgallery.core.controller.upload:upload }
+    defaults: { _controller: phpbbgallery.core.controller.upload:main }
 
 phpbbgallery_image:
     pattern: /gallery/image/{image_id}

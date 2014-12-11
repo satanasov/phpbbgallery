@@ -264,7 +264,7 @@ class moderate
 			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 		}
 		$moving_target = $this->request->variable('moving_target', '');
-		
+
 		if ($moving_target)
 		{
 			$target = array($image_id);
@@ -284,7 +284,7 @@ class moderate
 				//'S_HIDDEN_FIELDS'	=> $s_hidden_fields,
 			));
 		}
-		
+
 		return $this->helper->render('gallery/mcp_body.html', $this->user->lang('GALLERY'));
 	}
 

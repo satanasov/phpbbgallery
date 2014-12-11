@@ -46,7 +46,7 @@ class image
 	* construct
 	*/
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\album\album $album,
-								\phpbbgallery\core\config $gallery_config, \phpbb\controller\helper $helper, 
+								\phpbbgallery\core\config $gallery_config, \phpbb\controller\helper $helper,
 								$table_images)
 	{
 		$this->db = $db;
@@ -54,7 +54,7 @@ class image
 		$this->gallery_auth = $gallery_auth;
 		$this->album = $album;
 		$this->gallery_config = $gallery_config;
-		$this->helper = $helper; 
+		$this->helper = $helper;
 		$this->table_images = $table_images;
 	}
 	/**
@@ -415,7 +415,7 @@ class image
 	public function approve_images($image_id_ary, $album_id)
 	{
 		global $db, $table_prefix;
-	
+
 		self::handle_counter($image_id_ary, true, true);
 
 		$sql = 'UPDATE ' . $table_prefix . 'gallery_images 
