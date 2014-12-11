@@ -41,4 +41,20 @@ class phpbbgallery_core_acp_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 	}
+	
+	public function test_acpimport_install()
+	{
+		$this->login();
+		$this->admin_login();
+		
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang_ext('phpbbgallery/acpimport', 'info_acp_gallery_acpimport');
+		
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-acpimport-acp-main_module&mode=main&sid=' . $this->sid);
+		
+		$this->assertContainsLang('ACP_IMPORT_ALBUMS', $crawler->text());
+		
+		$this->logout();
+		$this->logout();
+	}
 }
