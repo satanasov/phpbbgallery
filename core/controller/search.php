@@ -56,8 +56,8 @@ class search
 	* @param string						$root_path	Root path
 	* @param string						$php_ext	php file extension
 	*/
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\pagination $pagination, \phpbb\request\request $request, 
-	\phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbbgallery\core\album\display $display, \phpbbgallery\core\config $gallery_config, 
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\pagination $pagination, \phpbb\request\request $request,
+	\phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbbgallery\core\album\display $display, \phpbbgallery\core\config $gallery_config,
 	\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\album\album $album, \phpbbgallery\core\image\image $image, \phpbbgallery\core\url $url, \phpbbgallery\core\search $gallery_search,
 	$images_table, $albums_table, $comments_table, $root_path, $php_ext)
 	{
@@ -95,7 +95,7 @@ class search
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
 		$this->user->add_lang('search');
 
-		//search 
+		//search
 
 		$search_id		= request_var('search_id', '');
 		$start			= request_var('start', 0);
@@ -315,7 +315,7 @@ class search
 
 			$u_search = $this->url->append_sid('search', $u_sort_param);
 			$u_search .= ($search_id) ? '&amp;search_id=' . $search_id : '';
-			//@todo: 
+			//@todo:
 			$u_search .= ($search_terms != 'all') ? '&amp;terms=' . $search_terms : '';
 			$u_search .= ($u_hilit) ? '&amp;keywords=' . urlencode(htmlspecialchars_decode($keywords)) : '';
 			$u_search .= ($username) ? '&amp;username=' . urlencode(htmlspecialchars_decode($username)) : '';
@@ -505,7 +505,7 @@ class search
 			}
 		}
 		$s_albums = $this->album->get_albumbox(false, false, false, 'i_view' /*'a_search'*/);
-		
+
 		if (!$s_albums)
 		{
 			trigger_error('NO_SEARCH');
@@ -555,7 +555,7 @@ class search
 	{
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
 		$this->user->add_lang('search');
-		
+
 		// Is user able to search? Has search been disabled?
 		if (!$this->auth->acl_get('u_search') || !$this->config['load_search'])
 		{
@@ -570,17 +570,17 @@ class search
 		$this->template->assign_block_vars('navlinks', array(
 			'FORUM_NAME'	=> $this->user->lang['SEARCH'],
 			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_search'),
-		));	
+		));
 		$this->template->assign_block_vars('navlinks', array(
 			'FORUM_NAME'	=> $this->user->lang['SEARCH_RANDOM'],
 			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_search_random'),
 		));
 
 		$this->gallery_search->random($this->gallery_config->get('items_per_page'));
-		
+
 		return $this->helper->render('gallery/search_random.html', $this->user->lang('GALLERY'));
 	}
-	
+
 	/**
 	* Index Controller
 	*	Route: gallery/search/recent/{page}
@@ -591,14 +591,14 @@ class search
 	{
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
 		$this->user->add_lang('search');
-		
+
 		// Is user able to search? Has search been disabled?
 		if (!$this->auth->acl_get('u_search') || !$this->config['load_search'])
 		{
 			$this->template->assign_var('S_NO_SEARCH', true);
 			trigger_error('NO_SEARCH');
 		}
-		
+
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 		$this->template->assign_block_vars('navlinks', array(
 			'FORUM_NAME'	=> $this->user->lang['GALLERY'],
@@ -611,18 +611,18 @@ class search
 		$this->template->assign_block_vars('navlinks', array(
 			'FORUM_NAME'	=> $this->user->lang['SEARCH_RECENT'],
 			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_search_recent'),
-		));	
-		
+		));
+
 		$limit = $this->gallery_config->get('items_per_page');
 		$start = ($page - 1) * $this->gallery_config->get('items_per_page');
 		$image_counter = $this->gallery_search->recent_count();
-		
+
 		$this->gallery_search->recent($limit, $start);
-		
+
 		$this->template->assign_vars(array(
 			'TOTAL_IMAGES'				=> $this->user->lang('VIEW_ALBUM_IMAGES', $image_counter),
 		));
-		
+
 		$this->pagination->generate_template_pagination(array(
 			'routes' => array(
 				'phpbbgallery_search_recent',

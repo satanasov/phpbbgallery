@@ -293,7 +293,7 @@ class file
 			}
 			$cached = \set_modified_headers($this->last_modified, $user->browser);
 		}
-		
+
 		if ($cached)
 		{
 			return;

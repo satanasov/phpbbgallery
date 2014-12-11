@@ -36,7 +36,7 @@ class cache
 	public function get_albums()
 	{
 		static $albums;
-		
+
 		global $table_prefix;
 
 		if (isset($albums))
