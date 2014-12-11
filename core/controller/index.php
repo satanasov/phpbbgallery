@@ -88,6 +88,11 @@ class index
 	*/
 	public function base()
 	{
+		// Display login box for guests and an error for users
+		if (!$this->user->data['is_registered'])
+		{
+			login_box();
+		}
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
 		$this->display->display_albums(false, $this->config['load_moderators']);
 
@@ -158,6 +163,11 @@ class index
 	*/
 	public function personal($page)
 	{
+		// Display login box for guests and an error for users
+		if (!$this->user->data['is_registered'])
+		{
+			login_box();
+		}
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
 		$this->display->album_start = ($page - 1) * $this->gallery_config->get('items_per_page');
 		$this->display->album_limit = $this->gallery_config->get('items_per_page');
