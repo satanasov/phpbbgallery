@@ -70,7 +70,9 @@ class file
 	* @param \phpbbgallery\core\auth\auth	$gallery_auth	Gallery auth object
 	* @param \phpbbgallery\core\user	$gallery_user	Gallery user object
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\file\file $tool, $source_path, $medium_path, $mini_path, $watermark_file, $albums_table, $images_table)
+	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbbgallery\core\auth\auth $gallery_auth,
+	\phpbbgallery\core\user $gallery_user, \phpbbgallery\core\file\file $tool, \phpbb\request\request $request,
+	$source_path, $medium_path, $mini_path, $watermark_file, $albums_table, $images_table)
 	{
 		$this->config = $config;
 		$this->db = $db;
@@ -78,6 +80,7 @@ class file
 		$this->auth = $gallery_auth;
 		$this->gallery_user = $gallery_user;
 		$this->tool = $tool;
+		$this->request = $request;
 		$this->path_source = $source_path;
 		$this->path_medium = $medium_path;
 		$this->path_mini = $mini_path;
@@ -291,15 +294,14 @@ class file
 
 	public function generate_image_src()
 	{
-		//var_dump($this->path_source);
 		$this->image_src = $this->path  . $this->data['image_filename'];
 
 		if ($this->data['image_filemissing'] || !file_exists($this->path_source . $this->data['image_filename']))
 		{
-//			$sql = 'UPDATE ' . $this->table_images . '
-//				SET image_filemissing = 1
-//				WHERE image_id = ' . $image_id;
-//			$this->db->sql_query($sql);
+			$sql = 'UPDATE ' . $this->table_images . '
+				SET image_filemissing = 1
+				WHERE image_id = ' . $this->data['image_id'];
+			$this->db->sql_query($sql);
 
 			// trigger_error('IMAGE_NOT_EXIST');
 			$this->error = 'image_not_exist.jpg';
@@ -313,6 +315,8 @@ class file
 			$this->data['image_filemissing'] = 0;
 			$this->data['album_watermark'] = 0;
 		}
+
+		$this->check_hot_link();
 
 		// There was a reason to not display the image, so we send an error-image
 		if ($this->error)
@@ -385,6 +389,36 @@ class file
 			}
 
 //			}
+		}
+	}
+	
+	protected function check_hot_link()
+	{
+		if (!$this->config['phpbb_gallery_allow_hotlinking'])
+		{
+			$haystak =  explode(',', $this->config['phpbb_gallery_hotlinking_domains']);
+			$referrer = $this->request->server('HTTP_REFERER', '');
+			$not_hl = false;
+			foreach ($haystak as $var)
+			{
+				if (strpos($referrer, $var) > 0)
+				{
+					$not_hl = true;
+				}
+			}
+			if (!$not_hl)
+			{
+				$this->error = 'no_hotlinking.jpg';
+				$this->data['image_filename'] = 'no_hotlinking.jpg';
+				$this->data['image_name'] = 'Hot linking not allowed';
+				$this->data['image_user_id'] = 1;
+				$this->data['image_status'] = 2;
+				$this->data['album_id'] = 0;
+				$this->data['album_user_id'] = 1;
+				$this->data['image_filemissing'] = 0;
+				$this->data['image_filemissing'] = 0;
+				$this->data['album_watermark'] = 0;
+			}
 		}
 	}
 }
