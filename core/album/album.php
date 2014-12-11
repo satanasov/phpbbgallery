@@ -420,7 +420,7 @@ class album
 	{
 		return 1;
 	}
-	
+
 	/**
 	* Create array of album IDs that are public
 	*/
@@ -436,7 +436,7 @@ class album
 		{
 			$id_ary[] = (int) $row['album_id'];
 		}
-		
+
 		return $id_ary;
 	}
 }

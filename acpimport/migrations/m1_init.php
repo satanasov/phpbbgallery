@@ -28,8 +28,8 @@ class m1_init extends \phpbb\db\migration\migration
 		return array(
 			array('permission.add', array('a_gallery_import', true, 'a_board')),
 			array('module.add', array(
-				'acp', 
-				'PHPBB_GALLERY', 
+				'acp',
+				'PHPBB_GALLERY',
 				array(
 					'module_basename'	=> '\phpbbgallery\acpimport\acp\main_module',
 					'module_langname'	=> 'ACP_IMPORT_ALBUMS',
@@ -40,7 +40,7 @@ class m1_init extends \phpbb\db\migration\migration
 			array('custom', array(array(&$this, 'create_file_system'))),
 		);
 	}
-	
+
 	public function create_file_system()
 	{
 		global $phpbb_root_path;

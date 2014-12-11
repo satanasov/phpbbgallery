@@ -28,7 +28,7 @@ class permissions_module
 
 		$phpbb_ext_gallery = new \phpbbgallery\core\core($auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path);
 		$phpbb_ext_gallery->init();
-		
+
 		// Init auth
 		$gallery_cache = new \phpbbgallery\core\cache($cache, $db);
 		$gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $table_name);
@@ -123,7 +123,7 @@ class permissions_module
 	function permissions_c_mask()
 	{
 		global $cache, $template, $db, $table_name, $permissions_table, $roles_table, $users_table, $phpbb_dispatcher;
-		
+
 		// Init auth
 		$gallery_cache = new \phpbbgallery\core\cache($cache, $db);
 		$gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $table_name);
@@ -131,7 +131,7 @@ class permissions_module
 
 		// Init album
 		$phpbb_ext_gallery_core_album = new \phpbbgallery\core\album\album();
-		
+
 		// Send contants to the template
 		$template->assign_vars(array(
 			'C_OWN_PERSONAL_ALBUMS'	=> $phpbb_ext_gallery_core_auth::OWN_ALBUM,
@@ -151,7 +151,7 @@ class permissions_module
 	function permissions_v_mask()
 	{
 		global $cache, $db, $template, $user, $phpbb_ext_gallery, $table_prefix, $phpbb_dispatcher;
-		
+
 		$roles_table = $table_prefix . 'gallery_roles';
 		$permissions_table = $table_prefix . 'gallery_permissions';
 		$users_table = $table_prefix . 'gallery_users';
@@ -159,7 +159,7 @@ class permissions_module
 		$gallery_cache = new \phpbbgallery\core\cache($cache, $db);
 		$gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $users_table);
 		$phpbb_ext_gallery_core_auth = new \phpbbgallery\core\auth\auth($gallery_cache, $db, $gallery_user, $permissions_table, $roles_table, $users_table);
-		
+
 		$user->add_lang('acp/permissions');
 
 		$submit = (isset($_POST['submit'])) ? true : false;
@@ -401,14 +401,14 @@ class permissions_module
 	function permissions_p_mask()
 	{
 		global $cache, $db, $permissions, $template, $user, $phpbb_ext_gallery, $phpbb_dispatcher, $table_prefix, $table_name, $users_table;
-		
+
 		$permissions_table = $table_prefix . 'gallery_permissions';
 		$roles_table = $table_prefix . 'gallery_roles';
 		// Init auth
 		$gallery_cache = new \phpbbgallery\core\cache($cache, $db);
 		$gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $table_name);
 		$phpbb_ext_gallery_core_auth = new \phpbbgallery\core\auth\auth($gallery_cache, $db, $gallery_user, $permissions_table, $roles_table, $users_table);
-		
+
 		$user->add_lang('acp/permissions');
 
 		if (!check_form_key('acp_gallery'))
@@ -663,7 +663,7 @@ class permissions_module
 	function permissions_set()
 	{
 		global $cache, $db, $permissions, $template, $user, $phpbb_ext_gallery, $phpbb_dispatcher, $table_prefix, $table_name;
-		
+
 		$permissions_table = $table_prefix . 'gallery_permissions';
 		$roles_table = $table_prefix . 'gallery_roles';
 		$users_table = $table_prefix . 'gallery_users';
@@ -796,7 +796,7 @@ class permissions_module
 							}
 						}
 					}
-					elseif ($i_mask)
+					else if ($i_mask)
 					{
 						var_dump($i_mask);
 						// Inherit permissions of one [c_mask][v_mask]
@@ -999,7 +999,7 @@ class permissions_module
 	function copy_album_permissions()
 	{
 		global $cache, $db, $template, $user, $table_prefix, $phpbb_dispatcher, $table_name, $users_table;
-		
+
 		$albums_table = $table_prefix . 'gallery_albums';
 		$roles_table = $table_prefix . 'gallery_roles';
 		$permissions_table = $table_prefix . 'gallery_permissions';
@@ -1007,7 +1007,7 @@ class permissions_module
 		$gallery_cache = new \phpbbgallery\core\cache($cache, $db);
 		$gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $table_name);
 		$phpbb_ext_gallery_core_auth = new \phpbbgallery\core\auth\auth($gallery_cache, $db, $gallery_user, $permissions_table, $roles_table, $users_table);
-		
+
 		// Init album
 		$phpbb_ext_gallery_core_album = new \phpbbgallery\core\album\album();
 
@@ -1231,7 +1231,7 @@ class permissions_module
 	function p_system_inherit_victims($p_system, $allowed_victims, $victim_id, $check_inherit_victim = 0)
 	{
 		global $user, $table_prefix, $phpbb_dispatcher, $table_name, $db, $cache;
-		
+
 		$albums_table = $table_prefix . 'gallery_albums';
 		$roles_table = $table_prefix . 'gallery_roles';
 		$permissions_table = $table_prefix . 'gallery_permissions';

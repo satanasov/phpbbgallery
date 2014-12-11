@@ -49,12 +49,12 @@ class main_module
 	{
 		global $auth, $config, $db, $template, $user, $phpbb_ext_gallery, $table_prefix, $phpbb_dispatcher, $phpbb_root_path;
 		global $phpbb_container;
-		
+
 		$phpbbgallery_core_file = $phpbb_root_path . 'files/phpbbgallery/core';
 		$phpbbgallery_core_file_medium = $phpbb_root_path . 'files/phpbbgallery/core/medium';
 		$phpbbgallery_core_file_mini = $phpbb_root_path . 'files/phpbbgallery/core/mini';
 		$phpbbgallery_core_file_source = $phpbb_root_path . 'files/phpbbgallery/core/source';
-	
+
 		$albums_table = $table_prefix . 'gallery_albums';
 		$roles_table = $table_prefix . 'gallery_roles';
 		$permissions_table = $table_prefix . 'gallery_permissions';
@@ -64,63 +64,63 @@ class main_module
 		$images_table = $table_prefix . 'gallery_images';
 		// Init album
 		$phpbb_ext_gallery_core_album = new \phpbbgallery\core\album\album();
-		
+
 		// init users
 		$phpbb_gallery_user = $phpbb_container->get('phpbbgallery.core.user');
-		
+
 		// init image
 		$phpbb_gallery_image = $phpbb_container->get('phpbbgallery.core.image');
 
 		// init config
 		$phpbb_ext_gallery_config = $phpbb_container->get('phpbbgallery.core.config');
-		
+
 		$action = request_var('action', '');
 		$id = request_var('i', '');
 		$mode = 'overview';
 
 		// before we start let's check if directory structure is OK
-		
+
 		if (!is_writable($phpbb_root_path . 'files'))
 		{
 			$template->assign_vars(array(
 				'U_FILE_DIR_STATE'	=> $user->lang['NO_WRITE_ACCESS'],
-				'U_FILE_DIR_STATE_ERROR'	=> 1,	
+				'U_FILE_DIR_STATE_ERROR'	=> 1,
 				'U_CORE_DIR_STATE'	=>  $user->lang['NO_WRITE_ACCESS'],
 				'U_CORE_DIR_STATE_ERROR'	=> 1,
 				'U_MEDIUM_DIR_STATE'	=>  $user->lang['NO_WRITE_ACCESS'],
-				'U_MEDIUM_DIR_STATE_ERROR'	=> 1,	
+				'U_MEDIUM_DIR_STATE_ERROR'	=> 1,
 				'U_MINI_DIR_STATE'	=>  $user->lang['NO_WRITE_ACCESS'],
-				'U_MINI_DIR_STATE_ERROR'	=> 1,	
+				'U_MINI_DIR_STATE_ERROR'	=> 1,
 				'U_SOURCE_DIR_STATE'	=>  $user->lang['NO_WRITE_ACCESS'],
-				'U_SOURCE_DIR_STATE_ERROR'	=> 1,	
+				'U_SOURCE_DIR_STATE_ERROR'	=> 1,
 			));
 		}
 		else
 		{
 			$template->assign_vars(array(
 				'U_FILE_DIR_STATE'	=>  $user->lang['WRITE_ACCESS'],
-				'U_FILE_DIR_STATE_ERROR'	=> 0,	
+				'U_FILE_DIR_STATE_ERROR'	=> 0,
 			));
 			if (!file_exists($phpbbgallery_core_file))
 			{
 				mkdir($phpbbgallery_core_file, 0755, true);
 				$template->assign_vars(array(
 					'U_CORE_DIR_STATE'	=>  $user->lang['DIR_CREATED'],
-					'U_CORE_DIR_STATE_ERROR'	=> 0,	
+					'U_CORE_DIR_STATE_ERROR'	=> 0,
 				));
 			}
 			else if (is_writable($phpbbgallery_core_file))
 			{
 				$template->assign_vars(array(
 					'U_CORE_DIR_STATE'	=>  $user->lang['WRITE_ACCESS'],
-					'U_CORE_DIR_STATE_ERROR'	=> 0,	
+					'U_CORE_DIR_STATE_ERROR'	=> 0,
 				));
 			}
 			else
 			{
 				$template->assign_vars(array(
 					'U_CORE_DIR_STATE'	=>  $user->lang['NO_WRITE_ACCESS'],
-					'U_CORE_DIR_STATE_ERROR'	=> 1,	
+					'U_CORE_DIR_STATE_ERROR'	=> 1,
 				));
 			}
 			if (!file_exists($phpbbgallery_core_file_medium))
@@ -128,21 +128,21 @@ class main_module
 				mkdir($phpbbgallery_core_file_medium, 0755, true);
 				$template->assign_vars(array(
 					'U_MEDIUM_DIR_STATE'	=>  $user->lang['DIR_CREATED'],
-					'U_MEDIUM_DIR_STATE_ERROR'	=> 0,	
+					'U_MEDIUM_DIR_STATE_ERROR'	=> 0,
 				));
 			}
 			else if (is_writable($phpbbgallery_core_file_medium))
 			{
 				$template->assign_vars(array(
 					'U_MEDIUM_DIR_STATE'	=>  $user->lang['WRITE_ACCESS'],
-					'U_MEDIUM_DIR_STATE_ERROR'	=> 0,	
+					'U_MEDIUM_DIR_STATE_ERROR'	=> 0,
 				));
 			}
 			else
 			{
 				$template->assign_vars(array(
 					'U_MEDIUM_DIR_STATE'	=>  $user->lang['NO_WRITE_ACCESS'],
-					'U_MEDIUM_DIR_STATE_ERROR'	=> 1,	
+					'U_MEDIUM_DIR_STATE_ERROR'	=> 1,
 				));
 			}
 			if (!file_exists($phpbbgallery_core_file_mini))
@@ -150,21 +150,21 @@ class main_module
 				mkdir($phpbbgallery_core_file_mini, 0755, true);
 				$template->assign_vars(array(
 					'U_MINI_DIR_STATE'	=>  $user->lang['DIR_CREATED'],
-					'U_MINI_DIR_STATE_ERROR'	=> 0,	
+					'U_MINI_DIR_STATE_ERROR'	=> 0,
 				));
 			}
 			else if (is_writable($phpbbgallery_core_file_mini))
 			{
 				$template->assign_vars(array(
 					'U_MINI_DIR_STATE'	=>  $user->lang['WRITE_ACCESS'],
-					'U_MINI_DIR_STATE_ERROR'	=> 0,	
+					'U_MINI_DIR_STATE_ERROR'	=> 0,
 				));
 			}
 			else
 			{
 				$template->assign_vars(array(
 					'U_MINI_DIR_STATE'	=>  $user->lang['NO_WRITE_ACCESS'],
-					'U_MINI_DIR_STATE_ERROR'	=> 1,	
+					'U_MINI_DIR_STATE_ERROR'	=> 1,
 				));
 			}
 			if (!file_exists($phpbbgallery_core_file_source))
@@ -172,21 +172,21 @@ class main_module
 				mkdir($phpbbgallery_core_file_source, 0755, true);
 				$template->assign_vars(array(
 					'U_SOURCE_DIR_STATE'	=>  $user->lang['DIR_CREATED'],
-					'U_SOURCE_DIR_STATE_ERROR'	=> 0,	
+					'U_SOURCE_DIR_STATE_ERROR'	=> 0,
 				));
 			}
 			else if (is_writable($phpbbgallery_core_file_source))
 			{
 				$template->assign_vars(array(
 					'U_SOURCE_DIR_STATE'	=>  $user->lang['WRITE_ACCESS'],
-					'U_SOURCE_DIR_STATE_ERROR'	=> 0,	
+					'U_SOURCE_DIR_STATE_ERROR'	=> 0,
 				));
 			}
 			else
 			{
 				$template->assign_vars(array(
 					'U_SOURCE_DIR_STATE'	=>  $user->lang['NO_WRITE_ACCESS'],
-					'U_SOURCE_DIR_STATE_ERROR'	=> 1,	
+					'U_SOURCE_DIR_STATE_ERROR'	=> 1,
 				));
 			}
 		}
