@@ -15,7 +15,7 @@ class phpbbgallery_base extends \phpbb_functional_test_case
 {
 	static protected function setup_extensions()
 	{
-		return array('phpbbgallery/core', 'phpbbgallery/exif');
+		return array('phpbbgallery/core', 'phpbbgallery/exif', 'phpbbgallery/acpimport');
 	}
 	public function setUp()
 	{
