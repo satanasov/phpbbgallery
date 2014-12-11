@@ -135,6 +135,7 @@ services:
             - @phpbbgallery.core.auth
             - @phpbbgallery.core.user
             - @phpbbgallery.core.file.tool
+            - @request
             - %phpbbgallery.core.file.source%
             - %phpbbgallery.core.file.medium%
             - %phpbbgallery.core.file.mini%
