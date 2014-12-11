@@ -50,7 +50,7 @@ class phpbbgallery_core_acp_test extends phpbbgallery_base
 		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
 		$this->add_lang_ext('phpbbgallery/acpimport', 'info_acp_gallery_acpimport');
 		
-		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-acpimport-acp-main_module&mode=main&sid=' . $this->sid);
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-acpimport-acp-main_module&mode=import_images&sid=' . $this->sid);
 		
 		$this->assertContainsLang('ACP_IMPORT_ALBUMS', $crawler->text());
 		
