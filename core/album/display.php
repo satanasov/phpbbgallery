@@ -650,9 +650,9 @@ class display
 				$lastimage_album_type = $row['album_type_last_image'];
 				$lastimage_contest_marked = $row['album_contest_marked'];
 				// phpbb_ext_gallery_core_image::generate_link('fake_thumbnail', $phpbb_ext_gallery->config->get('link_thumbnail'), $lastimage_image_id, $lastimage_name, $lastimage_album_id);
-				$lastimage_uc_fake_thumbnail = $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $row['album_last_image_id']));
+				$lastimage_uc_fake_thumbnail = $row['album_image'] ? generate_board_url() . '/' . $row['album_image'] : $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $row['album_last_image_id']));
 				// phpbb_ext_gallery_core_image::generate_link('thumbnail', $phpbb_ext_gallery->config->get('link_thumbnail'), $lastimage_image_id, $lastimage_name, $lastimage_album_id);
-				$lastimage_uc_thumbnail = $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $row['album_last_image_id']));
+				$lastimage_uc_thumbnail = $row['album_image'] ? generate_board_url() . '/' . $row['album_image'] : $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $row['album_last_image_id']));
 				// phpbb_ext_gallery_core_image::generate_link('image_name', $phpbb_ext_gallery->config->get('link_image_name'), $lastimage_image_id, $lastimage_name, $lastimage_album_id);
 				$lastimage_uc_name = '';//@todo phpbb_ext_gallery_core_image::generate_link('image_name', $phpbb_ext_gallery->config->get('link_image_name'), $lastimage_image_id, $lastimage_name, $lastimage_album_id);
 				// phpbb_ext_gallery_core_image::generate_link('lastimage_icon', $phpbb_ext_gallery->config->get('link_image_icon'), $lastimage_image_id, $lastimage_name, $lastimage_album_id);
