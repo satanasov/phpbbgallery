@@ -122,7 +122,7 @@ class file
 
 		$this->generate_image_src();
 		// @todo Enable watermark
-		
+
 		$this->use_watermark = $this->config['phpbb_gallery_watermark_enabled'] && $this->data['album_watermark'] && !$this->auth->acl_check('i_watermark', $this->data['album_id'], $this->data['album_user_id']);
 
 		$this->tool->set_image_options($this->config['phpbb_gallery_max_filesize'], $this->config['phpbb_gallery_max_height'], $this->config['phpbb_gallery_max_width']);
@@ -248,7 +248,7 @@ class file
 				$this->data['image_filemissing'] = 0;
 				$this->data['image_filemissing'] = 0;
 				$this->data['album_watermark'] = 0;
-				
+
 			}
 		}
 	}

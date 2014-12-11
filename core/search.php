@@ -56,8 +56,8 @@ class search
 	* @param string						$root_path	Root path
 	* @param string						$php_ext	php file extension
 	*/
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request, 
-	\phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbbgallery\core\album\display $display, \phpbbgallery\core\config $gallery_config, 
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request,
+	\phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbbgallery\core\album\display $display, \phpbbgallery\core\config $gallery_config,
 	\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\album\album $album, \phpbbgallery\core\image\image $image, \phpbbgallery\core\url $url,
 	$images_table, $albums_table, $comments_table, $root_path, $php_ext)
 	{
@@ -90,7 +90,7 @@ class search
 	{
 		// Define some vars
 		$images_per_page = $limit;
-		
+
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 
 		switch ($this->db->get_sql_layer())
@@ -135,15 +135,15 @@ class search
 		$total_match_count = sizeof($id_ary);
 
 		$l_search_matches = $this->user->lang('FOUND_SEARCH_MATCHES', $total_match_count);
-		
+
 		// For some searches we need to print out the "no results" page directly to allow re-sorting/refining the search options.
 		if (!sizeof($id_ary))
 		{
 			trigger_error('NO_SEARCH_RESULTS');
 		}
-		
+
 		$sql_where = $this->db->sql_in_set('i.image_id', $id_ary);
-		
+
 		$this->template->assign_block_vars('random', array(
 			'BLOCK_NAME'	=> $this->user->lang['RANDOM_IMAGES'],
 			'U_BLOCK'	=> $this->helper->route('phpbbgallery_search_random'),
@@ -172,11 +172,11 @@ class search
 			$rowset[] = $row;
 		}
 		$this->db->sql_freeresult($result);
-		
+
 		foreach ($rowset as $row)
 		{
 			$album_data = $this->album->get_info($row['image_album_id']);
-			
+
 			$this->template->assign_block_vars('random.image', array(
 				'IMAGE_ID'		=> $row['image_id'],
 				'U_IMAGE'		=> $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id'])),
@@ -208,7 +208,7 @@ class search
 			));
 		}
 	}
-	
+
 	/**
 	* Generate recent images and populate template
 	* @param (int)	$limit How many imagese to query
@@ -245,15 +245,15 @@ class search
 		$total_match_count = sizeof($id_ary);
 
 		$l_search_matches = $this->user->lang('FOUND_SEARCH_MATCHES', $total_match_count);
-		
+
 		// For some searches we need to print out the "no results" page directly to allow re-sorting/refining the search options.
 		if (!sizeof($id_ary))
 		{
 			trigger_error('NO_SEARCH_RESULTS');
 		}
-		
+
 		$sql_where = $this->db->sql_in_set('i.image_id', $id_ary);
-		
+
 		$this->template->assign_block_vars('recent', array(
 			'BLOCK_NAME'	=> $this->user->lang['RECENT_IMAGES'],
 			'U_BLOCK'	=> $this->helper->route('phpbbgallery_search_recent'),
@@ -282,11 +282,11 @@ class search
 			$rowset[] = $row;
 		}
 		$this->db->sql_freeresult($result);
-		
+
 		foreach ($rowset as $row)
 		{
 			$album_data = $this->album->get_info($row['image_album_id']);
-			
+
 			$this->template->assign_block_vars('recent.image', array(
 				'IMAGE_ID'		=> $row['image_id'],
 				'U_IMAGE'		=> $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id'])),
@@ -318,7 +318,7 @@ class search
 			));
 		}
 	}
-	
+
 	/**
 	* Get all recent images the user has access to
 	* return (int) $images_count
@@ -337,7 +337,7 @@ class search
 
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
-		
+
 		return (int) $row['count'];
 	}
 }

@@ -53,7 +53,7 @@ class upload
 		$this->images_table = $images_table;
 	}
 
-	public function upload($album_id)
+	public function main($album_id)
 	{
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
 		$album_data = $this->album->get_info($album_id);
