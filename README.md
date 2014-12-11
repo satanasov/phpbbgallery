@@ -82,7 +82,7 @@ As I said the 1.2 version will be primarly targeted as backword compatible with 
 
 Thank you for reading this long README. 
 
-[here a travic-ci badge will be placed]
+[![Build Status](https://travis-ci.org/satanasov/phpbbgallery.svg?branch=master)](https://travis-ci.org/satanasov/phpbbgallery)
 
 Regards,
 Stanislav Atanasov
