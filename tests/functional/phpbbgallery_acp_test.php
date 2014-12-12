@@ -111,5 +111,32 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		$crawler = self::submit($form);
 		
 		$this->assertContainsLang('PERMISSION_I_VIEW', $crawler->text());
+		
+		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
+		$form[1][5] = array(
+			'a_list'			=> 1,
+			'i_view'			=> 1,
+			'i_watermark'		=> 1,
+			'i_upload'			=> 1,
+			'i_edit'			=> 1,
+			'i_delete'			=> 1,
+			'i_rate'			=> 1,
+			'i_approve'			=> 1,
+			'i_report'			=> 1,
+			'i_count'			=> 0,
+			'i_unlimited'		=> 1,
+			'c_read'			=> 1,
+			'c_post'			=> 1,
+			'c_edit'			=> 1,
+			'c_delete'			=> 1,
+			'm_comments'		=> 1,
+			'm_delete'			=> 1,
+			'm_edit'			=> 1,
+			'm_move'			=> 1,
+			'm_report'			=> 1,
+			'm_status'			=> 1,
+		);
+		$crawler = self::submit($form);
+		$this->assertContainsLang('PERMISSIONS_STORED', $crawler->text());
 	}
 }
