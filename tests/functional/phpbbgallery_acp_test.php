@@ -106,12 +106,10 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		
 		$this->assertContains('First test album!', $crawler->text());
 		
-		$select = $crawler->filter()->lang('ADD_GROUPS')->parents();
-		$select = $select->parents();
-		//$form = $crawler->selectButton($this->lang('ADD_PERMISSIONS'))->form();
-		//$form['group_id'] = array(5);
-		//$crawler = self::submit($form);
+		 $crawler->filter('form[id=add_groups]')->selectButton($this->lang('ADD_PERMISSIONS'))->form();
+		$form['group_id'] = array(5);
+		$crawler = self::submit($form);
 		
-		$this->assertContains('zazazaza', $select->text());
+		$this->assertContainsLang('PERMISSION_I_VIEW', $crawler->text());
 	}
 }
