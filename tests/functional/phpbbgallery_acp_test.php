@@ -108,10 +108,10 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		
 		$select = $crawler->filter('ADD_GROUPS')->parents();
 		$select = $select->parents();
-		$form = $crawler->selectButton($this->lang('ADD_PERMISSIONS'))->form();
-		$form['group_id'] = array(5);
-		$crawler = self::submit($form);
+		//$form = $crawler->selectButton($this->lang('ADD_PERMISSIONS'))->form();
+		//$form['group_id'] = array(5);
+		//$crawler = self::submit($form);
 		
-		$this->assertContainsLang('PERMISSION_I_VIEW', $crawler->text());
+		$this->assertContains('zazazaza', $select->text());
 	}
 }
