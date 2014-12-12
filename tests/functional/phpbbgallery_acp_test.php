@@ -106,7 +106,7 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		
 		$this->assertContains('First test album!', $crawler->text());
 		
-		$select = $crawler->filter('ADD_GROUPS')->parents();
+		$select = $crawler->filter()->lang('ADD_GROUPS')->parents();
 		$select = $select->parents();
 		//$form = $crawler->selectButton($this->lang('ADD_PERMISSIONS'))->form();
 		//$form['group_id'] = array(5);
