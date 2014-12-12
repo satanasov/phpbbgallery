@@ -11,7 +11,7 @@ namespace phpbbgallery\tests\functional;
 /**
 * @group functional
 */
-class phpbbgallery_core_acp_test extends phpbbgallery_base
+class phpbbgallery_acp_test extends phpbbgallery_base
 {
 	public function test_install()
 	{
@@ -82,5 +82,34 @@ class phpbbgallery_core_acp_test extends phpbbgallery_base
 		
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-albums_module&mode=manage&sid=' . $this->sid);
 		$this->assertContains('First test album!', $crawler->text());
+		
+		$crawler = self::request('GET', 'app.php/gallery' . $this->sid);
+		$this->assertContains('First test album!', $crawler->text());
+		
+		$this->logout();
+		$this->logout();
+	}
+	
+	public function test_acl_set_permissions_public()
+	{
+		$this->login();
+		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang('acp/permissions');
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-permissions_module&mode=manage'  . $this->sid);
+		$this->assertContainsLang('PERMISSIONS_EXPLAIN', $crawler->text());
+		
+		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
+		$form['p_system'] = 0;
+		$form['album_id'] = array(1);
+		$crawler = self::submit($form);
+		
+		$this->assertContains('First test album!', $crawler->text());
+		
+		$form = $crawler->selectButton($this->lang('ADD_PERMISSIONS'))->form();
+		$form['group_id'] = array(5);
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('PERMISSION_I_VIEW', $crawler->text());
 	}
 }
