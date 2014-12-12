@@ -27,7 +27,7 @@ class config_module
 			trigger_error('NO_MODE', E_USER_ERROR);
 		}
 
-		global $config, $db, $user, $template, $cache, $phpbb_container;
+		global $config, $db, $user, $template, $cache, $phpbb_container, $phpbb_root_path, $phpEx, $phpbb_gallery_url;
 
 		$phpbb_gallery_url = $phpbb_container->get('phpbbgallery.core.url');
 		$user->add_lang_ext('phpbbgallery/core', array('gallery', 'gallery_acp'));
@@ -96,8 +96,9 @@ class config_module
 						if (!class_exists('acp_bbcodes'))
 						{
 							$phpbb_gallery_url->_include('acp/acp_bbcodes', 'phpbb');
+							//include_once($phpbb_root_path . 'includes/acp/acp_bbcodes.' . $phpEx);
 						}
-						$acp_bbcodes = new acp_bbcodes();
+						$acp_bbcodes = new \acp_bbcodes();
 						$bbcode_match = '[album]{NUMBER}[/album]';
 						$bbcode_tpl = $this->bbcode_tpl($config_value);
 
@@ -538,23 +539,20 @@ class config_module
 	*/
 	function bbcode_tpl($value)
 	{
+		global $phpbb_gallery_url;
 		$gallery_url = $phpbb_gallery_url->path('full');
 
-		if (($value == 'highslide') && in_array('highslide', phpbb_gallery_plugins::$plugins))
+		if ($value == 'image_page')
 		{
-			$bbcode_tpl = '<a class="highslide" onclick="return hs.expand(this)" href="' . $gallery_url . 'image.php?image_id={NUMBER}"><img src="' . $gallery_url . 'image.php?mode=thumbnail&amp;image_id={NUMBER}" alt="{NUMBER}" /></a>';
+			$bbcode_tpl = '<a href="' . $gallery_url . 'image/{NUMBER}"><img src="' . $gallery_url . 'image/{NUMBER}/mini" alt="{NUMBER}" /></a>';
 		}
-		else if (($value == 'lytebox') && in_array('lytebox', phpbb_gallery_plugins::$plugins))
+		else if ($value == 'image')
 		{
-			$bbcode_tpl = '<a class="image-resize" rel="lytebox" href="' . $gallery_url . 'image.php?image_id={NUMBER}"><img src="' . $gallery_url . 'image.php?mode=thumbnail&amp;image_id={NUMBER}" alt="{NUMBER}" /></a>';
-		}
-		else if ($value == 'image_page')
-		{
-			$bbcode_tpl = '<a href="' . $gallery_url . 'image_page.php?image_id={NUMBER}"><img src="' . $gallery_url . 'image.php?mode=thumbnail&amp;image_id={NUMBER}" alt="{NUMBER}" /></a>';
+			$bbcode_tpl = '<a href="' . $gallery_url . 'image/{NUMBER}/source"><img src="' . $gallery_url . 'image/{NUMBER}/mini" alt="{NUMBER}" /></a>';
 		}
 		else
 		{
-			$bbcode_tpl = '<a href="' . $gallery_url . 'image.php?image_id={NUMBER}"><img src="' . $gallery_url . 'image.php?mode=thumbnail&amp;image_id={NUMBER}" alt="{NUMBER}" /></a>';
+			$bbcode_tpl = '<img src="' . $gallery_url . 'image/{NUMBER}/mini" alt="{NUMBER}" />';
 		}
 
 		return $bbcode_tpl;
