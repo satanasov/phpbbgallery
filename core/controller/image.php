@@ -404,6 +404,7 @@ class image
 			$flash_status	= false;
 			$quote_status	= true;
 
+			include_once($this->phpbb_root_path . 'includes/functions_display.' . $this->php_ext);
 			// Build custom bbcodes array
 			display_custom_bbcodes();
 
