@@ -391,7 +391,7 @@ class file
 //			}
 		}
 	}
-	
+
 	protected function check_hot_link()
 	{
 		if (!$this->config['phpbb_gallery_allow_hotlinking'])
