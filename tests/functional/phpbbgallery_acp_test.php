@@ -83,7 +83,7 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-albums_module&mode=manage&sid=' . $this->sid);
 		$this->assertContains('First test album!', $crawler->text());
 		
-		$crawler = self::request('GET', 'app.php/gallery' . $this->sid);
+		$crawler = self::request('GET', 'app.php/gallery');
 		$this->assertContains('First test album!', $crawler->text());
 		
 		$this->logout();
@@ -96,7 +96,7 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		$this->admin_login();
 		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
 		$this->add_lang('acp/permissions');
-		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-permissions_module&mode=manage'  . $this->sid);
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-permissions_module&mode=manage&sid='  . $this->sid);
 		$this->assertContainsLang('PERMISSIONS_EXPLAIN', $crawler->text());
 		
 		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
