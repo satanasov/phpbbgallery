@@ -29,7 +29,7 @@ class m2_add_bbcode extends \phpbb\db\migration\migration
 			array('custom', array(array(&$this, 'remove_bbcode'))),
 		);
 	}
-
+/*
 	public function install_bbcode()
 	{
 		// Load the acp_bbcode class
@@ -103,7 +103,56 @@ class m2_add_bbcode extends \phpbb\db\migration\migration
 			}
 		}
 	}
-
+*/
+	public function install_bbcode()
+	{
+		$sql = 'SELECT bbcode_id FROM ' . $this->table_prefix . 'bbcodes WHERE LOWER(bbcode_tag) = \'album\'';
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
+		
+		if (!$row)
+		{
+			// Create new BBCode
+			$sql = 'SELECT MAX(bbcode_id) AS max_bbcode_id FROM ' . $this->table_prefix . 'bbcodes';
+			$result = $this->db->sql_query($sql);
+			$row = $this->db->sql_fetchrow($result);
+			$this->db->sql_freeresult($result);
+			
+			if ($row)
+			{
+				$bbcode_id = $row['max_bbcode_id'] + 1;
+				// Make sure it is greater than the core BBCode ids...
+				if ($bbcode_id <= NUM_CORE_BBCODES)
+				{
+					$bbcode_id = NUM_CORE_BBCODES + 1;
+				}
+			}
+			else
+			{
+				$bbcode_id = NUM_CORE_BBCODES + 1;
+			}
+			
+			if ($bbcode_id <= BBCODE_LIMIT)
+			{
+				$this->db->sql_query('INSERT INTO ' . $this->table_prefix . 'bbcodes ' . $this->db->sql_build_array(
+					'INSERT',
+					array(
+						'bbcode_tag'			=> 'album',
+						'bbcode_id'				=> (int) $bbcode_id,
+						'bbcode_helpline'		=> 'GALLERY_HELPLINE_ALBUM',
+						'display_on_posting'	=> 0,
+						'bbcode_match'			=> '[album]{NUMBER}[/album]',
+						'bbcode_tpl'			=> '<a href="gallery/image/{NUMBER}"><img src="gallery/image/{NUMBER}/mini" alt="{NUMBER}" /></a>',
+						'first_pass_match'		=> '!\[album\]([0-9]+)\[/album\]!i',
+						'first_pass_replace'	=> '[album:$uid]${1}[/album:$uid]',
+						'second_pass_match'		=> '!\[album:$uid\]([0-9]+)\[/album:$uid\]!s',
+						'second_pass_replace'	=> '<a href="/gallery/image/${1}"><img src="/gallery/image/${1}/mini" alt="${1}" /></a>'
+					)
+				));
+			}
+		}
+	}
 	public function remove_bbcode()
 	{
 		$sql = 'DELETE FROM ' . BBCODES_TABLE . ' WHERE bbcode_tag = \'album\'';

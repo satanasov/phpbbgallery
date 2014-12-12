@@ -57,7 +57,7 @@ class m1_init extends \phpbb\db\migration\migration
 	{
 		global $phpbb_root_path;
 
-		$phpbbgallery_core_file_import = $phpbb_root_path . 'files/phpbbgallery/core/source';
+		$phpbbgallery_core_file_import = $phpbb_root_path . 'files/phpbbgallery/core/import';
 
 		// Clean dirs
 		$this->recursiveRemoveDirectory($phpbbgallery_core_file_import);
