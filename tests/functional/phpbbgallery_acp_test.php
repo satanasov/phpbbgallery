@@ -164,7 +164,7 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		$this->assertContainsLang('PERMISSION_I_VIEW', $crawler->text());
 		
 		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
-		$form['setting'][1][5] = array(
+		$form['setting'][1][2] = array(
 			'a_list'			=> 1,
 			'i_view'			=> 1,
 			'i_watermark'		=> 0,
