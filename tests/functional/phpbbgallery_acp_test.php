@@ -233,13 +233,15 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		//$link = $crawler->filter('div.upload-icon > a')->attr('href');
 		//$this->assertContains('lalalalalal',  $crawler->filter('div.upload-icon > a')->attr('href'));
 		
-		$crawler = self::request('GET', substr($crawler->filter('div.upload-icon > a')->attr('href'), 1));
+		$upload_url = substr($crawler->filter('div.upload-icon > a')->attr('href'), 1);
+		
+		$crawler = self::request('GET', $upload_url);
 		
 		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
 		
 		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
 		
-		$this->upload_file('valid.jpg', 'image/jpeg', $form->attr('action'));
+		$this->upload_file('valid.jpg', 'image/jpeg', $upload_url);
 		
 		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
 		
