@@ -157,7 +157,7 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		$this->add_lang('common');
 		
 		$this->assertContainsLang('MCP', $crawler->text());
-		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
+		$this->assertContains('UPLOAD_IMAGE', $crawler->text());
 		
 		// Now let's set for registered users
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-permissions_module&mode=manage&sid='  . $this->sid);
