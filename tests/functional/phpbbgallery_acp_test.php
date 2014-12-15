@@ -227,6 +227,7 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 	{
 		$this->login();
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang('common');
 		
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		
