@@ -231,7 +231,7 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		
 		//$link = $crawler->filter('div.upload-icon > a')->attr('href');
-		$this->assertContains('lalalalalal',  $crawler->filter('div.upload-icon > a')->text());
+		$this->assertContains('lalalalalal',  $crawler->filter('div.upload-icon > a')->attr('href'));
 		
 		/*$crawler = self::request('GET', $link);
 		
