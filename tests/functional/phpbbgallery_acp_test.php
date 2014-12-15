@@ -231,9 +231,9 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		
 		//$link = $crawler->filter('div.upload-icon > a')->attr('href');
-		$this->assertContains('lalalalalal',  $crawler->filter('div.upload-icon > a')->attr('href'));
+		/*$this->assertContains('lalalalalal',  $crawler->filter('div.upload-icon > a')->attr('href'));*/
 		
-		/*$crawler = self::request('GET', $link);
+		$crawler = self::request('GET', $crawler->filter('div.upload-icon > a')->attr('href'));
 		
 		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
 		
@@ -252,6 +252,6 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		
 		$this->assertContains('valid',  $crawler->filter('div.polaroid')->filter('p')->text());
 		
-		$this->logout();*/
+		$this->logout();
 	}
 }
