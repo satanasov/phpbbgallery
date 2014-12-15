@@ -25,7 +25,7 @@ class phpbbgallery_base extends \phpbb_functional_test_case
 		
 	}	
 	
-	private function upload_file($filename, $mimetype)
+	private function upload_file($filename, $mimetype, $upload_path)
 	{
 		$file = array(
 			'tmp_name' => $this->path . $filename,
@@ -35,6 +35,12 @@ class phpbbgallery_base extends \phpbb_functional_test_case
 			'error' => UPLOAD_ERR_OK,
 		);
 		
+		$crawler = self::$client->request(
+			'POST',
+			$upload_path . $this->sid,
+			array('mode' => 'upload'),
+			array('image_file_0' => $file)
+		);
 		return $file;
 	}
 }
