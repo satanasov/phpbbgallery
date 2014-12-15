@@ -100,6 +100,7 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		$this->login();
 		$this->admin_login();
 		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
 		$this->add_lang('acp/permissions');
 		
 		// Let us set for administration
@@ -157,7 +158,7 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		$this->add_lang('common');
 		
 		$this->assertContainsLang('MCP', $crawler->text());
-		$this->assertContains('UPLOAD_IMAGE', $crawler->text());
+		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
 		
 		// Now let's set for registered users
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-permissions_module&mode=manage&sid='  . $this->sid);
@@ -177,29 +178,36 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		$this->assertContainsLang('PERMISSION_I_VIEW', $crawler->text());
 		
 		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
-		$form['setting'][1][2] = array(
-			'a_list'			=> 1,
-			'i_view'			=> 1,
-			'i_watermark'		=> 0,
-			'i_upload'			=> 1,
-			'i_edit'			=> 1,
-			'i_delete'			=> 1,
-			'i_rate'			=> 1,
-			'i_approve'			=> 0,
-			'i_report'			=> 1,
-			'i_count'			=> 0,
-			'i_unlimited'		=> 1,
-			'c_read'			=> 1,
-			'c_post'			=> 1,
-			'c_edit'			=> 1,
-			'c_delete'			=> 1,
-			'm_comments'		=> 0,
-			'm_delete'			=> 0,
-			'm_edit'			=> 0,
-			'm_move'			=> 0,
-			'm_report'			=> 0,
-			'm_status'			=> 0,
+		$data = array(
+			'setting'	=> array(
+				1	=> array (
+					2 => array(
+						'a_list'			=> '1',
+						'i_view'			=> '1',
+						'i_watermark'		=> '0',
+						'i_upload'			=> '1',
+						'i_edit'			=> '1',
+						'i_delete'			=> '1',
+						'i_rate'			=> '1',
+						'i_approve'			=> '0',
+						'i_report'			=> '1',
+						'i_count'			=> '0',
+						'i_unlimited'		=> '1',
+						'c_read'			=> '1',
+						'c_post'			=> '1',
+						'c_edit'			=> '1',
+						'c_delete'			=> '1',
+						'm_comments'		=> '0',
+						'm_delete'			=> '0',
+						'm_edit'			=> '0',
+						'm_move'			=> '0',
+						'm_report'			=> '0',
+						'm_status'			=> '0',
+					)
+				)
+			)
 		);
+		$form->setValues($data);
 		$crawler = self::submit($form);
 		$this->assertContainsLang('PERMISSIONS_STORED', $crawler->text());
 		
