@@ -228,25 +228,9 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		$this->login();
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
 		
-		// Let's build photo objects
-		
-		$photo1 = new UploadedFile(
-			'/tmp/photo1.jpg',
-			'photo1.jpg',
-			'image/jpeg',
-			512
-		);
-		
-		$photo2 = new UploadedFile(
-			'/tmp/photo2.jpg',
-			'photo2.jpg',
-			'image/jpeg',
-			1024
-		);
-		
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		
-		$link = $crawler->selectLink($this->lang['UPLOAD_IMAGE'])->link();
+		$link = $crawler->filter('div.upload-icon > a')->attr('href');
 		
 		$crawler = self::request('GET', $link-attr('href'));
 		
