@@ -248,7 +248,7 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		
 		$link = $crawler->selectLink($this->lang['UPLOAD_IMAGE'])->link();
 		
-		$crawler = self::request('GET', $link);
+		$crawler = $client->click($link);
 		
 		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
 		
