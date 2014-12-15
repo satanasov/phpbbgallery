@@ -254,8 +254,7 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		
 		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
 		$data = array(
-			'image_file_0'	=> $photo1,
-			'image_file_1'	=> $photo2,
+			'image_file_0'	=> $this->upload_file('valid.jpg' 'image/jpeg'),
 		);
 		$form->setValues($data);
 		$crawler = self::submit($form);
@@ -269,7 +268,7 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		
-		$this->assertContains('photo1',  $crawler->filter('div.polaroid')->filter('p')->text());
+		$this->assertContains('valid',  $crawler->filter('div.polaroid')->filter('p')->text());
 		
 		$this->logout();
 	}
