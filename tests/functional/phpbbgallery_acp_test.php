@@ -222,4 +222,55 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		
 		$this->logout();
 	}
+	
+	public function test_acl_upload_public_admin()
+	{
+		$this->login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		
+		// Let's build photo objects
+		
+		$photo1 = new UploadedFile(
+			'/tmp/photo1.jpg',
+			'photo1.jpg',
+			'image/jpeg',
+			512
+		);
+		
+		$photo2 = new UploadedFile(
+			'/tmp/photo2.jpg',
+			'photo2.jpg',
+			'image/jpeg',
+			1024
+		);
+		
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
+		
+		$link = $crawler->selectLink($this->lang['UPLOAD_IMAGE'])->link();
+		
+		$crawler = self::request('GET', $link);
+		
+		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
+		
+		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
+		$data = array(
+			'image_file_0'	=> $photo1,
+			'image_file_1'	=> $photo2,
+		);
+		$form->setValues($data);
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
+		
+		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('ALBUM_UPLOAD_SUCCESSFUL', $crawler->text());
+		
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
+		
+		$this->assertContains('photo1',  $crawler->filter('div.polaroid')->filter('p')->text());
+		
+		$this->logout();
+	}
 }
