@@ -353,7 +353,7 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		
 		$this->assertContainsLang('DELETED_IMAGE',  $crawler->text());
 		
-		$this-logout();
+		$this->logout();
 	}
 	
 	public function test_visibility_user()
