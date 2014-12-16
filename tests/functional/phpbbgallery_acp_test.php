@@ -347,6 +347,26 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		$form = $image->selectButton($this->lang('DISAPPROVE'))->form();
 		$crawler = self::submit($form);
 		
-		$this->assertContains('zazazazazaza', $crawler->text());
+		
+		$form = $crawler->selectButton($this->lang['YES'])->form();
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('DELETED_IMAGE',  $crawler->text());
+		
+		$this-logout();
+	}
+	
+	public function test_visibility_user()
+	{
+		$this->login('testuser1');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang('common');
+		
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
+		
+		$this->assertContains('Valid',  $crawler->text());
+		$this->assertContains('Valid but needs approve',  $crawler->text());
+		
+		$this->logout();
 	}
 }
