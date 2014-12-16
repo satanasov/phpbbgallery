@@ -344,7 +344,7 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		
 		$image = $crawler->filter('a:contains("Valid but needs delete")')->parents()->parents();
 		
-		$form = $image->selectButton($this->lang['DISAPPROVE'])->form();
+		$form = $image->selectButton($this->lang['APPROVE'])->form();
 		unset($form['action']);
 		$form['action'] = array('disapprove');
 		$crawler = self::submit($form);
