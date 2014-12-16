@@ -35,12 +35,6 @@ class phpbbgallery_base extends \phpbb_functional_test_case
 			'error' => UPLOAD_ERR_OK,
 		);
 		
-		$crawler = self::$client->request(
-			'POST',
-			$upload_path,
-			array('mode' => 'upload'),
-			array('image_file_0' => $file)
-		);
-		return $crawler;
+		return $file;
 	}
 }
