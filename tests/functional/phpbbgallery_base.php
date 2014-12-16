@@ -41,6 +41,6 @@ class phpbbgallery_base extends \phpbb_functional_test_case
 			array('mode' => 'upload'),
 			array('image_file_0' => $file)
 		);
-		return $file;
+		return $crawler;
 	}
 }
