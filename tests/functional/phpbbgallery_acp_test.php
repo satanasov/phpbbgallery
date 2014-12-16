@@ -325,8 +325,7 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		$form = $image->selectButton($this->lang['APPROVE'])->form();
 		$crawler = self::submit($form);
 		
-		$this->assertContains('zazazazaz',  $crawler->text());
-		$form = $image->selectButton($this->lang['YES'])->form();
+		$form = $crawler->selectButton($this->lang['YES'])->form();
 		$crawler = self::submit($form);
 		
 		$this->assertContains('In total there is 1 image approved.',  $crawler->text());
