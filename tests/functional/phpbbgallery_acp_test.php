@@ -343,7 +343,7 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		
 		$image = $crawler->filter('a:contains("Valid but needs delete")')->parents()->parents();
-		$this->assertContains('zazazazazaza', $image);
+
 		$form = $image->selectButton($this->lang('DISAPPROVE'))->form();
 		$crawler = self::submit($form);
 		
