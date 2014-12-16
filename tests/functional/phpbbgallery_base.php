@@ -25,7 +25,7 @@ class phpbbgallery_base extends \phpbb_functional_test_case
 		
 	}	
 	
-	public function upload_file($filename, $mimetype, $upload_path)
+	public function upload_file($filename, $mimetype)
 	{
 		$file = array(
 			'tmp_name' => $this->path . $filename,
