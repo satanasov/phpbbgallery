@@ -166,7 +166,9 @@ class moderate
 
 		if ($action == 'disapprove')
 		{
-			redirect('gallery/image/' . $image_id . '/delete');
+			redirect($this->helper->route('phpbbgallery_image_delete', array('image_id'	=> $image_id)));
+			//var_dump($this->helper->route('phpbbgallery_image_delete', array('image_id'	=> $image_id)));
+			//var_dump(generate_board_url());
 		}
 		$show_notify = true;
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery_mcp'));
