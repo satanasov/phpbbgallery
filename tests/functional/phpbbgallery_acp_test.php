@@ -246,15 +246,16 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		
 		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
 		
-		$form = $crawler->selectButton('Submit')->form();
-		$crawler = self::submit($form);
+		$this->assertContains('zazazazazaza', $crawler->text());
+		//$form = $crawler->selectButton('Submit')->form();
+		//$crawler = self::submit($form);
 		
-		$this->assertContainsLang('ALBUM_UPLOAD_SUCCESSFUL', $crawler->text());
+		//$this->assertContainsLang('ALBUM_UPLOAD_SUCCESSFUL', $crawler->text());
 		
-		$crawler = self::request('GET', 'app.php/gallery/album/1');
+		//$crawler = self::request('GET', 'app.php/gallery/album/1');
 		
-		$this->assertContains('valid',  $crawler->filter('div.polaroid')->filter('p')->text());
+		//$this->assertContains('valid',  $crawler->filter('div.polaroid')->filter('p')->text());
 		
-		$this->logout();
+		//$this->logout();
 	}
 }
