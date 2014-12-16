@@ -246,7 +246,7 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		
 		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
 		
-		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
+		$form = $crawler->selectButton('Submit')->form();
 		$crawler = self::submit($form);
 		
 		$this->assertContainsLang('ALBUM_UPLOAD_SUCCESSFUL', $crawler->text());
