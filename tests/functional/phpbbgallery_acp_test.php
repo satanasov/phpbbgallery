@@ -259,7 +259,7 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		$crawler = self::submit($form);
 		
 		$this->assertContainsLang('ALBUM_UPLOAD_SUCCESSFUL', $crawler->text());
-		$this->assertNotContainsLang('ALBUM_UPLOAD_NEED_APPROVAL', $crawler->text());
+		$this->assertNotContains('But your image must be approved by a administrator or a moderator before they are public visible.', $crawler->text());
 		
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		
@@ -299,7 +299,7 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		);
 		$crawler = self::submit($form);
 		
-		$this->assertContainsLang('ALBUM_UPLOAD_NEED_APPROVAL', $crawler->text());
+		$this->assertContains('But your image must be approved by a administrator or a moderator before they are public visible.', $crawler->text());
 		
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		
