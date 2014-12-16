@@ -25,7 +25,7 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		
 		// Let us create a user we will use for tests
 		$this->create_user('testuser1');
-		$this->add_user_group('NEWLY_REGISTERED', array('testuser1'));
+		$this->add_user_group('REGISTERED', array('testuser1'));
 		// Let me get admin out of registered
 		$this->remove_user_group('REGISTERED', array('admin'));
 		
@@ -260,6 +260,46 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		
 		$this->assertContainsLang('ALBUM_UPLOAD_SUCCESSFUL', $crawler->text());
 		$this->assertNotContainsLang('ALBUM_UPLOAD_NEED_APPROVAL', $crawler->text());
+		
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
+		
+		$this->assertContains('1 image',  $crawler->text());
+		$this->assertContains('Valid',  $crawler->text());
+		
+		$this->logout();
+	}
+	
+	public function test_acl_upload_public_user()
+	{
+		$this->login('testuser1');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang('common');
+		
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
+		
+		$upload_url = substr($crawler->filter('div.upload-icon > a')->attr('href'), 1);
+		
+		$crawler = self::request('GET', $upload_url);
+		
+		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
+		$this->assertContains('First test album!', $crawler->text());
+		
+		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
+		
+		$form['image_file_0'] =  __DIR__ . '/images/valid.jpg';;
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
+		$this->assertContains('First test album!', $crawler->text());
+		
+		//$this->assertContains('zazazazazaza', $crawler->text());
+		$form = $crawler->selectButton($this->lang['SUBMIT'])->form();
+		$form['image_name'] = array(
+			0 => 'Valid but needs approvel',
+		);
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('ALBUM_UPLOAD_NEED_APPROVAL', $crawler->text());
 		
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		
