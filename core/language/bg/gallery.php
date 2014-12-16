@@ -46,6 +46,7 @@ $lang = array_merge($lang, array(
 	),
 	'ALLOWED_FILETYPES'				=> 'Позволени типове',
 	'APPROVE'						=> 'Одобри',
+	'DISAPPROVE'					=> 'Отхвърли',
 	'APPROVE_IMAGE'					=> 'Одобри изображение',
 
 	//@todo
