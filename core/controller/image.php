@@ -863,7 +863,7 @@ class image
 		$image_backlink = append_sid('./gallery/image/'. $image_id);
 		$album_backlink = append_sid('./gallery/album/'. $image_data['image_album_id']);
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
-		if (!$this->gallery_auth->acl_check('i_delete', $album_id, $album_data['album_user_id']) || ($image_status == \phpbbgallery\core\image\image::STATUS_ORPHAN))
+		if (!$this->gallery_auth->acl_check('i_delete', $album_id, $album_data['album_user_id']) || ($image_data['image_status'] == \phpbbgallery\core\image\image::STATUS_ORPHAN))
 		{
 			if (!$this->gallery_auth->acl_check('m_delete', $album_id, $album_data['album_user_id']))
 			{
