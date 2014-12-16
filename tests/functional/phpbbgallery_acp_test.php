@@ -258,7 +258,7 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		
-		$this->assertContains('valid',  $crawler->filter('div.polaroid')->filter('p')->text());
+		$this->assertContains('valid',  $crawler->text());
 		
 		$this->logout();
 	}
