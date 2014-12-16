@@ -46,6 +46,7 @@ $lang = array_merge($lang, array(
 	),
 	'ALLOWED_FILETYPES'				=> 'Allowed filetypes',
 	'APPROVE'						=> 'Approve',
+	'DISAPPROVE'					=> 'Dissaprove',
 	'APPROVE_IMAGE'					=> 'Approve image',
 
 	//@todo

@@ -47,6 +47,7 @@ $lang = array_merge($lang, array(
 	),
 	'ALLOWED_FILETYPES'				=> 'Erlaubte Dateitypen',
 	'APPROVE'						=> 'Freigeben',
+	'DISAPPROVE'					=> 'Dissaprove',
 	'APPROVE_IMAGE'					=> 'Bild freischalten',
 
 	//@todo
