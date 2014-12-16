@@ -287,6 +287,7 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
 		
 		$form['image_file_0'] =  __DIR__ . '/images/valid.jpg';;
+		$form['image_file_1'] =  __DIR__ . '/images/valid.jpg';;
 		$crawler = self::submit($form);
 		
 		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
@@ -295,7 +296,8 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		//$this->assertContains('zazazazazaza', $crawler->text());
 		$form = $crawler->selectButton($this->lang['SUBMIT'])->form();
 		$form['image_name'] = array(
-			0 => 'Valid but needs approvel',
+			0 => 'Valid but needs approve',
+			1 => 'Valid but needs delete',
 		);
 		$crawler = self::submit($form);
 		
@@ -305,6 +307,28 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		
 		$this->assertContains('1 image',  $crawler->text());
 		$this->assertContains('Valid',  $crawler->text());
+		
+		$this->logout();
+	}
+	
+	public function test_approve_image()
+	{
+		$this->login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_mcp');
+		$this->add_lang('common');
+		
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
+		
+		$image = $crawler->filter('a:contains("Valid but needs approve")')->parents()->parents();
+		
+		$form = $image->selectButton($this->lang['APPROVE'])->form();
+		$crawler = self::submit($form);
+		
+		$form = $image->selectButton($this->lang['YES'])->form();
+		$crawler = self::submit($form);
+		
+		$this->assertContains('In total there is 1 image approved.',  $crawler->text());
 		
 		$this->logout();
 	}
