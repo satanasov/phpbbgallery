@@ -332,4 +332,23 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		
 		$this->logout();
 	}
+	
+	public function test_disaprove_image()
+	{
+		$this->login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_mcp');
+		$this->add_lang('common');
+		
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
+		
+		$image = $crawler->filter('a:contains("Valid but needs delete")')->parents()->parents();
+		
+		$form = $image->selectButton($this->lang['DISAPPROVE'])->form();
+		unset($form['action']);
+		$form['action'] = array('disapprove');
+		$crawler = self::submit($form);
+		
+		$this->assertContains('zazazazazaza', $crawler->text());
+	}
 }
