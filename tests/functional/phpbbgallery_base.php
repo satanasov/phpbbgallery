@@ -37,7 +37,7 @@ class phpbbgallery_base extends \phpbb_functional_test_case
 		
 		$crawler = self::$client->request(
 			'POST',
-			$upload_path . $this->sid,
+			$upload_path,
 			array('mode' => 'upload'),
 			array('image_file_0' => $file)
 		);
