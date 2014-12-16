@@ -239,6 +239,7 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		$crawler = self::request('GET', $upload_url);
 		
 		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
+		$this->assertContains('First test album!', $crawler->text());
 		
 		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
 		
@@ -246,6 +247,7 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		$crawler = self::submit($form);
 		
 		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
+		$this->assertContains('First test album!', $crawler->text());
 		
 		//$this->assertContains('zazazazazaza', $crawler->text());
 		$form = $crawler->selectButton($this->lang['SUBMIT'])->form();
