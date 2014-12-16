@@ -155,9 +155,12 @@ class upload
 						* and store the image to the database
 						*/
 						$file = $this->request->file('image_file_' . $file_count, '');
-						if ($file['size'] > 0)
+						if (isset($file['size'])
 						{
-							$process->upload_file($file_count);
+							if ($file['size'] > 0)
+							{
+								$process->upload_file($file_count);
+							}
 						}
 					}
 				}
