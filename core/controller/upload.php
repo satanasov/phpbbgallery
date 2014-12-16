@@ -322,7 +322,7 @@ class upload
 				'ERROR'				=> $error,
 				'S_UPLOAD_EDIT'		=> true,
 				'S_ALLOW_ROTATE'	=> $s_can_rotate,
-
+				'S_ALBUM_ACTION'		=>  $this->helper->route('phpbbgallery_album_upload', array('album_id' => $album_id)),
 				'S_USERNAME'		=> (!$this->user->data['is_registered']) ? $username : '',
 				'NUM_IMAGES'		=> $num_images,
 				'COLOUR_ROWSPAN'	=> ($s_can_rotate) ? $num_images * 3 : $num_images * 2,

@@ -26,6 +26,8 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		// Let us create a user we will use for tests
 		$this->create_user('testuser1');
 		$this->add_user_group('NEWLY_REGISTERED', array('testuser1'));
+		// Let me get admin out of registered
+		$this->remove_user_group('REGISTERED', array('admin'));
 		
 		$this->logout();
 		$this->logout();
@@ -251,14 +253,18 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		
 		//$this->assertContains('zazazazazaza', $crawler->text());
 		$form = $crawler->selectButton($this->lang['SUBMIT'])->form();
-
+		$form['image_name'] = array(
+			0 => 'Valid',
+		);
 		$crawler = self::submit($form);
 		
 		$this->assertContainsLang('ALBUM_UPLOAD_SUCCESSFUL', $crawler->text());
+		$this->assertNotContainsLang('ALBUM_UPLOAD_NEED_APPROVAL', $crawler->text());
 		
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		
-		$this->assertContains('0 images',  $crawler->text());
+		$this->assertContains('1 image',  $crawler->text());
+		$this->assertContains('Valid',  $crawler->text());
 		
 		$this->logout();
 	}
