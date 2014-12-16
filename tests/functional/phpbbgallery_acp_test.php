@@ -242,7 +242,8 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		
 		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
 		
-		$crawler = $this->upload_file('valid.jpg', 'image/jpeg', $upload_url);
+		$form['image_file_0'] = $this->upload_file('valid.jpg', 'image/jpeg');
+		$crawler = self::submit($form);
 		
 		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
 		
