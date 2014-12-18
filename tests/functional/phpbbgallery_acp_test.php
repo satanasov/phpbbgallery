@@ -623,7 +623,7 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		$this->assertContainsLang('CREATED_SUBALBUM', $crawler->text());
 		
 		$link = $crawler->filter('a:contains("'.$this->lang('BACK_TO_PREV').'")')->link();
-		$crawler = $link->click();
+		$crawler = self::click($link);
 		
 		$this->assertContainsLang('MANAGE_SUBALBUMS', $crawler->text());
 		
