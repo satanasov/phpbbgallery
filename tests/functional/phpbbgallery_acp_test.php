@@ -583,4 +583,24 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 	}
+	
+	public function test_init_personal_album()
+	{
+		$this->login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_ucp');
+		$this->add_lang('ucp');
+		
+		$crawler = self::request('GET', 'ucp.php?i=-phpbbgallery-core-ucp-main_module&mode=manage_albums&sid='  . $this->sid);
+		
+		$this->assertContainsLang('NO_PERSONAL_ALBUM', $crawler->text());
+		
+		$form = $crawler->selectButton($this->lang('CREATE_PERSONAL_ALBUM'))->form();
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('PERSONAL_ALBUM', $crawler->text());
+		$this->assertContainsLang('NO_SUBALBUMS', $crawler->text());
+		
+		$this->logout();
+	}
 }
