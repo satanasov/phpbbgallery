@@ -593,7 +593,7 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		
 		$crawler = self::request('GET', 'ucp.php?i=-phpbbgallery-core-ucp-main_module&mode=manage_albums&sid='  . $this->sid);
 		
-		$this->assertContainsLang('NO_PERSONAL_ALBUM', $crawler->text());
+		$this->assertContains('You don’t have a personal album yet. Here you can create your personal album, with some subalbums.In personal albums only the owner can upload images', $crawler->text());
 		
 		$form = $crawler->selectButton($this->lang('CREATE_PERSONAL_ALBUM'))->form();
 		$crawler = self::submit($form);
