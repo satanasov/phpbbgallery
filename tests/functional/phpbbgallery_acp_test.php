@@ -603,4 +603,30 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		
 		$this->logout();
 	}
+	
+	public function test_create_subalbum_user()
+	{
+		$this->login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_ucp');
+		$this->add_lang('ucp');
+		
+		$crawler = self::request('GET', 'ucp.php?i=-phpbbgallery-core-ucp-main_module&mode=manage_albums&sid='  . $this->sid);
+		
+		$form = $crawler->selectButton($this->lang('CREATE_SUBALBUM'))->form();
+		$crawler = self::submit($form);
+		
+		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
+		$form['album_name'] = 'Personal user subalbum';
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('CREATED_SUBALBUM', $crawler->text());
+		
+		$link = $crawler->filter('div#page-body > div#message > a')->link();
+		$crawler = $link->click();
+		
+		$this->assertContainsLang('MANAGE_SUBALBUMS', $crawler->text());
+		
+		$this->logout();
+	}
 }
