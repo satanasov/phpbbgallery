@@ -344,7 +344,7 @@ class image
 		$image_user = $phpbb_container->get('phpbbgallery.core.user');
 
 		$num_images = $num_comments = 0;
-		$sql = 'SELECT SUM(image_comments) comments
+		$sql = 'SELECT SUM(image_comments) as comments
 			FROM ' . $table_prefix . 'gallery_images
 			WHERE image_status ' . (($readd) ? '=' : '<>') . ' ' . self::STATUS_UNAPPROVED . '
 				AND ' . $db->sql_in_set('image_id', $image_id_ary) . '
