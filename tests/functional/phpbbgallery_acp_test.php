@@ -740,7 +740,7 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		$this->login('testuser1');
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
 
-		$this->assertContainsLang('First sub test album!', $crawler->text());
+		$this->assertContains('First sub test album!', $crawler->text());
 		
 		$this->logout();
 	}
