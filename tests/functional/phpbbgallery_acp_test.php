@@ -622,8 +622,8 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		
 		$this->assertContainsLang('CREATED_SUBALBUM', $crawler->text());
 		
-		$link = $crawler->filter('a:contains("'.$this->lang('BACK_TO_PREV').'")')->link();
-		$crawler = self::click($link);
+		$upload_url = substr($crawler->filter('a:contains("'.$this->lang('BACK_TO_PREV').'")')->attr('href'), 1);
+		$crawler = self::request('GET', $upload_url);
 		
 		$this->assertContainsLang('MANAGE_SUBALBUMS', $crawler->text());
 		
