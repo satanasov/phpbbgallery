@@ -626,7 +626,39 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		$crawler = self::request('GET', $upload_url);
 		
 		$this->assertContainsLang('MANAGE_SUBALBUMS', $crawler->text());
+		$this->assertContains('Personal user subalbumc', $crawler->text());
 		
 		$this->logout();
+	}
+	
+	public function test_create_subalbum_admin()
+	{
+		$this->login();
+		$this->admin_login();
+		
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang('acp/permissions');
+		
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-albums_module&mode=manage&sid=' . $this->sid);
+		
+		// Step 1
+		$form = $crawler->selectButton($this->lang('CREATE_ALBUM'))->form();
+		$form['album_name'] = 'First sub test album!';
+		$crawler = self::submit($form);
+		
+		// Step 2 - we should have reached a form for creating album_name
+		$this->assertContainsLang('ALBUM_EDIT_EXPLAIN', $crawler->text());
+		
+		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
+		$form['parent_id'] = 1;
+		$crawler = self::submit($form);
+		
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-permissions_module&mode=manage&sid='  . $this->sid);
+		$this->assertContainsLang('PERMISSIONS_EXPLAIN', $crawler->text());
+		
+		$id = $crawler->filter('option:contains("First sub test album!")')->attr('value');
+		
+		$this->assertEquals(4, $id);
 	}
 }
