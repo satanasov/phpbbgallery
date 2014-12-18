@@ -626,7 +626,7 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		$crawler = self::request('GET', $upload_url);
 		
 		$this->assertContainsLang('MANAGE_SUBALBUMS', $crawler->text());
-		$this->assertContains('Personal user subalbumc', $crawler->text());
+		$this->assertContains('Personal user subalbum', $crawler->text());
 		
 		$this->logout();
 	}
@@ -660,5 +660,88 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		$id = $crawler->filter('option:contains("First sub test album!")')->attr('value');
 		
 		$this->assertEquals(4, $id);
+		
+		// Let us set for administration
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-permissions_module&mode=manage&sid='  . $this->sid);
+		$this->assertContainsLang('PERMISSIONS_EXPLAIN', $crawler->text());
+		
+		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
+		$form['p_system'] = 0;
+		$form['album_id'] = array($id);
+		$crawler = self::submit($form);
+		
+		$this->assertContains('First sub test album!', $crawler->text());
+		
+		$form = $crawler->filter('form[id=add_groups]')->selectButton($this->lang('ADD_PERMISSIONS'))->form();
+		$form['group_id'] = array(2, 5);
+		$crawler = self::submit($form);
+		
+		$this->assertContains('First sub test album!', $crawler->text());
+		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
+		$data = array(
+			'setting'	=> array(
+				$id	=> array (
+					2 => array(
+						'a_list'			=> '1',
+						'i_view'			=> '1',
+						'i_watermark'		=> '0',
+						'i_upload'			=> '1',
+						'i_edit'			=> '1',
+						'i_delete'			=> '1',
+						'i_rate'			=> '1',
+						'i_approve'			=> '0',
+						'i_report'			=> '1',
+						'i_count'			=> '0',
+						'i_unlimited'		=> '1',
+						'c_read'			=> '1',
+						'c_post'			=> '1',
+						'c_edit'			=> '1',
+						'c_delete'			=> '1',
+						'm_comments'		=> '0',
+						'm_delete'			=> '0',
+						'm_edit'			=> '0',
+						'm_move'			=> '0',
+						'm_report'			=> '0',
+						'm_status'			=> '0',
+					),
+					5 => array(
+						'a_list'			=> '1',
+						'i_view'			=> '1',
+						'i_watermark'		=> '1',
+						'i_upload'			=> '1',
+						'i_edit'			=> '1',
+						'i_delete'			=> '1',
+						'i_rate'			=> '1',
+						'i_approve'			=> '1',
+						'i_report'			=> '1',
+						'i_count'			=> '0',
+						'i_unlimited'		=> '1',
+						'c_read'			=> '1',
+						'c_post'			=> '1',
+						'c_edit'			=> '1',
+						'c_delete'			=> '1',
+						'm_comments'		=> '1',
+						'm_delete'			=> '1',
+						'm_edit'			=> '1',
+						'm_move'			=> '1',
+						'm_report'			=> '1',
+						'm_status'			=> '1',
+					)
+				),
+			)
+		);
+		$form->setValues($data);
+		$crawler = self::submit($form);
+		$this->assertContainsLang('PERMISSIONS_STORED', $crawler->text());
+		
+		$this->logout();
+		$this->logout();
+		
+		$this->login('testuser1');
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
+
+		$this->assertContainsLang('First sub test album!', $crawler->text());
+		
+		$this->logout();
 	}
 }
