@@ -758,7 +758,8 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		$object = $crawler->filter('a:contains("First test album")')->parents()->parents();
 		$edit = $object->filter('img[title=Edit]')->parents()->attr('href');
 		
-		$crawler = self::request('GET', $edit);
+		$this->assertContains('zazazaza', $edit);
+		//$crawler = self::request('GET', $edit);
 		
 		$this->assertContainsLang('ALBUM_EDIT_EXPLAIN', $crawler->text());
 		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
