@@ -744,4 +744,29 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		
 		$this->logout();
 	}
+	public function test_manage_albums_admin()
+	{
+		$this->login();
+		$this->admin_login();
+		
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang('acp/permissions');
+		
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-albums_module&mode=manage&sid=' . $this->sid);
+		
+		$object = $crawler->filter('a:contains("First test album!!")')>parents()->parents();
+		$edit = $object->filter('img[title=Edit]')->parents()->attr('href');
+		
+		$crawler = self::request('GET', $edit);
+		
+		$this->assertContainsLang('ALBUM_EDIT_EXPLAIN', $crawler->text());
+		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
+		$form['album_watermark'] = 0;
+		$crawler = self::submit($form);
+		
+		$this->assertContains('Album has been updated successfully.', $crawler->text());
+		
+		$this->logout();
+		$this->logout();
 }
