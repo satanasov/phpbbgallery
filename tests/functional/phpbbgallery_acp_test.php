@@ -772,7 +772,7 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		$this->logout();
 	}
 	
-	public test_image_on_image_page()
+	public function test_image_on_image_page()
 	{
 		$this->login();
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
