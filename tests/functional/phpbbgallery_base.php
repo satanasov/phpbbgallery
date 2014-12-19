@@ -25,16 +25,13 @@ class phpbbgallery_base extends \phpbb_functional_test_case
 		
 	}	
 	
-	public function upload_file($filename, $mimetype)
+	public function config_set($option, $value)
 	{
-		$file = array(
-			'tmp_name' => $this->path . $filename,
-			'name' => $filename,
-			'type' => $mimetype,
-			'size' => filesize($this->path . $filename),
-			'error' => UPLOAD_ERR_OK,
-		);
-		
-		return $file;
+		$this->get_db();
+		$sql = 'UPDATE phpbb_config
+			SET config_value = \'' . $value . '\'
+			WHERE config_name = \'phpbb_gallery_' . $option . '\'';
+		$this->db->sql_query($sql);
+		$this->purge_cache();
 	}
 }
