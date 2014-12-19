@@ -769,4 +769,5 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		
 		$this->logout();
 		$this->logout();
+	}
 }
