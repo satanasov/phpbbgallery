@@ -755,7 +755,7 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-albums_module&mode=manage&sid=' . $this->sid);
 		
-		$object = $crawler->filter('a:contains("First test album!!")')>parents()->parents();
+		$object = $crawler->filter('a:contains("First test album!!")')->parents()->parents();
 		$edit = $object->filter('img[title=Edit]')->parents()->attr('href');
 		
 		$crawler = self::request('GET', $edit);
