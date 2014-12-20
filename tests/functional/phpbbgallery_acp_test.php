@@ -778,13 +778,6 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
 		$this->add_lang('common');
 		
-		// Test none
-		$this->config_set('link_imagepag', 'none');
-		$crawler = self::request('GET', 'app.php/gallery/image/1');
-		$object = $crawler->filter('div.post')->eq(0);
-		$link = $object->filter('a')->count();
-		//$this->assertEquals(0, $link);
-		
 		// Test image
 		$this->config_set('link_imagepag', 'image');
 		$crawler = self::request('GET', 'app.php/gallery/image/1');
@@ -795,5 +788,12 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'app.php/gallery/image/1');
 		$link = $crawler->filter('div.post')->eq(0)->filter('a')->attr('href');
 		$this->assertContains('gallery/image/', $link);
+		
+		// Test none
+		$this->config_set('link_imagepag', 'none');
+		$crawler = self::request('GET', 'app.php/gallery/image/1');
+		$object = $crawler->filter('div.post')->eq(0);
+		$link = $crawler->filter('div.post')->eq(0)->filter('a')->attr('href');
+		$this->assertContains('zazazazaza', $link);
 	}
 }
