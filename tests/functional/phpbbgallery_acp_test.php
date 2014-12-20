@@ -781,8 +781,9 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		// Test none
 		$this->config_set('link_imagepag', 'none');
 		$crawler = self::request('GET', 'app.php/gallery/image/1');
-		$link = $crawler->filter('div.post')->eq(0)->filter('a')->count();
-		$this->assertContains('zazazazazaza', $crawler->filter('div.post')->eq(0)->text());
+		$object = $crawler->filter('div.post')->eq(0);
+		$link = $object->filter('a')->count();
+		$this->assertContains('zazazazazaza', $link);
 		$this->assertEquals(0, $link);
 		
 		// Test image
