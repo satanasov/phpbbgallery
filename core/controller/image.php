@@ -276,7 +276,7 @@ class image
 			'UC_PREV_IMAGE'		=> ($prev ? ($this->gallery_config->get('disp_nextprev_thumbnail') ? '<a href="' . $this->helper->route('phpbbgallery_image', array('image_id' => $prev['image_id'])) . '"><img style="max-width: 70px; max-height: 70px;" src="' . $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $prev['image_id'])) . '" alt="' . $prev['image_name'] . '"></a>' : '<a href="' . $this->helper->route('phpbbgallery_image', array('image_id' => $prev['image_id'])) . '">&laquo;&laquo; ' . $prev['image_name'] . '</a>') : ''),
 			'U_VIEW_ALBUM'		=> $this->helper->route('phpbbgallery_album', array('album_id' => $album_id)),
 			'UC_IMAGE'			=> $this->helper->route('phpbbgallery_image_file_medium', array('image_id' => $image_id)),
-			'UC_IMAGE_ACTION'	=> $this->gallery_config->get('link_imagepage') == 'none' ? '' : $this->gallery_config->get('link_imagepage') == 'image' ? $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $image_id)) : $next && $this->gallery_config->get('link_imagepage') == 'next' ? $this->helper->route('phpbbgallery_image', array('image_id' => $next['image_id'])) : '',
+			//'UC_IMAGE_ACTION'	=> $this->gallery_config->get('link_imagepage') == 'none' ? '' : $this->gallery_config->get('link_imagepage') == 'image' ? $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $image_id)) : $next && $this->gallery_config->get('link_imagepage') == 'next' ? $this->helper->route('phpbbgallery_image', array('image_id' => $next['image_id'])) : '',
 
 			'U_DELETE'			=> ($s_allowed_delete) ? $this->helper->route('phpbbgallery_image_delete', array('image_id' => $image_id)) : '',
 			'U_EDIT'			=> ($s_allowed_edit) ? $this->helper->route('phpbbgallery_image_edit', array('image_id' => $image_id)) : '',
@@ -300,6 +300,22 @@ class image
 			'S_RETURN_LINK'		=> $this->user->lang('RETURN_TO', $album_data['album_name']),
 		));
 
+		switch ($this->gallery_config->get('link_imagepage'))
+		{
+			case 'image':
+				$this->template->assign_vars(array(
+					'UC_IMAGE_ACTION'	=> $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $image_id))
+				));
+			break;
+			case 'next':
+				if ($next)
+				{
+					$this->template->assign_vars(array(
+						'UC_IMAGE_ACTION'	=> $this->helper->route('phpbbgallery_image', array('image_id' => $next['image_id']))
+					));
+				}
+			break;
+		}
 		$image_data = $this->data;
 		$vars = array('image_id', 'image_data', 'album_data', 'page_title');
 		extract($this->dispatcher->trigger_event('gallery.core.viewimage', compact($vars)));
