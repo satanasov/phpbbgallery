@@ -790,10 +790,10 @@ class phpbbgallery_acp_test extends phpbbgallery_base
 		$this->assertContains('gallery/image/', $link);
 		
 		// Test none
-		$this->config_set('link_imagepag', 'none');
-		$crawler = self::request('GET', 'app.php/gallery/image/1');
-		$object = $crawler->filter('div.post')->eq(0);
-		$link = $crawler->filter('div.post')->eq(0)->filter('a')->attr('href');
-		$this->assertContains('zazazazaza', $link);
+		//$this->config_set('link_imagepag', 'none');
+		//$crawler = self::request('GET', 'app.php/gallery/image/1');
+		//$object = $crawler->filter('div.post')->eq(0);
+		//$link = $crawler->filter('div.post')->eq(0)->filter('a')->attr('href');
+		//$this->assertContains('zazazazaza', $link);
 	}
 }
