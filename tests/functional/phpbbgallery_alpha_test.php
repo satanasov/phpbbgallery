@@ -11,7 +11,7 @@ namespace phpbbgallery\tests\functional;
 /**
 * @group functional
 */
-class phpbbgallery_acp_test extends phpbbgallery_base
+class phpbbgallery_alpha_test extends phpbbgallery_base
 {
 	public function test_install()
 	{
