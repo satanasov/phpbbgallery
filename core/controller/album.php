@@ -62,7 +62,7 @@ class album
 	*/
 	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $db,
 	\phpbb\pagination $pagination, \phpbb\template\template $template, \phpbb\user $user, \phpbbgallery\core\album\display $display,
-	\phpbbgallery\core\album\loader $loader, \phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\auth\level $auth_level,  \phpbbgallery\core\config $gallery_config, 
+	\phpbbgallery\core\album\loader $loader, \phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\auth\level $auth_level,  \phpbbgallery\core\config $gallery_config,
 	$images_table)
 	{
 		$this->config = $config;
