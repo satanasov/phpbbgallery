@@ -50,8 +50,8 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		
 		$this->assertContainsLang('EXTENSION_DISABLE_SUCCESS', $crawler->text());
 		
-		$crawler = self::request('GET', 'adm/index.php&sid=' . $this->sid);
-		$this->assertContainsLang('Welcome to phpBB', $crawler->text());
+		$crawler = self::request('GET', 'adm/index.php&i=21&sid=' . $this->sid);
+		$this->assertContainsLang('EXTENSIONS_ADMIN', $crawler->text());
 		
 		// If all works - enable all and continue testing
 		
