@@ -795,5 +795,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		//$object = $crawler->filter('div.post')->eq(0);
 		//$link = $crawler->filter('div.post')->eq(0)->filter('a')->attr('href');
 		//$this->assertContains('zazazazaza', $link);
+		
+		$this->logout();
 	}
 }
