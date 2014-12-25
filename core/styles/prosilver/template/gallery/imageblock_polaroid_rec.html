@@ -8,7 +8,7 @@
 		<a href="{recent.image.U_IMAGE}" style="font-weight: bold; font-size: 1.2em;">{recent.image.UC_IMAGE_NAME}</a>
 	</p>
 	<hr />
-	<img src="{recent.image.UC_THUMBNAIL}" alt="{recent.image.UC_IMAGE_NAME}" title="{recent.image.UC_IMAGE_NAME}" />
+	<!-- IF recent.image.UC_THUMBNAIL_ACTION --><a href="{recent.image.UC_THUMBNAIL_ACTION}"><!-- ENDIF --><img src="{recent.image.UC_THUMBNAIL}" alt="{recent.image.UC_IMAGE_NAME}" title="{recent.image.UC_IMAGE_NAME}" /><!-- IF recent.image.UC_THUMBNAIL_ACTION --></a><!-- ENDIF -->
 
 	<hr />
 	<!-- IF recent.image.U_ALBUM -->{L_ALBUM_NAME}{L_COLON} <a href="{recent.image.U_ALBUM}" style="font-weight: bold;" title="{recent.image.ALBUM_NAME_FULL}">{recent.image.ALBUM_NAME}</a><br /><!-- ENDIF -->
