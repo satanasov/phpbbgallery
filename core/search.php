@@ -96,6 +96,7 @@ class search
 		switch ($this->db->get_sql_layer())
 		{
 			case 'postgres':
+			case 'sqlite3':
 				$sql_order = 'RANDOM()';
 			break;
 
