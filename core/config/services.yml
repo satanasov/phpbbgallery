@@ -125,7 +125,6 @@ services:
             - @phpbbgallery.core.album.loader
             - @phpbbgallery.core.auth
             - @phpbbgallery.core.auth.level
-            - @phpbbgallery.core.config
             - %tables.phpbbgallery.images%
     phpbbgallery.core.controller.file:
         class: phpbbgallery\core\controller\file

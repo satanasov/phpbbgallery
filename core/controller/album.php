@@ -62,7 +62,7 @@ class album
 	*/
 	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $db,
 	\phpbb\pagination $pagination, \phpbb\template\template $template, \phpbb\user $user, \phpbbgallery\core\album\display $display,
-	\phpbbgallery\core\album\loader $loader, \phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\auth\level $auth_level,  \phpbbgallery\core\config $gallery_config,
+	\phpbbgallery\core\album\loader $loader, \phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\auth\level $auth_level, \phpbbgallery\core\config $gallery_config,
 	$images_table)
 	{
 		$this->config = $config;
@@ -75,7 +75,6 @@ class album
 		$this->loader = $loader;
 		$this->auth = $auth;
 		$this->auth_level = $auth_level;
-		$this->gallery_config = $gallery_config;
 		$this->table_images = $images_table;
 	}
 
@@ -88,6 +87,7 @@ class album
 	*/
 	public function base($album_id, $page = 0)
 	{
+		$this->auth->get_user_ids('m_edit', $album_id);
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
 
 		try
@@ -268,7 +268,6 @@ class album
 				'UC_IMAGE_NAME'	=> $image_data['image_name'],//self::generate_link('image_name', $this->config['phpbb_gallery_link_image_name'], $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id'], false, true, "&amp;sk={$sk}&amp;sd={$sd}&amp;st={$st}"),
 				//'UC_THUMBNAIL'	=> 'self::generate_link('thumbnail', $phpbb_ext_gallery->config->get('link_thumbnail'), $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id']),
 				'UC_THUMBNAIL'		=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $image_data['image_id'])),
-				'UC_THUMBNAIL_ACTION'	=> ($this->gallery_config->get('link_thumbnail') == 'image_page') ? $this->helper->route('phpbbgallery_image', array('image_id' => $image_data['image_id'])) : ($this->gallery_config->get('link_thumbnail') == 'image') ? $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $image_data['image_id'])) : false,
 				'S_UNAPPROVED'	=> ($this->auth->acl_check('m_status', $image_data['image_album_id'], $album_user_id) && ($image_data['image_status'] == \phpbbgallery\core\image\image::STATUS_UNAPPROVED)) ? true : false,
 				'S_LOCKED'		=> ($image_data['image_status'] == \phpbbgallery\core\image\image::STATUS_LOCKED) ? true : false,
 				'S_REPORTED'	=> ($this->auth->acl_check('m_report', $image_data['image_album_id'], $album_user_id) && $image_data['image_reported']) ? true : false,
