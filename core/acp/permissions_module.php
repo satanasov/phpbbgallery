@@ -150,7 +150,7 @@ class permissions_module
 
 	function permissions_v_mask()
 	{
-		global $cache, $db, $template, $user, $phpbb_ext_gallery, $table_prefix, $phpbb_dispatcher;
+		global $cache, $db, $template, $user, $phpbb_ext_gallery, $table_prefix, $phpbb_dispatcher, $phpbb_container;
 
 		$roles_table = $table_prefix . 'gallery_roles';
 		$permissions_table = $table_prefix . 'gallery_permissions';
@@ -158,7 +158,7 @@ class permissions_module
 		// Init auth
 		$gallery_cache = new \phpbbgallery\core\cache($cache, $db);
 		$gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $users_table);
-		$phpbb_ext_gallery_core_auth = new \phpbbgallery\core\auth\auth($gallery_cache, $db, $gallery_user, $permissions_table, $roles_table, $users_table);
+		$phpbb_ext_gallery_core_auth = $phpbb_ext_gallery_core_auth = $phpbb_container->get('phpbbgallery.core.auth');
 
 		$user->add_lang('acp/permissions');
 
@@ -400,14 +400,14 @@ class permissions_module
 
 	function permissions_p_mask()
 	{
-		global $cache, $db, $permissions, $template, $user, $phpbb_ext_gallery, $phpbb_dispatcher, $table_prefix, $table_name, $users_table;
+		global $cache, $db, $permissions, $template, $user, $phpbb_ext_gallery, $phpbb_dispatcher, $table_prefix, $table_name, $users_table, $phpbb_container;
 
 		$permissions_table = $table_prefix . 'gallery_permissions';
 		$roles_table = $table_prefix . 'gallery_roles';
 		// Init auth
 		$gallery_cache = new \phpbbgallery\core\cache($cache, $db);
 		$gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $table_name);
-		$phpbb_ext_gallery_core_auth = new \phpbbgallery\core\auth\auth($gallery_cache, $db, $gallery_user, $permissions_table, $roles_table, $users_table);
+		$phpbb_ext_gallery_core_auth = $phpbb_container->get('phpbbgallery.core.auth');
 
 		$user->add_lang('acp/permissions');
 
@@ -662,7 +662,7 @@ class permissions_module
 
 	function permissions_set()
 	{
-		global $cache, $db, $permissions, $template, $user, $phpbb_ext_gallery, $phpbb_dispatcher, $table_prefix, $table_name;
+		global $cache, $db, $permissions, $template, $user, $phpbb_ext_gallery, $phpbb_dispatcher, $table_prefix, $table_name, $phpbb_container;
 
 		$permissions_table = $table_prefix . 'gallery_permissions';
 		$roles_table = $table_prefix . 'gallery_roles';
@@ -670,7 +670,7 @@ class permissions_module
 		// Init auth
 		$gallery_cache = new \phpbbgallery\core\cache($cache, $db);
 		$gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $table_name);
-		$phpbb_ext_gallery_core_auth = new \phpbbgallery\core\auth\auth($gallery_cache, $db, $gallery_user, $permissions_table, $roles_table, $users_table);
+		$phpbb_ext_gallery_core_auth = $phpbb_container->get('phpbbgallery.core.auth');
 
 		// Send contants to the template
 		$submit = (isset($_POST['submit'])) ? true : false;
@@ -1230,7 +1230,7 @@ class permissions_module
 	*/
 	function p_system_inherit_victims($p_system, $allowed_victims, $victim_id, $check_inherit_victim = 0)
 	{
-		global $user, $table_prefix, $phpbb_dispatcher, $table_name, $db, $cache;
+		global $user, $table_prefix, $phpbb_dispatcher, $table_name, $db, $cache, $phpbb_container;
 
 		$albums_table = $table_prefix . 'gallery_albums';
 		$roles_table = $table_prefix . 'gallery_roles';
@@ -1239,7 +1239,7 @@ class permissions_module
 		$users_table = $table_prefix . 'gallery_users';
 		$gallery_cache = new \phpbbgallery\core\cache($cache, $db);
 		$gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $table_name);
-		$phpbb_ext_gallery_core_auth = new \phpbbgallery\core\auth\auth($gallery_cache, $db, $gallery_user, $permissions_table, $roles_table, $users_table);
+		$phpbb_ext_gallery_core_auth =  $phpbb_container->get('phpbbgallery.core.auth');;
 
 		$disabled = false;
 		// We submit a "wrong" array on the check (to make it more easy) so we convert it here
