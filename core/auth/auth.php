@@ -86,8 +86,7 @@ class auth
 	* @param	string			$roles_table		Gallery permission roles table
 	* @param	string			$users_table		Gallery users table
 	*/
-	public function __construct(\phpbbgallery\core\cache $cache, \phpbb\db\driver\driver_interface $db, \phpbbgallery\core\user $user,
-	$permissions_table, $roles_table, $users_table, $albums_table)
+	public function __construct(\phpbbgallery\core\cache $cache, \phpbb\db\driver\driver_interface $db, \phpbbgallery\core\user $user, $permissions_table, $roles_table, $users_table, $albums_table)
 	{
 		$this->cache = $cache;
 		$this->db = $db;
