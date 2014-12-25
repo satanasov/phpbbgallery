@@ -176,14 +176,25 @@ class search
 		foreach ($rowset as $row)
 		{
 			$album_data = $this->album->get_info($row['image_album_id']);
-
+			switch ($this->gallery_config->get('link_thumbnail'))
+			{
+				case 'image_page':
+					$action = $this->helper->route('phpbbgallery_image', array('image_id' => $image_data['image_id']));
+				break;
+				case 'image':
+					$action = $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $image_data['image_id']));
+				break;
+				default:
+					$action = false;
+				break;
+			}
 			$this->template->assign_block_vars('random.image', array(
 				'IMAGE_ID'		=> $row['image_id'],
 				'U_IMAGE'		=> $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id'])),
 				'UC_IMAGE_NAME'	=> $row['image_name'],//self::generate_link('image_name', $this->config['phpbb_gallery_link_image_name'], $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id'], false, true, "&amp;sk={$sk}&amp;sd={$sd}&amp;st={$st}"),
 				//'UC_THUMBNAIL'	=> 'self::generate_link('thumbnail', $phpbb_ext_gallery->config->get('link_thumbnail'), $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id']),
 				'UC_THUMBNAIL'		=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $row['image_id'])),
-				'UC_THUMBNAIL_ACTION'	=> ($this->gallery_config->get('link_thumbnail') == 'image_page') ? $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id'])) : ($this->gallery_config->get('link_thumbnail') == 'image') ? $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $row['image_id'])) : false,
+				'UC_THUMBNAIL_ACTION'	=> $action,
 				'S_UNAPPROVED'	=> ($this->gallery_auth->acl_check('m_status', $row['image_album_id'], $album_data['album_user_id']) && ($row['image_status'] == \phpbbgallery\core\image\image::STATUS_UNAPPROVED)) ? true : false,
 				'S_LOCKED'		=> ($row['image_status'] == \phpbbgallery\core\image\image::STATUS_LOCKED) ? true : false,
 				'S_REPORTED'	=> ($this->gallery_auth->acl_check('m_report', $row['image_album_id'], $album_data['album_user_id']) && $row['image_reported']) ? true : false,
@@ -287,14 +298,25 @@ class search
 		foreach ($rowset as $row)
 		{
 			$album_data = $this->album->get_info($row['image_album_id']);
-
+			switch ($this->gallery_config->get('link_thumbnail'))
+			{
+				case 'image_page':
+					$action = $this->helper->route('phpbbgallery_image', array('image_id' => $image_data['image_id']));
+				break;
+				case 'image':
+					$action = $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $image_data['image_id']));
+				break;
+				default:
+					$action = false;
+				break;
+			}
 			$this->template->assign_block_vars('recent.image', array(
 				'IMAGE_ID'		=> $row['image_id'],
 				'U_IMAGE'		=> $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id'])),
 				'UC_IMAGE_NAME'	=> $row['image_name'],//self::generate_link('image_name', $this->config['phpbb_gallery_link_image_name'], $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id'], false, true, "&amp;sk={$sk}&amp;sd={$sd}&amp;st={$st}"),
 				//'UC_THUMBNAIL'	=> 'self::generate_link('thumbnail', $phpbb_ext_gallery->config->get('link_thumbnail'), $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id']),
 				'UC_THUMBNAIL'		=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $row['image_id'])),
-				'UC_THUMBNAIL_ACTION'	=> ($this->gallery_config->get('link_thumbnail') == 'image_page') ? $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id'])) : ($this->gallery_config->get('link_thumbnail') == 'image') ? $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $row['image_id'])) : false,
+				'UC_THUMBNAIL_ACTION'	=> $action,
 				'S_UNAPPROVED'	=> ($this->gallery_auth->acl_check('m_status', $row['image_album_id'], $album_data['album_user_id']) && ($row['image_status'] == \phpbbgallery\core\image\image::STATUS_UNAPPROVED)) ? true : false,
 				'S_LOCKED'		=> ($row['image_status'] == \phpbbgallery\core\image\image::STATUS_LOCKED) ? true : false,
 				'S_REPORTED'	=> ($this->gallery_auth->acl_check('m_report', $row['image_album_id'], $album_data['album_user_id']) && $row['image_reported']) ? true : false,

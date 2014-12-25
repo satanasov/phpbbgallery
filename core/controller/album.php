@@ -259,7 +259,19 @@ class album
 			$s_allowed_delete = (($this->auth->acl_check('i_delete', $image_data['image_album_id'], $album_user_id) && $s_user_allowed) || $this->auth->acl_check('m_delete', $image_data['image_album_id'], $album_user_id));
 			$s_allowed_edit = (($this->auth->acl_check('i_edit', $image_data['image_album_id'], $album_user_id) && $s_user_allowed) || $this->auth->acl_check('m_edit', $image_data['image_album_id'], $album_user_id));
 			$s_quick_mod = ($s_allowed_delete || $s_allowed_edit || $this->auth->acl_check('m_status', $image_data['image_album_id'], $album_user_id) || $this->auth->acl_check('m_move', $image_data['image_album_id'], $album_user_id));
-
+			switch ($this->gallery_config->get('link_thumbnail'))
+			{
+				case 'image_page':
+					$action = $this->helper->route('phpbbgallery_image', array('image_id' => $image_data['image_id']));
+				break;
+				case 'image':
+					$action = $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $image_data['image_id']));
+				break;
+				default:
+					$action = false;
+				break;
+			}
+			var_dump($action);
 			$s_username_hidden = $image_data['image_contest'] && !$this->auth->acl_check('m_status', $image_data['image_album_id'], $album_user_id) && ($this->user->data['user_id'] != $image_data['image_user_id'] || $image_data['image_user_id'] == ANONYMOUS);
 			$this->template->assign_block_vars('imageblock.image', array(
 				'IMAGE_ID'		=> $image_data['image_id'],
@@ -267,7 +279,7 @@ class album
 				'UC_IMAGE_NAME'	=> $image_data['image_name'],//self::generate_link('image_name', $this->config['phpbb_gallery_link_image_name'], $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id'], false, true, "&amp;sk={$sk}&amp;sd={$sd}&amp;st={$st}"),
 				//'UC_THUMBNAIL'	=> 'self::generate_link('thumbnail', $phpbb_ext_gallery->config->get('link_thumbnail'), $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id']),
 				'UC_THUMBNAIL'		=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $image_data['image_id'])),
-				'UC_THUMBNAIL_ACTION'	=> ($this->gallery_config->get('link_thumbnail') == 'image_page') ? $this->helper->route('phpbbgallery_image', array('image_id' => $image_data['image_id'])) : ($this->gallery_config->get('link_thumbnail') == 'image') ? $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $image_data['image_id'])) : false,
+				//'UC_THUMBNAIL_ACTION'	=> ($this->gallery_config->get('link_thumbnail') == 'image_page') ? $this->helper->route('phpbbgallery_image', array('image_id' => $image_data['image_id'])) : ($this->gallery_config->get('link_thumbnail') == 'image') ? $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $image_data['image_id'])) : false,
 				'S_UNAPPROVED'	=> ($this->auth->acl_check('m_status', $image_data['image_album_id'], $album_user_id) && ($image_data['image_status'] == \phpbbgallery\core\image\image::STATUS_UNAPPROVED)) ? true : false,
 				'S_LOCKED'		=> ($image_data['image_status'] == \phpbbgallery\core\image\image::STATUS_LOCKED) ? true : false,
 				'S_REPORTED'	=> ($this->auth->acl_check('m_report', $image_data['image_album_id'], $album_user_id) && $image_data['image_reported']) ? true : false,
