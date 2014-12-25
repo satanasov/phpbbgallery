@@ -1239,7 +1239,7 @@ class permissions_module
 		$users_table = $table_prefix . 'gallery_users';
 		$gallery_cache = new \phpbbgallery\core\cache($cache, $db);
 		$gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $table_name);
-		$phpbb_ext_gallery_core_auth =  $phpbb_container->get('phpbbgallery.core.auth');;
+		$phpbb_ext_gallery_core_auth =  $phpbb_container->get('phpbbgallery.core.auth');
 
 		$disabled = false;
 		// We submit a "wrong" array on the check (to make it more easy) so we convert it here

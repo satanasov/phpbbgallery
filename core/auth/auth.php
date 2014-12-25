@@ -642,7 +642,7 @@ class auth
 		$album_data = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 
-		// Let's request roles 
+		// Let's request roles
 		// If album user_id is different then 0 then this is user album.
 		// So we need to request all roles for perm_system -2(own) and -3(user)
 		if ($album_data['album_user_id'] != 0)
@@ -653,7 +653,7 @@ class auth
 		{
 			$sql = 'SELECT * FROM ' . $this->table_permissions . ' WHERE perm_album_id = ' . $album_id;
 		}
-		
+
 		$result = $this->db->sql_query($sql);
 		$roles_id = array();
 		// Now we build the array to test
