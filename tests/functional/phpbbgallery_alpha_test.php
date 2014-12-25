@@ -234,7 +234,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		
 		//$link = $crawler->filter('div.upload-icon > a')->attr('href');
-		//$this->assertContains('lalalalalal',  $crawler->filter('div.upload-icon > a')->attr('href'));
+		$this->assertContains('lalalalalal',  $crawler->text());
 		
 		$upload_url = substr($crawler->filter('div.upload-icon > a')->attr('href'), 1);
 		
@@ -795,5 +795,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		//$object = $crawler->filter('div.post')->eq(0);
 		//$link = $crawler->filter('div.post')->eq(0)->filter('a')->attr('href');
 		//$this->assertContains('zazazazaza', $link);
+		
+		$this->logout();
 	}
 }
