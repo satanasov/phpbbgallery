@@ -87,7 +87,7 @@ class album
 	*/
 	public function base($album_id, $page = 0)
 	{
-		$this->auth->get_user_ids('m_edit', $album_id);
+		//$this->auth->get_user_ids('m_edit', $album_id);
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
 
 		try
