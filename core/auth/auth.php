@@ -86,7 +86,8 @@ class auth
 	* @param	string			$roles_table		Gallery permission roles table
 	* @param	string			$users_table		Gallery users table
 	*/
-	public function __construct(\phpbbgallery\core\cache $cache, \phpbb\db\driver\driver_interface $db, \phpbbgallery\core\user $user, $permissions_table, $roles_table, $users_table)
+	public function __construct(\phpbbgallery\core\cache $cache, \phpbb\db\driver\driver_interface $db, \phpbbgallery\core\user $user,
+	$permissions_table, $roles_table, $users_table, $albums_table)
 	{
 		$this->cache = $cache;
 		$this->db = $db;
@@ -94,6 +95,7 @@ class auth
 		$this->table_permissions = $permissions_table;
 		$this->table_roles = $roles_table;
 		$this->table_users = $users_table;
+		$this->table_albums = $albums_table;
 
 		self::$_permissions = array_merge(self::$_permission_i, self::$_permission_c, self::$_permission_m, self::$_permission_misc);
 		self::$_permissions_flipped = array_flip(array_merge(self::$_permissions, array('m_')));
@@ -619,5 +621,94 @@ class auth
 		}
 
 		return ($return == 'array') ? $album_array : $album_list;
+	}
+
+	/**
+	* Get all user IDs that have specific ACL for album
+	* 
+	* @param	string	$acl		One of the permissions, Exp: i_view; *_count permissions are not allowed!
+	* @param	int		$album_id	Album ID we want info for
+	*
+	* return	array	$user_ids	Return user IDs as array
+	*/
+	public function acl_users_ids($acl, $album_id)
+	{
+		if (strstr($acl, '_count') != 0)
+		{
+			return array();
+		}
+		// Let's load album data
+		$sql = 'SELECT * FROM ' . $this->table_albums . ' WHERE album_id = ' . (int) $album_id;
+		$result = $this->db->sql_query($sql);
+		$album_data = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
+
+		// Let's request roles 
+		// If album user_id is different then 0 then this is user album.
+		// So we need to request all roles for perm_system -2(own) and -3(user)
+		if ($album_data['album_user_id'] != 0)
+		{
+			$sql = 'SELECT * FROM ' . $this->table_permissions . ' WHERE ' . $this->db->sql_in_set('perm_system', array(-2, -3));
+		}
+		else
+		{
+			$sql = 'SELECT * FROM ' . $this->table_permissions . ' WHERE perm_album_id = ' . $album_id;
+		}
+		
+		$result = $this->db->sql_query($sql);
+		$roles_id = array();
+		// Now we build the array to test
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$roles_id['roles'][] = (int) $row['perm_role_id'];
+			$roles_id[$row['perm_role_id']]['user_id'][] = (int) $row['perm_user_id'];
+			$roles_id[$row['perm_role_id']]['group_id'][] = (int) $row['perm_group_id'];
+		}
+		$this->db->sql_freeresult($result);
+
+		// Now we will select the roles that have the setted ACL
+		$sql = 'SELECT role_id FROM ' . $this->table_roles . ' WHERE ' . $acl . ' = 1 and ' . $this->db->sql_in_set('role_id', $roles_id['roles'], false, true);
+		$result = $this->db->sql_query($sql);
+		$roles = array();
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$roles[] = (int) $row['role_id'];
+		}
+		$this->db->sql_freeresult($result);
+
+		// Let's cycle trough roles and build user_ids with user_ids from roles
+		$user_ids = array();
+		foreach ($roles as $id)
+		{
+			$user_ids = array_merge($user_ids, $roles_id[$id]['user_id']);
+			// Let's query groups
+			$sql = 'SELECT * FROM ' . USER_GROUP_TABLE . ' WHERE ' . $this->db->sql_in_set('group_id', $roles_id[$id]['group_id'], false, true);
+			$result = $this->db->sql_query($sql);
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				if ($row['user_pending'] == 0)
+				{
+					$user_ids[] = $row['user_id'];
+				}
+			}
+			$this->db->sql_freeresult($result);
+		}
+
+		// Now we cycle the $user_ids to remove 0 and make ids unique
+		$returning_value = array();
+		foreach ($user_ids as $id)
+		{
+			if ($id != 0)
+			{
+				$returning_value[$id] = (int) $id;
+			}
+		}
+
+		$user_ids = array();
+		foreach ($returning_value as $id)
+		{
+			$user_ids[] = (int) $id;
+		}
+		return $user_ids;
 	}
 }

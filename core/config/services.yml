@@ -55,6 +55,7 @@ services:
             - %tables.phpbbgallery.permissions%
             - %tables.phpbbgallery.roles%
             - %tables.phpbbgallery.users%
+            - %tables.phpbbgallery.albums%
     phpbbgallery.core.auth.level:
         class: phpbbgallery\core\auth\level
         arguments:

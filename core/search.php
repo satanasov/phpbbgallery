@@ -179,10 +179,10 @@ class search
 			switch ($this->gallery_config->get('link_thumbnail'))
 			{
 				case 'image_page':
-					$action = $this->helper->route('phpbbgallery_image', array('image_id' => $image_data['image_id']));
+					$action = $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id']));
 				break;
 				case 'image':
-					$action = $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $image_data['image_id']));
+					$action = $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $row['image_id']));
 				break;
 				default:
 					$action = false;
@@ -301,10 +301,10 @@ class search
 			switch ($this->gallery_config->get('link_thumbnail'))
 			{
 				case 'image_page':
-					$action = $this->helper->route('phpbbgallery_image', array('image_id' => $image_data['image_id']));
+					$action = $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id']));
 				break;
 				case 'image':
-					$action = $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $image_data['image_id']));
+					$action = $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $row['image_id']));
 				break;
 				default:
 					$action = false;
