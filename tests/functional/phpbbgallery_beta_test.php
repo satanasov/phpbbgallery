@@ -50,8 +50,13 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		
 		$this->assertContainsLang('EXTENSION_DISABLE_SUCCESS', $crawler->text());
 		
+<<<<<<< Updated upstream
 		//$crawler = self::request('GET', 'adm/index.php&i=21&sid=' . $this->sid);
 		//$this->assertContainsLang('EXTENSIONS_ADMIN', $crawler->text());
+=======
+		$crawler = self::request('GET', 'index.php&sid=' . $this->sid);
+		$this->assertContainsLang('BOARD_INDEX', $crawler->text());
+>>>>>>> Stashed changes
 		
 		// If all works - enable all and continue testing
 		
