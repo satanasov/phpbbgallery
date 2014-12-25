@@ -23,7 +23,7 @@ class permissions_module
 
 	function main($id, $mode)
 	{
-		global $auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path, $permissions, $phpbb_ext_gallery;
+		global $auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path, $permissions, $phpbb_ext_gallery, $phpbb_container;
 		global $phpbb_dispatcher, $table_name, $permissions_table, $roles_table, $users_table;
 
 		$phpbb_ext_gallery = new \phpbbgallery\core\core($auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path);
@@ -32,7 +32,7 @@ class permissions_module
 		// Init auth
 		$gallery_cache = new \phpbbgallery\core\cache($cache, $db);
 		$gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $table_name);
-		$phpbb_ext_gallery_core_auth = new \phpbbgallery\core\auth\auth($gallery_cache, $db, $gallery_user, $permissions_table, $roles_table, $users_table);
+		$phpbb_ext_gallery_core_auth = $phpbb_container->get('phpbbgallery.core.auth');
 
 		$user->add_lang_ext('phpbbgallery/core', array('gallery_acp', 'gallery'));
 		$this->tpl_name = 'gallery_permissions';
@@ -122,12 +122,12 @@ class permissions_module
 
 	function permissions_c_mask()
 	{
-		global $cache, $template, $db, $table_name, $permissions_table, $roles_table, $users_table, $phpbb_dispatcher;
+		global $cache, $template, $db, $table_name, $permissions_table, $roles_table, $users_table, $phpbb_dispatcher, $phpbb_container;
 
 		// Init auth
 		$gallery_cache = new \phpbbgallery\core\cache($cache, $db);
 		$gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $table_name);
-		$phpbb_ext_gallery_core_auth = new \phpbbgallery\core\auth\auth($gallery_cache, $db, $gallery_user, $permissions_table, $roles_table, $users_table);
+		$phpbb_ext_gallery_core_auth = $phpbb_container->get('phpbbgallery.core.auth');
 
 		// Init album
 		$phpbb_ext_gallery_core_album = new \phpbbgallery\core\album\album();
@@ -998,7 +998,7 @@ class permissions_module
 	*/
 	function copy_album_permissions()
 	{
-		global $cache, $db, $template, $user, $table_prefix, $phpbb_dispatcher, $table_name, $users_table;
+		global $cache, $db, $template, $user, $table_prefix, $phpbb_dispatcher, $table_name, $users_table, $phpbb_container;
 
 		$albums_table = $table_prefix . 'gallery_albums';
 		$roles_table = $table_prefix . 'gallery_roles';
@@ -1006,7 +1006,7 @@ class permissions_module
 		$modscache_table = $table_prefix . 'gallery_modscache';
 		$gallery_cache = new \phpbbgallery\core\cache($cache, $db);
 		$gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $table_name);
-		$phpbb_ext_gallery_core_auth = new \phpbbgallery\core\auth\auth($gallery_cache, $db, $gallery_user, $permissions_table, $roles_table, $users_table);
+		$phpbb_ext_gallery_core_auth = $phpbb_container->get('phpbbgallery.core.auth');
 
 		// Init album
 		$phpbb_ext_gallery_core_album = new \phpbbgallery\core\album\album();
