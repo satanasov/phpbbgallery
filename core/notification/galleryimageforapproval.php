@@ -8,7 +8,7 @@
 */
 namespace phpbbgallery\core\notification;
 
-class pgimageaprove extends \phpbb\notification\type\base
+class galleryimageforapproval extends \phpbb\notification\type\base
 {
 	protected $helper;
 
@@ -34,7 +34,7 @@ class pgimageaprove extends \phpbb\notification\type\base
 	*/
 	public function get_type()
 	{
-		return 'notification.type.pgimageaprove';
+		return 'notification.type.galleryimageforapproval';
 	}
 	/**
 	* Notification option data (for outputting to the user)

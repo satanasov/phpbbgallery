@@ -25,7 +25,7 @@ class ext extends \phpbb\extension\base
 			case '': // Empty means nothing has run yet
 				// Enable board rules notifications
 				$phpbb_notifications = $this->container->get('notification_manager');
-				$phpbb_notifications->enable_notifications('notification.type.pgimageaprove');
+				$phpbb_notifications->enable_notifications('notification.type.galleryimageforapproval');
 				return 'notifications';
 			break;
 			default:
@@ -55,7 +55,7 @@ class ext extends \phpbb\extension\base
 
 				// Disable board rules notifications
 				$phpbb_notifications = $this->container->get('notification_manager');
-				$phpbb_notifications->disable_notifications('notification.type.pgimageaprove');
+				$phpbb_notifications->disable_notifications('notification.type.galleryimageforapproval');
 				return 'notifications';
 
 			break;
@@ -86,7 +86,7 @@ class ext extends \phpbb\extension\base
 				{
 					// Purge board rules notifications
 					$phpbb_notifications = $this->container->get('notification_manager');
-					$phpbb_notifications->purge_notifications('notification.type.pgimageaprove');
+					$phpbb_notifications->purge_notifications('notification.type.galleryimageforapproval');
 				}
 				catch (\phpbb\notification\exception $e)
 				{
