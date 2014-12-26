@@ -81,7 +81,7 @@ class m3_create_filesystem extends \phpbb\db\migration\migration
 		{
 			if(is_dir($file))
 			{
-				recursiveRemoveDirectory($file);
+				$this->recursiveRemoveDirectory($file);
 			}
 			else {
 				unlink($file);
