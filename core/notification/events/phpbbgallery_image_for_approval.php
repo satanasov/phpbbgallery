@@ -6,9 +6,9 @@
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
-namespace phpbbgallery\core\notification;
+namespace phpbbgallery\core\notification\events;
 
-class galleryimageforapproval extends \phpbb\notification\type\base
+class phpbbgallery_image_for_approval extends \phpbb\notification\type\base
 {
 	protected $helper;
 
@@ -34,7 +34,7 @@ class galleryimageforapproval extends \phpbb\notification\type\base
 	*/
 	public function get_type()
 	{
-		return 'notification.type.galleryimageforapproval';
+		return 'notification.type.phpbbgallery_image_for_approval';
 	}
 	/**
 	* Notification option data (for outputting to the user)
@@ -43,7 +43,7 @@ class galleryimageforapproval extends \phpbb\notification\type\base
 	* 					Array of data (including keys 'id', 'lang', and 'group')
 	*/
 	public static $notification_option = array(
-		'lang'	=> 'NOTIFICATION_TYPE_PHPBBGALLERY_IMAGEAPPROVE',
+		'lang'	=> 'NOTIFICATION_TYPE_PHPBBGALLERY_IMAGE_FOR_APPROVE',
 	);
 	/**
 	* Is this type available to the current user (defines whether or not it will be shown in the UCP Edit notification options)
@@ -61,7 +61,7 @@ class galleryimageforapproval extends \phpbb\notification\type\base
 	*/
 	public static function get_item_id($data)
 	{
-		return $data['requester_id'];
+		return $data['last_image_id'];
 	}
 	/**
 	* Get the id of the parent
@@ -71,7 +71,7 @@ class galleryimageforapproval extends \phpbb\notification\type\base
 	public static function get_item_parent_id($data)
 	{
 		// No parent
-		return $data['user_id'];
+		return $data['album_id'];
 	}
 	/**
 	* Find the users who will receive notifications
@@ -82,10 +82,9 @@ class galleryimageforapproval extends \phpbb\notification\type\base
 	*/
 	public function find_users_for_notification($data, $options = array())
 	{
-		$users = array();
-		$users[$data['user_id']] = array('');
-		$this->user_loader->load_users(array_keys($users));
-		return $this->check_user_notification_options(array_keys($users), $options);
+		
+		$this->user_loader->load_users($data['user_ids']);
+		return $this->check_user_notification_options($data['user_ids'], $options);
 	}
 	/**
 	* Users needed to query before this notification can be displayed
@@ -101,7 +100,7 @@ class galleryimageforapproval extends \phpbb\notification\type\base
 	*/
 	public function get_avatar()
 	{
-		$users = array($this->get_data('requester_id'));
+		$users = array($this->get_data('uploader'));
 		$this->user_loader->load_users($users);
 		return $this->user_loader->get_avatar($this->get_data('requester_id'));
 	}
@@ -112,10 +111,10 @@ class galleryimageforapproval extends \phpbb\notification\type\base
 	*/
 	public function get_title()
 	{
-		$users = array($this->get_data('requester_id'));
+		$users = array($this->get_data('uploader'));
 		$this->user_loader->load_users($users);
-		$username = $this->user_loader->get_username($this->get_data('requester_id'), 'no_profile');
-		return $this->user->lang('NOTIFICATION_ZEBRA_ADD', $username);
+		$username = $this->user_loader->get_username($this->get_data('uploader'), 'no_profile');
+		return $this->user->lang('NOTIFICATION_PHPBBGALLERY_IMAGE_FOR_APPROVAL', $this->get_data('album_name'), $username);
 	}
 	/**
 	* Get the url to this item
@@ -124,7 +123,7 @@ class galleryimageforapproval extends \phpbb\notification\type\base
 	*/
 	public function get_url()
 	{
-		return append_sid($this->phpbb_root_path . 'ucp.' . $this->php_ext, "i=". $this->config['zebra_module_id']);
+		return $this->get_data('album_url');
 	}
 	/**
 	* Get email template
@@ -155,7 +154,9 @@ class galleryimageforapproval extends \phpbb\notification\type\base
 	*/
 	public function create_insert_array($data, $pre_create_data = array())
 	{
-		$this->set_data('requester_id', $data['requester_id']);
+		$this->set_data('album_name', $data['album_name']);
+		$this->set_data('album_url', $data['album_url']);
+		$this->set_data('uploader', $data['uploader']);
 		return parent::create_insert_array($data, $pre_create_data);
 	}
 }

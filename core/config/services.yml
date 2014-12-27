@@ -82,6 +82,83 @@ services:
             - @phpbbgallery.core.config
             - @controller.helper
             - %tables.phpbbgallery.images%
+    phpbbgallery.core.user:
+        class: phpbbgallery\core\user
+        arguments:
+            - @dbal.conn
+            - @dispatcher
+            - %tables.phpbbgallery.users%
+    phpbbgallery.core.config:
+        class: phpbbgallery\core\config
+        arguments:
+            - @config
+    phpbbgallery.core.report:
+        class: phpbbgallery\core\report
+    phpbbgallery.core.comment:
+        class: phpbbgallery\core\comment
+        arguments:
+            - @user
+            - @phpbbgallery.core.config
+            - @phpbbgallery.core.auth
+            - @phpbbgallery.core.image
+            - @phpbbgallery.core.album
+    phpbbgallery.core.url:
+        class: phpbbgallery\core\url
+        arguments:
+            - %core.root_path%
+            - %core.php_ext%
+    phpbbgallery.core.moderate:
+        class: phpbbgallery\core\moderate
+        arguments:
+            - @dbal.conn
+            - @template
+            - @controller.helper
+            - @user
+            - @user_loader
+            - @phpbbgallery.core.album
+            - @phpbbgallery.core.auth
+            - %tables.phpbbgallery.images%
+            - %tables.phpbbgallery.reports%
+    phpbbgallery.core.search:
+        class: phpbbgallery\core\search
+        arguments:
+            - @auth
+            - @config
+            - @dbal.conn
+            - @request
+            - @template
+            - @user
+            - @controller.helper
+            - @phpbbgallery.core.album.display
+            - @phpbbgallery.core.config
+            - @phpbbgallery.core.auth
+            - @phpbbgallery.core.album
+            - @phpbbgallery.core.image
+            - @phpbbgallery.core.url
+            - %tables.phpbbgallery.images%
+            - %tables.phpbbgallery.albums%
+            - %tables.phpbbgallery.comments%
+            - %core.root_path%
+            - %core.php_ext%
+    phpbbgallery.core.notification.helper:
+        class: phpbbgallery\core\notification\helper
+        arguments:
+            - @config
+            - @dbal.conn
+            - @request
+            - @template
+            - @user
+            - @phpbbgallery.core.auth
+            - @phpbbgallery.core.album.loader
+            - @controller.helper
+            - @service_container
+            - %core.root_path%
+            - %core.php_ext%
+
+#######################
+#### Define event #####
+#######################
+
     phpbbgallery.core.listener:
         class: phpbbgallery\core\event\main_listener
         arguments:
@@ -91,12 +168,11 @@ services:
             - %core.php_ext%
         tags:
             - { name: event.listener }
-    phpbbgallery.core.user:
-        class: phpbbgallery\core\user
-        arguments:
-            - @dbal.conn
-            - @dispatcher
-            - %tables.phpbbgallery.users%
+
+#############################
+#### Define controllers #####
+#############################
+
     phpbbgallery.core.controller.upload:
         class: phpbbgallery\core\controller\upload
         arguments:
@@ -112,6 +188,7 @@ services:
             - @phpbbgallery.core.config
             - @phpbbgallery.core.user
             - @phpbbgallery.core.image
+            - @phpbbgallery.core.notification.helper
             - %tables.phpbbgallery.images%
     phpbbgallery.core.controller.album:
         class: phpbbgallery\core\controller\album
@@ -257,65 +334,13 @@ services:
             - @phpbbgallery.core.image
             - %core.root_path%
             - %core.php_ext%
-    phpbbgallery.core.config:
-        class: phpbbgallery\core\config
-        arguments:
-            - @config
-    phpbbgallery.core.report:
-        class: phpbbgallery\core\report
-    phpbbgallery.core.comment:
-        class: phpbbgallery\core\comment
-        arguments:
-            - @user
-            - @phpbbgallery.core.config
-            - @phpbbgallery.core.auth
-            - @phpbbgallery.core.image
-            - @phpbbgallery.core.album
-    phpbbgallery.core.url:
-        class: phpbbgallery\core\url
-        arguments:
-            - %core.root_path%
-            - %core.php_ext%
-    phpbbgallery.core.moderate:
-        class: phpbbgallery\core\moderate
-        arguments:
-            - @dbal.conn
-            - @template
-            - @controller.helper
-            - @user
-            - @user_loader
-            - @phpbbgallery.core.album
-            - @phpbbgallery.core.auth
-            - %tables.phpbbgallery.images%
-            - %tables.phpbbgallery.reports%
-    phpbbgallery.core.search:
-        class: phpbbgallery\core\search
-        arguments:
-            - @auth
-            - @config
-            - @dbal.conn
-            - @request
-            - @template
-            - @user
-            - @controller.helper
-            - @phpbbgallery.core.album.display
-            - @phpbbgallery.core.config
-            - @phpbbgallery.core.auth
-            - @phpbbgallery.core.album
-            - @phpbbgallery.core.image
-            - @phpbbgallery.core.url
-            - %tables.phpbbgallery.images%
-            - %tables.phpbbgallery.albums%
-            - %tables.phpbbgallery.comments%
-            - %core.root_path%
-            - %core.php_ext%
 
 ####################################
 #### Define notification types #####
 ####################################
 
-    phpbbgallery.core.notification.type.galleryimageforapproval:
-        class: phpbbgallery\core\notification\galleryimageforapproval
+    notification.type.phpbbgallery_image_for_approval:
+        class: phpbbgallery\core\notification\events\phpbbgallery_image_for_approval
         scope: prototype # scope MUST be prototype for this to work!
         arguments:
             - @user_loader

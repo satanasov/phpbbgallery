@@ -1,5 +1,4 @@
 <?php
-
 /**
  *
  * @package phpBB Gallery
@@ -7,11 +6,8 @@
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
-
 namespace phpbbgallery\core\event;
-
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-
 /**
 * Event listener
 */
@@ -25,19 +21,14 @@ class main_listener implements EventSubscriberInterface
 			//'core.viewonline_overwrite_location'	=> 'add_newspage_viewonline',
 		);
 	}
-
 	/* @var \phpbb\controller\helper */
 	protected $helper;
-
 	/* @var \phpbb\template\template */
 	protected $template;
-
 	/* @var \phpbb\user */
 	protected $user;
-
 	/* @var string phpEx */
 	protected $php_ext;
-
 	/**
 	* Constructor
 	*
@@ -53,17 +44,17 @@ class main_listener implements EventSubscriberInterface
 		$this->user = $user;
 		$this->php_ext = $php_ext;
 	}
-
 	public function load_language_on_setup($event)
 	{
-		$lang_set_ext = $event['lang_set_ext'];
+		$this->user->add_lang_ext('phpbbgallery/core', 'info_acp_gallery');
+		$this->user->add_lang_ext('phpbbgallery/core', 'gallery_notifications');
+		/*$lang_set_ext = $event['lang_set_ext'];
 		$lang_set_ext[] = array(
 			'ext_name' => 'phpbbgallery/core',
 			'lang_set' => 'info_acp_gallery',
 		);
-		$event['lang_set_ext'] = $lang_set_ext;
+		$event['lang_set_ext'] = $lang_set_ext;*/
 	}
-
 	public function add_page_header_link($event)
 	{
 		$this->template->assign_vars(array(
