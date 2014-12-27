@@ -245,6 +245,7 @@ services:
             - @phpbbgallery.core.misc
             - @phpbbgallery.core.comment
             - @phpbbgallery.core.report
+            - @phpbbgallery.core.notification.helper
             - %tables.phpbbgallery.albums%
             - %tables.phpbbgallery.images%
             - %tables.phpbbgallery.users%
@@ -332,6 +333,7 @@ services:
             - @phpbbgallery.core.misc
             - @phpbbgallery.core.album
             - @phpbbgallery.core.image
+            - @phpbbgallery.core.notification.helper
             - %core.root_path%
             - %core.php_ext%
 

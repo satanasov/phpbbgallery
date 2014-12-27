@@ -59,6 +59,7 @@ class moderate
 	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request,
 	\phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbbgallery\core\album\display $display, \phpbbgallery\core\moderate $moderate,
 	\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\misc $misc, \phpbbgallery\core\album\album $album, \phpbbgallery\core\image\image $image,
+	\phpbbgallery\core\notification\helper $notification_helper,
 	$root_path, $php_ext)
 	{
 		$this->auth = $auth;
@@ -74,6 +75,7 @@ class moderate
 		$this->misc = $misc;
 		$this->album = $album;
 		$this->image = $image;
+		$this->notification_helper = $notification_helper;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 	}
@@ -152,8 +154,8 @@ class moderate
 		$image_data = $this->image->get_image_data($image_id);
 		$album_data = $this->album->get_info($image_data['image_album_id']);
 
-		$album_backlink = append_sid('/gallery');
-		$image_backlink = append_sid('/gallery/image/' . $image_id);
+		$album_backlink = $this->helper->route('phpbbgallery_album', array('album_id' => $image_data['image_album_id']));
+		$image_backlink = $this->helper->route('phpbbgallery_image', array('image_id' => $image_id));
 		$album_loginlink = append_sid('/ucp.php?mode=login');
 		$meta_refresh_time = 2;
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
@@ -167,8 +169,6 @@ class moderate
 		if ($action == 'disapprove')
 		{
 			redirect($this->helper->route('phpbbgallery_image_delete', array('image_id'	=> $image_id)));
-			//var_dump($this->helper->route('phpbbgallery_image_delete', array('image_id'	=> $image_id)));
-			//var_dump(generate_board_url());
 		}
 		$show_notify = true;
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery_mcp'));
@@ -180,7 +180,9 @@ class moderate
 				$notify_poster = ($action == 'approve' && $np);
 				$image_id_ary = array($image_id);
 				$this->image->approve_images($image_id_ary, $album_data['album_id']);
-				// To DO - add notification
+				$this->album->update_info($album_data['album_id']);
+				// So we need to see if there are still unapproved images in the album
+				$this->notification_helper->read('approval', $album_data['album_id']);
 				$message = sprintf($this->user->lang['WAITING_APPROVED_IMAGE'][1]);
 				meta_refresh($meta_refresh_time, $image_backlink);
 				trigger_error($message);

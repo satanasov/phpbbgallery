@@ -61,6 +61,16 @@ class helper
 			//break;
 		}
 	}
+	public function read($type, $target)
+	{
+		$phpbb_notifications = $this->phpbb_container->get('notification_manager');
+		switch ($type)
+		{
+			case 'approval':
+				$phpbb_notifications->mark_notifications_read_by_parent('notification.type.phpbbgallery_image_for_approval', $target, false);
+			break;
+		}
+	}
 	public function clean($user1, $user2)
 	{
 		$phpbb_notifications = $this->phpbb_container->get('notification_manager');
