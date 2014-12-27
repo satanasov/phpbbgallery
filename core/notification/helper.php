@@ -8,40 +8,57 @@
 */
 namespace phpbbgallery\core\notification;
 
+use Symfony\Component\DependencyInjection\Container;
+
 class helper
 {
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, Container $phpbb_container, $root_path, $php_ext)
+	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user,
+	\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\album\loader $album_load, \phpbb\controller\helper $helper,
+	Container $phpbb_container, $root_path, $php_ext)
 	{
 		$this->config = $config;
 		$this->db = $db;
 		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
+		$this->gallery_auth = $gallery_auth;
+		$this->album_load = $album_load;
+		$this->helper = $helper;
 		$this->phpbb_container = $phpbb_container;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 	}
+
 	/**
 	* Main notification function
 	* @param type			Type of notification (add/confirm)
 	* @param notify_user	User to notify
 	* @param action_user	User that trigered the action
 	*/
-	public function notify($type, $notify_user, $action_user)
+	public function notify($type, $target)
 	{
-		$notification_data = array(
-			'user_id'	=> (int) $notify_user,
-			'requester_id'	=> (int) $action_user,
-		);
 		$phpbb_notifications = $this->phpbb_container->get('notification_manager');
 		switch ($type)
 		{
-			case 'add':
-				$phpbb_notifications->add_notifications('notification.type.zebraadd', $notification_data);
+			case 'approval':
+				$targets = $this->gallery_auth->acl_users_ids('i_approve', $target['album_id']);
+				$album_data = $this->album_load->get($target['album_id']);
+				$notification_data = array(
+					'user_ids' => $targets,
+					'album_id' => $target['album_id'],
+					'album_name' => $album_data['album_name'],
+					'last_image_id'	=> $target['last_image'],
+					'uploader'	=> $target['uploader'],
+					'album_url'	=> $this->helper->route('phpbbgallery_album', array('album_id' => $target['album_id'])),
+				);
+				$phpbb_notifications->add_notifications('notification.type.phpbbgallery_image_for_approval', $notification_data);
 			break;
-			case 'confirm':
-				$phpbb_notifications->add_notifications('notification.type.zebraconfirm', $notification_data);
-			break;
+			///case 'add':
+			//	$phpbb_notifications->add_notifications('notification.type.zebraadd', $notification_data);
+			//break;
+			//case 'confirm':
+			//	$phpbb_notifications->add_notifications('notification.type.zebraconfirm', $notification_data);
+			//break;
 		}
 	}
 	public function clean($user1, $user2)

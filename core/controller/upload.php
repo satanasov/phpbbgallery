@@ -36,6 +36,7 @@ class upload
 	public function __construct(\phpbb\request\request $request, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\template\template $template,
 	\phpbbgallery\core\album\album $album, \phpbbgallery\core\misc $misc, \phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\album\display $display,
 	\phpbb\controller\helper $helper, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\image\image $image,
+	\phpbbgallery\core\notification\helper $notification_helper,
 	$images_table)
 	{
 		$this->request = $request;
@@ -50,6 +51,7 @@ class upload
 		$this->gallery_config = $gallery_config;
 		$this->gallery_user = $gallery_user;
 		$this->image = $image;
+		$this->notification_helper = $notification_helper;
 		$this->images_table = $images_table;
 	}
 
@@ -286,6 +288,12 @@ class upload
 				}
 				else
 				{
+					$target = array(
+						'album_id'	=>	$album_id,
+						'last_image'	=> end($process->images),
+						'uploader'		=> $this->user->data['user_id'],
+					);
+					$this->notification_helper->notify('approval', $target);
 					$message .= (!$error) ? $this->user->lang['ALBUM_UPLOAD_NEED_APPROVAL'] : $this->user->lang('ALBUM_UPLOAD_NEED_APPROVAL_ERROR', $error);
 					$meta_refresh_time = 20;
 				}
@@ -297,7 +305,7 @@ class upload
 				$this->image->handle_counter($process->images, true);
 				$this->album->update_info($album_id);
 
-				meta_refresh($meta_refresh_time, $album_backlink);
+				//meta_refresh($meta_refresh_time, $album_backlink);
 				trigger_error($message);
 			}
 
