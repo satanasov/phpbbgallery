@@ -7,7 +7,9 @@
  *
  */
 namespace phpbbgallery\core\event;
+
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
 /**
 * Event listener
 */
