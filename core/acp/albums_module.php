@@ -211,7 +211,7 @@ class albums_module
 							$db->sql_freeresult($result);
 
 							$db->sql_multi_insert($table_prefix . 'gallery_permissions', $perm_data);
-							$db->sql_multi_insert(GALLERY_MODSCACHE_TABLE, $modscache_ary);
+							$db->sql_multi_insert($table_prefix . 'gallery_modscache', $modscache_ary);
 						}
 
 						$cache->destroy('sql', $table_prefix . 'gallery_albums');
