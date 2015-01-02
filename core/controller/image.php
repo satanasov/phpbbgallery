@@ -798,7 +798,7 @@ class image
 
 			if (!$error)
 			{
-				$sql = 'UPDATE ' . $this->table_images . ' 
+				$sql = 'UPDATE ' . $this->table_images . '
 					SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . '
 					WHERE image_id = ' . $image_id;
 				$this->db->sql_query($sql);
@@ -879,8 +879,8 @@ class image
 		$album_data = $this->album->get_info($album_id);
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
 		$album_loginlink = './ucp.php?mode=login';
-		$image_backlink = append_sid('./gallery/image/'. $image_id);
-		$album_backlink = append_sid('./gallery/album/'. $image_data['image_album_id']);
+		$image_backlink = $this->helper->route('phpbbgallery_image', array('image_id'	=> $image_id));
+		$album_backlink = $this->helper->route('phpbbgallery_album', array('album_id'	=> $image_data['image_album_id']));
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 		if (!$this->gallery_auth->acl_check('i_delete', $album_id, $album_data['album_user_id']) || ($image_data['image_status'] == \phpbbgallery\core\image\image::STATUS_ORPHAN))
 		{
