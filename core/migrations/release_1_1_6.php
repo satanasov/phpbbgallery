@@ -355,12 +355,13 @@ class release_1_1_6 extends \phpbb\db\migration\migration
 				'module_mode'		=> 'copy',
 				'module_auth'		=> 'ext_phpbbgallery/core && acl_a_gallery_albums',
 			))),
-			array('module.add', array('acp', 'PHPBB_GALLERY', array(
+			// Todo CLEANUP Add-on
+			/*array('module.add', array('acp', 'PHPBB_GALLERY', array(
 				'module_basename'	=> '\phpbbgallery\core\acp\gallery_module',
 				'module_langname'	=> 'ACP_GALLERY_CLEANUP',
 				'module_mode'		=> 'cleanup',
 				'module_auth'		=> 'ext_phpbbgallery/core && acl_a_gallery_cleanup',
-			))),
+			))),*/
 
 			// UCP
 			array('module.add', array('ucp', '', 'UCP_GALLERY')),
