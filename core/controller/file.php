@@ -396,14 +396,20 @@ class file
 	{
 		if (!$this->config['phpbb_gallery_allow_hotlinking'])
 		{
-			$haystak =  explode(',', $this->config['phpbb_gallery_hotlinking_domains']);
+			$haystak = array();
+			$haystak = explode(',', $this->config['phpbb_gallery_hotlinking_domains']);
+			//add one extra array - current phpbbdomain
+			$haystak[] = $this->config['server_name'];
 			$referrer = $this->request->server('HTTP_REFERER', '');
 			$not_hl = false;
 			foreach ($haystak as $var)
 			{
-				if (strpos($referrer, $var) > 0)
+				if (!empty($var))
 				{
-					$not_hl = true;
+					if (strpos($referrer, $var) > 0 || empty($referrer))
+					{
+						$not_hl = true;
+					}
 				}
 			}
 			if (!$not_hl)
