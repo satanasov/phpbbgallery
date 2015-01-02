@@ -168,17 +168,17 @@ class albums_module
 							// If we edit a album delete current permissions first
 							if ($action == 'edit')
 							{
-								$sql = 'DELETE FROM ' . GALLERY_PERMISSIONS_TABLE . '
+								$sql = 'DELETE FROM ' . $table_prefix . 'gallery_permissions
 									WHERE perm_album_id = ' . $album_data['album_id'];
 								$db->sql_query($sql);
 
-								$sql = 'DELETE FROM ' . GALLERY_MODSCACHE_TABLE . '
+								$sql = 'DELETE FROM ' . $table_prefix . 'gallery_modscache
 									WHERE album_id = ' . $album_data['album_id'];
 								$db->sql_query($sql);
 							}
 
 							$sql = 'SELECT *
-								FROM ' . GALLERY_PERMISSIONS_TABLE . '
+								FROM ' . $table_prefix . 'gallery_permissions
 								WHERE perm_album_id = ' . $album_perm_from;
 							$result = $db->sql_query($sql);
 							while ($row = $db->sql_fetchrow($result))
@@ -194,7 +194,7 @@ class albums_module
 							$db->sql_freeresult($result);
 
 							$modscache_ary = array();
-							$sql = 'SELECT * FROM ' . GALLERY_MODSCACHE_TABLE . '
+							$sql = 'SELECT * FROM ' . $table_prefix . 'gallery_modscache
 								WHERE album_id = ' . $album_perm_from;
 							$result = $db->sql_query($sql);
 							while ($row = $db->sql_fetchrow($result))
@@ -210,7 +210,7 @@ class albums_module
 							}
 							$db->sql_freeresult($result);
 
-							$db->sql_multi_insert(GALLERY_PERMISSIONS_TABLE, $perm_data);
+							$db->sql_multi_insert($table_prefix . 'gallery_permissions', $perm_data);
 							$db->sql_multi_insert(GALLERY_MODSCACHE_TABLE, $modscache_ary);
 						}
 
@@ -278,7 +278,7 @@ class albums_module
 				}
 
 				$sql = 'SELECT album_name, album_type
-					FROM ' . $table_prefix . "gallery_albums 
+					FROM ' . $table_prefix . "gallery_albums
 					WHERE album_id = $album_id";
 				$result = $db->sql_query($sql);
 				$row = $db->sql_fetchrow($result);
