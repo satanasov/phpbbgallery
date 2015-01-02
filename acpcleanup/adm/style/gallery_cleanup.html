@@ -1,0 +1,160 @@
+<!-- INCLUDE overall_header.html -->
+
+<a name="maincontent"></a>
+
+<h1>{ACP_GALLERY_TITLE}</h1>
+<p>{ACP_GALLERY_TITLE_EXPLAIN}</p>
+
+<form id="acp_gallery" method="post" action="{U_ACTION}">
+	<fieldset>
+		<legend>{L_MANAGE_CRASHED_IMAGES}</legend>
+		<dl>
+			<dt><label<!-- IF .sourcerow --> for="source"<!-- ENDIF -->>{L_MISSING_SOURCE}:</label>
+				<br /><span><a href="{CHECK_SOURCE}">{L_CHECK}</a></span></dt>
+			<dd><!-- IF not .sourcerow -->
+				{L_CHECK_SOURCE_EXPLAIN}
+			<!-- ELSE -->
+				<select id="source" name="source[]" multiple="multiple" size="10">
+					<!-- BEGIN sourcerow --><option value="{sourcerow.IMAGE_ID}">{L_IMAGE_ID}: {sourcerow.IMAGE_ID} - {sourcerow.IMAGE_NAME}</option><!-- END sourcerow -->
+				</select>
+			<!-- ENDIF --></dd>
+		</dl>
+		<dl>
+			<dt><label<!-- IF .entryrow --> for="entry"<!-- ENDIF -->>{L_MISSING_ENTRY}:</label>
+				<br /><span><a href="{CHECK_ENTRY}">{L_CHECK}</a></span></dt>
+			<dd><!-- IF not .entryrow -->
+				{L_CHECK_ENTRY_EXPLAIN}
+			<!-- ELSE -->
+				<select id="entry" name="entry[]" multiple="multiple" size="10">
+					<!-- BEGIN entryrow --><option value="{entryrow.FILE_NAME}">{entryrow.FILE_NAME}</option><!-- END entryrow -->
+				</select>
+			<!-- ENDIF --></dd>
+		</dl>
+
+		<!-- IF .entryrow or .sourcerow -->
+		<p class="submit-buttons">
+			<input class="button1" type="submit" name="delete" value="{L_DELETE}" />
+		</p>
+		<!-- ENDIF -->
+	</fieldset>
+
+	<fieldset>
+		<legend>{L_MANAGE_CRASHED_ENTRIES}</legend>
+		<dl>
+			<dt><label<!-- IF .authorrow --> for="author"<!-- ENDIF -->>{L_MISSING_AUTHOR}:</label></dt>
+			<dd><!-- IF not .authorrow -->
+				{L_CHECK_AUTHOR_EXPLAIN}
+			<!-- ELSE -->
+				<select id="author" name="author[]" multiple="multiple" size="10">
+					<!-- BEGIN authorrow --><option value="{authorrow.IMAGE_ID}">{L_IMAGE_ID}: {authorrow.IMAGE_ID} - {L_AUTHOR}: {authorrow.AUTHOR_NAME}</option><!-- END authorrow -->
+				</select>
+			<!-- ENDIF --></dd>
+		</dl>
+		<dl>
+			<dt><label<!-- IF .commentrow --> for="comment"<!-- ENDIF -->>{L_MISSING_AUTHOR_C}:</label></dt>
+			<dd><!-- IF not .commentrow -->
+				{L_CHECK_COMMENT_EXPLAIN}
+			<!-- ELSE -->
+				<select id="comment" name="comment[]" multiple="multiple" size="10">
+					<!-- BEGIN commentrow --><option value="{commentrow.COMMENT_ID}">{L_COMMENT_ID}: {commentrow.COMMENT_ID} - {L_IMAGE_ID}: {commentrow.IMAGE_ID} - {L_AUTHOR}: {commentrow.AUTHOR_NAME}</option><!-- END commentrow -->
+				</select>
+			<!-- ENDIF --></dd>
+		</dl>
+
+		<!-- IF .commentrow or .authorrow -->
+		<p class="submit-buttons">
+			<input class="button1" type="submit" name="submit" value="{L_CHANGE_AUTHOR_TO_GUEST}" />
+			<input class="button1" type="submit" name="delete" value="{L_DELETE}" />
+		</p>
+		<!-- ENDIF -->
+	</fieldset>
+
+	<fieldset>
+		<legend>{L_MANAGE_PERSONALS}</legend>
+		<dl>
+			<dt><label<!-- IF .personalrow --> for="personal_missing"<!-- ENDIF -->>{L_MISSING_OWNER}:</label>
+				<br /><span>{L_MISSING_OWNER_EXP}</span></dt>
+			<dd><!-- IF not .personalrow -->
+				{L_CHECK_PERSONALS_EXPLAIN}
+			<!-- ELSE -->
+				<select id="personal_missing" name="personal[]" multiple="multiple" size="10">
+					<!-- BEGIN personalrow --><option value="{personalrow.USER_ID}">{L_ALBUM_ID}: {personalrow.ALBUM_ID} - {L_AUTHOR}: {personalrow.AUTHOR_NAME}</option><!-- END personalrow -->
+				</select>
+			<!-- ENDIF --></dd>
+		</dl>
+		<dl>
+			<dt><label<!-- IF .personal_bad_row --> for="personal_bad"<!-- ENDIF -->>{L_PERSONAL_ALBUMS}:</label>
+				<br /><span>{L_MISSING_OWNER_EXP}</span></dt>
+			<dd><!-- IF not .personal_bad_row -->
+				{L_CHECK_PERSONALS_BAD_EXPLAIN}
+			<!-- ELSE -->
+				<select id="personal_bad" name="personal_bad[]" multiple="multiple" size="10">
+					<!-- BEGIN personal_bad_row --><option value="{personal_bad_row.USER_ID}">{L_ALBUM_ID}: {personal_bad_row.ALBUM_ID} - {L_AUTHOR}: {personal_bad_row.AUTHOR_NAME} - {L_IMAGES}: {personal_bad_row.IMAGES}</option><!-- END personal_bad_row -->
+				</select>
+			<!-- ENDIF --></dd>
+		</dl>
+
+		<!-- IF .personalrow or .personal_bad_row -->
+		<p class="submit-buttons">
+			<input class="button1" type="submit" name="delete" value="{L_DELETE}" />
+		</p>
+		<!-- ENDIF -->
+	</fieldset>
+
+	<!-- IF S_SELECT_ALBUM -->
+	<fieldset>
+		<legend>{L_PRUNE_ALBUMS}</legend>
+		<dl>
+			<dt><label for="prune_album_ids">{L_SELECT_ALBUMS}:</label></dt>
+			<dd><select id="prune_album_ids" name="prune_album_ids[]" multiple="multiple" size="10">{S_SELECT_ALBUM}</select></dd>
+		</dl>
+		<dl>
+			<dt><label for="prune_username_check">{L_PRUNE_USERNAME}:</label>
+				<br /><span>{L_PRUNE_USERNAME_EXP}</span></dt>
+			<dd><input class="radio" type="checkbox" id="prune_username_check" name="prune_username_check" value="1" /> <label for="prune_username_check">{L_PRUNE_CHECK_OPTION}</label></dd>
+			<dd><textarea id="prune_usernames" name="prune_usernames" rows="5" cols="5"></textarea></dd>
+			<dd><div style="float: {S_CONTENT_FLOW_END};">[ <a href="{U_FIND_USERNAME}" onclick="find_username(this.href); return false;">{L_FIND_USERNAME}</a> ]</div><label><input type="checkbox" class="radio" id="anonymous" name="prune_anonymous" value="{ANONYMOUS_USER_ID}" /> {L_SELECT_ANONYMOUS}</label></dd>
+		</dl>
+		<dl>
+			<dt><label for="prune_time_check">{L_PRUNE_TIME}:</label>
+				<br /><span>{L_PRUNE_TIME_EXP}</span></dt>
+			<dd><input class="radio" type="checkbox" id="prune_time_check" name="prune_time_check" value="1" /> <label for="prune_time_check">{L_PRUNE_CHECK_OPTION}</label></dd>
+			<dd><input class="inputbox autowidth" type="text" name="prune_time" size="15" value="" /></dd>
+		</dl>
+		<dl>
+			<dt><label for="prune_comments_check">{L_PRUNE_COMMENTS}:</label></dt>
+			<dd><input class="radio" type="checkbox" id="prune_comments_check" name="prune_comments_check" value="1" /> <label for="prune_comments_check">{L_PRUNE_CHECK_OPTION}</label></dd>
+			<dd><input class="inputbox autowidth" type="text" name="prune_comments" size="15" value="" /></dd>
+		</dl>
+		<dl>
+			<dt><label for="prune_ratings_check">{L_PRUNE_RATINGS}:</label></dt>
+			<dd><input class="radio" type="checkbox" id="prune_ratings_check" name="prune_ratings_check" value="1" /> <label for="prune_ratings_check">{L_PRUNE_CHECK_OPTION}</label></dd>
+			<dd><input class="inputbox autowidth" type="text" name="prune_ratings" size="15" value="" /></dd>
+		</dl>
+		<dl>
+			<dt><label for="prune_rating_avg_check">{L_PRUNE_RATING_AVG}:</label>
+				<br /><span>{L_PRUNE_RATING_AVG_EXP}</span></dt>
+			<dd><input class="radio" type="checkbox" id="prune_rating_avg_check" name="prune_rating_avg_check" value="1" /> <label for="prune_rating_avg_check">{L_PRUNE_CHECK_OPTION}</label></dd>
+			<dd><input class="inputbox autowidth" type="text" name="prune_rating_avg" size="15" value="" /></dd>
+		</dl>
+
+		<p class="submit-buttons">
+			<input class="button1" type="submit" name="prune" value="{L_PRUNE}" />
+		</p>
+	</fieldset>
+	<!-- ENDIF -->
+	<p>{S_FORM_TOKEN}</p>
+</form>
+
+<!--
+	I request you retain the full copyright notice below including the link to www.flying-bits.org.
+	This not only gives respect to the large amount of time given freely by the developer
+	but also helps build interest, traffic and use of phpBB Gallery. If you (honestly) cannot retain
+	the full copyright I ask you at least leave in place the "Powered by phpBB Gallery" line, with
+	"phpBB Gallery" linked to www.flying-bits.org. If you refuse to include even this then support on my
+	forums may be affected.
+
+	phpBB Gallery, nickvergessen : 2009
+	Powered by phpBB Gallery (http://www.flying-bits.org/) &copy; 2007, 2009 nickvergessen (http://www.flying-bits.org/)
+//-->
+<!-- INCLUDE overall_footer.html -->
