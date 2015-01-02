@@ -29,6 +29,15 @@ class album
 		return 1;
 	}
 
+	static public function get_public()
+	{
+		return 0;
+	}
+
+	static public function get_type_upload()
+	{
+		return 1;
+	}
 	/**
 	* Get album information
 	*/
