@@ -125,6 +125,7 @@ class index
 				));
 			}
 		}
+
 		// Now before build random and recent ... let's check if we have images that can build it
 		if ($this->gallery_config->get('num_images') > 0)
 		{
@@ -143,6 +144,7 @@ class index
 				$this->gallery_search->random($this->gallery_config->get('pegas_index_rnd_count'));
 			}
 		}
+
 		$this->display_legend();
 		$this->display_brithdays();
 		$this->assign_dropdown_links('phpbbgallery_index');
