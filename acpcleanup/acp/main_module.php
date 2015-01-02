@@ -22,7 +22,7 @@ class main_module
 		$phpbb_ext_gallery->init();
 
 		$user->add_lang_ext('phpbbgallery/core', array('gallery_acp', 'gallery'));
-		$user->add_lang_ext('phpbbgallery/acpcleanup', 'cleanup');
+		//$user->add_lang_ext('phpbbgallery/acpcleanup', 'cleanup');
 		$this->tpl_name = 'gallery_cleanup';
 		add_form_key('acp_gallery');
 
