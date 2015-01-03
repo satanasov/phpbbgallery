@@ -102,8 +102,8 @@ class comment
 		$this->display->generate_navigation($album_data);
 		$page_title = $image_data['image_name'];
 
-		$image_backlink = append_sid($this->url->path('full') . 'image/' . $image_id);
-		$album_backlink = append_sid($this->url->path('full') . 'album/' . $album_id);
+		$image_backlink = $this->helper->route('phpbbgallery_image', array('image_id' => $image_id));
+		$album_backlink = $this->helper->route('phpbbgallery_album', array('album_id' => $album_id));
 		$image_loginlink = $this->url->append_sid('relative', 'image_page', "album_id=$album_id&amp;image_id=$image_id");
 
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
@@ -286,7 +286,7 @@ class comment
 			$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_IMAGE'], '<a href="' . $image_backlink . '">', '</a>');
 			$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_ALBUM'], '<a href="' . $album_backlink . '">', '</a>');
 
-			meta_refresh(3, $image_backlink);
+			//meta_refresh(3, $this->url->get_relative($image_backlink));
 			trigger_error($message);
 		}
 
@@ -314,8 +314,8 @@ class comment
 		$this->display->generate_navigation($album_data);
 		$page_title = $image_data['image_name'];
 
-		$image_backlink = append_sid($this->url->path('full') . 'image/' . $image_id);
-		$album_backlink = append_sid($this->url->path('full') . 'album/' . $album_id);
+		$image_backlink = $this->helper->route('phpbbgallery_image', array('image_id' => $image_id));
+		$album_backlink = $this->helper->route('phpbbgallery_album', array('album_id' => $album_id));
 		$image_loginlink = $this->url->append_sid('relative', 'image_page', "album_id=$album_id&amp;image_id=$image_id");
 		if ($comment_id != 0)
 		{
@@ -481,7 +481,7 @@ class comment
 			$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_IMAGE'], '<a href="' . $image_backlink . '">', '</a>');
 			$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_ALBUM'], '<a href="' . $album_backlink . '">', '</a>');
 
-			meta_refresh(3, $image_backlink);
+			//meta_refresh(3, $this->url->get_relative($image_backlink));
 			trigger_error($message);
 		}
 
@@ -509,8 +509,8 @@ class comment
 		$this->display->generate_navigation($album_data);
 		$page_title = $image_data['image_name'];
 
-		$image_backlink = append_sid($this->url->path('full') . 'image/' . $image_id);
-		$album_backlink = append_sid($this->url->path('full') . 'album/' . $album_id);
+		$image_backlink = $this->helper->route('phpbbgallery_image', array('image_id' => $image_id));
+		$album_backlink = $this->helper->route('phpbbgallery_album', array('album_id' => $album_id));
 		$image_loginlink = $this->url->append_sid('relative', 'image_page', "album_id=$album_id&amp;image_id=$image_id");
 		if ($comment_id != 0)
 		{
@@ -629,7 +629,7 @@ class comment
 			$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_IMAGE'], '<a href="' . $image_backlink . '">', '</a>');
 			$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_ALBUM'], '<a href="' . $album_backlink . '">', '</a>');
 
-			meta_refresh(3, $image_backlink);
+			//meta_refresh(3, $this->url->get_relative($image_backlink));
 			trigger_error($message);
 		}
 
@@ -650,8 +650,8 @@ class comment
 		$this->display->generate_navigation($album_data);
 		$page_title = $image_data['image_name'];
 
-		$image_backlink = append_sid($this->url->path('full') . 'image/' . $image_id);
-		$album_backlink = append_sid($this->url->path('full') . 'album/' . $album_id);
+		$image_backlink = $this->helper->route('phpbbgallery_image', array('image_id' => $image_id));
+		$album_backlink = $this->helper->route('phpbbgallery_album', array('album_id' => $album_id));
 		$image_loginlink = $this->url->append_sid('relative', 'image_page', "album_id=$album_id&amp;image_id=$image_id");
 
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
@@ -706,37 +706,14 @@ class comment
 					'S_ALLOWED_TO_RATE'			=> $rating->is_allowed(),
 				));
 			}
-			if ($mode == 'rate')
-			{
-				$s_album_action = '';
-			}
+
 		}
+		
+		$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_IMAGE'], '<a href="' . $image_backlink . '">', '</a>');
+		$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_ALBUM'], '<a href="' . $album_backlink . '">', '</a>');
 
-		$this->template->assign_vars(array(
-			'ERROR'					=> $error,
-			'MESSAGE'				=> (isset($comment_plain)) ? $comment_plain : '',
-			'USERNAME'				=> (isset($comment_username)) ? $comment_username : '',
-			'REQ_USERNAME'			=> (!empty($comment_username_req)) ? true : false,
-			'L_COMMENT_LENGTH'		=> sprintf($this->user->lang['COMMENT_LENGTH'], $this->gallery_config->get('comment_length')),
-
-			'IMAGE_RSZ_WIDTH'		=> $this->gallery_config->get('medium_width'),
-			'IMAGE_RSZ_HEIGHT'		=> $this->gallery_config->get('medium_height'),
-			'U_IMAGE'				=> append_sid($this->url->path('full') . 'image/' . $image_id . '/medium'),
-			'U_VIEW_IMAGE'			=> append_sid($this->url->path('full') . 'image/' . $image_id),
-			'IMAGE_NAME'			=> $image_data['image_name'],
-
-			'S_SIGNATURE_CHECKED'	=> (isset($sig_checked) && $sig_checked) ? ' checked="checked"' : '',
-			'S_ALBUM_ACTION'		=> append_sid($this->url->path('full') . 'comment/' . $image_id . '/edit/'. $comment_id),
-		));
-
-		if ($submit && !$error)
-		{
-			$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_IMAGE'], '<a href="' . $image_backlink . '">', '</a>');
-			$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_ALBUM'], '<a href="' . $album_backlink . '">', '</a>');
-
-			meta_refresh(3, $image_backlink);
-			trigger_error($message);
-		}
+		//meta_refresh(3, $this->url->get_relative($image_backlink));
+		trigger_error($message);
 
 		return $this->helper->render('gallery/comment_body.html', $page_title);
 	}

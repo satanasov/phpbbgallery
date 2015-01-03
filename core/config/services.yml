@@ -105,6 +105,7 @@ services:
     phpbbgallery.core.url:
         class: phpbbgallery\core\url
         arguments:
+            - @path_helper
             - %core.root_path%
             - %core.php_ext%
     phpbbgallery.core.moderate:
@@ -246,6 +247,7 @@ services:
             - @phpbbgallery.core.comment
             - @phpbbgallery.core.report
             - @phpbbgallery.core.notification.helper
+            - @path_helper
             - %tables.phpbbgallery.albums%
             - %tables.phpbbgallery.images%
             - %tables.phpbbgallery.users%

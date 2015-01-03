@@ -305,7 +305,7 @@ class upload
 				$this->image->handle_counter($process->images, true);
 				$this->album->update_info($album_id);
 
-				//meta_refresh($meta_refresh_time, $album_backlink);
+				meta_refresh($meta_refresh_time, $album_backlink);
 				trigger_error($message);
 			}
 

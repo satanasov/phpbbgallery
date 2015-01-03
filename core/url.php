@@ -50,11 +50,13 @@ class url
 	/**
 	* Constructor
 	*/
-	public function __construct($phpbb_root_path, $phpEx, $phpbb_admin_path = 'adm/')
+	public function __construct(\phpbb\path_helper $path_helper, $phpbb_root_path, $phpEx, $phpbb_admin_path = 'adm/')
 	{
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->phpbb_admin_path = $this->phpbb_root_path . $phpbb_admin_path;
 		$this->phpEx = '.' . $phpEx;
+
+		$this->path_helper = $path_helper;
 
 		$this->phpbb_gallery_relative = self::beautiful_path($this->phpbb_root_path . $this->phpbb_gallery_path);
 		$this->phpbb_gallery_full_path = self::beautiful_path(generate_board_url() . '/' . $this->phpbb_gallery_path, true);
@@ -261,5 +263,23 @@ class url
 		}
 
 		return implode('/', $bits);
+	}
+
+	//Get relative on $this->helper->route()
+	function get_relative($path)
+	{
+		$rels = explode('/', $this->path_helper->get_web_root_path());
+		$route = explode('/', $path);
+		$i = 0;
+		foreach ($rels as $var)
+		{
+			if ($var == '..' || $var == '.')
+			{
+				unset($route[$i]);
+				$i++;
+			}
+		}
+
+		return implode('/', $route);
 	}
 }
