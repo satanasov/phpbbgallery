@@ -85,7 +85,7 @@ class image
 	\phpbb\template\template $template, \phpbb\user $user, \phpbbgallery\core\album\display $display, \phpbbgallery\core\album\loader $loader, \phpbbgallery\core\album\album $album,
 	\phpbbgallery\core\image\image $image, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\config $gallery_config,
 	\phpbbgallery\core\auth\level $auth_level, \phpbbgallery\core\url $url, \phpbbgallery\core\misc $misc, \phpbbgallery\core\comment $comment, \phpbbgallery\core\report $report,
-	\phpbbgallery\core\notification\helper $notification_helper,
+	\phpbbgallery\core\notification\helper $notification_helper, \phpbb\path_helper $path_helper,
 	$albums_table, $images_table, $users_table, $table_comments, $phpbb_root_path, $php_ext)
 	{
 		$this->request = $request;
@@ -110,6 +110,7 @@ class image
 		$this->comment = $comment;
 		$this->report = $report;
 		$this->notification_helper = $notification_helper;
+		$this->path_helper = $path_helper;
 		$this->table_albums = $albums_table;
 		$this->table_images = $images_table;
 		$this->table_users = $users_table;
@@ -289,8 +290,8 @@ class image
 			'IMAGE_NAME'		=> $this->data['image_name'],
 			'IMAGE_DESC'		=> $image_desc,
 			'IMAGE_BBCODE'		=> ($this->config['allow_bbcode']) ? '[album]' . $image_id . '[/album]' : '',
-			'IMAGE_IMGURL_BBCODE'	=> ($this->config['phpbb_gallery_disp_image_url']) ? '[url=' . append_sid($this->url->path('full') . 'image/' . $image_id) . '][img]' . append_sid($this->url->path('full') . 'image/' . $image_id . '/mini') . '[/img][/url]' : '',
-			'IMAGE_URL'			=> ($this->config['phpbb_gallery_disp_image_url']) ? append_sid($this->url->path('full') . 'image/' . $image_id) : '',
+			'IMAGE_IMGURL_BBCODE'	=> ($this->config['phpbb_gallery_disp_image_url']) ? '[url=' . $this->helper->route('phpbbgallery_image', array('image_id'	=> $image_id)) . '][img]' . $this->helper->route('phpbbgallery_image_file_mini', array('image_id'	=> $image_id)) . '[/img][/url]' : '',
+			'IMAGE_URL'			=> ($this->config['phpbb_gallery_disp_image_url']) ? $this->helper->route('phpbbgallery_image', array('image_id'	=> $image_id)) : '',
 			'IMAGE_TIME'		=> $this->user->format_date($this->data['image_time']),
 			'IMAGE_VIEW'		=> $this->data['image_view_count'],
 			'POSTER_IP'			=> ($this->auth->acl_get('a_')) ? $this->data['image_user_ip'] : '',
@@ -402,7 +403,7 @@ class image
 				'IMAGE_RATING'			=> $rating->get_image_rating($user_rating),
 				'S_ALLOWED_TO_RATE'		=> (!$user_rating && $rating->is_allowed()),
 				'S_VIEW_RATE'			=> ($this->gallery_auth->acl_check('i_rate', $album_id, $album_data['album_user_id'])) ? true : false,
-				'S_RATE_ACTION'		=> append_sid($this->url->path('full') . 'comment/' . $image_id . '/rate'),
+				'S_RATE_ACTION'		=> $this->helper->route('phpbbgallery_image_rate', array('image_id'	=> $image_id)),
 			));
 			unset($rating);
 		}
@@ -589,14 +590,14 @@ class image
 				}
 
 				$this->template->assign_block_vars('commentrow', array(
-					'U_COMMENT'		=> append_sid($this->url->path('full') .'/image/' . $image_id),
+					'U_COMMENT'		=> $this->helper->route('phpbbgallery_image', array('image_id'	=> $image_id)),
 					'COMMENT_ID'	=> $row['comment_id'],
 					'TIME'			=> $this->user->format_date($row['comment_time']),
 					'TEXT'			=> generate_text_for_display($row['comment'], $row['comment_uid'], $row['comment_bitfield'], 7),
 					'EDIT_INFO'		=> $edit_info,
-					'U_DELETE'		=> ($this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']) || ($this->gallery_auth->acl_check('c_delete', $album_id, $album_data['album_user_id']) && ($row['comment_user_id'] == $this->user->data['user_id']) && $this->user->data['is_registered'])) ? append_sid($this->url->path('full') . 'comment/' . $image_id . '/delete/' . $row['comment_id']) : '',
-					'U_QUOTE'		=> ($this->gallery_auth->acl_check('c_post', $album_id, $album_data['album_user_id'])) ? append_sid($this->url->path('full') . 'comment/' . $image_id . '/add/' . $row['comment_id']) : '',
-					'U_EDIT'		=> ($this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']) || ($this->gallery_auth->acl_check('c_edit', $album_id, $album_data['album_user_id']) && ($row['comment_user_id'] == $this->user->data['user_id']) && $this->user->data['is_registered'])) ? append_sid($this->url->path('full') . 'comment/' . $image_id . '/edit/' . $row['comment_id']) : '',
+					'U_DELETE'		=> ($this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']) || ($this->gallery_auth->acl_check('c_delete', $album_id, $album_data['album_user_id']) && ($row['comment_user_id'] == $this->user->data['user_id']) && $this->user->data['is_registered'])) ? $this->helper->route('phpbbgallery_comment_delete', array('image_id'	=> $image_id, 'comment_id'	=> $row['comment_id'])) : '',
+					'U_QUOTE'		=> ($this->gallery_auth->acl_check('c_post', $album_id, $album_data['album_user_id'])) ? $this->helper->route('phpbbgallery_comment_add', array('image_id'	=> $image_id, 'comment_id'	=> $row['comment_id'])) : '',
+					'U_EDIT'		=> ($this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']) || ($this->gallery_auth->acl_check('c_edit', $album_id, $album_data['album_user_id']) && ($row['comment_user_id'] == $this->user->data['user_id']) && $this->user->data['is_registered'])) ? $this->helper->route('phpbbgallery_comment_edit', array('image_id'	=> $image_id, 'comment_id'	=> $row['comment_id'])) : '',
 					'U_INFO'		=> ($this->auth->acl_get('a_')) ? $this->url->append_sid('mcp', 'mode=whois&amp;ip=' . $row['comment_user_ip']) : '',
 
 					'POST_AUTHOR_FULL'		=> get_username_string('full', $user_id, $row['comment_username'], $user_cache[$user_id]['user_colour']),
@@ -851,10 +852,10 @@ class image
 		$this->template->assign_vars(array(
 			'L_DESCRIPTION_LENGTH'	=> $this->user->lang('DESCRIPTION_LENGTH', $this->gallery_config->get('description_length')),
 			'S_EDIT'			=> true,
-			'S_ALBUM_ACTION'		=> append_sid('./gallery/image/'. $image_id .'/edit'),
+			'S_ALBUM_ACTION'		=> $this->helper->route('phpbbgallery_image_edit', array('image_id'	=> $image_id)),
 			'ERROR'				=> (isset($error)) ? $error : '',
 
-			'U_VIEW_IMAGE'		=> $this->url->append_sid('image_page', "album_id=$album_id&amp;image_id=$image_id"),
+			'U_VIEW_IMAGE'		=> $this->helper->route('phpbbgallery_image', array('image_id'	=> $image_id)),
 			'IMAGE_NAME'		=> $image_data['image_name'],
 
 			'S_CHANGE_AUTHOR'	=> $this->gallery_auth->acl_check('m_edit', $album_id, $album_data['album_user_id']),
