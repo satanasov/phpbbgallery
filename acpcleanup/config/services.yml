@@ -1,0 +1,15 @@
+parameters:
+    tables.phpbbgallery.albums: %core.table_prefix%gallery_albums
+    tables.phpbbgallery.images: %core.table_prefix%gallery_images
+
+services:
+    phpbbgallery.acpcleanup.cleanup:
+        class: phpbbgallery\acpcleanup\cleanup
+        arguments:
+            - @dbal.conn
+            - @phpbbgallery.core.file.tool
+            - @phpbbgallery.core.image
+            - @phpbbgallery.core.comment
+            - @phpbbgallery.core.config
+            - %tables.phpbbgallery.albums%
+            - %tables.phpbbgallery.images%
