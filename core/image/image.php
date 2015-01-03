@@ -46,7 +46,7 @@ class image
 	* construct
 	*/
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\album\album $album,
-								\phpbbgallery\core\config $gallery_config, \phpbb\controller\helper $helper,
+								\phpbbgallery\core\config $gallery_config, \phpbb\controller\helper $helper, \phpbbgallery\core\url $url,
 								$table_images)
 	{
 		$this->db = $db;
@@ -55,6 +55,7 @@ class image
 		$this->album = $album;
 		$this->gallery_config = $gallery_config;
 		$this->helper = $helper;
+		$this->url = $url;
 		$this->table_images = $table_images;
 	}
 	/**
@@ -92,7 +93,7 @@ class image
 		{
 			if (!function_exists('user_get_id_name'))
 			{
-				$phpbb_ext_gallery->url->_include('functions_user', 'phpbb');
+				$this->url->_include('functions_user', 'phpbb');
 			}
 			user_get_id_name($user_id, $username);
 		}
@@ -238,14 +239,12 @@ class image
 		global $user, $phpbb_root_path, $phpEx;
 		global $phpbb_ext_gallery;//@todo:
 
-		$phpbb_ext_gallery_url = new \phpbbgallery\core\url($phpbb_root_path, $phpEx);
-
 		$image_page_url = $this->helper->route('phpbbgallery_image', array('image_id' => $image_id));
 		//$image_page_url = $phpbb_ext_gallery_url->append_sid('image_page', "album_id=$album_id&amp;image_id=$image_id{$additional_parameters}");
 		//$image_url = $phpbb_ext_gallery_url->append_sid('image', "album_id=$album_id&amp;image_id=$image_id{$additional_parameters}" . ((!$count) ? '&amp;view=no_count' : ''));
-		$image_url = $phpbb_ext_gallery_url->show_image($image_id, 'medium');
-		$thumb_url = $phpbb_ext_gallery_url->show_image($image_id, 'mini');
-		$medium_url = $phpbb_ext_gallery_url->show_image($image_id, 'medium');
+		$image_url = $this->url->show_image($image_id, 'medium');
+		$thumb_url = $this->url->show_image($image_id, 'mini');
+		$medium_url = $this->url->show_image($image_id, 'medium');
 		//$medium_url = $phpbb_ext_gallery_url->append_sid('image', "mode=medium&amp;album_id=$album_id&amp;image_id=$image_id{$additional_parameters}");
 		switch ($content)
 		{
@@ -303,7 +302,7 @@ class image
 			case 'next':
 				if ($next_image)
 				{
-					$url = $phpbb_ext_gallery->url->append_sid('image_page', "album_id=$album_id&amp;image_id=$next_image{$additional_parameters}");
+					$url = $this->url->append_sid('image_page', "album_id=$album_id&amp;image_id=$next_image{$additional_parameters}");
 					$tpl = '<a href="{IMAGE_URL}" title="{IMAGE_NAME}">{CONTENT}</a>';
 				}
 				else

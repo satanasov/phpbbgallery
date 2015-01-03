@@ -81,6 +81,7 @@ services:
             - @phpbbgallery.core.album
             - @phpbbgallery.core.config
             - @controller.helper
+            - @phpbbgallery.core.url
             - %tables.phpbbgallery.images%
     phpbbgallery.core.user:
         class: phpbbgallery\core\user
