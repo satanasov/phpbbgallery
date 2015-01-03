@@ -11,6 +11,7 @@ class ext extends \phpbb\extension\base
 	protected $add_ons = array(
 		'phpbbgallery/acpimport',
 		'phpbbgallery/exif',
+		'phpbbgallery/acpcleanup',
 	);
 	/**
 	* Single enable step that installs any included migrations
