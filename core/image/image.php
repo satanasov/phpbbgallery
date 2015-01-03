@@ -209,14 +209,14 @@ class image
 
 		$filenames = array();
 		$sql = 'SELECT image_id, image_filename
-			FROM ' . GALLERY_IMAGES_TABLE . '
-			WHERE ' . $db->sql_in_set('image_id', $images);
-		$result = $db->sql_query($sql);
-		while ($row = $db->sql_fetchrow($result))
+			FROM ' . $this->table_images . '
+			WHERE ' . $this->db->sql_in_set('image_id', $images);
+		$result = $this->db->sql_query($sql);
+		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$filenames[(int) $row['image_id']] = $row['image_filename'];
 		}
-		$db->sql_freeresult($result);
+		$this->db->sql_freeresult($result);
 
 		return $filenames;
 	}

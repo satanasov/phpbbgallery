@@ -21,7 +21,7 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'ACP_GALLERY_CLEANUP'				=> 'Почистване на галерия',
+	'ACP_GALLERY_CLEANUP'			=> 'Почистване на галерия',
 	'ACP_GALLERY_CLEANUP_EXPLAIN'	=> 'Тук можете да изтриете малко останки.',
 
 	'CLEAN_AUTHORS_DONE'			=> 'Изображения без валиден автор са изтрити.',
@@ -48,7 +48,7 @@ $lang = array_merge($lang, array(
 
 	'PRUNE'							=> 'Прочисти',
 	'PRUNE_ALBUMS'					=> 'Прочисти албум',
-	'PRUNE_CHECK_OPTION'			=> 'Check this option, while pruning images.',
+	'PRUNE_CHECK_OPTION'			=> 'Избери тази опция, докато прочистваш изображенията.',
 	'PRUNE_COMMENTS'				=> 'По-малко от х коментара',
 	'PRUNE_PATTERN_ALBUM_ID'		=> 'Изображението е в един от следните албуми:<br />&raquo; <strong>%s</strong>',
 	'PRUNE_PATTERN_COMMENTS'		=> 'Изображението има по-малко от <strong>%d</strong> коментара.',

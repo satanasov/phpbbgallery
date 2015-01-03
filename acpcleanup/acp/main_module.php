@@ -47,7 +47,8 @@ class main_module
 		$prune_pattern = request_var('prune_pattern', array('' => ''), true);
 
 		$gallery_album = $phpbb_container->get('phpbbgallery.core.album');
-		$core_cleanup = new \phpbbgallery\core\cleanup();
+		$core_cleanup = $phpbb_container->get('phpbbgallery.acpcleanup.cleanup');
+		$gallery_auth = $phpbb_container->get('phpbbgallery.core.auth');
 
 		if ($prune && empty($prune_pattern))
 		{
@@ -151,7 +152,7 @@ class main_module
 
 				// Only do this, when we changed something about the albums
 				$cache->destroy('_albums');
-				phpbb_gallery_auth::set_user_permissions('all', '');
+				$gallery_auth->set_user_permissions('all', '');
 			}
 			if ($prune_pattern)
 			{
@@ -166,7 +167,7 @@ class main_module
 			// Make sure the overall image & comment count is correct...
 			$sql = 'SELECT COUNT(image_id) AS num_images, SUM(image_comments) AS num_comments
 				FROM ' . $table_prefix . 'gallery_images
-				WHERE image_status <> ' . phpbb_gallery_image::STATUS_UNAPPROVED;
+				WHERE image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED;
 			$result = $db->sql_query($sql);
 			$row = $db->sql_fetchrow($result);
 			$db->sql_freeresult($result);
@@ -181,7 +182,7 @@ class main_module
 			$cache->destroy('sql', $table_prefix . 'gallery_reports');
 			$cache->destroy('sql', $table_prefix . 'gallery_watch');
 
-			$phpbb_dispatcher->trigger_event('gallery.core.acp.main.cleanup_finished', compact($vars));
+			//$phpbb_dispatcher->trigger_event('gallery.core.acp.main.cleanup_finished', compact($vars));
 
 			$message_string = '';
 			foreach ($message as $lang_key)
@@ -210,6 +211,7 @@ class main_module
 				}
 				if ($missing_authors)
 				{
+					$core_cleanup->delete_author_images($missing_authors);
 					$user->lang['CLEAN_GALLERY_CONFIRM'] = $user->lang['CONFIRM_CLEAN_AUTHORS'] . '<br />' . $user->lang['CLEAN_GALLERY_CONFIRM'];
 				}
 				if ($missing_comments)

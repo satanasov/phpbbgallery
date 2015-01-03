@@ -8,21 +8,32 @@
 *
 */
 
-namespace phpbbgallery\core;
+namespace phpbbgallery\acpcleanup;
 
 class cleanup
 {
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbbgallery\core\file\file $tool, \phpbbgallery\core\image\image $image, \phpbbgallery\core\comment $comment,
+	\phpbbgallery\core\config $gallery_config, $albums_table, $images_table)
+	{
+		$this->db = $db;
+		$this->tool = $tool;
+		$this->image = $image;
+		$this->comment = $comment;
+		$this->gallery_config = $gallery_config;
+		$this->albums_table = $albums_table;
+		$this->images_table = $images_table;
+	}
 	/**
 	* Delete source files without a database entry.
 	*
 	* @param	array	$filenames		An array of filenames
 	* @return	string	Language key for the success message.
 	*/
-	static public function delete_files($filenames)
+	public function delete_files($filenames)
 	{
 		foreach ($filenames as $file)
 		{
-			phpbb_gallery_image_file::delete(utf8_decode($file));
+			$this->tool->delete(utf8_decode($file));
 		}
 
 		return 'CLEAN_ENTRIES_DONE';
@@ -34,9 +45,9 @@ class cleanup
 	* @param	mixed	$image_ids		Either an array of integers or an integer.
 	* @return	string	Language key for the success message.
 	*/
-	static public function delete_images($image_ids)
+	public function delete_images($image_ids)
 	{
-		phpbb_gallery_image::delete_images($image_ids, false, true, true);
+		$this->image->delete_images($image_ids, false, true, true);
 
 		return 'CLEAN_SOURCES_DONE';
 	}
@@ -47,9 +58,9 @@ class cleanup
 	* @param	mixed	$image_ids		Either an array of integers or an integer.
 	* @return	string	Language key for the success message.
 	*/
-	static public function delete_author_images($image_ids)
+	public function delete_author_images($image_ids)
 	{
-		phpbb_gallery_image::delete_images($image_ids);
+		$this->image->delete_images($image_ids);
 
 		return 'CLEAN_AUTHORS_DONE';
 	}
@@ -60,9 +71,9 @@ class cleanup
 	* @param	mixed	$comment_ids	Either an array of integers or an integer.
 	* @return	string	Language key for the success message.
 	*/
-	static public function delete_author_comments($comment_ids)
+	public function delete_author_comments($comment_ids)
 	{
-		phpbb_gallery_comment::delete_comments($comment_ids);
+		$this->comment->delete_comments($comment_ids);
 
 		return 'CLEAN_COMMENTS_DONE';
 	}
@@ -74,9 +85,8 @@ class cleanup
 	* @param	array	$obsolent_pegas		User IDs we want to delete the pegas.
 	* @return	array	Language keys for the success messages.
 	*/
-	static public function delete_pegas($unwanted_pegas, $obsolent_pegas)
+	public function delete_pegas($unwanted_pegas, $obsolent_pegas)
 	{
-		global $db;
 
 		$delete_pegas = array_merge($unwanted_pegas, $obsolent_pegas);
 
@@ -84,10 +94,10 @@ class cleanup
 		$num_pegas = 0;
 
 		$sql = 'SELECT album_id, parent_id
-			FROM ' . GALLERY_ALBUMS_TABLE . '
-			WHERE ' . $db->sql_in_set('album_user_id', $delete_pegas);
-		$result = $db->sql_query($sql);
-		while ($row = $db->sql_fetchrow($result))
+			FROM ' . $this->albums_table . '
+			WHERE ' . $this->db->sql_in_set('album_user_id', $delete_pegas);
+		$result = $this->db->sql_query($sql);
+		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$delete_albums[] = (int) $row['album_id'];
 			if ($row['parent_id'] == 0)
@@ -95,21 +105,21 @@ class cleanup
 				$num_pegas++;
 			}
 		}
-		$db->sql_freeresult($result);
+		$this->db->sql_freeresult($result);
 
 		$sql = 'SELECT image_id, image_filename, image_status, image_user_id
-			FROM ' . GALLERY_IMAGES_TABLE . '
-			WHERE ' . $db->sql_in_set('image_album_id', $delete_albums, false, true);
-		$result = $db->sql_query($sql);
+			FROM ' . $this->images_table . '
+			WHERE ' . $this->db->sql_in_set('image_album_id', $delete_albums, false, true);
+		$result = $this->db->sql_query($sql);
 
 		$filenames = array();
-		while ($row = $db->sql_fetchrow($result))
+		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$delete_images[] = (int) $row['image_id'];
 			$filenames[(int) $row['image_id']] = $row['image_filename'];
 
-			if (($row['image_status'] == phpbb_gallery_image::STATUS_UNAPPROVED) ||
-			($row['image_status'] == phpbb_gallery_image::STATUS_ORPHAN))
+			if (($row['image_status'] == $this->image->get_status_unaproved()) ||
+			($row['image_status'] == $this->image->get_status_orphan()))
 			{
 				continue;
 			}
@@ -123,26 +133,26 @@ class cleanup
 				$user_image_count[(int) $row['image_user_id']] = 1;
 			}
 		}
-		$db->sql_freeresult($result);
+		$this->db->sql_freeresult($result);
 
 		if (!empty($delete_images))
 		{
-			phpbb_gallery_image::delete_images($delete_images, $filenames);
+			$this->image->delete_images($delete_images, $filenames);
 		}
 
-		$sql = 'DELETE FROM ' . GALLERY_ALBUMS_TABLE . '
-			WHERE ' . $db->sql_in_set('album_id', $delete_albums);
-		$db->sql_query($sql);
-		phpbb_gallery_config::dec('num_pegas', $num_pegas);
+		$sql = 'DELETE FROM ' . $this->albums_table . '
+			WHERE ' . $this->db->sql_in_set('album_id', $delete_albums);
+		$this->db->sql_query($sql);
+		$this->gallery_config->dec('num_pegas', $num_pegas);
 
-		if (in_array(phpbb_gallery_config::get('newest_pega_album_id'), $delete_albums))
+		if (in_array($this->gallery_config->get('newest_pega_album_id'), $delete_albums))
 		{
 			// Update the config for the statistic on the index
-			if (phpbb_gallery_config::get('num_pegas') > 0)
+			if ($this->gallery_config->get('num_pegas') > 0)
 			{
 				$sql_array = array(
 					'SELECT'		=> 'a.album_id, u.user_id, u.username, u.user_colour',
-					'FROM'			=> array(GALLERY_ALBUMS_TABLE => 'a'),
+					'FROM'			=> array($this->albums_table => 'a'),
 
 					'LEFT_JOIN'		=> array(
 						array(
@@ -151,46 +161,46 @@ class cleanup
 						),
 					),
 
-					'WHERE'			=> 'a.album_user_id <> ' . phpbb_gallery_album::PUBLIC_ALBUM . ' AND a.parent_id = 0',
+					'WHERE'			=> 'a.album_user_id <> ' . $this->album->get_public() . ' AND a.parent_id = 0',
 					'ORDER_BY'		=> 'a.album_id DESC',
 				);
-				$sql = $db->sql_build_query('SELECT', $sql_array);
+				$sql = $this->db->sql_build_query('SELECT', $sql_array);
 
-				$result = $db->sql_query_limit($sql, 1);
-				$newest_pega = $db->sql_fetchrow($result);
-				$db->sql_freeresult($result);
+				$result = $this->db->sql_query_limit($sql, 1);
+				$newest_pega = $this->db->sql_fetchrow($result);
+				$this->db->sql_freeresult($result);
 			}
 
-			if ((phpbb_gallery_config::get('num_pegas') > 0) && isset($newest_pega))
+			if (($this->gallery_config->get('num_pegas') > 0) && isset($newest_pega))
 			{
-				phpbb_gallery_config::set('newest_pega_user_id', $newest_pega['user_id']);
-				phpbb_gallery_config::set('newest_pega_username', $newest_pega['username']);
-				phpbb_gallery_config::set('newest_pega_user_colour', $newest_pega['user_colour']);
-				phpbb_gallery_config::set('newest_pega_album_id', $newest_pega['album_id']);
+				$this->gallery_config->set('newest_pega_user_id', $newest_pega['user_id']);
+				$this->gallery_config->set('newest_pega_username', $newest_pega['username']);
+				$this->gallery_config->set('newest_pega_user_colour', $newest_pega['user_colour']);
+				$this->gallery_config->set('newest_pega_album_id', $newest_pega['album_id']);
 			}
 			else
 			{
-				phpbb_gallery_config::set('newest_pega_user_id', 0);
-				phpbb_gallery_config::set('newest_pega_username', '');
-				phpbb_gallery_config::set('newest_pega_user_colour', '');
-				phpbb_gallery_config::set('newest_pega_album_id', 0);
+				$this->gallery_config->set('newest_pega_user_id', 0);
+				$this->gallery_config->set('newest_pega_username', '');
+				$this->gallery_config->set('newest_pega_user_colour', '');
+				$this->gallery_config->set('newest_pega_album_id', 0);
 
 				if (isset($newest_pega))
 				{
-					phpbb_gallery_config::set('num_pegas', 0);
+					$this->gallery_config->set('num_pegas', 0);
 				}
 			}
 		}
-
+/*
 		foreach ($user_image_count as $user_id => $images)
 		{
-			phpbb_gallery_hookup::add_image($user_id, (0 - $images));
+			//phpbb_gallery_hookup::add_image($user_id, (0 - $images));
 
-			$uploader = new phpbb_gallery_user($db, $user_id, false);
+			$uploader = new \phpbbgallery\core\user($this->db, $user_id, false);
 			$uploader->update_images((0 - $images));
 		}
-		phpbb_gallery_user::update_users($delete_pegas, array('personal_album_id' => 0));
-
+		\phpbbgallery\core\user::update_users($delete_pegas, array('personal_album_id' => 0));
+*/
 		$return = array();
 		if ($obsolent_pegas)
 		{
@@ -207,7 +217,7 @@ class cleanup
 	/**
 	*
 	*/
-	static public function prune($pattern)
+	public function prune($pattern)
 	{
 		global $db;
 
@@ -231,7 +241,7 @@ class cleanup
 		}
 
 		$sql = 'SELECT image_id, image_filename
-			FROM ' . GALLERY_IMAGES_TABLE . '
+			FROM ' . $this->images_table . '
 			' . $sql_where;
 		$result = $db->sql_query($sql);
 		$image_ids = $filenames = $update_albums = array();
@@ -244,7 +254,7 @@ class cleanup
 
 		if ($image_ids)
 		{
-			phpbb_gallery_image::delete_images($image_ids, $filenames);
+			$this->image->delete_images($image_ids, $filenames);
 		}
 
 		return 'CLEAN_PRUNE_DONE';
@@ -253,7 +263,7 @@ class cleanup
 	/**
 	*
 	*/
-	static public function lang_prune_pattern($pattern)
+	public function lang_prune_pattern($pattern)
 	{
 		global $db, $user;
 
@@ -275,7 +285,7 @@ class cleanup
 			{
 				case 'album_id':
 					$sql = 'SELECT album_name
-						FROM ' . GALLERY_ALBUMS_TABLE . '
+						FROM ' . $this->albums_table . '
 						WHERE ' . $db->sql_in_set('album_id', $value) . '
 						ORDER BY album_id ASC';
 					$result = $db->sql_query($sql);
