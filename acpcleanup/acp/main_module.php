@@ -49,6 +49,7 @@ class main_module
 		$gallery_album = $phpbb_container->get('phpbbgallery.core.album');
 		$core_cleanup = $phpbb_container->get('phpbbgallery.acpcleanup.cleanup');
 		$gallery_auth = $phpbb_container->get('phpbbgallery.core.auth');
+		$gallery_config = $phpbb_container->get('phpbbgallery.core.config');
 
 		if ($prune && empty($prune_pattern))
 		{
@@ -172,8 +173,8 @@ class main_module
 			$row = $db->sql_fetchrow($result);
 			$db->sql_freeresult($result);
 
-			$phpbb_ext_gallery->config->set('num_images', $row['num_images']);
-			$phpbb_ext_gallery->config->set('num_comments', $row['num_comments']);
+			$gallery_config->set('num_images', $row['num_images']);
+			$gallery_config->set('num_comments', $row['num_comments']);
 
 			$cache->destroy('sql', $table_prefix . 'gallery_albums');
 			$cache->destroy('sql', $table_prefix . 'gallery_comments');
