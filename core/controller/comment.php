@@ -286,7 +286,7 @@ class comment
 			$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_IMAGE'], '<a href="' . $image_backlink . '">', '</a>');
 			$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_ALBUM'], '<a href="' . $album_backlink . '">', '</a>');
 
-			//meta_refresh(3, $this->url->get_relative($image_backlink));
+			$this->url->meta_refresh(3, $image_backlink);
 			trigger_error($message);
 		}
 
@@ -481,7 +481,7 @@ class comment
 			$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_IMAGE'], '<a href="' . $image_backlink . '">', '</a>');
 			$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_ALBUM'], '<a href="' . $album_backlink . '">', '</a>');
 
-			//meta_refresh(3, $this->url->get_relative($image_backlink));
+			$this->url->meta_refresh(3, $image_backlink);
 			trigger_error($message);
 		}
 
@@ -629,7 +629,7 @@ class comment
 			$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_IMAGE'], '<a href="' . $image_backlink . '">', '</a>');
 			$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_ALBUM'], '<a href="' . $album_backlink . '">', '</a>');
 
-			//meta_refresh(3, $this->url->get_relative($image_backlink));
+			$this->url->meta_refresh(3, $image_backlink);
 			trigger_error($message);
 		}
 
@@ -712,7 +712,7 @@ class comment
 		$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_IMAGE'], '<a href="' . $image_backlink . '">', '</a>');
 		$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_ALBUM'], '<a href="' . $album_backlink . '">', '</a>');
 
-		//meta_refresh(3, $this->url->get_relative($image_backlink));
+		$this->url->meta_refresh(3, $image_backlink);
 		trigger_error($message);
 
 		return $this->helper->render('gallery/comment_body.html', $page_title);

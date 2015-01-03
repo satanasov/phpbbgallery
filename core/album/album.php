@@ -43,9 +43,9 @@ class album
 	*/
 	static public function get_info($album_id, $extended_info = true)
 	{
-		global $db, $user, $table_prefix, $phpbb_root_path, $phpEx;
+		global $db, $user, $table_prefix, $phpbb_root_path, $phpbb_container, $phpEx;
 
-		$phpbb_gallery_url = new \phpbbgallery\core\url($phpbb_root_path, $phpEx);
+		$phpbb_gallery_url = $phpbb_container->get('phpbbgallery.core.url');
 
 		$sql_array = array(
 			'SELECT'		=> 'a.*',
