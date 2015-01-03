@@ -38,6 +38,8 @@ class core
 		\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\template\template $template,
 		\phpbb\user $user, $phpEx, $phpbb_root_path)
 	{
+		global $phpbb_container;
+
 		$this->phpbb_auth = $auth;
 		$this->phpbb_cache = $cache;
 		$this->config = $config;
@@ -51,7 +53,7 @@ class core
 		$this->phpbb_phpEx = $phpEx;
 		$this->phpbb_root_path = $phpbb_root_path;
 
-		$this->url = new \phpbbgallery\core\url($this->phpbb_root_path, $this->phpbb_phpEx);
+		$this->url = $phpbb_container->get('phpbbgallery.core.url');
 		$this->cache = new \phpbbgallery\core\cache($this->phpbb_cache, $this->phpbb_db);
 	}
 

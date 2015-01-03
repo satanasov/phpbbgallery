@@ -85,7 +85,7 @@ class image
 	\phpbb\template\template $template, \phpbb\user $user, \phpbbgallery\core\album\display $display, \phpbbgallery\core\album\loader $loader, \phpbbgallery\core\album\album $album,
 	\phpbbgallery\core\image\image $image, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\config $gallery_config,
 	\phpbbgallery\core\auth\level $auth_level, \phpbbgallery\core\url $url, \phpbbgallery\core\misc $misc, \phpbbgallery\core\comment $comment, \phpbbgallery\core\report $report,
-	\phpbbgallery\core\notification\helper $notification_helper, \phpbb\path_helper $path_helper,
+	\phpbbgallery\core\notification\helper $notification_helper,
 	$albums_table, $images_table, $users_table, $table_comments, $phpbb_root_path, $php_ext)
 	{
 		$this->request = $request;
@@ -110,7 +110,6 @@ class image
 		$this->comment = $comment;
 		$this->report = $report;
 		$this->notification_helper = $notification_helper;
-		$this->path_helper = $path_helper;
 		$this->table_albums = $albums_table;
 		$this->table_images = $images_table;
 		$this->table_users = $users_table;
@@ -128,6 +127,7 @@ class image
 	*/
 	public function base($image_id, $page = 0)
 	{
+
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
 		try
 		{
