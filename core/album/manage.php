@@ -66,7 +66,7 @@ class manage
 		global $db, $user, $cache, $table_prefix, $phpbb_container;
 
 		// define support class
-		$phpbb_ext_gallery_core_album = new \phpbbgallery\core\album\album();
+		$phpbb_ext_gallery_core_album = $phpbb_container->get('phpbbgallery.core.album');
 		$phpbb_ext_gallery_core_image = $phpbb_container->get('phpbbgallery.core.image');
 
 		$errors = array();
@@ -383,7 +383,7 @@ class manage
 				WHERE album_id = ' . $album_id;
 			$db->sql_query($sql);
 
-			if ($album_data_sql['album_type'] == $phpbb_ext_gallery_core_album::TYPE_CONTEST)
+/*			if ($album_data_sql['album_type'] == $phpbb_ext_gallery_core_album::TYPE_CONTEST)
 			{
 				// Setting the contest id to the contest id is not really received well by some dbs. ;)
 				$contest_id = $contest_data['contest_id'];
@@ -407,7 +407,7 @@ class manage
 				// Add it back
 				$contest_data['contest_id'] = $contest_id;
 			}
-
+*/
 			// Add it back
 			$album_data['album_id'] = $album_id;
 
@@ -426,17 +426,21 @@ class manage
 	*/
 	public function move_album($from_id, $to_id)
 	{
-		global $db, $user;
+		global $db, $user, $table_prefix, $phpbb_container;
+
+		// define support class
+		$phpbb_ext_gallery_core_album = $phpbb_container->get('phpbbgallery.core.album');
+		$phpbb_ext_gallery_core_image = $phpbb_container->get('phpbbgallery.core.image');
 
 		$to_data = $moved_ids = $errors = array();
 
 		// Get the parent data
 		if ($to_id > 0)
 		{
-			$to_data = phpbb_ext_gallery_core_album::get_info($to_id);
+			$to_data = $phpbb_ext_gallery_core_album->get_info($to_id);
 		}
 
-		$moved_albums = phpbb_ext_gallery_core_album::get_branch($this->user_id, $from_id, 'children', 'descending');
+		$moved_albums = $phpbb_ext_gallery_core_album->get_branch($this->user_id, $from_id, 'children', 'descending');
 		$from_data = $moved_albums[0];
 		$diff = sizeof($moved_albums) * 2;
 
@@ -452,7 +456,7 @@ class manage
 		}
 
 		// Resync parents
-		$sql = 'UPDATE ' . GALLERY_ALBUMS_TABLE . "
+		$sql = 'UPDATE ' . $table_prefix . "gallery_albums
 			SET right_id = right_id - $diff, album_parents = ''
 			WHERE album_user_id = " . $this->user_id . '
 				AND left_id < ' . $from_data['right_id'] . "
@@ -460,7 +464,7 @@ class manage
 		$db->sql_query($sql);
 
 		// Resync righthand side of tree
-		$sql = 'UPDATE ' . GALLERY_ALBUMS_TABLE . "
+		$sql = 'UPDATE ' . $table_prefix . "gallery_albums
 			SET left_id = left_id - $diff, right_id = right_id - $diff, album_parents = ''
 			WHERE album_user_id = " . $this->user_id . '
 				AND left_id > ' . $from_data['right_id'];
@@ -469,10 +473,10 @@ class manage
 		if ($to_id > 0)
 		{
 			// Retrieve $to_data again, it may have been changed...
-			$to_data = phpbb_ext_gallery_core_album::get_info($to_id);
+			$to_data = $phpbb_ext_gallery_core_album->get_info($to_id);
 
 			// Resync new parents
-			$sql = 'UPDATE ' . GALLERY_ALBUMS_TABLE . "
+			$sql = 'UPDATE ' . $table_prefix . "gallery_albums
 				SET right_id = right_id + $diff, album_parents = ''
 				WHERE album_user_id = " . $this->user_id . '
 					AND ' . $to_data['right_id'] . ' BETWEEN left_id AND right_id
@@ -480,7 +484,7 @@ class manage
 			$db->sql_query($sql);
 
 			// Resync the righthand side of the tree
-			$sql = 'UPDATE ' . GALLERY_ALBUMS_TABLE . "
+			$sql = 'UPDATE ' . $table_prefix . "gallery_albums
 				SET left_id = left_id + $diff, right_id = right_id + $diff, album_parents = ''
 				WHERE album_user_id = " . $this->user_id . '
 					AND left_id > ' . $to_data['right_id'] . '
@@ -502,7 +506,7 @@ class manage
 		else
 		{
 			$sql = 'SELECT MAX(right_id) AS right_id
-				FROM ' . GALLERY_ALBUMS_TABLE . '
+				FROM ' . $table_prefix . 'gallery_albums
 				WHERE album_user_id = ' . $this->user_id . '
 					AND ' . $db->sql_in_set('album_id', $moved_ids, true);
 			$result = $db->sql_query($sql);
@@ -512,7 +516,7 @@ class manage
 			$diff = '+ ' . ($row['right_id'] - $from_data['left_id'] + 1);
 		}
 
-		$sql = 'UPDATE ' . GALLERY_ALBUMS_TABLE . "
+		$sql = 'UPDATE ' . $table_prefix . "gallery_albums
 			SET left_id = left_id $diff, right_id = right_id $diff, album_parents = ''
 			WHERE album_user_id = " . $this->user_id . '
 				AND ' . $db->sql_in_set('album_id', $moved_ids);
@@ -530,7 +534,7 @@ class manage
 	*/
 	public function delete_album($album_id, $action_images = 'delete', $action_subalbums = 'delete', $images_to_id = 0, $subalbums_to_id = 0)
 	{
-		global $db, $user, $cache, $table_prefix, $phpbb_dispatcher, $table_name, $permissions_table, $roles_table;
+		global $db, $user, $cache, $table_prefix, $phpbb_dispatcher, $table_name, $permissions_table, $roles_table, $phpbb_container;
 
 		$phpbb_ext_gallery_core_album = new \phpbbgallery\core\album\album();
 		$album_data = $phpbb_ext_gallery_core_album->get_info($album_id);
@@ -538,7 +542,8 @@ class manage
 		$gallery_cache = new \phpbbgallery\core\cache($cache, $db);
 		$gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $table_name);
 		$users_table = $table_prefix . 'gallery_users';
-		$phpbb_gallery_auth = new \phpbbgallery\core\auth\auth($gallery_cache, $db, $gallery_user, $permissions_table, $roles_table, $users_table);
+		$phpbb_gallery_auth = $phpbb_container->get('phpbbgallery.core.auth');
+		$phpbb_ext_gallery_core_album_display = $phpbb_container->get('phpbbgallery.core.album.display');
 
 		$errors = array();
 		$log_action_images = $log_action_albums = $images_to_name = $subalbums_to_name = '';
@@ -586,7 +591,7 @@ class manage
 		if ($action_subalbums == 'delete')
 		{
 			$log_action_albums = 'ALBUMS';
-			$rows = $phpbb_ext_gallery_core_album->get_branch($this->user_id, $album_id, 'children', 'descending', false);
+			$rows = $phpbb_ext_gallery_core_album_display->get_branch($this->user_id, $album_id, 'children', 'descending', false);
 
 			foreach ($rows as $row)
 			{
@@ -601,7 +606,7 @@ class manage
 
 			$diff = sizeof($album_ids) * 2;
 
-			$sql = 'DELETE FROM ' . GALLERY_ALBUMS_TABLE . '
+			$sql = 'DELETE FROM ' . $table_prefix . 'gallery_albums
 				WHERE ' . $db->sql_in_set('album_id', $album_ids);
 			$db->sql_query($sql);
 		}
@@ -616,7 +621,7 @@ class manage
 				$log_action_albums = 'MOVE_ALBUMS';
 
 				$sql = 'SELECT album_name
-					FROM ' . GALLERY_ALBUMS_TABLE . '
+					FROM ' . $table_prefix . 'gallery_albums
 					WHERE album_id = ' . $subalbums_to_id;
 				$result = $db->sql_query($sql);
 				$row = $db->sql_fetchrow($result);
@@ -631,7 +636,7 @@ class manage
 					$subalbums_to_name = $row['album_name'];
 
 					$sql = 'SELECT album_id
-						FROM ' . GALLERY_ALBUMS_TABLE . "
+						FROM ' . $table_prefix . "gallery_albums
 						WHERE parent_id = $album_id";
 					$result = $db->sql_query($sql);
 
@@ -642,16 +647,16 @@ class manage
 					$db->sql_freeresult($result);
 
 					// Grab new album data for correct tree updating later
-					$album_data = phpbb_ext_gallery_core_album::get_info($album_id);
+					$album_data = $phpbb_ext_gallery_core_album->get_info($album_id);
 
-					$sql = 'UPDATE ' . GALLERY_ALBUMS_TABLE . "
+					$sql = 'UPDATE ' . $table_prefix . "gallery_albums
 						SET parent_id = $subalbums_to_id
 						WHERE parent_id = $album_id
 							AND album_user_id = " . $this->user_id;
 					$db->sql_query($sql);
 
 					$diff = 2;
-					$sql = 'DELETE FROM ' . GALLERY_ALBUMS_TABLE . "
+					$sql = 'DELETE FROM ' . $table_prefix . "gallery_albums
 						WHERE album_id = $album_id";
 					$db->sql_query($sql);
 				}
@@ -870,7 +875,7 @@ class manage
 		{
 			foreach ($image_counts as $image_user_id => $substract)
 			{
-				$uploader = new phpbb_gallery_user($db, $image_user_id, false);
+				$uploader = new \phpbbgallery\core\user($db, $image_user_id, false);
 				$uploader->update_images((0 - $substract));
 			}
 		}
