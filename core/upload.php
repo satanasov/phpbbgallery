@@ -465,9 +465,9 @@ class upload
 
 	static private function get_current_upload_dir()
 	{
-		global $phpbb_ext_gallery, $phpbb_ext_gallery_config, $phpbb_root_path, $phpEx;
+		global $phpbb_ext_gallery, $phpbb_ext_gallery_config, $phpbb_root_path, $phpEx, $phpbb_container;
 
-		$phpbb_ext_gallery_url = new \phpbbgallery\core\url($phpbb_root_path, $phpEx);
+		$phpbb_ext_gallery_url = $phpbb_container->get('phpbbgallery.core.url');
 
 		if (self::NUM_FILES_PER_DIR <= 0)
 		{
