@@ -472,7 +472,8 @@ class image
 			// Different link, when we rate and dont comment
 			if (!$s_hide_comment_input)
 			{
-				$this->template->assign_var('S_COMMENT_ACTION', append_sid($this->url->path('full') . 'comment/' . $image_id . '/add/0'));
+				//$this->template->assign_var('S_COMMENT_ACTION', append_sid($this->url->path('full') . 'comment/' . $image_id . '/add/0'));
+				$this->template->assign_var('S_COMMENT_ACTION', $this->helper->route('phpbbgallery_comment_add', array('image_id' => $image_id, 'comment_id' => 0)));
 			}
 		}
 		else if ($this->gallery_config->get('comment_user_control') && !$image_data['image_allow_comments'])
