@@ -107,6 +107,8 @@ services:
         class: phpbbgallery\core\url
         arguments:
             - @template
+            - @request
+            - @config
             - %core.root_path%
             - %core.php_ext%
     phpbbgallery.core.moderate:
