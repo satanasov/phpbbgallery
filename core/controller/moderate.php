@@ -119,7 +119,7 @@ class moderate
 		$approve_ary = $this->request->variable('approval', array('' => array(0)));
 		$action_ary = $this->request->variable('action', array('' => 0));
 		list($action, ) = each($action_ary);
-	
+
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery_mcp'));
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
 		$this->user->add_lang('mcp');
@@ -130,7 +130,7 @@ class moderate
 			{
 				if ($action == 'approve')
 				{
-					
+
 				}
 			}
 			else
