@@ -106,6 +106,7 @@ class moderate
 				{
 					$album = $this->album->get_info($VAR['image_album_id']);
 					$this->template->assign_block_vars('report_image_open', array(
+						'U_IMAGE_ID'	=> $VAR['image_id'],
 						'U_IMAGE'	=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $VAR['image_id'])),
 						'U_IMAGE_URL'	=> $this->helper->route('phpbbgallery_image', array('image_id' => $VAR['image_id'])),
 						'U_IMAGE_NAME'	=> $VAR['image_name'],
@@ -137,6 +138,16 @@ class moderate
 				{
 					return;
 				}
+
+				// Let's get count of unaproved
+				$sql = 'SELECT COUNT(image_id) as count 
+					FROM ' . $this->images_table . ' 
+					WHERE image_status = ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ' and ' . $this->db->sql_in_set('image_album_id', $mod_array) . '
+					ORDER BY image_id DESC';
+				$result = $this->db->sql_query($sql);
+				$row = $this->db->sql_fetchrow($result);
+				$this->db->sql_freeresult($result);
+				$count = $row['count'];
 				// If user has no albums to have e return him
 				$sql = 'SELECT * 
 					FROM ' . $this->images_table . ' 
@@ -174,6 +185,7 @@ class moderate
 				{
 					$album = $this->album->get_info($VAR['image_album_id']);
 					$this->template->assign_block_vars('unaproved', array(
+						'U_IMAGE_ID'	=> $VAR['image_id'],
 						'U_IMAGE'	=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $VAR['image_id'])),
 						'U_IMAGE_URL'	=> $this->helper->route('phpbbgallery_image', array('image_id' => $VAR['image_id'])),
 						'U_IMAGE_MODERATE_URL'	=> $this->helper->route('phpbbgallery_moderate_image', array('image_id'	=> $VAR['image_id'])),
@@ -182,22 +194,16 @@ class moderate
 						'IMAGE_TIME'	=> $this->user->format_date($VAR['image_time']),
 						'IMAGE_ALBUM'	=> $album['album_name'],
 						'IMAGE_ALBUM_URL'	=> $this->helper->route('phpbbgallery_album', array('album_id' => $VAR['image_album_id'])),
+						'IMAGE_ALBUM_ID'	=> $VAR['image_album_id'],
 					));
 					unset($album);
 					$waiting_images ++;
 				}
-				if ($waiting_images > 0)
-				{
-					$this->template->assign_vars(array(
-						'TOTAL_IMAGES_WAITING' => $waiting_images,
-					));
-				}
-				else
-				{
-					$this->template->assign_vars(array(
-						'NO_IMAGES_WAITING' => sprintf($user->lang['WAITING_UNAPPROVED_IMAGE'], $waiting_images),
-					));
-				}
+				$this->template->assign_vars(array(
+					'TOTAL_IMAGES_WAITING' => $this->user->lang('WAITING_UNAPPROVED_IMAGE', (int) $count),
+					'S_HAS_UNAPPROVED_IMAGES'=> ($count != 0),
+					'S_GALLERY_APPROVE_ACTION'	=> $this->helper->route('phpbbgallery_moderate_queue_approve'),
+				));
 			break;
 		}
 	}

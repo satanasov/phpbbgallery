@@ -79,6 +79,7 @@ $lang = array_merge($lang, array(
 	'QUEUES_A_UNAPPROVE'			=> 'erneute Freischaltung erzwingen',
 	'QUEUES_A_UNAPPROVE2'			=> 'erneute Freischaltung erzwingen?',
 	'QUEUES_A_UNAPPROVE2_CONFIRM'	=> 'Bist du dir sicher, dass eine erneute Freischaltung erzwungen werden soll?',
+	'QUEUES_A_DISAPPROVE2_CONFIRM'	=> 'Bist du dir sicher, dass eine erneute Freischaltung erzwungen werden soll?',
 
 	'REPORT_A_CLOSE'				=> 'Meldung schliessen',
 	'REPORT_A_CLOSE2'				=> 'Meldung schliessen?',

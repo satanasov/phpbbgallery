@@ -14,10 +14,12 @@
 			</div>
 			<div id="cp-main" class="mcp-main panel-container">
 				<h2>{L_GALLERY_MCP_MAIN}</h2>
+				<form id="gallery_approve" method="post" action="{S_GALLERY_APPROVE_ACTION}">
 				<div class="panel">
 					<div class="inner">
 						<h3>{L_LATEST_IMAGES_UNAPPROVED}</h3>
-						<!-- IF TOTAL_IMAGES_WAITING -->
+						<p> {TOTAL_IMAGES_WAITING} </p>
+						<!-- IF S_HAS_UNAPPROVED_IMAGES -->
 							<ul class="topiclist two-long-columns">
 								<li class="header">
 									<dl>
@@ -26,7 +28,7 @@
 									</dl>
 								</li>
 							</ul>
-							<ul class="topiclist cplist two-long-columns responsive-show-all">
+							<ul class="topiclist cplist missing-column responsive-show-all">
 							<!-- BEGIN unaproved -->
 								<li class="row<!-- IF unaproved.S_ROW_COUNT is odd --> bg1<!-- ELSE --> bg2<!-- ENDIF -->">
 									<dl>
@@ -42,17 +44,26 @@
 											</div>
 										</dt>
 										<dd class="moderation">
-											{L_ALBUM}: {unaproved.IMAGE_ALBUM}
+											<span>
+												{L_ALBUM}: {unaproved.IMAGE_ALBUM}
+											</span>
+										</dd>
+										<dd class="mark">
+											<input name="approval[{unaproved.IMAGE_ALBUM_ID}][]" value="{unaproved.U_IMAGE_ID}" type="checkbox">
 										</dd>
 									</dl>
 								</li>
 							<!-- END unaproved -->
 							</ul>
-						<!-- ELSE -->
-							<p>{NO_IMAGES_WAITING}</p>
 						<!-- ENDIF -->
 					</div>
 				</div>
+				<fieldset class="display-actions">
+					<input class="button2" name="action[disapprove]" value="{L_DISAPPROVE}" type="submit">&nbsp;
+					<input class="button1" name="action[approve]" value="{L_APPROVE}" type="submit">
+					<div><a href="#" onclick="marklist('gallery_approve', 'approval', true); return false;">Mark all</a> :: <a href="#" onclick="marklist('gallery_approve', 'approval', false); return false;">Unmark all</a></div>
+				</fieldset>
+				</form>
 				<div class="panel">
 					<div class="inner">
 						<h3>{L_LATEST_IMAGES_REPORTED}</h3>

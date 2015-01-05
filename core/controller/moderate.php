@@ -97,6 +97,7 @@ class moderate
 		}
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery_mcp'));
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
+		$this->user->add_lang('mcp');
 		$this->display->display_albums(false, $this->config['load_moderators']);
 		// This is the overview page, so we will need to create some queries
 		// We will use the special moderate helper
@@ -105,6 +106,47 @@ class moderate
 		$this->moderate->build_queue('short', 'image_waiting');
 
 		return $this->helper->render('gallery/moderate_overview.html', $this->user->lang('GALLERY'));
+	}
+
+	/**
+	* Index Controller
+	*	Route: gallery/modarate/approve
+	*
+	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	*/
+	public function queue_approve($page)
+	{
+		$approve_ary = $this->request->variable('approval', array('' => array(0)));
+		$action_ary = $this->request->variable('action', array('' => 0));
+		list($action, ) = each($action_ary);
+	
+		$this->user->add_lang_ext('phpbbgallery/core', array('gallery_mcp'));
+		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
+		$this->user->add_lang('mcp');
+
+		if (!empty($approve_ary))
+		{
+			if (confirm_box(true))
+			{
+				if ($action == 'approve')
+				{
+					
+				}
+			}
+			else
+			{
+				$s_hidden_fields = '<input type="hidden" name="action['.$action.']" value="' . $action . '" />';
+				foreach ($approve_ary as $id => $var)
+				{
+					foreach ($var as $var1)
+					{
+						$s_hidden_fields .= '<input type="hidden" name="approval[' . $id . '][]" value="' . $var1 . '" />';
+					}
+				}
+				confirm_box(false, $this->user->lang['QUEUES_A_' . strtoupper($action) . '2_CONFIRM'], $s_hidden_fields);
+			}
+		}
+		return $this->helper->render('gallery/moderate_approve.html', $this->user->lang('GALLERY'));
 	}
 
 	/**
