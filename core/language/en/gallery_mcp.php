@@ -78,6 +78,7 @@ $lang = array_merge($lang, array(
 	'QUEUES_A_UNAPPROVE'			=> 'Unapprove images',
 	'QUEUES_A_UNAPPROVE2'			=> 'Unapprove images?',
 	'QUEUES_A_UNAPPROVE2_CONFIRM'	=> 'Are you sure, you want to unapprove these images?',
+	'QUEUES_A_DISAPPROVE2_CONFIRM'	=> 'Are you sure, you want to unapprove these images?',
 
 	'REPORT_A_CLOSE'				=> 'Close report',
 	'REPORT_A_CLOSE2'				=> 'Close report?',

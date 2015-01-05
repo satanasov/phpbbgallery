@@ -62,6 +62,12 @@ phpbbgallery_image_file_mini:
 phpbbgallery_moderate:
     pattern: /gallery/moderate
     defaults: { _controller: phpbbgallery.core.controller.moderate:base }
+phpbbgallery_moderate_queue_approve:
+    pattern: /gallery/moderate/approve
+    defaults: { _controller: phpbbgallery.core.controller.moderate:queue_approve, page: 1 }
+phpbbgallery_moderate_queue_approve_page:
+    pattern: /gallery/moderate/approve/{page}
+    defaults: { _controller: phpbbgallery.core.controller.moderate:queue_approve}
 phpbbgallery_moderate_album:
     pattern: /gallery/moderate/album/{album_id}
     defaults: { _controller: phpbbgallery.core.controller.moderate:base }
