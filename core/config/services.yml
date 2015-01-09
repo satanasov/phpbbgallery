@@ -338,6 +338,7 @@ services:
             - @phpbbgallery.core.album
             - @phpbbgallery.core.image
             - @phpbbgallery.core.notification.helper
+            - @phpbbgallery.core.url
             - %core.root_path%
             - %core.php_ext%
 
