@@ -199,9 +199,11 @@ class main_module
 	function manage_albums()
 	{
 		global $cache, $db, $template, $user, $phpbb_ext_gallery, $phpbb_ext_gallery_core_album, $albums_table, $phpbb_ext_gallery_core_auth, $phpbb_ext_gallery_core_album_display;
+		global $phpbb_container;
 
 		$parent_id = request_var('parent_id', $phpbb_ext_gallery->user->get_data('personal_album_id'));
 		$phpbb_ext_gallery_core_album->check_user($parent_id);
+		$helper = $phpbb_container->get('controller.helper');
 
 		$sql = 'SELECT COUNT(album_id) albums
 			FROM ' . $albums_table . '
@@ -273,10 +275,10 @@ class main_module
 		$template->assign_vars(array(
 			'NAVIGATION'		=> $navigation,
 			'S_ALBUM'			=> $parent_id,
-			'U_GOTO'			=> append_sid('gallery/album/' . $parent_id),
+			'U_GOTO'			=> $helper->route('phpbbgallery_album', array('album_id' => $parent_id)),
 			'U_EDIT'			=> $this->u_action . '&amp;action=edit&amp;album_id=' . $parent_id,
 			'U_DELETE'			=> $this->u_action . '&amp;action=delete&amp;album_id=' . $parent_id,
-			'U_UPLOAD'			=> append_sid('gallery/album/' . $parent_id . '/upload'),
+			'U_UPLOAD'			=> $helper->route('phpbbgallery_album_upload', array('album_id' => $parent_id)),
 			'ICON_MOVE_DOWN'			=> '<img src="' . $phpbb_ext_gallery->url->path('images') . 'icon_down.gif" alt="" />',
 			'ICON_MOVE_DOWN_DISABLED'	=> '<img src="' . $phpbb_ext_gallery->url->path('images') . 'icon_down_disabled.gif" alt="" />',
 			'ICON_MOVE_UP'				=> '<img src="' . $phpbb_ext_gallery->url->path('images') . 'icon_up.gif" alt="" />',
