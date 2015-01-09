@@ -114,6 +114,11 @@ $lang = array_merge($lang, array(
 		1			=> 'In total there is <span style="font-weight: bold;">1</span> image approved.',
 		2			=> 'In total there are <span style="font-weight: bold;">%s</span> images approved.',
 	),
+	'WAITING_DISPPROVED_IMAGE'		=> array(
+		0			=> 'Не са отхвърлени изображения.',
+		1			=> '<span style="font-weight: bold;">1</span> изображение е отхвърлено.',
+		2			=> '<span style="font-weight: bold;">%s</span> изображения са отхвърлени.',
+	),
 	'WAITING_LOCKED_IMAGE'			=> array(
 		0			=> 'No images locked.',
 		1			=> 'In total there is <span style="font-weight: bold;">1</span> image locked.',

@@ -165,11 +165,11 @@ class moderate
 					$waiting_images[] = array(
 						'image_id' => $row['image_id'],
 						'image_name'	=> $row['image_name'],
-						'image_author'	=> $row['image_user_id'],
+						'image_author'	=> (int) $row['image_user_id'],
 						'image_time'	=> $row['image_time'],
 						'image_album_id'	=> $row['image_album_id'],
 					);
-					$users_array[$row['image_id']] = array('');
+					$users_array[$row['image_user_id']] = array('');
 				}
 				$this->db->sql_freeresult($result);
 

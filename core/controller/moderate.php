@@ -59,7 +59,7 @@ class moderate
 	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request,
 	\phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbbgallery\core\album\display $display, \phpbbgallery\core\moderate $moderate,
 	\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\misc $misc, \phpbbgallery\core\album\album $album, \phpbbgallery\core\image\image $image,
-	\phpbbgallery\core\notification\helper $notification_helper,
+	\phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\url $url,
 	$root_path, $php_ext)
 	{
 		$this->auth = $auth;
@@ -76,6 +76,7 @@ class moderate
 		$this->album = $album;
 		$this->image = $image;
 		$this->notification_helper = $notification_helper;
+		$this->url = $url;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 	}
@@ -118,6 +119,7 @@ class moderate
 	{
 		$approve_ary = $this->request->variable('approval', array('' => array(0)));
 		$action_ary = $this->request->variable('action', array('' => 0));
+		$back_link = $this->request->variable('back_link', $this->helper->route('phpbbgallery_moderate_queue_approve'));
 		list($action, ) = each($action_ary);
 
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery_mcp'));
@@ -130,7 +132,29 @@ class moderate
 			{
 				if ($action == 'approve')
 				{
-
+					$count = 0;
+					foreach($approve_ary as $album_id => $approve_array)
+					{
+						$this->image->approve_images($approve_array, $album_id);
+						$this->album->update_info($album_id);
+						$count = $count + count($approve_array);
+					}
+					//TO DO - add log
+					$message = $this->user->lang('WAITING_APPROVED_IMAGE', $count);
+					$this->url->meta_refresh(3, $back_link);
+					trigger_error($message);
+				}
+				if ($action == 'disapprove')
+				{
+					$count = 0;
+					foreach ($approve_ary as $album_id => $delete_array)
+					{
+						$this->image->delete_images($delete_array);
+						$count = $count + count($delete_array);
+					}
+					$message = $this->user->lang('WAITING_DISPPROVED_IMAGE', $count);
+					$this->url->meta_refresh(3, $back_link);
+					trigger_error($message);
 				}
 			}
 			else
