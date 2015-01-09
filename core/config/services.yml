@@ -121,6 +121,8 @@ services:
             - @user_loader
             - @phpbbgallery.core.album
             - @phpbbgallery.core.auth
+            - @pagination
+            - @phpbbgallery.core.config
             - %tables.phpbbgallery.images%
             - %tables.phpbbgallery.reports%
     phpbbgallery.core.search:
