@@ -106,6 +106,11 @@ class moderate
 		$this->moderate->build_queue('short', 'report_image_open');
 		$this->moderate->build_queue('short', 'image_waiting');
 
+		$this->template->assign_vars(array(
+			'U_GALLERY_MODERATE_OVERVIEW'	=>	$this->helper->route('phpbbgallery_moderate'),
+			'U_GALLERY_MODERATE_APPROVE'	=>	$this->helper->route('phpbbgallery_moderate_queue_approve'),
+		));
+
 		return $this->helper->render('gallery/moderate_overview.html', $this->user->lang('GALLERY'));
 	}
 
@@ -126,6 +131,11 @@ class moderate
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
 		$this->user->add_lang('mcp');
 
+		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		if (!$this->gallery_auth->acl_check_global('m_'))
+		{
+			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+		}
 		if (!empty($approve_ary))
 		{
 			if (confirm_box(true))
@@ -170,6 +180,12 @@ class moderate
 				confirm_box(false, $this->user->lang['QUEUES_A_' . strtoupper($action) . '2_CONFIRM'], $s_hidden_fields);
 			}
 		}
+
+		$this->template->assign_vars(array(
+			'U_GALLERY_MODERATE_OVERVIEW'	=>	$this->helper->route('phpbbgallery_moderate'),
+			'U_GALLERY_MODERATE_APPROVE'	=>	$this->helper->route('phpbbgallery_moderate_queue_approve'),
+		));
+		$this->moderate->build_queue('full', 'image_waiting', $page);
 		return $this->helper->render('gallery/moderate_approve.html', $this->user->lang('GALLERY'));
 	}
 

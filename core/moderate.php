@@ -13,7 +13,8 @@ namespace phpbbgallery\core;
 class moderate
 {
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\controller\helper $helper, \phpbb\user $user,
-	\phpbb\user_loader $user_loader, \phpbbgallery\core\album\album $album, \phpbbgallery\core\auth\auth $gallery_auth, $images_table, $reports_table)
+	\phpbb\user_loader $user_loader, \phpbbgallery\core\album\album $album, \phpbbgallery\core\auth\auth $gallery_auth, \phpbb\pagination $pagination, \phpbbgallery\core\config $gallery_config,
+	$images_table, $reports_table)
 	{
 		$this->db = $db;
 		$this->template = $template;
@@ -22,6 +23,8 @@ class moderate
 		$this->user_loader = $user_loader;
 		$this->album = $album;
 		$this->gallery_auth = $gallery_auth;
+		$this->pagination = $pagination;
+		$this->gallery_config = $gallery_config;
 		$this->images_table = $images_table;
 		$this->reports_table = $reports_table;
 	}
@@ -33,13 +36,18 @@ class moderate
 	* @param	(int)		$page	This queue builder should return objects for MCP queues, so page?
 	* @param	(int)		$count	We need how many elements per page
 	*/
-	public function build_queue($type, $target, $page = 0, $count = 0)
+	public function build_queue($type, $target, $page = 0, $per_page = 0)
 	{
 		if (!$type || !$target)
 		{
 			return;
 		}
 
+		// So if we are not forcing par page get it from config
+		if ($per_page == 0)
+		{
+			$per_page = $this->gallery_config->get('items_per_page');
+		}
 		// Let's get albums that user can moderate
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 		switch($target)
@@ -158,6 +166,11 @@ class moderate
 					//We build last 5 for short
 					$result = $this->db->sql_query_limit($sql, 5, 0);
 				}
+				if ($type == 'full')
+				{
+					$page = $page - 1;
+					$result = $this->db->sql_query_limit($sql, $per_page, $page * $per_page);
+				}
 
 				$waiting_images = $users_array = array();
 				while($row = $this->db->sql_fetchrow($result))
@@ -204,6 +217,21 @@ class moderate
 					'S_HAS_UNAPPROVED_IMAGES'=> ($count != 0),
 					'S_GALLERY_APPROVE_ACTION'	=> $this->helper->route('phpbbgallery_moderate_queue_approve'),
 				));
+				// If we are building full we will need to build pagination
+				if ($type == 'full')
+				{
+					$this->pagination->generate_template_pagination(array(
+						'routes' => array(
+							'phpbbgallery_moderate_queue_approve',
+							'phpbbgallery_moderate_queue_approve_page',
+						),
+						'params' => array(
+						),
+					), 'pagination', 'page', $count, $per_page, $page * $per_page);
+					$this->template->assign_vars(array(
+						'TOTAL_PAGES'				=> $this->user->lang('PAGE_TITLE_NUMBER', $page),
+					));
+				}
 			break;
 		}
 	}
