@@ -14,6 +14,7 @@ parameters:
     tables.phpbbgallery.users: %core.table_prefix%gallery_users
     tables.phpbbgallery.comments: %core.table_prefix%gallery_comments
     tables.phpbbgallery.reports: %core.table_prefix%gallery_reports
+    tables.phpbbgallery.log: %core.table_prefix%gallery_log
 
 services:
     phpbbgallery.core.album:
