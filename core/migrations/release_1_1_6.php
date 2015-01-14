@@ -263,6 +263,21 @@ class release_1_1_6 extends \phpbb\db\migration\migration
 						'aid'			=> array('INDEX', 'album_id'),
 					),
 				),
+				// Let us add LOG
+				$this->table_prefix . 'gallery_log'	=> array(
+					'COLUMNS'	=> array(
+						'log_id'	=> array('UINT', null, 'auto_increment'),
+						'log_time'	=> array('UINT:11', 0),
+						'log_type'	=> array('VCHAR:16', ''),
+						'log_action'	=> array('VCHAR:32', ''),
+						'user'		=> array('UINT', null),
+						'album'		=> array('UINT', null),
+						'image'		=> array('UINT', null),
+						'description'	=> array('VCHAR:256', null, ''),
+						'deleted'	=> array('UINT:1', 0),
+					),
+					'PRIMARY_KEY'	=> 'log_id',
+				),
 			),
 			'add_columns'	=> array(
 				$this->table_prefix . 'log'			=> array(
@@ -312,6 +327,7 @@ class release_1_1_6 extends \phpbb\db\migration\migration
 				$this->table_prefix . 'gallery_roles',
 				$this->table_prefix . 'gallery_users',
 				$this->table_prefix . 'gallery_watch',
+				$this->table_prefix . 'gallery_log',
 			),
 		);
 	}
