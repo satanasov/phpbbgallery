@@ -34,8 +34,8 @@ class log
 	{
 		$user = (int) $this->user->data['user_id'];
 		$time = (int) time();
-		
-		$sql = 'INSERT INTO ' . $this->log_table . ' (log_time, log_type, log_action, log_user, album, image, description) 
+
+		$sql = 'INSERT INTO ' . $this->log_table . ' (log_time, log_type, log_action, log_user, album, image, description)
 		VALUES (
 			' . (int) $time . ',
 			\'' . $this->db->sql_escape($log_type) . '\',
