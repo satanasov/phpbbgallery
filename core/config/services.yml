@@ -161,6 +161,12 @@ services:
             - @service_container
             - %core.root_path%
             - %core.php_ext%
+    phpbbgallery.core.log:
+        class: phpbbgallery\core\log
+        arguments:
+            - @dbal.conn
+            - @user
+            - %tables.phpbbgallery.log%
 
 #######################
 #### Define event #####
