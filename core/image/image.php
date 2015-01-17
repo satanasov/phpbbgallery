@@ -46,7 +46,7 @@ class image
 	* construct
 	*/
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\album\album $album,
-								\phpbbgallery\core\config $gallery_config, \phpbb\controller\helper $helper, \phpbbgallery\core\url $url,
+								\phpbbgallery\core\config $gallery_config, \phpbb\controller\helper $helper, \phpbbgallery\core\url $url, \phpbbgallery\core\log $gallery_log,
 								$table_images)
 	{
 		$this->db = $db;
@@ -56,6 +56,7 @@ class image
 		$this->gallery_config = $gallery_config;
 		$this->helper = $helper;
 		$this->url = $url;
+		$this->gallery_log = $gallery_log;
 		$this->table_images = $table_images;
 	}
 	/**
@@ -431,7 +432,7 @@ class image
 		$result = $db->sql_query($sql);
 		while ($row = $db->sql_fetchrow($result))
 		{
-			add_log('gallery', $album_id, $row['image_id'], 'LOG_GALLERY_APPROVED', $row['image_name']);
+			$this->gallery_log->add_log('moderator', 'approve', $album_id, $row['image_id'], array('LOG_GALLERY_APPROVED', $row['image_name']));
 		}
 		$db->sql_freeresult($result);
 	}
@@ -460,7 +461,7 @@ class image
 		$result = $db->sql_query($sql);
 		while ($row = $db->sql_fetchrow($result))
 		{
-			add_log('gallery', $album_id, $row['image_id'], 'LOG_GALLERY_UNAPPROVED', $row['image_name']);
+			$this->gallery_log->add_log('moderator', 'unapprove', $album_id, $row['image_id'], array('LOG_GALLERY_UNAPPROVED', $row['image_name']));
 		}
 		$db->sql_freeresult($result);
 	}
@@ -487,8 +488,7 @@ class image
 
 		foreach ($image_id_ary as $image)
 		{
-			// TO DO make log work
-			//add_log('gallery', $album_id, $image, 'LOG_GALLERY_MOVED', $album_data['album_name'], $target_data['album_name']);
+			$this->gallery_log->add_log('moderator', 'move', 0, $row['image_id'], array('LOG_GALLERY_MOVED', $album_data['album_id'], $album_data['album_name'], $target_data['album_id'], $target_data['album_name']));
 		}
 		//You will need to take care for album sync for the target and source
 	}
@@ -516,7 +516,7 @@ class image
 		$result = $db->sql_query($sql);
 		while ($row = $db->sql_fetchrow($result))
 		{
-			add_log('gallery', $album_id, $row['image_id'], 'LOG_GALLERY_LOCKED', $row['image_name']);
+			$this->gallery_log->add_log('moderator', 'unapprove', $album_id, $row['image_id'], array('LOG_GALLERY_LOCKED', $row['image_name']));
 		}
 		$db->sql_freeresult($result);
 	}

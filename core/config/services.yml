@@ -83,6 +83,7 @@ services:
             - @phpbbgallery.core.config
             - @controller.helper
             - @phpbbgallery.core.url
+            - @phpbbgallery.core.log
             - %tables.phpbbgallery.images%
     phpbbgallery.core.user:
         class: phpbbgallery\core\user

@@ -12,7 +12,7 @@ namespace phpbbgallery\core;
 
 class log
 {
-	public function __contruct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user,
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user,
 	$log_table)
 	{
 		$this->db = $db;
@@ -29,8 +29,8 @@ class log
 	* @param	(int)		$image			Image we are loging for (can be 0)
 	* @param	(string)	$description	Description sting
 	*/
-	
-	public function add_log($log_type, $log_action, $album = 0, $image = 0, $description = '')
+
+	public function add_log($log_type, $log_action, $album = 0, $image = 0, $description = array())
 	{
 		$user = (int) $this->user->data['user_id'];
 		$time = (int) time();
@@ -40,9 +40,10 @@ class log
 			' . (int) $time . ',
 			\'' . $this->db->sql_escape($log_type) . '\',
 			\'' . $this->db->sql_escape($log_action) . '\',
+			' . (int) $user . ',
 			' . (int) $album . ',
 			' . (int) $image . ',
-			\'' . $this->db->sql_escape($description) . '\'
+			\'' . $this->db->sql_escape(json_encode($description)) . '\'
 		)';
 		$this->db->sql_query($sql);
 	}
