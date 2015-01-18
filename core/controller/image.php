@@ -85,7 +85,7 @@ class image
 	\phpbb\template\template $template, \phpbb\user $user, \phpbbgallery\core\album\display $display, \phpbbgallery\core\album\loader $loader, \phpbbgallery\core\album\album $album,
 	\phpbbgallery\core\image\image $image, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\config $gallery_config,
 	\phpbbgallery\core\auth\level $auth_level, \phpbbgallery\core\url $url, \phpbbgallery\core\misc $misc, \phpbbgallery\core\comment $comment, \phpbbgallery\core\report $report,
-	\phpbbgallery\core\notification\helper $notification_helper,
+	\phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\log $gallery_log,
 	$albums_table, $images_table, $users_table, $table_comments, $phpbb_root_path, $php_ext)
 	{
 		$this->request = $request;
@@ -110,6 +110,7 @@ class image
 		$this->comment = $comment;
 		$this->report = $report;
 		$this->notification_helper = $notification_helper;
+		$this->gallery_log = $gallery_log;
 		$this->table_albums = $albums_table;
 		$this->table_images = $images_table;
 		$this->table_users = $users_table;
@@ -821,13 +822,13 @@ class image
 
 				if ($this->user->data['user_id'] != $image_data['image_user_id'])
 				{
-					add_log('gallery', $image_data['image_album_id'], $image_id, 'LOG_GALLERY_EDITED', $image_name);
+					$this->gallery_log->add_log('moderator', 'edit', $image_data['image_album_id'], $image_id, array('LOG_GALLERY_EDITED', $image_name));
 				}
 
 				$message = $this->user->lang['IMAGES_UPDATED_SUCCESSFULLY'];
 				$message .= '<br /><br />' . sprintf($this->user->lang['CLICK_RETURN_IMAGE'], '<a href="' . $image_backlink . '">', '</a>');
 				$message .= '<br /><br />' . sprintf($this->user->lang['CLICK_RETURN_ALBUM'], '<a href="' . $album_backlink . '">', '</a>');
-				meta_refresh(3, $image_backlink);
+				$this->url->meta_refresh(3, $image_backlink);
 				trigger_error($message);
 			}
 			$disp_image_data = array_merge($disp_image_data, $sql_ary);
@@ -908,11 +909,11 @@ class image
 
 			if ($this->user->data['user_id'] != $image_data['image_user_id'])
 			{
-				add_log('gallery', $image_data['image_album_id'], $image_id, 'LOG_GALLERY_DELETED', $image_data['image_name']);
+				$this->gallery_log->add_log('moderator', 'delete', $image_data['image_album_id'], $image_id, array('LOG_GALLERY_DELETED', $image_data['image_name']));
 			}
 			// So we need to see if there are still unapproved images in the album
 			$this->notification_helper->read('approval', $album_id);
-			meta_refresh(3, $album_backlink);
+			$this->url->meta_refresh(3, $album_backlink);
 			trigger_error($message);
 		}
 		else
@@ -921,7 +922,7 @@ class image
 			{
 				$message = $this->user->lang['DELETED_IMAGE_NOT'] . '<br />';
 				$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_IMAGE'], '<a href="' . $image_backlink . '">', '</a>');
-				meta_refresh(3, $image_backlink);
+				$this->url->meta_refresh(3, $image_backlink);
 				trigger_error($message);
 			}
 			else
@@ -982,7 +983,7 @@ class image
 				$message .= '<br /><br />' . sprintf($this->user->lang['CLICK_RETURN_IMAGE'], '<a href="' . $image_backlink . '">', '</a>');
 				$message .= '<br /><br />' . sprintf($this->user->lang['CLICK_RETURN_ALBUM'], '<a href="' . $album_backlink . '">', '</a>');
 
-				meta_refresh(3, $image_backlink);
+				$this->url->meta_refresh(3, $image_backlink);
 				trigger_error($message);
 			}
 

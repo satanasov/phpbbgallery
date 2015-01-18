@@ -97,15 +97,19 @@ class log
 		foreach($logoutput as $var)
 		{
 			$description = '';
-			switch ($var['action'])
+			switch ($type)
 			{
-				case 'disapprove':
-				case 'approve':
-				case 'unapprove':
-					$description = $this->user->lang($var['description'][0], $var['description'][1]);
+				case 'moderator':
+					switch ($var['action'])
+					{
+						case 'move':
+							$description = $this->user->lang($var['description'][0], $var['description'][1], $var['description'][2]);
+						break;
+						default:
+							$description = $this->user->lang($var['description'][0], $var['description'][1]);
+						break;
+					}
 				break;
-				case 'move':
-					$description = $this->user->lang($var['description'][0], $var['description'][1], $var['description'][2]);
 			}
 			$this->template->assign_block_vars('log', array(
 				'U_LOG_ID'		=> $var['id'],

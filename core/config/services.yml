@@ -264,6 +264,7 @@ services:
             - @phpbbgallery.core.comment
             - @phpbbgallery.core.report
             - @phpbbgallery.core.notification.helper
+            - @phpbbgallery.core.log
             - %tables.phpbbgallery.albums%
             - %tables.phpbbgallery.images%
             - %tables.phpbbgallery.users%
