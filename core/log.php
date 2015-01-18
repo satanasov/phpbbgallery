@@ -12,7 +12,8 @@ namespace phpbbgallery\core;
 
 class log
 {
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\user_loader $user_loader, \phpbb\template\template $template, \phpbb\controller\helper $helper,
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\user_loader $user_loader, \phpbb\template\template $template,
+	\phpbb\controller\helper $helper, \phpbb\pagination $pagination,
 	$log_table)
 	{
 		$this->db = $db;
@@ -20,6 +21,7 @@ class log
 		$this->user_loader = $user_loader;
 		$this->template = $template;
 		$this->helper = $helper;
+		$this->pagination = $pagination;
 		$this->log_table = $log_table;
 	}
 
@@ -59,12 +61,18 @@ class log
 	* @param	(int)		$limit	How many items to show
 	* @param	(int)		$start	start count used to build paging
 	*/
-	public function build_list($type, $limit = 25, $start = 0)
+	public function build_list($type, $limit = 25, $page = 1)
 	{
 		$this->user->add_lang_ext('phpbbgallery/core', array('info_acp_gallery_logs'));
 
+		$sql = 'SELECT count(log_id) as count FROM ' . $this->log_table . ' WHERE log_type = \'' . $this->db->sql_escape($type) . '\' ORDER BY log_id DESC';
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
+		$count = $row['count'];
+		
 		$sql = 'SELECT * FROM ' . $this->log_table . ' WHERE log_type = \'' . $this->db->sql_escape($type) . '\' ORDER BY log_id DESC';
-		$result = $this->db->sql_query_limit($sql, $limit, $start);
+		$result = $this->db->sql_query_limit($sql, $limit, ($page - 1) * $limit);
 
 		$logouput = $users_array = array();
 		while ($row = $this->db->sql_fetchrow($result))
@@ -81,6 +89,7 @@ class log
 			);
 			$users_array[$row['log_user']] = array('');
 		}
+		$this->db->sql_freeresult($result);
 
 		$this->user_loader->load_users(array_keys($users_array));
 
@@ -106,9 +115,18 @@ class log
 				'U_LOG_ACTION'	=> $description,
 				'U_TIME'		=> $this->user->format_date($var['time']),
 			));
-			$this->template->assign_vars(array(
-				'S_HAS_LOGS' => 1,
-			));
 		}
+		$this->template->assign_vars(array(
+			'S_HAS_LOGS' => $count > 0 ? true : false,
+			'TOTAL_PAGES'	=> $this->user->lang('PAGE_TITLE_NUMBER', $page),
+		));
+		$this->pagination->generate_template_pagination(array(
+			'routes' => array(
+				'phpbbgallery_moderate_action_log',
+				'phpbbgallery_moderate_action_log_page',
+			),
+			'params' => array(
+			),
+		), 'pagination', 'page', $count, $limit, ($page-1) * $limit);
 	}
 }

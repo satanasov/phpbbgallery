@@ -1,8 +1,11 @@
 <form id="gallery_approve" method="post" action="{S_GALLERY_APPROVE_ACTION}">
 	<div class="panel">
 		<div class="inner">
+			<!-- IF U_OVERVIEW -->
 			<h3>{L_LATEST_IMAGES_UNAPPROVED}</h3>
+			<!-- ELSE -->
 			<p> {TOTAL_IMAGES_WAITING} </p>
+			<!-- ENDIF -->
 			<!-- IF S_HAS_UNAPPROVED_IMAGES -->
 				<ul class="topiclist two-long-columns">
 					<li class="header">

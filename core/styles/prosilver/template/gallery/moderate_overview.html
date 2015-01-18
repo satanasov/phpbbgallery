@@ -3,7 +3,7 @@
 <h2>{L_MCP}</h2>
 <div id="tabs">
 	<ul>
-		<li class="tab activated"><a href="{U_GALLERY_MODERATE_OVERVIEW}">{L_GALLERY_MCP_MAIN}</a></li>
+		<li class="tab activetab"><a href="{U_GALLERY_MODERATE_OVERVIEW}">{L_GALLERY_MCP_MAIN}</a></li>
 		<li class="tab"><a href="{U_GALLERY_MODERATE_APPROVE}">{L_GALLERY_MCP_QUEUE}</a></li>
 	</ul>
 </div>
@@ -59,39 +59,7 @@
 						<!-- ENDIF -->
 					</div>
 				</div>
-				<div class="panel">
-					<div class="inner">
-						<h3>{L_LATEST_LOGS}</h3>
-						<!-- IF S_HAS_LOGS -->
-						<table class="table1 responsive">
-							<thead>
-								<tr>
-									<th class="name">{L_ACTION}</th>
-									<th class="name">{L_USERNAME}</th>
-									<th class="name">{L_USER_IP}</th>
-									<th class="name">{L_LOGVIEW_VIEWALBUM}</th>
-									<th class="name">{L_LOGVIEW_VIEWIMAGE}</th>
-									<th class="name">{L_TIME}</td>
-								</tr>
-							</thead>
-							<tbody>
-								<!-- BEGIN log -->
-								<tr class="<!-- IF log.S_ROW_COUNT is odd -->bg1<!-- ELSE -->bg2<!-- ENDIF -->">
-									<td>{log.U_LOG_ACTION}</td>
-									<td>{log.U_LOG_USER}</td>
-									<td>{log.U_LOG_IP}</td>
-									<td><!-- IF log.U_ALBUM_LINK --><a href="{log.U_ALBUM_LINK}">{L_LOGVIEW_VIEWALBUM}</a><!-- ELSE -->&nbsp;<!-- ENDIF --></td>
-									<td><!-- IF log.U_IMAGE_LINK --><a href="{log.U_IMAGE_LINK}">{L_LOGVIEW_VIEWIMAGE}</a><!-- ELSE -->&nbsp;<!-- ENDIF --></td>
-									<td>{log.U_TIME}</td>
-								</tr>
-								<!-- END log -->
-							</tbody>
-						</table>
-						<!-- ELSE -->
-						<h3> No logs found </h3>
-						<!-- ENDIF -->
-					</div>
-				</div>
+				<!-- INCLUDE gallery/moderate_actions_queue.html -->
 			</div>
 		</div>
 	</div>

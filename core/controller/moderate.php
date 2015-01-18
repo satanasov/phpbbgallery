@@ -111,6 +111,7 @@ class moderate
 		$this->template->assign_vars(array(
 			'U_GALLERY_MODERATE_OVERVIEW'	=>	$this->helper->route('phpbbgallery_moderate'),
 			'U_GALLERY_MODERATE_APPROVE'	=>	$this->helper->route('phpbbgallery_moderate_queue_approve'),
+			'U_OVERVIEW'					=> true,
 		));
 
 		return $this->helper->render('gallery/moderate_overview.html', $this->user->lang('GALLERY'));
@@ -166,7 +167,7 @@ class moderate
 						// Let's log the action
 						foreach ($filenames as $name)
 						{
-							$this->gallery_log->add_log('moderator', 'disapprove', $album_id, 0, array('LOG_GALLERY_DISAPPROVED_IMAGE', $name));
+							$this->gallery_log->add_log('moderator', 'disapprove', $album_id, 0, array('LOG_GALLERY_DISAPPROVED', $name));
 						}
 						$this->image->delete_images($delete_array);
 						$count = $count + count($delete_array);
@@ -193,11 +194,36 @@ class moderate
 		$this->template->assign_vars(array(
 			'U_GALLERY_MODERATE_OVERVIEW'	=>	$this->helper->route('phpbbgallery_moderate'),
 			'U_GALLERY_MODERATE_APPROVE'	=>	$this->helper->route('phpbbgallery_moderate_queue_approve'),
+			'U_GALLERY_MCP_LOGS'				=> $this->helper->route('phpbbgallery_moderate_action_log'),
 		));
 		$this->moderate->build_queue('full', 'image_waiting', $page);
 		return $this->helper->render('gallery/moderate_approve.html', $this->user->lang('GALLERY'));
 	}
 
+	/**
+	* Index Controller
+	*	Route: gallery/modarate/actions
+	*
+	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	*/
+	public function action_log($page)
+	{
+		$this->user->add_lang_ext('phpbbgallery/core', array('gallery_mcp'));
+		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
+		$this->user->add_lang('mcp');
+
+		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		if (!$this->gallery_auth->acl_check_global('m_'))
+		{
+			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+		}
+
+		$this->template->assign_vars(array(
+			'U_GALLERY_APPROVE_QUEUE'				=> $this->helper->route('phpbbgallery_moderate_queue_approve'),
+		));
+		$this->gallery_log->build_list('moderator', 25, $page);
+		return $this->helper->render('gallery/moderate_actions.html', $this->user->lang('GALLERY'));
+	}
 	/**
 	* Index Controller
 	*	Route: gallery/modarate/image/{image_id}
@@ -303,7 +329,7 @@ class moderate
 
 	/**
 	* Index Controller
-	*	Route: gallery/modarate/image/{image_id}/approve
+	*	Route: gallery/modarate/image/{image_id}/unapprove
 	*
 	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
 	*/

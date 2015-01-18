@@ -170,6 +170,7 @@ services:
             - @user_loader
             - @template
             - @controller.helper
+            - @pagination
             - %tables.phpbbgallery.log%
 
 #######################
