@@ -47,7 +47,8 @@ class comment
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\template\template $template,
 \phpbb\request\request $request, \phpbb\controller\helper $helper, \phpbbgallery\core\image\image $image, \phpbbgallery\core\album\loader $loader, \phpbbgallery\core\album\album $album,
 \phpbbgallery\core\album\display $display, \phpbbgallery\core\url $url, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\misc $misc,
-\phpbbgallery\core\comment $comment, \phpbbgallery\core\user $gallery_user, $table_comments, $phpbb_root_path, $php_ext)
+\phpbbgallery\core\comment $comment, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\log $gallery_log,
+$table_comments, $phpbb_root_path, $php_ext)
 	{
 		$this->db = $db;
 		$this->user = $user;
@@ -66,6 +67,7 @@ class comment
 		$this->misc = $misc;
 		$this->comment = $comment;
 		$this->gallery_user = $gallery_user;
+		$this->gallery_log = $gallery_log;
 		$this->table_comments = $table_comments;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
@@ -446,7 +448,7 @@ class comment
 				$message .= $this->user->lang['COMMENT_STORED'] . '<br />';
 				if ($this->user->data['user_id'] != $comment_data['comment_user_id'])
 				{
-					add_log('gallery', $image_data['image_album_id'], $image_data['image_id'], 'LOG_GALLERY_COMMENT_EDITED', $image_data['image_name']);
+					$this->gallery_log->add_log('moderator', 'c_edit', $image_data['image_album_id'], $image_data['image_id'], array('LOG_GALLERY_COMMENT_EDITED', $image_data['image_name']));
 				}
 			}
 		}
@@ -588,7 +590,7 @@ class comment
 			$this->comment->delete_comments($comment_id);
 			if ($this->user->data['user_id'] != $comment_data['comment_user_id'])
 			{
-				add_log('gallery', $image_data['image_album_id'], $image_data['image_id'], 'LOG_GALLERY_COMMENT_DELETED', $image_data['image_name']);
+				$this->gallery_log->add_log('moderator', 'c_delete', $image_data['image_album_id'], $image_data['image_id'], array('LOG_GALLERY_COMMENT_DELETED', $image_data['image_name']));
 			}
 
 			$message = $this->user->lang['DELETED_COMMENT'] . '<br />';

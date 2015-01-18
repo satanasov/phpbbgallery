@@ -333,6 +333,7 @@ services:
             - @phpbbgallery.core.misc
             - @phpbbgallery.core.comment
             - @phpbbgallery.core.user
+            - @phpbbgallery.core.log
             - %tables.phpbbgallery.comments%
             - %core.root_path%
             - %core.php_ext%
