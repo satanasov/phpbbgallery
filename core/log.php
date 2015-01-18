@@ -70,7 +70,7 @@ class log
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 		$count = $row['count'];
-		
+
 		$sql = 'SELECT * FROM ' . $this->log_table . ' WHERE log_type = \'' . $this->db->sql_escape($type) . '\' ORDER BY log_id DESC';
 		$result = $this->db->sql_query_limit($sql, $limit, ($page - 1) * $limit);
 
