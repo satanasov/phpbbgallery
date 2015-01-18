@@ -269,8 +269,9 @@ class manage
 					WHERE album_id = ' . $album_data['album_id'];
 				$db->sql_query($sql);
 			}
+			$log = $phpbb_container->get('phpbbgallery.core.log');
 
-			add_log('admin', 'LOG_ALBUM_ADD', $album_data['album_name']);
+			$log->add_log('admin', 'add', $album_data['album_id'], 0, array('LOG_ALBUM_ADD', $album_data['album_name']));
 		}
 		else
 		{
@@ -411,7 +412,9 @@ class manage
 			// Add it back
 			$album_data['album_id'] = $album_id;
 
-			add_log('admin', 'LOG_ALBUM_EDIT', $album_data['album_name']);
+			$log = $phpbb_container->get('phpbbgallery.core.log');
+
+			$log->add_log('admin', 'edit', $album_id, 0, array('LOG_ALBUM_EDIT', $album_data['album_name']));
 		}
 
 		return $errors;
@@ -693,42 +696,44 @@ class manage
 		/**
 		* Log what we did
 		*/
+		$log = $phpbb_container->get('phpbbgallery.core.log');
+
 		switch ($log_action)
 		{
 			case 'MOVE_IMAGES_MOVE_ALBUMS':
-				add_log('admin', 'LOG_ALBUM_DEL_MOVE_IMAGES_MOVE_ALBUMS', $images_to_name, $subalbums_to_name, $album_data['album_name']);
+				$log->add_log('admin', 'del', 0, 0, array('LOG_ALBUM_DEL_MOVE_IMAGES_MOVE_ALBUMS', $images_to_name, $subalbums_to_name, $album_data['album_name']));
 			break;
 
 			case 'MOVE_IMAGES_ALBUMS':
-				add_log('admin', 'LOG_ALBUM_DEL_MOVE_IMAGES_ALBUMS', $images_to_name, $album_data['album_name']);
+				$log->add_log('admin', 'del', $images_to_id, 0, array('LOG_ALBUM_DEL_MOVE_IMAGES_ALBUMS', $images_to_name, $album_data['album_name']));
 			break;
 
 			case 'IMAGES_MOVE_ALBUMS':
-				add_log('admin', 'LOG_ALBUM_DEL_IMAGES_MOVE_ALBUMS', $subalbums_to_name, $album_data['album_name']);
+				$log->add_log('admin', 'del', $subalbums_to_id, 0, array('LOG_ALBUM_DEL_IMAGES_MOVE_ALBUMS', $subalbums_to_name, $album_data['album_name']));
 			break;
 
 			case '_MOVE_ALBUMS':
-				add_log('admin', 'LOG_ALBUM_DEL_MOVE_ALBUMS', $subalbums_to_name, $album_data['album_name']);
+				$log->add_log('admin', 'del', $subalbums_to_id, 0, array('LOG_ALBUM_DEL_MOVE_ALBUMS', $subalbums_to_name, $album_data['album_name']));
 			break;
 
 			case 'MOVE_IMAGES_':
-				add_log('admin', 'LOG_ALBUM_DEL_MOVE_IMAGES', $images_to_name, $album_data['album_name']);
+				$log->add_log('admin', 'del', $images_to_id, 0, array('LOG_ALBUM_DEL_MOVE_IMAGES', $images_to_name, $album_data['album_name']));
 			break;
 
 			case 'IMAGES_ALBUMS':
-				add_log('admin', 'LOG_ALBUM_DEL_IMAGES_ALBUMS', $album_data['album_name']);
+				$log->add_log('admin', 'del', 0, 0, array('LOG_ALBUM_DEL_IMAGES_ALBUMS', $album_data['album_name']));
 			break;
 
 			case '_ALBUMS':
-				add_log('admin', 'LOG_ALBUM_DEL_ALBUMS', $album_data['album_name']);
+				$log->add_log('admin', 'del', 0, 0, array('LOG_ALBUM_DEL_ALBUMS', $album_data['album_name']));
 			break;
 
 			case 'IMAGES_':
-				add_log('admin', 'LOG_ALBUM_DEL_IMAGES', $album_data['album_name']);
+				$log->add_log('admin', 'del', 0, 0, array('LOG_ALBUM_DEL_IMAGES', $album_data['album_name']));
 			break;
 
 			default:
-				add_log('admin', 'LOG_ALBUM_DEL_ALBUM', $album_data['album_name']);
+				$log->add_log('admin', 'del', 0, 0, array('LOG_ALBUM_DEL_ALBUM', $album_data['album_name']));
 			break;
 		}
 
