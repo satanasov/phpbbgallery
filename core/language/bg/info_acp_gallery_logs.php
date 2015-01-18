@@ -24,6 +24,14 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
+	'ACP_LOG_GALLERY_MOD'						=> 'Модераторски лог',
+	'ACP_LOG_GALLERY_MOD_EXP'					=> 'Системен лог с всички модераторски действия.',
+	'ACP_LOG_GALLERY_ADM'						=> 'Администраторски лог',
+	'ACP_LOG_GALLERY_ADM_EXP'					=> 'Системен лог с всички действия извърешени от администрацията и свързани с галерията.',
+	'ACP_LOG_GALLERY_SYSTEM'						=> 'Системен лог',
+	'ACP_LOG_GALLERY_SYSTEM_EXP'					=> 'Системен лог с всички съобщяния свързани с действието на системата',
+	'LOG_GALLERY_SHOW_LOGS'						=> 'Покажи само',
+
 	'LOG_ALBUM_ADD'							=> '<strong>Създаден нов албум</strong><br />» %s',
 	'LOG_ALBUM_DEL_ALBUM'					=> '<strong>Изтрит албум</strong><br />» %s',
 	'LOG_ALBUM_DEL_ALBUMS'					=> '<strong>Изтрити албум и подалбуми</strong><br />» %s',

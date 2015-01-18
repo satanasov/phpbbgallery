@@ -281,10 +281,6 @@ class release_1_1_6 extends \phpbb\db\migration\migration
 				),
 			),
 			'add_columns'	=> array(
-				$this->table_prefix . 'log'			=> array(
-					'album_id'				=> array('UINT', 0),
-					'image_id'				=> array('UINT', 0),
-				),
 				$this->table_prefix . 'sessions'	=> array(
 					'session_album_id'		=> array('UINT', 0),
 				),
@@ -306,10 +302,6 @@ class release_1_1_6 extends \phpbb\db\migration\migration
 				),
 			),
 			'drop_columns'	=> array(
-				$this->table_prefix . 'log'			=> array(
-					'album_id',
-					'image_id',
-				),
 				$this->table_prefix . 'sessions'			=> array(
 					'session_album_id',
 				),
@@ -371,6 +363,12 @@ class release_1_1_6 extends \phpbb\db\migration\migration
 				'module_langname'	=> 'ACP_GALLERY_ALBUM_PERMISSIONS_COPY',
 				'module_mode'		=> 'copy',
 				'module_auth'		=> 'ext_phpbbgallery/core && acl_a_gallery_albums',
+			))),
+			array('module.add', array('acp', 'PHPBB_GALLERY', array(
+				'module_basename'	=> '\phpbbgallery\core\acp\gallery_logs_module',
+				'module_langname'	=> 'ACP_GALLERY_LOGS',
+				'module_mode'		=> 'main',
+				'module_auth'		=> 'ext_phpbbgallery/core && acl_a_gallery_manage',
 			))),
 			// Todo CLEANUP Add-on
 			/*array('module.add', array('acp', 'PHPBB_GALLERY', array(
