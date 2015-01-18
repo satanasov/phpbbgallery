@@ -100,11 +100,12 @@ class log
 			switch ($var['action'])
 			{
 				case 'disapprove':
-					$description = $this->user->lang($var['description'][0], $var['description'][1]);
-				break;
 				case 'approve':
+				case 'unapprove':
 					$description = $this->user->lang($var['description'][0], $var['description'][1]);
 				break;
+				case 'move':
+					$description = $this->user->lang($var['description'][0], $var['description'][1], $var['description'][2]);
 			}
 			$this->template->assign_block_vars('log', array(
 				'U_LOG_ID'		=> $var['id'],

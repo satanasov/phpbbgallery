@@ -475,9 +475,12 @@ class image
 		global $phpbb_container, $table_prefix, $db;
 		$album = $phpbb_container->get('phpbbgallery.core.album');
 		$report = $phpbb_container->get('phpbbgallery.core.report');
+		$cache = $phpbb_container->get('phpbbgallery.core.cache');
 
 		$target_data = $album->get_info($album_id);
 
+		// Store images to cache (so we can log them)
+		$image_cache = $cache->get_images($image_id_ary);
 		//TO DO - Contests
 		$sql = 'UPDATE ' . $table_prefix . 'gallery_images 
 			SET image_album_id = ' . $album_id . '
@@ -488,8 +491,9 @@ class image
 
 		foreach ($image_id_ary as $image)
 		{
-			$this->gallery_log->add_log('moderator', 'move', 0, $image, array('LOG_GALLERY_MOVED', $target_data['album_id'], $target_data['album_name']));
+			$this->gallery_log->add_log('moderator', 'move', 0, $image, array('LOG_GALLERY_MOVED', $image_cache[$image]['image_name'], $target_data['album_name']));
 		}
+		$cache->destroy_images();
 		//You will need to take care for album sync for the target and source
 	}
 
@@ -516,7 +520,7 @@ class image
 		$result = $db->sql_query($sql);
 		while ($row = $db->sql_fetchrow($result))
 		{
-			$this->gallery_log->add_log('moderator', 'unapprove', $album_id, $row['image_id'], array('LOG_GALLERY_LOCKED', $row['image_name']));
+			$this->gallery_log->add_log('moderator', 'lock', $album_id, $row['image_id'], array('LOG_GALLERY_LOCKED', $row['image_name']));
 		}
 		$db->sql_freeresult($result);
 	}
