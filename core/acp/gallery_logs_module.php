@@ -20,34 +20,63 @@ class gallery_logs_module
 	function main($id, $mode)
 	{
 		global $auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path, $phpbb_ext_gallery, $table_prefix, $phpbb_dispatcher, $request;
-
+		global $phpbb_container;
+		
+		$user->add_lang_ext('phpbbgallery/core', array('info_acp_gallery_logs'));
 		$this->tpl_name = 'gallery_logs';
 		add_form_key('acp_logs');
-		$submode = request_var('submode', '');
 		$page = $request->variable('page', 1);
+		$filter_log = $request->variable('lf', 'all');
+		$log = $phpbb_container->get('phpbbgallery.core.log');
+
+		
 
 		switch ($mode)
 		{
-			case 'overview':
-				$title = 'ACP_GALLERY_OVERVIEW';
-				$this->page_title = $user->lang[$title];
+			case 'main':
+				switch ($filter_log)
+				{
+					case 'all':
+						$title = 'ACP_GALLERY_LOGS';
+						$template->assign_vars(array(
+							'L_TITLE'	=> $user->lang('ACP_GALLERY_LOGS'),
+							'L_EXPLAIN'	=> '',
+							'S_SELECT_OPTION'	=> 'all'
+						));
+					break;
+					case 'admin':
+						$title = 'ACP_LOG_GALLERY_ADM';
+						$template->assign_vars(array(
+							'L_TITLE'	=> $user->lang('ACP_LOG_GALLERY_ADM'),
+							'L_EXPLAIN'	=> $user->lang('ACP_LOG_GALLERY_ADM_EXP'),
+							'S_SELECT_OPTION'	=> 'admin'
+						));
+					break;
+					case 'moderator':
+						$title = 'ACP_LOG_GALLERY_MOD';
+						$template->assign_vars(array(
+							'L_TITLE'	=> $user->lang('ACP_LOG_GALLERY_MOD'),
+							'L_EXPLAIN'	=> $user->lang('ACP_LOG_GALLERY_MOD_EXP'),
+							'S_SELECT_OPTION'	=> 'moderator'
+						));
+					break;
+					case 'system':
+						$title = 'ACP_LOG_GALLERY_SYSTEM';
+						$template->assign_vars(array(
+							'L_TITLE'	=> $user->lang('ACP_LOG_GALLERY_SYSTEM'),
+							'L_EXPLAIN'	=> $user->lang('ACP_LOG_GALLERY_SYSTEM_EXP'),
+							'S_SELECT_OPTION'	=> 'system'
+						));
+					break;
+				}
+				$this->page_title = $user->lang($title);
 
-				$this->overview($page);
+				$log->build_list($filter_log, 25, $page/25 + 1, -1);
 			break;
 
 			default:
 				trigger_error('NO_MODE', E_USER_ERROR);
 			break;
 		}
-	}
-
-	function overview($page)
-	{
-		global $auth, $config, $db, $template, $user, $phpbb_ext_gallery, $table_prefix, $phpbb_dispatcher, $phpbb_root_path;
-		global $phpbb_container;
-
-		$log = $phpbb_container->get('phpbbgallery.core.log');
-		
-		$log->build_list('admin', 5, $page);
 	}
 }

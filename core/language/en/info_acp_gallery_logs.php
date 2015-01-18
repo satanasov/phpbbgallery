@@ -24,6 +24,14 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
+	'ACP_LOG_GALLERY_MOD'						=> 'Moderator log',
+	'ACP_LOG_GALLERY_MOD_EXP'						=> 'Moderator log',
+	'ACP_LOG_GALLERY_ADM'						=> 'Administrator log',
+	'ACP_LOG_GALLERY_ADM_EXP'						=> 'Administrator log',
+	'ACP_LOG_GALLERY_SYSTEM'						=> 'System log',
+	'ACP_LOG_GALLERY_SYSTEM_EXP'						=> 'System log',
+	'LOG_GALLERY_SHOW_LOGS'						=> 'Show only',
+
 	'LOG_ALBUM_ADD'							=> '<strong>Created new album</strong><br />» %s',
 	'LOG_ALBUM_DEL_ALBUM'					=> '<strong>Deleted album</strong><br />» %s',
 	'LOG_ALBUM_DEL_ALBUMS'					=> '<strong>Deleted album and its subalbums</strong><br />» %s',
