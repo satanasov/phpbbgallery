@@ -264,7 +264,8 @@ class albums_module
 
 				if ($move_album_name !== false)
 				{
-					add_log('admin', 'LOG_ALBUM_' . strtoupper($action), $row['album_name'], $move_album_name);
+					$log = $phpbb_container->get('phpbbgallery.core.log');
+					$log->add_log('admin', 'move', $row['album_id'], 0, array('LOG_ALBUM_' . strtoupper($action), $row['album_name'], $move_album_name));
 					$cache->destroy('sql', $table_prefix . 'gallery_albums');
 				}
 
@@ -291,7 +292,8 @@ class albums_module
 
 				$phpbb_ext_gallery_core_album->update_info($album_id);
 
-				add_log('admin', 'LOG_ALBUM_SYNC', $row['album_name']);
+				$log = $phpbb_container->get('phpbbgallery.core.log');
+				$log->add_log('admin', 'resync', $album_id, 0, array('LOG_ALBUM_SYNC', $row['album_name']));
 
 				$template->assign_var('L_ALBUM_RESYNCED', sprintf($user->lang['ALBUM_RESYNCED'], $row['album_name']));
 
