@@ -229,7 +229,7 @@ class moderate
 						),
 					), 'pagination', 'page', $count, $per_page, $page * $per_page);
 					$this->template->assign_vars(array(
-						'TOTAL_PAGES'				=> $this->user->lang('PAGE_TITLE_NUMBER', $page),
+						'TOTAL_PAGES'				=> $this->user->lang('PAGE_TITLE_NUMBER', $page + 1),
 					));
 				}
 			break;

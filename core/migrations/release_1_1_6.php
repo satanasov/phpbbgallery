@@ -271,6 +271,7 @@ class release_1_1_6 extends \phpbb\db\migration\migration
 						'log_type'	=> array('VCHAR:16', ''),
 						'log_action'	=> array('VCHAR:32', ''),
 						'log_user'		=> array('UINT', 0),
+						'log_ip'	=> array('VCHAR:40', ''),
 						'album'		=> array('UINT', 0),
 						'image'		=> array('UINT', 0),
 						'description'	=> array('VCHAR:256', ''),

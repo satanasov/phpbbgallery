@@ -488,7 +488,7 @@ class image
 
 		foreach ($image_id_ary as $image)
 		{
-			$this->gallery_log->add_log('moderator', 'move', 0, $row['image_id'], array('LOG_GALLERY_MOVED', $album_data['album_id'], $album_data['album_name'], $target_data['album_id'], $target_data['album_name']));
+			$this->gallery_log->add_log('moderator', 'move', 0, $image, array('LOG_GALLERY_MOVED', $target_data['album_id'], $target_data['album_name']));
 		}
 		//You will need to take care for album sync for the target and source
 	}

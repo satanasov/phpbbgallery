@@ -167,6 +167,9 @@ services:
         arguments:
             - @dbal.conn
             - @user
+            - @user_loader
+            - @template
+            - @controller.helper
             - %tables.phpbbgallery.log%
 
 #######################
@@ -349,6 +352,7 @@ services:
             - @phpbbgallery.core.image
             - @phpbbgallery.core.notification.helper
             - @phpbbgallery.core.url
+            - @phpbbgallery.core.log
             - %core.root_path%
             - %core.php_ext%
 
