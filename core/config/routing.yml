@@ -68,6 +68,12 @@ phpbbgallery_moderate_queue_approve:
 phpbbgallery_moderate_queue_approve_page:
     pattern: /gallery/moderate/approve/{page}
     defaults: { _controller: phpbbgallery.core.controller.moderate:queue_approve}
+phpbbgallery_moderate_action_log:
+    pattern: /gallery/moderate/actions
+    defaults: { _controller: phpbbgallery.core.controller.moderate:action_log, page: 1 }
+phpbbgallery_moderate_action_log_page:
+    pattern: /gallery/moderate/actions/{page}
+    defaults: { _controller: phpbbgallery.core.controller.moderate:action_log}
 phpbbgallery_moderate_album:
     pattern: /gallery/moderate/album/{album_id}
     defaults: { _controller: phpbbgallery.core.controller.moderate:base }
