@@ -59,7 +59,7 @@ class moderate
 	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request,
 	\phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbbgallery\core\album\display $display, \phpbbgallery\core\moderate $moderate,
 	\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\misc $misc, \phpbbgallery\core\album\album $album, \phpbbgallery\core\image\image $image,
-	\phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\url $url,
+	\phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\url $url, \phpbbgallery\core\log $gallery_log,
 	$root_path, $php_ext)
 	{
 		$this->auth = $auth;
@@ -77,6 +77,7 @@ class moderate
 		$this->image = $image;
 		$this->notification_helper = $notification_helper;
 		$this->url = $url;
+		$this->gallery_log = $gallery_log;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 	}
@@ -105,6 +106,7 @@ class moderate
 
 		$this->moderate->build_queue('short', 'report_image_open');
 		$this->moderate->build_queue('short', 'image_waiting');
+		$this->gallery_log->build_list('moderator', 5);
 
 		$this->template->assign_vars(array(
 			'U_GALLERY_MODERATE_OVERVIEW'	=>	$this->helper->route('phpbbgallery_moderate'),
@@ -159,6 +161,13 @@ class moderate
 					$count = 0;
 					foreach ($approve_ary as $album_id => $delete_array)
 					{
+						// Let's load info for images, so we can
+						$filenames = $this->image->get_filenames($delete_array);
+						// Let's log the action
+						foreach ($filenames as $name)
+						{
+							$this->gallery_log->add_log('moderator', 'disapprove', $album_id, 0, array('LOG_GALLERY_DISAPPROVED_IMAGE', $name));
+						}
 						$this->image->delete_images($delete_array);
 						$count = $count + count($delete_array);
 					}
