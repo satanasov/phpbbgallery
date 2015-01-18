@@ -74,4 +74,82 @@ class cache
 
 		return $albums;
 	}
+
+	/**
+	* Get images cache - get some images and put them in cache
+	* @param	(array)	$image_ids_array	Array of images to be put in cache
+	* return 	(array)	$images				Array of the information we have for that images
+	*/
+	public function get_images($image_ids_array)
+	{
+		static $images;
+
+		global $table_prefix;
+
+		if (isset($images))
+		{
+			return $images;
+		}
+
+		if (($albums = $this->phpbb_cache->get('_images')) === false)
+		{
+			$sql_array = array(
+				'SELECT'	=> 'i.*, a.album_name',
+				'FROM'	=> array(
+					$table_prefix . 'gallery_images'	=> 'i',
+					$table_prefix . 'gallery_albums'	=> 'a'
+				),
+				'WHERE'	=> $this->phpbb_db->sql_in_set('image_id', $image_ids_array)
+			);
+			$sql = $this->phpbb_db->sql_build_query('SELECT', $sql_array);
+			$result = $this->phpbb_db->sql_query($sql);
+
+			$images = array();
+			while ($row = $this->phpbb_db->sql_fetchrow($result))
+			{
+				$images[(int) $row['image_id']] = array(
+					'image_id'				=> $row['image_id'],
+					'image_filename'		=> $row['image_filename'],
+					'image_name'			=> $row['image_name'],
+					'image_name_clean'		=> $row['image_name_clean'],
+					'image_desc'			=> $row['image_desc'],
+					'image_desc_uid'		=> $row['image_desc_uid'],
+					'image_desc_bitfield'	=> $row['image_desc_bitfield'],
+					'image_user_id'			=> $row['image_user_id'],
+					'image_username'		=> $row['image_username'],
+					'image_username_clean'	=> $row['image_username_clean'],
+					'image_user_colour'		=> $row['image_user_colour'],
+					'image_user_ip'			=> $row['image_user_ip'],
+					'image_time'			=> $row['image_time'],
+					'image_album_id'		=> $row['image_album_id'],
+					'image_view_count'		=> $row['image_view_count'],
+					'image_status'			=> $row['image_status'],
+					'image_filemissing'		=> $row['image_filemissing'],
+					'image_rates'			=> $row['image_rates'],
+					'image_rate_points'		=> $row['image_rate_points'],
+					'image_rate_avg'		=> $row['image_rate_avg'],
+					'image_comments'		=> $row['image_comments'],
+					'image_last_comment'	=> $row['image_last_comment'],
+					'image_allow_comments'	=> $row['image_allow_comments'],
+					'image_favorited'		=> $row['image_favorited'],
+					'image_reported'		=> $row['image_reported'],
+					'filesize_upload'		=> $row['filesize_upload'],
+					'filesize_medium'		=> $row['filesize_medium'],
+					'filesize_cache'		=> $row['filesize_cache'],
+					'album_name'			=> $row['album_name'],
+				);
+			}
+			$this->phpbb_db->sql_freeresult($result);
+			$this->phpbb_cache->put('_images', $images);
+		}
+		return $images;
+	}
+
+	/**
+	* Destroy images cache - if we had updated image information or we want other set - we will have to destroy cache
+	*/
+	public function destroy_images()
+	{
+		$this->phpbb_cache->destroy('_images');
+	}
 }

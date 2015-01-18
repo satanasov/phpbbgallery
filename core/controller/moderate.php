@@ -239,27 +239,27 @@ class moderate
 		{
 			case 'images_move':
 				$route = $this->helper->route('phpbbgallery_moderate_image_move', array('image_id'	=> $image_id));
-				redirect($route);
+				redirect($this->url->get_uri($route));
 			break;
 			case 'image_edit':
 				$route = $this->helper->route('phpbbgallery_image_edit', array('image_id'	=> $image_id));
-				redirect($route);
+				redirect($this->url->get_uri($route));
 			break;
 			case 'images_unapprove':
 				$route = $this->helper->route('phpbbgallery_moderate_image_unapprove', array('image_id'	=> $image_id));
-				redirect($route);
+				redirect($this->url->get_uri($route));
 			break;
 			case 'images_approve':
 				$route = $this->helper->route('phpbbgallery_moderate_image_approve', array('image_id'	=> $image_id));
-				redirect($route);
+				redirect($this->url->get_uri($route));
 			break;
 			case 'images_lock':
 				$route = $this->helper->route('phpbbgallery_moderate_image_lock', array('image_id'	=> $image_id));
-				redirect($route);
+				redirect($this->url->get_uri($route));
 			break;
 			case 'images_delete':
 				$route = $this->helper->route('phpbbgallery_image_delete', array('image_id'	=> $image_id));
-				redirect($route);
+				redirect($this->url->get_uri($route));
 			break;
 		}
 
