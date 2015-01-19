@@ -21,15 +21,13 @@ class gallery_logs_module
 	{
 		global $auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path, $phpbb_ext_gallery, $table_prefix, $phpbb_dispatcher, $request;
 		global $phpbb_container;
-		
+
 		$user->add_lang_ext('phpbbgallery/core', array('info_acp_gallery_logs'));
 		$this->tpl_name = 'gallery_logs';
 		add_form_key('acp_logs');
 		$page = $request->variable('page', 1);
 		$filter_log = $request->variable('lf', 'all');
 		$log = $phpbb_container->get('phpbbgallery.core.log');
-
-		
 
 		switch ($mode)
 		{
