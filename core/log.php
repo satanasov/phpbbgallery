@@ -13,7 +13,7 @@ namespace phpbbgallery\core;
 class log
 {
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\user_loader $user_loader, \phpbb\template\template $template,
-	\phpbb\controller\helper $helper, \phpbb\pagination $pagination,
+	\phpbb\controller\helper $helper, \phpbb\pagination $pagination, \phpbbgallery\core\auth\auth $gallery_auth,
 	$log_table)
 	{
 		$this->db = $db;
@@ -22,6 +22,7 @@ class log
 		$this->template = $template;
 		$this->helper = $helper;
 		$this->pagination = $pagination;
+		$this->gallery_auth = $gallery_auth;
 		$this->log_table = $log_table;
 	}
 
@@ -61,28 +62,54 @@ class log
 	* @param	(int)		$limit	How many items to show
 	* @param	(int)		$start	start count used to build paging
 	*/
-	public function build_list($type, $limit = 25, $page = 1, $album = 0)
+	public function build_list($type, $limit = 25, $page = 1, $album = 0, $image = 0, $additional = array())
 	{
 		$this->user->add_lang_ext('phpbbgallery/core', array('info_acp_gallery_logs'));
 
-		$sql = 'SELECT count(log_id) as count FROM ' . $this->log_table;
+		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$sql_array = array(
+			'FROM'	=> array(
+				$this->log_table	=> 'l',
+			),
+		);
+		$sql_where = array();
 		if ($type != 'all')
 		{
-			$sql .= ' WHERE log_type = \'' . $this->db->sql_escape($type) . '\'';
+			$sql_where[] = 'log_type = \'' . $this->db->sql_escape($type) . '\'';
 		}
-		$sql .= ' ORDER BY log_id DESC';
+		// If album is -1 we are calling it from ACP so ... prority!
+		// If album is 0 we are calling it from moderator log, so we need album we can access
+		if ($album === 0)
+		{
+			$mod_array = $this->gallery_auth->acl_album_ids('m_status');
+			// If no albums we can approve - quit building queue
+			if (empty($mod_array))
+			{
+				return;
+			}
+			$sql_where[] = $this->db->sql_in_set('album', $mod_array);
+		}
+		if ($album > 0)
+		{
+			if (!$this->gallery_auth->acl_check('i_view', $album))
+			{
+				return;
+			}
+			$sql_where[] = 'album = ' . $album;
+		}
+		$sql_array['WHERE'] = implode(' and ', $sql_where);
+		$sql_array['ORDER_BY'] = 'log_id DESC';
+		// So we need count - so define SELECT
+		$sql_array['SELECT'] = 'count(log_id) as count';
+		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 		$count = $row['count'];
 
-		$sql = 'SELECT * FROM ' . $this->log_table;
-		if ($type != 'all')
-		{
-			$sql .= ' WHERE log_type = \'' . $this->db->sql_escape($type) . '\'';
-		}
-		$sql .= ' ORDER BY log_id DESC';
-		$result = $this->db->sql_query_limit($sql, $limit, ($page - 1) * $limit);
+		$sql_array['SELECT'] = '*';
+		$sql = $this->db->sql_build_query('SELECT', $sql_array);
+		$result = $this->db->sql_query_limit($sql, 25, ($page - 1) * $limit);
 
 		$logouput = $users_array = array();
 		while ($row = $this->db->sql_fetchrow($result))
@@ -140,7 +167,12 @@ class log
 		}
 		else if ($album == -1)
 		{
-			$this->pagination->generate_template_pagination(append_sid('index.php?i=-phpbbgallery-core-acp-gallery_logs_module&mode=main'), 'pagination', 'page', $count, $limit, ($page-1) * $limit);
+			$url_array = array(
+				'i' => '-phpbbgallery-core-acp-gallery_logs_module',
+				'mode' => 'main',
+			);
+			$url = http_build_query($url_array,'','&');
+			$this->pagination->generate_template_pagination(append_sid('index.php?' . $url), 'pagination', 'page', $count, $limit, ($page-1) * $limit);
 		}
 	}
 }

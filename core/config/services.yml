@@ -171,6 +171,7 @@ services:
             - @template
             - @controller.helper
             - @pagination
+            - @phpbbgallery.core.auth
             - %tables.phpbbgallery.log%
 
 #######################

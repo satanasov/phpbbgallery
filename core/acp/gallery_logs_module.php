@@ -69,7 +69,7 @@ class gallery_logs_module
 				}
 				$this->page_title = $user->lang($title);
 
-				$log->build_list($filter_log, 25, $page/25 + 1, -1);
+				$log->build_list($filter_log, 25, (floor($page/25)) + 1, -1);
 			break;
 
 			default:
