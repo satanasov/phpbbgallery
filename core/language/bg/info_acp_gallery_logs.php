@@ -32,6 +32,8 @@ $lang = array_merge($lang, array(
 	'ACP_LOG_GALLERY_SYSTEM_EXP'					=> 'Системен лог с всички съобщяния свързани с действието на системата',
 	'LOG_GALLERY_SHOW_LOGS'						=> 'Покажи само',
 
+	'SORT_USER_ID'							=> 'User ID',
+
 	'LOG_ALBUM_ADD'							=> '<strong>Създаден нов албум</strong><br />» %s',
 	'LOG_ALBUM_DEL_ALBUM'					=> '<strong>Изтрит албум</strong><br />» %s',
 	'LOG_ALBUM_DEL_ALBUMS'					=> '<strong>Изтрити албум и подалбуми</strong><br />» %s',
@@ -47,7 +49,7 @@ $lang = array_merge($lang, array(
 	'LOG_ALBUM_MOVE_UP'						=> '<strong>Албум</strong> %1$s <strong>преместен над</strong> %2$s',
 	'LOG_ALBUM_SYNC'						=> '<strong>Ресинхронизиран албум</strong><br />» %s',
 
-	'LOG_CLEAR_GALLERY'					=> 'Изтрии лога на галерията',
+	'LOG_CLEAR_GALLERY'					=> 'Изтрит е лога на галерията',
 
 	'LOG_GALLERY_APPROVED'				=> '<strong>Одобрено изображение</strong><br />» %s',
 	'LOG_GALLERY_COMMENT_DELETED'		=> '<strong>Изтрит коментар</strong><br />» %s',
@@ -58,7 +60,7 @@ $lang = array_merge($lang, array(
 	'LOG_GALLERY_MOVED'					=> '<strong>Преместено изображение</strong><br />» от %1$s в %2$s',
 	'LOG_GALLERY_REPORT_CLOSED'			=> '<strong>Затворен доклад</strong><br />» %s',
 	'LOG_GALLERY_REPORT_DELETED'		=> '<strong>Изтрит доклад</strong><br />» %s',
-	'LOG_GALLERY_REPORT_OPENED'			=> '<strong>Подновен доклад</strong><br />» %s',
+	'LOG_GALLERY_REPORT_OPENED'			=> '<strong>Отворен доклад</strong><br />» %s',
 	'LOG_GALLERY_UNAPPROVED'			=> '<strong>Премахнато одобрение на изображение</strong><br />» %s',
 	'LOG_GALLERY_DISAPPROVED'			=> '<strong>Отхвърлено изображение</strong><br />» %s',
 

@@ -140,4 +140,5 @@ $lang = array_merge($lang, array(
 		1			=> 'Insgesamt wartet <span style="font-weight: bold;">1</span> Bild auf Freischaltung.',
 		2			=> 'Insgesamt warten <span style="font-weight: bold;">%s</span> Bilder auf Freischaltung.',
 	),
+	'NO_WAITING_UNAPPROVED_IMAGE'	=> 'No images waiting for approval.',
 ));

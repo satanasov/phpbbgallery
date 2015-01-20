@@ -219,7 +219,9 @@ class moderate
 		}
 
 		$this->template->assign_vars(array(
-			'U_GALLERY_APPROVE_QUEUE'				=> $this->helper->route('phpbbgallery_moderate_queue_approve'),
+			'U_GALLERY_MODERATE_OVERVIEW'	=>	$this->helper->route('phpbbgallery_moderate'),
+			'U_GALLERY_MODERATE_APPROVE'	=>	$this->helper->route('phpbbgallery_moderate_queue_approve'),
+			'U_GALLERY_MCP_LOGS'				=> $this->helper->route('phpbbgallery_moderate_action_log'),
 		));
 		$this->gallery_log->build_list('moderator', 25, $page);
 		return $this->helper->render('gallery/moderate_actions.html', $this->user->lang('GALLERY'));

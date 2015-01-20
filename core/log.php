@@ -56,6 +56,16 @@ class log
 	}
 
 	/**
+	* Delete logs
+	* @param	(array)	$mark	Logs selected for deletion
+	**/
+	public function delete_logs($mark)
+	{
+		$sql = 'DELETE FROM ' . $this->log_table . ' WHERE ' . $this->db->sql_in_set('log_id', $mark);
+		$this->db->sql_query($sql);
+		$this->add_log('admin', 'log', 0, 0, array('LOG_CLEAR_GALLERY'));
+	}
+	/**
 	* Build log list
 	*
 	* @param	(string)	$type	Type of queue to build user/mod/admin/system
@@ -97,8 +107,36 @@ class log
 			}
 			$sql_where[] = 'album = ' . $album;
 		}
+		if ($image > 0)
+		{
+			$sql_where[] = 'image = ' . $image;
+		}
+		if (isset($additional['sort_days']))
+		{
+			$sql_where[] = 'log_time > ' . (time() - ($additional['sort_days'] * 86400));
+		}
+		// And additional check for "active" logs (DB admin can review logs in DB)
+		$sql_where[] = 'deleted = 0';
 		$sql_array['WHERE'] = implode(' and ', $sql_where);
-		$sql_array['ORDER_BY'] = 'log_id DESC';
+		if (isset($additional['sort_key']))
+		{
+			switch($additional['sort_key'])
+			{
+				case 'u':
+					$sql_array['ORDER_BY'] = 'log_user ' . (isset($additional['sort_dir']) ? 'ASC' : 'DESC');
+				break;
+				case 'i':
+					$sql_array['ORDER_BY'] = 'log_ip ' . (isset($additional['sort_dir']) ? 'ASC' : 'DESC');
+				break;
+				case 'o':
+					$sql_array['ORDER_BY'] = 'description ' . (isset($additional['sort_dir']) ? 'ASC' : 'DESC');
+				break;
+			}
+		}
+		else
+		{
+			$sql_array['ORDER_BY'] = 'log_time ' . (isset($additional['sort_dir']) ? 'ASC' : 'DESC');
+		}
 		// So we need count - so define SELECT
 		$sql_array['SELECT'] = 'count(log_id) as count';
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
@@ -171,7 +209,20 @@ class log
 				'i' => '-phpbbgallery-core-acp-gallery_logs_module',
 				'mode' => 'main',
 			);
+			if (isset($additional['sort_days']))
+			{
+				$url_array['st'] = $additional['sort_days'];
+			}
+			if (isset($additional['sort_key']))
+			{
+				$url_array['sk'] = $additional['sort_key'];
+			}
+			if (isset($additional['sort_dir']))
+			{
+				$url_array['sd'] = $additional['sort_dir'];
+			}
 			$url = http_build_query($url_array,'','&');
+
 			$this->pagination->generate_template_pagination(append_sid('index.php?' . $url), 'pagination', 'page', $count, $limit, ($page-1) * $limit);
 		}
 	}

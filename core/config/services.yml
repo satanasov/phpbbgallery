@@ -97,6 +97,8 @@ services:
             - @config
     phpbbgallery.core.report:
         class: phpbbgallery\core\report
+        arguments:
+            - @phpbbgallery.core.log
     phpbbgallery.core.comment:
         class: phpbbgallery\core\comment
         arguments:
