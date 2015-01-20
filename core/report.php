@@ -81,7 +81,7 @@ class report
 				WHERE ' . $db->sql_in_set('image_reported', $report_ids);
 			$db->sql_query($sql);
 			// Cool, but we have log it!
-			$sql = 'SELECT image_id, album_id FROM ' $table_prefix . 'gallery_images WHERE ' . $db->sql_in_set('image_reported', $report_ids);
+			$sql = 'SELECT image_id, album_id FROM ' . $table_prefix . 'gallery_images WHERE ' . $db->sql_in_set('image_reported', $report_ids);
 			$result = $db->sql_query($sql);
 			while ($row = $db->sql_fetchrow($result))
 			{
