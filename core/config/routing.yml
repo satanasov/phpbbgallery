@@ -1,3 +1,6 @@
+###############################
+#### Gallery index routes #####
+###############################
 phpbbgallery_index:
     pattern: /gallery
     defaults: { _controller: phpbbgallery.core.controller.index:base }
@@ -11,6 +14,9 @@ phpbbgallery_personal_page:
     pattern: /gallery/users/{page}
     defaults: { _controller: phpbbgallery.core.controller.index:personal }
 
+##################################
+#### Album controller routes #####
+##################################
 phpbbgallery_album:
     pattern: /gallery/album/{album_id}
     defaults: { _controller: phpbbgallery.core.controller.album:base, page: 1 }
@@ -21,6 +27,9 @@ phpbbgallery_album_upload:
     pattern: /gallery/album/{album_id}/upload
     defaults: { _controller: phpbbgallery.core.controller.upload:main }
 
+##################################
+#### Image controller routes #####
+##################################
 phpbbgallery_image:
     pattern: /gallery/image/{image_id}
     defaults: { _controller: phpbbgallery.core.controller.image:base, page: 1 }
@@ -49,6 +58,9 @@ phpbbgallery_image_rate:
     pattern: /gallery/comment/{image_id}/rate
     defaults: { _controller: phpbbgallery.core.controller.comment:rate }
 
+############################
+#### Image file routes #####
+############################
 phpbbgallery_image_file_source:
     pattern: /gallery/image/{image_id}/source
     defaults: { _controller: phpbbgallery.core.controller.file:source }
@@ -59,6 +71,9 @@ phpbbgallery_image_file_mini:
     pattern: /gallery/image/{image_id}/mini
     defaults: { _controller: phpbbgallery.core.controller.file:mini }
 
+###################################
+#### Moderate overview routes #####
+###################################
 phpbbgallery_moderate:
     pattern: /gallery/moderate
     defaults: { _controller: phpbbgallery.core.controller.moderate:base }
@@ -74,9 +89,17 @@ phpbbgallery_moderate_action_log:
 phpbbgallery_moderate_action_log_page:
     pattern: /gallery/moderate/actions/{page}
     defaults: { _controller: phpbbgallery.core.controller.moderate:action_log}
+
+################################
+#### Moderate album routes #####
+################################
 phpbbgallery_moderate_album:
     pattern: /gallery/moderate/album/{album_id}
     defaults: { _controller: phpbbgallery.core.controller.moderate:base }
+
+################################
+#### Moderate image routes #####
+################################
 phpbbgallery_moderate_image:
     pattern: /gallery/moderate/image/{image_id}
     defaults: { _controller: phpbbgallery.core.controller.moderate:image }
@@ -93,6 +116,9 @@ phpbbgallery_moderate_image_lock:
     pattern: /gallery/moderate/image/{image_id}/lock
     defaults: { _controller: phpbbgallery.core.controller.moderate:lock }
 
+########################
+#### Search routes #####
+########################
 phpbbgallery_search:
     pattern: /gallery/search
     defaults: { _controller: phpbbgallery.core.controller.search:base }
