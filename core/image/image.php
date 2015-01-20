@@ -130,7 +130,7 @@ class image
 		$phpbb_gallery_image_rating = new \phpbbgallery\core\rating($images);
 		$phpbb_gallery_comment = $phpbb_container->get('phpbbgallery.core.comment');
 		$phpbb_gallery_notification = new \phpbbgallery\core\notification();
-		$phpbb_gallery_report = new \phpbbgallery\core\report();
+		$phpbb_gallery_report = $phpbb_container->get('phpbbgallery.core.report');
 		$phpbb_gallery_contest = new \phpbbgallery\core\contest();
 		if (empty($images))
 		{

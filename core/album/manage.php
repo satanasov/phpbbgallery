@@ -755,7 +755,7 @@ class manage
 		$phpbb_ext_gallery_core_image = $phpbb_container->get('phpbbgallery.core.image');
 		$phpbb_gallery_notification = new \phpbbgallery\core\notification();
 		$phpbb_gallery_config = $phpbb_container->get('phpbbgallery.core.config');
-		$phpbb_gallery_report = new \phpbbgallery\core\report();
+		$phpbb_gallery_report = $phpbb_container->get('phpbbgallery.core.report');
 		$phpbb_ext_gallery_core_album = new \phpbbgallery\core\album\album();
 		// Lucifer TODO - Log to gallery log
 		//$sql = 'UPDATE ' . LOG_TABLE . "
