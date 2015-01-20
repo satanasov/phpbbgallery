@@ -32,6 +32,8 @@ $lang = array_merge($lang, array(
 	'ACP_LOG_GALLERY_SYSTEM_EXP'						=> 'System log',
 	'LOG_GALLERY_SHOW_LOGS'						=> 'Show only',
 
+	'SORT_USER_ID'							=> 'User ID',
+
 	'LOG_ALBUM_ADD'							=> '<strong>Created new album</strong><br />» %s',
 	'LOG_ALBUM_DEL_ALBUM'					=> '<strong>Deleted album</strong><br />» %s',
 	'LOG_ALBUM_DEL_ALBUMS'					=> '<strong>Deleted album and its subalbums</strong><br />» %s',

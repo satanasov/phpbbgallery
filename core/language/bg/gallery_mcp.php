@@ -139,4 +139,5 @@ $lang = array_merge($lang, array(
 		1			=> 'In total there is <span style="font-weight: bold;">1</span> image waiting for approval.',
 		2			=> 'In total there are <span style="font-weight: bold;">%s</span> images waiting for approval.',
 	),
+	'NO_WAITING_UNAPPROVED_IMAGE'	=> 'Няма изображения чакащи одобрение.',
 ));

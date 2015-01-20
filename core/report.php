@@ -21,6 +21,10 @@ class report
 	const OPEN = 1;
 	const LOCKED = 2;
 
+	public function __construct(\phpbbgallery\core\log $gallery_log)
+	{
+		$this->gallery_log = $gallery_log;
+	}
 	/**
 	* Report an image
 	*/
@@ -46,6 +50,8 @@ class report
 			SET image_reported = ' . $report_id . '
 			WHERE image_id = ' . (int) $data['report_image_id'];
 		$db->sql_query($sql);
+		
+		$this->gallery_log->add_log('moderator', 'reportopen', $data['report_album_id'], $data['report_image_id'], array('LOG_GALLERY_REPORT_OPENED', $data['report_note']));
 	}
 
 	/**
@@ -74,6 +80,13 @@ class report
 				SET image_reported = ' . self::UNREPORTED . '
 				WHERE ' . $db->sql_in_set('image_reported', $report_ids);
 			$db->sql_query($sql);
+			// Cool, but we have log it!
+			$sql = 'SELECT image_id, album_id FROM ' $table_prefix . 'gallery_images WHERE ' . $db->sql_in_set('image_reported', $report_ids);
+			$result = $db->sql_query($sql);
+			while ($row = $db->sql_fetchrow($result))
+			{
+				$this->gallery_log->add_log('moderator', 'reportclosed', (int) $row['album_id'], (int) $row['image_id'], array('LOG_GALLERY_REPORT_OPENED', 'Closed'));
+			}
 		}
 		else
 		{
@@ -88,8 +101,10 @@ class report
 					SET image_reported = ' . (int) $row['report_id'] . '
 					WHERE image_id = ' . (int) $row['report_image_id'];
 				$db->sql_query($sql);
+				$this->gallery_log->add_log('moderator', 'reportopen', 0, (int) $row['report_image_id'], array('LOG_GALLERY_REPORT_OPENED', 'Reopened'));
 			}
 			$db->sql_freeresult($result);
+			
 		}
 	}
 
