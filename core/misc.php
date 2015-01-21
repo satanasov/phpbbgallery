@@ -30,7 +30,8 @@ class misc
 
 	static public function not_authorised($backlink, $loginlink = '', $login_explain = '')
 	{
-		global $user;
+		global $user, $phpbb_container;
+		$url = $phpbb_container->get('phpbbgallery.core.url');
 
 		if (!$user->data['is_registered'] && $loginlink)
 		{
@@ -46,7 +47,7 @@ class misc
 		}
 		else
 		{
-			meta_refresh(3, $backlink);
+			$url->meta_refresh(3, $backlink);
 			trigger_error('NOT_AUTHORISED');
 		}
 	}

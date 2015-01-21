@@ -13,7 +13,7 @@ namespace phpbbgallery\core;
 class log
 {
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\user_loader $user_loader, \phpbb\template\template $template,
-	\phpbb\controller\helper $helper, \phpbb\pagination $pagination, \phpbbgallery\core\auth\auth $gallery_auth,
+	\phpbb\controller\helper $helper, \phpbb\pagination $pagination, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\config $gallery_config,
 	$log_table)
 	{
 		$this->db = $db;
@@ -23,6 +23,7 @@ class log
 		$this->helper = $helper;
 		$this->pagination = $pagination;
 		$this->gallery_auth = $gallery_auth;
+		$this->gallery_config = $gallery_config;
 		$this->log_table = $log_table;
 	}
 
@@ -72,8 +73,12 @@ class log
 	* @param	(int)		$limit	How many items to show
 	* @param	(int)		$start	start count used to build paging
 	*/
-	public function build_list($type, $limit = 25, $page = 1, $album = 0, $image = 0, $additional = array())
+	public function build_list($type, $limit = 0, $page = 1, $album = 0, $image = 0, $additional = array())
 	{
+		if ($limit == 0)
+		{
+			$limit = $this->gallery_config->get('items_per_page');
+		}
 		$this->user->add_lang_ext('phpbbgallery/core', array('info_acp_gallery_logs'));
 
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
@@ -224,6 +229,18 @@ class log
 			$url = http_build_query($url_array,'','&');
 
 			$this->pagination->generate_template_pagination(append_sid('index.php?' . $url), 'pagination', 'page', $count, $limit, ($page-1) * $limit);
+		}
+		else
+		{
+			$this->pagination->generate_template_pagination(array(
+				'routes' => array(
+					'phpbbgallery_moderate_action_log_album',
+					'phpbbgallery_moderate_action_log_album_page',
+				),
+				'params' => array(
+					'album_id'	=> $album,
+				),
+			), 'pagination', 'page', $count, $limit, ($page-1) * $limit);
 		}
 	}
 }

@@ -76,19 +76,19 @@ phpbbgallery_image_file_mini:
 ###################################
 phpbbgallery_moderate:
     pattern: /gallery/moderate
-    defaults: { _controller: phpbbgallery.core.controller.moderate:base }
+    defaults: { _controller: phpbbgallery.core.controller.moderate:base, album_id: 0 }
 phpbbgallery_moderate_queue_approve:
     pattern: /gallery/moderate/approve
-    defaults: { _controller: phpbbgallery.core.controller.moderate:queue_approve, page: 1 }
+    defaults: { _controller: phpbbgallery.core.controller.moderate:queue_approve, page: 1, album_id: 0 }
 phpbbgallery_moderate_queue_approve_page:
     pattern: /gallery/moderate/approve/{page}
-    defaults: { _controller: phpbbgallery.core.controller.moderate:queue_approve}
+    defaults: { _controller: phpbbgallery.core.controller.moderate:queue_approve, album_id: 0}
 phpbbgallery_moderate_action_log:
     pattern: /gallery/moderate/actions
-    defaults: { _controller: phpbbgallery.core.controller.moderate:action_log, page: 1 }
+    defaults: { _controller: phpbbgallery.core.controller.moderate:action_log, page: 1, album_id: 0 }
 phpbbgallery_moderate_action_log_page:
     pattern: /gallery/moderate/actions/{page}
-    defaults: { _controller: phpbbgallery.core.controller.moderate:action_log}
+    defaults: { _controller: phpbbgallery.core.controller.moderate:action_log, album_id: 0}
 
 ################################
 #### Moderate album routes #####
@@ -96,7 +96,18 @@ phpbbgallery_moderate_action_log_page:
 phpbbgallery_moderate_album:
     pattern: /gallery/moderate/album/{album_id}
     defaults: { _controller: phpbbgallery.core.controller.moderate:base }
-
+phpbbgallery_moderate_queue_approve_album:
+    pattern: /gallery/moderate/album/{album_id}/approve
+    defaults: { _controller: phpbbgallery.core.controller.moderate:queue_approve, page: 1 }
+phpbbgallery_moderate_queue_approve_album_page:
+    pattern: /gallery/moderate/album/{album_id}/approve/{page}
+    defaults: { _controller: phpbbgallery.core.controller.moderate:queue_approve}
+phpbbgallery_moderate_action_log_album:
+    pattern: /gallery/moderate/album/{album_id}/actions
+    defaults: { _controller: phpbbgallery.core.controller.moderate:action_log, page: 1 }
+phpbbgallery_moderate_action_log_album_page:
+    pattern: /gallery/moderate/album/{album_id}/actions/{page}
+    defaults: { _controller: phpbbgallery.core.controller.moderate:action_log}
 ################################
 #### Moderate image routes #####
 ################################

@@ -489,7 +489,7 @@ class auth
 			// Yes, from viewonline.php
 			if (!$_album_list)
 			{
-				$_album_list = $this->cache->obtain_album_list();
+				$_album_list = $this->cache->get_albums();
 			}
 			if (!isset($_album_list[$a_id]))
 			{

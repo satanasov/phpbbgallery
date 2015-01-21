@@ -36,13 +36,8 @@ class moderate
 	* @param	(int)		$page	This queue builder should return objects for MCP queues, so page?
 	* @param	(int)		$count	We need how many elements per page
 	*/
-	public function build_queue($type, $target, $page = 0, $per_page = 0)
+	public function build_list($album, $page = 1, $per_page = 0)
 	{
-		if (!$type || !$target)
-		{
-			return;
-		}
-
 		// So if we are not forcing par page get it from config
 		if ($per_page == 0)
 		{
@@ -50,189 +45,107 @@ class moderate
 		}
 		// Let's get albums that user can moderate
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
-		switch($target)
+
+		// Get albums we can approve in
+		$mod_array = array();
+		if ($album === 0)
 		{
-			case 'report_image_open':
-				// Get albums we can approve in
-				$mod_array = $this->gallery_auth->acl_album_ids('m_report');
+			$mod_array = $this->gallery_auth->acl_album_ids('m_status');
+		}
+		else
+		{
+			$mod_array = array($album);
+		}
+		// Let's get count of unaproved
+		$sql = 'SELECT COUNT(image_id) as count 
+			FROM ' . $this->images_table . ' 
+			WHERE image_status = ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ' and ' . $this->db->sql_in_set('image_album_id', $mod_array) . '
+			ORDER BY image_id DESC';
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
+		$count = $row['count'];
+		// If user has no albums to have e return him
+		$sql = 'SELECT * 
+			FROM ' . $this->images_table . ' 
+			WHERE image_status = ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ' and ' . $this->db->sql_in_set('image_album_id', $mod_array) . '
+			ORDER BY image_id DESC';
+		$page = $page - 1;
+		$result = $this->db->sql_query_limit($sql, $per_page, $page * $per_page);
 
-				// If no albums we can approve - quit building queue
-				if (empty($mod_array))
-				{
-					return;
-				}
-				// Let's get reports and images
-				$sql_array = array(
-					'SELECT'	=> 'i.image_id, i.image_name, i.image_user_id, i.image_username, i.image_user_colour, i.image_time, i.image_album_id, r.report_id, r.reporter_id, r.report_time',
-					'FROM'	=> array(
-						$this->images_table => 'i',
-						$this->reports_table	=> 'r',
-					),
-					'WHERE'	=> 'i.image_id = r.report_image_id and i.image_reported and r.report_status = 1 and ' . $this->db->sql_in_set('i.image_album_id', $mod_array),
-					'ORBER_BY'	=> 'r.report_id DESC'
-				);
-				$sql = $this->db->sql_build_query('SELECT', $sql_array);
+		$waiting_images = $users_array = array();
+		while($row = $this->db->sql_fetchrow($result))
+		{
+			$waiting_images[] = array(
+				'image_id' => $row['image_id'],
+				'image_name'	=> $row['image_name'],
+				'image_author'	=> (int) $row['image_user_id'],
+				'image_time'	=> $row['image_time'],
+				'image_album_id'	=> $row['image_album_id'],
+			);
+			$users_array[$row['image_user_id']] = array('');
+		}
+		$this->db->sql_freeresult($result);
 
-				if ($type == 'short')
-				{
-					//We build last 5 for short
-					$result = $this->db->sql_query_limit($sql, 5, 0);
-				}
+		if (empty($users_array))
+		{
+			return;
+		}
 
-				$reported_images = $users_array = array();
+		// Load users
+		$this->user_loader->load_users(array_keys($users_array));
 
-				// Build few arrays
-				while($row = $this->db->sql_fetchrow($result))
-				{
-					$reported_images[] = array(
-						'image_id'	=> $row['image_id'],
-						'image_name'	=> $row['image_name'],
-						'image_username'	=> $row['image_username'],
-						'image_user_id'	=> $row['image_user_id'],
-						'image_user_colour'	=> $row['image_user_colour'],
-						'image_time'	=> $row['image_time'],
-						'image_album_id'	=> $row['image_album_id'],
-						'report_id'	=> $row['report_id'],
-						'reporter_id'	=> $row['reporter_id'],
-						'report_time'	=> $row['report_time'],
-					);
-					$users_array[$row['reporter_id']] = array('');
-					$users_array[$row['image_user_id']] = array('');
-				}
-				$this->db->sql_freeresult($result);
-
-				if (empty($users_array))
-				{
-					return;
-				}
-
-				// Load users
-				$this->user_loader->load_users(array_keys($users_array));
-
-				$reported_images_count = 0;
-				foreach($reported_images as $VAR)
-				{
-					$album = $this->album->get_info($VAR['image_album_id']);
-					$this->template->assign_block_vars('report_image_open', array(
-						'U_IMAGE_ID'	=> $VAR['image_id'],
-						'U_IMAGE'	=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $VAR['image_id'])),
-						'U_IMAGE_URL'	=> $this->helper->route('phpbbgallery_image', array('image_id' => $VAR['image_id'])),
-						'U_IMAGE_NAME'	=> $VAR['image_name'],
-						'IMAGE_AUTHOR'	=> $this->user_loader->get_username($VAR['image_user_id'], 'full'),
-						'IMAGE_TIME'	=> $this->user->format_date($VAR['image_time']),
-						'IMAGE_ALBUM'	=> $album['album_name'],
-						'IMAGE_ALBUM_URL'	=> $this->helper->route('phpbbgallery_album', array('album_id' => $VAR['image_album_id'])),
-						//'REPORT_URL'	=> $this->helper->route('phpbbgallery_moderate_report', array('image_id' => $row['r.report_id'])),
-						'REPORT_AUTHOR'	=> $this->user_loader->get_username($VAR['reporter_id'], 'full'),
-						'REPORT_TIME'	=> $this->user->format_date($VAR['report_time']),
-					));
-					unset($album);
-					$reported_images_count ++;
-				}
-				if ($reported_images_count > 0)
-				{
-					$this->template->assign_vars(array(
-						'TOTAL_IMAGES_REPORTED' => $reported_images_count,
-					));
-				}
-			break;
-
-			case 'image_waiting':
-				// Get albums we can approve in
-				$mod_array = $this->gallery_auth->acl_album_ids('m_status');
-
-				// If no albums we can approve - quit building queue
-				if (empty($mod_array))
-				{
-					return;
-				}
-
-				// Let's get count of unaproved
-				$sql = 'SELECT COUNT(image_id) as count 
-					FROM ' . $this->images_table . ' 
-					WHERE image_status = ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ' and ' . $this->db->sql_in_set('image_album_id', $mod_array) . '
-					ORDER BY image_id DESC';
-				$result = $this->db->sql_query($sql);
-				$row = $this->db->sql_fetchrow($result);
-				$this->db->sql_freeresult($result);
-				$count = $row['count'];
-				// If user has no albums to have e return him
-				$sql = 'SELECT * 
-					FROM ' . $this->images_table . ' 
-					WHERE image_status = ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ' and ' . $this->db->sql_in_set('image_album_id', $mod_array) . '
-					ORDER BY image_id DESC';
-				if ($type == 'short')
-				{
-					//We build last 5 for short
-					$result = $this->db->sql_query_limit($sql, 5, 0);
-				}
-				if ($type == 'full')
-				{
-					$page = $page - 1;
-					$result = $this->db->sql_query_limit($sql, $per_page, $page * $per_page);
-				}
-
-				$waiting_images = $users_array = array();
-				while($row = $this->db->sql_fetchrow($result))
-				{
-					$waiting_images[] = array(
-						'image_id' => $row['image_id'],
-						'image_name'	=> $row['image_name'],
-						'image_author'	=> (int) $row['image_user_id'],
-						'image_time'	=> $row['image_time'],
-						'image_album_id'	=> $row['image_album_id'],
-					);
-					$users_array[$row['image_user_id']] = array('');
-				}
-				$this->db->sql_freeresult($result);
-
-				if (empty($users_array))
-				{
-					return;
-				}
-
-				// Load users
-				$this->user_loader->load_users(array_keys($users_array));
-
-				foreach ($waiting_images as $VAR)
-				{
-					$album = $this->album->get_info($VAR['image_album_id']);
-					$this->template->assign_block_vars('unaproved', array(
-						'U_IMAGE_ID'	=> $VAR['image_id'],
-						'U_IMAGE'	=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $VAR['image_id'])),
-						'U_IMAGE_URL'	=> $this->helper->route('phpbbgallery_image', array('image_id' => $VAR['image_id'])),
-						'U_IMAGE_MODERATE_URL'	=> $this->helper->route('phpbbgallery_moderate_image', array('image_id'	=> $VAR['image_id'])),
-						'U_IMAGE_NAME'	=> $VAR['image_name'],
-						'IMAGE_AUTHOR'	=> $this->user_loader->get_username($VAR['image_author'], 'full'),
-						'IMAGE_TIME'	=> $this->user->format_date($VAR['image_time']),
-						'IMAGE_ALBUM'	=> $album['album_name'],
-						'IMAGE_ALBUM_URL'	=> $this->helper->route('phpbbgallery_album', array('album_id' => $VAR['image_album_id'])),
-						'IMAGE_ALBUM_ID'	=> $VAR['image_album_id'],
-					));
-					unset($album);
-					$waiting_images ++;
-				}
-				$this->template->assign_vars(array(
-					'TOTAL_IMAGES_WAITING' => $this->user->lang('WAITING_UNAPPROVED_IMAGE', (int) $count),
-					'S_HAS_UNAPPROVED_IMAGES'=> ($count != 0),
-					'S_GALLERY_APPROVE_ACTION'	=> $this->helper->route('phpbbgallery_moderate_queue_approve'),
-				));
-				// If we are building full we will need to build pagination
-				if ($type == 'full')
-				{
-					$this->pagination->generate_template_pagination(array(
-						'routes' => array(
-							'phpbbgallery_moderate_queue_approve',
-							'phpbbgallery_moderate_queue_approve_page',
-						),
-						'params' => array(
-						),
-					), 'pagination', 'page', $count, $per_page, $page * $per_page);
-					$this->template->assign_vars(array(
-						'TOTAL_PAGES'				=> $this->user->lang('PAGE_TITLE_NUMBER', $page + 1),
-					));
-				}
-			break;
+		foreach ($waiting_images as $VAR)
+		{
+			$album_tmp = $this->album->get_info($VAR['image_album_id']);
+			$this->template->assign_block_vars('unaproved', array(
+				'U_IMAGE_ID'	=> $VAR['image_id'],
+				'U_IMAGE'	=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $VAR['image_id'])),
+				'U_IMAGE_URL'	=> $this->helper->route('phpbbgallery_image', array('image_id' => $VAR['image_id'])),
+				'U_IMAGE_MODERATE_URL'	=> $this->helper->route('phpbbgallery_moderate_image', array('image_id'	=> $VAR['image_id'])),
+				'U_IMAGE_NAME'	=> $VAR['image_name'],
+				'IMAGE_AUTHOR'	=> $this->user_loader->get_username($VAR['image_author'], 'full'),
+				'IMAGE_TIME'	=> $this->user->format_date($VAR['image_time']),
+				'IMAGE_ALBUM'	=> $album_tmp['album_name'],
+				'IMAGE_ALBUM_URL'	=> $this->helper->route('phpbbgallery_album', array('album_id' => $VAR['image_album_id'])),
+				'IMAGE_ALBUM_ID'	=> $VAR['image_album_id'],
+			));
+			unset($album_tmp);
+			$waiting_images ++;
+		}
+		$this->template->assign_vars(array(
+			'TOTAL_IMAGES_WAITING' => $this->user->lang('WAITING_UNAPPROVED_IMAGE', (int) $count),
+			'S_HAS_UNAPPROVED_IMAGES'=> ($count != 0),
+			'S_GALLERY_APPROVE_ACTION'	=> $album > 0 ? $this->helper->route('phpbbgallery_moderate_queue_approve_album', array('album_id' => $album)) : $this->helper->route('phpbbgallery_moderate_queue_approve'),
+		));
+		if ($album === 0)
+		{
+			$this->pagination->generate_template_pagination(array(
+				'routes' => array(
+					'phpbbgallery_moderate_queue_approve',
+					'phpbbgallery_moderate_queue_approve_page',
+				),
+				'params' => array(
+				),
+			), 'pagination', 'page', $count, $per_page, $page * $per_page);
+			$this->template->assign_vars(array(
+				'TOTAL_PAGES'				=> $this->user->lang('PAGE_TITLE_NUMBER', $page + 1),
+			));
+		}
+		else
+		{
+			$this->pagination->generate_template_pagination(array(
+				'routes' => array(
+					'phpbbgallery_moderate_queue_approve_album',
+					'phpbbgallery_moderate_queue_approve_album_page',
+				),
+				'params' => array(
+					'album_id'	=> $album,
+				),
+			), 'pagination', 'page', $count, $per_page, $page * $per_page);
+			$this->template->assign_vars(array(
+				'TOTAL_PAGES'				=> $this->user->lang('PAGE_TITLE_NUMBER', $page + 1),
+			));
 		}
 	}
 }
