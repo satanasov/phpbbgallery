@@ -152,7 +152,7 @@ class log
 
 		$sql_array['SELECT'] = '*';
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
-		$result = $this->db->sql_query_limit($sql, 25, ($page - 1) * $limit);
+		$result = $this->db->sql_query_limit($sql, $limit, ($page - 1) * $limit);
 
 		$logouput = $users_array = array();
 		while ($row = $this->db->sql_fetchrow($result))

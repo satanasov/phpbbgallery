@@ -20,45 +20,7 @@
 			<div id="cp-main" class="mcp-main panel-container">
 				<h2>{L_GALLERY_MCP_MAIN}</h2>
 				<!-- INCLUDE gallery/moderate_approve_queue.html -->
-				<div class="panel">
-					<div class="inner">
-						<h3>{L_LATEST_IMAGES_REPORTED}</h3>
-						<!-- IF TOTAL_IMAGES_REPORTED -->
-							<ul class="topiclist two-long-columns">
-								<li class="header">
-									<dl>
-										<dt><div class="list-inner">{L_GALLERY_MCP_QUEUE_DETAIL}</div></dt>
-										<dd class="moderation"><span>{L_GALLERY_MCP_REPO_DETAIL}</span></dd>
-									</dl>
-								</li>
-							</ul>
-							<ul class="topiclist cplist two-long-columns responsive-show-all">
-							<!-- BEGIN report_image_open -->
-								<li class="row<!-- IF report_image_open.S_ROW_COUNT is odd --> bg1<!-- ELSE --> bg2<!-- ENDIF -->">
-									<dl>
-										<dt>
-											<div class="list-inner">
-												<span style="display: inline; float: left;">
-													<a href="{report_image_open.U_IMAGE_URL}"><img style="max-width: 70px; max-height: 70px;" src="{report_image_open.U_IMAGE}" alt="{report_image_open.U_IMAGE_NAME}"></a>
-												</span>
-												<span style="margin-left: 10px;">
-													<a href="{report_image_open.REPORT_URL}" class="topictitle">{report_image_open.U_IMAGE_NAME}</a><br />
-													<span style="margin-left: 10px; vertical-align: middle;">{L_UPLOADED_BY_USER}: {report_image_open.IMAGE_AUTHOR} &raquo; {report_image_open.IMAGE_TIME} {L_ALBUM}: {report_image_open.IMAGE_ALBUM}</span>
-												</span>
-											</div>
-										</dt>
-										<dd class="moderation">
-											{L_REPORT_BY} : {report_image_open.REPORT_AUTHOR} &raquo; {report_image_open.REPORT_TIME}
-										</dd>
-									</dl>
-								</li>
-							<!-- END report_image_open -->
-							</ul>
-						<!-- ELSE -->
-							<p>{L_REPORT_NOT_FOUND}</p>
-						<!-- ENDIF -->
-					</div>
-				</div>
+				<!-- INCLUDE gallery/moderate_report_queue.html -->
 				<!-- INCLUDE gallery/moderate_actions_queue.html -->
 			</div>
 		</div>

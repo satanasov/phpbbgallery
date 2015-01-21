@@ -99,6 +99,15 @@ services:
         class: phpbbgallery\core\report
         arguments:
             - @phpbbgallery.core.log
+            - @phpbbgallery.core.auth
+            - @user
+            - @dbal.conn
+            - @user_loader
+            - @phpbbgallery.core.album
+            - @template
+            - @controller.helper
+            - %tables.phpbbgallery.images%
+            - %tables.phpbbgallery.reports%
     phpbbgallery.core.comment:
         class: phpbbgallery\core\comment
         arguments:
@@ -128,7 +137,6 @@ services:
             - @pagination
             - @phpbbgallery.core.config
             - %tables.phpbbgallery.images%
-            - %tables.phpbbgallery.reports%
     phpbbgallery.core.search:
         class: phpbbgallery\core\search
         arguments:
@@ -360,6 +368,7 @@ services:
             - @phpbbgallery.core.notification.helper
             - @phpbbgallery.core.url
             - @phpbbgallery.core.log
+            - @phpbbgallery.core.report
             - %core.root_path%
             - %core.php_ext%
 

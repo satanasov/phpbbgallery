@@ -59,7 +59,7 @@ class moderate
 	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request,
 	\phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbbgallery\core\album\display $display, \phpbbgallery\core\moderate $moderate,
 	\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\misc $misc, \phpbbgallery\core\album\album $album, \phpbbgallery\core\image\image $image,
-	\phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\url $url, \phpbbgallery\core\log $gallery_log,
+	\phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\url $url, \phpbbgallery\core\log $gallery_log, \phpbbgallery\core\report $report,
 	$root_path, $php_ext)
 	{
 		$this->auth = $auth;
@@ -78,6 +78,7 @@ class moderate
 		$this->notification_helper = $notification_helper;
 		$this->url = $url;
 		$this->gallery_log = $gallery_log;
+		$this->report = $report;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 	}
@@ -115,7 +116,7 @@ class moderate
 		// This is the overview page, so we will need to create some queries
 		// We will use the special moderate helper
 
-		//$this->moderate->build_queue('short', 'report_image_open');
+		$this->report->build_list($album_id, 1, 5);
 		$this->moderate->build_list($album_id, 1, 5);
 		$this->gallery_log->build_list('moderator', 5, 1, $album_id);
 
