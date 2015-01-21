@@ -88,14 +88,25 @@ class moderate
 	*
 	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
 	*/
-	public function base()
+	public function base($album_id = 0)
 	{
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
-		$album_backlink = append_sid('/gallery');
+		$album_backlink = $album_id === 0 ? $this->helper->route('phpbbgallery_moderate') : $this->helper->route('phpbbgallery_moderate_album', array('album_id'	=> $album_id));
 		$album_loginlink = append_sid('/ucp.php?mode=login');
-		if (!$this->gallery_auth->acl_check_global('m_'))
+		if ($album_id === 0)
 		{
-			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+			if (!$this->gallery_auth->acl_check_global('m_'))
+			{
+				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+			}
+		}
+		else
+		{
+			$album = $this->album->get_info($album_id);
+			if (!$this->gallery_auth->acl_check('m_', $album['album_id'], $album['album_user_id']))
+			{
+				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+			}
 		}
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery_mcp'));
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
@@ -104,14 +115,15 @@ class moderate
 		// This is the overview page, so we will need to create some queries
 		// We will use the special moderate helper
 
-		$this->moderate->build_queue('short', 'report_image_open');
-		$this->moderate->build_queue('short', 'image_waiting');
-		$this->gallery_log->build_list('moderator', 5);
+		//$this->moderate->build_queue('short', 'report_image_open');
+		$this->moderate->build_list($album_id, 1, 5);
+		$this->gallery_log->build_list('moderator', 5, 1, $album_id);
 
 		$this->template->assign_vars(array(
-			'U_GALLERY_MODERATE_OVERVIEW'	=>	$this->helper->route('phpbbgallery_moderate'),
-			'U_GALLERY_MODERATE_APPROVE'	=>	$this->helper->route('phpbbgallery_moderate_queue_approve'),
+			'U_GALLERY_MODERATE_OVERVIEW'	=>	$album_id > 0 ? $this->helper->route('phpbbgallery_moderate_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate'),
+			'U_GALLERY_MODERATE_APPROVE'	=>	$album_id > 0 ? $this->helper->route('phpbbgallery_moderate_queue_approve_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate_queue_approve'),
 			'U_OVERVIEW'					=> true,
+			'U_ALBUM_NAME'					=> $album_id > 0 ? $album['album_name'] : false, 
 		));
 
 		return $this->helper->render('gallery/moderate_overview.html', $this->user->lang('GALLERY'));
@@ -123,11 +135,11 @@ class moderate
 	*
 	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
 	*/
-	public function queue_approve($page)
+	public function queue_approve($page, $album_id)
 	{
 		$approve_ary = $this->request->variable('approval', array('' => array(0)));
 		$action_ary = $this->request->variable('action', array('' => 0));
-		$back_link = $this->request->variable('back_link', $this->helper->route('phpbbgallery_moderate_queue_approve'));
+		$back_link = $this->request->variable('back_link', $album_id > 0 ? $this->helper->route('phpbbgallery_moderate_queue_approve_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate_queue_approve'));
 		list($action, ) = each($action_ary);
 
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery_mcp'));
@@ -135,9 +147,22 @@ class moderate
 		$this->user->add_lang('mcp');
 
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
-		if (!$this->gallery_auth->acl_check_global('m_'))
+		$album_backlink = $album_id === 0 ? $this->helper->route('phpbbgallery_moderate') : $this->helper->route('phpbbgallery_moderate_album', array('album_id'	=> $album_id));
+		$album_loginlink = append_sid('/ucp.php?mode=login');
+		if ($album_id === 0)
 		{
-			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+			if (!$this->gallery_auth->acl_check_global('m_status'))
+			{
+				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+			}
+		}
+		else
+		{
+			$album = $this->album->get_info($album_id);
+			if (!$this->gallery_auth->acl_check('m_status', $album['album_id'], $album['album_user_id']))
+			{
+				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+			}
 		}
 		if (!empty($approve_ary))
 		{
@@ -180,6 +205,7 @@ class moderate
 			else
 			{
 				$s_hidden_fields = '<input type="hidden" name="action['.$action.']" value="' . $action . '" />';
+				$s_hidden_fields .= '<input type="hidden" name="back_link" value="' . $back_link . '" />';
 				foreach ($approve_ary as $id => $var)
 				{
 					foreach ($var as $var1)
@@ -192,11 +218,12 @@ class moderate
 		}
 
 		$this->template->assign_vars(array(
-			'U_GALLERY_MODERATE_OVERVIEW'	=>	$this->helper->route('phpbbgallery_moderate'),
-			'U_GALLERY_MODERATE_APPROVE'	=>	$this->helper->route('phpbbgallery_moderate_queue_approve'),
-			'U_GALLERY_MCP_LOGS'				=> $this->helper->route('phpbbgallery_moderate_action_log'),
+			'U_GALLERY_MODERATE_OVERVIEW'	=>	$album_id > 0 ? $this->helper->route('phpbbgallery_moderate_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate'),
+			'U_GALLERY_MODERATE_APPROVE'	=>	$album_id > 0 ? $this->helper->route('phpbbgallery_moderate_queue_approve_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate_queue_approve'),
+			'U_GALLERY_MCP_LOGS'				=> $album_id > 0 ? $this->helper->route('phpbbgallery_moderate_action_log_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate_action_log'),
+			'U_ALBUM_NAME'					=> $album_id > 0 ? $album['album_name'] : false, 
 		));
-		$this->moderate->build_queue('full', 'image_waiting', $page);
+		$this->moderate->build_list($album_id, $page);
 		return $this->helper->render('gallery/moderate_approve.html', $this->user->lang('GALLERY'));
 	}
 
@@ -206,24 +233,37 @@ class moderate
 	*
 	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
 	*/
-	public function action_log($page)
+	public function action_log($page, $album_id)
 	{
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery_mcp'));
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
 		$this->user->add_lang('mcp');
 
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
-		if (!$this->gallery_auth->acl_check_global('m_'))
+		$album_backlink = $album_id === 0 ? $this->helper->route('phpbbgallery_moderate') : $this->helper->route('phpbbgallery_moderate_album', array('album_id'	=> $album_id));
+		$album_loginlink = append_sid('/ucp.php?mode=login');
+		if ($album_id === 0)
 		{
-			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+			if (!$this->gallery_auth->acl_check_global('m_'))
+			{
+				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+			}
 		}
-
+		else
+		{
+			$album = $this->album->get_info($album_id);
+			if (!$this->gallery_auth->acl_check('m_', $album['album_id'], $album['album_user_id']))
+			{
+				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+			}
+		}
 		$this->template->assign_vars(array(
-			'U_GALLERY_MODERATE_OVERVIEW'	=>	$this->helper->route('phpbbgallery_moderate'),
-			'U_GALLERY_MODERATE_APPROVE'	=>	$this->helper->route('phpbbgallery_moderate_queue_approve'),
-			'U_GALLERY_MCP_LOGS'				=> $this->helper->route('phpbbgallery_moderate_action_log'),
+			'U_GALLERY_MODERATE_OVERVIEW'	=>	$album_id > 0 ? $this->helper->route('phpbbgallery_moderate_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate'),
+			'U_GALLERY_MODERATE_APPROVE'	=>	$album_id > 0 ? $this->helper->route('phpbbgallery_moderate_queue_approve_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate_queue_approve'),
+			'U_GALLERY_MCP_LOGS'				=> $album_id > 0 ? $this->helper->route('phpbbgallery_moderate_action_log_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate_action_log'),
+			'U_ALBUM_NAME'					=> $album_id > 0 ? $album['album_name'] : false, 
 		));
-		$this->gallery_log->build_list('moderator', 25, $page);
+		$this->gallery_log->build_list('moderator', 0, $page, $album_id);
 		return $this->helper->render('gallery/moderate_actions.html', $this->user->lang('GALLERY'));
 	}
 	/**
