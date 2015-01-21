@@ -14,7 +14,7 @@ class moderate
 {
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\controller\helper $helper, \phpbb\user $user,
 	\phpbb\user_loader $user_loader, \phpbbgallery\core\album\album $album, \phpbbgallery\core\auth\auth $gallery_auth, \phpbb\pagination $pagination, \phpbbgallery\core\config $gallery_config,
-	$images_table, $reports_table)
+	$images_table)
 	{
 		$this->db = $db;
 		$this->template = $template;
@@ -26,7 +26,6 @@ class moderate
 		$this->pagination = $pagination;
 		$this->gallery_config = $gallery_config;
 		$this->images_table = $images_table;
-		$this->reports_table = $reports_table;
 	}
 
 	/**
