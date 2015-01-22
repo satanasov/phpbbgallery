@@ -23,8 +23,6 @@ if (empty($lang) || !is_array($lang))
 	$lang = array();
 }
 
-$lang['permission_cat']['gallery'] = 'phpBB Gallery';
-
 // Adding the permissions
 $lang = array_merge($lang, array(
 	'acl_a_gallery_manage'		=> array('lang' => 'Can manage the phpBB Gallery adjustments',	'cat' => 'gallery'),
