@@ -1,11 +1,11 @@
 <?php
 /**
 *
-* gallery_mcp [English]
+* gallery_mcp [Bulgarian]
 *
 * @package phpBB Gallery
 * @version $Id$
-* @copyright (c) 2007 nickvergessen nickvergessen@gmx.de http://www.flying-bits.org
+* @copyright (c) 2015 Lucifer lucifer@anavaro.com http://www.anavaro.com
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
 **/
