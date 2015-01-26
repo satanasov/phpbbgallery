@@ -224,6 +224,7 @@ class moderate
 			'U_GALLERY_MODERATE_OVERVIEW'	=> $album_id > 0 ? $this->helper->route('phpbbgallery_moderate_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate'),
 			'U_GALLERY_MODERATE_APPROVE'	=> $album_id > 0 ? $this->helper->route('phpbbgallery_moderate_queue_approve_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate_queue_approve'),
 			'U_GALLERY_MODERATE_REPORT'		=> $album_id > 0 ? $this->helper->route('phpbbgallery_moderate_reports_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate_reports'),
+			'U_ALBUM_OVERVIEW'				=> $album_id > 0 ? $this->helper->route('phpbbgallery_moderate_view', array('album_id' => $album_id)) : false,
 			'U_GALLERY_MCP_LOGS'			=> $album_id > 0 ? $this->helper->route('phpbbgallery_moderate_action_log_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate_action_log'),
 			'U_ALBUM_NAME'					=> $album_id > 0 ? $album['album_name'] : false,
 		));
@@ -265,6 +266,7 @@ class moderate
 			'U_GALLERY_MODERATE_OVERVIEW'	=> $album_id > 0 ? $this->helper->route('phpbbgallery_moderate_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate'),
 			'U_GALLERY_MODERATE_APPROVE'	=> $album_id > 0 ? $this->helper->route('phpbbgallery_moderate_queue_approve_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate_queue_approve'),
 			'U_GALLERY_MODERATE_REPORT'		=> $album_id > 0 ? $this->helper->route('phpbbgallery_moderate_reports_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate_reports'),
+			'U_ALBUM_OVERVIEW'				=> $album_id > 0 ? $this->helper->route('phpbbgallery_moderate_view', array('album_id' => $album_id)) : false,
 			'U_GALLERY_MCP_LOGS'			=> $album_id > 0 ? $this->helper->route('phpbbgallery_moderate_action_log_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate_action_log'),
 			'U_ALBUM_NAME'					=> $album_id > 0 ? $album['album_name'] : false,
 		));
@@ -330,11 +332,12 @@ class moderate
 				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 			}
 		}
-		
+
 		$this->template->assign_vars(array(
 			'U_GALLERY_MODERATE_OVERVIEW'	=> $album_id > 0 ? $this->helper->route('phpbbgallery_moderate_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate'),
 			'U_GALLERY_MODERATE_APPROVE'	=> $album_id > 0 ? $this->helper->route('phpbbgallery_moderate_queue_approve_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate_queue_approve'),
 			'U_GALLERY_MODERATE_REPORT'		=> $album_id > 0 ? $this->helper->route('phpbbgallery_moderate_reports_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate_reports'),
+			'U_ALBUM_OVERVIEW'				=> $album_id > 0 ? $this->helper->route('phpbbgallery_moderate_view', array('album_id' => $album_id)) : false,
 			'U_GALLERY_MODERATE_REPORT_CLOSED'		=> $album_id > 0 ? $this->helper->route('phpbbgallery_moderate_reports_closed_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate_reports_closed'),
 			'U_GALLERY_MCP_LOGS'			=> $album_id > 0 ? $this->helper->route('phpbbgallery_moderate_action_log_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate_action_log'),
 			'U_ALBUM_NAME'					=> $album_id > 0 ? $album['album_name'] : false,
@@ -343,6 +346,48 @@ class moderate
 
 		$this->report->build_list($album_id, $page, $this->config['phpbb_gallery_items_per_page'], $status);
 		return $this->helper->render('gallery/moderate_reports.html', $this->user->lang('GALLERY'));
+	}
+
+	/**
+	* Moderate Controller
+	* 	Route: gallery/moderate/{album_id}/list
+	*
+	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	*/
+	public function album_overview($album_id, $page)
+	{
+		$this->user->add_lang_ext('phpbbgallery/core', array('gallery_mcp'));
+		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
+		$this->user->add_lang('mcp');
+
+		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$album_backlink = $album_id === 0 ? $this->helper->route('phpbbgallery_moderate') : $this->helper->route('phpbbgallery_moderate_album', array('album_id'	=> $album_id));
+		$album_loginlink = append_sid('/ucp.php?mode=login');
+		if ($album_id === 0)
+		{
+			if (!$this->gallery_auth->acl_check_global('m_'))
+			{
+				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+			}
+		}
+		else
+		{
+			$album = $this->album->get_info($album_id);
+			if (!$this->gallery_auth->acl_check('m_', $album['album_id'], $album['album_user_id']))
+			{
+				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+			}
+		}
+		$this->template->assign_vars(array(
+			'U_GALLERY_MODERATE_OVERVIEW'	=> $album_id > 0 ? $this->helper->route('phpbbgallery_moderate_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate'),
+			'U_GALLERY_MODERATE_APPROVE'	=> $album_id > 0 ? $this->helper->route('phpbbgallery_moderate_queue_approve_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate_queue_approve'),
+			'U_GALLERY_MODERATE_REPORT'		=> $album_id > 0 ? $this->helper->route('phpbbgallery_moderate_reports_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate_reports'),
+			'U_ALBUM_OVERVIEW'				=> $album_id > 0 ? $this->helper->route('phpbbgallery_moderate_view', array('album_id' => $album_id)) : false,
+			'U_GALLERY_MCP_LOGS'			=> $album_id > 0 ? $this->helper->route('phpbbgallery_moderate_action_log_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate_action_log'),
+			'U_ALBUM_NAME'					=> $album_id > 0 ? $album['album_name'] : false,
+		));
+		$this->moderate->album_overview($album_id, $page, $this->config['phpbb_gallery_items_per_page'], $status);
+		return $this->helper->render('gallery/moderate_overview.html', $this->user->lang('GALLERY'));
 	}
 	/**
 	* Index Controller
