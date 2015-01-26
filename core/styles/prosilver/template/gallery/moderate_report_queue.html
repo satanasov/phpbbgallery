@@ -1,4 +1,4 @@
-<form id="gallery_approve" method="post" action="{S_GALLERY_APPROVE_ACTION}">
+<form id="gallery_report" method="post" action="{S_GALLERY_REPORT_ACTION}">
 	<div class="panel">
 		<div class="inner">
 			<!-- IF U_OVERVIEW -->
@@ -15,7 +15,7 @@
 						</dl>
 					</li>
 				</ul>
-				<ul class="topiclist cplist two-long-columns responsive-show-all">
+				<ul class="topiclist cplist missing-column responsive-show-all">
 					<!-- BEGIN report_image_open -->
 					<li class="row<!-- IF report_image_open.S_ROW_COUNT is odd --> bg1<!-- ELSE --> bg2<!-- ENDIF -->">
 						<dl>
@@ -33,8 +33,15 @@
 							</div>
 						</dt>
 						<dd class="moderation">
-							{L_REPORT_BY} : {report_image_open.REPORT_AUTHOR} &raquo; {report_image_open.REPORT_TIME}
+							<span>
+								{L_REPORT_BY} : {report_image_open.REPORT_AUTHOR} &raquo; {report_image_open.REPORT_TIME}
+							</span>
 						</dd>
+						<!-- IF U_STATUS -->
+						<dd class="mark">
+							<input name="report[]" value="{report_image_open.U_IMAGE_ID}" type="checkbox">
+						</dd>
+						<!-- ENDIF -->
 					</dl>
 				</li>
 			<!-- END report_image_open -->
@@ -44,4 +51,12 @@
 		<!-- ENDIF -->
 	</div>
 </div>
+<!-- IF U_STATUS -->
+<!-- IF .report_image_open -->
+<fieldset class="display-actions">
+	<input class="button1" type="submit" name="action[close]" value="{L_CLOSE_REPORTS}" />
+	<div><a href="#" onclick="marklist('gallery_report', 'report', true); return false;">Mark all</a> :: <a href="#" onclick="marklist('gallery_report', 'report', false); return false;">Unmark all</a></div>
+</fieldset>
+<!-- ENDIF -->
+<!-- ENDIF -->
 </form>

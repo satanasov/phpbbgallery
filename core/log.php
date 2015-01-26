@@ -97,6 +97,8 @@ class log
 		if ($album === 0)
 		{
 			$mod_array = $this->gallery_auth->acl_album_ids('m_status');
+			// Patch for missing album
+			$mod_array[] = 0;
 			// If no albums we can approve - quit building queue
 			if (empty($mod_array))
 			{
