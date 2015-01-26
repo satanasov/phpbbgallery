@@ -386,8 +386,8 @@ class moderate
 			'U_GALLERY_MCP_LOGS'			=> $album_id > 0 ? $this->helper->route('phpbbgallery_moderate_action_log_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate_action_log'),
 			'U_ALBUM_NAME'					=> $album_id > 0 ? $album['album_name'] : false,
 		));
-		$this->moderate->album_overview($album_id, $page, $this->config['phpbb_gallery_items_per_page'], $status);
-		return $this->helper->render('gallery/moderate_overview.html', $this->user->lang('GALLERY'));
+		$this->moderate->album_overview($album_id, $page);
+		return $this->helper->render('gallery/moderate_album_overview.html', $this->user->lang('GALLERY'));
 	}
 	/**
 	* Index Controller

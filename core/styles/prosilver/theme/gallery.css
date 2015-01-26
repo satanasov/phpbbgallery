@@ -127,3 +127,33 @@ input.autowidth-gallery {
 	transition: all .15s linear;
 	border: 1px solid #EFEFEF;
 }
+
+.image_unapproved
+{
+	display: inline-block !important;
+	background: transparent none 0 0 no-repeat;
+	margin: 0;
+	padding: 0;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	background-image: url("./images/icon_topic_unapproved.gif");
+	padding-left: 16px;
+	padding-top: 14px;
+	float: right;
+}
+
+.image_locked
+{
+	display: inline-block !important;
+	background: transparent none 0 0 no-repeat;
+	margin: 0;
+	padding: 0;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	background-image: url("./images/lock.png");
+	padding-left: 16px;
+	padding-top: 14px;
+	float: right;
+}
