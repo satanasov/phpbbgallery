@@ -38,6 +38,7 @@ $lang = array_merge($lang, array(
 	'GALLERY_MCP_APPROVED'			=> 'Одобрени изображения',
 	'GALLERY_MCP_LOCKED'			=> 'Заключени изображения',
 	'GALLERY_MCP_VIEWALBUM'			=> 'Виж албум',
+	'GALLERY_MCP_ALBUM_OVERVIEW'	=> 'Модерирай албум',
 
 	'IMAGE_REPORTED'				=> 'Изображението беше докладвано.',
 	'IMAGE_UNAPPROVED'				=> 'Изображението чака одобрение.',

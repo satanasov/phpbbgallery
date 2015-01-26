@@ -1,0 +1,109 @@
+<!-- INCLUDE gallery/gallery_header.html -->
+
+<h2>{L_MCP}<!-- IF U_ALBUM_NAME --> - {U_ALBUM_NAME}<!-- ENDIF --></h2>
+<!-- IF .pagination -->
+	<div class="topic-actions">
+		<div class="pagination">
+			{TOTAL_PAGES} &bull; 
+			<!-- IF .pagination -->
+				<!-- INCLUDE pagination.html -->
+			<!-- ELSE -->
+				{PAGE_NUMBER}
+			<!-- ENDIF -->
+		</div>
+	</div>
+<!-- ENDIF -->
+<div id="tabs">
+	<ul>
+		<li class="tab"><a href="{U_GALLERY_MODERATE_OVERVIEW}">{L_GALLERY_MCP_MAIN}</a></li>
+		<li class="tab activetab"><a href="{U_ALBUM_OVERVIEW}">{L_GALLERY_MCP_ALBUM_OVERVIEW}</a></li>
+		<li class="tab"><a href="{U_GALLERY_MODERATE_APPROVE}">{L_GALLERY_MCP_QUEUE}</a></li>
+		<li class="tab"><a href="{U_GALLERY_MODERATE_REPORT}">{L_GALLERY_MCP_REPORTED}</a></li>
+		<li class="tab"><a href="{U_GALLERY_MCP_LOGS}">{L_MCP_LOGS}</a></li>
+	</ul>
+</div>
+<div class="panel bg3">
+	<div class="inner">
+		<div style="width: 100%;">
+			<div id="cp-menu">
+				<div class="responsive-hide" id="navigation" role="navigation">
+					<ul>
+						<li id="active-subsection"><a href=""><span>{L_GALLERY_MCP_QUEUE}</span></a></li>
+					</ul>
+				</div>
+			</div>
+			<div id="cp-main" class="mcp-main panel-container">
+				<h2>{L_GALLERY_MCP_QUEUE}</h2>
+				
+				<form id="overview_action" method="post" action="{S_GALLERY_MODERATE_OVERVIEW_ACTION}">
+	<div class="panel">
+		<div class="inner">
+			<!-- IF .overview -->
+				<ul class="topiclist two-long-columns">
+					<li class="header">
+						<dl>
+							<dt><div class="list-inner">{L_GALLERY_MCP_QUEUE_DETAIL}</div></dt>
+							<dd class="moderation"><span>{L_ALBUM}</span></dd>
+						</dl>
+					</li>
+				</ul>
+				<ul class="topiclist cplist missing-column responsive-show-all">
+					<!-- BEGIN overview -->
+					<li class="row<!-- IF overview.S_ROW_COUNT is odd --> bg1<!-- ELSE --> bg2<!-- ENDIF -->">
+						<dl>
+							<dt>
+								<div class="list-inner">
+									<span style="display: inline; float: left;">
+										<a href="{overview.U_IMAGE_MODERATE_URL}"><img style="max-width: 70px; max-height: 70px;" src="{overview.U_IMAGE}" alt="{overview.U_IMAGE_NAME}"></a>
+									</span>
+									<span style="margin-left: 10px;">
+										<a href="{overview.U_IMAGE_MODERATE_URL}" class="topictitle">{overview.U_IMAGE_NAME}<!-- IF overview.U_IS_REPORTED --><span class="imageset icon_topic_reported" style="float: right;" title="{L_REPORTED_IMAGES}">{L_REPORTED_IMAGES}</span><!-- ENDIF --><!-- IF overview.U_IS_UNAPPROVED --><span class="image_unapproved" title="{L_QUEUE_STATUS_0}">&nbsp;</span><!-- ENDIF --><!-- IF overview.U_IS_LOCKED --><span class="image_locked" title="{L_QUEUE_STATUS_2}">{L_QUEUE_STATUS_2}</span><!-- ENDIF --></a><br />
+										<span style="margin-left: 10px; vertical-align: middle;">{L_UPLOADED_BY_USER}: {overview.IMAGE_AUTHOR} &raquo; {overview.IMAGE_TIME}</span>
+									</span>
+								</div>
+							</dt>
+							<dd class="moderation">
+								<span>
+									{L_ALBUM}: <a href="{overview.IMAGE_ALBUM_URL}">{overview.IMAGE_ALBUM}</a>
+								</span>
+							</dd>
+							<dd class="mark">
+								<input name="action[]" value="{overview.U_IMAGE_ID}" type="checkbox">
+							</dd>
+						</dl>
+					</li>
+					<!-- END overview -->
+				</ul>
+			<!-- ELSE -->
+				<p> {L_NO_WAITING_UNAPPROVED_IMAGE}
+			<!-- ENDIF -->
+			</div>
+		</div>
+		<!-- IF .overview -->
+		<fieldset class="display-actions">
+			<input class="button2" name="action[disapprove]" value="{L_DISAPPROVE}" type="submit">&nbsp;
+			<input class="button1" name="action[approve]" value="{L_APPROVE}" type="submit">
+			<div><a href="#" onclick="marklist('overview_action', 'action', true); return false;">Mark all</a> :: <a href="#" onclick="marklist('overview_action', 'action', false); return false;">Unmark all</a></div>
+		</fieldset>
+		<!-- ENDIF -->
+	</form>
+	
+			</div>
+		</div>
+	</div>
+</div>
+<!-- IF .pagination -->
+	<div class="topic-actions">
+		<div class="pagination">
+			{TOTAL_PAGES} &bull; 
+			<!-- IF .pagination -->
+				<!-- INCLUDE pagination.html -->
+			<!-- ELSE -->
+				{PAGE_NUMBER}
+			<!-- ENDIF -->
+		</div>
+	</div>
+	<br>
+<!-- ENDIF -->
+<br>
+<!-- INCLUDE gallery/gallery_footer.html -->

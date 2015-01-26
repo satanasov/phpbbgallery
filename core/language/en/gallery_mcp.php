@@ -38,6 +38,7 @@ $lang = array_merge($lang, array(
 	'GALLERY_MCP_APPROVED'			=> 'Approved images',
 	'GALLERY_MCP_LOCKED'			=> 'Locked images',
 	'GALLERY_MCP_VIEWALBUM'			=> 'View album',
+	'GALLERY_MCP_ALBUM_OVERVIEW'	=> 'Moderate album',
 
 	'IMAGE_REPORTED'				=> 'The image was reported.',
 	'IMAGE_UNAPPROVED'				=> 'The image is awaiting for approval.',
