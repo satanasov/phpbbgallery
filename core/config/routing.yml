@@ -132,6 +132,12 @@ phpbbgallery_moderate_reports_closed_album:
 phpbbgallery_moderate_reports_closed_album_page:
     pattern: /gallery/moderate/album/{album_id}/reports_closed/{page}
     defaults: { _controller: phpbbgallery.core.controller.moderate:reports, status: 0}
+phpbbgallery_moderate_view:
+    pattern: /gallery/moderate/album/{album_id}/overview
+    defaults: { _controller: phpbbgallery.core.controller.moderate:album_overview, page: 1 }
+phpbbgallery_moderate_view_page:
+    pattern: /gallery/moderate/album/{album_id}/overview/{page}
+    defaults: { _controller: phpbbgallery.core.controller.moderate:album_overview }
 
 ################################
 #### Moderate image routes #####
