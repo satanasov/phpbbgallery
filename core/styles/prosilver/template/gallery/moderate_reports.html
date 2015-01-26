@@ -16,8 +16,8 @@
 <div id="tabs">
 	<ul>
 		<li class="tab"><a href="{U_GALLERY_MODERATE_OVERVIEW}">{L_GALLERY_MCP_MAIN}</a></li>
-		<li class="tab activetab"><a href="{U_GALLERY_MODERATE_APPROVE}">{L_GALLERY_MCP_QUEUE}</a></li>
-		<li class="tab"><a href="{U_GALLERY_MODERATE_REPORT}">{L_GALLERY_MCP_REPORTED}</a></li>
+		<li class="tab"><a href="{U_GALLERY_MODERATE_APPROVE}">{L_GALLERY_MCP_QUEUE}</a></li>
+		<li class="tab activetab"><a href="{U_GALLERY_MODERATE_REPORT}">{L_GALLERY_MCP_REPORTED}</a></li>
 		<li class="tab"><a href="{U_GALLERY_MCP_LOGS}">{L_MCP_LOGS}</a></li>
 	</ul>
 </div>
@@ -27,13 +27,14 @@
 			<div id="cp-menu">
 				<div class="responsive-hide" id="navigation" role="navigation">
 					<ul>
-						<li id="active-subsection"><a href=""><span>{L_GALLERY_MCP_QUEUE}</span></a></li>
+						<li<!-- IF U_STATUS --> id="active-subsection"<!-- ENDIF -->><a href="{U_GALLERY_MODERATE_REPORT}"><span>{L_GALLERY_MCP_REPO_OPEN}</span></a></li>
+						<li<!-- IF !U_STATUS --> id="active-subsection"<!-- ENDIF -->><a href="{U_GALLERY_MODERATE_REPORT_CLOSED}"><span>{L_GALLERY_MCP_REPO_DONE}</span></a></li>
 					</ul>
 				</div>
 			</div>
 			<div id="cp-main" class="mcp-main panel-container">
-				<h2>{L_GALLERY_MCP_QUEUE}</h2>
-				<!-- INCLUDE gallery/moderate_approve_queue.html -->
+				<h2><!-- IF U_STATUS -->{L_GALLERY_MCP_REPO_OPEN}<!-- ELSE -->{L_GALLERY_MCP_REPO_DONE}<!-- ENDIF --></h2>
+				<!-- INCLUDE gallery/moderate_report_queue.html -->
 			</div>
 		</div>
 	</div>

@@ -114,7 +114,6 @@ class moderate
 		}
 		$this->template->assign_vars(array(
 			'TOTAL_IMAGES_WAITING' => $this->user->lang('WAITING_UNAPPROVED_IMAGE', (int) $count),
-			'S_HAS_UNAPPROVED_IMAGES'=> ($count != 0),
 			'S_GALLERY_APPROVE_ACTION'	=> $album > 0 ? $this->helper->route('phpbbgallery_moderate_queue_approve_album', array('album_id' => $album)) : $this->helper->route('phpbbgallery_moderate_queue_approve'),
 		));
 		if ($album === 0)

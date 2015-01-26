@@ -23,6 +23,7 @@ class report
 
 	public function __construct(\phpbbgallery\core\log $gallery_log, \phpbbgallery\core\auth\auth $gallery_auth, \phpbb\user $user, \phpbb\db\driver\driver_interface $db,
 	\phpbb\user_loader $user_loader, \phpbbgallery\core\album\album $album, \phpbb\template\template $template, \phpbb\controller\helper $helper,
+	\phpbbgallery\core\config $gallery_config, \phpbb\pagination $pagination,
 	$images_table, $reports_table)
 	{
 		$this->gallery_log = $gallery_log;
@@ -33,6 +34,8 @@ class report
 		$this->album = $album;
 		$this->template = $template;
 		$this->helper = $helper;
+		$this->gallery_config = $gallery_config;
+		$this->pagination = $pagination;
 		$this->images_table = $images_table;
 		$this->reports_table = $reports_table;
 	}
@@ -67,12 +70,37 @@ class report
 	}
 
 	/**
+	* Close report
+	* @param 	array	$report_ids		array of report_ids to closedir
+	* @param 	int		$user_id		User Id, if not set - use current user idate
+	*/
+	public function close_reports($report_ids, $user_id = false)
+	{
+		$sql_ary = array(
+			'report_manager'		=> (int) (($user_id) ? $user_id : $this->user->data['user_id']),
+			'report_status'			=> 0,
+		);
+		$sql = 'UPDATE ' . $this->reports_table . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . '
+			WHERE ' . $this->db->sql_in_set('report_image_id', $report_ids);
+		$this->db->sql_query($sql);
+		// We will have to request some images so we can log closing reports
+		$sql = 'SELECT * FROM ' . $this->images_table . ' WHERE ' . $this->db->sql_in_set('image_id', $report_ids);
+		$result = $this->db->sql_query($sql);
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$this->gallery_log->add_log('moderator', 'reportclosed', (int) $row['image_album_id'], (int) $row['image_id'], array('LOG_GALLERY_REPORT_CLOSED', 'Closed'));
+		}
+		$this->db->sql_freeresult($result);
+		$sql = 'UPDATE ' . $this->images_table . ' SET image_reported = 0 WHERE ' . $this->db->sql_in_set('image_id', $report_ids);
+		$this->db->sql_query($sql);
+	}
+	/**
 	* Change status of a report
 	*
 	* @param	mixed	$report_ids		Array or integer with report_id.
 	* @param	int		$user_id		If not set, it uses the currents user_id
 	*/
-	static public function change_status($new_status, $report_ids, $user_id = false)
+	/*static public function change_status($new_status, $report_ids, $user_id = false)
 	{
 		global $db, $user, $table_prefix, $phpbb_container;
 
@@ -84,7 +112,8 @@ class report
 
 		$sql = 'UPDATE ' . $table_prefix . 'gallery_reports SET ' . $db->sql_build_array('UPDATE', $sql_ary) . '
 			WHERE ' . $db->sql_in_set('report_id', $report_ids);
-		$db->sql_query($sql);
+		var_dump($sql);
+		//$db->sql_query($sql);
 
 		if ($new_status == self::LOCKED)
 		{
@@ -119,7 +148,7 @@ class report
 			}
 			$db->sql_freeresult($result);
 		}
-	}
+	}*/
 
 	/**
 	* Move an image from one album to another
@@ -214,7 +243,7 @@ class report
 	* @param	(int)		$page	This queue builder should return objects for MCP queues, so page?
 	* @param	(int)		$count	We need how many elements per page
 	*/
-	public function build_list($album, $page = 1, $per_page = 0)
+	public function build_list($album, $page = 1, $per_page = 0, $status = 1)
 	{
 		// So if we are not forcing par page get it from config
 		if ($per_page == 0)
@@ -240,7 +269,7 @@ class report
 				$this->images_table => 'i',
 				$this->reports_table	=> 'r',
 			),
-			'WHERE'	=> 'i.image_id = r.report_image_id and i.image_reported and r.report_status = 1 and ' . $this->db->sql_in_set('i.image_album_id', $mod_array),
+			'WHERE'	=> 'i.image_id = r.report_image_id and i.image_reported = ' . (int) $status . ' and r.report_status = ' . (int) $status . ' and ' . $this->db->sql_in_set('i.image_album_id', $mod_array),
 			'ORBER_BY'	=> 'r.report_id DESC'
 		);
 		// Get Count
@@ -304,8 +333,38 @@ class report
 			$reported_images_count ++;
 		}
 		$this->template->assign_vars(array(
-			'TOTAL_IMAGES_REPORTED' => $this->user->lang('WAITING_REPORTED_IMAGE', (int) $reported_images_count),
+			'TOTAL_IMAGES_REPORTED' => $status == 1 ? $this->user->lang('WAITING_REPORTED_IMAGE', (int) $count) : $this->user->lang('WAITING_REPORTED_DONE', (int) $count),
+			'S_GALLERY_REPORT_ACTION'	=> $status == 1 ? ($album > 0 ? $this->helper->route('phpbbgallery_moderate_reports_album', array('album_id' => $album)) : $this->helper->route('phpbbgallery_moderate_reports')) : false,
 		));
+		if ($album === 0)
+		{
+			$this->pagination->generate_template_pagination(array(
+				'routes' => array(
+					$status == 1 ? 'phpbbgallery_moderate_reports' : 'phpbbgallery_moderate_reports_closed',
+					$status == 1 ? 'phpbbgallery_moderate_reports_page' : 'phpbbgallery_moderate_reports_closed_page',
+				),
+				'params' => array(
+				),
+			), 'pagination', 'page', $count, $per_page, $page * $per_page);
+			$this->template->assign_vars(array(
+				'TOTAL_PAGES'				=> $this->user->lang('PAGE_TITLE_NUMBER', $page + 1),
+			));
+		}
+		else
+		{
+			$this->pagination->generate_template_pagination(array(
+				'routes' => array(
+					$status == 1 ? 'phpbbgallery_moderate_reports_album' : 'phpbbgallery_moderate_reports_closed_album',
+					$status == 1 ? 'phpbbgallery_moderate_reports_album_page' : 'phpbbgallery_moderate_reports_closed_album_page',
+				),
+				'params' => array(
+					'album_id'	=> $album,
+				),
+			), 'pagination', 'page', $count, $per_page, $page * $per_page);
+			$this->template->assign_vars(array(
+				'TOTAL_PAGES'				=> $this->user->lang('PAGE_TITLE_NUMBER', $page + 1),
+			));
+		}
 	}
 	static public function cast_mixed_int2array($ids)
 	{
