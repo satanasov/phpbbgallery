@@ -74,7 +74,7 @@ class report
 	* @param 	array	$report_ids		array of report_ids to closedir
 	* @param 	int		$user_id		User Id, if not set - use current user idate
 	*/
-	public function close_reports($report_ids, $user_id = false)
+	public function close_reports_by_image($report_ids, $user_id = false)
 	{
 		$sql_ary = array(
 			'report_manager'		=> (int) (($user_id) ? $user_id : $this->user->data['user_id']),
@@ -269,7 +269,7 @@ class report
 				$this->images_table => 'i',
 				$this->reports_table	=> 'r',
 			),
-			'WHERE'	=> 'i.image_id = r.report_image_id and i.image_reported = ' . (int) $status . ' and r.report_status = ' . (int) $status . ' and ' . $this->db->sql_in_set('i.image_album_id', $mod_array),
+			'WHERE'	=> 'i.image_id = r.report_image_id and r.report_status = ' . (int) $status . ' and ' . $this->db->sql_in_set('i.image_album_id', $mod_array),
 			'ORBER_BY'	=> 'r.report_id DESC'
 		);
 		// Get Count
@@ -319,13 +319,13 @@ class report
 			$this->template->assign_block_vars('report_image_open', array(
 				'U_IMAGE_ID'	=> $VAR['image_id'],
 				'U_IMAGE'	=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $VAR['image_id'])),
-				'U_IMAGE_URL'	=> $this->helper->route('phpbbgallery_image', array('image_id' => $VAR['image_id'])),
+				'U_IMAGE_URL'	=> $this->helper->route('phpbbgallery_image', array('image_id'	=> $VAR['image_id'])),
 				'U_IMAGE_NAME'	=> $VAR['image_name'],
 				'IMAGE_AUTHOR'	=> $this->user_loader->get_username($VAR['image_user_id'], 'full'),
 				'IMAGE_TIME'	=> $this->user->format_date($VAR['image_time']),
 				'IMAGE_ALBUM'	=> $album_tmp['album_name'],
 				'IMAGE_ALBUM_URL'	=> $this->helper->route('phpbbgallery_album', array('album_id' => $VAR['image_album_id'])),
-				//'REPORT_URL'	=> $this->helper->route('phpbbgallery_moderate_report', array('image_id' => $row['r.report_id'])),
+				'REPORT_URL'	=> $this->helper->route('phpbbgallery_moderate_image', array('image_id' => $VAR['image_id'])),
 				'REPORT_AUTHOR'	=> $this->user_loader->get_username($VAR['reporter_id'], 'full'),
 				'REPORT_TIME'	=> $this->user->format_date($VAR['report_time']),
 			));
@@ -365,6 +365,38 @@ class report
 				'TOTAL_PAGES'				=> $this->user->lang('PAGE_TITLE_NUMBER', $page + 1),
 			));
 		}
+	}
+
+	/**
+	* Get report data by image id
+	* @param	(int)	$image_id	Image id for which we will get info about
+	* return	array	$report_data	array with all report info\
+	*/
+	public function get_data_by_image($image_id)
+	{
+		if (empty($image_id))
+		{
+			return;
+		}
+
+		$sql = 'SELECT * FROM ' . $this->reports_table . ' WHERE report_image_id = ' . $image_id;
+		$result = $this->db->sql_query($sql);
+		$report_data = array();
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$report_data[$row['report_id']] = array(
+				'report_id'			=> $row['report_id'],
+				'report_album_id'	=> $row['report_album_id'],
+				'reporter_id'		=> $row['reporter_id'],
+				'report_manager'	=> $row['report_manager'],
+				'report_note'		=> $row['report_note'],
+				'report_time'		=> $row['report_time'],
+				'report_status'		=> $row['report_status'],
+			);
+		}
+		$this->db->sql_freeresult($result);
+
+		return $report_data;
 	}
 	static public function cast_mixed_int2array($ids)
 	{
