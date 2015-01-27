@@ -157,13 +157,10 @@
 	</div>
 <!-- ENDIF -->
 
-<!-- IF U_RECENT -->
-	<!-- INCLUDE gallery/imageblock_polaroid_rec.html -->
+<!-- IF U_RECENT or U_RANDOM-->
+	<!-- INCLUDE gallery/imageblock_polaroid.html -->
 <!-- ENDIF -->
 
-<!-- IF U_RANDOM -->
-	<!-- INCLUDE gallery/imageblock_polaroid_rnd.html -->
-<!-- ENDIF -->
 
 <!-- IF not S_USER_LOGGED_IN and not S_IS_BOT and S_DISP_LOGIN -->
 	<form method="post" action="{S_LOGIN_ACTION}" class="headerspace">

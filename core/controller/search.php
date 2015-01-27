@@ -347,7 +347,7 @@ class search
 			));
 		}
 
-		if ($sql_where)
+		if (isset($sql_where))
 		{
 			// Search results are images
 			if ($search_results == 'image')
@@ -503,6 +503,7 @@ class search
 					'PROFILE_IMG'		=> $user->img('icon_user_profile', 'READ_PROFILE'),
 				));
 			}
+			return $this->helper->render('gallery/search_results.html', $this->user->lang('GALLERY'));
 		}
 		$s_albums = $this->album->get_albumbox(false, false, false, 'i_view' /*'a_search'*/);
 
@@ -518,7 +519,7 @@ class search
 		{
 			$s_hidden_fields['display'] = 'popup';
 		}
-		if ($_SID)
+		if (isset($_SID))
 		{
 			$s_hidden_fields['sid'] = $_SID;
 		}
