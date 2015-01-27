@@ -145,7 +145,7 @@ class search
 
 		$sql_where = $this->db->sql_in_set('i.image_id', $id_ary);
 
-		$this->template->assign_block_vars('random', array(
+		$this->template->assign_block_vars('imageblock', array(
 			'BLOCK_NAME'	=> $this->user->lang['RANDOM_IMAGES'],
 			'U_BLOCK'	=> $this->helper->route('phpbbgallery_search_random'),
 		));
@@ -189,7 +189,7 @@ class search
 					$action = false;
 				break;
 			}
-			$this->template->assign_block_vars('random.image', array(
+			$this->template->assign_block_vars('imageblock.image', array(
 				'IMAGE_ID'		=> $row['image_id'],
 				'U_IMAGE'		=> $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id'])),
 				'UC_IMAGE_NAME'	=> $row['image_name'],//self::generate_link('image_name', $this->config['phpbb_gallery_link_image_name'], $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id'], false, true, "&amp;sk={$sk}&amp;sd={$sd}&amp;st={$st}"),
@@ -267,7 +267,7 @@ class search
 
 		$sql_where = $this->db->sql_in_set('i.image_id', $id_ary);
 
-		$this->template->assign_block_vars('recent', array(
+		$this->template->assign_block_vars('imageblock', array(
 			'BLOCK_NAME'	=> $this->user->lang['RECENT_IMAGES'],
 			'U_BLOCK'	=> $this->helper->route('phpbbgallery_search_recent'),
 		));
@@ -311,7 +311,7 @@ class search
 					$action = false;
 				break;
 			}
-			$this->template->assign_block_vars('recent.image', array(
+			$this->template->assign_block_vars('imageblock.image', array(
 				'IMAGE_ID'		=> $row['image_id'],
 				'U_IMAGE'		=> $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id'])),
 				'UC_IMAGE_NAME'	=> $row['image_name'],//self::generate_link('image_name', $this->config['phpbb_gallery_link_image_name'], $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id'], false, true, "&amp;sk={$sk}&amp;sd={$sd}&amp;st={$st}"),
