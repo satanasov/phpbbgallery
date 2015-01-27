@@ -162,7 +162,7 @@ class moderate
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 
 		// we have security in the controller, so no need to be paranoid ...
-		// and we will build queue with only items user can review 
+		// and we will build queue with only items user can review
 		if (!isset($album_id))
 		{
 			return;
@@ -179,7 +179,6 @@ class moderate
 			$actions['approve']	= 'QUEUES_A_APPROVE';
 			$actions['unapprove']	= 'QUEUES_A_UNAPPROVE';
 			$actions['lock']	= 'QUEUES_A_LOCK';
-			
 		}
 		if ($this->gallery_auth->acl_check('m_delete', $album['album_id'], $album['album_user_id']))
 		{

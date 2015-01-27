@@ -405,7 +405,7 @@ class moderate
 						$this->image->move_image($actions_array, $moving_target);
 						$this->album->update_info($album_id);
 						$this->album->update_info($moving_target);
-						
+
 						$message = $this->user->lang('MOVED_IMAGES', count($actions_array));
 						$this->url->meta_refresh(3, $back_link);
 						trigger_error($message);
