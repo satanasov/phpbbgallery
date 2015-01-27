@@ -140,5 +140,15 @@ $lang = array_merge($lang, array(
 		1			=> 'In total there is <span style="font-weight: bold;">1</span> image waiting for approval.',
 		2			=> 'In total there are <span style="font-weight: bold;">%s</span> images waiting for approval.',
 	),
+	'DELETED_IMAGES'		=> array(
+		0			=> 'No images deleted.',
+		1			=> 'In total there was <span style="font-weight: bold;">1</span> image deleted.',
+		2			=> 'In total there was <span style="font-weight: bold;">%s</span> images deleted.',
+	),
+	'MOVED_IMAGES'		=> array(
+		0			=> 'No images were moved.',
+		1			=> 'In total there was <span style="font-weight: bold;">1</span> image moved.',
+		2			=> 'In total there was <span style="font-weight: bold;">%s</span> images moved.',
+	),
 	'NO_WAITING_UNAPPROVED_IMAGE'	=> 'No images waiting for approval.',
 ));

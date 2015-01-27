@@ -124,6 +124,7 @@ class moderate
 			'U_GALLERY_MODERATE_OVERVIEW'	=> $album_id > 0 ? $this->helper->route('phpbbgallery_moderate_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate'),
 			'U_GALLERY_MODERATE_APPROVE'	=> $album_id > 0 ? $this->helper->route('phpbbgallery_moderate_queue_approve_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate_queue_approve'),
 			'U_GALLERY_MODERATE_REPORT'		=> $album_id > 0 ? $this->helper->route('phpbbgallery_moderate_reports_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate_reports'),
+			'U_ALBUM_OVERVIEW'				=> $album_id > 0 ? $this->helper->route('phpbbgallery_moderate_view', array('album_id' => $album_id)) : false,
 			'U_GALLERY_MCP_LOGS'			=> $album_id > 0 ? $this->helper->route('phpbbgallery_moderate_action_log_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate_action_log'),
 			'U_ALBUM_NAME'					=> $album_id > 0 ? $album['album_name'] : false,
 			'U_OVERVIEW'					=> true,
@@ -284,7 +285,6 @@ class moderate
 		$report_ary = $this->request->variable('report', array(0));
 		$action_ary = $this->request->variable('action', array('' => 0));
 		$back_link = $this->request->variable('back_link', $album_id > 0 ? $this->helper->route('phpbbgallery_moderate_reports_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_moderate_reports'));
-		$count = $this->request->variable('count', 0);
 		list($action, ) = each($action_ary);
 
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery_mcp'));
@@ -296,7 +296,7 @@ class moderate
 			if (confirm_box(true))
 			{
 				$this->report->close_reports($report_ary);
-				$message = $this->user->lang('WAITING_REPORTED_DONE', $count);
+				$message = $this->user->lang('WAITING_REPORTED_DONE', count($report_ary));
 				$this->url->meta_refresh(3, $back_link);
 				trigger_error($message);
 			}
@@ -304,13 +304,10 @@ class moderate
 			{
 				$s_hidden_fields = '<input type="hidden" name="action['.$action.']" value="' . $action . '" />';
 				$s_hidden_fields .= '<input type="hidden" name="back_link" value="' . $back_link . '" />';
-				$count = 0;
 				foreach ($report_ary as $var)
 				{
 					$s_hidden_fields .= '<input type="hidden" name="report[]" value="' . $var . '" />';
-					$count ++;
 				}
-				$s_hidden_fields .= '<input type="hidden" name="count" value="' . $count . '" />';
 				confirm_box(false, $this->user->lang['REPORTS_A_CLOSE2_CONFIRM'], $s_hidden_fields);
 			}
 		}
@@ -360,6 +357,93 @@ class moderate
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
 		$this->user->add_lang('mcp');
 
+		$actions_array = $this->request->variable('action', array(0));
+		$action = $this->request->variable('select_action', '');
+		$back_link = $this->request->variable('back_link', $this->helper->route('phpbbgallery_moderate_view', array('album_id' => $album_id)));
+		$moving_target = $this->request->variable('moving_target', '');
+		if (!empty($actions_array))
+		{
+			if (confirm_box(true) || $moving_target)
+			{
+				switch($action)
+				{
+					case 'approve':
+						$this->image->approve_images($actions_array, $album_id);
+						$this->album->update_info($album_id);
+
+						$message = $this->user->lang('WAITING_APPROVED_IMAGE', count($actions_array));
+						$this->url->meta_refresh(3, $back_link);
+						trigger_error($message);
+					break;
+					case 'unapprove':
+						$this->image->unapprove_images($actions_array, $album_id);
+						$this->album->update_info($album_id);
+
+						$message = $this->user->lang('WAITING_UNAPPROVED_IMAGE', count($actions_array));
+						$this->url->meta_refresh(3, $back_link);
+						trigger_error($message);
+					break;
+					case 'lock':
+						$this->image->lock_images($actions_array, $album_id);
+						$this->album->update_info($album_id);
+
+						$message = $this->user->lang('WAITING_LOCKED_IMAGE', count($actions_array));
+						$this->url->meta_refresh(3, $back_link);
+						trigger_error($message);
+					break;
+					case 'delete':
+						$this->image->delete_images($actions_array);
+						$this->album->update_info($album_id);
+
+						$message = $this->user->lang('DELETED_IMAGES', count($actions_array));
+						$this->url->meta_refresh(3, $back_link);
+						trigger_error($message);
+					break;
+					case 'move':
+						$this->image->move_image($actions_array, $moving_target);
+						$this->album->update_info($album_id);
+						$this->album->update_info($moving_target);
+						
+						$message = $this->user->lang('MOVED_IMAGES', count($actions_array));
+						$this->url->meta_refresh(3, $back_link);
+						trigger_error($message);
+					break;
+					case 'report':
+						$this->report->close_reports($actions_array);
+						$message = $this->user->lang('WAITING_REPORTED_DONE', count($actions_array));
+						$this->url->meta_refresh(3, $back_link);
+						trigger_error($message);
+					break;
+				}
+			}
+			else
+			{
+				$s_hidden_fields = '<input type="hidden" name="select_action" value="' . $action . '" />';
+				$s_hidden_fields .= '<input type="hidden" name="back_link" value="' . $back_link . '" />';
+				foreach ($actions_array as $var)
+				{
+					$s_hidden_fields .= '<input type="hidden" name="action[]" value="' . $var . '" />';
+				}
+				if ($action == 'report')
+				{
+					confirm_box(false, $this->user->lang['REPORT_A_CLOSE2_CONFIRM'], $s_hidden_fields);
+				}
+				if ($action == 'move')
+				{
+					$category_select = $this->album->get_albumbox(false, 'moving_target', $album_id, 'i_upload', $album_id);
+					$this->template->assign_vars(array(
+						'S_MOVING_IMAGES'	=> true,
+						'S_ALBUM_SELECT'	=> $category_select,
+						'S_HIDDEN_FIELDS'	=> $s_hidden_fields,
+					));
+					return $this->helper->render('gallery/mcp_body.html', $this->user->lang('GALLERY'));
+				}
+				else
+				{
+					confirm_box(false, $this->user->lang['QUEUES_A_' . strtoupper($action) . '2_CONFIRM'], $s_hidden_fields);
+				}
+			}
+		}
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 		$album_backlink = $album_id === 0 ? $this->helper->route('phpbbgallery_moderate') : $this->helper->route('phpbbgallery_moderate_album', array('album_id'	=> $album_id));
 		$album_loginlink = append_sid('/ucp.php?mode=login');

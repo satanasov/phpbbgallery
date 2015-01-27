@@ -169,12 +169,29 @@ class moderate
 		}
 		// Let's see what the user can do?
 		$status[] = 1;
+		$actions = array();
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 		$album = $this->album->get_info($album_id);
 		if ($this->gallery_auth->acl_check('m_status', $album['album_id'], $album['album_user_id']))
 		{
 			$status[] = 0;
 			$status[] = 2;
+			$actions['approve']	= 'QUEUES_A_APPROVE';
+			$actions['unapprove']	= 'QUEUES_A_UNAPPROVE';
+			$actions['lock']	= 'QUEUES_A_LOCK';
+			
+		}
+		if ($this->gallery_auth->acl_check('m_delete', $album['album_id'], $album['album_user_id']))
+		{
+			$actions['delete']	= 'QUEUES_A_DELETE';
+		}
+		if ($this->gallery_auth->acl_check('m_move', $album['album_id'], $album['album_user_id']))
+		{
+			$actions['move']	= 'QUEUES_A_MOVE';
+		}
+		if ($this->gallery_auth->acl_check('m_report', $album['album_id'], $album['album_user_id']))
+		{
+			$actions['report']	= 'REPORT_A_CLOSE';
 		}
 		$sql = 'SELECT COUNT(image_id) as count FROM ' . $this->images_table . ' WHERE ' . $this->db->sql_in_set('image_status', $status) . ' AND image_album_id = ' . $album_id;
 		$result = $this->db->sql_query($sql);
@@ -256,9 +273,16 @@ class moderate
 				'album_id'	=> $album_id
 			),
 		), 'pagination', 'page', $count, $per_page, ($page - 1) * $per_page);
+		$select = '<select name="select_action">';
+		foreach ($actions as $id => $var)
+		{
+			$select .= '<option value="' . $id . '">' . $this->user->lang($var) . '</option>';
+		}
+		$select .= '</select>';
 		$this->template->assign_vars(array(
 			'TOTAL_PAGES'				=> $this->user->lang('PAGE_TITLE_NUMBER', $page),
 			'S_GALLERY_MODERATE_OVERVIEW_ACTION'	=> $this->helper->route('phpbbgallery_moderate_view', array('album_id' => $album_id)),
+			'U_ACTION_SELECT' => $select,
 		));
 	}
 }
