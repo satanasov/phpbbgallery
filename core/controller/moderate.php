@@ -60,6 +60,7 @@ class moderate
 	\phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbbgallery\core\album\display $display, \phpbbgallery\core\moderate $moderate,
 	\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\misc $misc, \phpbbgallery\core\album\album $album, \phpbbgallery\core\image\image $image,
 	\phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\url $url, \phpbbgallery\core\log $gallery_log, \phpbbgallery\core\report $report,
+	\phpbb\user_loader $user_loader,
 	$root_path, $php_ext)
 	{
 		$this->auth = $auth;
@@ -79,6 +80,7 @@ class moderate
 		$this->url = $url;
 		$this->gallery_log = $gallery_log;
 		$this->report = $report;
+		$this->user_loader = $user_loader;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 	}
@@ -409,7 +411,7 @@ class moderate
 						trigger_error($message);
 					break;
 					case 'report':
-						$this->report->close_reports($actions_array);
+						$this->report->close_reports_by_image($actions_array);
 						$message = $this->user->lang('WAITING_REPORTED_DONE', count($actions_array));
 						$this->url->meta_refresh(3, $back_link);
 						trigger_error($message);
@@ -481,6 +483,9 @@ class moderate
 	*/
 	public function image($image_id)
 	{
+		$this->user->add_lang_ext('phpbbgallery/core', array('gallery_mcp'));
+		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
+		$this->user->add_lang('mcp');
 		$quick_action = $this->request->variable('action', '');
 
 		// If we have quick mode (EDIT, DELETE) just send us to the page we need
@@ -510,9 +515,108 @@ class moderate
 				$route = $this->helper->route('phpbbgallery_image_delete', array('image_id'	=> $image_id));
 				redirect($this->url->get_uri($route));
 			break;
+			case 'reports_close':
+				if (confirm_box(true))
+				{
+					$back_link =  $this->helper->route('phpbbgallery_moderate_image', array('image_id' => $image_id));
+					$this->report->close_reports_by_image($image_id);
+					$message = $this->user->lang('WAITING_REPORTED_DONE', 1);
+					$this->url->meta_refresh(3, $back_link);
+					trigger_error($message);
+				}
+				else
+				{
+					$s_hidden_fields = '<input type="hidden" name="action" value="reports_close" />';
+					confirm_box(false, $this->user->lang['REPORT_A_CLOSE2_CONFIRM'], $s_hidden_fields);
+				}
+			break;
+			case 'reports_open':
+				$route = $this->helper->route('phpbbgallery_image_report', array('image_id'	=> $image_id));
+				redirect($this->url->get_uri($route));
+			break;
 		}
-
-		return $this->helper->render('gallery/moderate_overview.html', $this->user->lang('GALLERY'));
+		$image_data = $this->image->get_image_data($image_id);
+		$album_data = $this->album->get_info($image_data['image_album_id']);
+		$users_array = $report_data = array();
+		$open_report = false;
+		$report_data = $this->report->get_data_by_image($image_id);
+		foreach ($report_data as $var)
+		{
+			$users_array[$var['reporter_id']] = array('');
+			$users_array[$var['report_manager']] = array('');
+			if ($var['report_status'] == 1)
+			{
+				$open_report = true;
+			}
+		}
+		$users_array[$image_data['image_user_id']] = array('');
+		$this->user_loader->load_users(array_keys($users_array));
+		// Now let's get some ACL
+		$select_select = '<option value="" selected="selected">' . $this->user->lang('CHOOSE_ACTION') . '</option>';
+		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		if ($this->gallery_auth->acl_check('m_status', $album_data['album_id'], $album_data['album_user_id']))
+		{
+			if ($image_data['image_status'] == 0)
+			{
+				$select_select .= '<option value="images_approve">' . $this->user->lang('QUEUE_A_APPROVE') . '</option>';
+				$select_select .= '<option value="images_lock">' . $this->user->lang('QUEUE_A_LOCK') . '</option>';
+			}
+			if ($image_data['image_status'] == 1)
+			{
+				$select_select .= '<option value="images_unapprove">' . $this->user->lang('QUEUE_A_UNAPPROVE') . '</option>';
+				$select_select .= '<option value="images_lock">' . $this->user->lang('QUEUE_A_LOCK') . '</option>';
+			}
+			else
+			{
+				$select_select .= '<option value="images_approve">' . $this->user->lang('QUEUE_A_APPROVE') . '</option>';
+				$select_select .= '<option value="images_unapprove">' . $this->user->lang('QUEUE_A_UNAPPROVE') . '</option>';
+			}
+		}
+		if ($this->gallery_auth->acl_check('m_delete', $album_data['album_id'], $album_data['album_user_id']))
+		{
+			$select_select .= '<option value="images_delete">' . $this->user->lang('QUEUE_A_DELETE') . '</option>';
+		}
+		if ($this->gallery_auth->acl_check('m_move', $album_data['album_id'], $album_data['album_user_id']))
+		{
+			$select_select .= '<option value="images_move">' . $this->user->lang('QUEUES_A_MOVE') . '</option>';
+		}
+		if ($this->gallery_auth->acl_check('m_report', $album_data['album_id'], $album_data['album_user_id']))
+		{
+			if ($open_report)
+			{
+				$select_select .= '<option value="reports_close">' . $this->user->lang('REPORT_A_CLOSE') . '</option>';
+			}
+			else
+			{
+				$select_select .= '<option value="reports_open">' . $this->user->lang('REPORT_A_OPEN') . '</option>';
+			}
+		}
+		$this->template->assign_vars(array(
+			'ALBUM_NAME'		=> $album_data['album_name'],
+			'U_VIEW_ALBUM'		=> $this->helper->route('phpbbgallery_moderate_album', array('album_id' => $image_data['image_album_id'])),
+			'U_EDIT_IMAGE'		=> $this->helper->route('phpbbgallery_image_edit', array('image_id'	=> $image_id)),
+			'U_DELETE_IMAGE'	=> $this->helper->route('phpbbgallery_image_delete', array('image_id'	=> $image_id)),
+			'IMAGE_NAME'		=> $image_data['image_name'],
+			'IMAGE_TIME'		=> $this->user->format_date($image_data['image_time']),
+			'UPLOADER'			=> $this->user_loader->get_username($image_data['image_user_id'], 'full'),
+			'U_MOVE_IMAGE'		=> $this->helper->route('phpbbgallery_moderate_image_move', array('image_id'	=> $image_id)),
+			'STATUS'			=> $this->user->lang['QUEUE_STATUS_' . $image_data['image_status']],
+			'UC_IMAGE'			=> $this->image->generate_link('medium', $this->config['phpbb_gallery_link_thumbnail'], $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id']),
+			'IMAGE_DESC'		=> generate_text_for_display($image_data['image_desc'], $image_data['image_desc_uid'], $image_data['image_desc_bitfield'], 7),
+			'U_SELECT'			=> $select_select,
+			'S_MCP_ACTION'		=> $this->helper->route('phpbbgallery_moderate_image', array('image_id' => $image_id)),
+		));
+		foreach ($report_data as $var)
+		{
+			$this->template->assign_block_vars('reports', array(
+				'REPORTER'		=> $this->user_loader->get_username($var['reporter_id'], 'full'),
+				'REPORT_TIME'	=> $this->user->format_date($var['report_time']),
+				'REPORT_NOTE'	=> $var['report_note'],
+				'STATUS'		=> $var['report_status'],
+				'MANAGER'		=> $var['report_manager'] != 0 ?  $this->user_loader->get_username($var['report_manager'], 'full') : false,
+			));
+		}
+		return $this->helper->render('gallery/moderate_image_overview.html', $this->user->lang('GALLERY'));
 	}
 
 	/**
