@@ -62,7 +62,7 @@ $lang = array_merge($lang, array(
 	'QUEUE_A_UNAPPROVE2'			=> 'Махни одобрение на изборажение?',
 	'QUEUE_A_UNAPPROVE2_CONFIRM'	=> 'Сиигирен ли сте, че искате да махнете одобрението на това изборажение?',
 
-	'QUEUE_STATUS_0'				=> 'Изображението чака одопрение.',
+	'QUEUE_STATUS_0'				=> 'Изображението чака одобрение.',
 	'QUEUE_STATUS_1'				=> 'Изображението е одобрено.',
 	'QUEUE_STATUS_2'				=> 'Изображението е заключено.',
 
@@ -139,6 +139,16 @@ $lang = array_merge($lang, array(
 		0			=> 'No images waiting for approval.',
 		1			=> 'In total there is <span style="font-weight: bold;">1</span> image waiting for approval.',
 		2			=> 'In total there are <span style="font-weight: bold;">%s</span> images waiting for approval.',
+	),
+	'DELETED_IMAGES'		=> array(
+		0			=> 'Не са изтрити изображения.',
+		1			=> 'Общо <span style="font-weight: bold;">1</span> изборажение е изтрито.',
+		2			=> 'Общо <span style="font-weight: bold;">%s</span> изображения са изтрити.',
+	),
+	'MOVED_IMAGES'		=> array(
+		0			=> 'Не са преместени изображения.',
+		1			=> 'Общо <span style="font-weight: bold;">1</span> изборажение е преместено.',
+		2			=> 'Общо <span style="font-weight: bold;">%s</span> изображения са преместени.',
 	),
 	'NO_WAITING_UNAPPROVED_IMAGE'	=> 'Няма изображения чакащи одобрение.',
 ));
