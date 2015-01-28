@@ -58,7 +58,8 @@ class search
 	*/
 	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request,
 	\phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbbgallery\core\album\display $display, \phpbbgallery\core\config $gallery_config,
-	\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\album\album $album, \phpbbgallery\core\image\image $image, \phpbbgallery\core\url $url,
+	\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\album\album $album, \phpbbgallery\core\image\image $image, \phpbbgallery\core\url $url, \phpbb\pagination $pagination,
+	\phpbb\user_loader $user_loader,
 	$images_table, $albums_table, $comments_table, $root_path, $php_ext)
 	{
 		$this->auth = $auth;
@@ -74,6 +75,8 @@ class search
 		$this->album = $album;
 		$this->image = $image;
 		$this->url = $url;
+		$this->pagination = $pagination;
+		$this->user_loader = $user_loader;
 		$this->images_table = $images_table;
 		$this->albums_table = $albums_table;
 		$this->comments_table = $comments_table;
@@ -364,5 +367,80 @@ class search
 		$row = $this->db->sql_fetchrow($result);
 
 		return (int) $row['count'];
+	}
+
+	/**
+	* recent comments
+	* @param (int)	$limit How many imagese to query
+	* @param (int)	$start From which image to start
+	*/
+
+	public function recent_comments($limit, $start = 0)
+	{
+		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$sql_limit = $limit;
+		$sql_array = array(
+			'FROM' => array(
+				$this->images_table => 'i',
+				$this->comments_table => 'c',
+			),
+			'WHERE'	=> 'i.image_id = c.comment_image_id and ' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('c_read')),
+			'ORDER_BY'	=> 'comment_time DESC'
+		);
+		$sql_array['SELECT'] = 'COUNT(c.comment_id) as count';
+		$sql = $this->db->sql_build_query('SELECT', $sql_array);
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
+		$count = $row['count'];
+		$sql_array['SELECT'] = '*';
+		$sql = $this->db->sql_build_query('SELECT', $sql_array);
+		$result = $this->db->sql_query_limit($sql, $sql_limit, $start);
+		$rowset = array();
+
+		$users_array = array();
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$rowset[] = $row;
+			$users_array[$row['comment_user_id']] = array('');
+			$users_array[$row['image_user_id']] = array('');
+		}
+		$this->db->sql_freeresult($result);
+		if(empty($rowset))
+		{
+			$this->template->assign_var('S_NO_SEARCH', true);
+			trigger_error('NO_SEARCH');
+		}
+
+		$this->user_loader->load_users(array_keys($users_array));
+		foreach ($rowset as $var)
+		{
+			$album_tmp = $this->album->get_info($var['image_album_id']);
+			$this->template->assign_block_vars('commentrow', array(
+				'COMMENT_ID'	=> $var['comment_id'],
+				'U_DELETE'	=> ($this->gallery_auth->acl_check('m_comments', $album_tmp['album_id'], $album_tmp['album_user_id']) || ($this->gallery_auth->acl_check('c_delete', $album_tmp['album_id'], $album_tmp['album_user_id']) && ($var['comment_user_id'] == $this->user->data['user_id']) && $this->user->data['is_registered'])) ? $this->helper->route('phpbbgallery_comment_delete', array('image_id' => $var['comment_image_id'], 'comment_id' => $var['comment_id'])) : false,
+				'U_EDIT'	=> $this->gallery_auth->acl_check('c_edit', $album_tmp['album_id'], $album_tmp['album_user_id'])? $this->helper->route('phpbbgallery_comment_edit', array('image_id'	=> $var['comment_image_id'], 'comment_id'	=> $var['comment_id'])) : false,
+				'U_QUOTE'	=> ($this->gallery_auth->acl_check('c_post', $album_tmp['album_id'], $album_tmp['album_user_id'])) ? $this->helper->route('phpbbgallery_comment_add', array('image_id'	=> $var['comment_image_id'], 'comment_id'	=> $var['comment_id'])) : false,
+				'U_COMMENT'	=> $this->helper->route('phpbbgallery_image', array('image_id' => $var['comment_image_id'])) . '#comment_' . $var['comment_id'],
+				'POST_AUTHOR_FULL'	=> $this->user_loader->get_username($var['comment_user_id'], 'full'),
+				'TIME'	=> $this->user->format_date($var['comment_time']),
+				'TEXT'	=> generate_text_for_display($var['comment'], $var['comment_uid'], $var['comment_bitfield'], 7),
+				'UC_IMAGE_NAME'	=> '<a href="' . $this->helper->route('phpbbgallery_image', array('image_id' => $var['comment_image_id'])) . '">' . $var['image_name'] . '</a>',
+				//'UC_THUMBNAIL'		=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $var['image_id'])),
+				'UC_THUMBNAIL'		=> $this->image->generate_link('thumbnail', $this->gallery_config->get('link_thumbnail'), $var['comment_image_id'], $var['image_name'], $var['image_album_id']),
+				'IMAGE_AUTHOR'		=> $this->user_loader->get_username((int) $var['image_user_id'], 'full'),
+				'IMAGE_TIME'		=> $this->user->format_date($var['image_time']),
+			));
+		}
+		$this->template->assign_vars(array(
+			'SEARCH_MATCHES'	=> $this->user->lang('TOTAL_COMMENTS_SPRINTF', $count),
+			'SEARCH_TITLE'		=> $this->user->lang('RECENT_COMMENTS'),
+		));
+		$this->pagination->generate_template_pagination(array(
+			'routes' => array(
+				'phpbbgallery_search_recent',
+				'phpbbgallery_search_recent_page',),
+				'params' => array()), 'pagination', 'page', $count, $limit, $start
+		);
 	}
 }

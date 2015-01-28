@@ -155,6 +155,8 @@ services:
             - @phpbbgallery.core.album
             - @phpbbgallery.core.image
             - @phpbbgallery.core.url
+            - @pagination
+            - @user_loader
             - %tables.phpbbgallery.images%
             - %tables.phpbbgallery.albums%
             - %tables.phpbbgallery.comments%
