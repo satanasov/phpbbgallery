@@ -261,7 +261,7 @@ $lang = array_merge($lang, array(
 	'TOTAL_COMMENTS_SPRINTF'		=> array(
 		0	=> '<strong>Няма</strong> коментари',
 		1	=> 'Общо <strong>%d</strong> коментар',
-		2	=> 'Общо <strong>%d</strong> коментари',
+		2	=> 'Общо <strong>%d</strong> коментара',
 	),
 	'TOTAL_IMAGES'					=> 'Общо изображения',
 	'TOTAL_PEGAS_SHORT_SPRINTF'		=> array(
