@@ -243,8 +243,8 @@ class search
 			}
 			$this->db->sql_freeresult($result);
 			$this->template->assign_block_vars('imageblock', array(
-				'BLOCK_NAME'	=> $this->user->lang['RECENT_IMAGES'],
-				'U_BLOCK'	=> $this->helper->route('phpbbgallery_search_recent'),
+				'BLOCK_NAME'	=> '',
+				'U_BLOCK'	=> $this->helper->route('phpbbgallery_search'),
 			));
 			foreach ($rowset as $row)
 			{
