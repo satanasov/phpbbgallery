@@ -90,7 +90,7 @@ class search
 	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
 	*/
 
-	public function base($page=1)
+	public function base()
 	{
 		$search_id		= request_var('search_id', '');
 		$image_id		= request_var('image_id', 0);
@@ -108,6 +108,7 @@ class search
 		$sort_key		= request_var('sk', 't');
 		$sort_dir		= request_var('sd', 'd');
 		
+		$start 			= request_var('start', 0);
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
 		$this->user->add_lang('search');
 		/**
@@ -164,9 +165,13 @@ class search
 				}
 				$this->db->sql_freeresult($result);
 				$user_id_ary[] = (int) ANONYMOUS;
-				$sql_where[] = $user_id_array;
+				$user_id = $user_id_array;
 			}
 
+			if (!empty($user_id))
+			{
+				$sql_where[] =  $this->db->sql_in_set('i.image_user_id', $user_id);
+			}
 			// if we search in an existing search result just add the additional keywords. But we need to use "all search terms"-mode
 			// so we can keep the old keywords in their old mode, but add the new ones as required words
 			if ($add_keywords)
@@ -231,7 +236,7 @@ class search
 			}
 			$sql_array['SELECT'] = '*';
 			$sql = $this->db->sql_build_query('SELECT', $sql_array);
-			$result = $this->db->sql_query_limit($sql, $this->gallery_config->get('items_per_page'), ($page-1) * $this->gallery_config->get('items_per_page'));
+			$result = $this->db->sql_query_limit($sql, $this->gallery_config->get('items_per_page'), $start);
 			while ($row = $this->db->sql_fetchrow($result))
 			{
 				$rowset[] = $row;
@@ -290,6 +295,77 @@ class search
 			$this->template->assign_vars(array(
 				'SEARCH_MATCHES'	=> $this->user->lang('SEARCH'),
 			));
+			$url = '';
+			if ($keywords != '')
+			{
+				$params[] = 'keywords=' . $keywords;
+			}
+			if ($username != '')
+			{
+				$params[] = 'username=' . $username;
+			}
+			if (!empty($user_id))
+			{
+				foreach($user_id as $var)
+				{
+					$params[] = 'user_id[]=' . $var;
+				}
+			}
+			if (isset($search_terms))
+			{
+				$params[] = 'terms=' . $search_terms;
+			}
+			if (!empty($search_album))
+			{
+				foreach($search_album as $var)
+				{
+					$params[] = 'aid[]=' . $var;
+				}
+			}
+			if (isset($search_child))
+			{
+				$params[] = 'sc=' . $search_child;
+			}
+			if (isset($search_fields))
+			{
+				$params[] = 'sf=' . $search_fields;
+			}
+			if (isset($sort_days))
+			{
+				$params[] = 'st=' . $sort_days;
+			}
+			if (isset($sort_key))
+			{
+				$params[] = 'sk=' . $sort_key;
+			}
+			if (isset($sort_dir))
+			{
+				$params[] = 'sd=' . $sort_dir;
+			}
+			$url = implode('&', $params);
+			$this->pagination->generate_template_pagination(
+				$this->helper->route('phpbbgallery_search') . '?' . $url,
+				'pagination', 
+				'start', 
+				$search_count, 
+				$this->gallery_config->get('items_per_page'), 
+				$start
+			);
+			/*$this->pagination->generate_template_pagination(
+				array(
+					'routes' => array(
+						'phpbbgallery_search',
+						'phpbbgallery_search_page',
+					),
+					'params' => array(
+					),
+				), 
+				'pagination', 
+				'page', 
+				$search_count, 
+				$this->gallery_config->get('items_per_page'), 
+				($page-1) * $this->gallery_config->get('items_per_page')
+			);*/
 			return $this->helper->render('gallery/search_results.html', $this->user->lang('GALLERY'));
 		}
 		// Is user able to search? Has search been disabled?
