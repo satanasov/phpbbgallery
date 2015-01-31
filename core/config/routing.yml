@@ -181,7 +181,10 @@ phpbbgallery_search_commented_page:
     defaults: { _controller: phpbbgallery.core.controller.search:recent_comments }
 phpbbgallery_search_egosearch:
     pattern: /gallery/search/self
-    defaults: { _controller: phpbbgallery.core.controller.search:base }
+    defaults: { _controller: phpbbgallery.core.controller.search:ego_search, page: 1 }
+phpbbgallery_search_egosearch_page:
+    pattern: /gallery/search/self/{page}
+    defaults: { _controller: phpbbgallery.core.controller.search:ego_search }
 phpbbgallery_search_toprated:
     pattern: /gallery/search/toprated
     defaults: { _controller: phpbbgallery.core.controller.search:base }
