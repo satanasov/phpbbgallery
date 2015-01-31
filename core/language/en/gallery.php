@@ -264,6 +264,11 @@ $lang = array_merge($lang, array(
 		2	=> 'Total comments <strong>%d</strong>',
 	),
 	'TOTAL_IMAGES'					=> 'Total images',
+	'TOTAL_IMAGES_SPRINTF'			=> array(
+		0	=> 'No images',
+		1	=> '%d image',
+		2	=> '%d images',
+	),
 	'TOTAL_PEGAS_SHORT_SPRINTF'		=> array(
 		0	=> '0 personal galleries',
 		1	=> '%d personal gallery',

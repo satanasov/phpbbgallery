@@ -264,6 +264,11 @@ $lang = array_merge($lang, array(
 		2	=> 'Общо <strong>%d</strong> коментара',
 	),
 	'TOTAL_IMAGES'					=> 'Общо изображения',
+	'TOTAL_IMAGES_SPRINTF'			=> array(
+		0	=> 'Няма изображения',
+		1	=> '%d изображение',
+		2	=> '%d изображения',
+	),
 	'TOTAL_PEGAS_SHORT_SPRINTF'		=> array(
 		0	=> '0 лични галерии',
 		1	=> '%d лична галерия',
