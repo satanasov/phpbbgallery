@@ -474,6 +474,7 @@ class search
 		
 		$result = $this->db->sql_query_limit($sql, $sql_limit, $start);
 		//var_dump($sql);
+		$id_ary = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$id_ary[] = $row['image_id'];
