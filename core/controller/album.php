@@ -297,7 +297,7 @@ class album
 			$image_data['rating'] = '0';//@todo: $rating->get_image_rating(false, false);
 			//@todo: unset($rating);
 
-			$s_user_allowed = (($image_data['image_user_id'] == $this->user->data['user_id']) && ($album_status != \phpbbgallery\core\album\album::STATUS_LOCKED));\
+			$s_user_allowed = (($image_data['image_user_id'] == $this->user->data['user_id']) && ($album_status != \phpbbgallery\core\album\album::STATUS_LOCKED));
 
 			switch ($this->gallery_config->get('link_thumbnail'))
 			{
