@@ -285,6 +285,7 @@ class album
 		{
 			$show_album = true;
 		}
+
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			// Assign the image to the template-block
@@ -296,27 +297,40 @@ class album
 			$image_data['rating'] = '0';//@todo: $rating->get_image_rating(false, false);
 			//@todo: unset($rating);
 
-			$s_user_allowed = (($image_data['image_user_id'] == $this->user->data['user_id']) && ($album_status != \phpbbgallery\core\album\album::STATUS_LOCKED));
+			$s_user_allowed = (($image_data['image_user_id'] == $this->user->data['user_id']) && ($album_status != \phpbbgallery\core\album\album::STATUS_LOCKED));\
 
-			$s_allowed_delete = (($this->auth->acl_check('i_delete', $image_data['image_album_id'], $album_user_id) && $s_user_allowed) || $this->auth->acl_check('m_delete', $image_data['image_album_id'], $album_user_id));
-			$s_allowed_edit = (($this->auth->acl_check('i_edit', $image_data['image_album_id'], $album_user_id) && $s_user_allowed) || $this->auth->acl_check('m_edit', $image_data['image_album_id'], $album_user_id));
-			$s_quick_mod = ($s_allowed_delete || $s_allowed_edit || $this->auth->acl_check('m_status', $image_data['image_album_id'], $album_user_id) || $this->auth->acl_check('m_move', $image_data['image_album_id'], $album_user_id));
 			switch ($this->gallery_config->get('link_thumbnail'))
 			{
 				case 'image_page':
-					$action = $this->helper->route('phpbbgallery_image', array('image_id' => $image_data['image_id']));
+					$action = $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id']));
 				break;
 				case 'image':
-					$action = $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $image_data['image_id']));
+					$action = $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $row['image_id']));
 				break;
 				default:
 					$action = false;
 				break;
 			}
+			switch ($this->gallery_config->get('link_image_name'))
+			{
+				case 'image_page':
+					$action_image = $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id']));
+				break;
+				case 'image':
+					$action_image = $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $row['image_id']));
+				break;
+				default:
+					$action_image = false;
+				break;
+			}
+			$s_allowed_delete = (($this->auth->acl_check('i_delete', $image_data['image_album_id'], $album_user_id) && $s_user_allowed) || $this->auth->acl_check('m_delete', $image_data['image_album_id'], $album_user_id));
+			$s_allowed_edit = (($this->auth->acl_check('i_edit', $image_data['image_album_id'], $album_user_id) && $s_user_allowed) || $this->auth->acl_check('m_edit', $image_data['image_album_id'], $album_user_id));
+			$s_quick_mod = ($s_allowed_delete || $s_allowed_edit || $this->auth->acl_check('m_status', $image_data['image_album_id'], $album_user_id) || $this->auth->acl_check('m_move', $image_data['image_album_id'], $album_user_id));
+
 			$s_username_hidden = $image_data['image_contest'] && !$this->auth->acl_check('m_status', $image_data['image_album_id'], $album_user_id) && ($this->user->data['user_id'] != $image_data['image_user_id'] || $image_data['image_user_id'] == ANONYMOUS);
 			$this->template->assign_block_vars('imageblock.image', array(
 				'IMAGE_ID'		=> $image_data['image_id'],
-				'U_IMAGE'		=> $this->helper->route('phpbbgallery_image', array('image_id' => $image_data['image_id'])),
+				'U_IMAGE'		=> $action_image,
 				'UC_IMAGE_NAME'	=> $show_imagename ? $image_data['image_name'] : false,//self::generate_link('image_name', $this->config['phpbb_gallery_link_image_name'], $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id'], false, true, "&amp;sk={$sk}&amp;sd={$sd}&amp;st={$st}"),
 				//'UC_THUMBNAIL'	=> 'self::generate_link('thumbnail', $phpbb_ext_gallery->config->get('link_thumbnail'), $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id']),
 				'UC_THUMBNAIL'		=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $image_data['image_id'])),
