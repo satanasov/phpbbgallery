@@ -536,7 +536,7 @@ class search
 			'FORUM_NAME'	=> $this->user->lang('SEARCH_USER_IMAGES_OF', $this->user->data['username']),
 			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_search_egosearch'),
 		));
-		
+
 		$limit = $this->gallery_config->get('items_per_page');
 		$start = ($page - 1) * $this->gallery_config->get('items_per_page');
 
