@@ -288,24 +288,37 @@ class search
 			{
 				$show_album = true;
 			}
+			switch ($this->gallery_config->get('link_thumbnail'))
+			{
+				case 'image_page':
+					$action = $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id']));
+				break;
+				case 'image':
+					$action = $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $row['image_id']));
+				break;
+				default:
+					$action = false;
+				break;
+			}
+			switch ($this->gallery_config->get('link_image_name'))
+			{
+				case 'image_page':
+					$action_image = $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id']));
+				break;
+				case 'image':
+					$action_image = $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $row['image_id']));
+				break;
+				default:
+					$action_image = false;
+				break;
+			}
 			foreach ($rowset as $row)
 			{
 				$album_data = $this->album->get_info($row['image_album_id']);
-				switch ($this->gallery_config->get('link_thumbnail'))
-				{
-					case 'image_page':
-						$action = $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id']));
-					break;
-					case 'image':
-						$action = $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $row['image_id']));
-					break;
-					default:
-						$action = false;
-					break;
-				}
+
 				$this->template->assign_block_vars('imageblock.image', array(
 					'IMAGE_ID'		=> $row['image_id'],
-					'U_IMAGE'		=> $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id'])),
+					'U_IMAGE'		=> $action_image,
 					'UC_IMAGE_NAME'	=> $show_imagename ? $row['image_name'] : false,//self::generate_link('image_name', $this->config['phpbb_gallery_link_image_name'], $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id'], false, true, "&amp;sk={$sk}&amp;sd={$sd}&amp;st={$st}"),
 					//'UC_THUMBNAIL'	=> 'self::generate_link('thumbnail', $phpbb_ext_gallery->config->get('link_thumbnail'), $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id']),
 					'UC_THUMBNAIL'		=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $row['image_id'])),
