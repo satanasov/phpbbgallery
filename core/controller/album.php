@@ -243,6 +243,48 @@ class album
 			ORDER BY $sql_sort_order" . $sql_help_sort;
 		$result = $this->db->sql_query_limit($sql, $limit, $start);
 
+		// Now let's get display options
+		$show_ip = $show_ratings = $show_username = $show_views = $show_time = $show_imagename = $show_comments = $show_album = false;
+		$show_options = $this->gallery_config->get('album_display');
+		if ($show_options >= 128)
+		{
+			$show_ip = true;
+			$show_options = $show_options - 128;
+		}
+		if ($show_options >= 64)
+		{
+			$show_ratings = true;
+			$show_options = $show_options - 64;
+		}
+		if ($show_options >= 32)
+		{
+			$show_username = true;
+			$show_options = $show_options - 32;
+		}
+		if ($show_options >= 16)
+		{
+			$show_views = true;
+			$show_options = $show_options - 16;
+		}
+		if ($show_options >= 8)
+		{
+			$show_time = true;
+			$show_options = $show_options - 8;
+		}
+		if ($show_options >= 4)
+		{
+			$show_imagename = true;
+			$show_options = $show_options - 4;
+		}
+		if ($show_options >= 2)
+		{
+			$show_comments = true;
+			$show_options = $show_options - 2;
+		}
+		if ($show_options == 1)
+		{
+			$show_album = true;
+		}
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			// Assign the image to the template-block
@@ -275,20 +317,20 @@ class album
 			$this->template->assign_block_vars('imageblock.image', array(
 				'IMAGE_ID'		=> $image_data['image_id'],
 				'U_IMAGE'		=> $this->helper->route('phpbbgallery_image', array('image_id' => $image_data['image_id'])),
-				'UC_IMAGE_NAME'	=> $image_data['image_name'],//self::generate_link('image_name', $this->config['phpbb_gallery_link_image_name'], $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id'], false, true, "&amp;sk={$sk}&amp;sd={$sd}&amp;st={$st}"),
+				'UC_IMAGE_NAME'	=> $show_imagename ? $image_data['image_name'] : false,//self::generate_link('image_name', $this->config['phpbb_gallery_link_image_name'], $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id'], false, true, "&amp;sk={$sk}&amp;sd={$sd}&amp;st={$st}"),
 				//'UC_THUMBNAIL'	=> 'self::generate_link('thumbnail', $phpbb_ext_gallery->config->get('link_thumbnail'), $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id']),
 				'UC_THUMBNAIL'		=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $image_data['image_id'])),
 				'UC_THUMBNAIL_ACTION'	=> $action,
 				'S_UNAPPROVED'	=> ($this->auth->acl_check('m_status', $image_data['image_album_id'], $album_user_id) && ($image_data['image_status'] == \phpbbgallery\core\image\image::STATUS_UNAPPROVED)) ? true : false,
 				'S_LOCKED'		=> ($image_data['image_status'] == \phpbbgallery\core\image\image::STATUS_LOCKED) ? true : false,
 				'S_REPORTED'	=> ($this->auth->acl_check('m_report', $image_data['image_album_id'], $album_user_id) && $image_data['image_reported']) ? true : false,
-				'POSTER'		=> ($s_username_hidden) ? $this->user->lang['CONTEST_USERNAME'] : get_username_string('full', $image_data['image_user_id'], $image_data['image_username'], $image_data['image_user_colour']),
-				'TIME'			=> $this->user->format_date($image_data['image_time']),
+				'POSTER'		=> ($show_username) ? (($s_username_hidden) ? $this->user->lang['CONTEST_USERNAME'] : get_username_string('full', $image_data['image_user_id'], $image_data['image_username'], $image_data['image_user_colour'])) : false,
+				'TIME'			=> $show_time ? $this->user->format_date($image_data['image_time']) : false,
 
-				'S_RATINGS'		=> ($this->config['phpbb_gallery_allow_rates'] && $this->auth->acl_check('i_rate', $image_data['image_album_id'], $album_user_id)) ? $image_data['rating'] : '',
+				'S_RATINGS'		=> ($this->config['phpbb_gallery_allow_rates'] && $this->auth->acl_check('i_rate', $image_data['image_album_id'], $album_user_id) && $show_ratings) ? $image_data['rating'] : '',
 				'U_RATINGS'		=> $this->helper->route('phpbbgallery_image', array('image_id' => $image_data['image_id'])) . '#rating',
 				'L_COMMENTS'	=> ($image_data['image_comments'] == 1) ? $this->user->lang['COMMENT'] : $this->user->lang['COMMENTS'],
-				'S_COMMENTS'	=> ($this->config['phpbb_gallery_allow_comments'] && $this->auth->acl_check('c_read', $image_data['image_album_id'], $album_user_id)) ? (($image_data['image_comments']) ? $image_data['image_comments'] : $this->user->lang['NO_COMMENTS']) : '',
+				'S_COMMENTS'	=> ($this->config['phpbb_gallery_allow_comments'] && $this->auth->acl_check('c_read', $image_data['image_album_id'], $album_user_id) && $show_comments) ? (($image_data['image_comments']) ? $image_data['image_comments'] : $this->user->lang['NO_COMMENTS']) : '',
 				'U_COMMENTS'	=> $this->helper->route('phpbbgallery_image', array('image_id' => $image_data['image_id'])) . '#comments',
 
 				'S_IMAGE_REPORTED'		=> $image_data['image_reported'],
