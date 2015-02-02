@@ -92,23 +92,23 @@ class search
 
 	public function base()
 	{
-		$search_id		= request_var('search_id', '');
-		$image_id		= request_var('image_id', 0);
+		$search_id		= $this->request->variable('search_id', '');
+		$image_id		= $this->request->variable('image_id', 0);
 
-		$submit			= request_var('submit', false);
-		$keywords		= utf8_normalize_nfc(request_var('keywords', '', true));
-		$add_keywords	= utf8_normalize_nfc(request_var('add_keywords', '', true));
-		$username		= request_var('username', '', true);
-		$user_id		= request_var('user_id', array(0));
-		$search_terms	= request_var('terms', 'all');
-		$search_album	= request_var('aid', array(0));
-		$search_child	= request_var('sc', true);
-		$search_fields	= request_var('sf', 'all');
-		$sort_days		= request_var('st', 0);
-		$sort_key		= request_var('sk', 't');
-		$sort_dir		= request_var('sd', 'd');
-		
-		$start 			= request_var('start', 0);
+		$submit			= $this->request->variable('submit', false);
+		$keywords		= utf8_normalize_nfc($this->request->variable('keywords', '', true));
+		$add_keywords	= utf8_normalize_nfc($this->request->variable('add_keywords', '', true));
+		$username		= $this->request->variable('username', '', true);
+		$user_id		= $this->request->variable('user_id', array(0));
+		$search_terms	= $this->request->variable('terms', 'all');
+		$search_album	= $this->request->variable('aid', array(0));
+		$search_child	= $this->request->variable('sc', true);
+		$search_fields	= $this->request->variable('sf', 'all');
+		$sort_days		= $this->request->variable('st', 0);
+		$sort_key		= $this->request->variable('sk', 't');
+		$sort_dir		= $this->request->variable('sd', 'd');
+
+		$start 			= $this->request->variable('start', 0);
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
 		$this->user->add_lang('search');
 		/**
@@ -158,7 +158,7 @@ class search
 					WHERE ' . (strpos($username, '*') !== false) ? ' username_clean ' . $this->db->sql_like_expression(str_replace('*', $this->db->get_any_char(), utf8_clean_string($this->db->sql_escape($username)))) : ' username_clean = \'' . $this->db->sql_escape(utf8_clean_string($username)) . '\'
 					AND user_type IN (' . USER_NORMAL . ', ' . USER_FOUNDER . ')';
 				$result = $this->db->sql_query_limit($sql, 100);
-				
+
 				while ($row = $this->db->sql_fetchrow($result))
 				{
 					$user_id_ary[] = (int) $row['user_id'];
@@ -345,27 +345,13 @@ class search
 			$url = implode('&', $params);
 			$this->pagination->generate_template_pagination(
 				$this->helper->route('phpbbgallery_search') . '?' . $url,
-				'pagination', 
-				'start', 
-				$search_count, 
-				$this->gallery_config->get('items_per_page'), 
+				'pagination',
+				'start',
+				$search_count,
+				$this->gallery_config->get('items_per_page'),
 				$start
 			);
-			/*$this->pagination->generate_template_pagination(
-				array(
-					'routes' => array(
-						'phpbbgallery_search',
-						'phpbbgallery_search_page',
-					),
-					'params' => array(
-					),
-				), 
-				'pagination', 
-				'page', 
-				$search_count, 
-				$this->gallery_config->get('items_per_page'), 
-				($page-1) * $this->gallery_config->get('items_per_page')
-			);*/
+
 			return $this->helper->render('gallery/search_results.html', $this->user->lang('GALLERY'));
 		}
 		// Is user able to search? Has search been disabled?
