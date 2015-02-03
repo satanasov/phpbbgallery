@@ -599,4 +599,43 @@ class search
 
 		return $this->helper->render('gallery/search_results.html', $this->user->lang('GALLERY'));
 	}
+	/**
+	* Index Controller
+	*	Route: gallery/search/toprated/{page}
+	*
+	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	*/
+	public function toprated($page)
+	{
+		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
+		$this->user->add_lang('search');
+
+		// Is user able to search? Has search been disabled?
+		if (!$this->auth->acl_get('u_search') || !$this->config['load_search'])
+		{
+			$this->template->assign_var('S_NO_SEARCH', true);
+			trigger_error('NO_SEARCH');
+		}
+
+		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->template->assign_block_vars('navlinks', array(
+			'FORUM_NAME'	=> $this->user->lang['GALLERY'],
+			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_index'),
+		));
+		$this->template->assign_block_vars('navlinks', array(
+			'FORUM_NAME'	=> $this->user->lang['SEARCH'],
+			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_search'),
+		));
+		$this->template->assign_block_vars('navlinks', array(
+			'FORUM_NAME'	=> $this->user->lang('SEARCH_TOPRATED'),
+			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_search_egosearch'),
+		));
+
+		$limit = $this->gallery_config->get('items_per_page');
+		$start = ($page - 1) * $this->gallery_config->get('items_per_page');
+
+		$this->gallery_search->rating($limit, $start);
+
+		return $this->helper->render('gallery/search_results.html', $this->user->lang('GALLERY'));
+	}
 }

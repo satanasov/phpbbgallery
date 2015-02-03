@@ -219,7 +219,7 @@ class search
 		{
 			$show_album = true;
 		}
-		
+
 		foreach ($rowset as $row)
 		{
 			$album_data = $this->album->get_info($row['image_album_id']);
@@ -739,6 +739,154 @@ class search
 			'routes' => array(
 				'phpbbgallery_search_egosearch',
 				'phpbbgallery_search_egosearch_page',),
+				'params' => array()), 'pagination', 'page', $count, $limit, $start
+		);
+	}
+
+	/**
+	* Get top rated image
+	*/
+	public function rating($limit, $start = 0)
+	{
+		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$sql_array = array();
+		$sql_array['FROM'] = array(
+			$this->images_table	=> 'i'
+		);
+		$sql_array['WHERE'] = $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('i_view'), false, true) . ' and image_rate_avg <> 0';
+		$sql_array['ORDER_BY'] = 'image_rate_avg DESC, image_rates DESC';
+		$sql_array['SELECT'] = 'COUNT(i.image_id) as count';
+		$sql = $this->db->sql_build_query('SELECT', $sql_array);
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
+		$count = $row['count'];
+		$sql_array['SELECT'] = '*';
+		$sql = $this->db->sql_build_query('SELECT', $sql_array);
+		$result = $this->db->sql_query_limit($sql, $limit, $start);
+		$rowset = array();
+
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$rowset[] = $row;
+			$users_array[$row['image_user_id']] = array('');
+		}
+		$this->db->sql_freeresult($result);
+		if(empty($rowset))
+		{
+			$this->template->assign_var('S_NO_SEARCH', true);
+			trigger_error('NO_SEARCH');
+		}
+
+		$this->user_loader->load_users(array_keys($users_array));
+		// Now let's get display options
+		$show_ip = $show_ratings = $show_username = $show_views = $show_time = $show_imagename = $show_comments = $show_album = false;
+		$show_options = $this->gallery_config->get('rrc_profile_display');
+		if ($show_options >= 128)
+		{
+			$show_ip = true;
+			$show_options = $show_options - 128;
+		}
+		if ($show_options >= 64)
+		{
+			$show_ratings = true;
+			$show_options = $show_options - 64;
+		}
+		if ($show_options >= 32)
+		{
+			$show_username = true;
+			$show_options = $show_options - 32;
+		}
+		if ($show_options >= 16)
+		{
+			$show_views = true;
+			$show_options = $show_options - 16;
+		}
+		if ($show_options >= 8)
+		{
+			$show_time = true;
+			$show_options = $show_options - 8;
+		}
+		if ($show_options >= 4)
+		{
+			$show_imagename = true;
+			$show_options = $show_options - 4;
+		}
+		if ($show_options >= 2)
+		{
+			$show_comments = true;
+			$show_options = $show_options - 2;
+		}
+		if ($show_options == 1)
+		{
+			$show_album = true;
+		}
+		foreach ($rowset as $row)
+		{
+			$album_data = $this->album->get_info($row['image_album_id']);
+			switch ($this->gallery_config->get('link_thumbnail'))
+			{
+				case 'image_page':
+					$action = $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id']));
+				break;
+				case 'image':
+					$action = $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $row['image_id']));
+				break;
+				default:
+					$action = false;
+				break;
+			}
+			switch ($this->gallery_config->get('link_image_name'))
+			{
+				case 'image_page':
+					$action_image = $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id']));
+				break;
+				case 'image':
+					$action_image = $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $row['image_id']));
+				break;
+				default:
+					$action_image = false;
+				break;
+			}
+			$this->template->assign_block_vars('imageblock.image', array(
+				'IMAGE_ID'		=> $row['image_id'],
+				'U_IMAGE'		=> $action_image,
+				'UC_IMAGE_NAME'	=> $show_imagename ? $row['image_name'] : false,//self::generate_link('image_name', $this->config['phpbb_gallery_link_image_name'], $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id'], false, true, "&amp;sk={$sk}&amp;sd={$sd}&amp;st={$st}"),
+				//'UC_THUMBNAIL'	=> 'self::generate_link('thumbnail', $phpbb_ext_gallery->config->get('link_thumbnail'), $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id']),
+				'UC_THUMBNAIL'		=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $row['image_id'])),
+				'UC_THUMBNAIL_ACTION'	=> $action,
+				'S_UNAPPROVED'	=> ($this->gallery_auth->acl_check('m_status', $row['image_album_id'], $album_data['album_user_id']) && ($row['image_status'] == \phpbbgallery\core\image\image::STATUS_UNAPPROVED)) ? true : false,
+				'S_LOCKED'		=> ($row['image_status'] == \phpbbgallery\core\image\image::STATUS_LOCKED) ? true : false,
+				'S_REPORTED'	=> ($this->gallery_auth->acl_check('m_report', $row['image_album_id'], $album_data['album_user_id']) && $row['image_reported']) ? true : false,
+				'POSTER'		=> $show_username ? get_username_string('full', $row['image_user_id'], $row['image_username'], $row['image_user_colour']) : false,
+				'TIME'			=> $show_time ? $this->user->format_date($row['image_time']) : false,
+
+				'S_RATINGS'		=> ($show_ratings && $this->config['phpbb_gallery_allow_rates'] && $this->gallery_auth->acl_check('i_rate', $row['image_album_id'], $album_data['album_user_id'])) ? $row['image_rate_avg'] : '',
+				'U_RATINGS'		=> $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id'])) . '#rating',
+				'L_COMMENTS'	=> ($row['image_comments'] == 1) ? $this->user->lang['COMMENT'] : $this->user->lang['COMMENTS'],
+				'S_COMMENTS'	=> $show_comments ? (($this->config['phpbb_gallery_allow_comments'] && $this->gallery_auth->acl_check('c_read', $row['image_album_id'], $album_data['album_user_id'])) ? (($row['image_comments']) ? $row['image_comments'] : $this->user->lang['NO_COMMENTS']) : '') : false,
+				'U_COMMENTS'	=> $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id'])) . '#comments',
+
+				'S_IMAGE_REPORTED'		=> $row['image_reported'],
+				'U_IMAGE_REPORTED'		=> '',//($image_data['image_reported']) ? $phpbb_ext_gallery->url->append_sid('mcp', "mode=report_details&amp;album_id={$image_data['image_album_id']}&amp;option_id=" . $image_data['image_reported']) : '',
+				'S_STATUS_APPROVED'		=> ($row['image_status'] == \phpbbgallery\core\image\image::STATUS_APPROVED),
+				'S_STATUS_UNAPPROVED'	=> ($this->gallery_auth->acl_check('m_status', $row['image_album_id'], $album_data['album_user_id']) && $row['image_status'] == \phpbbgallery\core\image\image::STATUS_UNAPPROVED) ? true : false,
+				'S_STATUS_UNAPPROVED_ACTION'	=> ($this->gallery_auth->acl_check('m_status', $row['image_album_id'], $album_data['album_user_id']) && $row['image_status'] == \phpbbgallery\core\image\image::STATUS_UNAPPROVED) ? $this->helper->route('phpbbgallery_moderate_image_approve', array('image_id' => $row['image_id'])) : '',
+				'S_STATUS_LOCKED'		=> ($row['image_status'] == \phpbbgallery\core\image\image::STATUS_LOCKED),
+
+				'U_REPORT'	=> ($this->gallery_auth->acl_check('m_report', $row['image_album_id'], $album_data['album_user_id']) && $row['image_reported']) ? '123'/*$this->url->append_sid('mcp', "mode=report_details&amp;album_id={$image_data['image_album_id']}&amp;option_id=" . $image_data['image_reported'])*/ : '',
+				'U_STATUS'	=> '',//($this->auth->acl_check('m_status', $image_data['image_album_id'], $album_user_id)) ? $phpbb_ext_gallery->url->append_sid('mcp', "mode=queue_details&amp;album_id={$image_data['image_album_id']}&amp;option_id=" . $image_data['image_id']) : '',
+				'L_STATUS'	=> ($row['image_status'] == \phpbbgallery\core\image\image::STATUS_UNAPPROVED) ? $this->user->lang['APPROVE_IMAGE'] : (($row['image_status'] == \phpbbgallery\core\image\image::STATUS_APPROVED) ? $this->user->lang['CHANGE_IMAGE_STATUS'] : $this->user->lang['UNLOCK_IMAGE']),
+			));
+		}
+		$this->template->assign_vars(array(
+			'SEARCH_MATCHES'	=> $this->user->lang('TOTAL_IMAGES_SPRINTF', $count),
+			'SEARCH_TITLE'		=> $this->user->lang('SEARCH_TOPRATED'),
+		));
+		$this->pagination->generate_template_pagination(array(
+			'routes' => array(
+				'phpbbgallery_search_toprated',
+				'phpbbgallery_search_toprated_page',),
 				'params' => array()), 'pagination', 'page', $count, $limit, $start
 		);
 	}

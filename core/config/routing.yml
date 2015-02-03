@@ -187,4 +187,7 @@ phpbbgallery_search_egosearch_page:
     defaults: { _controller: phpbbgallery.core.controller.search:ego_search }
 phpbbgallery_search_toprated:
     pattern: /gallery/search/toprated
-    defaults: { _controller: phpbbgallery.core.controller.search:base }
+    defaults: { _controller: phpbbgallery.core.controller.search:toprated, page: 1 }
+phpbbgallery_search_toprated_page:
+    pattern: /gallery/search/toprated/{page}
+    defaults: { _controller: phpbbgallery.core.controller.search:toprated }
