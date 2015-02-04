@@ -199,6 +199,8 @@ services:
             - @controller.helper
             - @template
             - @user
+            - @phpbbgallery.core.search
+            - @phpbbgallery.core.config
             - %core.php_ext%
         tags:
             - { name: event.listener }

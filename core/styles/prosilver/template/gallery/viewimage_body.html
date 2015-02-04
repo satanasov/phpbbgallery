@@ -1,5 +1,14 @@
 <!-- INCLUDE gallery/gallery_header.html -->
-
+<!--<svg width="0" height="0">
+  <defs>
+    <clipPath id="left_arrow">
+     <polygon style="stroke-width: 1px; vector-effect: non-scaling-stroke;" points="0 35 70 0 70 70"></polygon>
+    </clipPath>
+     <clipPath id="right_arrow">
+     <polygon style="stroke-width: 1px; vector-effect: non-scaling-stroke;" points="70 35 0 0 0 70"></polygon>
+    </clipPath>
+  </defs>
+</svg> -->
 <h2><a href="{S_ALBUM_ACTION}">{IMAGE_NAME}</a></h2>
 
 <div class="post bg2<!-- IF S_IMAGE_REPORTED --> reported<!-- ENDIF -->">
@@ -15,7 +24,7 @@
 <div class="post bg2">
 	<div class="inner"><span class="corners-top"><span></span></span>
 		<div style="text-align: center; overflow: hidden;">
-			<!-- IF UC_PREV_IMAGE --><div style="float: left; text-align: left; width: 48%;">{UC_PREV_IMAGE}</div><!-- ENDIF --><!-- IF UC_NEXT_IMAGE --><div style="float: right; text-align: right; width: 48%;">{UC_NEXT_IMAGE}</div><!-- ENDIF -->
+			<!-- IF UC_PREV_IMAGE --><div class="image_prev_image">{UC_PREV_IMAGE}</div><!-- ENDIF --><!-- IF UC_NEXT_IMAGE --><div class="image_next_image">{UC_NEXT_IMAGE}</div><!-- ENDIF -->
 		</div>
 	</div>
 </div>

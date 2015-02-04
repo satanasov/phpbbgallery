@@ -89,7 +89,7 @@ class search
 	* @param (int)	$limit	how many images to generate_link
 	*/
 
-	public function random($limit)
+	public function random($limit, $user = 0, $fields = 'rrc_gindex_display', $block_name = false, $u_block = false)
 	{
 		// Define some vars
 		$images_per_page = $limit;
@@ -115,8 +115,12 @@ class search
 		$sql_limit = $images_per_page;
 		$sql = 'SELECT image_id
 			FROM ' . $this->images_table . '
-			WHERE image_status <> ' . \phpbbgallery\core\image\image::STATUS_ORPHAN . '
-				AND ((' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('i_view'), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
+			WHERE image_status <> ' . \phpbbgallery\core\image\image::STATUS_ORPHAN;
+		if ($user > 0)
+		{
+			$sql .= ' and image_user_id = ' . (int) $user;
+		}
+		$sql .= ' AND ((' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('i_view'), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
 					OR (' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('a_list'), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
 					OR ' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('m_status'), false, true) . ')
 			ORDER BY ' . $sql_order;
@@ -149,8 +153,8 @@ class search
 		$sql_where = $this->db->sql_in_set('i.image_id', $id_ary);
 
 		$this->template->assign_block_vars('imageblock', array(
-			'BLOCK_NAME'	=> $this->user->lang['RANDOM_IMAGES'],
-			'U_BLOCK'	=> $this->helper->route('phpbbgallery_search_random'),
+			'BLOCK_NAME'	=> $block_name ? $block_name : $this->user->lang['RANDOM_IMAGES'],
+			'U_BLOCK'	=> $u_block ? $u_block : $this->helper->route('phpbbgallery_search_random'),
 		));
 
 		$sql_array = array(
@@ -179,7 +183,7 @@ class search
 
 		// Now let's get display options
 		$show_ip = $show_ratings = $show_username = $show_views = $show_time = $show_imagename = $show_comments = $show_album = false;
-		$show_options = $this->gallery_config->get('rrc_gindex_display');
+		$show_options = $this->gallery_config->get($fields);
 		if ($show_options >= 128)
 		{
 			$show_ip = true;
@@ -264,181 +268,6 @@ class search
 				'U_RATINGS'		=> $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id'])) . '#rating',
 				'L_COMMENTS'	=> ($row['image_comments'] == 1) ? $this->user->lang['COMMENT'] : $this->user->lang['COMMENTS'],
 				'S_COMMENTS'	=> $show_comments ? (($this->config['phpbb_gallery_allow_comments'] && $this->gallery_auth->acl_check('c_read', $row['image_album_id'], $album_data['album_user_id'])) ? (($row['image_comments']) ? $row['image_comments'] : $this->user->lang['NO_COMMENTS']) : '') : false,
-				'U_COMMENTS'	=> $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id'])) . '#comments',
-
-				'S_IMAGE_REPORTED'		=> $row['image_reported'],
-				'U_IMAGE_REPORTED'		=> '',//($image_data['image_reported']) ? $phpbb_ext_gallery->url->append_sid('mcp', "mode=report_details&amp;album_id={$image_data['image_album_id']}&amp;option_id=" . $image_data['image_reported']) : '',
-				'S_STATUS_APPROVED'		=> ($row['image_status'] == \phpbbgallery\core\image\image::STATUS_APPROVED),
-				'S_STATUS_UNAPPROVED'	=> ($this->gallery_auth->acl_check('m_status', $row['image_album_id'], $album_data['album_user_id']) && $row['image_status'] == \phpbbgallery\core\image\image::STATUS_UNAPPROVED) ? true : false,
-				'S_STATUS_UNAPPROVED_ACTION'	=> ($this->gallery_auth->acl_check('m_status', $row['image_album_id'], $album_data['album_user_id']) && $row['image_status'] == \phpbbgallery\core\image\image::STATUS_UNAPPROVED) ? $this->helper->route('phpbbgallery_moderate_image_approve', array('image_id' => $row['image_id'])) : '',
-				'S_STATUS_LOCKED'		=> ($row['image_status'] == \phpbbgallery\core\image\image::STATUS_LOCKED),
-
-				'U_REPORT'	=> ($this->gallery_auth->acl_check('m_report', $row['image_album_id'], $album_data['album_user_id']) && $row['image_reported']) ? '123'/*$this->url->append_sid('mcp', "mode=report_details&amp;album_id={$image_data['image_album_id']}&amp;option_id=" . $image_data['image_reported'])*/ : '',
-				'U_STATUS'	=> '',//($this->auth->acl_check('m_status', $image_data['image_album_id'], $album_user_id)) ? $phpbb_ext_gallery->url->append_sid('mcp', "mode=queue_details&amp;album_id={$image_data['image_album_id']}&amp;option_id=" . $image_data['image_id']) : '',
-				'L_STATUS'	=> ($row['image_status'] == \phpbbgallery\core\image\image::STATUS_UNAPPROVED) ? $this->user->lang['APPROVE_IMAGE'] : (($row['image_status'] == \phpbbgallery\core\image\image::STATUS_APPROVED) ? $this->user->lang['CHANGE_IMAGE_STATUS'] : $this->user->lang['UNLOCK_IMAGE']),
-			));
-		}
-	}
-
-	/**
-	* Generate recent images and populate template
-	* @param (int)	$limit How many imagese to query
-	* @param (int)	$start From which image to start
-	*/
-
-	public function recent($limit, $start = 0)
-	{
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
-		$sql_order = 'image_id DESC';
-		$sql_limit = $limit;
-		$sql = 'SELECT image_id
-			FROM ' . $this->images_table . '
-			WHERE image_status <> ' . \phpbbgallery\core\image\image::STATUS_ORPHAN . '
-				AND ((' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('i_view'), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
-					OR ' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('m_status'), false, true) . ')
-			ORDER BY ' . $sql_order;
-		if (!$sql_limit)
-		{
-			$result = $this->db->sql_query($sql);
-		}
-		else
-		{
-			$result = $this->db->sql_query_limit($sql, $sql_limit, $start);
-		}
-		//var_dump($sql);
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$id_ary[] = $row['image_id'];
-		}
-
-		$this->db->sql_freeresult($result);
-
-		$total_match_count = sizeof($id_ary);
-
-		$l_search_matches = $this->user->lang('FOUND_SEARCH_MATCHES', $total_match_count);
-
-		// For some searches we need to print out the "no results" page directly to allow re-sorting/refining the search options.
-		if (!sizeof($id_ary))
-		{
-			trigger_error('NO_SEARCH_RESULTS');
-		}
-
-		$sql_where = $this->db->sql_in_set('i.image_id', $id_ary);
-
-		$this->template->assign_block_vars('imageblock', array(
-			'BLOCK_NAME'	=> $this->user->lang['RECENT_IMAGES'],
-			'U_BLOCK'	=> $this->helper->route('phpbbgallery_search_recent'),
-		));
-
-		$sql_array = array(
-			'SELECT'		=> 'i.*, a.album_name, a.album_status, a.album_user_id',
-			'FROM'			=> array($this->images_table => 'i'),
-
-			'LEFT_JOIN'		=> array(
-				array(
-					'FROM'		=> array($this->albums_table => 'a'),
-					'ON'		=> 'a.album_id = i.image_album_id',
-				),
-			),
-
-			'WHERE'			=> 'i.image_status <> ' . \phpbbgallery\core\image\image::STATUS_ORPHAN . ' AND ' . $sql_where,
-			'ORDER_BY'		=> $sql_order,
-		);
-		$sql = $this->db->sql_build_query('SELECT', $sql_array);
-		$result = $this->db->sql_query($sql);
-		$rowset = array();
-
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$rowset[] = $row;
-		}
-		$this->db->sql_freeresult($result);
-		// Now let's get display options
-		$show_ip = $show_ratings = $show_username = $show_views = $show_time = $show_imagename = $show_comments = $show_album = false;
-		$show_options = $this->gallery_config->get('rrc_gindex_display');
-		if ($show_options >= 128)
-		{
-			$show_ip = true;
-			$show_options = $show_options - 128;
-		}
-		if ($show_options >= 64)
-		{
-			$show_ratings = true;
-			$show_options = $show_options - 64;
-		}
-		if ($show_options >= 32)
-		{
-			$show_username = true;
-			$show_options = $show_options - 32;
-		}
-		if ($show_options >= 16)
-		{
-			$show_views = true;
-			$show_options = $show_options - 16;
-		}
-		if ($show_options >= 8)
-		{
-			$show_time = true;
-			$show_options = $show_options - 8;
-		}
-		if ($show_options >= 4)
-		{
-			$show_imagename = true;
-			$show_options = $show_options - 4;
-		}
-		if ($show_options >= 2)
-		{
-			$show_comments = true;
-			$show_options = $show_options - 2;
-		}
-		if ($show_options == 1)
-		{
-			$show_album = true;
-		}
-		foreach ($rowset as $row)
-		{
-			$album_data = $this->album->get_info($row['image_album_id']);
-			switch ($this->gallery_config->get('link_thumbnail'))
-			{
-				case 'image_page':
-					$action = $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id']));
-				break;
-				case 'image':
-					$action = $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $row['image_id']));
-				break;
-				default:
-					$action = false;
-				break;
-			}
-			switch ($this->gallery_config->get('link_image_name'))
-			{
-				case 'image_page':
-					$action_image = $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id']));
-				break;
-				case 'image':
-					$action_image = $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $row['image_id']));
-				break;
-				default:
-					$action_image = false;
-				break;
-			}
-			$this->template->assign_block_vars('imageblock.image', array(
-				'IMAGE_ID'		=> $row['image_id'],
-				'U_IMAGE'		=> $action_image,
-				'UC_IMAGE_NAME'	=> $show_imagename ? $row['image_name'] : false,//self::generate_link('image_name', $this->config['phpbb_gallery_link_image_name'], $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id'], false, true, "&amp;sk={$sk}&amp;sd={$sd}&amp;st={$st}"),
-				//'UC_THUMBNAIL'	=> 'self::generate_link('thumbnail', $phpbb_ext_gallery->config->get('link_thumbnail'), $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id']),
-				'UC_THUMBNAIL'		=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $row['image_id'])),
-				'UC_THUMBNAIL_ACTION'	=> $action,
-				'S_UNAPPROVED'	=> ($this->gallery_auth->acl_check('m_status', $row['image_album_id'], $album_data['album_user_id']) && ($row['image_status'] == \phpbbgallery\core\image\image::STATUS_UNAPPROVED)) ? true : false,
-				'S_LOCKED'		=> ($row['image_status'] == \phpbbgallery\core\image\image::STATUS_LOCKED) ? true : false,
-				'S_REPORTED'	=> ($this->gallery_auth->acl_check('m_report', $row['image_album_id'], $album_data['album_user_id']) && $row['image_reported']) ? true : false,
-				'POSTER'		=> $show_username ? get_username_string('full', $row['image_user_id'], $row['image_username'], $row['image_user_colour']) : false,
-				'TIME'			=> $show_time ? $this->user->format_date($row['image_time']) : false,
-
-				'S_RATINGS'		=> ($show_ratings && $this->config['phpbb_gallery_allow_rates'] && $this->gallery_auth->acl_check('i_rate', $row['image_album_id'], $album_data['album_user_id'])) ? $row['image_rate_avg'] : '',
-				'U_RATINGS'		=> $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id'])) . '#rating',
-				'L_COMMENTS'	=> ($row['image_comments'] == 1) ? $this->user->lang['COMMENT'] : $this->user->lang['COMMENTS'],
-				'S_COMMENTS'	=> ($show_comments && $this->config['phpbb_gallery_allow_comments'] && $this->gallery_auth->acl_check('c_read', $row['image_album_id'], $album_data['album_user_id'])) ? (($row['image_comments']) ? $row['image_comments'] : $this->user->lang['NO_COMMENTS']) : '',
 				'U_COMMENTS'	=> $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id'])) . '#comments',
 
 				'S_IMAGE_REPORTED'		=> $row['image_reported'],
@@ -557,15 +386,25 @@ class search
 	* @param (int)	$start From which image to start
 	*/
 
-	public function recent_user($user, $limit, $start = 0)
+	public function recent($limit, $start = 0, $user = 0, $fields = 'rrc_gindex_display', $block_name = false, $u_block = false)
 	{
+		$pagination = true;
+		if ($start == -1)
+		{
+			$start = 0;
+			$pagination = false;
+		}
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 		$sql_order = 'image_id DESC';
 		$sql_limit = $limit;
 		$sql = 'SELECT COUNT(image_id) as count
 			FROM ' . $this->images_table . '
-			WHERE image_status <> ' . \phpbbgallery\core\image\image::STATUS_ORPHAN . ' and image_user_id = ' . (int) $user . '
-				AND ((' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('i_view'), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
+			WHERE image_status <> ' . \phpbbgallery\core\image\image::STATUS_ORPHAN;
+		if ($user > 0)
+		{
+			$sql .= ' and image_user_id = ' . (int) $user;
+		}
+		$sql .= ' AND ((' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('i_view'), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
 					OR ' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('m_status'), false, true) . ')
 			ORDER BY ' . $sql_order;
 
@@ -575,8 +414,12 @@ class search
 		$count = $row['count'];
 		$sql = 'SELECT image_id
 			FROM ' . $this->images_table . '
-			WHERE image_status <> ' . \phpbbgallery\core\image\image::STATUS_ORPHAN . ' and image_user_id = ' . (int) $user . '
-				AND ((' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('i_view'), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
+			WHERE image_status <> ' . \phpbbgallery\core\image\image::STATUS_ORPHAN;
+		if ($user > 0)
+		{
+			$sql .= ' and image_user_id = ' . (int) $user;
+		}
+		$sql .= ' AND ((' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('i_view'), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
 					OR ' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('m_status'), false, true) . ')
 			ORDER BY ' . $sql_order;
 
@@ -602,10 +445,20 @@ class search
 
 		$sql_where = $this->db->sql_in_set('i.image_id', $id_ary);
 
-		$this->template->assign_block_vars('imageblock', array(
-			'BLOCK_NAME'	=> '',
-			'U_BLOCK'	=> $this->helper->route('phpbbgallery_search_egosearch'),
-		));
+		if ($user > 0)
+		{
+			$this->template->assign_block_vars('imageblock', array(
+				'BLOCK_NAME'	=> $block_name ? $block_name : '' ,
+				'U_BLOCK'	=> $u_block ? $u_block : $this->helper->route('phpbbgallery_search_egosearch'),
+			));
+		}
+		else
+		{
+			$this->template->assign_block_vars('imageblock', array(
+				'BLOCK_NAME'	=>  $block_name ? $block_name : $this->user->lang['RECENT_IMAGES'],
+				'U_BLOCK'	=> $u_block ? $u_block : $this->helper->route('phpbbgallery_search_recent'),
+			));
+		}
 
 		$sql_array = array(
 			'SELECT'		=> 'i.*, a.album_name, a.album_status, a.album_user_id',
@@ -633,7 +486,7 @@ class search
 
 		// Now let's get display options
 		$show_ip = $show_ratings = $show_username = $show_views = $show_time = $show_imagename = $show_comments = $show_album = false;
-		$show_options = $this->gallery_config->get('rrc_profile_display');
+		$show_options = $this->gallery_config->get($fields);
 		if ($show_options >= 128)
 		{
 			$show_ip = true;
@@ -731,16 +584,34 @@ class search
 				'L_STATUS'	=> ($row['image_status'] == \phpbbgallery\core\image\image::STATUS_UNAPPROVED) ? $this->user->lang['APPROVE_IMAGE'] : (($row['image_status'] == \phpbbgallery\core\image\image::STATUS_APPROVED) ? $this->user->lang['CHANGE_IMAGE_STATUS'] : $this->user->lang['UNLOCK_IMAGE']),
 			));
 		}
-		$this->template->assign_vars(array(
-			'SEARCH_MATCHES'	=> $this->user->lang('TOTAL_IMAGES_SPRINTF', $count),
-			'SEARCH_TITLE'		=> $this->user->lang('SEARCH_USER_IMAGES_OF', $this->user->data['username']),
-		));
-		$this->pagination->generate_template_pagination(array(
-			'routes' => array(
-				'phpbbgallery_search_egosearch',
-				'phpbbgallery_search_egosearch_page',),
-				'params' => array()), 'pagination', 'page', $count, $limit, $start
-		);
+		if ($user > 0)
+		{
+			$this->template->assign_vars(array(
+				'SEARCH_MATCHES'	=> $this->user->lang('TOTAL_IMAGES_SPRINTF', $count),
+				'SEARCH_TITLE'		=> $this->user->lang('SEARCH_USER_IMAGES_OF', $this->user->data['username']),
+			));
+			$this->pagination->generate_template_pagination(array(
+				'routes' => array(
+					'phpbbgallery_search_egosearch',
+					'phpbbgallery_search_egosearch_page',),
+					'params' => array()), 'pagination', 'page', $count, $limit, $start
+			);
+		}
+		else
+		{
+			$this->template->assign_vars(array(
+				'TOTAL_IMAGES'				=> $this->user->lang('VIEW_ALBUM_IMAGES', $count),
+			));
+			if ($pagination)
+			{
+				$this->pagination->generate_template_pagination(array(
+					'routes' => array(
+						'phpbbgallery_search_recent',
+						'phpbbgallery_search_recent_page',),
+						'params' => array()), 'pagination', 'page', $count, $limit, $start
+				);
+			}
+		}
 	}
 
 	/**

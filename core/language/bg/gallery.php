@@ -204,7 +204,7 @@ $lang = array_merge($lang, array(
 	'QUOTA_REACHED'					=> 'Достигнахте броя изображения, които ви е позволено да качвате.',
 	'QUOTE_COMMENT'					=> 'Цитирай коментара',
 
-	'RANDOM_IMAGES'					=> 'Случайно изображение',
+	'RANDOM_IMAGES'					=> 'Случайни изображения',
 	'RATE_IMAGE'					=> 'Оцени изображението',
 	'RATES_COUNT'					=> 'Брой оценки',
 	'RATING'						=> 'Оценка',

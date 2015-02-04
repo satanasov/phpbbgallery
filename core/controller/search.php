@@ -509,16 +509,6 @@ class search
 
 		$this->gallery_search->recent($limit, $start);
 
-		$this->template->assign_vars(array(
-			'TOTAL_IMAGES'				=> $this->user->lang('VIEW_ALBUM_IMAGES', $image_counter),
-		));
-
-		$this->pagination->generate_template_pagination(array(
-			'routes' => array(
-				'phpbbgallery_search_recent',
-				'phpbbgallery_search_recent_page',),
-				'params' => array()), 'pagination', 'page', $image_counter, $limit, $start
-		);
 		return $this->helper->render('gallery/search_recent.html', $this->user->lang('GALLERY'));
 	}
 	/**
@@ -595,7 +585,7 @@ class search
 		$limit = $this->gallery_config->get('items_per_page');
 		$start = ($page - 1) * $this->gallery_config->get('items_per_page');
 
-		$this->gallery_search->recent_user($this->user->data['user_id'], $limit, $start);
+		$this->gallery_search->recent($limit, $start, $this->user->data['user_id']);
 
 		return $this->helper->render('gallery/search_results.html', $this->user->lang('GALLERY'));
 	}

@@ -134,7 +134,7 @@ class index
 				$this->template->assign_vars(array(
 					'U_RECENT'	=> true,
 				));
-				$this->gallery_search->recent($this->gallery_config->get('pegas_index_rct_count'));
+				$this->gallery_search->recent($this->gallery_config->get('pegas_index_rct_count'), -1);
 			}
 			if ($this->gallery_config->get('pegas_index_random'))
 			{
