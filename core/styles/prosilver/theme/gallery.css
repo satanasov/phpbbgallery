@@ -157,3 +157,20 @@ input.autowidth-gallery {
 	padding-top: 14px;
 	float: right;
 }
+
+
+
+.image_prev_image
+{
+	float: left; 
+	text-align: left; 
+	width: 48%;
+	clip-path: url(#left_arrow);
+}
+.image_next_image
+{
+	float: right; 
+	text-align: right; 
+	width: 48%;
+	clip-path: url(#right_arrow);
+}
