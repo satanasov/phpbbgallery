@@ -113,7 +113,7 @@ class album
 				$album_contest_data['contest_marked'] = phpbb_ext_gallery_core_image::NO_CONTEST;
 			}
 		}*/
-		$this->check_permissions($album_id, $album_data['album_user_id']);
+		$this->check_permissions($album_id, $album_data['album_user_id'], $album_data['album_auth_access']);
 		$this->auth_level->display($album_id, $album_data['album_status'], $album_data['album_user_id']);
 
 		$this->display->generate_navigation($album_data);
@@ -385,10 +385,11 @@ class album
 	 * @param	int		$album_id
 	 * @param	array	$album_data
 	 */
-	protected function check_permissions($album_id, $owner_id)
+	protected function check_permissions($album_id, $owner_id, $album_auth_level)
 	{
 		$this->auth->load_user_premissions($this->user->data['user_id']);
-		if (!$this->auth->acl_check('i_view', $album_id, $owner_id))
+		$zebra_array = $this->auth->get_user_zebra($this->user->data['user_id']);
+		if (!$this->auth->acl_check('i_view', $album_id, $owner_id) || $this->auth->get_zebra_state($zebra_array, (int) $owner_id) < (int) $album_auth_level)
 		{
 			if ($this->user->data['is_bot'])
 			{
@@ -403,7 +404,8 @@ class album
 			}
 			else
 			{
-				return $this->error('NOT_AUTHORISED', 403);
+				//return $this->error('NOT_AUTHORISED', 403);
+				trigger_error($this->user->lang('NOT_AUTHORISED'));
 			}
 		}
 	}
