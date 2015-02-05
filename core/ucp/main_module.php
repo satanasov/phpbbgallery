@@ -376,7 +376,7 @@ class main_module
 				'album_auth_access'				=> ($phpbb_ext_gallery->auth->acl_check('a_restrict', $phpbb_ext_gallery_core_auth::OWN_ALBUM)) ? request_var('album_auth_access', 0) : 0,
 			);
 
-			$album_data['album_auth_access'] = min(3, max(0, $album_data['album_auth_access']));
+			$album_data['album_auth_access'] = min(4, max(0, $album_data['album_auth_access']));
 
 			if (!$album_data['album_name'])
 			{
