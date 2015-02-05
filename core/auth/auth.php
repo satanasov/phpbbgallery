@@ -195,7 +195,6 @@ class auth
 
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-
 			switch ($row['perm_system'])
 			{
 				case self::PERSONAL_ALBUM:
@@ -493,14 +492,12 @@ class auth
 		{
 			$this->user->set_permissions_changed(time());
 		}
-		if ($sql_set)
-		{
+
 			$sql = 'UPDATE ' . $this->table_users . "
 				SET user_permissions = '" . $sql_set . "',
 					user_permissions_changed = " . time() . '
 				' . $sql_where;
 			$this->db->sql_query($sql);
-		}
 	}
 
 	/**

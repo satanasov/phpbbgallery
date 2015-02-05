@@ -668,8 +668,8 @@ class permissions_module
 		$roles_table = $table_prefix . 'gallery_roles';
 		$users_table = $table_prefix . 'gallery_users';
 		// Init auth
-		$gallery_cache = new \phpbbgallery\core\cache($cache, $db);
-		$gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $table_name);
+		$gallery_cache = $phpbb_container->get('phpbbgallery.core.cache');
+		$gallery_user = $phpbb_container->get('phpbbgallery.core.user');
 		$phpbb_ext_gallery_core_auth = $phpbb_container->get('phpbbgallery.core.auth');
 
 		// Send contants to the template
@@ -700,7 +700,7 @@ class permissions_module
 			{
 				trigger_error('FORM_INVALID', E_USER_WARNING);
 			}
-			$coal = $cache->obtain_album_list();
+			$coal = $cache->get_albums();
 
 			/**
 			* Grab the permissions
