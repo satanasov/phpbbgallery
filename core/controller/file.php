@@ -259,6 +259,7 @@ class file
 	public function check_auth()
 	{
 		$this->auth->load_user_premissions($this->user->data['user_id']);
+		$zebra_array = $this->auth->get_user_zebra($this->user->data['user_id']);
 		// Check permissions
 		if (($this->data['image_user_id'] != $this->user->data['user_id']) && ($this->data['image_status'] == \phpbbgallery\core\image\image::STATUS_ORPHAN))
 		{
@@ -278,6 +279,21 @@ class file
 		if ((!$this->auth->acl_check('i_view', $this->data['album_id'], $this->data['album_user_id'])) || (!$this->auth->acl_check('m_status', $this->data['album_id'], $this->data['album_user_id']) && ($this->data['image_status'] == \phpbbgallery\core\image\image::STATUS_UNAPPROVED)))
 		{
 			// Missing permissions
+			// trigger_error('NOT_AUTHORISED');
+			$this->error = 'not_authorised.jpg';
+			$this->data['image_filename'] = 'not_authorised.jpg';
+			$this->data['image_name'] = 'You are not authorized!';
+			$this->data['image_user_id'] = 1;
+			$this->data['image_status'] = 2;
+			$this->data['album_id'] = 0;
+			$this->data['album_user_id'] = 1;
+			$this->data['image_filemissing'] = 0;
+			$this->data['image_filemissing'] = 0;
+			$this->data['album_watermark'] = 0;
+		}
+		if ($this->auth->get_zebra_state($zebra_array, (int) $this->data['album_user_id']) < (int) $this->data['album_auth_access'])
+		{
+			// Zebra parameters not met
 			// trigger_error('NOT_AUTHORISED');
 			$this->error = 'not_authorised.jpg';
 			$this->data['image_filename'] = 'not_authorised.jpg';

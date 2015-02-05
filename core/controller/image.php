@@ -154,7 +154,7 @@ class image
 
 		$album_id = (int) $this->data['image_album_id'];
 		$album_data = $this->loader->get($album_id);
-		$this->check_permissions($album_id, $album_data['album_user_id'], $this->data['image_status']);
+		$this->check_permissions($album_id, $album_data['album_user_id'], $this->data['image_status'], $album_data['album_auth_access']);
 		$this->display->generate_navigation($album_data);
 		if (!$this->user->data['is_bot'] && isset($this->user->data['session_page']) && (strpos($this->user->data['session_page'], '&image_id=' . $image_id) === false || isset($this->user->data['session_created'])))
 		{
@@ -1008,10 +1008,11 @@ class image
 	 * @param	int		$album_id
 	 * @param	array	$album_data
 	 */
-	protected function check_permissions($album_id, $owner_id, $image_status)
+	protected function check_permissions($album_id, $owner_id, $image_status, $album_auth_level)
 	{
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
-		if (!$this->gallery_auth->acl_check('i_view', $album_id, $owner_id) || ($image_status == \phpbbgallery\core\image\image::STATUS_ORPHAN))
+		$zebra_array = $this->gallery_auth->get_user_zebra($this->user->data['user_id']);
+		if (!$this->gallery_auth->acl_check('i_view', $album_id, $owner_id) || ($image_status == \phpbbgallery\core\image\image::STATUS_ORPHAN) || $this->gallery_auth->get_zebra_state($zebra_array, (int) $owner_id) < (int) $album_auth_level)
 		{
 			if ($this->user->data['is_bot'])
 			{

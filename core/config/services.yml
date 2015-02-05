@@ -53,6 +53,8 @@ services:
             - @phpbbgallery.core.cache
             - @dbal.conn
             - @phpbbgallery.core.user
+            - @user
+            - @auth
             - %tables.phpbbgallery.permissions%
             - %tables.phpbbgallery.roles%
             - %tables.phpbbgallery.users%

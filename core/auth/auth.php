@@ -86,11 +86,14 @@ class auth
 	* @param	string			$roles_table		Gallery permission roles table
 	* @param	string			$users_table		Gallery users table
 	*/
-	public function __construct(\phpbbgallery\core\cache $cache, \phpbb\db\driver\driver_interface $db, \phpbbgallery\core\user $user, $permissions_table, $roles_table, $users_table, $albums_table)
+	public function __construct(\phpbbgallery\core\cache $cache, \phpbb\db\driver\driver_interface $db, \phpbbgallery\core\user $user, \phpbb\user $phpbb_user, \phpbb\auth\auth $auth,
+	$permissions_table, $roles_table, $users_table, $albums_table)
 	{
 		$this->cache = $cache;
 		$this->db = $db;
 		$this->user = $user;
+		$this->phpbb_user = $phpbb_user;
+		$this->auth = $auth;
 		$this->table_permissions = $permissions_table;
 		$this->table_roles = $roles_table;
 		$this->table_users = $users_table;
@@ -381,7 +384,7 @@ class auth
 	public function get_user_zebra($user_id)
 	{
 
-		$zebra = array('foe' => array(), 'friend' => array());
+		$zebra = array('foe' => array(), 'friend' => array(), 'bff' => array());
 		$sql = 'SELECT *
 			FROM ' . ZEBRA_TABLE . '
 			WHERE zebra_id = ' . (int) $user_id;
@@ -394,13 +397,53 @@ class auth
 			}
 			else
 			{
-				$zebra['friend'][] = (int) $row['user_id'];
+				if ($row['bff'])
+				{	
+					$zebra['bff'][] = (int) $row['user_id'];
+				}
+				else
+				{
+					$zebra['friend'][] = (int) $row['user_id'];
+				}
 			}
 		}
 		$this->db->sql_freeresult($result);
 		return $zebra;
 	}
 
+	/**
+	* Get zebra state
+	*/
+	public function get_zebra_state($zebra_array, $album_author)
+	{
+		$state = 0;
+		// if we check for ourselves or user is mod or admin - make bigest possible step
+		if ($this->phpbb_user->data['user_id'] == $album_author || $this->auth->acl_getf_global('m_approve') || $this->auth->acl_get('a_user'))
+		{
+			$state = 5;
+		}
+		//If user is not anon - we will check ... else its state is 0
+		else if ($this->phpbb_user->data['user_id'] != ANONYMOUS)
+		{
+			if (in_array($album_author, $zebra_array['foe']))
+			{
+				$state = 1;
+			}
+			else if (in_array($album_author, $zebra_array['friend']))
+			{
+				$state = 3;
+			}
+			else if (in_array($album_author, $zebra_array['bff']))
+			{
+				$state = 4;
+			}
+			else
+			{
+				$state = 2;
+			}
+		}
+		return $state;
+	}
 	/**
 	* Get groups a user is member from.
 	*/
@@ -450,12 +493,14 @@ class auth
 		{
 			$this->user->set_permissions_changed(time());
 		}
-
-		$sql = 'UPDATE ' . $this->table_users . "
-			SET user_permissions = '" . $sql_set . "',
-				user_permissions_changed = " . time() . '
-			' . $sql_where;
-		$this->db->sql_query($sql);
+		if ($sql_set)
+		{
+			$sql = 'UPDATE ' . $this->table_users . "
+				SET user_permissions = '" . $sql_set . "',
+					user_permissions_changed = " . time() . '
+				' . $sql_where;
+			$this->db->sql_query($sql);
+		}
 	}
 
 	/**

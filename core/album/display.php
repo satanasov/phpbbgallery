@@ -429,6 +429,7 @@ class display
 
 		$album_tracking_info = array();
 		$branch_root_id = $root_data['album_id'];
+		$zebra_array = $this->gallery_auth->get_user_zebra($this->user->data['user_id']);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$album_id = $row['album_id'];
@@ -459,12 +460,19 @@ class display
 				unset($right_id);
 			}
 
+			// if this is invizible due zebra ... make it go away
+			if ($this->gallery_auth->get_zebra_state($zebra_array, (int) $row['album_user_id']) < (int) $row['album_auth_access'])
+			{
+				continue;
+			}
+
 			if (false)//@todo !$this->gallery_auth->acl_check('a_list', $album_id, $row['album_user_id']))
 			{
 				// if the user does not have permissions to list this album, skip everything until next branch
 				$right_id = $row['right_id'];
 				continue;
 			}
+			
 
 			$album_tracking_info[$album_id] = (!empty($row['mark_time'])) ? $row['mark_time'] : $this->gallery_user->get_data('user_lastmark');
 
