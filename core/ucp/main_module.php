@@ -330,10 +330,14 @@ class main_module
 					$phpbb_ext_gallery_core_auth::ACCESS_NOT_FOES		=> 'NOT_FOES',
 					$phpbb_ext_gallery_core_auth::ACCESS_FRIENDS		=> 'FRIENDS',
 				);
-				if ($config['zebra_enhance_version'])
+				$sql = 'SELECT ext_active FROM ' . EXT_TABLE . ' WHERE ext_name = \'anavaro/zebraenhance\'';
+				$result = $db->sql_query($sql);
+				$row = $db->sql_fetchrow($result);
+				if ($row['ext_active'] == 1)
 				{
 					$access_options[4] = 'SPECIAL_FRIENDS'; 
 				}
+				$db->sql_freeresult($sql);
 				foreach ($access_options as $value => $lang_key)
 				{
 					$s_access_options .= '<option value="' . $value . '">' . $user->lang['ACCESS_CONTROL_' . $lang_key] . '</option>';
@@ -469,10 +473,14 @@ class main_module
 					$phpbb_ext_gallery_core_auth::ACCESS_NOT_FOES		=> 'NOT_FOES',
 					$phpbb_ext_gallery_core_auth::ACCESS_FRIENDS		=> 'FRIENDS',
 				);
-				if ($config['zebra_enhance_version'])
+				$sql = 'SELECT ext_active FROM ' . EXT_TABLE . ' WHERE ext_name = \'anavaro/zebraenhance\'';
+				$result = $db->sql_query($sql);
+				$row = $db->sql_fetchrow($result);
+				if ($row['ext_active'] == 1)
 				{
 					$access_options[4] = 'SPECIAL_FRIENDS'; 
 				}
+				$db->sql_freeresult($sql);
 				foreach ($access_options as $value => $lang_key)
 				{
 					$s_access_options .= '<option value="' . $value . (($value == $album_data['album_auth_access']) ? '" selected="selected' : '') . '">' . $user->lang['ACCESS_CONTROL_' . $lang_key] . '</option>';
