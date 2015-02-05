@@ -290,7 +290,7 @@ class main_module
 
 	function create_album()
 	{
-		global $cache, $db, $template, $user, $phpbb_ext_gallery, $phpbb_ext_gallery_core_auth, $albums_table, $phpbb_ext_gallery_core_album;
+		global $cache, $db, $template, $user, $phpbb_ext_gallery, $phpbb_ext_gallery_core_auth, $albums_table, $phpbb_ext_gallery_core_album, $config;
 
 		$phpbb_ext_gallery->url->_include(array('bbcode', 'message_parser'), 'phpbb');
 
@@ -330,6 +330,10 @@ class main_module
 					$phpbb_ext_gallery_core_auth::ACCESS_NOT_FOES		=> 'NOT_FOES',
 					$phpbb_ext_gallery_core_auth::ACCESS_FRIENDS		=> 'FRIENDS',
 				);
+				if ($config['zebra_enhance_version'])
+				{
+					$access_options[4] = 'SPECIAL_FRIENDS'; 
+				}
 				foreach ($access_options as $value => $lang_key)
 				{
 					$s_access_options .= '<option value="' . $value . '">' . $user->lang['ACCESS_CONTROL_' . $lang_key] . '</option>';
@@ -433,6 +437,7 @@ class main_module
 	function edit_album()
 	{
 		global $cache, $db, $template, $user, $phpbb_ext_gallery, $phpbb_ext_gallery_core_album, $phpbb_ext_gallery_core_auth, $albums_table, $phpbb_ext_gallery_core_album_display;
+		global $config;
 
 		$phpbb_ext_gallery->url->_include(array('bbcode','message_parser'), 'phpbb');
 
@@ -464,6 +469,10 @@ class main_module
 					$phpbb_ext_gallery_core_auth::ACCESS_NOT_FOES		=> 'NOT_FOES',
 					$phpbb_ext_gallery_core_auth::ACCESS_FRIENDS		=> 'FRIENDS',
 				);
+				if ($config['zebra_enhance_version'])
+				{
+					$access_options[4] = 'SPECIAL_FRIENDS'; 
+				}
 				foreach ($access_options as $value => $lang_key)
 				{
 					$s_access_options .= '<option value="' . $value . (($value == $album_data['album_auth_access']) ? '" selected="selected' : '') . '">' . $user->lang['ACCESS_CONTROL_' . $lang_key] . '</option>';
@@ -632,7 +641,7 @@ class main_module
 			}
 
 			// The album access has changed, clear the permissions of all users.
-			$album_data['album_auth_access'] = min(3, max(0, $album_data['album_auth_access']));
+			$album_data['album_auth_access'] = min(4, max(0, $album_data['album_auth_access']));
 			if ($row['album_auth_access'] != $album_data['album_auth_access'])
 			{
 				$phpbb_ext_gallery_core_auth->set_user_permissions('all', '');

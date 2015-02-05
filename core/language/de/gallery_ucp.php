@@ -29,6 +29,7 @@ $lang = array_merge($lang, array(
 	'ACCESS_CONTROL_REGISTERED'		=> 'Registrierte Benutzer',
 	'ACCESS_CONTROL_NOT_FOES'		=> 'Registrierte Benutzer, außer ignorierte Mitglieder',
 	'ACCESS_CONTROL_FRIENDS'		=> 'Nur deine Freunde',
+	'ACCESS_CONTROL_SPECIAL_FRIENDS'		=> 'Only your special friends',
 	'ALBUMS'						=> 'Alben',
 	'ALBUM_ACCESS'					=> 'Zugriff erlauben für',
 	'ALBUM_ACCESS_EXPLAIN'			=> 'Du kannst deine %1$sListen der Freunde und ignorierten Mitglieder%2$s benutzen, um den Zugriff einzuschränken. <strong>Moderatoren</strong> können jedoch <strong>immer</strong> auf das Album zugreifen.',
