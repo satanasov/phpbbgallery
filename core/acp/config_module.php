@@ -99,7 +99,7 @@ class config_module
 							//include_once($phpbb_root_path . 'includes/acp/acp_bbcodes.' . $phpEx);
 						}
 						$acp_bbcodes = new \acp_bbcodes();
-						$bbcode_match = '[album]{NUMBER}[/album]';
+						$bbcode_match = '[image]{NUMBER}[/image]';
 						$bbcode_tpl = $this->bbcode_tpl($config_value);
 
 						$sql_ary = $acp_bbcodes->build_regexp($bbcode_match, $bbcode_tpl);
