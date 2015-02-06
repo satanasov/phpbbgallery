@@ -132,7 +132,7 @@ class search
 		{
 			$result = $this->db->sql_query_limit($sql, $sql_limit);
 		}
-
+		$id_ary = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$id_ary[] = $row['image_id'];
@@ -143,18 +143,21 @@ class search
 
 		$l_search_matches = $this->user->lang('FOUND_SEARCH_MATCHES', $total_match_count);
 
-		// For some searches we need to print out the "no results" page directly to allow re-sorting/refining the search options.
-		if (!sizeof($id_ary))
-		{
-			trigger_error('NO_SEARCH_RESULTS');
-		}
-
-		$sql_where = $this->db->sql_in_set('i.image_id', $id_ary);
-
 		$this->template->assign_block_vars('imageblock', array(
 			'BLOCK_NAME'	=> $block_name ? $block_name : $this->user->lang['RANDOM_IMAGES'],
 			'U_BLOCK'	=> $u_block ? $u_block : $this->helper->route('phpbbgallery_search_random'),
 		));
+
+		// For some searches we need to print out the "no results" page directly to allow re-sorting/refining the search options.
+		if (!sizeof($id_ary))
+		{
+			$this->template->assign_block_vars('imageblock', array(
+				'ERROR'	=> $this->user->lang('NO_SEARCH_RESULTS_RANDOM'),
+			));
+			return;
+		}
+
+		$sql_where = $this->db->sql_in_set('i.image_id', $id_ary);
 
 		$sql_array = array(
 			'SELECT'		=> 'i.*, a.album_name, a.album_status, a.album_user_id',
@@ -438,14 +441,6 @@ class search
 
 		$l_search_matches = $this->user->lang('FOUND_SEARCH_MATCHES', $total_match_count);
 
-		// For some searches we need to print out the "no results" page directly to allow re-sorting/refining the search options.
-		if (!sizeof($id_ary))
-		{
-			trigger_error('NO_SEARCH_RESULTS');
-		}
-
-		$sql_where = $this->db->sql_in_set('i.image_id', $id_ary);
-
 		if ($user > 0)
 		{
 			$this->template->assign_block_vars('imageblock', array(
@@ -460,6 +455,17 @@ class search
 				'U_BLOCK'	=> $u_block ? $u_block : $this->helper->route('phpbbgallery_search_recent'),
 			));
 		}
+
+		// For some searches we need to print out the "no results" page directly to allow re-sorting/refining the search options.
+		if (!sizeof($id_ary))
+		{
+			$this->template->assign_block_vars('imageblock', array(
+				'ERROR'	=> $this->user->lang('NO_SEARCH_RESULTS_RECENT')
+			));
+			return;
+		}
+
+		$sql_where = $this->db->sql_in_set('i.image_id', $id_ary);
 
 		$sql_array = array(
 			'SELECT'		=> 'i.*, a.album_name, a.album_status, a.album_user_id',

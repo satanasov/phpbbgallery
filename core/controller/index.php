@@ -147,22 +147,19 @@ class index
 		}
 
 		// Now before build random and recent ... let's check if we have images that can build it
-		if ($this->gallery_config->get('num_images') > 0)
+		if ($this->gallery_config->get('pegas_index_recent'))
 		{
-			if ($this->gallery_config->get('pegas_index_recent'))
-			{
-				$this->template->assign_vars(array(
-					'U_RECENT'	=> true,
-				));
-				$this->gallery_search->recent($this->gallery_config->get('pegas_index_rct_count'), -1);
-			}
-			if ($this->gallery_config->get('pegas_index_random'))
-			{
-				$this->template->assign_vars(array(
-					'U_RANDOM'	=> true,
-				));
-				$this->gallery_search->random($this->gallery_config->get('pegas_index_rnd_count'));
-			}
+			$this->template->assign_vars(array(
+				'U_RECENT'	=> true,
+			));
+			$this->gallery_search->recent($this->gallery_config->get('pegas_index_rct_count'), -1);
+		}
+		if ($this->gallery_config->get('pegas_index_random'))
+		{
+			$this->template->assign_vars(array(
+				'U_RANDOM'	=> true,
+			));
+			$this->gallery_search->random($this->gallery_config->get('pegas_index_rnd_count'));
 		}
 
 		$this->display_legend();
