@@ -370,22 +370,13 @@ class image
 
 			'U_POSTER_PROFILE'		=> $user_cache[$user_id]['profile'],
 			'U_POSTER_SEARCH'		=> $user_cache[$user_id]['search'],
-			'U_POSTER_PM'			=> ($user_id != ANONYMOUS && $this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm') && ($user_cache[$user_id]['allow_pm'] || $this->auth->acl_gets('a_', 'm_'))) ? append_sid('phpbb', 'ucp', 'i=pm&amp;mode=compose&amp;u=' . $user_id) : '',
-			'U_POSTER_EMAIL'		=> $user_cache[$user_id]['email'],
+			'U_POSTER_PM'			=> ($user_id != ANONYMOUS && $this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm') && ($user_cache[$user_id]['allow_pm'] || $this->auth->acl_gets('a_', 'm_'))) ? append_sid('./ucp.php', 'i=pm&amp;mode=compose&amp;u=' . $user_id) : '',
+			'U_POSTER_EMAIL'		=> ($this->auth->acl_gets('a_') || !$this->config['board_hide_emails']) ? $user_cache[$user_id]['email'] : false,
 			'U_POSTER_JABBER'		=> $user_cache[$user_id]['jabber'],
 
 			'U_POSTER_GALLERY'			=> $user_cache[$user_id]['gallery_album'],
 			'POSTER_GALLERY_IMAGES'		=> $user_cache[$user_id]['gallery_images'],
 			'U_POSTER_GALLERY_SEARCH'	=> $user_cache[$user_id]['gallery_search'],
-		));
-
-		$this->template->assign_vars(array(
-			'PROFILE_IMG'		=> $this->user->img('icon_user_profile', 'READ_PROFILE'),
-			'SEARCH_IMG' 		=> $this->user->img('icon_user_search', 'SEARCH_USER_POSTS'),
-			'PM_IMG' 			=> $this->user->img('icon_contact_pm', 'SEND_PRIVATE_MESSAGE'),
-			'EMAIL_IMG' 		=> $this->user->img('icon_contact_email', 'SEND_EMAIL'),
-			'JABBER_IMG'		=> $this->user->img('icon_contact_jabber', 'JABBER') ,
-			'GALLERY_IMG'		=> $this->user->img('icon_contact_gallery', 'PERSONAL_ALBUM'),
 		));
 
 		// Add ratings
