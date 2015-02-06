@@ -1,5 +1,4 @@
 <?php
-
 /**
 *
 * @package phpBB Gallery Core

@@ -107,11 +107,29 @@ class index
 			{
 				$last_image['image_id'] = 0;
 			}
+			switch ($this->gallery_config->get('link_image_icon'))
+			{
+				case 'image_page':
+					$action_image = $this->helper->route('phpbbgallery_image', array('image_id' => $last_image['image_id']));
+				break;
+				case 'image':
+					$action_image = $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $last_image['image_id']));
+				break;
+				default:
+					$action_image = false;
+				break;
+			}
 			$this->template->assign_vars(array(
 				'S_USERS_PERSONAL_GALLERIES'	=> true,
 				'U_USERS_PERSONAL_GALLERIES' => $this->helper->route('phpbbgallery_personal'),
 				'U_PERSONAL_GALLERIES_IMAGES'	=> $this->gallery_config->get('num_images'),
 				'U_PERSONAL_GALLERIES_LAST_IMAGE'	=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $last_image['image_id'])),
+				'U_IMAGENAME'	=> ($last_image['image_id'] > 0) ? $last_image['image_name'] : false,
+				'U_IMAGE_ACTION'	=> $action_image,
+				'U_IMAGENAME_ACTION'	=> $this->helper->route('phpbbgallery_image', array('image_id' => $last_image['image_id'])),
+				'U_TIME'	=> ($last_image['image_id'] > 0) ?  $this->user->format_date($last_image['image_time']) : false,
+				'U_UPLOADER'	=> ($last_image['image_id'] > 0) ? get_username_string('full', $last_image['image_user_id'], $last_image['image_username'], $last_image['image_user_colour']) : false,
+				
 			));
 			$this->gallery_user->set_user_id($this->user->data['user_id']);
 			$personal_album = $this->gallery_user->get_own_root_album();
