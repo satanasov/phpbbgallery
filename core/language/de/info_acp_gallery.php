@@ -36,7 +36,7 @@ $lang = array_merge($lang, array(
 
 	'GALLERY'							=> 'Galerie',
 	'GALLERY_EXPLAIN'					=> 'Bilder Galerie',
-	'GALLERY_HELPLINE_ALBUM'			=> 'Galerie-Bild: [album]image_id[/album], mit diesem BBCode kannst du Bilder aus der Galerie in deinen Beitrag einfügen.',
+	'GALLERY_HELPLINE_ALBUM'			=> 'Galerie-Bild: [image]image_id[/image], mit diesem BBCode kannst du Bilder aus der Galerie in deinen Beitrag einfügen.',
 	'GALLERY_POPUP'						=> 'Galerie',
 	'GALLERY_POPUP_HELPLINE'			=> 'Öffne ein Popup in dem du deine neuesten Bilder auswählen und neue Bilder hochladen kannst.',
 

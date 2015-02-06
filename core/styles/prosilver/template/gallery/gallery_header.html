@@ -19,7 +19,7 @@
 	// <![CDATA[
 	function insert_image(image_id, field_id)
 	{
-		opener.document.forms['postform'].message.value += '[album]' + image_id +'[/album]';
+		opener.document.forms['postform'].message.value += '[image]' + image_id +'[/image]';
 		document.getElementById('inserted_' + field_id).style.display = 'block';
 	}
 	// ]]>

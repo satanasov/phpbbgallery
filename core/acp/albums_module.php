@@ -411,7 +411,7 @@ class albums_module
 				}
 
 				$album_type_options = '';
-				$album_type_ary = array($phpbb_ext_gallery_core_album::TYPE_CAT => 'CAT', $phpbb_ext_gallery_core_album::TYPE_UPLOAD => 'UPLOAD', $phpbb_ext_gallery_core_album::TYPE_CONTEST => 'CONTEST');
+				$album_type_ary = array($phpbb_ext_gallery_core_album::TYPE_CAT => 'CAT', $phpbb_ext_gallery_core_album::TYPE_UPLOAD => 'UPLOAD');//, $phpbb_ext_gallery_core_album::TYPE_CONTEST => 'CONTEST');
 
 				foreach ($album_type_ary as $value => $lang)
 				{
@@ -538,9 +538,9 @@ class albums_module
 					'S_DISPLAY_ON_INDEX'		=> ($album_data['display_on_index']) ? true : false,
 					'S_DISPLAY_IN_RRC'			=> ($album_data['display_in_rrc']) ? true : false,
 
-					'S_CONTEST_START'			=> $user->format_date($contest_data['contest_start'], 'Y-m-d H:i'),
-					'CONTEST_RATING'			=> $user->format_date($contest_data['contest_start'] + $contest_data['contest_rating'], 'Y-m-d H:i'),
-					'CONTEST_END'				=> $user->format_date($contest_data['contest_start'] + $contest_data['contest_end'], 'Y-m-d H:i'),
+				//	'S_CONTEST_START'			=> $user->format_date($contest_data['contest_start'], 'Y-m-d H:i'),
+				//	'CONTEST_RATING'			=> $user->format_date($contest_data['contest_start'] + $contest_data['contest_rating'], 'Y-m-d H:i'),
+				//	'CONTEST_END'				=> $user->format_date($contest_data['contest_start'] + $contest_data['contest_end'], 'Y-m-d H:i'),
 				));
 
 				$vars = array('action', 'album_data');

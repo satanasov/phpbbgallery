@@ -59,21 +59,30 @@ class m2_add_bbcode extends \phpbb\db\migration\migration
 				$bbcode_id = NUM_CORE_BBCODES + 1;
 			}
 
+			$url = generate_board_url() . '/';
+			if ($this->config['enable_mod_rewrite'])
+			{
+				$url .= 'gallery/image/';
+			}
+			else
+			{
+				$url .= 'app.php/gallery/image/';
+			}
 			if ($bbcode_id <= BBCODE_LIMIT)
 			{
 				$this->db->sql_query('INSERT INTO ' . $this->table_prefix . 'bbcodes ' . $this->db->sql_build_array(
 					'INSERT',
 					array(
-						'bbcode_tag'			=> 'album',
+						'bbcode_tag'			=> 'image',
 						'bbcode_id'				=> (int) $bbcode_id,
 						'bbcode_helpline'		=> 'GALLERY_HELPLINE_ALBUM',
 						'display_on_posting'	=> 1,
-						'bbcode_match'			=> '[album]{NUMBER}[/album]',
-						'bbcode_tpl'			=> '<a href="gallery/image/{NUMBER}"><img src="gallery/image/{NUMBER}/mini" alt="{NUMBER}" /></a>',
-						'first_pass_match'		=> '!\[album\]([0-9]+)\[/album\]!i',
-						'first_pass_replace'	=> '[album:$uid]${1}[/album:$uid]',
-						'second_pass_match'		=> '!\[album:$uid\]([0-9]+)\[/album:$uid\]!s',
-						'second_pass_replace'	=> '<a href="/gallery/image/${1}"><img src="/gallery/image/${1}/mini" alt="${1}" /></a>'
+						'bbcode_match'			=> '[image]{NUMBER}[/image]',
+						'bbcode_tpl'			=> '<a href="' . $url . '{NUMBER}"><img src="' . $url . '{NUMBER}/mini" alt="{NUMBER}" /></a>',
+						'first_pass_match'		=> '!\[image\]([0-9]+)\[/image\]!i',
+						'first_pass_replace'	=> '[image:$uid]${1}[/image:$uid]',
+						'second_pass_match'		=> '!\[image:$uid\]([0-9]+)\[/image:$uid\]!s',
+						'second_pass_replace'	=> '<a href="' . $url . '${1}"><img src="' . $url . '${1}/mini" alt="${1}" /></a>'
 					)
 				));
 			}
@@ -81,7 +90,7 @@ class m2_add_bbcode extends \phpbb\db\migration\migration
 	}
 	public function remove_bbcode()
 	{
-		$sql = 'DELETE FROM ' . BBCODES_TABLE . ' WHERE bbcode_tag = \'album\'';
+		$sql = 'DELETE FROM ' . BBCODES_TABLE . ' WHERE bbcode_tag = \'image\'';
 		$this->db->sql_query($sql);
 	}
 }
