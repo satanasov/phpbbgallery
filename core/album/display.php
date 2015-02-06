@@ -472,7 +472,6 @@ class display
 				$right_id = $row['right_id'];
 				continue;
 			}
-			
 
 			$album_tracking_info[$album_id] = (!empty($row['mark_time'])) ? $row['mark_time'] : $this->gallery_user->get_data('user_lastmark');
 
