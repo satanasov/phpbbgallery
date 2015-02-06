@@ -84,7 +84,7 @@ class report
 			WHERE ' . $this->db->sql_in_set('report_image_id', $report_ids);
 		$this->db->sql_query($sql);
 		// We will have to request some images so we can log closing reports
-		$sql = 'SELECT * FROM ' . $this->images_table . ' WHERE ' . $this->db->sql_in_set('image_id', $report_ids);
+		$sql = 'SELECT * FROM ' . $this->images_table . ' WHERE image_reported <> 0 and ' . $this->db->sql_in_set('image_id', $report_ids);
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
