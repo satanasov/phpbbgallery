@@ -298,6 +298,7 @@ class search
 			WHERE image_status <> ' . \phpbbgallery\core\image\image::STATUS_ORPHAN . '
 				AND ((' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('i_view'), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
 					OR ' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('m_status'), false, true) . ')
+			GROUP BY image_id
 			ORDER BY ' . $sql_order;
 
 		$result = $this->db->sql_query($sql);
@@ -406,6 +407,7 @@ class search
 		}
 		$sql .= ' AND ((' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('i_view'), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
 					OR ' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('m_status'), false, true) . ')
+			GROUP BY image_id
 			ORDER BY ' . $sql_order;
 
 		$result = $this->db->sql_query($sql);
