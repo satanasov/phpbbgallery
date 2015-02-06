@@ -1,7 +1,9 @@
 <!-- BEGIN imageblock -->
 <span class="clear"></span>
 <!-- IF imageblock.U_BLOCK --><h2><a href="{imageblock.U_BLOCK}">{imageblock.BLOCK_NAME}</a></h2><!-- ENDIF -->
+<!-- IF imageblock.ERROR --><h2>{imageblock.ERROR}</h2>
 
+<!-- ELSE -->
 <!-- BEGIN image -->
 <div class="polaroid">
 	<p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
@@ -31,4 +33,5 @@
 	<span class="clear"></span>
 <!-- ENDIF -->
 <!-- END image -->
+<!-- ENDIF -->
 <!-- END imageblock -->
