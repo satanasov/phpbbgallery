@@ -89,7 +89,9 @@ class index
 	public function base()
 	{
 		// Display login box for guests and an error for users
-		if (!$this->user->data['is_registered'])
+		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$get_albums = $this->gallery_auth->acl_album_ids('a_list');
+		if (empty($get_albums) && !$this->user->data['is_registered'])
 		{
 			login_box();
 		}
@@ -184,7 +186,9 @@ class index
 	public function personal($page)
 	{
 		// Display login box for guests and an error for users
-		if (!$this->user->data['is_registered'])
+		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$get_albums = $this->gallery_auth->acl_album_ids('a_list');
+		if (empty($get_albums) && !$this->user->data['is_registered'])
 		{
 			login_box();
 		}
