@@ -32,7 +32,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 	}
-	/*
+	
 	public function test_exif_install()
 	{
 		$this->login();
@@ -797,5 +797,5 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		//$this->assertContains('zazazazaza', $link);
 		
 		$this->logout();
-	}*/
+	}
 }
