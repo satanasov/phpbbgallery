@@ -13,7 +13,7 @@ class m1_init extends \phpbb\db\migration\migration
 {
 	static public function depends_on()
 	{
-		return array('\phpbbgallery\core\migrations\release_1_1_6');
+		return array('\phpbbgallery\core\migrations\release_1_2_0');
 	}
 
 	public function update_data()
