@@ -20,7 +20,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		
 		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-main_module&mode=overview&sid=' . $this->sid);
-		$this->assertContainsLang('ACP_GALLERY_OVERVIEW_EXPLAIN', $crawler->text());
+		$this->assertContains('ACP_GALLERY_OVERVIEW_EXPLAIN', $crawler->text());
 		
 		
 		// Let us create a user we will use for tests
