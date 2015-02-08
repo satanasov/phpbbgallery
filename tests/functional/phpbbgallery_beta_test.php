@@ -12,7 +12,7 @@ namespace phpbbgallery\tests\functional;
 * @group functional
 */
 class phpbbgallery_beta_test extends phpbbgallery_base
-{
+{/*
 	public function test_thumbnail_link()
 	{
 		$this->login();
@@ -58,5 +58,5 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->setUp();
 		
 		$this->logout();
-	}
+	}*/
 }
