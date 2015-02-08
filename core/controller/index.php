@@ -239,6 +239,23 @@ class index
 	{
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 
+		// Now let's get display options
+		$show_comments = $show_random = $show_recent = false;
+		$show_options = $this->gallery_config->get('rrc_gindex_mode');
+		if ($show_options >= 4)
+		{
+			$show_comments = true;
+			$show_options = $show_options - 4;
+		}
+		if ($show_options >= 2)
+		{
+			$show_random = true;
+			$show_options = $show_options - 2;
+		}
+		if ($show_options == 1)
+		{
+			$show_recent = true;
+		}
 		$this->template->assign_vars(array(
 			'TOTAL_IMAGES'		=> ($this->gallery_config->get('disp_statistic')) ? $this->user->lang('TOTAL_IMAGES_SPRINTF', $this->gallery_config->get('num_images')) : '',
 			'TOTAL_COMMENTS'	=> ($this->gallery_config->get('allow_comments')) ? $this->user->lang('TOTAL_COMMENTS_SPRINTF', $this->gallery_config->get('num_comments')) : '',
@@ -252,9 +269,10 @@ class index
 			'S_LOGIN_ACTION'			=> append_sid($this->root_path . 'ucp.' . $this->php_ext, 'mode=login&amp;redirect=' . urlencode($this->helper->route($base_route))),
 
 			'U_GALLERY_SEARCH'				=> $this->helper->route('phpbbgallery_search'),
-			'U_G_SEARCH_COMMENTED'			=> $this->config['phpbb_gallery_allow_comments'] ? $this->helper->route('phpbbgallery_search_commented') : '',
-			'U_G_SEARCH_CONTESTS'			=> $this->config['phpbb_gallery_allow_rates'] && $this->config['phpbb_gallery_contests_ended'] ? $this->helper->route('phpbbgallery_search_contests') : '',
-			'U_G_SEARCH_RECENT'				=> $this->helper->route('phpbbgallery_search_recent'),
+			'U_G_SEARCH_COMMENTED'			=> $this->config['phpbb_gallery_allow_comments'] && $show_comments ? $this->helper->route('phpbbgallery_search_commented') : false,
+			//'U_G_SEARCH_CONTESTS'			=> $this->config['phpbb_gallery_allow_rates'] && $this->config['phpbb_gallery_contests_ended'] ? $this->helper->route('phpbbgallery_search_contests') : '',
+			'U_G_SEARCH_RECENT'				=> $show_recent ? $this->helper->route('phpbbgallery_search_recent') : false,
+			'U_G_SEARCH_RANDOM'				=> $show_random ? $this->helper->route('phpbbgallery_search_random') : false,
 			'U_G_SEARCH_SELF'				=> $this->helper->route('phpbbgallery_search_egosearch'),
 			'U_G_SEARCH_TOPRATED'			=> $this->config['phpbb_gallery_allow_rates'] ? $this->helper->route('phpbbgallery_search_toprated') : '',
 		));
