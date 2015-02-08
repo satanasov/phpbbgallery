@@ -9,7 +9,7 @@
 
 namespace phpbbgallery\core\migrations;
 
-class release_1_1_6 extends \phpbb\db\migration\migration
+class release_1_2_0 extends \phpbb\db\migration\migration
 {
 	public function update_schema()
 	{
