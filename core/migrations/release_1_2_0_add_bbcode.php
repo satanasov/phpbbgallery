@@ -9,11 +9,11 @@
 
 namespace phpbbgallery\core\migrations;
 
-class m2_add_bbcode extends \phpbb\db\migration\migration
+class release_1_2_0_add_bbcode extends \phpbb\db\migration\migration
 {
 	static public function depends_on()
 	{
-		return array('\phpbbgallery\core\migrations\release_1_1_6');
+		return array('\phpbbgallery\core\migrations\release_1_2_0_create_filesystem');
 	}
 
 	public function update_data()
