@@ -15,6 +15,7 @@ parameters:
     tables.phpbbgallery.comments: %core.table_prefix%gallery_comments
     tables.phpbbgallery.reports: %core.table_prefix%gallery_reports
     tables.phpbbgallery.log: %core.table_prefix%gallery_log
+    tables.phpbbgallery.watch: %core.table_prefix%gallery_watch
 
 services:
     phpbbgallery.core.album:
@@ -178,6 +179,7 @@ services:
             - @service_container
             - %core.root_path%
             - %core.php_ext%
+            - %tables.phpbbgallery.watch%
     phpbbgallery.core.log:
         class: phpbbgallery\core\log
         arguments:
@@ -242,6 +244,8 @@ services:
             - @phpbbgallery.core.auth
             - @phpbbgallery.core.auth.level
             - @phpbbgallery.core.config
+            - @phpbbgallery.core.notification.helper
+            - @phpbbgallery.core.url
             - %tables.phpbbgallery.images%
     phpbbgallery.core.controller.file:
         class: phpbbgallery\core\controller\file

@@ -26,6 +26,9 @@ phpbbgallery_album_page:
 phpbbgallery_album_upload:
     pattern: /gallery/album/{album_id}/upload
     defaults: { _controller: phpbbgallery.core.controller.upload:main }
+phpbbgallery_album_watch:
+    pattern: /gallery/album/{album_id}/watch
+    defaults: { _controller: phpbbgallery.core.controller.album:watch }
 
 ##################################
 #### Image controller routes #####
