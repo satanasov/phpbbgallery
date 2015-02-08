@@ -11,6 +11,5 @@ services:
             - @phpbbgallery.core.image
             - @phpbbgallery.core.comment
             - @phpbbgallery.core.config
-            - @phpbbgallery.core.log
             - %tables.phpbbgallery.albums%
             - %tables.phpbbgallery.images%

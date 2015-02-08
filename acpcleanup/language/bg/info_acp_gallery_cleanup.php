@@ -63,10 +63,4 @@ $lang = array_merge($lang, array(
 	'PRUNE_TIME_EXP'				=> 'Премахни изображения качени преди “<samp>YYYY-MM-DD</samp>“.',
 	'PRUNE_USERNAME'				=> 'Качени от',
 	'PRUNE_USERNAME_EXP'			=> 'Премахни изображения само от отделни потребители. За да премахнете изображения от "Гости" - изберете отметката от долу.',
-
-	//Log
-	'LOG_CLEANUP_DELETE_FILES'		=> 'Премахнати %s изображения без редове в базата.',
-	'LOG_CLEANUP_DELETE_ENTRIES'	=> 'Премахнати %s изображения без файлове.',
-	'LOG_CLEANUP_DELETE_NO_AUTHOR'	=> 'Премахнати %s изображения без валиден автор.',
-	'LOG_CLEANUP_COMMENT_DELETE_NO_AUTHOR'	=> 'Премахнати %s коментара без валиден автор.',
 ));

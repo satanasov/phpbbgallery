@@ -13,15 +13,13 @@ namespace phpbbgallery\acpcleanup;
 class cleanup
 {
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbbgallery\core\file\file $tool, \phpbbgallery\core\image\image $image, \phpbbgallery\core\comment $comment,
-	\phpbbgallery\core\config $gallery_config, \phpbbgallery\core\log $log,
-	$albums_table, $images_table)
+	\phpbbgallery\core\config $gallery_config, $albums_table, $images_table)
 	{
 		$this->db = $db;
 		$this->tool = $tool;
 		$this->image = $image;
 		$this->comment = $comment;
 		$this->gallery_config = $gallery_config;
-		$this->log = $log;
 		$this->albums_table = $albums_table;
 		$this->images_table = $images_table;
 	}
@@ -36,9 +34,8 @@ class cleanup
 		foreach ($filenames as $file)
 		{
 			$this->tool->delete(utf8_decode($file));
-			$this->tool->delete_cache(utf8_decode($file));
 		}
-		$this->log->add_log('admin', 'clean_deletefiles', 0, 0, array('LOG_CLEANUP_DELETE_FILES', count($filenames)));
+
 		return 'CLEAN_ENTRIES_DONE';
 	}
 
@@ -50,7 +47,6 @@ class cleanup
 	*/
 	public function delete_images($image_ids)
 	{
-		$this->log->add_log('admin', 'clean_deleteentries', 0, 0, array('LOG_CLEANUP_DELETE_ENTRIES', count($image_ids)));
 		$this->image->delete_images($image_ids, false, true, true);
 
 		return 'CLEAN_SOURCES_DONE';
@@ -64,7 +60,6 @@ class cleanup
 	*/
 	public function delete_author_images($image_ids)
 	{
-		$this->log->add_log('admin', 'clean_deletenoauthors', 0, 0, array('LOG_CLEANUP_DELETE_NO_AUTHOR', count($image_ids)));
 		$this->image->delete_images($image_ids);
 
 		return 'CLEAN_AUTHORS_DONE';
@@ -78,7 +73,6 @@ class cleanup
 	*/
 	public function delete_author_comments($comment_ids)
 	{
-		$this->log->add_log('admin', 'clean_deletecna', 0, 0, array('LOG_CLEANUP_COMMENT_DELETE_NO_AUTHOR', count($comment_ids)));
 		$this->comment->delete_comments($comment_ids);
 
 		return 'CLEAN_COMMENTS_DONE';
