@@ -13,7 +13,7 @@ class split_ucp_module_settings extends \phpbb\db\migration\migration
 {
 	static public function depends_on()
 	{
-		return array('\phpbbgallery\core\migrations\release_1_2_0');
+		return array('\phpbbgallery\core\migrations\release_1_2_0_create_filesystem');
 	}
 
 	public function update_data()
