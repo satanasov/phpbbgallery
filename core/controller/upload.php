@@ -285,6 +285,7 @@ class upload
 				{
 					$message .= (!$error) ? $this->user->lang['ALBUM_UPLOAD_SUCCESSFUL'] : $this->user->lang('ALBUM_UPLOAD_SUCCESSFUL_ERROR', $error);
 					$meta_refresh_time = ($success) ? 3 : 20;
+					//$this->notification_helper->notify_album($album_id, $this->user->data['user_id']);
 				}
 				else
 				{

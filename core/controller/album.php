@@ -63,6 +63,7 @@ class album
 	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $db,
 	\phpbb\pagination $pagination, \phpbb\template\template $template, \phpbb\user $user, \phpbbgallery\core\album\display $display,
 	\phpbbgallery\core\album\loader $loader, \phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\auth\level $auth_level,  \phpbbgallery\core\config $gallery_config,
+	\phpbbgallery\core\notification\helper $notifications_helper, \phpbbgallery\core\url $url,
 	$images_table)
 	{
 		$this->config = $config;
@@ -75,6 +76,8 @@ class album
 		$this->loader = $loader;
 		$this->auth = $auth;
 		$this->auth_level = $auth_level;
+		$this->notifications_helper = $notifications_helper;
+		$this->url = $url;
 		$this->gallery_config = $gallery_config;
 		$this->table_images = $images_table;
 	}
@@ -163,6 +166,8 @@ class album
 			'U_RETURN_LINK'		=> $this->helper->route('phpbbgallery_index'),
 			'L_RETURN_LINK'		=> $this->user->lang('RETURN_TO_GALLERY'),
 			'S_ALBUM_ACTION'	=> $this->helper->route('phpbbgallery_album', array('album_id' => $album_id)),
+			'S_IS_WATCHED'		=> $this->notifications_helper->get_watched_album($album_id) ? true : false,
+			'U_WATCH_TOGLE'		=> $this->helper->route('phpbbgallery_album_watch', array('album_id' => $album_id)),
 		));
 
 		if ($album_data['album_type'] != \phpbbgallery\core\album\album::TYPE_CAT
@@ -381,6 +386,46 @@ class album
 		));
 	}
 
+	public function watch($album_id)
+	{
+		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
+		
+		$album_data = $this->loader->get($album_id);
+
+		$this->check_permissions($album_id, $album_data['album_user_id'], $album_data['album_auth_access']);
+		if (confirm_box(true))
+		{
+			$back_link = $this->helper->route('phpbbgallery_album', array('album_id' => $album_id));
+			if ($this->notifications_helper->get_watched_album($album_id) == 1)
+			{
+				$this->notifications_helper->remove_albums($album_id);
+				$lang = $this->user->lang['UNWATCH_ALBUM'];
+				$this->url->meta_refresh(3, $back_link);
+				trigger_error($lang);
+			}
+			else
+			{
+				$this->notifications_helper->add_albums($album_id);
+				$lang = $this->user->lang['WATCH_ALBUM'];
+				$this->url->meta_refresh(3, $back_link);
+				trigger_error($lang);
+			}
+		}
+		else
+		{
+			if ($this->notifications_helper->get_watched_album($album_id) == 1)
+			{
+				$lang = $this->user->lang['UNWATCH_ALBUM'];
+			}
+			else
+			{
+				$lang = $this->user->lang['WATCH_ALBUM'];
+			}
+			$s_hidden_fields = '';
+			confirm_box(false, $lang, $s_hidden_fields);
+		}
+		return $this->helper->render('gallery/moderate_approve.html', $this->user->lang('GALLERY'));
+	}
 	/**
 	 * @param	int		$album_id
 	 * @param	array	$album_data
