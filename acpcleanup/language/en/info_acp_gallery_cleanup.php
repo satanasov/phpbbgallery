@@ -64,10 +64,4 @@ $lang = array_merge($lang, array(
 	'PRUNE_TIME_EXP'				=> 'Only prune images, that where uploaded before “<samp>YYYY-MM-DD</samp>“.',
 	'PRUNE_USERNAME'				=> 'Uploaded by',
 	'PRUNE_USERNAME_EXP'			=> 'Only prune images from certain users. To prune images from “guests“ select the checkbox beyond the username-box.',
-
-	//Log
-	'LOG_CLEANUP_DELETE_FILES'		=> '%s images without DB entries were deleted.',
-	'LOG_CLEANUP_DELETE_ENTRIES'	=> '%s images without files were deleted.',
-	'LOG_CLEANUP_DELETE_NO_AUTHOR'	=> '%s images without valid author were deleted.',
-	'LOG_CLEANUP_COMMENT_DELETE_NO_AUTHOR'	=> '%s comments without valid author were deleted.',
 ));
