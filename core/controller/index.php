@@ -131,7 +131,6 @@ class index
 				'U_IMAGENAME_ACTION'	=> $this->helper->route('phpbbgallery_image', array('image_id' => $last_image['image_id'])),
 				'U_TIME'	=> ($last_image['image_id'] > 0) ?  $this->user->format_date($last_image['image_time']) : false,
 				'U_UPLOADER'	=> ($last_image['image_id'] > 0) ? get_username_string('full', $last_image['image_user_id'], $last_image['image_username'], $last_image['image_user_colour']) : false,
-				
 			));
 			$this->gallery_user->set_user_id($this->user->data['user_id']);
 			$personal_album = $this->gallery_user->get_own_root_album();
