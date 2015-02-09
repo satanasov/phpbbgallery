@@ -8,7 +8,7 @@
 * @copyright (c) 2007 nickvergessen nickvergessen@gmx.de http://www.flying-bits.org
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
-* Übersetzt von franki (http://motorradforum-niederrhein.de/downloads/)
+* Übersetzt von franki (http://dieahnen.de/ahnenforum/)
 **/
 
 /**
@@ -25,15 +25,15 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'ACP_LOG_GALLERY_MOD'						=> 'Moderator log',
-	'ACP_LOG_GALLERY_MOD_EXP'					=> 'Moderator log',
-	'ACP_LOG_GALLERY_ADM'						=> 'Administrator log',
-	'ACP_LOG_GALLERY_ADM_EXP'					=> 'Administrator log',
-	'ACP_LOG_GALLERY_SYSTEM'						=> 'System log',
-	'ACP_LOG_GALLERY_SYSTEM_EXP'					=> 'System log',
-	'LOG_GALLERY_SHOW_LOGS'						=> 'Show only',
+	'ACP_LOG_GALLERY_MOD'					=> 'Moderator-Protokoll',
+	'ACP_LOG_GALLERY_MOD_EXP'				=> 'Moderator-Protokoll',
+	'ACP_LOG_GALLERY_ADM'					=> 'Administrator-Protokoll',
+	'ACP_LOG_GALLERY_ADM_EXP'				=> 'Administrator-Protokoll',
+	'ACP_LOG_GALLERY_SYSTEM'				=> 'System-Protokoll',
+	'ACP_LOG_GALLERY_SYSTEM_EXP'			=> 'System-Protokoll',
+	'LOG_GALLERY_SHOW_LOGS'					=> 'Nur anzeigen',
 
-	'SORT_USER_ID'							=> 'User ID',
+	'SORT_USER_ID'							=> 'Benutzer-ID',
 
 	'LOG_ALBUM_ADD'							=> '<strong>Alben erstellt</strong><br />» %s',
 	'LOG_ALBUM_DEL_ALBUM'					=> '<strong>Alben gelöscht</strong><br />» %s',
