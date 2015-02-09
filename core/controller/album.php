@@ -389,7 +389,7 @@ class album
 	public function watch($album_id)
 	{
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
-		
+
 		$album_data = $this->loader->get($album_id);
 
 		$this->check_permissions($album_id, $album_data['album_user_id'], $album_data['album_auth_access']);
