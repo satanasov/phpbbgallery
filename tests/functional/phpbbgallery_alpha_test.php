@@ -159,7 +159,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		$this->add_lang('common');
 		
-		$this->assertContainsLang('MCP', $crawler->text());
+		$this->assertContainsLang('MCP_SHORT', $crawler->text());
 		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
 		
 		// Now let's set for registered users
