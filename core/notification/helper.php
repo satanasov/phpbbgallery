@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\Container;
 class helper
 {
 	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user,
-	\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\album\loader $album_load, \phpbb\controller\helper $helper,
+	\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\album\loader $album_load, \phpbb\controller\helper $helper, \phpbbgallery\core\url $url,
 	Container $phpbb_container, $root_path, $php_ext, $watch_table)
 	{
 		$this->config = $config;
@@ -24,6 +24,7 @@ class helper
 		$this->gallery_auth = $gallery_auth;
 		$this->album_load = $album_load;
 		$this->helper = $helper;
+		$this->url = $url;
 		$this->phpbb_container = $phpbb_container;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
@@ -43,6 +44,7 @@ class helper
 		{
 			case 'approval':
 				$targets = $this->gallery_auth->acl_users_ids('i_approve', $target['album_id']);
+				var_dump($targets);
 				$album_data = $this->album_load->get($target['album_id']);
 				$notification_data = array(
 					'user_ids' => $targets,
@@ -50,7 +52,7 @@ class helper
 					'album_name' => $album_data['album_name'],
 					'last_image_id'	=> $target['last_image'],
 					'uploader'	=> $target['uploader'],
-					'album_url'	=> $this->helper->route('phpbbgallery_album', array('album_id' => $target['album_id'])),
+					'album_url'	=> $this->url->get_uri($this->helper->route('phpbbgallery_album', array('album_id' => $target['album_id']))),
 				);
 				$phpbb_notifications->add_notifications('notification.type.phpbbgallery_image_for_approval', $notification_data);
 			break;
