@@ -79,7 +79,7 @@ class helper
 				);
 				$phpbb_notifications->add_notifications('notification.type.phpbbgallery_new_image', $notification_data);
 			break;
-			
+
 			///case 'add':
 			//	$phpbb_notifications->add_notifications('notification.type.zebraadd', $notification_data);
 			//break;
