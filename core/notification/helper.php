@@ -67,6 +67,19 @@ class helper
 				);
 				$phpbb_notifications->add_notifications('notification.type.phpbbgallery_image_approved', $notification_data);
 			break;
+			case 'new_image':
+				$targets = $target['targets'];
+				$album_data = $this->album_load->get($target['album_id']);
+				$notification_data = array(
+					'user_ids' => $targets,
+					'album_id' => $target['album_id'],
+					'album_name' => $album_data['album_name'],
+					'last_image_id'	=> $target['last_image'],
+					'album_url'	=> $this->url->get_uri($this->helper->route('phpbbgallery_album', array('album_id' => $target['album_id']))),
+				);
+				$phpbb_notifications->add_notifications('notification.type.phpbbgallery_new_image', $notification_data);
+			break;
+			
 			///case 'add':
 			//	$phpbb_notifications->add_notifications('notification.type.zebraadd', $notification_data);
 			//break;
@@ -75,6 +88,8 @@ class helper
 			//break;
 		}
 	}
+
+	// Read notification (in some cases it is needed)
 	public function read($type, $target)
 	{
 		$phpbb_notifications = $this->phpbb_container->get('notification_manager');
@@ -84,14 +99,6 @@ class helper
 				$phpbb_notifications->mark_notifications_read_by_parent('notification.type.phpbbgallery_image_for_approval', $target, false);
 			break;
 		}
-	}
-	public function clean($user1, $user2)
-	{
-		$phpbb_notifications = $this->phpbb_container->get('notification_manager');
-		$phpbb_notifications->delete_notifications('notification.type.zebraadd', $user1, $user2);
-		$phpbb_notifications->delete_notifications('notification.type.zebraadd', $user2, $user1);
-		$phpbb_notifications->delete_notifications('notification.type.zebraconfirm', $user2, $user1);
-		$phpbb_notifications->delete_notifications('notification.type.zebraconfirm', $user1, $user2);
 	}
 
 	/**
@@ -111,6 +118,21 @@ class helper
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 		return $row['count'];
+	}
+	/**
+	* Get watchers
+	*/
+	public function get_watchers($album_id)
+	{
+		$sql = 'SELECT user_id FROM ' . $this->watch_table . ' WHERE album_id = ' . (int) $album_id;
+		$result = $this->db->sql_query($sql);
+		$watchers = array();
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$watchers[] = $row['user_id'];
+		}
+
+		return $watchers;
 	}
 
 	/**
@@ -176,5 +198,19 @@ class helper
 		{
 			return array((int) $ids);
 		}
+	}
+
+	/**
+	*
+	* New image in album
+	*/
+	public function new_image($data)
+	{
+		$get_watchers = $this->get_watchers($data['album_id']);
+		// let's exclude all users that are uploadoing something and are approved
+		$targets = array_diff($get_watchers, $data['targets']);
+
+		$data['targets'] = $targets;
+		$this->notify('new_image', $data);
 	}
 }

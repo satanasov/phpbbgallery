@@ -29,4 +29,7 @@ $lang = array_merge($lang, array(
 
 	'NOTIFICATION_TYPE_PHPBBGALLERY_IMAGE_APPROVED'	=> 'Одобрени изображения',
 	'NOTIFICATION_PHPBBGALLERY_IMAGE_APPROVED'		=> 'Изображенията в албум <strong>%1$s</strong> бяха одобрени',
+
+	'NOTIFICATION_TYPE_PHPBBGALLERY_NEW_IMAGE'	=> 'Нови изображения',
+	'NOTIFICATION_PHPBBGALLERY_NEW_IMAGE'		=> 'В албум <strong>%1$s</strong> бяха качени нови изобаржения',
 ));
