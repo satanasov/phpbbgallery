@@ -430,12 +430,16 @@ class image
 			$last_img = $row['image_id'];
 		}
 		$this->db->sql_freeresult($result);
-		$data = array(
-			'targets'	=> $targets,
-			'album_id'	=> $album_id,
-			'last_image'	=> $last_img,
-		);
-		$this->notification_helper->notify('approved', $data);
+		if (!empty($targets))
+		{
+			$data = array(
+				'targets'	=> $targets,
+				'album_id'	=> $album_id,
+				'last_image'	=> $last_img,
+			);
+			$this->notification_helper->notify('approved', $data);
+			$this->notification_helper->new_image($data);
+		}
 		$this->handle_counter($image_id_ary, true, true);
 
 		$sql = 'UPDATE ' . $this->table_images . '

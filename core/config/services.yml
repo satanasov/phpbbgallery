@@ -427,3 +427,21 @@ services:
             - %tables.user_notifications%
         tags:
             - { name: notification.type }
+    notification.type.phpbbgallery_new_image:
+        class: phpbbgallery\core\notification\events\phpbbgallery_new_image
+        scope: prototype # scope MUST be prototype for this to work!
+        arguments:
+            - @user_loader
+            - @dbal.conn
+            - @cache.driver
+            - @user
+            - @auth
+            - @config
+            - @controller.helper
+            - %core.root_path%
+            - %core.php_ext%
+            - %tables.notification_types%
+            - %tables.notifications%
+            - %tables.user_notifications%
+        tags:
+            - { name: notification.type }
