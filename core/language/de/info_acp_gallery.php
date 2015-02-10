@@ -8,7 +8,7 @@
 * @copyright (c) 2007 nickvergessen nickvergessen@gmx.de http://www.flying-bits.org
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
-* Übersetzt von franki (http://motorradforum-niederrhein.de/downloads/)
+* Übersetzt von franki (http://dieahnen.de/ahnenforum/)
 **/
 
 /**
@@ -33,6 +33,8 @@ $lang = array_merge($lang, array(
 	'ACP_GALLERY_LOGS_EXPLAIN'			=> 'Diese Liste zeigt alle Vorgänge, die von Moderatoren an Bildern und Kommentaren durchgeführt wurden.',
 	'ACP_GALLERY_MANAGE_ALBUMS'			=> 'Alben verwalten',
 	'ACP_GALLERY_OVERVIEW'				=> 'Übersicht',
+	'ACP_IMPORT_ALBUMS'					=> 'Alben importieren',
+	'ACP_GALLERY_CLEANUP'				=> 'Balerie bereinigen',
 
 	'GALLERY'							=> 'Galerie',
 	'GALLERY_EXPLAIN'					=> 'Bilder Galerie',
@@ -41,8 +43,8 @@ $lang = array_merge($lang, array(
 	'GALLERY_POPUP_HELPLINE'			=> 'Öffne ein Popup in dem du deine neuesten Bilder auswählen und neue Bilder hochladen kannst.',
 
 	// A little line where you can give yourself some credits on the translation.
-	//'GALLERY_TRANSLATION_INFO'			=> 'English “phpBB Gallery“-Translation by <a href="http://www.flying-bits.org/">nickvergessen</a>',
-	'GALLERY_TRANSLATION_INFO'			=> '',
+	//'GALLERY_TRANSLATION_INFO'		=> 'English “phpBB Gallery“-Translation by <a href="http://www.flying-bits.org/">nickvergessen</a>',
+	'GALLERY_TRANSLATION_INFO'			=> 'Übersetzt von franki <a href="http://dieahnen.de/ahnenforum/">Die Ahnen</a>',
 
 	'IMAGES'							=> 'Bilder',
 	'IMG_BUTTON_UPLOAD_IMAGE'			=> 'Bild hochladen',
