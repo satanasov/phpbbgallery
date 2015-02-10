@@ -47,7 +47,7 @@ class comment
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\template\template $template,
 \phpbb\request\request $request, \phpbb\controller\helper $helper, \phpbbgallery\core\image\image $image, \phpbbgallery\core\album\loader $loader, \phpbbgallery\core\album\album $album,
 \phpbbgallery\core\album\display $display, \phpbbgallery\core\url $url, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\misc $misc,
-\phpbbgallery\core\comment $comment, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\log $gallery_log,
+\phpbbgallery\core\comment $comment, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\log $gallery_log, \phpbbgallery\core\notification\helper $notification_helper,
 $table_comments, $phpbb_root_path, $php_ext)
 	{
 		$this->db = $db;
@@ -68,6 +68,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 		$this->comment = $comment;
 		$this->gallery_user = $gallery_user;
 		$this->gallery_log = $gallery_log;
+		$this->notification_helper = $notification_helper;
 		$this->table_comments = $table_comments;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
@@ -227,13 +228,18 @@ $table_comments, $phpbb_root_path, $php_ext)
 					$captcha->reset();
 				}
 
-				$this->comment->add($sql_ary, $comment_username);
+				$comment_post_id = $this->comment->add($sql_ary, $comment_username);
 				$phpbb_gallery_notification = new \phpbbgallery\core\notification();
 				if ($this->gallery_user->get_data('watch_com'))
 				{
 					$phpbb_gallery_notification->add($image_id);
 				}
-
+				$data = array(
+					'image_id'	=> $image_id,
+					'comment_id'	=> $comment_post_id,
+					'poster_id'		=> $this->user->data['user_id'],
+				);
+				$this->notification_helper->notify('new_comment', $data);
 				//$phpbb_gallery_notification->send_notification('image', $image_id, $image_data['image_name']);
 				$message .= $this->user->lang['COMMENT_STORED'] . '<br />';
 			}

@@ -8,7 +8,7 @@
 */
 namespace phpbbgallery\core\notification\events;
 
-class phpbbgallery_image_for_approval extends \phpbb\notification\type\base
+class phpbbgallery_new_comment extends \phpbb\notification\type\base
 {
 	protected $helper;
 
@@ -36,7 +36,7 @@ class phpbbgallery_image_for_approval extends \phpbb\notification\type\base
 	*/
 	public function get_type()
 	{
-		return 'notification.type.phpbbgallery_image_for_approval';
+		return 'notification.type.phpbbgallery_new_comment';
 	}
 	/**
 	* Notification option data (for outputting to the user)
@@ -45,7 +45,7 @@ class phpbbgallery_image_for_approval extends \phpbb\notification\type\base
 	* 					Array of data (including keys 'id', 'lang', and 'group')
 	*/
 	public static $notification_option = array(
-		'lang'	=> 'NOTIFICATION_TYPE_PHPBBGALLERY_IMAGE_FOR_APPROVE',
+		'lang'	=> 'NOTIFICATION_TYPE_PHPBBGALLERY_NEW_COMMENT',
 	);
 	/**
 	* Is this type available to the current user (defines whether or not it will be shown in the UCP Edit notification options)
@@ -63,7 +63,7 @@ class phpbbgallery_image_for_approval extends \phpbb\notification\type\base
 	*/
 	public static function get_item_id($data)
 	{
-		return $data['last_image_id'];
+		return $data['comment_id'];
 	}
 	/**
 	* Get the id of the parent
@@ -73,7 +73,7 @@ class phpbbgallery_image_for_approval extends \phpbb\notification\type\base
 	public static function get_item_parent_id($data)
 	{
 		// No parent
-		return $data['album_id'];
+		return $data['image_id'];
 	}
 	/**
 	* Find the users who will receive notifications
@@ -101,9 +101,9 @@ class phpbbgallery_image_for_approval extends \phpbb\notification\type\base
 	*/
 	public function get_avatar()
 	{
-		$users = array($this->get_data('uploader'));
+		$users = array($this->get_data('poster_id'));
 		$this->user_loader->load_users($users);
-		return $this->user_loader->get_avatar($this->get_data('uploader'));
+		return $this->user_loader->get_avatar($this->get_data('poster_id'));
 	}
 	/**
 	* Get the HTML formatted title of this notification
@@ -112,10 +112,10 @@ class phpbbgallery_image_for_approval extends \phpbb\notification\type\base
 	*/
 	public function get_title()
 	{
-		$users = array($this->get_data('uploader'));
+		$users = array($this->get_data('poster_id'));
 		$this->user_loader->load_users($users);
-		$username = $this->user_loader->get_username($this->get_data('uploader'), 'no_profile');
-		return $this->user->lang('NOTIFICATION_PHPBBGALLERY_IMAGE_FOR_APPROVAL', $this->get_data('album_name'), $username);
+		$username = $this->user_loader->get_username($this->get_data('poster_id'), 'no_profile');
+		return $this->user->lang('NOTIFICATION_PHPBBGALLERY_NEW_COMMENT', $username);
 	}
 	/**
 	* Get the url to this item
@@ -124,7 +124,7 @@ class phpbbgallery_image_for_approval extends \phpbb\notification\type\base
 	*/
 	public function get_url()
 	{
-		return $this->get_data('album_url');
+		return $this->get_data('url');
 	}
 	/**
 	* Get email template
@@ -155,9 +155,10 @@ class phpbbgallery_image_for_approval extends \phpbb\notification\type\base
 	*/
 	public function create_insert_array($data, $pre_create_data = array())
 	{
-		$this->set_data('album_name', $data['album_name']);
-		$this->set_data('album_url', $data['album_url']);
-		$this->set_data('uploader', $data['uploader']);
+		$this->set_data('image_id', $data['image_id']);
+		$this->set_data('comment_id', $data['comment_id']);
+		$this->set_data('poster_id', $data['poster']);
+		$this->set_data('url', $data['url']);		
 		return parent::create_insert_array($data, $pre_create_data);
 	}
 }
