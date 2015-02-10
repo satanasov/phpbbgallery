@@ -79,7 +79,16 @@ class helper
 				);
 				$phpbb_notifications->add_notifications('notification.type.phpbbgallery_new_image', $notification_data);
 			break;
-
+			case 'new_comment':
+				$notification_data = array(
+					'user_ids'	=> array_diff($this->get_image_watchers($target['image_id']), array($target['poster_id'])),
+					'image_id'	=> $target['image_id'],
+					'comment_id'	=> $target['comment_id'],
+					'poster'	=> $target['poster_id'],
+					'url'		=> $this->url->get_uri($this->helper->route('phpbbgallery_image', array('image_id' => $target['image_id']))),
+				);
+				$phpbb_notifications->add_notifications('notification.type.phpbbgallery_new_comment', $notification_data);
+			break;
 			///case 'add':
 			//	$phpbb_notifications->add_notifications('notification.type.zebraadd', $notification_data);
 			//break;
@@ -120,11 +129,26 @@ class helper
 		return $row['count'];
 	}
 	/**
-	* Get watchers
+	* Get album watchers
 	*/
 	public function get_album_watchers($album_id)
 	{
 		$sql = 'SELECT user_id FROM ' . $this->watch_table . ' WHERE album_id = ' . (int) $album_id;
+		$result = $this->db->sql_query($sql);
+		$watchers = array();
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$watchers[] = $row['user_id'];
+		}
+
+		return $watchers;
+	}
+	/**
+	* Get album watchers
+	*/
+	public function get_image_watchers($image_id)
+	{
+		$sql = 'SELECT user_id FROM ' . $this->watch_table . ' WHERE image_id = ' . (int) $image_id;
 		$result = $this->db->sql_query($sql);
 		$watchers = array();
 		while ($row = $this->db->sql_fetchrow($result))

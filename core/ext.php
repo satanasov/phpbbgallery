@@ -29,6 +29,7 @@ class ext extends \phpbb\extension\base
 				$phpbb_notifications->enable_notifications('notification.type.phpbbgallery_image_for_approval');
 				$phpbb_notifications->enable_notifications('notification.type.phpbbgallery_image_approved');
 				$phpbb_notifications->enable_notifications('notification.type.phpbbgallery_new_image');
+				$phpbb_notifications->enable_notifications('notification.type.phpbbgallery_new_comment');
 				return 'notifications';
 			break;
 			default:
@@ -61,6 +62,7 @@ class ext extends \phpbb\extension\base
 				$phpbb_notifications->disable_notifications('notification.type.phpbbgallery_image_for_approval');
 				$phpbb_notifications->disable_notifications('notification.type.phpbbgallery_image_approved');
 				$phpbb_notifications->disable_notifications('notification.type.phpbbgallery_new_image');
+				$phpbb_notifications->disable_notifications('notification.type.phpbbgallery_new_comment');
 				return 'notifications';
 
 			break;
@@ -94,6 +96,7 @@ class ext extends \phpbb\extension\base
 					$phpbb_notifications->purge_notifications('notification.type.phpbbgallery_image_for_approval');
 					$phpbb_notifications->purge_notifications('notification.type.phpbbgallery_image_approved');
 					$phpbb_notifications->purge_notifications('notification.type.phpbbgallery_new_image');
+					$phpbb_notifications->purge_notifications('notification.type.phpbbgallery_new_comment');
 				}
 				catch (\phpbb\notification\exception $e)
 				{
