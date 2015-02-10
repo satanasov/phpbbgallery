@@ -162,6 +162,7 @@ class moderate
 				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 			}
 		}
+
 		else
 		{
 			$album = $this->album->get_info($album_id);
@@ -170,6 +171,7 @@ class moderate
 				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 			}
 		}
+		var_dump($approve_ary);
 		if (!empty($approve_ary))
 		{
 			if (confirm_box(true))

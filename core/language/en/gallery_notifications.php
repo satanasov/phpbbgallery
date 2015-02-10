@@ -26,4 +26,7 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'NOTIFICATION_PHPBBGALLERY_IMAGE_FOR_APPROVAL'	=> '%2$s uploaded images for approval in album <strong>%1$s</strong>',
 	'NOTIFICATION_TYPE_PHPBBGALLERY_IMAGE_FOR_APPROVE'	=> 'Images waiting for approval',
+
+	'NOTIFICATION_TYPE_PHPBBGALLERY_IMAGE_APPROVED'	=> 'Approved images',
+	'NOTIFICATION_PHPBBGALLERY_IMAGE_APPROVED'		=> 'Images in album <strong>%1$s</strong> were approved',
 ));

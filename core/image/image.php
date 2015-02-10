@@ -47,6 +47,7 @@ class image
 	*/
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\album\album $album,
 								\phpbbgallery\core\config $gallery_config, \phpbb\controller\helper $helper, \phpbbgallery\core\url $url, \phpbbgallery\core\log $gallery_log,
+								\phpbbgallery\core\notification\helper $notification_helper,
 								$table_images)
 	{
 		$this->db = $db;
@@ -56,6 +57,7 @@ class image
 		$this->gallery_config = $gallery_config;
 		$this->helper = $helper;
 		$this->url = $url;
+		$this->notification_helper = $notification_helper;
 		$this->gallery_log = $gallery_log;
 		$this->table_images = $table_images;
 	}
@@ -414,27 +416,33 @@ class image
 	*/
 	public function approve_images($image_id_ary, $album_id)
 	{
-		global $db, $table_prefix;
-
-		self::handle_counter($image_id_ary, true, true);
-
-		$sql = 'UPDATE ' . $table_prefix . 'gallery_images 
-			SET image_status = ' . self::STATUS_APPROVED . '
-			WHERE image_status <> ' . self::STATUS_ORPHAN . '
-				AND ' . $db->sql_in_set('image_id', $image_id_ary);
-		$db->sql_query($sql);
-
 		$image_names = array();
-		$sql = 'SELECT image_id, image_name
-			FROM ' . $table_prefix . 'gallery_images 
-			WHERE image_status <> ' . self::STATUS_ORPHAN . '
-				AND ' . $db->sql_in_set('image_id', $image_id_ary);
-		$result = $db->sql_query($sql);
-		while ($row = $db->sql_fetchrow($result))
+		$sql = 'SELECT image_id, image_name, image_user_id
+			FROM ' . $this->table_images . ' 
+			WHERE image_status = 0
+				AND ' . $this->db->sql_in_set('image_id', $image_id_ary);
+		$result = $this->db->sql_query($sql);
+		$targets = array();
+		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$this->gallery_log->add_log('moderator', 'approve', $album_id, $row['image_id'], array('LOG_GALLERY_APPROVED', $row['image_name']));
+			$targets[] = $row['image_user_id'];
+			$last_img = $row['image_id'];
 		}
-		$db->sql_freeresult($result);
+		$this->db->sql_freeresult($result);
+		$data = array(
+			'targets'	=> $targets,
+			'album_id'	=> $album_id,
+			'last_image'	=> $last_img,
+		);
+		$this->notification_helper->notify('approved', $data);
+		$this->handle_counter($image_id_ary, true, true);
+
+		$sql = 'UPDATE ' . $this->table_images . '
+			SET image_status = ' . self::STATUS_APPROVED . '
+			WHERE image_status <> ' . self::STATUS_ORPHAN . '
+				AND ' . $this->db->sql_in_set('image_id', $image_id_ary);
+		$this->db->sql_query($sql);
 	}
 
 	/**
