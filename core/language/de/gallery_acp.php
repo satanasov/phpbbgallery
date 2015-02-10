@@ -8,7 +8,7 @@
 * @copyright (c) 2007 nickvergessen nickvergessen@gmx.de http://www.flying-bits.org
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
-* Übersetzt von franki (http://motorradforum-niederrhein.de/downloads/)
+* Übersetzt von franki (http://dieahnen.de/ahnenforum/)
 **/
 
 /**
@@ -268,9 +268,9 @@ $lang = array_merge($lang, array(
 	'RANDOM_ON_INDEX'				=> 'Zufällige Bilder auf der Index-Seite anzeigen',
 	'RANDOM_ON_INDEX_EXP'			=> 'Zufalls-Bilder auf der Galerie-Index-Seite anzeigen lassen.',
 	'RANDOM_ON_INDEX_COUNT'			=> 'Zufallsbild Zahl',
-	'RECENT_ON_INDEX'				=> 'Show recent images',
-	'RECENT_ON_INDEX_EXP'			=> 'Should recent images be displayed on index',
-	'RECENT_ON_INDEX_COUNT'			=> 'Recent images count',
+	'RECENT_ON_INDEX'				=> 'Neue Bilder anzeigen',
+	'RECENT_ON_INDEX_EXP'			=> 'Die letzten Bilder werden auf der Index-Seite angezeigt',
+	'RECENT_ON_INDEX_COUNT'			=> 'Neueste Bilder zählen',
 	'PHPBB_INTEGRATION'				=> 'Integration in phpBB',
 	'PNG_ALLOWED'					=> 'Es ist erlaubt PNG-Dateien hochzuladen',
 	'PURGED_CACHE'					=> 'Cache geleert',
@@ -324,6 +324,7 @@ $lang = array_merge($lang, array(
 	'RRC_PROFILE_MODE'				=> 'Modus des „Neueste &amp; zufällige Bilder“-Features im Profil',
 	'RRC_PROFILE_MODE_EXP'			=> '„Zufällige Bilder“ kann bei großen Datenbanken einige Ladezeit in Anspruch nehmen!',
 	'RRC_PROFILE_ROWS'				=> 'Zeilen',
+	'RRC_PROFILE_ITEMS'				=> 'Anzahl',
 
 	'RSZ_HEIGHT'					=> 'Maximale Höhe beim Anzeigen eines Bildes',
 	'RSZ_WIDTH'						=> 'Maximale Breite beim Anzeigen eines Bildes',
@@ -401,13 +402,13 @@ $lang = array_merge($lang, array(
 * A copy of Handyman` s MOD version check, to view it on the gallery overview
 */
 $lang = array_merge($lang, array(
-	'ANNOUNCEMENT_TOPIC'	=> 'Release Ankündigung',
-	'CURRENT_VERSION'		=> 'Derzeitige Version',
-	'DOWNLOAD_LATEST'		=> 'Neueste Version herunterladen',
-	'LATEST_VERSION'		=> 'Neueste Version',
-	'NO_INFO'					=> 'Der Server konnte nicht erreicht werden',
-	'NOT_UP_TO_DATE'			=> '%s ist nicht aktuell',
-	'RELEASE_ANNOUNCEMENT'	=> 'Ankündigungsthema',
-	'UP_TO_DATE'			=> '%s ist aktuell',
-	'VERSION_CHECK'			=> 'MOD Version Check',
+	'ANNOUNCEMENT_TOPIC'			=> 'Release Ankündigung',
+	'CURRENT_VERSION'				=> 'Derzeitige Version',
+	'DOWNLOAD_LATEST'				=> 'Neueste Version herunterladen',
+	'LATEST_VERSION'				=> 'Neueste Version',
+	'NO_INFO'						=> 'Der Server konnte nicht erreicht werden',
+	'NOT_UP_TO_DATE'				=> '%s ist nicht aktuell',
+	'RELEASE_ANNOUNCEMENT'			=> 'Ankündigungsthema',
+	'UP_TO_DATE'					=> '%s ist aktuell',
+	'VERSION_CHECK'					=> 'MOD Version Check',
 ));

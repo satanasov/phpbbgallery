@@ -8,7 +8,7 @@
 * @copyright (c) 2007 nickvergessen nickvergessen@gmx.de http://www.flying-bits.org
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
-* Übersetzt von franki (http://motorradforum-niederrhein.de/downloads/)
+* Übersetzt von franki (http://dieahnen.de/ahnenforum/)
 **/
 
 /**
@@ -47,7 +47,7 @@ $lang = array_merge($lang, array(
 	),
 	'ALLOWED_FILETYPES'				=> 'Erlaubte Dateitypen',
 	'APPROVE'						=> 'Freigeben',
-	'DISAPPROVE'					=> 'Dissaprove',
+	'DISAPPROVE'					=> 'Sperren',
 	'APPROVE_IMAGE'					=> 'Bild freischalten',
 
 	//@todo
@@ -188,6 +188,7 @@ $lang = array_merge($lang, array(
 	'NO_IMAGES_LONG'				=> 'In diesem Album gibt es keine Bilder.',
 	'NOT_ALLOWED_FILE_TYPE'			=> 'Dieser Datei Typ ist nicht erlaubt',
 	'NOT_RATED'						=> 'Nicht bewertet',
+	'NO_SEARCH_RESULTS'				=> 'Keine Alben gefunden',
 
 	'ORDER'							=> 'Reihenfolge',
 	'ORIG_FILENAME'					=> 'Dateinamen als Bildname verwenden (das Eingabefeld ist ohne Funktion)',
@@ -204,6 +205,7 @@ $lang = array_merge($lang, array(
 
 	'QUOTA_REACHED'					=> 'Die Anzahl der Bilder, die du hochladen kannst, wurde erreicht.',
 	'QUOTE_COMMENT'					=> 'Kommentar zitieren',
+	'QUICK_MOD'						=> 'Schnellmoderation',
 
 	'RANDOM_IMAGES'					=> 'Zufällige Bilder',
 	'RATE_IMAGE'					=> 'Bild bewerten',
@@ -229,6 +231,7 @@ $lang = array_merge($lang, array(
 	'ROTATE_NONE'					=> 'nicht drehen',
 	'ROTATE_RIGHT'					=> '90° rechts',
 	'ROTATE_UPSIDEDOWN'				=> '180° oben nach unten',
+	'RETURN_TO_GALLERY'				=> 'zurück zur Galerie',
 
 	'SEARCH_ALBUM'					=> 'Album durchsuchen…',
 	'SEARCH_ALBUMS'					=> 'Zu durchsuchende Alben',
@@ -239,9 +242,7 @@ $lang = array_merge($lang, array(
 	'SEARCH_IMAGE_VALUES'			=> 'Nur Bildnamen und Beschreibungen',
 	'SEARCH_IMAGENAME'				=> 'Nur Bildnamen',
 	'SEARCH_RANDOM'					=> 'Zufällige Bilder',
-	'NO_SEARCH_RESULTS_RANDOM'		=> 'There are no images or you do not have access to see them!',
 	'SEARCH_RECENT'					=> 'Neueste Bilder',
-	'NO_SEARCH_RESULTS_RECENT'		=> 'There are no images or you do not have access to see them!',
 	'SEARCH_RECENT_COMMENTS'		=> 'Neueste Kommentare',
 	'SEARCH_SUBALBUMS'				=> 'Subalben durchsuchen',
 	'SEARCH_TOPRATED'				=> 'Beste Bewertungen',
@@ -268,9 +269,9 @@ $lang = array_merge($lang, array(
 	),
 	'TOTAL_IMAGES'					=> 'Bilder insgesamt',
 	'TOTAL_IMAGES_SPRINTF'			=> array(
-		0	=> 'No images',
-		1	=> '%d image',
-		2	=> '%d images',
+		0	=> 'Keine Bilder',
+		1	=> '%d Bild',
+		2	=> '%d Bilder',
 	),
 	'TOTAL_PEGAS_SHORT_SPRINTF'		=> array(
 		0	=> '0 persönliche Galerien',

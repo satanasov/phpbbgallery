@@ -8,7 +8,7 @@
 * @copyright (c) 2007 nickvergessen nickvergessen@gmx.de http://www.flying-bits.org
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
-* Übersetzt von franki (http://motorradforum-niederrhein.de/downloads/)
+* Übersetzt von franki (http://dieahnen.de/ahnenforum/)
 **/
 
 /**
@@ -39,7 +39,7 @@ $lang = array_merge($lang, array(
 	'GALLERY_MCP_APPROVED'			=> 'freigegebene Bilder',
 	'GALLERY_MCP_LOCKED'			=> 'gesperrte Bilder',
 	'GALLERY_MCP_VIEWALBUM'			=> 'Album anzeigen',
-	'GALLERY_MCP_ALBUM_OVERVIEW'	=> 'Moderate album',
+	'GALLERY_MCP_ALBUM_OVERVIEW'	=> 'Moderiert Album',
 
 	'IMAGE_REPORTED'				=> 'Das Bild wurde gemeldet.',
 	'IMAGE_UNAPPROVED'				=> 'Das Bild wartet auf Freigabe.',
@@ -117,9 +117,9 @@ $lang = array_merge($lang, array(
 		2			=> 'Insgesamt sind <span style="font-weight: bold;">%s</span> Bilder freigeschaltet.',
 	),
 	'WAITING_DISPPROVED_IMAGE'		=> array(
-		0			=> 'No images disapproved.',
-		1			=> 'In total there is <span style="font-weight: bold;">1</span> image disapproved.',
-		2			=> 'In total there are <span style="font-weight: bold;">%s</span> images disapproved.',
+		0			=> 'Keine Bilder abgelehnt.',
+		1			=> 'Insgesamt ist <span style="font-weight: bold;">1</span> Bild abgelehnt.',
+		2			=> 'Insgesamt sind <span style="font-weight: bold;">%s</span> Bilder abgelehnt.',
 	),
 	'WAITING_LOCKED_IMAGE'			=> array(
 		0			=> 'Es sind keine Bilder gesperrt.',
@@ -142,14 +142,14 @@ $lang = array_merge($lang, array(
 		2			=> 'Insgesamt warten <span style="font-weight: bold;">%s</span> Bilder auf Freischaltung.',
 	),
 	'DELETED_IMAGES'		=> array(
-		0			=> 'No images deleted.',
-		1			=> 'In total there was <span style="font-weight: bold;">1</span> image deleted.',
-		2			=> 'In total there was <span style="font-weight: bold;">%s</span> images deleted.',
+		0			=> 'Kein Bild gelöscht.',
+		1			=> 'Insgesamt wurde <span style="font-weight: bold;">1</span> Bild gelöscht.',
+		2			=> 'Insgesamt wurden <span style="font-weight: bold;">%s</span> Bilder gelöscht.',
 	),
 	'MOVED_IMAGES'		=> array(
-		0			=> 'No images were moved.',
-		1			=> 'In total there was <span style="font-weight: bold;">1</span> image moved.',
-		2			=> 'In total there was <span style="font-weight: bold;">%s</span> images moved.',
+		0			=> 'Keine Bilder verschoben.',
+		1			=> 'Insgesamt wurde <span style="font-weight: bold;">1</span> Bild verschoben.',
+		2			=> 'Insgesamt wurden <span style="font-weight: bold;">%s</span> Bilder verschoben.',
 	),
-	'NO_WAITING_UNAPPROVED_IMAGE'	=> 'No images waiting for approval.',
+	'NO_WAITING_UNAPPROVED_IMAGE'	=> 'Keine Bilder warten auf Genehmigung.',
 ));
