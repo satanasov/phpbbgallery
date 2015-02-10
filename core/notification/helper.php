@@ -122,7 +122,7 @@ class helper
 	/**
 	* Get watchers
 	*/
-	public function get_watchers($album_id)
+	public function get_album_watchers($album_id)
 	{
 		$sql = 'SELECT user_id FROM ' . $this->watch_table . ' WHERE album_id = ' . (int) $album_id;
 		$result = $this->db->sql_query($sql);
@@ -150,7 +150,7 @@ class helper
 		$sql = 'SELECT * FROM ' . $this->watch_table . ' WHERE user_id = ' . $user_id . ' and ' . $this->db->sql_in_set('album_id', $album_ids);
 		$result = $this->db->sql_query($sql);
 		$exclude = array();
-		while ($row = $this->db->sql_fetchrow($sql))
+		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$exclude[] = (int) $row['album_id'];
 		}
@@ -206,7 +206,7 @@ class helper
 	*/
 	public function new_image($data)
 	{
-		$get_watchers = $this->get_watchers($data['album_id']);
+		$get_watchers = $this->get_album_watchers($data['album_id']);
 		// let's exclude all users that are uploadoing something and are approved
 		$targets = array_diff($get_watchers, $data['targets']);
 

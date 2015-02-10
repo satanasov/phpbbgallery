@@ -229,7 +229,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 
 				$this->comment->add($sql_ary, $comment_username);
 				$phpbb_gallery_notification = new \phpbbgallery\core\notification();
-				if ($this->gallery_user->get_data('watch_com') && !$image_data['watch_id'])
+				if ($this->gallery_user->get_data('watch_com'))
 				{
 					$phpbb_gallery_notification->add($image_id);
 				}

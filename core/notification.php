@@ -29,6 +29,16 @@ class notification
 		$image_ids = self::cast_mixed_int2array($image_ids);
 		$user_id = (int) (($user_id) ? $user_id : $user->data['user_id']);
 
+		// First check if we are not subscribed alredy for some
+		$sql = 'SELECT * FROM ' . $table_prefix . 'gallery_watch  WHERE user_id = ' . $user_id . ' and ' . $db->sql_in_set('image_id', $image_ids);
+		$result = $db->sql_query($sql);
+		$exclude = array();
+		while ($row = $db->sql_fetchrow($result))
+		{
+			$exclude[] = (int) $row['image_id'];
+		}
+		$image_ids = array_diff($image_ids, $exclude);
+
 		foreach ($image_ids as $image_id)
 		{
 			$sql_ary = array(
