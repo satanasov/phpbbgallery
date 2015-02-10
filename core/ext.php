@@ -27,6 +27,7 @@ class ext extends \phpbb\extension\base
 				// Enable board rules notifications
 				$phpbb_notifications = $this->container->get('notification_manager');
 				$phpbb_notifications->enable_notifications('notification.type.phpbbgallery_image_for_approval');
+				$phpbb_notifications->enable_notifications('notification.type.phpbbgallery_image_approved');
 				return 'notifications';
 			break;
 			default:
@@ -57,6 +58,7 @@ class ext extends \phpbb\extension\base
 				// Disable board rules notifications
 				$phpbb_notifications = $this->container->get('notification_manager');
 				$phpbb_notifications->disable_notifications('notification.type.phpbbgallery_image_for_approval');
+				$phpbb_notifications->disable_notifications('notification.type.phpbbgallery_image_approved');
 				return 'notifications';
 
 			break;
@@ -88,6 +90,7 @@ class ext extends \phpbb\extension\base
 					// Purge board rules notifications
 					$phpbb_notifications = $this->container->get('notification_manager');
 					$phpbb_notifications->purge_notifications('notification.type.phpbbgallery_image_for_approval');
+					$phpbb_notifications->purge_notifications('notification.type.phpbbgallery_image_approved');
 				}
 				catch (\phpbb\notification\exception $e)
 				{

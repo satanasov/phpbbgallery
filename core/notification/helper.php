@@ -55,6 +55,18 @@ class helper
 				);
 				$phpbb_notifications->add_notifications('notification.type.phpbbgallery_image_for_approval', $notification_data);
 			break;
+			case 'approved':
+				$targets = $target['targets'];
+				$album_data = $this->album_load->get($target['album_id']);
+				$notification_data = array(
+					'user_ids' => $targets,
+					'album_id' => $target['album_id'],
+					'album_name' => $album_data['album_name'],
+					'last_image_id'	=> $target['last_image'],
+					'album_url'	=> $this->url->get_uri($this->helper->route('phpbbgallery_album', array('album_id' => $target['album_id']))),
+				);
+				$phpbb_notifications->add_notifications('notification.type.phpbbgallery_image_approved', $notification_data);
+			break;
 			///case 'add':
 			//	$phpbb_notifications->add_notifications('notification.type.zebraadd', $notification_data);
 			//break;
