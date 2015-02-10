@@ -158,7 +158,7 @@ class phpbbgallery_new_comment extends \phpbb\notification\type\base
 		$this->set_data('image_id', $data['image_id']);
 		$this->set_data('comment_id', $data['comment_id']);
 		$this->set_data('poster_id', $data['poster']);
-		$this->set_data('url', $data['url']);		
+		$this->set_data('url', $data['url']);
 		return parent::create_insert_array($data, $pre_create_data);
 	}
 }
