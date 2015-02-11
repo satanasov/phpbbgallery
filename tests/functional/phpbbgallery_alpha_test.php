@@ -332,7 +332,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		
-		$this->assertContains('1 image',  $crawler->text());
+		$this->assertContains('0 image',  $crawler->text());
 		$this->assertContains('Valid',  $crawler->text());
 		
 		$this->logout();
