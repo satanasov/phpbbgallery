@@ -168,4 +168,132 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 	}
+	public function test_acl_set_permissions_public()
+	{
+		$this->login();
+		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang('acp/permissions');
+		
+		// Let us set for administration
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-permissions_module&mode=manage&sid='  . $this->sid);
+		$this->assertContainsLang('PERMISSIONS_EXPLAIN', $crawler->text());
+		
+		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
+		$form['p_system'] = 0;
+		$form['album_id'] = array(1);
+		$crawler = self::submit($form);
+		
+		$this->assertContains('First test album!', $crawler->text());
+		
+		$form = $crawler->filter('form[id=add_groups]')->selectButton($this->lang('ADD_PERMISSIONS'))->form();
+		$form['group_id'] = array(5);
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('PERMISSION_I_VIEW', $crawler->text());
+		
+		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
+		$data = array(
+			'setting'	=> array(
+				1	=> array (
+					5 => array(
+						'a_list'			=> '1',
+						'i_view'			=> '1',
+						'i_watermark'		=> '1',
+						'i_upload'			=> '1',
+						'i_edit'			=> '1',
+						'i_delete'			=> '1',
+						'i_rate'			=> '1',
+						'i_approve'			=> '1',
+						'i_report'			=> '1',
+						'i_count'			=> '0',
+						'i_unlimited'		=> '1',
+						'c_read'			=> '1',
+						'c_post'			=> '1',
+						'c_edit'			=> '1',
+						'c_delete'			=> '1',
+						'm_comments'		=> '1',
+						'm_delete'			=> '1',
+						'm_edit'			=> '1',
+						'm_move'			=> '1',
+						'm_report'			=> '1',
+						'm_status'			=> '1',
+					)
+				)
+			)
+		);
+		$form->setValues($data);
+		$crawler = self::submit($form);
+		$this->assertContainsLang('PERMISSIONS_STORED', $crawler->text());
+		
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
+		$this->add_lang('common');
+		
+		$this->assertContainsLang('MCP_SHORT', $crawler->text());
+		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
+		
+		// Now let's set for registered users
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-permissions_module&mode=manage&sid='  . $this->sid);
+		$this->assertContainsLang('PERMISSIONS_EXPLAIN', $crawler->text());
+		
+		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
+		$form['p_system'] = 0;
+		$form['album_id'] = array(1);
+		$crawler = self::submit($form);
+		
+		$this->assertContains('First test album!', $crawler->text());
+		
+		$form = $crawler->filter('form[id=add_groups]')->selectButton($this->lang('ADD_PERMISSIONS'))->form();
+		$form['group_id'] = array(2);
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('PERMISSION_I_VIEW', $crawler->text());
+		
+		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
+		$data = array(
+			'setting'	=> array(
+				1	=> array (
+					2 => array(
+						'a_list'			=> '1',
+						'i_view'			=> '1',
+						'i_watermark'		=> '0',
+						'i_upload'			=> '1',
+						'i_edit'			=> '1',
+						'i_delete'			=> '1',
+						'i_rate'			=> '1',
+						'i_approve'			=> '0',
+						'i_report'			=> '1',
+						'i_count'			=> '0',
+						'i_unlimited'		=> '1',
+						'c_read'			=> '1',
+						'c_post'			=> '1',
+						'c_edit'			=> '1',
+						'c_delete'			=> '1',
+						'm_comments'		=> '0',
+						'm_delete'			=> '0',
+						'm_edit'			=> '0',
+						'm_move'			=> '0',
+						'm_report'			=> '0',
+						'm_status'			=> '0',
+					)
+				)
+			)
+		);
+		$form->setValues($data);
+		$crawler = self::submit($form);
+		$this->assertContainsLang('PERMISSIONS_STORED', $crawler->text());
+		
+		$this->logout();
+		$this->logout();
+		
+		$this->login('testuser1');
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
+
+		$this->assertNotContainsLang('MCP', $crawler->text());
+		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
+		
+		$this->logout();
+	}
+	
 }
