@@ -36,7 +36,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 	}
 	
 	// Test if disabling core will disable all other extensions
-	public function test_disable_core()
+	public function test_togle_core()
 	{
 		$this->login();
 		$this->admin_login();
@@ -55,7 +55,13 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		{
 			$this->assertEquals(0, $this->get_state($ext));
 		}
-
+		$crawler = self::request('GET', 'adm/index.php?i=acp_extensions&mode=main&action=enable_pre&ext_name=phpbbgallery%2Fcore&sid=' . $this->sid);
+		$form = $crawler->selectButton($this->lang('ENABLE'))->form();
+		$crawler = self::submit($form);
+		foreach ($exts_array as $ext)
+		{
+			$this->assertEquals(1, $this->get_state($ext));
+		}
 		$this->logout();
 	}
 }
