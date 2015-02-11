@@ -69,7 +69,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 			),
 			'acp_import'	=> array(
 				'phpbbgallery/acpimport',
-				'info_acp_gallery_cleanup',
+				'info_acp_gallery_acpimport',
 				'adm/index.php?i=-phpbbgallery-acpimport-acp-main_module&mode=import_images',
 				'ACP_IMPORT_ALBUMS'
 			),
