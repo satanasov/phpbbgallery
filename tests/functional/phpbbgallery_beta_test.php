@@ -53,7 +53,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$exts_array = array('phpbbgallery/core', 'phpbbgallery/exif', 'phpbbgallery/acpimport', 'phpbbgallery/acpcleanup');
 		foreach ($exts_array as $ext)
 		{
-			$this->assertEquals(0, $this->get_state($ext);
+			$this->assertEquals(0, $this->get_state($ext));
 		}
 
 		$this->logout();
