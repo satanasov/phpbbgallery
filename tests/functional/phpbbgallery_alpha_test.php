@@ -112,17 +112,12 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->add_lang('acp/extensions');
 		
 		$crawler = self::request('GET', 'adm/index.php?i=acp_extensions&mode=main&action=disable_pre&ext_name=phpbbgallery%2Fcore&sid=' . $this->sid);
-		$form = $crawler->selectButton($this->lang('DISABLE'))->form();
-		$crawler = self::submit($form);
-		
-		$this->assertContainsLang('EXTENSION_DISABLE_SUCCESS', $crawler->text());
-		
-		$this->assertEquals(0, $this->get_state($ext));
-		
-		$crawler = self::request('GET', 'adm/index.php?i=acp_extensions&mode=main&action=enable_pre&ext_name=phpbbgallery%2Fcore&sid=' . $this->sid);
 		$form = $crawler->selectButton('enable')->form();
 		$crawler = self::submit($form);
-		$this->assertContainsLang('EXTENSION_ENABLE_SUCCESS', $crawler->filter('.successbox')->text());
-
+		$this->assertContainsLang('EXTENSION_DISABLE_SUCCESS', $crawler->filter('.successbox')->text());
+		
+		$this->assertEquals(0, $this->get_state($ext));
+		$this->logout();
+		$this->logout();
 	}
 }
