@@ -105,11 +105,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 	*/
 	public function test_stop_core($ext)
 	{
-		$this->get_db();
-		if (strpos($this->db->get_sql_layer(), 'sqlite3') === 0)
-		{
-			$this->markTestSkipped('There seems to be issue with SQlite and travis about togling');
-		}
+
 		$this->login();
 		$this->admin_login();
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
