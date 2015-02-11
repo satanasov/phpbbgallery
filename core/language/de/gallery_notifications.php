@@ -26,18 +26,18 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'NOTIFICATION_PHPBBGALLERY_IMAGE_FOR_APPROVAL'		=> '%2$s hochgeladene Bilder für Freigabe in Album <strong>%1$s</strong>',
-	'NOTIFICATION_TYPE_PHPBBGALLERY_IMAGE_FOR_APPROVE'	=> 'Bilder Warten auf die Freigabe',
+	'NOTIFICATION_PHPBBGALLERY_IMAGE_FOR_APPROVAL'		=> '%2$s hochgeladene Bilder warten auf Freigabe in Album <strong>%1$s</strong>',
+	'NOTIFICATION_TYPE_PHPBBGALLERY_IMAGE_FOR_APPROVE'	=> 'Bilder Warten auf Freigabe',
 
-	'NOTIFICATION_TYPE_PHPBBGALLERY_IMAGE_APPROVED'	=> 'Approved images',
-	'NOTIFICATION_PHPBBGALLERY_IMAGE_APPROVED'		=> 'Images in album <strong>%1$s</strong> were approved',
+	'NOTIFICATION_TYPE_PHPBBGALLERY_IMAGE_APPROVED'	=> 'Freigegebene Bilder',
+	'NOTIFICATION_PHPBBGALLERY_IMAGE_APPROVED'		=> 'Bilder im <strong>%1$s</strong> Album wurden freigegeben',
 
-	'NOTIFICATION_TYPE_PHPBBGALLERY_NEW_IMAGE'	=> 'New images',
-	'NOTIFICATION_PHPBBGALLERY_NEW_IMAGE'		=> 'New images were uploaded to album <strong>%1$s</strong>',
+	'NOTIFICATION_TYPE_PHPBBGALLERY_NEW_IMAGE'	=> 'Neue Bilder',
+	'NOTIFICATION_PHPBBGALLERY_NEW_IMAGE'		=> 'Neue Bilder wurden ins <strong>%1$s</strong> Album hochgeladen',
 
-	'NOTIFICATION_TYPE_PHPBBGALLERY_NEW_COMMENT'	=> 'New comments',
-	'NOTIFICATION_PHPBBGALLERY_NEW_COMMENT'			=> '<strong>%1$s</strong> commented on image you are watching',
+	'NOTIFICATION_TYPE_PHPBBGALLERY_NEW_COMMENT'	=> 'Neue Kommentare',
+	'NOTIFICATION_PHPBBGALLERY_NEW_COMMENT'			=> '<strong>%1$s</strong> Kommentare zu dem Bild welches Du gerade siehst',
 
-	'NOTIFICATION_TYPE_PHPBBGALLERY_NEW_REPORT'	=> 'New image report',
-	'NOTIFICATION_PHPBBGALLERY_NEW_REPORT'			=> '<strong>%1$s</strong> reported image',
+	'NOTIFICATION_TYPE_PHPBBGALLERY_NEW_REPORT'	=> 'Neuer Bild-Report',
+	'NOTIFICATION_PHPBBGALLERY_NEW_REPORT'			=> '<strong>%1$s</strong> gemeldetes Bild',
 ));
