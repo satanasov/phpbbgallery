@@ -96,6 +96,12 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->login();
 		$this->admin_login();
 		
+		// Let us create a user we will use for tests
+		$this->create_user('testuser1');
+		$this->add_user_group('REGISTERED', array('testuser1'));
+		// Let me get admin out of registered
+		$this->remove_user_group('REGISTERED', array('admin'));
+		
 		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-albums_module&mode=manage&sid=' . $this->sid);
 		
