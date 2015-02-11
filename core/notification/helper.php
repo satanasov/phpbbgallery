@@ -89,6 +89,20 @@ class helper
 				);
 				$phpbb_notifications->add_notifications('notification.type.phpbbgallery_new_comment', $notification_data);
 			break;
+			case 'new_report':
+				if ($target['reported_album_id'] == 0)
+				{
+					$image_data = $this->image->get_image_data($target['reported_image_id']);
+					$target['reported_album_id'] = $image_data['image_album_id'];
+				}
+				$notification_data = array(
+					'user_ids'	=> array_diff($this->gallery_auth->acl_users_ids('m_report', $target['reported_album_id']), array($target['reporter_id'])),
+					'item_id'	=> $target['report_id'],
+					'reporter'	=> $target['reporter_id'],
+					'url'		=> $this->url->get_uri($this->helper->route('phpbbgallery_moderate_image', array('image_id' => $target['reported_image_id']))),
+				);
+				$phpbb_notifications->add_notifications('notification.type.phpbbgallery_new_report', $notification_data);
+			break;
 			///case 'add':
 			//	$phpbb_notifications->add_notifications('notification.type.zebraadd', $notification_data);
 			//break;

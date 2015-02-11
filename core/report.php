@@ -23,7 +23,7 @@ class report
 
 	public function __construct(\phpbbgallery\core\log $gallery_log, \phpbbgallery\core\auth\auth $gallery_auth, \phpbb\user $user, \phpbb\db\driver\driver_interface $db,
 	\phpbb\user_loader $user_loader, \phpbbgallery\core\album\album $album, \phpbb\template\template $template, \phpbb\controller\helper $helper,
-	\phpbbgallery\core\config $gallery_config, \phpbb\pagination $pagination,
+	\phpbbgallery\core\config $gallery_config, \phpbb\pagination $pagination, \phpbbgallery\core\notification\helper $notification_helper,
 	$images_table, $reports_table)
 	{
 		$this->gallery_log = $gallery_log;
@@ -36,37 +36,45 @@ class report
 		$this->helper = $helper;
 		$this->gallery_config = $gallery_config;
 		$this->pagination = $pagination;
+		$this->notification_helper = $notification_helper;
 		$this->images_table = $images_table;
 		$this->reports_table = $reports_table;
 	}
 	/**
 	* Report an image
 	*/
-	static public function add($data)
+	public function add($data)
 	{
-		global $db, $user, $table_prefix, $phpbb_container;
-
 		if (!isset($data['report_album_id']) || !isset($data['report_image_id']) || !isset($data['report_note']))
 		{
 			return;
 		}
 		$data = $data + array(
-			'reporter_id'				=> $user->data['user_id'],
+			'reporter_id'				=> $this->user->data['user_id'],
 			'report_time'				=> time(),
 			'report_status'				=> self::OPEN,
 		);
-		$sql = 'INSERT INTO ' . $table_prefix . 'gallery_reports ' . $db->sql_build_array('INSERT', $data);
-		$db->sql_query($sql);
+		$sql = 'INSERT INTO ' . $this->reports_table . ' ' . $this->db->sql_build_array('INSERT', $data);
+		$this->db->sql_query($sql);
 
-		$report_id = (int) $db->sql_nextid();
+		$report_id = (int) $this->db->sql_nextid();
 
-		$sql = 'UPDATE ' . $table_prefix . 'gallery_images 
+		$sql = 'UPDATE ' . $this->images_table . ' 
 			SET image_reported = ' . $report_id . '
 			WHERE image_id = ' . (int) $data['report_image_id'];
-		$db->sql_query($sql);
+		$this->db->sql_query($sql);
 
-		$log = $phpbb_container->get('phpbbgallery.core.log');
-		$log->add_log('moderator', 'reportopen', $data['report_album_id'], $data['report_image_id'], array('LOG_GALLERY_REPORT_OPENED', $data['report_note']));
+		$this->gallery_log->add_log('moderator', 'reportopen', $data['report_album_id'], $data['report_image_id'], array('LOG_GALLERY_REPORT_OPENED', $data['report_note']));
+		$data = array(
+			'report_id'	=> $report_id,
+			'reporter_id'	=> $this->user->data['user_id'],
+			'reported_image_id'	=> $data['report_image_id'],
+			'reported_album_id'	=> $data['report_album_id']
+		);
+		if (!isset($data['report_album_id']))
+		{
+			$this->notification_helper->notify('new_report', $data);
+		}
 	}
 
 	/**
