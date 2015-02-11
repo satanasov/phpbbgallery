@@ -61,12 +61,12 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 				'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main',
 				'DISP_EXIF_DATA'
 			),
-			'acp_cleanup'	=> array(
-				'phpbbgallery/acpcleanup',
-				'info_acp_gallery_cleanup',
-				'adm/index.php?i=-phpbbgallery-acpcleanup-acp-main_module&mode=cleanup',
-				'ACP_GALLERY_CLEANUP'
-			),
+			//'acp_cleanup'	=> array(
+			//	'phpbbgallery/acpcleanup',
+			//	'info_acp_gallery_cleanup',
+			//	'adm/index.php?i=-phpbbgallery-acpcleanup-acp-main_module&mode=cleanup',
+			//	'ACP_GALLERY_CLEANUP'
+			//),
 			'acp_import'	=> array(
 				'phpbbgallery/acpimport',
 				'info_acp_gallery_acpimport',
@@ -86,6 +86,21 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->add_lang_ext($ext, $lang);
 		$crawler = self::request('GET', $path . '&sid=' . $this->sid);
 		$this->assertContainsLang($search, $crawler->text());
+		
+		$this->logout();
+		$this->logout();
+	}
+	public function test_acpclean_install()
+	{
+		$this->login();
+		$this->admin_login();
+		
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang_ext('phpbbgallery/acpcleanup', 'info_acp_gallery_cleanup');
+		
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-acpcleanup-acp-main_module&mode=cleanup&sid=' . $this->sid);
+		
+		$this->assertContainsLang('ACP_IMPORT_ALBUMS', $crawler->text());
 		
 		$this->logout();
 		$this->logout();
