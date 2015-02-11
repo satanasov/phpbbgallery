@@ -91,21 +91,6 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->logout();
 	}
 	// Stop core so we can test if all works with all add-ons off
-	public function test_stop_core()
-	{
-		$this->login();
-		$this->admin_login();
-		$this->add_lang_ext('phpbbgallery/core', 'gallery');
-		$this->add_lang('common');
-		$this->add_lang('acp/extensions');
-		
-		$crawler = self::request('GET', 'adm/index.php?i=acp_extensions&mode=main&action=disable_pre&ext_name=phpbbgallery%2Fcore&sid=' . $this->sid);
-		$form = $crawler->selectButton($this->lang('DISABLE'))->form();
-		$crawler = self::submit($form);
-		
-		$this->assertContains('EXTENSION_DISABLE_SUCCESS', $crawler->text());
-
-	}
 	public function togle_data()
 	{
 		return array(
@@ -118,8 +103,21 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 	/**
 	* @dataProvider togle_data
 	*/
-	public function test_togle_off($ext)
+	public function test_stop_core($ext)
 	{
+		$this->login();
+		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang('common');
+		$this->add_lang('acp/extensions');
+		
+		$crawler = self::request('GET', 'adm/index.php?i=acp_extensions&mode=main&action=disable_pre&ext_name=phpbbgallery%2Fcore&sid=' . $this->sid);
+		$form = $crawler->selectButton($this->lang('DISABLE'))->form();
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('EXTENSION_DISABLE_SUCCESS', $crawler->text());
+		
 		$this->assertEquals(0, $this->get_state($ext));
+
 	}
 }
