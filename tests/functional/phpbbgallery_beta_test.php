@@ -50,13 +50,12 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		
 		$this->assertContainsLang('EXTENSION_DISABLE_SUCCESS', $crawler->text());
 		
-		//$crawler = self::request('GET', 'adm/index.php&i=21&sid=' . $this->sid);
-		//$this->assertContainsLang('EXTENSIONS_ADMIN', $crawler->text());
-		
-		// If all works - enable all and continue testing
-		
-		$this->setUp();
-		
+		$exts_array = array('phpbbgallery/core', 'phpbbgallery/exif', 'phpbbgallery/acpimport', 'phpbbgallery/acpcleanup');
+		foreach ($exts_array as $ext)
+		{
+			$this->assertEquals(0, $this->get_state($ext);
+		}
+
 		$this->logout();
 	}
 }
