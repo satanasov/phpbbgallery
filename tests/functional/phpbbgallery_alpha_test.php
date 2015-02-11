@@ -61,12 +61,12 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 				'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main',
 				'DISP_EXIF_DATA'
 			),
-			//'acp_cleanup'	=> array(
-			//	'phpbbgallery/acpcleanup',
-			//	'info_acp_gallery_cleanup',
-			//	'adm/index.php?i=-phpbbgallery-acpcleanup-acp-main_module&mode=cleanup',
-			//	'ACP_GALLERY_CLEANUP'
-			//),
+			'acp_cleanup'	=> array(
+				'phpbbgallery/acpcleanup',
+				'info_acp_gallery_cleanup',
+				'adm/index.php?i=-phpbbgallery-acpcleanup-acp-main_module&mode=cleanup',
+				'ACP_GALLERY_CLEANUP'
+			),
 			'acp_import'	=> array(
 				'phpbbgallery/acpimport',
 				'info_acp_gallery_acpimport',
@@ -90,5 +90,4 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 	}
-	
 }
