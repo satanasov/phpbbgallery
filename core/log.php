@@ -131,18 +131,22 @@ class log
 			{
 				case 'u':
 					$sql_array['ORDER_BY'] = 'log_user ' . (isset($additional['sort_dir']) ? 'ASC' : 'DESC');
+					$sql_array['GROUP_BY'] = 'log_user, log_id';
 				break;
 				case 'i':
 					$sql_array['ORDER_BY'] = 'log_ip ' . (isset($additional['sort_dir']) ? 'ASC' : 'DESC');
+					$sql_array['GROUP_BY'] = 'log_ip, log_id';
 				break;
 				case 'o':
 					$sql_array['ORDER_BY'] = 'description ' . (isset($additional['sort_dir']) ? 'ASC' : 'DESC');
+					$sql_array['GROUP_BY'] = 'description, log_id';
 				break;
 			}
 		}
 		else
 		{
 			$sql_array['ORDER_BY'] = 'log_time ' . (isset($additional['sort_dir']) ? 'ASC' : 'DESC');
+			$sql_array['GROUP_BY'] = 'log_time, log_id';
 		}
 		// So we need count - so define SELECT
 		$sql_array['SELECT'] = 'count(log_id) as count';
