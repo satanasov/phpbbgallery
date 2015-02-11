@@ -35,4 +35,7 @@ $lang = array_merge($lang, array(
 
 	'NOTIFICATION_TYPE_PHPBBGALLERY_NEW_COMMENT'	=> 'Нови коментари',
 	'NOTIFICATION_PHPBBGALLERY_NEW_COMMENT'			=> '<strong>%1$s</strong> коментира изображение което следите',
+
+	'NOTIFICATION_TYPE_PHPBBGALLERY_NEW_REPORT'	=> 'Нов доклад на изображение',
+	'NOTIFICATION_PHPBBGALLERY_NEW_REPORT'			=> '<strong>%1$s</strong> докладва изображение',
 ));
