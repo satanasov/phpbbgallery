@@ -23,6 +23,12 @@ class phpbbgallery_base extends \phpbb_functional_test_case
 		parent::setUp();
 		$this->path = __DIR__ . '/images/';
 		
+		// Let us create a user we will use for tests
+		$this->create_user('testuser1');
+		$this->add_user_group('REGISTERED', array('testuser1'));
+		// Let me get admin out of registered
+		$this->remove_user_group('REGISTERED', array('admin'));
+		
 	}	
 	
 	public function config_set($option, $value)
