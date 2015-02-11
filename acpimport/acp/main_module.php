@@ -140,7 +140,7 @@ class main_module
 							'image_time'			=> $start_time + $done_images,
 							'image_album_id'		=> $album_id,
 							'image_status'			=> \phpbbgallery\core\image\image::STATUS_APPROVED,
-							'image_exif_data'		=> '',
+							//'image_exif_data'		=> '',
 						);
 
 						$image_tools = new \phpbbgallery\core\file\file();
