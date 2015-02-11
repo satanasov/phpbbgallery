@@ -24,6 +24,17 @@ class ext extends \phpbb\extension\base
 		switch ($old_state)
 		{
 			case '': // Empty means nothing has run yet
+				// Disable list of official extensions
+				$extensions = $this->container->get('ext.manager');
+				$configured = $extensions->all_disabled();
+				//var_dump($configured);
+				foreach ($this->add_ons as $var)
+				{
+					if (array_key_exists($var, $configured))
+					{
+						$extensions->enable($var);
+					}
+				}
 				// Enable board rules notifications
 				$phpbb_notifications = $this->container->get('notification_manager');
 				$phpbb_notifications->enable_notifications('notification.type.phpbbgallery_image_for_approval');
