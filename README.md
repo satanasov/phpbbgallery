@@ -26,3 +26,4 @@ As I said the 1.2 version will be primarly targeted as backword compatible with 
 Regards,
 Stanislav Atanasov
 
+P.S.: You can get more support here - [Forum](http://lab.anavaro.com/forum/viewforum.php?f=4)
