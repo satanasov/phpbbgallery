@@ -295,7 +295,48 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		
 		$this->logout();
 	}
-	
+	public function test_acl_upload_public_admin()
+	{
+		$this->login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang('common');
+		
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
+		
+		//$link = $crawler->filter('div.upload-icon > a')->attr('href');
+		//$this->assertContains('lalalalalal',  $crawler->filter('div.upload-icon > a')->attr('href'));
+		
+		$upload_url = substr($crawler->filter('div.upload-icon > a')->attr('href'), 1);
+		
+		$crawler = self::request('GET', $upload_url);
+		
+		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
+		$this->assertContains('First test album!', $crawler->text());
+		
+		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
+		
+		$form['image_file_0'] =  __DIR__ . '/images/valid.jpg';;
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
+		$this->assertContains('First test album!', $crawler->text());
+		
+		//$this->assertContains('zazazazazaza', $crawler->text());
+		$form = $crawler->selectButton($this->lang['SUBMIT'])->form();
+		$form['image_name'] = array(
+			0 => 'Valid',
+		);
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('ALBUM_UPLOAD_SUCCESSFUL', $crawler->text());
+		$this->assertNotContains('But your image must be approved by a administrator or a moderator before they are public visible.', $crawler->text());
+		
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
+		
+		$this->assertContains('1 image',  $crawler->text());
+		$this->assertContains('Valid',  $crawler->text());
+		$this->logout();
+	}
 	public function test_acl_upload_public_user()
 	{
 		$this->login('testuser1');
@@ -332,8 +373,8 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		
-		//$this->assertContains('0 image',  $crawler->text());
-		//$this->assertContains('Valid',  $crawler->text());
+		$this->assertContains('1 image',  $crawler->text());
+		$this->assertContains('Valid',  $crawler->text());
 		
 		$this->logout();
 	}
