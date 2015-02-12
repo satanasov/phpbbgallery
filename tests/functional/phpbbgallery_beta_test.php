@@ -89,7 +89,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		);
 	}
 	/**
-	* @dataProvider image_on_image_page_data
+	* @dataProvider thumbnail_link_data
 	*/
 	public function test_thumbnail_link($option, $has_link, $search)
 	{
@@ -110,7 +110,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
-		$object = $crawler->filter('div.polaroid')->eq(0);
+		$object = $crawler->filter('div.polaroid')->eq(1);
 		$this->assertContains('zazazaza', $object->text());
 		/*if ($has_link)
 		{
