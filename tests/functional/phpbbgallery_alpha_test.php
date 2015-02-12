@@ -881,7 +881,6 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 
 		// Test image
-		$this->config_set('link_imagepag', $option);
 		$crawler = self::request('GET', 'app.php/gallery/image/1');
 		if ($has_link)
 		{
