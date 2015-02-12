@@ -109,8 +109,8 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		// Should be updated
 		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 
-		$crawler = self::request('GET', 'app.php/gallery');
-		$object = $crawler->filter('div.polaroid');
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
+		$object = $crawler->filter('div.polaroid')->eq(0);
 		$this->assertContains('zazazaza', $object->text());
 		/*if ($has_link)
 		{
