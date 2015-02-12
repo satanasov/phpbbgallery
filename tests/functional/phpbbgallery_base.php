@@ -45,4 +45,15 @@ class phpbbgallery_base extends \phpbb_functional_test_case
 		$row = $this->db->sql_fetchrow($result);
 		return $row['ext_active'];
 	}
+	
+	public function get_config($option)
+	{
+		$this->get_db();
+		$sql = 'SELECT config_value
+			FROM ' . CONFIG_TABLE . '
+			WHERE config_name = \'phpbb_gallery_' . $option . '\'';
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow($result);
+		return $row['config_value'];
+	}
 }

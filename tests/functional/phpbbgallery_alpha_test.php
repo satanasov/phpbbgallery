@@ -870,6 +870,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		
 		// Test image
 		$this->config_set('link_imagepag', $option);
+		$this->assertContains('zazazaza', $this->get_config($option));
 		$crawler = self::request('GET', 'app.php/gallery/image/1');
 		if ($has_link)
 		{
