@@ -864,12 +864,14 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 	*/
 	public function test_image_on_image_page($option, $has_link, $search)
 	{
+		global $config;
 		$this->login();
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
 		$this->add_lang('common');
 		
 		// Test image
-		$this->config_set('link_imagepag', $option);
+		//$this->config_set('link_imagepag', $option);
+		$config['phpbb_gallery_link_imagepag'] = $option;
 		$crawler = self::request('GET', 'app.php/gallery/image/1');
 		if ($has_link)
 		{
