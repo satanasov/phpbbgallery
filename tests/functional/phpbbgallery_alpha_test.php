@@ -878,7 +878,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		));
 		$crawler = self::submit($form);
 		// Should be updated
-		$this->assertContains('Album has been updated successfully.', $crawler->text());
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 
 		// Test image
 		$this->config_set('link_imagepag', $option);
