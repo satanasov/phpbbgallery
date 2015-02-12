@@ -865,12 +865,12 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 	*/
 	public function test_image_on_image_page($option, $has_link, $search)
 	{
-		global $config;
 		$this->login();
+		$this->admin_login();
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
 		$this->add_lang('common');
-		
-		// Test image
+
+		// Change option
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
 		$form = $crawler->selectButton('submit')->form();
 		$form->setValues(array(
@@ -880,6 +880,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		// Should be updated
 		$this->assertContainsLang('CONFIG_UPDATED', $crawler->text());
 
+		// Test image
 		$crawler = self::request('GET', 'app.php/gallery/image/1');
 		if ($has_link)
 		{
