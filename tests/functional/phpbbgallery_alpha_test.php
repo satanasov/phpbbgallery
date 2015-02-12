@@ -873,15 +873,14 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'app.php/gallery/image/1');
 		if ($has_link)
 		{
-			//$link = $crawler->filter('div.image')->filter('a')->attr('href');
-			//$this->assertContains($search, $link);
-			$this->assertEquals(1, $crawler->filter('div.image')->filter('a')->count());
+			$link = $crawler->filter('div.post')->eq(0)->filter('a')->attr('href');
+			$this->assertContains($search, $link);
 		}
 		else
 		{
-			$this->assertEquals(0, $crawler->filter('div.image')->filter('a')->count());
-		}
-		
+			$link = $crawler->filter('div.post')->eq(0)->filter('a')->count();
+			$this->assertEquals(0, $link);
+		}		
 		$this->logout();
 	}
 }
