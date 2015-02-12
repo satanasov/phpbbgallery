@@ -889,9 +889,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		}
 		else
 		{
-			//$this->assertEquals(0, $crawler->filter('div#image')->filter('a')->count());
-			$link = $crawler->filter('div#image')->filter('a')->attr('href');
-			
+			$this->assertEquals(0, $crawler->filter('div#image')->filter('a')->count());
 			$this->assertEquals(1, $crawler->filter('div#image')->filter('img')->count());
 		}		
 		$this->logout();
