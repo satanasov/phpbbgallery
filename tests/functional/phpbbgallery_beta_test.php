@@ -111,7 +111,8 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 
 		$crawler = self::request('GET', 'app.php/gallery');
 		$object = $crawler->filter('div.polaroid')->eq(0)->filter('div#thumbnail');
-		if ($has_link)
+		$this->assertContains('zazazaza', $object->text());
+		/*if ($has_link)
 		{
 			$this->assertContains($search, $object->filter('a')->attr('href'));
 		}
@@ -119,7 +120,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		{
 			$this->assertEquals(0, $object->filter('a')->count());
 			$this->assertEquals(1, $object->filter('img')->count());
-		}
+		}*/
 		
 		$this->logout();
 	}
