@@ -112,7 +112,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$object = $crawler->filter('div.polaroid')->eq(0)->filter('div#thumbnail');
 		if ($has_link)
 		{
-			$this->assertContains($search, $object->filter('a'));
+			$this->assertContains($search, $object->filter('a')->attr('href'));
 		}
 		else
 		{
