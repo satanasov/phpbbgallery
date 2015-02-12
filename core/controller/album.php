@@ -325,7 +325,7 @@ class album
 					$action_image = $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $row['image_id']));
 				break;
 				default:
-					$action_image = false;
+					$action_image = '#';
 				break;
 			}
 			$s_allowed_delete = (($this->auth->acl_check('i_delete', $image_data['image_album_id'], $album_user_id) && $s_user_allowed) || $this->auth->acl_check('m_delete', $image_data['image_album_id'], $album_user_id));
