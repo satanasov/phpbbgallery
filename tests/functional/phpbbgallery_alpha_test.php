@@ -103,7 +103,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 	/**
 	* @dataProvider togle_data
 	*/
-	public function test_stop_core($ext)
+	public function togle_core($ext)
 	{
 		$this->get_db();
 		if (strpos($this->db->get_sql_layer(), 'sqlite3') === 0)
@@ -839,30 +839,47 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 	}
-	
-	public function test_image_on_image_page()
+	public function image_on_image_page_data()
+	{
+		return array(
+			'image'	=> array(
+				'image',
+				true,
+				'/source'
+			),
+			'next'	=> array(
+				'next',
+				true,
+				'gallery/image/'
+			),
+			'none'	=> array(
+				'none',
+				false,
+				false
+			),
+		);
+	}
+	/**
+	* @dataProvider image_on_image_page_data
+	*/
+	public function test_image_on_image_page($option, $has_link, $search)
 	{
 		$this->login();
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
 		$this->add_lang('common');
 		
 		// Test image
-		$this->config_set('link_imagepag', 'image');
+		$this->config_set('link_imagepag', $option);
 		$crawler = self::request('GET', 'app.php/gallery/image/1');
-		$link = $crawler->filter('div.post')->eq(0)->filter('a')->attr('href');
-		$this->assertContains('/source', $link);
-		
-		$this->config_set('link_imagepag', 'next');
-		$crawler = self::request('GET', 'app.php/gallery/image/1');
-		$link = $crawler->filter('div.post')->eq(0)->filter('a')->attr('href');
-		$this->assertContains('gallery/image/', $link);
-		
-		// Test none
-		//$this->config_set('link_imagepag', 'none');
-		//$crawler = self::request('GET', 'app.php/gallery/image/1');
-		//$object = $crawler->filter('div.post')->eq(0);
-		//$link = $crawler->filter('div.post')->eq(0)->filter('a')->attr('href');
-		//$this->assertContains('zazazazaza', $link);
+		if ($has_link)
+		{
+			$link = $crawler->filter('div.image')->filter('a')->attr('href');
+			$this->assertContains($search, $link);
+		}
+		else
+		{
+			$this->assertEquals(0, $crawler->filter('div.image')->filter('a')->count());
+		}
 		
 		$this->logout();
 	}
