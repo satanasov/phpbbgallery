@@ -49,7 +49,7 @@ class phpbbgallery_base extends \phpbb_functional_test_case
 	public function get_config($option)
 	{
 		$this->get_db();
-		$sql = 'SELECT config_value
+		$sql = 'SELECT *
 			FROM ' . CONFIG_TABLE . '
 			WHERE config_name = \'phpbb_gallery_' . $option . '\'';
 		$result = $this->db->sql_query($sql);
