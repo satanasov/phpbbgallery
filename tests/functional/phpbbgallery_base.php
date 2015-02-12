@@ -24,16 +24,6 @@ class phpbbgallery_base extends \phpbb_functional_test_case
 		$this->path = __DIR__ . '/images/';
 		
 	}	
-	
-	public function config_set($option, $value)
-	{
-		$this->get_db();
-		$sql = 'UPDATE ' . CONFIG_TABLE . '
-			SET config_value = \'' . $value . '\'
-			WHERE config_name = \'phpbb_gallery_' . $option . '\'';
-		$this->db->sql_query($sql);
-		$this->purge_cache();
-	}
 
 	public function get_state($ext)
 	{
@@ -45,15 +35,5 @@ class phpbbgallery_base extends \phpbb_functional_test_case
 		$row = $this->db->sql_fetchrow($result);
 		return $row['ext_active'];
 	}
-	
-	public function get_config($option)
-	{
-		$this->get_db();
-		$sql = 'SELECT *
-			FROM ' . CONFIG_TABLE . '
-			WHERE config_name = \'phpbb_gallery_' . $option . '\'';
-		$result = $this->db->sql_query($sql);
-		$row = $this->db->sql_fetchrow($result);
-		return $row['config_value'];
-	}
+
 }
