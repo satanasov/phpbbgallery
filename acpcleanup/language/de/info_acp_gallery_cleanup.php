@@ -65,4 +65,10 @@ $lang = array_merge($lang, array(
 	'PRUNE_TIME_EXP'				=> 'Nur Bilder bereinigen die vor dem “<samp>YYYY-MM-DD</samp>“ hochgeladen wurden.',
 	'PRUNE_USERNAME'				=> 'Hochgeladen von',
 	'PRUNE_USERNAME_EXP'			=> 'Nur Bilder von folgenden Benutzern bereinigen. Um Bilder von "Gäste" zu bereinigen, markiere das Kontrollkästchen über dem Benutzernamen-Feld.',
+
+	//Log
+	'LOG_CLEANUP_DELETE_FILES'		=> '%s Bilder ohne DB-Einträge wurden gelöscht.',
+	'LOG_CLEANUP_DELETE_ENTRIES'		=> '%s Bilder ohne Dateien wurden gelöscht.',
+	'LOG_CLEANUP_DELETE_NO_AUTHOR'		=> '%s Bilder ohne gültigem Autor wurden gelöscht.',
+	'LOG_CLEANUP_COMMENT_DELETE_NO_AUTHOR'	=> '%s Kommentare ohne gültigem Autor wurden gelöscht.',
 ));
