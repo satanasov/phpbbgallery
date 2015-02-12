@@ -94,6 +94,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 	public function test_thumbnail_link($option, $has_link, $search)
 	{
 		$this->login();
+		$this->admin_login();
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
 		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
 		$this->add_lang('common');
