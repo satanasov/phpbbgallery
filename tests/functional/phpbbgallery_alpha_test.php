@@ -845,12 +845,12 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 			'image'	=> array(
 				'image',
 				true,
-				'/source'
+				'app.php/gallery/image/1/source'
 			),
 			'next'	=> array(
 				'next',
 				true,
-				'gallery/image/'
+				'app.php/gallery/image/2'
 			),
 			'none'	=> array(
 				'none',
@@ -870,7 +870,6 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		
 		// Test image
 		$this->config_set('link_imagepag', $option);
-		$this->assertContains('zazazaza', $this->get_config($option));
 		$crawler = self::request('GET', 'app.php/gallery/image/1');
 		if ($has_link)
 		{
@@ -879,9 +878,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		}
 		else
 		{
-			//$this->assertEquals(0, $crawler->filter('div#image')->filter('a')->count());
-			$link = $crawler->filter('div#image')->filter('a')->attr('href');
-			$this->assertContains('зазазазаза', $link);
+			$this->assertEquals(0, $crawler->filter('div#image')->filter('a')->count());
 			$this->assertEquals(1, $crawler->filter('div#image')->filter('img')->count());
 		}		
 		$this->logout();

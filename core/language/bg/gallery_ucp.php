@@ -24,14 +24,14 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'ACCESS_CONTROL_ALL'			=> 'Everyone',
-	'ACCESS_CONTROL_REGISTERED'		=> 'Registered users',
-	'ACCESS_CONTROL_NOT_FOES'		=> 'Registered users, except your foes',
-	'ACCESS_CONTROL_FRIENDS'		=> 'Only your friends',
+	'ACCESS_CONTROL_ALL'			=> 'Всички',
+	'ACCESS_CONTROL_REGISTERED'		=> 'Регистрирани потрбители',
+	'ACCESS_CONTROL_NOT_FOES'		=> 'Регистрирани потрбители, освен враговете ви',
+	'ACCESS_CONTROL_FRIENDS'		=> 'Само приятели',
 	'ACCESS_CONTROL_SPECIAL_FRIENDS'		=> 'Само за специални приятели',
-	'ALBUMS'						=> 'Albums',
-	'ALBUM_ACCESS'					=> 'Allow access for',
-	'ALBUM_ACCESS_EXPLAIN'			=> 'You can use your %1$sFriends and Foes lists%2$s to control access to the album. However <strong>moderators</strong> can <strong>always</strong> access the album.',
+	'ALBUMS'						=> 'Албуми',
+	'ALBUM_ACCESS'					=> 'Позволи достъп на',
+	'ALBUM_ACCESS_EXPLAIN'			=> 'Може да изпозлзвате списък с %1$sПриятели и Врагове%2$s за да контролирате достъпа до този албум. <strong>Модеараторите</strong> могат <strong>винаги</strong> да достъпят албума.',
 	'ALBUM_DESC'					=> 'Album Description',
 	'ALBUM_NAME'					=> 'Album Name',
 	'ALBUM_PARENT'					=> 'Parent Album',

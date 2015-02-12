@@ -303,7 +303,7 @@ class image
 			'U_RETURN_LINK'		=> $this->helper->route('phpbbgallery_album', array('album_id' => $album_id)),
 			'S_RETURN_LINK'		=> $this->user->lang('RETURN_TO', $album_data['album_name']),
 		));
-
+var_dump($this->gallery_config->get('link_imagepage'));
 		switch ($this->gallery_config->get('link_imagepage'))
 		{
 			case 'image':
