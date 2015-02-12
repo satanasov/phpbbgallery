@@ -822,6 +822,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->add_lang('acp/permissions');
 		
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-albums_module&mode=manage&sid=' . $this->sid);
+		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
 		
 		$object = $crawler->filter('a:contains("First test album")')->parents()->parents();
 		$edit = $object->filter('img[title=Edit]')->parents()->attr('href');
@@ -870,8 +871,15 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->add_lang('common');
 		
 		// Test image
-		//$this->config_set('link_imagepag', $option);
-		$config['phpbb_gallery_link_imagepag'] = $option;
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'config[link_imagepage]'	=> $option,
+		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('CONFIG_UPDATED', $crawler->text());
+
 		$crawler = self::request('GET', 'app.php/gallery/image/1');
 		if ($has_link)
 		{
