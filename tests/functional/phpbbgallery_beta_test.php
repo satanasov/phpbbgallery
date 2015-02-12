@@ -126,7 +126,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 	/**
 	* @dataProvider thumbnail_link_data
 	*/
-	public function test_thumbnail_link($option, $has_link, $search)
+	public function test_image_name_link($option, $has_link, $search)
 	{
 		$this->login();
 		$this->admin_login();
