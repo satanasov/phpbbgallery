@@ -21,9 +21,10 @@ class misc
 			return $gallery_display_captcha[$mode];
 		}
 
-		global $config, $user;
+		global $config, $user, $phpbb_container;
 
-		$gallery_display_captcha[$mode] = ($user->data['user_id'] == ANONYMOUS) && phpbb_gallery_config::get('captcha_' . $mode) && (version_compare($config['version'], '3.0.5', '>'));
+		$config = $phpbb_container->get('phpbbgallery.core.config');
+		$gallery_display_captcha[$mode] = ($user->data['user_id'] == ANONYMOUS) && $config->get('captcha_' . $mode) && (version_compare($config['version'], '3.0.5', '>'));
 
 		return $gallery_display_captcha[$mode];
 	}

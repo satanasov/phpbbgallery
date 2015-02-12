@@ -24,29 +24,29 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'ACP_GALLERY_ALBUM_MANAGEMENT'		=> 'Album management',
-	'ACP_GALLERY_ALBUM_PERMISSIONS'		=> 'Permissions',
-	'ACP_GALLERY_ALBUM_PERMISSIONS_COPY'=> 'Copy permissions',
-	'ACP_GALLERY_CONFIGURE_GALLERY'		=> 'Configure gallery',
-	'ACP_GALLERY_LOGS'					=> 'Gallery log',
-	'ACP_GALLERY_LOGS_EXPLAIN'			=> 'This lists all moderator actions of the gallery, like approving, disapproving, locking, unlocking, closing reports and deleting images.',
-	'ACP_GALLERY_MANAGE_ALBUMS'			=> 'Manage albums',
-	'ACP_GALLERY_OVERVIEW'				=> 'Overview',
+	'ACP_GALLERY_ALBUM_MANAGEMENT'		=> 'Оправление на албуми',
+	'ACP_GALLERY_ALBUM_PERMISSIONS'		=> 'Права',
+	'ACP_GALLERY_ALBUM_PERMISSIONS_COPY'=> 'Копиране на права',
+	'ACP_GALLERY_CONFIGURE_GALLERY'		=> 'Настройка на галерията',
+	'ACP_GALLERY_LOGS'					=> 'Лог на галерията',
+	'ACP_GALLERY_LOGS_EXPLAIN'			=> 'Тук виждате всички модераторски действия като одобрение, отхвърляне, заключване, и тн.',
+	'ACP_GALLERY_MANAGE_ALBUMS'			=> 'Оправление на албуми',
+	'ACP_GALLERY_OVERVIEW'				=> 'Преглед',
 
-	'GALLERY'							=> 'Gallery',
-	'GALLERY_EXPLAIN'					=> 'Image Gallery',
-	'GALLERY_HELPLINE_ALBUM'			=> 'Gallery image: [image]image_id[/image], with this BBCode you can add an image from the gallery into your post.',
-	'GALLERY_POPUP'						=> 'Gallery',
-	'GALLERY_POPUP_HELPLINE'			=> 'Open a popup where you can select your recent images and upload new images.',
+	'GALLERY'							=> 'Галерия',
+	'GALLERY_EXPLAIN'					=> 'Галерия',
+	'GALLERY_HELPLINE_ALBUM'			=> 'Изображение: [image]image_id[/image], с този BBCode можете да добавите изборажение към поста си.',
+	'GALLERY_POPUP'						=> 'Галерия',
+	'GALLERY_POPUP_HELPLINE'			=> 'Отвори popup където можете да изберете последните си избражения и да добавите нови.',
 
 	// A little line where you can give yourself some credits on the translation.
 	//'GALLERY_TRANSLATION_INFO'			=> 'English “phpBB Gallery“-Translation by <a href="http://www.flying-bits.org/">nickvergessen</a>',
-	'GALLERY_TRANSLATION_INFO'			=> '',
+	'GALLERY_TRANSLATION_INFO'			=> 'Българският превод на "phpBB Gallery" е направен от <a href="http://www.anavaro.com">Lucifer</a>',
 
-	'IMAGES'							=> 'Images',
-	'IMG_BUTTON_UPLOAD_IMAGE'			=> 'Upload image',
+	'IMAGES'							=> 'Изображение',
+	'IMG_BUTTON_UPLOAD_IMAGE'			=> 'Качи изображение',
 
-	'PERSONAL_ALBUM'					=> 'Personal album',
+	'PERSONAL_ALBUM'					=> 'Личен албум',
 	'PHPBB_GALLERY'						=> 'phpBB Gallery',
 
 	'TOTAL_IMAGES_SPRINTF'				=> array(

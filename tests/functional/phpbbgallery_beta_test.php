@@ -110,9 +110,8 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
-		$object = $crawler->filter('div.polaroid')->eq(1);
-		$this->assertContains('zazazaza', $object->text());
-		/*if ($has_link)
+		$object = $crawler->filter('div.polaroid')->eq(1)->filter('div#thumbnail');
+		if ($has_link)
 		{
 			$this->assertContains($search, $object->filter('a')->attr('href'));
 		}
@@ -120,7 +119,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		{
 			$this->assertEquals(0, $object->filter('a')->count());
 			$this->assertEquals(1, $object->filter('img')->count());
-		}*/
+		}
 		
 		$this->logout();
 	}
