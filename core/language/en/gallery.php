@@ -157,6 +157,7 @@ $lang = array_merge($lang, array(
 
 	'LAST_COMMENT'					=> 'Last Comment',
 	'LAST_IMAGE'					=> 'Last Image',
+	'LAST_IMAGE_BY'					=> 'Last Image by',
 	'LOGIN_EXPLAIN_UPLOAD'			=> 'You must registered and logged in to upload images into this gallery.',
 
 	'MARK_ALBUMS_READ'				=> 'Mark albums read',

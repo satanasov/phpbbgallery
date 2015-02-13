@@ -50,7 +50,7 @@ $lang = array_merge($lang, array(
 	'PHPBB_GALLERY'						=> 'phpBB Gallery',
 
 	'TOTAL_IMAGES_SPRINTF'				=> array(
-		0		=> 'Total images <strong>0</strong>',
-		1		=> 'Total images <strong>%d</strong>',
+		0		=> 'Общо изображения <strong>0</strong>',
+		1		=> 'Общо изображения <strong>%d</strong>',
 	),
 ));
