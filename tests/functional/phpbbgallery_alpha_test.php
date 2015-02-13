@@ -819,7 +819,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		
-		$this->assertContains('test', $crawler->filter('a:contains("First test album")')->text());
+		$this->assertContains('zazazazazazazazaza', $crawler->filter('a:contains("First test album")')->text());
 		$link = $crawler->filter('a:contains("First test album")')->attr('href');
 		$crawler = self::request('GET', $link);
 		
