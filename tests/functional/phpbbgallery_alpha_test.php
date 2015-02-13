@@ -869,9 +869,16 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-permissions_module&mode=copy&sid=' . $this->sid);
 		$album = $crawler->filter('select#dest_albums')->filter('option:contains("Second subalbum!")')->attr('value');
-		$this->assertContains('zaazazazaza', $album);
-		//$form = $crawler->selectButton('submit')->form();
-		//$form['src_album'] = 1;
+		$form = $crawler->selectButton('submit')->form();
+		$form['src_album'] = 1;
+		$form['dest_album_ids[]'] = $album;
+		$crawler = self::submit($form);
+		
+		$form = $crawler->selectButton('confirm')->form();
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('COPY_PERMISSIONS_SUCCESSFUL', $crawler->text());
+		$this->logout();
 		
 	}
 	public function test_manage_albums_admin()
