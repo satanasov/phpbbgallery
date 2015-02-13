@@ -871,7 +871,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$album = $crawler->filter('select#dest_albums')->filter('option:contains("Second subalbum!")')->attr('value');
 		$form = $crawler->selectButton('submit')->form();
 		$form['src_album_id'] = 1;
-		$form['dest_album_ids[]'] = $album;
+		$form['dest_album_ids'] = array($album);
 		$crawler = self::submit($form);
 		
 		$form = $crawler->selectButton('confirm')->form();
