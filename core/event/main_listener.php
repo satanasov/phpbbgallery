@@ -56,12 +56,6 @@ class main_listener implements EventSubscriberInterface
 		$this->user->add_lang_ext('phpbbgallery/core', 'info_acp_gallery');
 		$this->user->add_lang_ext('phpbbgallery/core', 'gallery_notifications');
 		$this->user->add_lang_ext('phpbbgallery/core', 'permissions_gallery');
-		/*$lang_set_ext = $event['lang_set_ext'];
-		$lang_set_ext[] = array(
-			'ext_name' => 'phpbbgallery/core',
-			'lang_set' => 'info_acp_gallery',
-		);
-		$event['lang_set_ext'] = $lang_set_ext;*/
 	}
 	public function add_page_header_link($event)
 	{
