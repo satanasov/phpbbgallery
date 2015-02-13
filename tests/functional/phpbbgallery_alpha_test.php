@@ -909,7 +909,31 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 	}
-	public function test_log()
+	public function log_data()
+	{
+		return array(
+			'all'	=> array(
+				'all',
+				7
+			),
+			'admin'	=> array(
+				'admin',
+				5
+			),
+			'moderator'	=> array(
+				'modearator',
+				2,
+			),
+			'system' => array(
+				'system',
+				false
+			)
+		);
+	}
+	/**
+	* @dataProvider log_data
+	*/
+	public function test_log($type, $test)
 	{
 		$this->login();
 		$this->admin_login();
@@ -917,15 +941,23 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
 		$this->add_lang_ext('phpbbgallery/core', 'info_acp_gallery_logs');
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
-		$this->add_lang('acp/permissions');
+		$this->add_lang('acp/common');
+
 		
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-gallery_logs_module&mode=main&sid=' . $this->sid);
 		
 		$form = $crawler->selectButton('filter')->form();
-		$form['lf'] = 'all';
+		$form['lf'] = $type;
 		$crawler = self::submit($form);
 		
-		$table = $crawler->filter('table')->filter('tr')->count();
-		$this->assertEquals(0, $table);
+		if ($test)
+		{
+			$table = $crawler->filter('table')->filter('tr')->count();
+			$this->assertEquals($test, $table);
+		}
+		else
+		{
+			$this->assertContainsLang('NO_ENTRIES', $crawler->text());
+		}
 	}
 }
