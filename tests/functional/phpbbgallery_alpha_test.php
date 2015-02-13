@@ -844,6 +844,30 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 
 		$this->logout();
 	}
+	public function test_copy_permissions()
+	{
+		$this->login();
+		$this->admin_login();
+		
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang('acp/permissions');
+		
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-albums_module&mode=manage&sid=' . $this->sid);
+		
+		// Step 1
+		$form = $crawler->selectButton($this->lang('CREATE_ALBUM'))->form();
+		$form['parent_id'] = 1;
+		$form['album_name'] = 'Second subalbum!';
+		$crawler = self::submit($form);
+		
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-permissions_module&mode=copy&sid=' . $this->sid);
+		$album = $crawler->filter('select#dest_albums')->filter('option:contains("Second subalbum!")')->attr('value');
+		$this->assertContains('zaazazazaza', $album);
+		//$form = $crawler->selectButton('submit')->form();
+		//$form['src_album'] = 1;
+		
+	}
 	public function test_manage_albums_admin()
 	{
 		$this->login();
