@@ -827,6 +827,9 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$crawler = self::request('GET', $upload_url);
 		
 		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
+		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
+		$form['image_file_0'] =  __DIR__ . '/images/valid.jpg';;
+		$crawler = self::submit($form);
 		
 		$form = $crawler->selectButton('submit')->form();
 		$form['image_name'] = array(
