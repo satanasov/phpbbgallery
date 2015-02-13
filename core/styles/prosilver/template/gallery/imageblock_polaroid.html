@@ -6,8 +6,8 @@
 <!-- ELSE -->
 <!-- BEGIN image -->
 <div class="polaroid">
-	<p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-		<a href="{imageblock.image.U_IMAGE}" style="font-weight: bold; font-size: 1.2em;">{imageblock.image.UC_IMAGE_NAME}</a>
+	<p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: bold; font-size: 1.2em;">
+		<!-- IF imageblock.image.U_IMAGE --><a href="{imageblock.image.U_IMAGE}"><!-- ENDIF -->{imageblock.image.UC_IMAGE_NAME}<!-- IF imageblock.image.U_IMAGE --></a><!-- ENDIF -->
 	</p>
 	<hr />
 	<div id="thumbnail">

@@ -152,7 +152,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		}
 		else
 		{
-			$this->assertEquals(0, $object->filter('a')->attr('href')->count());
+			$this->assertEquals(0, $object->filter('a')->count());
 		}
 		
 		$this->logout();
