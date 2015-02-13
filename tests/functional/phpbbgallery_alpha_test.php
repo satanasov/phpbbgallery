@@ -870,7 +870,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-permissions_module&mode=copy&sid=' . $this->sid);
 		$album = $crawler->filter('select#dest_albums')->filter('option:contains("Second subalbum!")')->attr('value');
 		$form = $crawler->selectButton('submit')->form();
-		$form['src_album'] = 1;
+		$form['src_album_id'] = 1;
 		$form['dest_album_ids[]'] = $album;
 		$crawler = self::submit($form);
 		
