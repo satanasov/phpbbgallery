@@ -857,8 +857,14 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		
 		// Step 1
 		$form = $crawler->selectButton($this->lang('CREATE_ALBUM'))->form();
-		$form['parent_id'] = 1;
 		$form['album_name'] = 'Second subalbum!';
+		$crawler = self::submit($form);
+		
+		// Step 2 - we should have reached a form for creating album_name
+		$this->assertContainsLang('ALBUM_EDIT_EXPLAIN', $crawler->text());
+		
+		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
+		$form['parent_id'] = 1;
 		$crawler = self::submit($form);
 		
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-permissions_module&mode=copy&sid=' . $this->sid);
