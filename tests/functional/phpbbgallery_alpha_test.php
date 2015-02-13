@@ -922,7 +922,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 			),
 			'moderator'	=> array(
 				'moderator',
-				2,
+				3,
 			),
 			'system' => array(
 				'system',
