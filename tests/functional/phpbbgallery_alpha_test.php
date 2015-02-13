@@ -828,7 +828,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		
 		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
 		
-		$form = $crawler->selectButton($this->lang['SUBMIT'])->form();
+		$form = $crawler->selectButton('submit')->form();
 		$form['image_name'] = array(
 			0 => 'Image in sublabum to move',
 		);
