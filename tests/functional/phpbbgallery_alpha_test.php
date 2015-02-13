@@ -672,7 +672,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->logout();
 	}
 	
-	public function test_create_subalbum_user()
+	public function test_create_subalbum_personal()
 	{
 		$this->login();
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
@@ -810,6 +810,34 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 
 		$this->assertContains('First sub test album!', $crawler->text());
 		
+		$this->logout();
+	}
+	public function test_upload_to_public_subalbum()
+	{
+		$this->login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
+		
+		$link = $crawler->filter('a:contains("First test album")')->attr('href');
+		$crawler = self::request('GET', $link);
+		
+		$upload_url = substr($crawler->filter('div.upload-icon > a')->attr('href'), 1);
+		$crawler = self::request('GET', $upload_url);
+		
+		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
+		
+		$form = $crawler->selectButton($this->lang['SUBMIT'])->form();
+		$form['image_name'] = array(
+			0 => 'Image in sublabum to move',
+		);
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('ALBUM_UPLOAD_SUCCESSFUL', $crawler->text());
+		
+		$crawler = self::request('GET', $link);
+		$this->assertContains('Image in sublabum to move', $crawler->text());
+
 		$this->logout();
 	}
 	public function test_manage_albums_admin()
