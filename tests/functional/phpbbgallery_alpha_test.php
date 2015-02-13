@@ -818,9 +818,8 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
 		
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
-		
-		$this->assertContains('zazazazazazazazaza', $crawler->filter('div.polaroid')->eq(0)->text());
-		$link = $crawler->filter('div.polaroid > a:contains("First test album")')->attr('href');
+
+		$link = $crawler->filter('div.polaroid')->eq(0)->filter('a')->eq(0)->attr('href');
 		$crawler = self::request('GET', $link);
 		
 		$upload_url = substr($crawler->filter('div.upload-icon > a')->attr('href'), 1);
