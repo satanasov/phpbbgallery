@@ -879,9 +879,10 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		
 		$this->assertContainsLang('COPY_PERMISSIONS_SUCCESSFUL', $crawler->text());
 		$this->logout();
+		$this->logout();
 		
 	}
-	public function test_manage_albums_admin()
+	public function test_edit_albums_admin()
 	{
 		$this->login();
 		$this->admin_login();
@@ -907,5 +908,24 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		
 		$this->logout();
 		$this->logout();
+	}
+	public function test_log()
+	{
+		$this->login();
+		$this->admin_login();
+		
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang_ext('phpbbgallery/core', 'info_acp_gallery_logs');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang('acp/permissions');
+		
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-gallery_logs_module&mode=main&sid=' . $this->sid);
+		
+		$form = $crawler->selectButton('filter')->form();
+		$form['lf'] = 'all';
+		$crawler = self::submit($form);
+		
+		$table = $crawler->filter('table')->filter('tr')->count();
+		$this->assertEquals(0, $table);
 	}
 }
