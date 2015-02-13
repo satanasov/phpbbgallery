@@ -110,7 +110,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
-		$object = $crawler->filter('div.polaroid')->eq(1)->filter('div#thumbnail');
+		$object = $crawler->filter('div.polaroid')->eq(2)->filter('div#thumbnail');
 		if ($has_link)
 		{
 			$this->assertContains($search, $object->filter('a')->attr('href'));
@@ -145,7 +145,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
-		$object = $crawler->filter('div.polaroid')->eq(1)->filter('p')->eq(0);
+		$object = $crawler->filter('div.polaroid')->eq(2)->filter('p')->eq(0);
 		if ($has_link)
 		{
 			$this->assertContains($search, $object->filter('a')->attr('href'));
