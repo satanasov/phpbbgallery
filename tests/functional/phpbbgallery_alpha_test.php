@@ -921,7 +921,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 				5
 			),
 			'moderator'	=> array(
-				'modearator',
+				'moderator',
 				2,
 			),
 			'system' => array(
