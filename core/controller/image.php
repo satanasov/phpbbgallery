@@ -451,7 +451,7 @@ class image
 			if ($this->misc->display_captcha('comment'))
 			{
 				// Get the captcha instance
-				phpbb_gallery_url::_include('captcha/captcha_factory', 'phpbb');
+				$this->url->_include('captcha/captcha_factory', 'phpbb');
 				$captcha =& phpbb_captcha_factory::get_instance($config['captcha_plugin']);
 				$captcha->init(CONFIRM_POST);
 
