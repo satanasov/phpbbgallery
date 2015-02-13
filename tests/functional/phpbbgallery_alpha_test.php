@@ -839,7 +839,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		
 		$this->assertContainsLang('ALBUM_UPLOAD_SUCCESSFUL', $crawler->text());
 		
-		$crawler = self::request('GET', $link);
+		$crawler = self::request('GET', substr($link, 1));
 		$this->assertContains('Image in sublabum to move', $crawler->text());
 
 		$this->logout();
