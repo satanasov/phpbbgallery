@@ -925,9 +925,9 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		
 		// Step 1 - see subalbums
 		$url = $crawler->filter('a:contains("First test album!")')->attr('href');
-		$crawler = self::request('GET', substr($url, 1));
+		//$crawler = self::request('GET', substr($url, 1));
 		
-		$url = $crawler->filter('a:contains("First sub test album!")')->parents()->parents()->filter('td')->eq(2)->filter('a')->eq(3)->attr('href');
+		//$url = $crawler->filter('a:contains("First sub test album!")')->parents()->parents()->filter('td')->eq(2)->filter('a')->eq(3)->attr('href');
 		$this->assertContains('zazazzza', $url);
 	}
 	public function test_edit_albums_admin()
