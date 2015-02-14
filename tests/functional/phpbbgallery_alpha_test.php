@@ -844,7 +844,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 
 		$this->logout();
 	}
-	public function test_copy_permissions()
+	public function test_acp_copy_permissions()
 	{
 		$this->login();
 		$this->admin_login();
@@ -882,6 +882,36 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->logout();
 		
 	}
+	public function test_create_album_copy_permissions()
+	{
+		$this->login();
+		$this->admin_login();
+		
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang('acp/permissions');
+		
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-albums_module&mode=manage&sid=' . $this->sid);
+		
+		// Step 1
+		$form = $crawler->selectButton($this->lang('CREATE_ALBUM'))->form();
+		$form['album_name'] = 'First subalbum subalbum!';
+		$crawler = self::submit($form);
+		
+		// Step 2 - we should have reached a form for creating album_name
+		$this->assertContainsLang('ALBUM_EDIT_EXPLAIN', $crawler->text());
+		
+		$album = $crawler->filter('select#parent_id')->filter('option:contains("First sub test album!")')->attr('value');
+		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
+		$form['parent_id'] = $album;
+		$form['album_perm_from'] = $album;
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('ALBUM_CREATED', $crawler->text()
+		
+		$this->logout();
+		$this->logout();
+	}
 	public function test_edit_albums_admin()
 	{
 		$this->login();
@@ -914,11 +944,11 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		return array(
 			'all'	=> array(
 				'all',
-				7
+				8
 			),
 			'admin'	=> array(
 				'admin',
-				5
+				6
 			),
 			'moderator'	=> array(
 				'moderator',
