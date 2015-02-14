@@ -912,6 +912,24 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 	}
+	public function test_delete_album_move_images_and_subalbums()
+	{
+		$this->login();
+		$this->admin_login();
+		
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang('acp/permissions');
+		
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-albums_module&mode=manage&sid=' . $this->sid);
+		
+		// Step 1 - see subalbums
+		$url = $crawler->filter('a:contains("First test album!")')->attr('href');
+		$crawler = self::request('GET', substr($url, 1));
+		
+		$url = $crawler->filter('a:contains("First sub test album!")')->parents()->parents()->filter('td')->eq(2)->filter('a')->eq(3)->attr('href');
+		$this->assertContains('zazazzza', $url);
+	}
 	public function test_edit_albums_admin()
 	{
 		$this->login();
