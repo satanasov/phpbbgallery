@@ -907,7 +907,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$form['album_perm_from'] = $album;
 		$crawler = self::submit($form);
 		
-		$this->assertContainsLang('ALBUM_CREATED', $crawler->text();
+		$this->assertContainsLang('ALBUM_CREATED', $crawler->text());
 		
 		$this->logout();
 		$this->logout();
