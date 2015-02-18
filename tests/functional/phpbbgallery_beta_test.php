@@ -157,4 +157,12 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		
 		$this->logout();
 	}
+	public function test_anon_comment()
+	{
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$crawler = self::request('GET', 'app.php/gallery/image/1');
+		$this->assertContains($this->lang('CONFIRM_CODE'), $crawler->filter('html')->text());
+		
+		$crawler = self::request('GET', 'app.php/gallery/comment/1/add/0');
+	}
 }
