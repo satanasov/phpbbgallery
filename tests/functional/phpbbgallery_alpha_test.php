@@ -924,8 +924,8 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-albums_module&mode=manage&sid=' . $this->sid);
 		
 		// Step 1 - see subalbums
-		$url = $crawler->filter('a:contains("First test album!")')->attr('href');
-		$crawler = self::request('GET', $url);
+		$url = $crawler->filter('a:contains("First test album!")')->link();
+		$crawler = $url->click();
 		
 		$url = $crawler->filter('a:contains("First sub test album!")')->parents()->parents()->filter('td')->eq(2)->filter('a')->eq(3)->attr('href');
 		$this->assertContains('zazazzza', $url);
