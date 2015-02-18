@@ -960,7 +960,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-albums_module&mode=manage&sid=' . $this->sid);
 		
 		// Step 1 - see subalbums
-		$url = $crawler->filter('a:contains("Second subalbum!")')->attr('href');
+		$url = $crawler->filter('a:contains("First test album!")')->attr('href');
 		$crawler = self::request('GET', substr($url, 5));
 		
 		$url = $crawler->filter('a:contains("Second subalbum!")')->parents()->parents()->filter('td')->eq(2)->filter('a')->eq(3)->attr('href');
