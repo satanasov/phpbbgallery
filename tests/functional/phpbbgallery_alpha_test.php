@@ -928,7 +928,26 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$crawler = self::request('GET', substr($url, 5));
 		
 		$url = $crawler->filter('a:contains("First sub test album!")')->parents()->parents()->filter('td')->eq(2)->filter('a')->eq(3)->attr('href');
-		$this->assertContains('zazazzza', substr($url, 5));
+		$crawler = self::request('GET', substr($url, 5));
+		
+		$album = $crawler->filter('select#dest_albums')->filter('option:contains("Second subalbum!")')->attr('value');
+		$form = $crawler->selectButton('update')->form();
+		$form['action_images'] = 'move';
+		$form['images_to_id'] = $album;
+		$form['action_subalbums'] = 'move';
+		$form['subalbums_to_id'] = $album;
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('ALBUM_DELETED', $crawler->text());
+		
+		$crawler = self::request('GET', 'app.php/gallery/album/' . $album);
+		
+		$this->assertContains('First subalbum subalbum!', $crawler->text());
+		$this->assertContains('Image in sublabum to move', $crawler->text());
+		$this->assertEquals(2, $crawler->filter('div.polaroid')->count());
+
+		$this->logout();
+		$this->logout();
 	}
 	public function test_edit_albums_admin()
 	{
@@ -962,11 +981,11 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		return array(
 			'all'	=> array(
 				'all',
-				8
+				9
 			),
 			'admin'	=> array(
 				'admin',
-				6
+				7
 			),
 			'moderator'	=> array(
 				'moderator',
