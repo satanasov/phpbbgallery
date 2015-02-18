@@ -276,6 +276,29 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 						'm_move'			=> '0',
 						'm_report'			=> '0',
 						'm_status'			=> '0',
+					),
+					1 => array(
+						'a_list'			=> '1',
+						'i_view'			=> '1',
+						'i_watermark'		=> '0',
+						'i_upload'			=> '1',
+						'i_edit'			=> '1',
+						'i_delete'			=> '1',
+						'i_rate'			=> '1',
+						'i_approve'			=> '0',
+						'i_report'			=> '1',
+						'i_count'			=> '0',
+						'i_unlimited'		=> '1',
+						'c_read'			=> '1',
+						'c_post'			=> '1',
+						'c_edit'			=> '1',
+						'c_delete'			=> '1',
+						'm_comments'		=> '0',
+						'm_delete'			=> '0',
+						'm_edit'			=> '0',
+						'm_move'			=> '0',
+						'm_report'			=> '0',
+						'm_status'			=> '0',
 					)
 				)
 			)
@@ -1021,7 +1044,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 			),
 			'admin'	=> array(
 				'admin',
-				7
+				8
 			),
 			'moderator'	=> array(
 				'moderator',
