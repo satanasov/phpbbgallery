@@ -450,9 +450,8 @@ class image
 
 			if ($this->misc->display_captcha('comment'))
 			{
-				// Get the captcha instance
-				$this->url->_include('captcha/captcha_factory', 'phpbb');
-				$captcha =& phpbb_captcha_factory::get_instance($config['captcha_plugin']);
+				global $phpbb_container;
+				$captcha = $phpbb_container->get('captcha.factory')->get_instance($this->config['captcha_plugin']);
 				$captcha->init(CONFIRM_POST);
 
 				$this->template->assign_vars(array(
