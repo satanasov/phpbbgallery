@@ -245,7 +245,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->assertContains('First test album!', $crawler->text());
 		
 		$form = $crawler->filter('form[id=add_groups]')->selectButton($this->lang('ADD_PERMISSIONS'))->form();
-		$form['group_id'] = array(2);
+		$form['group_id'] = array(2, 1);
 		$crawler = self::submit($form);
 		
 		$this->assertContainsLang('PERMISSION_I_VIEW', $crawler->text());
