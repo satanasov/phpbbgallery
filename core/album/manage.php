@@ -433,6 +433,7 @@ class manage
 
 		// define support class
 		$phpbb_ext_gallery_core_album = $phpbb_container->get('phpbbgallery.core.album');
+		$display = $phpbb_container->get('phpbbgallery.core.album.display');
 		$phpbb_ext_gallery_core_image = $phpbb_container->get('phpbbgallery.core.image');
 
 		$to_data = $moved_ids = $errors = array();
@@ -443,7 +444,7 @@ class manage
 			$to_data = $phpbb_ext_gallery_core_album->get_info($to_id);
 		}
 
-		$moved_albums = $phpbb_ext_gallery_core_album->get_branch($this->user_id, $from_id, 'children', 'descending');
+		$moved_albums = $display->get_branch($this->user_id, $from_id, 'children', 'descending');
 		$from_data = $moved_albums[0];
 		$diff = sizeof($moved_albums) * 2;
 
