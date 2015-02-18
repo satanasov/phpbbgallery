@@ -155,9 +155,14 @@ $table_comments, $phpbb_root_path, $php_ext)
 
 		if ($this->misc->display_captcha('comment'))
 		{
-			$this->url->_include('captcha/captcha_factory', 'phpbb');
-			$captcha =& phpbb_captcha_factory::get_instance($config['captcha_plugin']);
+			global $phpbb_container;
+			$captcha = $phpbb_container->get('captcha.factory')->get_instance($this->config['captcha_plugin']);
 			$captcha->init(CONFIRM_POST);
+
+			$this->template->assign_vars(array(
+				'S_CONFIRM_CODE'		=> true,
+				'CAPTCHA_TEMPLATE'		=> $captcha->get_template(),
+			));
 		}
 
 		$s_captcha_hidden_fields = '';
@@ -183,6 +188,9 @@ $table_comments, $phpbb_root_path, $php_ext)
 
 			if ($comment_username_req)
 			{
+				global $phpbb_root_path, $phpEx;
+				include($phpbb_root_path . 'includes/functions_user.' . $phpEx);
+
 				if ($comment_username == '')
 				{
 					$error .= (($error) ? '<br />' : '') . $user->lang['MISSING_USERNAME'];
@@ -263,12 +271,12 @@ $table_comments, $phpbb_root_path, $php_ext)
 		{
 			if (!$submit || !$captcha->is_solved())
 			{
-				$template->assign_vars(array(
+				$this->template->assign_vars(array(
 					'S_CONFIRM_CODE'			=> true,
 					'CAPTCHA_TEMPLATE'			=> $captcha->get_template(),
 				));
 			}
-			$template->assign_vars(array(
+			$this->template->assign_vars(array(
 				'S_CAPTCHA_HIDDEN_FIELDS'	=> $s_captcha_hidden_fields,
 			));
 		}
