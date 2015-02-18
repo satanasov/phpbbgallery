@@ -931,7 +931,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$crawler = self::request('GET', substr($url, 5));
 		
 		$album = $crawler->filter('select#images_to_id')->filter('option:contains("Second subalbum!")')->attr('value');
-		$form = $crawler->selectButton($this->user->lang('SUBMIT'))->form();
+		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
 		$form['action_images'] = 'move';
 		$form['images_to_id'] = $album;
 		$form['action_subalbums'] = 'move';
