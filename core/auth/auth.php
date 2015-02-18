@@ -396,9 +396,12 @@ class auth
 			}
 			else
 			{
-				if ($row['bff'])
+				if (isset($row['bff']))
 				{
-					$zebra['bff'][] = (int) $row['user_id'];
+					if ($row['bff'])
+					{
+						$zebra['bff'][] = (int) $row['user_id'];
+					}
 				}
 				else
 				{
