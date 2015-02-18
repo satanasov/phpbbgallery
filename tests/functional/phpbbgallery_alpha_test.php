@@ -1017,7 +1017,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		return array(
 			'all'	=> array(
 				'all',
-				9
+				10
 			),
 			'admin'	=> array(
 				'admin',
