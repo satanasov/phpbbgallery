@@ -930,7 +930,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$url = $crawler->filter('a:contains("First sub test album!")')->parents()->parents()->filter('td')->eq(2)->filter('a')->eq(3)->attr('href');
 		$crawler = self::request('GET', substr($url, 5));
 		
-		$album = $crawler->filter('select#dest_albums')->filter('option:contains("Second subalbum!")')->attr('value');
+		$album = $crawler->filter('select#images_to_id')->filter('option:contains("Second subalbum!")')->attr('value');
 		$form = $crawler->selectButton($this->user->lang('SUBMIT'))->form();
 		$form['action_images'] = 'move';
 		$form['images_to_id'] = $album;
