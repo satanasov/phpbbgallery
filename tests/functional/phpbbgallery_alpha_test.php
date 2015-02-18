@@ -925,7 +925,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		
 		// Step 1 - see subalbums
 		$url = $crawler->filter('a:contains("First test album!")')->link();
-		$crawler = $url->click();
+		$crawler = self::click($url);
 		
 		$url = $crawler->filter('a:contains("First sub test album!")')->parents()->parents()->filter('td')->eq(2)->filter('a')->eq(3)->attr('href');
 		$this->assertContains('zazazzza', $url);
