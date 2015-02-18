@@ -24,7 +24,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 			'next'	=> array(
 				'next',
 				true,
-				'app.php/gallery/image/2'
+				'app.php/gallery/image/4'
 			),
 			'none'	=> array(
 				'none',
@@ -74,12 +74,12 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 			'image'	=> array(
 				'image',
 				true,
-				'app.php/gallery/image/2/source'
+				'app.php/gallery/image/1/source'
 			),
 			'image_page'	=> array(
 				'image_page',
 				true,
-				'app.php/gallery/image/2'
+				'app.php/gallery/image/1'
 			),
 			'none'	=> array(
 				'none',
