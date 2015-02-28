@@ -189,9 +189,10 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
 		$crawler = self::request('GET', 'app.php/gallery/image/1');
 		
-		$element = $crawler->filter('div:contains("Test comment that should be seen")');
-		$this->assertContains('zazzazazaza', $elemetn);
-		$url = $element->filter('a#quote-title')->attr('href');
+		///$element = $crawler->filter('div:contains("Test comment that should be seen")');
+		///$this->assertContains('zazzazazaza', $elemetn);
+		//$url = $element->filter('a#quote-title')->attr('href');
+		$this->assertContains('zazazaza', $crawler-text());
 		
 		$crawler = self::request('GET', substr($url, 1));
 		
