@@ -181,6 +181,6 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'app.php/gallery/image/1');
 		$this->assertContains('Test comment that should be seen', $crawler->text());
 		
-		$this->logout()
+		$this->logout();
 	}
 }
