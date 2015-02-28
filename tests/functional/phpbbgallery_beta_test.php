@@ -189,7 +189,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
 		$crawler = self::request('GET', 'app.php/gallery/image/1');
 		
-		$element = $crawler->filter('div:contains("Test comment that should be seen"'))->parents();
+		$element = $crawler->filter('div:contains("Test comment that should be seen")')->parents();
 		
 		$url = $element->filter('a#quote-title')->attr('href');
 		
