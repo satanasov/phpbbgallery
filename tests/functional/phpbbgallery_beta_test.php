@@ -197,7 +197,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		
 		$form = $crawler->selectButton('submit')->form();
 		$tmp = $form['message'];
-		$form['message'] = $tmp . 'And this is a comment that we add as quote'
+		$form['message'] = $tmp . 'And this is a comment that we add as quote';
 		$crawler = self::submit($form);
 		
 		$this->assertContainsLang('COMMENT_STORED', $crawler->text());
