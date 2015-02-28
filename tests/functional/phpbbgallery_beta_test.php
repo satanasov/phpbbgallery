@@ -165,4 +165,20 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		
 		$crawler = self::request('GET', 'app.php/gallery/comment/1/add/0');
 	}
+	public function test_comment_user()
+	{
+		$this->login('testuser1');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$crawler = self::request('GET', 'app.php/gallery/image/1');
+		
+		$form = $crawler->selectButton('submit')->form();
+		$form['message'] = 'Test comment that should be seen';
+		
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('COMMENT_STORED', $crawler->text());
+
+		$crawler = self::request('GET', 'app.php/gallery/image/1');
+		$this->assertContains('Test comment that should be seen', $crawler->text());
+	}
 }
