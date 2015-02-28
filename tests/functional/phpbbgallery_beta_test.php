@@ -183,4 +183,28 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		
 		$this->logout();
 	}
+	public function test_quote_comment()
+	{
+		$this->login('testuser1');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$crawler = self::request('GET', 'app.php/gallery/image/1');
+		
+		$element = $crawler->filter('div:contains("Test comment that should be seen"'))->parents();
+		
+		$url = $element->filter('a#quote-title')->attr('href');
+		
+		$crawler = self::request('GET', substr($url, 1));
+		
+		$form = $crawler->selectButton('submit')->form();
+		$tmp = $form['message'];
+		$form['message'] = $tmp . 'And this is a comment that we add as quote'
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('COMMENT_STORED', $crawler->text());
+
+		$crawler = self::request('GET', 'app.php/gallery/image/1');
+		$this->assertContains('And this is a comment that we add as quote', $crawler->text());
+		$this->assertEquals(2, $crawler->filter('Test comment that should be seen')->count());
+		$this->logout();
+	}
 }
