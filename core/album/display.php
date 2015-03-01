@@ -430,10 +430,15 @@ class display
 		$album_tracking_info = array();
 		$branch_root_id = $root_data['album_id'];
 		$zebra_array = $this->gallery_auth->get_user_zebra($this->user->data['user_id']);
+		$listable = $this->gallery_auth->acl_album_ids('a_list');
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$album_id = $row['album_id'];
-
+			//if user has no right to see the album - scip it here!
+			if (!in_array($album_id, $listable))
+			{
+				continue;
+			}
 			// Mark albums read?
 			if ($mark_read == 'albums' || $mark_read == 'all')
 			{
