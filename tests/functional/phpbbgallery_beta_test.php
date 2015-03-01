@@ -193,6 +193,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 
 		$crawler = self::request('GET', substr($url, 1));
 		
+		$this->assertContains('zazazazazaza', $crawler->text());
 		$form = $crawler->selectButton('submit')->eq(1)->form();
 
 		$crawler = self::submit($form);
