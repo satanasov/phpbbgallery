@@ -973,7 +973,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->assertContains('Admins see only!', $crawler->text());
 		
 		$form = $crawler->filter('form[id=groups]')->selectButton($this->lang('EDIT_PERMISSIONS'))->form();
-		$form['group_id'] = array(1, 2);
+		$form['group_id'] = array(2);
 		$crawler = self::submit($form);
 		
 		$this->assertContains('Admins see only!', $crawler->text());
@@ -982,9 +982,6 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 			'setting'	=> array(
 				$id	=> array (
 					2 => array(
-						'a_list'			=> '0',
-					),
-					1 => array(
 						'a_list'			=> '0',
 					),
 				)
