@@ -954,6 +954,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->assertContainsLang('ALBUM_EDIT_EXPLAIN', $crawler->text());
 		
 		$album = $crawler->filter('select#parent_id')->filter('option:contains("First sub test album!")')->attr('value');
+		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
 		$form['album_perm_from'] = $album;
 		$crawler = self::submit($form);
 		
