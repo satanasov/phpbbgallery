@@ -209,8 +209,8 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 	{
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
 		$crawler = self::request('GET', 'app.php/gallery/image/1');
-		$this->assertEquals(0, $crawler->filter('a:contains("Edit comment")')->count();
-		$this->assertEquals(0, $crawler->filter('a:contains("Delete comment")')->count();
+		$this->assertEquals(0, $crawler->filter('a:contains("Edit comment")')->count());
+		$this->assertEquals(0, $crawler->filter('a:contains("Delete comment")')->count());
 		
 		$crawler = self::request('GET', 'app.php/gallery/comment/1/edit/1');
 		$this->assertContainsLang('USERNAME', $crawler->filter('html')->text());
