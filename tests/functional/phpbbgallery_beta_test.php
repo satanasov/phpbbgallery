@@ -193,7 +193,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 
 		$crawler = self::request('GET', substr($url, 1));
 		
-		$form = $crawler->selectButton($crawler->filter('#button1'))->form();
+		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
 
 		$crawler = self::submit($form);
 		
