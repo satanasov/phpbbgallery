@@ -192,7 +192,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		///$element = $crawler->filter('div:contains("Test comment that should be seen")');
 		///$this->assertContains('zazzazazaza', $elemetn);
 		//$url = $element->filter('a#quote-title')->attr('href');
-		$this->assertContains('zazazaza', $crawler-text());
+		$this->assertContains('zazazaza', $crawler->text());
 		
 		$crawler = self::request('GET', substr($url, 1));
 		
