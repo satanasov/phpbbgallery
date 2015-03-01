@@ -490,7 +490,8 @@ $table_comments, $phpbb_root_path, $php_ext)
 			'IMAGE_NAME'			=> $image_data['image_name'],
 
 			'S_SIGNATURE_CHECKED'	=> (isset($sig_checked) && $sig_checked) ? ' checked="checked"' : '',
-			'S_ALBUM_ACTION'		=> append_sid($this->url->path('full') . 'comment/' . $image_id . '/edit/'. $comment_id),
+			'S_ALBUM_ACTION'		=> $this->helper->route('phpbbgallery_comment_edit', array('image_id' => $image_id, 'comment_id' => $comment_id)),
+			//'S_ALBUM_ACTION'		=> append_sid($this->url->path('full') . 'comment/' . $image_id . '/edit/'. $comment_id),
 		));
 
 		if ($submit && !$error)
