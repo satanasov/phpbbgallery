@@ -194,17 +194,15 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$crawler = self::request('GET', substr($url, 1));
 		
 		$form = $crawler->selectButton('submit')->form();
-		$tmp = $form['message'];
-		$form->setValues(array(
-			'message'	=> $tmp . ' And this is a comment that we add as quote',
-		));
+
 		$crawler = self::submit($form);
 		
 		$this->assertContainsLang('COMMENT_STORED', $crawler->text());
 
 		$crawler = self::request('GET', 'app.php/gallery/image/1');
-		$this->assertContains('And this is a comment that we add as quote', $crawler->text());
+
 		$this->assertEquals(2, $crawler->filter('Test comment that should be seen')->count());
+		$this->assertEquals(1, $crawler->filter('testuser1 wrote:')->count());
 		$this->logout();
 	}
 }
