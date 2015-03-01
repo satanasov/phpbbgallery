@@ -201,8 +201,8 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 
 		$crawler = self::request('GET', 'app.php/gallery/image/1');
 
-		$this->assertEquals(2, $crawler->filter('div:contains("Test comment that should be seen")')->count());
-		$this->assertEquals(1, $crawler->filter('div:contains("testuser1 wrote:")')->count());
+		$this->assertEquals(2, $crawler->filter('div.content:contains("Test comment that should be seen")')->count());
+		$this->assertEquals(1, $crawler->filter('div.content:contains("testuser1 wrote:")')->count());
 		$this->logout();
 	}
 }
