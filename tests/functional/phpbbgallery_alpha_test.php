@@ -935,6 +935,85 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 	}
+	public function test_a_list_permissions()
+	{
+		$this->login();
+		$this->admin_login();
+		
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang('acp/permissions');
+		
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-albums_module&mode=manage&sid=' . $this->sid);
+		
+		// Step 1
+		$form = $crawler->selectButton($this->lang('CREATE_ALBUM'))->form();
+		$form['album_name'] = 'Admins see only!';
+		$crawler = self::submit($form);
+		// Step 2 - we should have reached a form for creating album_name
+		$this->assertContainsLang('ALBUM_EDIT_EXPLAIN', $crawler->text());
+		
+		$album = $crawler->filter('select#parent_id')->filter('option:contains("First sub test album!")')->attr('value');
+		$form['album_perm_from'] = $album;
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('ALBUM_CREATED', $crawler->text());
+		
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-permissions_module&mode=manage&sid='  . $this->sid);
+		$this->assertContainsLang('PERMISSIONS_EXPLAIN', $crawler->text());
+		
+		$id = $crawler->filter('option:contains("Admins see only!")')->attr('value');
+		
+		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
+		$form['p_system'] = 0;
+		$form['album_id'] = array($id);
+		$crawler = self::submit($form);
+		
+		$this->assertContains('Admins see only!', $crawler->text());
+		
+		$form = $crawler->filter('form[id=groups]')->selectButton($this->lang('EDIT_PERMISSIONS'))->form();
+		$form['group_id'] = array(1, 2);
+		$crawler = self::submit($form);
+		
+		$this->assertContains('Admins see only!', $crawler->text());
+		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
+		$data = array(
+			'setting'	=> array(
+				$id	=> array (
+					2 => array(
+						'a_list'			=> '0',
+					),
+					1 => array(
+						'a_list'			=> '0',
+					),
+				)
+			)
+		);
+		$form->setValues($data);
+		$crawler = self::submit($form);
+		$this->assertContainsLang('PERMISSIONS_STORED', $crawler->text());
+		
+		$this->logout();
+		$this->logout();
+		
+		$crawler = self::request('GET', 'app.php/gallery');
+
+		$this->assertNotContains('Admins see only!', $crawler->text());
+		
+		$this->login('testuser1');
+		$crawler = self::request('GET', 'app.php/gallery');
+
+		$this->assertNotContains('Admins see only!', $crawler->text());
+		$this->logout();
+		
+		$this->login();
+		$crawler = self::request('GET', 'app.php/gallery');
+
+		$this->assertContains('Admins see only!', $crawler->text());
+		$this->logout();
+		
+	}
+		
 	public function test_delete_album_move_images_and_subalbums()
 	{
 		$this->login();
