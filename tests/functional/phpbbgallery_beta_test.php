@@ -205,4 +205,27 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->assertEquals(1, $crawler->filter('div.content:contains("testuser1 wrote:")')->count());
 		$this->logout();
 	}
+	public function test_edit_comment()
+	{
+		$this->login('testuser1');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$crawler = self::request('GET', 'app.php/gallery/image/1');
+
+		$url = $crawler->filter('a:contains("Edit comment")')->eq(1)->attr('href');
+
+		$crawler = self::request('GET', substr($url, 1));
+		
+		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
+		$form['message'] = 'Test comment that should be edited';
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('COMMENT_STORED', $crawler->text());
+
+		$crawler = self::request('GET', 'app.php/gallery/image/1');
+
+		$this->assertEquals(1, $crawler->filter('div.content:contains("Test comment that should be seen")')->count());
+		$this->assertEquals(0, $crawler->filter('div.content:contains("testuser1 wrote:")')->count());
+		$this->assertEquals(1, $crawler->filter('div.content:contains("Test comment that should be edited")')->count());
+		$this->logout();
+	}
 }
