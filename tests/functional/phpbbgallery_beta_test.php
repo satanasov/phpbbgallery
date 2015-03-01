@@ -228,4 +228,27 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->assertEquals(1, $crawler->filter('div.content:contains("Test comment that should be edited")')->count());
 		$this->logout();
 	}
+	public function test_delete_comment()
+	{
+		$this->login('testuser1');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$crawler = self::request('GET', 'app.php/gallery/image/1');
+
+		$url = $crawler->filter('a:contains("Delete comment")')->eq(1)->attr('href');
+
+		$crawler = self::request('GET', substr($url, 1));
+		
+		$form = $crawler->selectButton('confirm')->form();
+		
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('DELETED_COMMENT', $crawler->text());
+
+		$crawler = self::request('GET', 'app.php/gallery/image/1');
+
+		$this->assertEquals(1, $crawler->filter('div.content:contains("Test comment that should be seen")')->count());
+		$this->assertEquals(0, $crawler->filter('div.content:contains("testuser1 wrote:")')->count());
+		$this->assertEquals(0, $crawler->filter('div.content:contains("Test comment that should be edited")')->count());
+		$this->logout();
+	}
 }
