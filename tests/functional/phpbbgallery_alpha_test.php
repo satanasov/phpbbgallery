@@ -162,8 +162,9 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-albums_module&mode=manage&sid=' . $this->sid);
 		$this->assertContains('First test album!', $crawler->text());
 		
-		$crawler = self::request('GET', 'app.php/gallery');
-		$this->assertContains('First test album!', $crawler->text());
+		// As we do not display albums that have A_LIST we do not see the album!
+		//$crawler = self::request('GET', 'app.php/gallery');
+		//$this->assertContains('First test album!', $crawler->text());
 		
 		$this->logout();
 		$this->logout();
@@ -1117,11 +1118,11 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		return array(
 			'all'	=> array(
 				'all',
-				10
+				11
 			),
 			'admin'	=> array(
 				'admin',
-				8
+				9
 			),
 			'moderator'	=> array(
 				'moderator',
