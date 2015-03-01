@@ -162,15 +162,15 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-albums_module&mode=manage&sid=' . $this->sid);
 		$this->assertContains('First test album!', $crawler->text());
 		
-		// As we do not display albums that have A_LIST we do not see the album!
-		//$crawler = self::request('GET', 'app.php/gallery');
-		//$this->assertContains('First test album!', $crawler->text());
 		
 		$this->logout();
 		$this->logout();
 	}
 	public function test_acl_set_permissions_public()
 	{
+		$crawler = self::request('GET', 'app.php/gallery');
+		$this->assertNotContains('First test album!', $crawler->text());
+		
 		$this->login();
 		$this->admin_login();
 		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
@@ -228,6 +228,9 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$crawler = self::submit($form);
 		$this->assertContainsLang('PERMISSIONS_STORED', $crawler->text());
 		
+		$crawler = self::request('GET', 'app.php/gallery');
+		$this->assertContains('First test album!', $crawler->text());
+
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		$this->add_lang('common');
 		
@@ -311,7 +314,14 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 		
+		$crawler = self::request('GET', 'app.php/gallery');
+		$this->assertContains('First test album!', $crawler->text());
+		
 		$this->login('testuser1');
+		
+		$crawler = self::request('GET', 'app.php/gallery');
+		$this->assertContains('First test album!', $crawler->text());
+		
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
 
 		$this->assertNotContainsLang('MCP', $crawler->text());
