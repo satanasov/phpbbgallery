@@ -103,11 +103,14 @@ class main_listener implements EventSubscriberInterface
 	public function get_user_ids($event)
 	{
 		$this->user_ids = $event['user_ids'];
-		$sql = 'SELECT album_id, album_user_id FROM ' . $this->albums_table . ' WHERE parent_id = 0 and ' . $this->db->sql_in_set('album_user_id', $this->user_ids);
-		$result = $this->db->sql_query($sql);
-		while ($row = $this->db->sql_fetchrow($result))
+		if ($this->gallery_config->get('profile_pega'))
 		{
-			$this->albums[$row['album_user_id']] = (int) $row['album_id'];
+			$sql = 'SELECT album_id, album_user_id FROM ' . $this->albums_table . ' WHERE parent_id = 0 and ' . $this->db->sql_in_set('album_user_id', $this->user_ids);
+			$result = $this->db->sql_query($sql);
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$this->albums[$row['album_user_id']] = (int) $row['album_id'];
+			}
 		}
 	}
 	public function profile_fileds($event)
