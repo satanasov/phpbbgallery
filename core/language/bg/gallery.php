@@ -229,6 +229,7 @@ $lang = array_merge($lang, array(
 	'ROTATE_NONE'					=> 'без',
 	'ROTATE_RIGHT'					=> '90° дясно',
 	'ROTATE_UPSIDEDOWN'				=> '180° на обратно',
+	'RETURN_TO_GALLERY'				=> 'Обратно към Галерията',
 
 	'SEARCH_ALBUM'					=> 'Търси в този албум ...',
 	'SEARCH_ALBUMS'					=> 'Търси в албуми',
@@ -333,6 +334,8 @@ $lang = array_merge($lang, array(
 	'VIEWING_ALBUM'					=> 'Разглежда албум %s',
 	'VIEWING_IMAGE'					=> 'Разглежда изображения в албум %s',
 
+	'VISIT_GALLERY'					=> 'Посети потребителската галерия',
+
 	'WATCH_ALBUM'					=> 'Абонирай се за албум',
 	'WATCH_IMAGE'					=> 'Абонирай се за изображение',
 	'WATCH_PEGAS'					=> 'Абонирай се за нови лични галерии',
@@ -348,4 +351,6 @@ $lang = array_merge($lang, array(
 		1	=>	'Изожението е преместено',
 		2	=> 	'%s изображения са преместени',
 	),
+
+	'QUICK_MOD'	=> 'Изберете модераторско действие',
 ));

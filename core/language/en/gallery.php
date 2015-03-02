@@ -229,6 +229,7 @@ $lang = array_merge($lang, array(
 	'ROTATE_NONE'					=> 'none',
 	'ROTATE_RIGHT'					=> '90° right',
 	'ROTATE_UPSIDEDOWN'				=> '180° upside-down',
+	'RETURN_TO_GALLERY'				=> 'Return to Gallery',
 
 	'SEARCH_ALBUM'					=> 'Search this album…',
 	'SEARCH_ALBUMS'					=> 'Search in albums',
@@ -313,6 +314,8 @@ $lang = array_merge($lang, array(
 	'USERNAME_BEGINS_WITH'			=> 'Username begins with',
 	'USERS_PERSONAL_ALBUMS'			=> 'Users Personal Albums',
 
+	'VISIT_GALLERY'					=> 'Visit user gallery',
+
 	'VIEW_ALBUM'					=> 'View album',
 	'VIEW_ALBUM_IMAGES'				=> array(
 		1	=> '1 image',
@@ -348,4 +351,6 @@ $lang = array_merge($lang, array(
 		1	=>	'Image moved',
 		2	=> 	'%s images moved',
 	),
+
+	'QUICK_MOD'	=> 'Select moderator action',
 ));
