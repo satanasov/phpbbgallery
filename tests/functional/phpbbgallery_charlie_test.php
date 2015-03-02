@@ -42,6 +42,7 @@ class phpbbgallery_charlie_test extends phpbbgallery_base
 		
 		$this->set_option('profile_pega', $state);
 		$crawler = self::request('GET', 'memberlist.php?mode=viewprofile&u=' . $this->get_user_id('admin') . '&sid=' . $this->sid);
+		$this->assertContains('zazazaza', $crawler->text());
 		$this->assertEquals($count, $crawler->filter('a:contains("Visit user Gallery")')->count());
 		
 		$crawler = self::request('GET', 'memberlist.php?mode=viewprofile&u=' . $this->get_user_id('testuser1') . '&sid=' . $this->sid);
