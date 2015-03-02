@@ -34,7 +34,7 @@ class main_listener implements EventSubscriberInterface
 	protected $user;
 	/* @var string phpEx */
 	protected $php_ext;
-	
+
 	protected $user_ids = array();
 	protected $target = 0;
 	protected $albums = array();
@@ -47,7 +47,7 @@ class main_listener implements EventSubscriberInterface
 	* @param string						$php_ext	phpEx
 	*/
 	public function __construct(\phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user, \phpbbgallery\core\search $gallery_search,
-	\phpbbgallery\core\config $gallery_config, \phpbb\db\driver\driver_interface $db, 
+	\phpbbgallery\core\config $gallery_config, \phpbb\db\driver\driver_interface $db,
 	$albums_table, $php_ext)
 	{
 		$this->helper = $helper;
