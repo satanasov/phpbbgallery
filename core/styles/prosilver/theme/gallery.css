@@ -20,6 +20,12 @@ h2.invade-linklist {
 	padding: 1px 0 0 1px;
 	background-image: url("./images/icon_gallery.gif");
 }
+.phpbb_gallery-icon {
+	background-position: 0 50%;
+	background-repeat: no-repeat;
+	padding: 1px 0 0 1px;
+	background-image: url("./images/icon_gallery.gif");
+}
 
 .rtl .icon-gallery {
 	background-position: 100% 50%;

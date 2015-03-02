@@ -206,7 +206,6 @@ $lang = array_merge($lang, array(
 
 	'QUOTA_REACHED'					=> 'Die Anzahl der Bilder, die du hochladen kannst, wurde erreicht.',
 	'QUOTE_COMMENT'					=> 'Kommentar zitieren',
-	'QUICK_MOD'						=> 'Schnellmoderation',
 
 	'RANDOM_IMAGES'					=> 'Zufällige Bilder',
 	'RATE_IMAGE'					=> 'Bild bewerten',
@@ -337,6 +336,8 @@ $lang = array_merge($lang, array(
 	'VIEWING_ALBUM'					=> 'Betrachtet Album %s',
 	'VIEWING_IMAGE'					=> 'Betrachtet ein Bild im Album %s',
 
+	'VISIT_GALLERY'					=> 'Visit user gallery',
+
 	'WATCH_ALBUM'					=> 'Album beobachten',
 	'WATCH_IMAGE'					=> 'Bild beobachten',
 	'WATCH_PEGAS'					=> 'Neue Alben automatisch beobachten',
@@ -352,4 +353,6 @@ $lang = array_merge($lang, array(
 		1	=>	'Bild verschoben',
 		2	=> 	'%s Bilder verschoben',
 	),
+
+	'QUICK_MOD'						=> 'Schnellmoderation',
 ));

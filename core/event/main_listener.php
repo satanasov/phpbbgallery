@@ -21,6 +21,8 @@ class main_listener implements EventSubscriberInterface
 			'core.user_setup'						=> 'load_language_on_setup',
 			'core.page_header'						=> 'add_page_header_link',
 			'core.memberlist_prepare_profile_data'	       => 'user_profile_galleries',
+			'core.generate_profile_fields_template_data_before'	       => 'profile_fileds',
+			'core.grab_profile_fields_data'	       => 'get_user_ids',
 			//'core.viewonline_overwrite_location'	=> 'add_newspage_viewonline',
 		);
 	}
@@ -32,6 +34,10 @@ class main_listener implements EventSubscriberInterface
 	protected $user;
 	/* @var string phpEx */
 	protected $php_ext;
+	
+	protected $user_ids = array();
+	protected $target = 0;
+	protected $albums = array();
 	/**
 	* Constructor
 	*
@@ -41,19 +47,22 @@ class main_listener implements EventSubscriberInterface
 	* @param string						$php_ext	phpEx
 	*/
 	public function __construct(\phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user, \phpbbgallery\core\search $gallery_search,
-	\phpbbgallery\core\config $gallery_config,
-	$php_ext)
+	\phpbbgallery\core\config $gallery_config, \phpbb\db\driver\driver_interface $db, 
+	$albums_table, $php_ext)
 	{
 		$this->helper = $helper;
 		$this->template = $template;
 		$this->user = $user;
 		$this->gallery_search = $gallery_search;
 		$this->gallery_config = $gallery_config;
+		$this->db = $db;
 		$this->php_ext = $php_ext;
+		$this->albums_table = $albums_table;
 	}
 	public function load_language_on_setup($event)
 	{
 		$this->user->add_lang_ext('phpbbgallery/core', 'info_acp_gallery');
+		$this->user->add_lang_ext('phpbbgallery/core', 'gallery');
 		$this->user->add_lang_ext('phpbbgallery/core', 'gallery_notifications');
 		$this->user->add_lang_ext('phpbbgallery/core', 'permissions_gallery');
 	}
@@ -89,6 +98,61 @@ class main_listener implements EventSubscriberInterface
 			$block_name	= $this->user->lang['RANDOM_IMAGES'];
 			$u_block = ' ';
 			$this->gallery_search->random($this->gallery_config->get('rrc_profile_items'), $event['data']['user_id'], 'rrc_profile_display', $block_name, $u_block);
+		}
+	}
+	public function get_user_ids($event)
+	{
+		$this->user_ids = $event['user_ids'];
+		$sql = 'SELECT album_id, album_user_id FROM ' . $this->albums_table . ' WHERE parent_id = 0 and ' . $this->db->sql_in_set('album_user_id', $this->user_ids);
+		$result = $this->db->sql_query($sql);
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$this->albums[$row['album_user_id']] = (int) $row['album_id'];
+		}
+	}
+	public function profile_fileds($event)
+	{
+		if ($this->target < count($this->user_ids))
+		{
+			if (isset($this->albums[$this->user_ids[$this->target]]))
+			{
+				$data = $event['profile_row'];
+				$data['phpbb_gallery'] = array(
+					'value' => $this->helper->route('phpbbgallery_album', array('album_id' => $this->albums[$this->user_ids[$this->target]])),
+					'data' => array(
+						'field_id'				=> '',
+						'lang_id'				=> '',
+						'lang_name'				=> 'GALLERY',
+						'lang_explain'			=> '',
+						'lang_default_value'	=> '',
+						'field_name'			=> 'phpbb_gallery',
+						'field_type'			=> 'profilefields.type.url',
+						'field_ident'			=> 'phpbb_gallery',
+						'field_length'			=> '40',
+						'field_minlen'			=> '12',
+						'field_maxlen'			=> '255',
+						'field_novalue'			=> '',
+						'field_default_value'	=> '',
+						'field_validation'		=> '',
+						'field_required'		=> '0',
+						'field_show_on_reg'		=> '0',
+						'field_hide'			=> '0',
+						'field_no_view'			=> '0',
+						'field_active'			=> '1',
+						'field_order'			=> '',
+						'field_show_profile'	=> '1',
+						'field_show_on_vt'		=> '1',
+						'field_show_novalue'	=> '0',
+						'field_show_on_pm'		=> '1',
+						'field_show_on_ml'		=> '1',
+						'field_is_contact'		=> '1',
+						'field_contact_desc'	=> 'VISIT_GALLERY',
+						'field_contact_url'		=> '%s',
+					),
+				);
+				$event['profile_row'] = $data;
+			}
+			$this->target ++;
 		}
 	}
 }
