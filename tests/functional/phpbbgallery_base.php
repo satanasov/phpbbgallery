@@ -44,4 +44,13 @@ class phpbbgallery_base extends \phpbb_functional_test_case
 		$row = $this->db->sql_fetchrow($result);
 		return $row['user_id'];
 	}
+	public function set_option($option, $value)
+	{
+		$this->get_db();
+		$sql = "UPDATE phpbb_config
+			SET config_value = " . $value ."
+			WHERE config_name = 'phpbb_gallery_" . $option . "'";
+		$this->db->sql_query($sql);
+		$this->purge_cache();
+	}
 }
