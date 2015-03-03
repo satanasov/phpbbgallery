@@ -731,7 +731,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->assertContains('Personal user subalbum', $crawler->text());
 		
 		$crawler = self::request('GET', 'app.php/gallery/users');
-		$this->assertContains('admin', $crawler->filter('div#polaroid')->text());
+		$this->assertContains('admin', $crawler->filter('div.polaroid')->text());
 		
 		$this->logout();
 	}
