@@ -730,7 +730,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->assertContainsLang('MANAGE_SUBALBUMS', $crawler->text());
 		$this->assertContains('Personal user subalbum', $crawler->text());
 		
-		$crawler = slef::request('GET', 'app.php/gallery/users');
+		$crawler = self::request('GET', 'app.php/gallery/users');
 		$this->assertContains('admin', $crawler->filter('div#polaroid')->text());
 		
 		$this->logout();
