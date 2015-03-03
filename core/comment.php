@@ -144,7 +144,7 @@ class comment
 		$sql = 'SELECT comment_image_id, COUNT(comment_id) AS num_comments, MAX(comment_id) AS last_comment
 			FROM ' . $table_prefix . "gallery_comments 
 			$sql_where
-			GROUP BY comment_image_id
+			GROUP BY comment_image_id, comment_id
 			ORDER BY comment_id DESC";
 		$result = $db->sql_query($sql);
 		while ($row = $db->sql_fetchrow($result))
