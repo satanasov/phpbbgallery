@@ -72,9 +72,9 @@ class phpbbgallery_charlie_test extends phpbbgallery_base
 		
 		$this->set_option('profile_pega', $state);
 		$crawler = self::request('GET', 'memberlist.php?mode=viewprofile&u=' . $this->get_user_id('admin') . '&sid=' . $this->sid);
-		$this->assertEquals($count, $crawler->filter('a:contains("Visit user gallery")')->count());
+		$this->assertEquals($count, $crawler->filter('a:contains("' . $this->lang('VISIT_GALLERY') . '")')->count());
 		
 		$crawler = self::request('GET', 'memberlist.php?mode=viewprofile&u=' . $this->get_user_id('testuser1') . '&sid=' . $this->sid);
-		$this->assertEquals(0, $crawler->filter('a:contains("Visit user gallery")')->count());
+		$this->assertEquals(0, $crawler->filter('a:contains("' . $this->lang('VISIT_GALLERY') . '")')->count());
 	}
 }
