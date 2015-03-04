@@ -24,7 +24,7 @@ class phpbbgallery_charlie_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'ucp.php?i=ucp_profile&mode=profile_info&sid=' . $this->sid);
 		$form = $crawler->selectButton('submit')->form();
 		$form->setValues(array(
-			'pf_phpbb_facebook'	=> 'test',
+			'pf_phpbb_location'	=> 'test',
 		));
 		$crawler = self::submit($form);
 		// Should be updated
