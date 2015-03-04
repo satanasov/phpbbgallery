@@ -24,7 +24,7 @@ class phpbbgallery_charlie_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'ucp.php?i=ucp_profile&mode=profile_info&sid=' . $this->sid);
 		$form = $crawler->selectButton('submit')->form();
 		$form->setValues(array(
-			'pf_phpbb_facebook'	=> 'testtest',
+			'pf_phpbb_facebook'	=> 'test',
 		));
 		$crawler = self::submit($form);
 		// Should be updated
@@ -36,7 +36,7 @@ class phpbbgallery_charlie_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'ucp.php?i=ucp_profile&mode=profile_info&sid=' . $this->sid);
 		$form = $crawler->selectButton('submit')->form();
 		$form->setValues(array(
-			'pf_phpbb_facebook'	=> 'testtest',
+			'pf_phpbb_location'	=> 'test',
 		));
 		$crawler = self::submit($form);
 		// Should be updated
@@ -72,9 +72,9 @@ class phpbbgallery_charlie_test extends phpbbgallery_base
 		
 		$this->set_option('profile_pega', $state);
 		$crawler = self::request('GET', 'memberlist.php?mode=viewprofile&u=' . $this->get_user_id('admin') . '&sid=' . $this->sid);
-		$this->assertEquals($count, $crawler->filter('a:contains("Visit user Gallery")')->count());
+		$this->assertEquals($count, $crawler->filter('a:contains("Visit user gallery")')->count());
 		
 		$crawler = self::request('GET', 'memberlist.php?mode=viewprofile&u=' . $this->get_user_id('testuser1') . '&sid=' . $this->sid);
-		$this->assertEquals(0, $crawler->filter('a:contains("Visit user Gallery")')->count());
+		$this->assertEquals(0, $crawler->filter('a:contains("Visit user gallery")')->count());
 	}
 }
