@@ -42,6 +42,8 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 		
 		$this->assertContainsLang('IMPORT_SCHEMA_CREATED', $crawler->text());
 		
+		$meta = $crawler->filter('meta[http-equiv="refresh"]')->attr('content');
+		$this->assertContains('adm', $meta);
 		$crawler = self::$client->followRedirect();
 		
 		$this->assertContains('uploaded', $crawler->text());
