@@ -284,23 +284,24 @@ class main_module
 			$album_id = request_var('album_id', 0);
 			if (isset($_POST['users_pega']))
 			{
+				$image_user =  $phpbb_container->get('phpbbgallery.core.user');
+				$image_user->set_user_id($user_row['user_id']);
 				if ($user->data['user_id'] != $user_row['user_id'])
 				{
-					$image_user =  $phpbb_container->get('phpbbgallery.core.user');
 					$album_id = $image_user->get_data('personal_album_id');
 					if (!$album_id)
 					{
 						// The User has no personal album
-						$album_id = phpbb_ext_gallery_core_album::generate_personal_album($user_row['username'], $user_row['user_id'], $user_row['user_colour'], $image_user);
+						$album_id = $gallery_album->generate_personal_album($user_row['username'], $user_row['user_id'], $user_row['user_colour'], $image_user);
 					}
 					unset($image_user);
 				}
 				else
 				{
-					$album_id = phpbb_gallery::$user->get_data('personal_album_id');
+					$album_id = $image_user->get_data('personal_album_id');
 					if (!$album_id)
 					{
-						$album_id = phpbb_ext_gallery_core_album::generate_personal_album($user_row['username'], $user_row['user_id'], $user_row['user_colour'], phpbb_gallery::$user);
+						$album_id = $gallery_album->generate_personal_album($user_row['username'], $user_row['user_id'], $user_row['user_colour'], $image_user);
 					}
 				}
 			}
