@@ -53,4 +53,12 @@ class phpbbgallery_base extends \phpbb_functional_test_case
 		$this->db->sql_query($sql);
 		$this->purge_cache();
 	}
+	public function get_url_from_meta($url)
+	{
+		$parts = explode('/', $url);
+		$base = end($parts);
+		$adm = prev($parts);
+		
+		return $adm . '/' . $base;
+	}
 }

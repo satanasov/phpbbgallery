@@ -44,11 +44,15 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 		
 		$meta = $crawler->filter('meta[http-equiv="refresh"]')->attr('content');
 		$this->assertContains('adm', $meta);
-		$crawler = self::$client->followRedirect();
+		
+		$url = $this->get_url_from_meta($meta);
+		$crawler = self::request('GET', $url);
 		
 		$this->assertContains('uploaded', $crawler->text());
 		
-		$crawler = self::$client->followRedirect();
+		$meta = $crawler->filter('meta[http-equiv="refresh"]')->attr('content');
+		$url = $this->get_url_from_meta($meta);
+		$crawler = self::request('GET', $url);
 		
 		$this->assertEquals(0, $album_id = $crawler->filter('option:contains("copy_to_public_no_change.jpg")')->count());
 		
