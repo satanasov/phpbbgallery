@@ -15,6 +15,6 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 {
 	public function test_prepare_import()
 	{
-		$this->assertEquals(1, copy(__DIR__ . '/images/valid.jpg', __DIR__ . '/../../../files/core/import/1.jpg'));
+		$this->assertEquals(1, copy(__DIR__ . '/images/valid.jpg', __DIR__ . '/../../../../files/phpbbgallery/core/import/1.jpg'));
 	}
 }
