@@ -48,7 +48,7 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 		$url = $this->get_url_from_meta($meta);
 		$crawler = self::request('GET', $url);
 		
-		$this->assertContains('uploaded', $crawler->text());
+		$this->assertContains('images successful imported', $crawler->text());
 		
 		$meta = $crawler->filter('meta[http-equiv="refresh"]')->attr('content');
 		$url = $this->get_url_from_meta($meta);
