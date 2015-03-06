@@ -57,7 +57,7 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 		
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		
-		$this->assertContains('copy_to_public_no_change', $crawler->text());
+		$this->assertContains('copy to public no change', $crawler->text());
 		
 		$this->logout();
 		$this->logout();
@@ -96,8 +96,8 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 		$this->assertEquals(0, $album_id = $crawler->filter('option:contains("copy_to_public_change_uploader.jpg")')->count());
 		
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
-		$this->assertContains('copy_to_public_no_change', $crawler->text());
-		$this->assertContains('testuser1', $crawler->filter('a:contains["copy_to_public_change_uploader"]')->parents()->parents()->text());
+		$this->assertContains('copy to public change uploader', $crawler->text());
+		$this->assertContains('testuser1', $crawler->filter('a:contains["copy to public change uploader"]')->parents()->parents()->text());
 
 		$this->logout();
 		$this->logout();
