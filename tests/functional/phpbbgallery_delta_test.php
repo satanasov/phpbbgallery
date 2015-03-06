@@ -36,7 +36,7 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-acpimport-acp-main_module&mode=import_images&sid=' . $this->sid);
 		$album_id = $crawler->filter('option:contains("First test album!")')->attr('value');
 		$form = $crawler->selectButton('submit')->form();
-		$form['name'] = array('copy_to_public_no_change.jpg');
+		$form['images'] = array('copy_to_public_no_change.jpg');
 		$form['album_id'] = $album_id;
 		$crawler = self::submit($form);
 		
