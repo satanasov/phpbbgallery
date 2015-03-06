@@ -55,8 +55,51 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 		
 		$this->assertEquals(0, $album_id = $crawler->filter('option:contains("copy_to_public_no_change.jpg")')->count());
 		
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
+		
+		$this->assertContains('copy_to_public_no_change', $crawler->text());
+		
 		$this->logout();
 		$this->logout();
 		
+	}
+	public function test_acp_import_change_uploader()
+	{
+		$this->login();
+		$this->admin_login();
+		
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/acpimport', 'info_acp_gallery_acpimport');
+		
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-acpimport-acp-main_module&mode=import_images&sid=' . $this->sid);
+		$album_id = $crawler->filter('option:contains("First test album!")')->attr('value');
+		$form = $crawler->selectButton('submit')->form();
+		$form['images'] = array('copy_to_public_change_uploader.jpg');
+		$form['album_id'] = $album_id;
+		$form['username'] = 'testuser1';
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('IMPORT_SCHEMA_CREATED', $crawler->text());
+		
+		$meta = $crawler->filter('meta[http-equiv="refresh"]')->attr('content');
+		$this->assertContains('adm', $meta);
+		
+		$url = $this->get_url_from_meta($meta);
+		$crawler = self::request('GET', $url);
+		
+		$this->assertContains('images successful imported', $crawler->text());
+		
+
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-acpimport-acp-main_module&mode=import_images&sid=' . $this->sid);
+		
+		$this->assertEquals(0, $album_id = $crawler->filter('option:contains("copy_to_public_change_uploader.jpg")')->count());
+		
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
+		$this->assertContains('copy_to_public_no_change', $crawler->text());
+		$this->assertContains('testuser1', $crawler->filter('a:contains["copy_to_public_change_uploader"]')->parents()->parents()->text());
+
+		$this->logout();
+		$this->logout();
 	}
 }
