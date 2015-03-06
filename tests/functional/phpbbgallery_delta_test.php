@@ -97,7 +97,7 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 		
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		$this->assertContains('copy to public change uploader', $crawler->text());
-		$this->assertContains('testuser1', $crawler->filter('a:contains["copy to public change uploader"]')->parents()->parents()->text());
+		$this->assertContains('testuser1', $crawler->filter('a:contains("copy to public change uploader")')->parents()->parents()->text());
 
 		$this->logout();
 		$this->logout();
