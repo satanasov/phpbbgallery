@@ -50,9 +50,8 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 		
 		$this->assertContains('images successful imported', $crawler->text());
 		
-		$meta = $crawler->filter('meta[http-equiv="refresh"]')->attr('content');
-		$url = $this->get_url_from_meta($meta);
-		$crawler = self::request('GET', $url);
+
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-acpimport-acp-main_module&mode=import_images&sid=' . $this->sid);
 		
 		$this->assertEquals(0, $album_id = $crawler->filter('option:contains("copy_to_public_no_change.jpg")')->count());
 		
