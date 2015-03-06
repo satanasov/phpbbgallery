@@ -48,7 +48,7 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 		
 		$crawler = self::$client->followRedirect();
 		
-		$this->assertEquals(0, $album_id = $crawler->filter('option:contains("copy_to_public_no_change.jpg")')->count();
+		$this->assertEquals(0, $album_id = $crawler->filter('option:contains("copy_to_public_no_change.jpg")')->count());
 		
 		$this->logout();
 		$this->logout();
