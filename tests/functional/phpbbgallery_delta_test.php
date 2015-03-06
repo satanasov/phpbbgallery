@@ -40,7 +40,7 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 		$form['album_id'] = $album_id;
 		$crawler = self::submit($form);
 		
-		$this->assertLangContains('IMPORT_SCHEMA_CREATED', $crawler->text());
+		$this->assertContainsLang('IMPORT_SCHEMA_CREATED', $crawler->text());
 		
 		$crawler = self::$client->followRedirect();
 		
