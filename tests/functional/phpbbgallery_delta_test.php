@@ -174,7 +174,7 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 		$this->assertEquals(0, $album_id = $crawler->filter('option:contains("copy_to_personal_existing.jpg")')->count());
 		
 		$crawler = self::request('GET', 'app.php/gallery/users');
-		$url = $crawler->filter('div#polaroid')->filter('a:contains("admin")')->attr('href');
+		$url = $crawler->filter('div.polaroid')->filter('a:contains("admin")')->attr('href');
 		$crawler = self::request('GET', substr($url, 1));
 		$this->assertContains('copy to personal existing', $crawler->text());
 
