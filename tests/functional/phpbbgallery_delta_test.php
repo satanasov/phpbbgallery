@@ -175,7 +175,7 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 		
 		$crawler = self::request('GET', 'app.php/gallery/users');
 		$url = $crawler->filter('a:contains("admin")')->attr('href');
-		$crawler = self::request('GET', $url);
+		$crawler = self::request('GET', substr($url, 1));
 		$this->assertContains('copy to personal existing', $crawler->text());
 
 		$this->logout();
