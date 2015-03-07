@@ -142,4 +142,43 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 		$this->logout();
 		
 	}
+	public function test_acp_import_add_to_user_gallery_existing()
+	{
+		$this->login();
+		$this->admin_login();
+		
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/acpimport', 'info_acp_gallery_acpimport');
+		
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-acpimport-acp-main_module&mode=import_images&sid=' . $this->sid);
+		//$album_id = $crawler->filter('option:contains("First test album!")')->attr('value');
+		$form = $crawler->selectButton('submit')->form();
+		$form['images'] = array('copy_to_personal_existing.jpg');
+		$form['users_pega'] = 1;
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('IMPORT_SCHEMA_CREATED', $crawler->text());
+		
+		$meta = $crawler->filter('meta[http-equiv="refresh"]')->attr('content');
+		$this->assertContains('adm', $meta);
+		
+		$url = $this->get_url_from_meta($meta);
+		$crawler = self::request('GET', $url);
+		
+		$this->assertContains('images successful imported', $crawler->text());
+		
+
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-acpimport-acp-main_module&mode=import_images&sid=' . $this->sid);
+		
+		$this->assertEquals(0, $album_id = $crawler->filter('option:contains("copy_to_personal_existing.jpg")')->count());
+		
+		$crawler = self::request('GET', 'app.php/gallery/users');
+		$url = $crawler->filter('a:contains("admin")')->attr('href');
+		$crawler = self::request('GET', $url);
+		$this->assertContains('copy to personal existing', $crawler->text());
+
+		$this->logout();
+		$this->logout();
+	}
 }
