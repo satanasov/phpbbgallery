@@ -160,7 +160,7 @@ class main_module
 							*/
 							if ($gallery_config->get('allow_resize'))
 							{
-								$image_tools->resize_image($$gallery_config->get('max_width'), $gallery_config->get('max_height'));
+								$image_tools->resize_image($gallery_config->get('max_width'), $gallery_config->get('max_height'));
 								if ($image_tools->resized)
 								{
 									$image_tools->write_image($gallery_url->path('upload') . $image_filename, $gallery_config->get('jpg_quality'), true);
