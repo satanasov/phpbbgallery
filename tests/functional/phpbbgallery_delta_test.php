@@ -260,14 +260,14 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 		$this->set_option('disp_exifdata', $state);
 		if ($state == 'first')
 		{
-			$crawler = self::request('GET', 'app.php/gallery/image/' . $image);
+			$crawler = self::request('GET', 'app.php/gallery/image/3');
 		}
 		else
 		{
 			$crawler = self::request('GET', 'app.php/gallery/users');
 			$url = $crawler->filter('div.polaroid')->filter('a:contains("testuser1")')->attr('href');
 			$crawler = self::request('GET', substr($url, 1));
-			$url = $crawler->filter('div.polaroid')->filter('a:contains("copy to personal non existing")')->attr('href');
+			$url = $crawler->filter('a:contains("copy to personal non existing")')->attr('href');
 			$crawler = self::request('GET', substr($url, 1));
 		}
 
