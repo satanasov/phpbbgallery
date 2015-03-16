@@ -23,10 +23,8 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 		
 		$crawler = self::request('GET', 'app.php/gallery/image/1');
 		
-		$element = $crawler->filter('div#postbody');
-		
-		$this->assertContainsLang('EXIF_DATA', $element->text());
-		$this->assertContainsLang('EXIF_EXPOSURE', $element->text());
+		$this->assertContainsLang('EXIF_DATA', $crawler->text());
+		$this->assertContainsLang('EXIF_EXPOSURE', $crawler->text());
 	}
 	/*
 	* Set of test related to finctionality of ACP Import
