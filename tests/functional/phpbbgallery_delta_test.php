@@ -223,26 +223,25 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 	}
 	public function exif_data()
 	{
-		$last = $this->get_last_image();
 		return array(
 			'upload_yes'	=> array(
-				1,
+				'first',
 				1
 			),
 			'upload_no'	=> array(
-				1,
+				'first',
 				0
 			),
 			'import_yes'	=> array(
-				$last,
+				'last',
 				1
 			),
 			'import_no'	=> array(
-				$last,
+				'last',
 				0
 			),
 			'reset'	=> array(
-				1,
+				'first',
 				1
 			),
 		);
@@ -259,7 +258,18 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 		$this->add_lang_ext('phpbbgallery/exif', 'exif');
 		
 		$this->set_option('disp_exifdata', $state);
-		$crawler = self::request('GET', 'app.php/gallery/image/' . $image);
+		if ($state == 'first')
+		{
+			$crawler = self::request('GET', 'app.php/gallery/image/' . $image);
+		}
+		else
+		{
+			$crawler = self::request('GET', 'app.php/gallery/users');
+			$url = $crawler->filter('div.polaroid')->filter('a:contains("testuser1")')->attr('href');
+			$crawler = self::request('GET', substr($url, 1));
+			$url = $crawler->filter('div.polaroid')->filter('a:contains("copy to personal non existing")')->attr('href');
+			$crawler = self::request('GET', substr($url, 1));
+		}
 
 		if ($state == 1)
 		{
