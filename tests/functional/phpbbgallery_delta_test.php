@@ -13,6 +13,21 @@ namespace phpbbgallery\tests\functional;
 */
 class phpbbgallery_delta_test extends phpbbgallery_base
 {
+	public function test_exif()
+	{
+		$this->login();
+		
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/exif', 'exif');
+		
+		$crawler = self::request('GET', 'app.php/gallery/image/1');
+		
+		$element = $crawler->filter('div#postbody');
+		
+		$this->assertContainsLang('EXIF_DATA', $element->text());
+		$this->assertContainsLang('EXIF_EXPOSURE', $element->text());
+	}
 	/*
 	* Set of test related to finctionality of ACP Import
 	*/
