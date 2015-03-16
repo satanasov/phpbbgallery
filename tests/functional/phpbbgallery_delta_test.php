@@ -258,9 +258,9 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 		$this->add_lang_ext('phpbbgallery/exif', 'exif');
 		
 		$this->set_option('disp_exifdata', $state);
-		if ($state == 'first')
+		if ($image == 'first')
 		{
-			$crawler = self::request('GET', 'app.php/gallery/image/3');
+			$crawler = self::request('GET', 'app.php/gallery/image/1');
 		}
 		else
 		{
