@@ -44,6 +44,16 @@ class phpbbgallery_base extends \phpbb_functional_test_case
 		$row = $this->db->sql_fetchrow($result);
 		return $row['user_id'];
 	}
+	public function get_last_image()
+	{
+		$sql = 'SELECT image_id
+				FROM phpbb_gallery_images
+				ORDER BY image_id DESC
+				LIMIT 0, 1';
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow($result);
+		return $row['image_id'];
+	}
 	public function set_option($option, $value)
 	{
 		$this->get_db();

@@ -13,19 +13,6 @@ namespace phpbbgallery\tests\functional;
 */
 class phpbbgallery_delta_test extends phpbbgallery_base
 {
-	public function test_exif()
-	{
-		$this->login();
-		
-		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
-		$this->add_lang_ext('phpbbgallery/core', 'gallery');
-		$this->add_lang_ext('phpbbgallery/exif', 'exif');
-		
-		$crawler = self::request('GET', 'app.php/gallery/image/1');
-		
-		$this->assertContainsLang('EXIF_DATA', $crawler->text());
-		$this->assertContainsLang('EXIF_CAM_MODEL', $crawler->text());
-	}
 	/*
 	* Set of test related to finctionality of ACP Import
 	*/
@@ -233,5 +220,55 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 
 		$this->logout();
 		$this->logout();
+	}
+	public function exif_data()
+	{
+		return array(
+			'upload_yes'	=> array(
+				1,
+				1
+			),
+			'upload_no'	=> array(
+				1,
+				0
+			),
+			'import_yes'	=> array(
+				$this->get_last_image(),
+				1
+			),
+			'import_no'	=> array(
+				$this->get_last_image(),
+				0
+			),
+			'reset'	=> array(
+				1,
+				1
+			),
+		);
+	}
+	/**
+	* @dataProvider exif_data
+	*/
+	public function test_exif($image, $state)
+	{
+		$this->login();
+		
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/exif', 'exif');
+		
+		$this->set_option('disp_exifdata', $state);
+		$crawler = self::request('GET', 'app.php/gallery/image/' . $image);
+
+		if ($state == 1)
+		{
+			$this->assertContainsLang('EXIF_DATA', $crawler->text());
+			$this->assertContainsLang('EXIF_CAM_MODEL', $crawler->text());
+		}
+		else
+		{
+			$this->assertNotContainsLang('EXIF_DATA', $crawler->text());
+			$this->assertNotContainsLang('EXIF_CAM_MODEL', $crawler->text());
+		}
 	}
 }
