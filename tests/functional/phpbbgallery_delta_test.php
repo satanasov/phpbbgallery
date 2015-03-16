@@ -223,7 +223,7 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 	}
 	public function exif_data()
 	{
-		$last = $this->get_last_image()
+		$last = $this->get_last_image();
 		return array(
 			'upload_yes'	=> array(
 				1,
