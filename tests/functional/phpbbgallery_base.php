@@ -37,6 +37,7 @@ class phpbbgallery_base extends \phpbb_functional_test_case
 	}
 	public function get_user_id($username)
 	{
+		$this->get_db();
 		$sql = 'SELECT user_id, username 
 				FROM ' . USERS_TABLE . '
 				WHERE username_clean = \''.$this->db->sql_escape(utf8_clean_string($username)).'\'';
@@ -46,6 +47,7 @@ class phpbbgallery_base extends \phpbb_functional_test_case
 	}
 	public function get_last_image()
 	{
+		$this->get_db();
 		$sql = 'SELECT image_id
 				FROM phpbb_gallery_images
 				ORDER BY image_id DESC
