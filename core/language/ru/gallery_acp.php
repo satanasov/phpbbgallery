@@ -294,6 +294,7 @@ $lang = array_merge($lang, array(
 	'RRC_PROFILE_MODE'				=> 'Режим «Последние/случайные фото в профиле',
 	'RRC_PROFILE_MODE_EXP'			=> 'Функция «Случайные фото может замедлить работу галереи.',
 	'RRC_PROFILE_ROWS'				=> 'Строки',
+	'RRC_PROFILE_ITEMS'				=> 'Items in user profile',
 	'RSZ_HEIGHT'					=> 'Высота уменьшенного фото на странице альбома',
 	'RSZ_WIDTH'						=> 'Ширина уменьшенного фото на странице альбома',
 	'SEARCH_SETTINGS'				=> 'Свойства поиска',
