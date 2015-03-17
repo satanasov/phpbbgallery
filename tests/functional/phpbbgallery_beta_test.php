@@ -89,7 +89,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 			'reset'	=> array(
 				'image',
 				true,
-				'app.php/gallery/image/1/source'
+				'app.php/gallery/image/1'
 			),
 		);
 	}
