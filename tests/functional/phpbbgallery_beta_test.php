@@ -86,6 +86,11 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				false,
 				false
 			),
+			'reset'	=> array(
+				'image',
+				true,
+				'app.php/gallery/image/1/source'
+			),
 		);
 	}
 	/**

@@ -267,7 +267,6 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 			$crawler = self::request('GET', 'app.php/gallery/users');
 			$url = $crawler->filter('div.polaroid')->filter('a:contains("testuser1")')->attr('href');
 			$crawler = self::request('GET', substr($url, 1));
-			$this->assertContains('zazazazazaz', $crawler->text());
 			$url = $crawler->filter('a:contains("copy to personal non existing")')->attr('href');
 			$crawler = self::request('GET', substr($url, 1));
 		}
