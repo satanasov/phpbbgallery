@@ -87,7 +87,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				false
 			),
 			'reset'	=> array(
-				'image',
+				'image_page',
 				true,
 				'app.php/gallery/image/1'
 			),
