@@ -315,6 +315,7 @@ $lang = array_merge($lang, array(
 	'RRC_PROFILE_MODE'				=> 'Mode of “Recent- &amp; Random-Images“-Feature in the profile',
 	'RRC_PROFILE_MODE_EXP'			=> '“Random images“ may take some time to load, on large databases!',
 	'RRC_PROFILE_ROWS'				=> 'Rows',
+	'RRC_PROFILE_ITEMS'				=> 'Items in user profile',
 
 	'RSZ_HEIGHT'					=> 'Maximum-height on viewing image',
 	'RSZ_WIDTH'						=> 'Maximum-width on viewing image',
