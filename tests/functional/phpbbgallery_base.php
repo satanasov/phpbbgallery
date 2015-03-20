@@ -59,6 +59,6 @@ class phpbbgallery_base extends \phpbb_functional_test_case
 		$parts = explode(';', $url);
 		$base = end($parts);
 		
-		return substr($base, 6);
+		return substr($base, 5);
 	}
 }

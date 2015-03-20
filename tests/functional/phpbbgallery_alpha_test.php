@@ -370,7 +370,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->assertContains('app.php/gallery/album/1', $meta);
 
 		$url = $this->get_url_from_meta($meta);
-		$crawler = self::request('GET', $url);
+		$crawler = self::request('GET', substr($url, 1));
 
 		$this->assertContains('1 image',  $crawler->text());
 		$this->assertContains('Valid',  $crawler->text());
@@ -415,7 +415,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->assertContains('app.php/gallery/album/1', $meta);
 
 		$url = $this->get_url_from_meta($meta);
-		$crawler = self::request('GET', $url);
+		$crawler = self::request('GET', substr($url, 1));
 
 		$this->assertContains('1 image',  $crawler->text());
 		$this->assertContains('Valid',  $crawler->text());

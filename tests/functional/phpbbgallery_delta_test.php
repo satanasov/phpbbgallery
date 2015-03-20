@@ -46,7 +46,6 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 		$this->assertContains('adm', $meta);
 		
 		$url = $this->get_url_from_meta($meta);
-		$this->assertContains('lalalala', $url);
 		$crawler = self::request('GET', $url);
 		
 		$this->assertContains('images successful imported', $crawler->text());
