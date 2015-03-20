@@ -367,9 +367,10 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		
 //		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		$meta = $crawler->filter('meta[http-equiv="refresh"]')->attr('content');
-		$this->assertContains('blablabla', $meta);
+		$this->assertContains('app.php/gallery/album/1', $meta);
 
 		$url = $this->get_url_from_meta($meta);
+		$this->assertContains('hahahaha', $url);
 		$crawler = self::request('GET', $url);
 
 		$this->assertContains('1 image',  $crawler->text());
