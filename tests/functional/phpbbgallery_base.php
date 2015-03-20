@@ -56,10 +56,9 @@ class phpbbgallery_base extends \phpbb_functional_test_case
 	}
 	public function get_url_from_meta($url)
 	{
-		$parts = explode('/', $url);
+		$parts = explode(';', $url);
 		$base = end($parts);
-		$adm = prev($parts);
 		
-		return $adm . '/' . $base;
+		return substr($base, 6);
 	}
 }
