@@ -365,8 +365,13 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->assertContainsLang('ALBUM_UPLOAD_SUCCESSFUL', $crawler->text());
 		$this->assertNotContains('But your image must be approved by a administrator or a moderator before they are public visible.', $crawler->text());
 		
-		$crawler = self::request('GET', 'app.php/gallery/album/1');
-		
+//		$crawler = self::request('GET', 'app.php/gallery/album/1');
+		$meta = $crawler->filter('meta[http-equiv="refresh"]')->attr('content');
+		$this->assertContains('app.php/gallery/album/1', $meta);
+
+		$url = $this->get_url_from_meta($meta);
+		$crawler = self::request('GET', $url);
+
 		$this->assertContains('1 image',  $crawler->text());
 		$this->assertContains('Valid',  $crawler->text());
 		$this->logout();
@@ -405,8 +410,13 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		
 		$this->assertContains('But your image must be approved by a administrator or a moderator before they are public visible.', $crawler->text());
 		
-		$crawler = self::request('GET', 'app.php/gallery/album/1');
-		
+		//$crawler = self::request('GET', 'app.php/gallery/album/1');
+		$meta = $crawler->filter('meta[http-equiv="refresh"]')->attr('content');
+		$this->assertContains('app.php/gallery/album/1', $meta);
+
+		$url = $this->get_url_from_meta($meta);
+		$crawler = self::request('GET', $url);
+
 		$this->assertContains('1 image',  $crawler->text());
 		$this->assertContains('Valid',  $crawler->text());
 		

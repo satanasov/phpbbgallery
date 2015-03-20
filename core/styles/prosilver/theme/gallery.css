@@ -18,13 +18,13 @@ h2.invade-linklist {
 	background-position: 0 50%;
 	background-repeat: no-repeat;
 	padding: 1px 0 0 1px;
-	background-image: url("./images/icon_gallery.gif");
+	background-image: url("./images/icon_gallery.png");
 }
 .phpbb_gallery-icon {
 	background-position: 0 50%;
 	background-repeat: no-repeat;
 	padding: 1px 0 0 1px;
-	background-image: url("./images/icon_gallery.gif");
+	background-image: url("./images/icon_gallery.png");
 }
 
 .rtl .icon-gallery {
@@ -143,7 +143,7 @@ input.autowidth-gallery {
 	width: 0;
 	height: 0;
 	overflow: hidden;
-	background-image: url("./images/icon_topic_unapproved.gif");
+	background-image: url("./images/icon_topic_unapproved.png");
 	padding-left: 16px;
 	padding-top: 14px;
 	float: right;
