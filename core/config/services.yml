@@ -234,6 +234,7 @@ services:
             - @phpbbgallery.core.user
             - @phpbbgallery.core.image
             - @phpbbgallery.core.notification.helper
+            - @phpbbgallery.core.url
             - %tables.phpbbgallery.images%
     phpbbgallery.core.controller.album:
         class: phpbbgallery\core\controller\album

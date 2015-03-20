@@ -86,12 +86,12 @@ class release_1_2_0 extends \phpbb\db\migration\migration
 				'module_auth'		=> 'ext_phpbbgallery/core',
 			))),
 			//@todo move
-			array('module.add', array('ucp', 'UCP_GALLERY', array(
+/*			array('module.add', array('ucp', 'UCP_GALLERY', array(
 				'module_basename'	=> '\phpbbgallery\core\ucp\main_module',
 				'module_langname'	=> 'UCP_GALLERY_FAVORITES',
 				'module_mode'		=> 'manage_favorites',
 				'module_auth'		=> 'ext_phpbbgallery/core',
-			))),
+			))),*/
 
 			// Logs
 			array('module.add', array('acp', 'ACP_FORUM_LOGS', array(
