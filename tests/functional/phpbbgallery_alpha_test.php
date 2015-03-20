@@ -340,7 +340,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		//$link = $crawler->filter('div.upload-icon > a')->attr('href');
 		//$this->assertContains('lalalalalal',  $crawler->filter('div.upload-icon > a')->attr('href'));
 		
-		$upload_url = substr($crawler->filter('div.upload-icon > a')->attr('href'), 1);
+		$upload_url = substr($crawler->filter('a.upload-icon')->attr('href'), 1);
 		
 		$crawler = self::request('GET', $upload_url);
 		
@@ -384,7 +384,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		
-		$upload_url = substr($crawler->filter('div.upload-icon > a')->attr('href'), 1);
+		$upload_url = substr($crawler->filter('a.upload-icon')->attr('href'), 1);
 		
 		$crawler = self::request('GET', $upload_url);
 		
@@ -870,7 +870,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		//$this->assertContains('zzzazazazaza', substr($link, 1));
 		$crawler = self::request('GET', substr($link, 1));
 		
-		$upload_url = substr($crawler->filter('div.upload-icon > a')->attr('href'), 1);
+		$upload_url = substr($crawler->filter('a.upload-icon')->attr('href'), 1);
 		$crawler = self::request('GET', $upload_url);
 		
 		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
