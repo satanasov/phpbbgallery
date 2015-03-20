@@ -870,7 +870,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		//$this->assertContains('zzzazazazaza', substr($link, 1));
 		$crawler = self::request('GET', substr($link, 1));
 		
-		$upload_url = substr($crawler->filter('a.upload-icon')->attr('href'), 1);
+		$upload_url = substr($crawler->filter('a:contains("' . $this->lang('UPLOAD_IMAGE') . '")')->attr('href'), 1);
 		$crawler = self::request('GET', $upload_url);
 		
 		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
