@@ -354,4 +354,5 @@ $lang = array_merge($lang, array(
 		1	=>	'Bild verschoben',
 		2	=> 	'%s Bilder verschoben',
 	),
+	'QUICK_LINKS'	=> 'Quick Links',
 ));
