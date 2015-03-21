@@ -353,4 +353,5 @@ $lang = array_merge($lang, array(
 	),
 
 	'QUICK_MOD'	=> 'Select moderator action',
+	'QUICK_LINKS'	=> 'Quick Links',
 ));
