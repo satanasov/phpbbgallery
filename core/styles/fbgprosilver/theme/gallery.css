@@ -1,0 +1,182 @@
+.gallery-icon, .gallery-icon a {
+	background: none top left no-repeat;
+}
+
+ul.profile-icons li.gallery-icon {
+	width: 20px; height: 20px;
+}
+
+.gallery-icon, .gallery-icon a {
+	background-image: url("./images/icon_contact_gallery.gif");
+}
+
+h2.invade-linklist {
+	margin-top: -20px;
+}
+
+.icon-gallery {
+	background-position: 0 50%;
+	background-repeat: no-repeat;
+	padding: 1px 0 0 1px;
+	background-image: url("./images/icon_gallery_dark.png");
+}
+.phpbb_gallery-icon {
+	background-position: 0 50%;
+	background-repeat: no-repeat;
+	padding: 1px 0 0 1px;
+	background-image: url("./images/icon_gallery_dark.png");
+}
+
+.rtl .icon-gallery {
+	background-position: 100% 50%;
+	padding: 1px 17px 0 0;
+}
+
+fieldset.gallery dd.simulate-dt label {
+	margin-left:	0;
+	float:			left;
+	font-weight:	bold;
+	text-align:		left;
+	color:			#425067;
+}
+.rtl fieldset.gallery dd.simulate-dt label {
+	text-align:		right;
+}
+
+fieldset.gallery dl:hover dd.simulate-dt label {
+	color:			#000000;
+}
+
+fieldset.gallery dt.simulate-dt {
+	width:			22em;
+}
+
+fieldset.gallery dt.first {
+	min-height:		16em;
+}
+
+fieldset.gallery dd.simulate-dt {
+	margin-left:	0;
+	float:			left;
+}
+
+fieldset.gallery dd.simulate-dd {
+	margin-left:	35em;
+}
+
+fieldset.gallery #format-buttons {
+	margin-top: 0;
+}
+
+fieldset.gallery input.readonly, fieldset.gallery textarea.readonly {
+	background: #DCDCDC;
+}
+
+dd.g_lastimage {
+	padding-left: 5px;
+	width: 30%;
+}
+
+dd.g_moderation {
+	width: 35%;
+}
+
+dd.g_rating, dd.g_comments {
+	width: 12%;
+	text-align: center;
+	font-size: 1.1em;
+}
+
+dd.g_status {
+	width: 15%;
+	text-align: center;
+	font-size: 1.1em;
+}
+
+span.reported-images-number {
+	color: red;
+}
+
+.g_unapproved {
+	background: 100% 0 no-repeat url("./images/icon_gallery_unapproved.gif");
+}
+
+.g_locked {
+	background: 100% 0 no-repeat url("./images/icon_gallery_locked.gif");
+}
+
+.g_reported {
+	background: 100% 0 no-repeat url("./images/icon_gallery_reported.gif");
+}
+
+input.autowidth-gallery {
+	width: 96%;
+	max-width: 186px;
+}
+
+.polaroid img {
+	max-height: 120px;
+	max-width: 230px;
+}
+
+.polaroid
+{
+	width: 242px;
+	background: #0D0D0D;
+	display: block;
+	float: left;
+	margin: 12px;
+	padding: 10px;
+	text-align: center;
+	text-decoration: none;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, .3);
+	transition: all .15s linear;
+	border: 1px solid #050505;
+}
+
+.image_unapproved
+{
+	display: inline-block !important;
+	background: transparent none 0 0 no-repeat;
+	margin: 0;
+	padding: 0;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	background-image: url("./images/icon_topic_unapproved.png");
+	padding-left: 16px;
+	padding-top: 14px;
+	float: right;
+}
+
+.image_locked
+{
+	display: inline-block !important;
+	background: transparent none 0 0 no-repeat;
+	margin: 0;
+	padding: 0;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	background-image: url("./images/lock.png");
+	padding-left: 16px;
+	padding-top: 14px;
+	float: right;
+}
+
+
+
+.image_prev_image
+{
+	float: left; 
+	text-align: left; 
+	width: 48%;
+	clip-path: url(#left_arrow);
+}
+.image_next_image
+{
+	float: right; 
+	text-align: right; 
+	width: 48%;
+	clip-path: url(#right_arrow);
+}
