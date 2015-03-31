@@ -146,7 +146,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->assertContains($this->lang('NO_ALBUMS'), $crawler->text());
 		
 		$crawler = self::request('GET', 'app.php/gallery/moderate');
-		$this->assertContains('You are not authorised to access this area.'), $crawler->text());
+		$this->assertContains('You are not authorised to access this area.', $crawler->text());
 		
 		$this->logout();
 	}
