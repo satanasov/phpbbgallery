@@ -358,7 +358,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		
 		$crawler = self::request('GET', 'app.php/gallery/moderate');
 		$this->assertContains($this->lang('LATEST_IMAGES_UNAPPROVED'), $crawler->text());
-		$this->assertContains($this->lang('WAITING_UNAPPROVED_IMAGE', 0), $crawler->text());
+		$this->assertContains($this->lang['WAITING_UNAPPROVED_IMAGE'][0], $crawler->text());
 		
 		$this->logout();
 	}
