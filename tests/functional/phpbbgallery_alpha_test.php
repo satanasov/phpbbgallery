@@ -349,16 +349,49 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->logout();
 	}
 	// Test MCP
-	public function test_mcp_with_no_action()
+	public function mcp_no_action_data()
+	{
+		return array(
+			'overview_main'	=> array(
+				$this->lang('LATEST_IMAGES_UNAPPROVED'),
+				$this->lang['WAITING_UNAPPROVED_IMAGE'][0],
+				'app.php/gallery/moderate'
+			),
+			'waiting_main'	=> array(
+				$this->lang('GALLERY_MCP_QUEUE'),
+				$this->lang['WAITING_UNAPPROVED_IMAGE'][0],
+				'app.php/gallery/moderate/approve'
+			),
+			'reports_open_main'	=> array(
+				$this->lang('GALLERY_MCP_REPO_OPEN'),
+				$this->lang('REPORT_NOT_FOUND'),
+				'app.php/gallery/moderate/reports'
+			),
+			'reports_closed_main'	=> array(
+				$this->lang('GALLERY_MCP_REPO_DONE'),
+				$this->lang('REPORT_NOT_FOUND'),
+				'app.php/gallery/moderate/reports_closed'
+			),
+			'moderator_log_main'	=> array(
+				$this->lang('MCP_LOGS'),
+				$this->lang('NO_ENTRIES'),
+				'app.php/gallery/moderate/actions'
+			),
+		);
+	}
+	/**
+	* @dataProvider mcp_no_action_data
+	*/
+	public function test_mcp_with_no_action($title, $message, $url)
 	{
 		$this->login();
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
 		$this->add_lang_ext('phpbbgallery/core', 'gallery_mcp');
 		$this->add_lang('common');
 		
-		$crawler = self::request('GET', 'app.php/gallery/moderate');
-		$this->assertContains($this->lang('LATEST_IMAGES_UNAPPROVED'), $crawler->text());
-		$this->assertContains($this->lang['WAITING_UNAPPROVED_IMAGE'][0], $crawler->text());
+		$crawler = self::request('GET', $url);
+		$this->assertContains($title, $crawler->text());
+		$this->assertContains($message, $crawler->text());
 		
 		$this->logout();
 	}
