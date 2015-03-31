@@ -146,8 +146,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->assertContains($this->lang('NO_ALBUMS'), $crawler->text());
 		
 		$crawler = self::request('GET', 'app.php/gallery/moderate');
-		$this->assertContains($this->lang('LATEST_IMAGES_UNAPPROVED'), $crawler->text());
-		$this->assertContains($this->lang('WAITING_UNAPPROVED_IMAGE', 0), $crawler->text());
+		$this->assertContains('You are not authorised to access this area.'), $crawler->text());
 		
 		$this->logout();
 	}
@@ -347,6 +346,20 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 
 		$this->assertNotContainsLang('MCP', $crawler->text());
 		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
+		
+		$this->logout();
+	}
+	// Test MCP
+	public function test_mcp_with_no_action()
+	{
+		$this->login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_mcp');
+		$this->add_lang('common');
+		
+		$crawler = self::request('GET', 'app.php/gallery/moderate');
+		$this->assertContains($this->lang('LATEST_IMAGES_UNAPPROVED'), $crawler->text());
+		$this->assertContains($this->lang('WAITING_UNAPPROVED_IMAGE', 0), $crawler->text());
 		
 		$this->logout();
 	}
