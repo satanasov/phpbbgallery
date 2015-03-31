@@ -363,18 +363,18 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 				'app.php/gallery/moderate/approve'
 			),
 			'reports_open_main'	=> array(
-				$this->lang('GALLERY_MCP_REPO_OPEN'),
-				$this->lang('REPORT_NOT_FOUND'),
+				'Open reports',
+				'The report could not be found.',
 				'app.php/gallery/moderate/reports'
 			),
 			'reports_closed_main'	=> array(
-				$this->lang('GALLERY_MCP_REPO_DONE'),
-				$this->lang('REPORT_NOT_FOUND'),
+				'Closed reports',
+				'The report could not be found.',
 				'app.php/gallery/moderate/reports_closed'
 			),
 			'moderator_log_main'	=> array(
-				$this->lang('MCP_LOGS'),
-				$this->lang('NO_ENTRIES'),
+				'Moderator logs',
+				"no logs found',
 				'app.php/gallery/moderate/actions'
 			),
 		);
