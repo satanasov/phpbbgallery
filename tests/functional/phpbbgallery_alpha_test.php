@@ -353,7 +353,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 	{
 		return array(
 			'overview_main'	=> array(
-				$this->lang('GALLERY_MCP_MAIN'),
+				$this->lang['GALLERY_MCP_MAIN'],
 				$this->lang['WAITING_UNAPPROVED_IMAGE'][0],
 				'app.php/gallery/moderate'
 			),
