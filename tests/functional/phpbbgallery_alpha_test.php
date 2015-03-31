@@ -374,7 +374,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 			),
 			'moderator_log_main'	=> array(
 				'Moderator logs',
-				"no logs found',
+				'no logs found',
 				'app.php/gallery/moderate/actions'
 			),
 		);
