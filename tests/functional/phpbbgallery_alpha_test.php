@@ -353,13 +353,13 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 	{
 		return array(
 			'overview_main'	=> array(
-				$this->lang['GALLERY_MCP_MAIN'],
-				$this->lang['WAITING_UNAPPROVED_IMAGE'][0],
+				'Main',
+				'No images waiting for approval.',
 				'app.php/gallery/moderate'
 			),
 			'waiting_main'	=> array(
-				$this->lang('GALLERY_MCP_QUEUE'),
-				$this->lang['WAITING_UNAPPROVED_IMAGE'][0],
+				'Queue',
+				'No images waiting for approval.',
 				'app.php/gallery/moderate/approve'
 			),
 			'reports_open_main'	=> array(
