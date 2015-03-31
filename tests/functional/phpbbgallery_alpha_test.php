@@ -131,7 +131,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->assertEquals(1, $this->get_state($ext));
 	}
 	// Let's test basic functionality
-	public function test_basic_gallery_access()
+	/*public function test_basic_gallery_access()
 	{
 		$this->login();
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
@@ -149,7 +149,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->assertContains('You are not authorised to access this area.', $crawler->text());
 		
 		$this->logout();
-	}
+	}*/
 	// Create album for testing and some users
 	public function test_admin_create_album()
 	{
@@ -350,7 +350,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->logout();
 	}
 	// Test MCP
-	public function test_mcp_with_no_action()
+	/*public function test_mcp_with_no_action()
 	{
 		$this->login();
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
@@ -363,7 +363,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->assertContains('No images waiting for approval.', $crawler->text());
 		
 		$this->logout();
-	}
+	}*/
 	public function test_acl_upload_public_admin()
 	{
 		$this->login();
