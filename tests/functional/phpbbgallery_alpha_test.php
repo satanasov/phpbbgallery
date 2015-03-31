@@ -130,27 +130,6 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		
 		$this->assertEquals(1, $this->get_state($ext));
 	}
-	// Let's test basic functionality
-	/*public function test_basic_gallery_access()
-	{
-		$this->login();
-		$this->add_lang_ext('phpbbgallery/core', 'gallery');
-		$this->add_lang_ext('phpbbgallery/core', 'gallery_mcp');
-		$this->add_lang('common');
-		
-		$crawler = self::request('GET', 'app.php/gallery');
-		$this->assertContains($this->lang('NO_ALBUMS'), $crawler->text());
-		$this->assertContains($this->lang('USERS_PERSONAL_ALBUMS'), $crawler->text());
-		
-		$crawler = self::request('GET', 'app.php/gallery/users');
-		$this->assertContains($this->lang('NO_ALBUMS'), $crawler->text());
-		
-		$crawler = self::request('GET', 'app.php/gallery/moderate');
-		$this->assertContains('You are not authorised to access this area.', $crawler->text());
-		
-		$this->logout();
-	}*/
-	// Create album for testing and some users
 	public function test_admin_create_album()
 	{
 		$this->login();
@@ -349,21 +328,6 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		
 		$this->logout();
 	}
-	// Test MCP
-	/*public function test_mcp_with_no_action()
-	{
-		$this->login();
-		$this->add_lang_ext('phpbbgallery/core', 'gallery');
-		$this->add_lang_ext('phpbbgallery/core', 'gallery_mcp');
-		$this->add_lang('common');
-		
-		$crawler = self::request('GET', 'app.php/gallery/moderate');
-		$this->assertContains($this->lang('LATEST_IMAGES_UNAPPROVED'), $crawler->text());
-		$this->assertContains('The report could not be found.', $crawler->text());
-		$this->assertContains('No images waiting for approval.', $crawler->text());
-		
-		$this->logout();
-	}*/
 	public function test_acl_upload_public_admin()
 	{
 		$this->login();
