@@ -359,7 +359,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		
 		$crawler = self::request('GET', 'app.php/gallery/moderate');
 		$this->assertContains($this->lang('LATEST_IMAGES_UNAPPROVED'), $crawler->text());
-		$this->assertContains('No reports to review.', $crawler->text());
+		$this->assertContains('The report could not be found.', $crawler->text());
 		$this->assertContains('No images waiting for approval.', $crawler->text());
 		
 		$this->logout();
