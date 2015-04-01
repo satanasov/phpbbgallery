@@ -254,6 +254,61 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->assertEquals(0, $crawler->filter('div.content:contains("Test comment that should be edited")')->count());
 		$this->logout();
 	}
+	public function test_comment_to_many_symbols_user()
+	{
+		$this->login();
+		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_ucp');
+		$this->add_lang('common');
+		
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'config[comment_length]'	=> 1,
+		));
+
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
+		
+		$this->logout();
+		$this->logout();
+		
+		// Test
+		$this->login('testuser1');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$crawler = self::request('GET', 'app.php/gallery/image/1');
+		
+		$form = $crawler->selectButton('submit')->form();
+		$form['message'] = 'Test comment that should be seen';
+		
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('COMMENT_TOO_LONG', $crawler->text());
+		
+		$this->logout();
+		
+		// Reset
+		$this->login();
+		$this->admin_login();
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'config[comment_length]'	=> 2000,
+		));
+
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
+		
+		$this->logout();
+		$this->logout();
+		
+	}
 	public function image_on_image_page_data()
 	{
 		return array(
