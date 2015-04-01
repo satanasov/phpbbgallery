@@ -47,10 +47,8 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 		
 		// Test
-		$crawler = self::request('GET', 'app.php/gallery');
-		$url = $crawler->filter('a:contains("First test album!")')->attr('href');
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		
-		$crawler = self::request('GET', substr($url, 5));
 		if ($option == 1)
 		{
 			$this->assertEquals(1, $crawler->filter('div.polaroid')->count());
