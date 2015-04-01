@@ -335,14 +335,17 @@ class image
 	*/
 	public function parse_image_name($image_name)
 	{
-		$output = '';
-		if (utf8_strlen(htmlspecialchars_decode($image_name)) > $this->gallery_config->get('shortnames') + 3)
+		$output = $image_name;
+		if ($this->gallery_config->get('shortnames') > -1)
 		{
-			$output = utf8_substr(htmlspecialchars_decode($image_name), 0, $this->gallery_config->get('shortnames')) . '...';
-		}
-		else
-		{
-			$output = $image_name;
+			if (utf8_strlen(htmlspecialchars_decode($image_name)) > $this->gallery_config->get('shortnames') + 3)
+			{
+				$output = utf8_substr(htmlspecialchars_decode($image_name), 0, $this->gallery_config->get('shortnames')) . '...';
+			}
+			else
+			{
+				$output = $image_name;
+			}
 		}
 		return $output;
 	}

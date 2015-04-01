@@ -332,7 +332,7 @@ $lang = array_merge($lang, array(
 	'SELECTED_PERM_SYS'				=> 'Selected permission-system',
 	'SET_PERMISSIONS'				=> '<br />Set <a href="%s">permissions</a> now.',
 	'SHORTED_IMAGENAMES'			=> 'Shorten Imagenames',
-	'SHORTED_IMAGENAMES_EXP'		=> 'If the name of an image is to long and doesn’t include spaces, the layout maybe destroyed.',
+	'SHORTED_IMAGENAMES_EXP'		=> 'If the name of an image is to long and doesn’t include spaces, the layout maybe destroyed. (-1 - off)<br><code>This is now done in CSS. This option is just here for the administrators benefit.</code>',
 	'SORRY_NO_STATISTIC'			=> 'Sorry, this statistic-value is not yet available.',
 	'SYNC_IN_PROGRESS'				=> 'Synchronizing album',
 	'SYNC_IN_PROGRESS_EXPLAIN'		=> 'Currently resyncing image range %1$d/%2$d.',
