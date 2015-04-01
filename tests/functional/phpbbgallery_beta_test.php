@@ -387,6 +387,8 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->assertEquals(21, $crawler->filter('select:contains("'.$this->lang('DONT_RATE_IMAGE').'")')->filter('option')->count());
 		$this->logout();
 		
+		$this->login();
+		$this->admin_login();
 		// Change option
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
 		$form = $crawler->selectButton('submit')->form();
