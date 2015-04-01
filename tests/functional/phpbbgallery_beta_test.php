@@ -72,6 +72,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->admin_login();
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
 		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_ucp');
 		$this->add_lang('common');
 		
 		// Change option
