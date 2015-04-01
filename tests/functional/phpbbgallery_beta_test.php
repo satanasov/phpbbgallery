@@ -86,7 +86,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 		
 		// Test
-		$crawler = slef::request('GET', 'ucp.php?i=-phpbbgallery-core-ucp-settings_module&mode=manage&sid' . $this->sid);
+		$crawler = self::request('GET', 'ucp.php?i=-phpbbgallery-core-ucp-settings_module&mode=manage&sid' . $this->sid);
 		if ($option == 1)
 		{
 			$this->assertContains($this->lang('USER_ALLOW_COMMENTS'), $crawler->text());
