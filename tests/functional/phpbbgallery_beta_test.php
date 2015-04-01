@@ -50,11 +50,11 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$crawler = self::request('GET', substr($url, 1));
 		if ($option == 1)
 		{
-			$this->assertEquals(1, $crawler->filter('div.polaroid')->count()));
+			$this->assertEquals(1, $crawler->filter('div.polaroid')->count());
 		}
 		else
 		{
-			$this->assertEquals(3, $crawler->filter('div.polaroid')->count()));
+			$this->assertEquals(3, $crawler->filter('div.polaroid')->count());
 		}
 		
 		$this->logout();
