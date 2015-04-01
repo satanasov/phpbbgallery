@@ -24,6 +24,9 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 			),
 		);
 	}
+	/**
+	* @dataProvider pagination_data
+	*/
 	public function test_items_per_page_paginate($option)
 	{
 		$this->login();
