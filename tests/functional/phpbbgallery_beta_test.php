@@ -436,7 +436,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
 		$form = $crawler->selectButton('submit')->form();
 		$form->setValues(array(
-			'config[max_rating]'	=> 1,
+			'config[shortnames]'	=> 1,
 		));
 
 		$crawler = self::submit($form);
@@ -444,7 +444,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 		
 		// test
-		$crawler = self::request('GET', 'app.php/gallery/image/1');
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		$this->assertContains('V...', $crawler->text());
 		$this->assertNotContains('Valid', $crawler->text());
 		
@@ -452,14 +452,14 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
 		$form = $crawler->selectButton('submit')->form();
 		$form->setValues(array(
-			'config[max_rating]'	=> 25,
+			'config[shortnames]'	=> -1,
 		));
 
 		$crawler = self::submit($form);
 		// Should be updated
 		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 		// test
-		$crawler = self::request('GET', 'app.php/gallery/image/1');
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		$this->assertNotContains('V...', $crawler->text());
 		$this->assertContains('Valid', $crawler->text());
 		
