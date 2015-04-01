@@ -103,7 +103,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 		$album_id = (int) $image_data['image_album_id'];
 		$album_data = $this->loader->get($album_id);
 		$this->display->generate_navigation($album_data);
-		$page_title = $image_data['image_name'];
+		$page_title = $this->image->parse_image_name($image_data['image_name']);
 
 		$image_backlink = $this->helper->route('phpbbgallery_image', array('image_id' => $image_id));
 		$album_backlink = $this->helper->route('phpbbgallery_album', array('album_id' => $album_id));
@@ -291,7 +291,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 			'IMAGE_RSZ_HEIGHT'		=> $this->gallery_config->get('medium_height'),
 			'U_IMAGE'				=> append_sid($this->url->path('full') . 'image/' . $image_id . '/medium'),
 			'U_VIEW_IMAGE'			=> append_sid($this->url->path('full') . 'image/' . $image_id),
-			'IMAGE_NAME'			=> $image_data['image_name'],
+			'IMAGE_NAME'			=> $this->image->parse_image_name($image_data['image_name']),
 
 			'S_SIGNATURE_CHECKED'	=> (isset($sig_checked) && $sig_checked) ? ' checked="checked"' : '',
 			'S_ALBUM_ACTION'		=> $this->helper->route('phpbbgallery_comment_add', array('image_id' => $image_id, 'comment_id' => 0)),
@@ -329,7 +329,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 		$album_id = (int) $image_data['image_album_id'];
 		$album_data = $this->loader->get($album_id);
 		$this->display->generate_navigation($album_data);
-		$page_title = $image_data['image_name'];
+		$page_title = $this->image->parse_image_name($image_data['image_name']);
 
 		$image_backlink = $this->helper->route('phpbbgallery_image', array('image_id' => $image_id));
 		$album_backlink = $this->helper->route('phpbbgallery_album', array('album_id' => $album_id));
@@ -487,7 +487,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 			'IMAGE_RSZ_HEIGHT'		=> $this->gallery_config->get('medium_height'),
 			'U_IMAGE'				=> append_sid($this->url->path('full') . 'image/' . $image_id . '/medium'),
 			'U_VIEW_IMAGE'			=> append_sid($this->url->path('full') . 'image/' . $image_id),
-			'IMAGE_NAME'			=> $image_data['image_name'],
+			'IMAGE_NAME'			=> $this->image->parse_image_name($image_data['image_name']),
 
 			'S_SIGNATURE_CHECKED'	=> (isset($sig_checked) && $sig_checked) ? ' checked="checked"' : '',
 			'S_ALBUM_ACTION'		=> $this->helper->route('phpbbgallery_comment_edit', array('image_id' => $image_id, 'comment_id' => $comment_id)),
@@ -525,7 +525,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 		$album_id = (int) $image_data['image_album_id'];
 		$album_data = $this->loader->get($album_id);
 		$this->display->generate_navigation($album_data);
-		$page_title = $image_data['image_name'];
+		$page_title = $this->image->parse_image_name($image_data['image_name']);
 
 		$image_backlink = $this->helper->route('phpbbgallery_image', array('image_id' => $image_id));
 		$album_backlink = $this->helper->route('phpbbgallery_album', array('album_id' => $album_id));
@@ -636,7 +636,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 			'IMAGE_RSZ_HEIGHT'		=> $this->gallery_config->get('medium_height'),
 			'U_IMAGE'				=> append_sid($this->url->path('full') . 'image/' . $image_id . '/medium'),
 			'U_VIEW_IMAGE'			=> append_sid($this->url->path('full') . 'image/' . $image_id),
-			'IMAGE_NAME'			=> $image_data['image_name'],
+			'IMAGE_NAME'			=> $this->image->parse_image_name($image_data['image_name']),
 
 			'S_SIGNATURE_CHECKED'	=> (isset($sig_checked) && $sig_checked) ? ' checked="checked"' : '',
 			'S_ALBUM_ACTION'		=> append_sid($this->url->path('full') . 'comment/' . $image_id . '/edit/'. $comment_id),
@@ -666,7 +666,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 		$album_id = (int) $image_data['image_album_id'];
 		$album_data = $this->loader->get($album_id);
 		$this->display->generate_navigation($album_data);
-		$page_title = $image_data['image_name'];
+		$page_title = $this->image->parse_image_name($image_data['image_name']);
 
 		$image_backlink = $this->helper->route('phpbbgallery_image', array('image_id' => $image_id));
 		$album_backlink = $this->helper->route('phpbbgallery_album', array('album_id' => $album_id));
