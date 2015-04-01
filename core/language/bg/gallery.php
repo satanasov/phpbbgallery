@@ -353,5 +353,4 @@ $lang = array_merge($lang, array(
 	),
 
 	'QUICK_MOD'	=> 'Изберете модераторско действие',
-	'QUICK_LINKS'	=> 'Бързи връзки',
 ));

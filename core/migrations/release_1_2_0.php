@@ -220,7 +220,7 @@ class release_1_2_0 extends \phpbb\db\migration\migration
 		'rrc_profile_items'		=> 4,
 
 		'search_display'		=> 45,
-		'shortnames'			=> 25,
+		'shortnames'			=> -1,
 
 		'thumbnail_cache'		=> true,
 		'thumbnail_height'		=> 160,
