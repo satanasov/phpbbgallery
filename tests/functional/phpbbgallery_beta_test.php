@@ -404,6 +404,25 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 	}
+	public function test_rate()
+	{
+		$this->login('testuser1');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$crawler = self::request('GET', 'app.php/gallery/image/1');
+		
+		$form = $crawler->filter('select:contains("'.$this->lang('DONT_RATE_IMAGE').'")')->form();
+		$form['rating'] = 5;
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('RATING_SUCCESSFUL', $crawler->text());
+		
+		$meta = $crawler->filter('meta[http-equiv="refresh"]')->attr('content');
+		$url = $this->get_url_from_meta($meta);
+		$crawler = self::request('GET', substr($url, 1));
+		
+		$this->assertContainsLang('YOUR_RATING', $crawler->text());
+		$this->logout();
+	}
 	public function image_on_image_page_data()
 	{
 		return array(
