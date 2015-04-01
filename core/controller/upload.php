@@ -36,7 +36,7 @@ class upload
 	public function __construct(\phpbb\request\request $request, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\template\template $template,
 	\phpbbgallery\core\album\album $album, \phpbbgallery\core\misc $misc, \phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\album\display $display,
 	\phpbb\controller\helper $helper, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\image\image $image,
-	\phpbbgallery\core\notification\helper $notification_helper,
+	\phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\url $url,
 	$images_table)
 	{
 		$this->request = $request;
@@ -51,6 +51,7 @@ class upload
 		$this->gallery_config = $gallery_config;
 		$this->gallery_user = $gallery_user;
 		$this->image = $image;
+		$this->url = $url;
 		$this->notification_helper = $notification_helper;
 		$this->images_table = $images_table;
 	}
@@ -312,7 +313,7 @@ class upload
 				$this->image->handle_counter($process->images, true);
 				$this->album->update_info($album_id);
 
-				meta_refresh($meta_refresh_time, $album_backlink);
+				$this->url->meta_refresh($meta_refresh_time, $album_backlink);
 				trigger_error($message);
 			}
 
