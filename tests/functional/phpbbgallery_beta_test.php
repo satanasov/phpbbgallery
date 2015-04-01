@@ -50,7 +50,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'app.php/gallery');
 		$url = $crawler->filter('a:contains("First test album!")')->attr('href');
 		
-		$crawler = self::request('GET', substr($url, 1));
+		$crawler = self::request('GET', substr($url, 5));
 		if ($option == 1)
 		{
 			$this->assertEquals(1, $crawler->filter('div.polaroid')->count());
