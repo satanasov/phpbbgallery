@@ -63,7 +63,7 @@ class album
 	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $db,
 	\phpbb\pagination $pagination, \phpbb\template\template $template, \phpbb\user $user, \phpbbgallery\core\album\display $display,
 	\phpbbgallery\core\album\loader $loader, \phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\auth\level $auth_level,  \phpbbgallery\core\config $gallery_config,
-	\phpbbgallery\core\notification\helper $notifications_helper, \phpbbgallery\core\url $url,
+	\phpbbgallery\core\notification\helper $notifications_helper, \phpbbgallery\core\url $url, \phpbbgallery\core\image\image $image,
 	$images_table)
 	{
 		$this->config = $config;
@@ -78,6 +78,7 @@ class album
 		$this->auth_level = $auth_level;
 		$this->notifications_helper = $notifications_helper;
 		$this->url = $url;
+		$this->image = $image;
 		$this->gallery_config = $gallery_config;
 		$this->table_images = $images_table;
 	}
@@ -336,7 +337,7 @@ class album
 			$this->template->assign_block_vars('imageblock.image', array(
 				'IMAGE_ID'		=> $image_data['image_id'],
 				'U_IMAGE'		=> $action_image,
-				'UC_IMAGE_NAME'	=> $show_imagename ? $image_data['image_name'] : false,//self::generate_link('image_name', $this->config['phpbb_gallery_link_image_name'], $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id'], false, true, "&amp;sk={$sk}&amp;sd={$sd}&amp;st={$st}"),
+				'UC_IMAGE_NAME'	=> $show_imagename ? $this->image->parse_image_name($image_data['image_name']) : false,
 				//'UC_THUMBNAIL'	=> 'self::generate_link('thumbnail', $phpbb_ext_gallery->config->get('link_thumbnail'), $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id']),
 				'UC_THUMBNAIL'		=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $image_data['image_id'])),
 				'UC_THUMBNAIL_ACTION'	=> $action,

@@ -252,6 +252,7 @@ services:
             - @phpbbgallery.core.config
             - @phpbbgallery.core.notification.helper
             - @phpbbgallery.core.url
+            - @phpbbgallery.core.image
             - %tables.phpbbgallery.images%
     phpbbgallery.core.controller.file:
         class: phpbbgallery\core\controller\file

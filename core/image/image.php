@@ -326,7 +326,26 @@ class image
 
 		return str_replace(array('{IMAGE_URL}', '{IMAGE_NAME}', '{CONTENT}'), array($url, $image_name, $content), $tpl);
 	}
-
+	/**
+	* generate image name using shortnames
+	*
+	* @param	string	$image_name
+	* 
+	* return	string $image_name
+	*/
+	public function parse_image_name($image_name)
+	{
+		$output = '';
+		if (utf8_strlen(htmlspecialchars_decode($image_name)) > $this->gallery_config->get('shortnames') + 3)
+		{
+			$output = utf8_substr(htmlspecialchars_decode($image_name), 0, $this->gallery_config->get('shortnames')) . '...';
+		}
+		else
+		{
+			$output = $image_name;
+		}
+		return $output;
+	}
 	/**
 	* Handle user- & total image_counter
 	*
