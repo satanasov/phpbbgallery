@@ -30,7 +30,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 	/**
 	* @dataProvider allow_comment_data
 	*/
-	public function test_allow_comment_option()
+	public function test_allow_comment_option($option)
 	{
 		$this->login();
 		$this->admin_login();
@@ -60,6 +60,41 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 			$this->assertNotContains($this->lang('POST_COMMENT'), $crawler->text());
 		}
 		
+		$this->logout();
+		$this->logout();
+	}
+	/**
+	* @dataProvider allow_comment_data
+	*/
+	public function test_comment_user_control_option($option)
+	{
+		$this->login();
+		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang('common');
+		
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'config[comment_user_control]'	=> $option,
+		));
+
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
+		
+		// Test
+		$crawler-> slef::request('GET', 'ucp.php?i=-phpbbgallery-core-ucp-settings_module&mode=manage&sid' . $this->sid);
+		if ($option == 1)
+		{
+			$this->assertContains($this->lang('USER_ALLOW_COMMENTS'), $crawler->text());
+		}
+		else
+		{
+			$this->assertNotContains($this->lang('USER_ALLOW_COMMENTS'), $crawler->text());
+		}
 		$this->logout();
 		$this->logout();
 	}
