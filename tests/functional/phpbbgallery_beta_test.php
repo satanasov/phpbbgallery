@@ -13,6 +13,53 @@ namespace phpbbgallery\tests\functional;
 */
 class phpbbgallery_beta_test extends phpbbgallery_base
 {
+	public function pagination_data()
+	{
+		return array(
+			'pages'	=> array(
+				1
+			),
+			'reset'	=> array(
+				15
+			),
+		);
+	}
+	public function test_items_per_page_paginate($option)
+	{
+		$this->login();
+		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang('common');
+		
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'config[items_per_page]'	=> $option,
+		));
+
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
+		
+		// Test
+		$crawler = self::request('GET', 'app.php/gallery');
+		$url = $crawler->filter('a:contains("First test album!")')->attr('href');
+		
+		$crawler = self::request('GET', substr($url, 1));
+		if ($option == 1)
+		{
+			$this->assertEquals(1, $crawler->filter('div.polaroid')->count()));
+		}
+		else
+		{
+			$this->assertEquals(3, $crawler->filter('div.polaroid')->count()));
+		}
+		
+		$this->logout();
+		$this->logout();
+	}
 	public function allow_comment_data()
 	{
 		return array(
