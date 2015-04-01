@@ -410,7 +410,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
 		$crawler = self::request('GET', 'app.php/gallery/image/1');
 		
-		$form = $crawler->filter('select:contains("'.$this->lang('DONT_RATE_IMAGE').'")')->form();
+		$form = $crawler->filter('select:contains("'.$this->lang('DONT_RATE_IMAGE').'")')->parents()->form();
 		$form['rating'] = 5;
 		$crawler = self::submit($form);
 		
