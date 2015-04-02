@@ -340,8 +340,6 @@ $lang = array_merge($lang, array(
 	'SELECTED_GROUPS'				=> 'Ausgewählte Gruppen',
 	'SELECTED_PERM_SYS'				=> 'Ausgewählte Berechtigungsart',
 	'SET_PERMISSIONS'				=> '<br /><a href="%s">Berechtigungen</a> jetzt vergeben.',
-	'SHORTED_IMAGENAMES'			=> 'Bildernamen kürzen',
-	'SHORTED_IMAGENAMES_EXP'		=> 'Sollte der Name eines Bildes zu lange sein und kein Leerzeichen enthalten, kann es zu Problemen im Layout führen. (-1 - off)<br><code>This is now done in CSS. This option is just here for the administrators benefit.</code>',
 	'SORRY_NO_STATISTIC'			=> 'Entschuldigung, aber dieser Statistik-Wert ist noch nicht verfügbar.',
 	'SYNC_IN_PROGRESS'				=> 'Synchronisiere Alben',
 	'SYNC_IN_PROGRESS_EXPLAIN'		=> 'Derzeit wird Bilder %1$d von %2$d synchronisiert.',

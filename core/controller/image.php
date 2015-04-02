@@ -166,7 +166,7 @@ class image
 
 		// Do stuff here
 
-		$page_title = $this->image->parse_image_name($this->data['image_name']);
+		$page_title = $this->data['image_name'];
 		if ($page > 1)
 		{
 			$page_title .= ' - ' . $this->user->lang('PAGE_TITLE_NUMBER', $page);
@@ -276,8 +276,8 @@ class image
 		$this->db->sql_freeresult($result);
 
 		$this->template->assign_vars(array(
-			'UC_NEXT_IMAGE'		=> ($next ? ($this->gallery_config->get('disp_nextprev_thumbnail') ? '<a href="' . $this->helper->route('phpbbgallery_image', array('image_id' => $next['image_id'])) . '"><img style="max-width: 70px; max-height: 70px;" src="' . $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $next['image_id'])) . '" alt="' . $this->image->parse_image_name($next['image_name']) . '"></a>' : '<a href="' . $this->helper->route('phpbbgallery_image', array('image_id' => $next['image_id'])) . '">' . $this->image->parse_image_name($next['image_name']) . ' &raquo;&raquo; </a>') : ''),
-			'UC_PREV_IMAGE'		=> ($prev ? ($this->gallery_config->get('disp_nextprev_thumbnail') ? '<a href="' . $this->helper->route('phpbbgallery_image', array('image_id' => $prev['image_id'])) . '"><img style="max-width: 70px; max-height: 70px;" src="' . $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $prev['image_id'])) . '" alt="' . $this->image->parse_image_name($prev['image_name']) . '"></a>' : '<a href="' . $this->helper->route('phpbbgallery_image', array('image_id' => $prev['image_id'])) . '">&laquo;&laquo; ' . $this->image->parse_image_name($prev['image_name']) . '</a>') : ''),
+			'UC_NEXT_IMAGE'		=> ($next ? ($this->gallery_config->get('disp_nextprev_thumbnail') ? '<a href="' . $this->helper->route('phpbbgallery_image', array('image_id' => $next['image_id'])) . '"><img style="max-width: 70px; max-height: 70px;" src="' . $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $next['image_id'])) . '" alt="' . $next['image_name'] . '"></a>' : '<a href="' . $this->helper->route('phpbbgallery_image', array('image_id' => $next['image_id'])) . '">' . $next['image_name'] . ' &raquo;&raquo; </a>') : ''),
+			'UC_PREV_IMAGE'		=> ($prev ? ($this->gallery_config->get('disp_nextprev_thumbnail') ? '<a href="' . $this->helper->route('phpbbgallery_image', array('image_id' => $prev['image_id'])) . '"><img style="max-width: 70px; max-height: 70px;" src="' . $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $prev['image_id'])) . '" alt="' . $prev['image_name'] . '"></a>' : '<a href="' . $this->helper->route('phpbbgallery_image', array('image_id' => $prev['image_id'])) . '">&laquo;&laquo; ' . $prev['image_name'] . '</a>') : ''),
 			'U_VIEW_ALBUM'		=> $this->helper->route('phpbbgallery_album', array('album_id' => $album_id)),
 			'UC_IMAGE'			=> $this->helper->route('phpbbgallery_image_file_medium', array('image_id' => $image_id)),
 			//'UC_IMAGE_ACTION'	=> $this->gallery_config->get('link_imagepage') == 'none' ? '' : $this->gallery_config->get('link_imagepage') == 'image' ? $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $image_id)) : $next && $this->gallery_config->get('link_imagepage') == 'next' ? $this->helper->route('phpbbgallery_image', array('image_id' => $next['image_id'])) : '',
@@ -288,7 +288,7 @@ class image
 			'U_STATUS'			=> ($s_allowed_status) ? $this->helper->route('phpbbgallery_moderate_image', array('image_id' => $image_id)) : '',
 
 			'CONTEST_RANK'		=> ($this->data['image_contest_rank']) ? $this->user->lang('CONTEST_RESULT_' . $this->data['image_contest_rank']) : '',
-			'IMAGE_NAME'		=> $this->image->parse_image_name($this->data['image_name']),
+			'IMAGE_NAME'		=> $this->data['image_name'],
 			'IMAGE_DESC'		=> $image_desc,
 			'IMAGE_BBCODE'		=> ($this->config['allow_bbcode']) ? '[image]' . $image_id . '[/image]' : '',
 			'IMAGE_IMGURL_BBCODE'	=> ($this->config['phpbb_gallery_disp_image_url']) ? '[url=' . $this->url->get_uri($this->helper->route('phpbbgallery_image', array('image_id'	=> $image_id))) . '][img]' . $this->url->get_uri($this->helper->route('phpbbgallery_image_file_mini', array('image_id'	=> $image_id))) . '[/img][/url]' : '',
@@ -836,7 +836,7 @@ class image
 		$page_title = $disp_image_data['image_name'];
 
 		$this->template->assign_block_vars('image', array(
-			'U_IMAGE'		=> $this->image->generate_link('thumbnail', 'plugin', $image_id, $this->image->parse_image_name($image_data['image_name']), $album_id),
+			'U_IMAGE'		=> $this->image->generate_link('thumbnail', 'plugin', $image_id, $image_data['image_name'], $album_id),
 			'IMAGE_NAME'	=> $disp_image_data['image_name'],
 			'IMAGE_DESC'	=> $message_parser->message,
 		));
@@ -848,7 +848,7 @@ class image
 			'ERROR'				=> (isset($error)) ? $error : '',
 
 			'U_VIEW_IMAGE'		=> $this->helper->route('phpbbgallery_image', array('image_id'	=> $image_id)),
-			'IMAGE_NAME'		=> $this->image->parse_image_name($image_data['image_name']),
+			'IMAGE_NAME'		=> $image_data['image_name'],
 
 			'S_CHANGE_AUTHOR'	=> $this->gallery_auth->acl_check('m_edit', $album_id, $album_data['album_user_id']),
 			'U_FIND_USERNAME'	=> $this->url->append_sid('phpbb', 'memberlist', 'mode=searchuser&amp;form=postform&amp;field=change_author&amp;select_single=true'),

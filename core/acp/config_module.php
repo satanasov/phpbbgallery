@@ -264,7 +264,6 @@ class config_module
 					'max_rating'			=> array('lang' => 'RATE_SCALE',			'validate' => 'int',	'type' => 'text:7:2'),
 					'allow_hotlinking'		=> array('lang' => 'HOTLINK_PREVENT',		'validate' => 'bool',	'type' => 'radio:yes_no'),
 					'hotlinking_domains'	=> array('lang' => 'HOTLINK_ALLOWED',		'validate' => 'string',	'type' => 'text:40:255',	'explain' => true),
-					'shortnames'			=> array('lang' => 'SHORTED_IMAGENAMES',	'validate' => 'int',	'type' => 'text:7:3',		'explain' => true,	'append' => 'CHARACTERS'),
 				),
 
 				'ALBUM_SETTINGS'	=> array(

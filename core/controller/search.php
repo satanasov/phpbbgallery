@@ -319,7 +319,7 @@ class search
 				$this->template->assign_block_vars('imageblock.image', array(
 					'IMAGE_ID'		=> $row['image_id'],
 					'U_IMAGE'		=> $action_image,
-					'UC_IMAGE_NAME'	=> $show_imagename ? $this->image->parse_image_name($row['image_name']) : false,
+					'UC_IMAGE_NAME'	=> $show_imagename ? $row['image_name'] : false,
 					//'UC_THUMBNAIL'	=> 'self::generate_link('thumbnail', $phpbb_ext_gallery->config->get('link_thumbnail'), $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id']),
 					'UC_THUMBNAIL'		=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $row['image_id'])),
 					'UC_THUMBNAIL_ACTION'	=> $action,
