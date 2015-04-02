@@ -420,7 +420,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$url = $this->get_url_from_meta($meta);
 		$crawler = self::request('GET', substr($url, 1));
 		
-		$this->assertContains('rating, your rating: 5', $crawler->text());
+		$this->assertContainsLang('YOUR_RATING', $crawler->text());
 		$this->logout();
 	}
 	public function test_shortname()
