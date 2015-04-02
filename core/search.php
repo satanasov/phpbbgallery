@@ -256,7 +256,7 @@ class search
 			$this->template->assign_block_vars('imageblock.image', array(
 				'IMAGE_ID'		=> $row['image_id'],
 				'U_IMAGE'		=> $action_image,
-				'UC_IMAGE_NAME'	=> $show_imagename ? $this->image->parse_image_name($row['image_name']) : false,
+				'UC_IMAGE_NAME'	=> $show_imagename ? $row['image_name'] : false,
 				//'UC_THUMBNAIL'	=> 'self::generate_link('thumbnail', $phpbb_ext_gallery->config->get('link_thumbnail'), $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id']),
 				'UC_THUMBNAIL'		=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $row['image_id'])),
 				'UC_THUMBNAIL_ACTION'	=> $action,
@@ -365,9 +365,9 @@ class search
 				'POST_AUTHOR_FULL'	=> $this->user_loader->get_username($var['comment_user_id'], 'full'),
 				'TIME'	=> $this->user->format_date($var['comment_time']),
 				'TEXT'	=> generate_text_for_display($var['comment'], $var['comment_uid'], $var['comment_bitfield'], 7),
-				'UC_IMAGE_NAME'	=> '<a href="' . $this->helper->route('phpbbgallery_image', array('image_id' => $var['comment_image_id'])) . '">' . $this->image->parse_image_name($var['image_name']) . '</a>',
+				'UC_IMAGE_NAME'	=> '<a href="' . $this->helper->route('phpbbgallery_image', array('image_id' => $var['comment_image_id'])) . '">' . $var['image_name'] . '</a>',
 				//'UC_THUMBNAIL'		=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $var['image_id'])),
-				'UC_THUMBNAIL'		=> $this->image->generate_link('thumbnail', $this->gallery_config->get('link_thumbnail'), $var['comment_image_id'], $this->image->parse_image_name($var['image_name']), $var['image_album_id']),
+				'UC_THUMBNAIL'		=> $this->image->generate_link('thumbnail', $this->gallery_config->get('link_thumbnail'), $var['comment_image_id'], $var['image_name'], $var['image_album_id']),
 				'IMAGE_AUTHOR'		=> $this->user_loader->get_username((int) $var['image_user_id'], 'full'),
 				'IMAGE_TIME'		=> $this->user->format_date($var['image_time']),
 			));
@@ -563,7 +563,7 @@ class search
 			$this->template->assign_block_vars('imageblock.image', array(
 				'IMAGE_ID'		=> $row['image_id'],
 				'U_IMAGE'		=> $action_image,
-				'UC_IMAGE_NAME'	=> $show_imagename ? $this->image->parse_image_name($row['image_name']) : false,
+				'UC_IMAGE_NAME'	=> $show_imagename ? $row['image_name'] : false,
 				//'UC_THUMBNAIL'	=> 'self::generate_link('thumbnail', $phpbb_ext_gallery->config->get('link_thumbnail'), $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id']),
 				'UC_THUMBNAIL'		=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $row['image_id'])),
 				'UC_THUMBNAIL_ACTION'	=> $action,
@@ -729,7 +729,7 @@ class search
 			$this->template->assign_block_vars('imageblock.image', array(
 				'IMAGE_ID'		=> $row['image_id'],
 				'U_IMAGE'		=> $action_image,
-				'UC_IMAGE_NAME'	=> $show_imagename ? $this->image->parse_image_name($row['image_name']) : false,
+				'UC_IMAGE_NAME'	=> $show_imagename ? $row['image_name'] : false,
 				//'UC_THUMBNAIL'	=> 'self::generate_link('thumbnail', $phpbb_ext_gallery->config->get('link_thumbnail'), $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id']),
 				'UC_THUMBNAIL'		=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $row['image_id'])),
 				'UC_THUMBNAIL_ACTION'	=> $action,
