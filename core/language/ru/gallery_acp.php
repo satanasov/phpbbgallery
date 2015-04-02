@@ -308,8 +308,6 @@ $lang = array_merge($lang, array(
 	'SELECTED_GROUPS'				=> 'Выбранные группы',
 	'SELECTED_PERM_SYS'				=> 'Выбранная система прав доступа',
 	'SET_PERMISSIONS'				=> '<br />Установить <a href="%s">права доступа</a>.',
-	'SHORTED_IMAGENAMES'			=> 'Укороченное название фото',
-	'SHORTED_IMAGENAMES_EXP'		=> 'Если название фотографии слишком длинное или не содержит пробелов, форматирование страницы может быть нарушено. (-1 - off)<br><code>This is now done in CSS. This option is just here for the administrators benefit.</code>',
 	'SORRY_NO_STATISTIC'			=> 'Статистические данные ещё не доступны.',
 	'SYNC_IN_PROGRESS'				=> 'Синхронизация альбома',
 	'SYNC_IN_PROGRESS_EXPLAIN'		=> 'Синхронизируются фотографии в интервале %1$d—%2$d.',

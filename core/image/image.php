@@ -252,11 +252,11 @@ class image
 		switch ($content)
 		{
 			case 'image_name':
-				$shorten_image_name = (utf8_strlen(htmlspecialchars_decode($image_name)) > $this->gallery_config->get('shortnames') + 3) ? (utf8_substr(htmlspecialchars_decode($image_name), 0, $this->gallery_config->get('shortnames')) . '...') : ($image_name);
+				$shorten_image_name = $image_name;
 				$content = '<span style="font-weight: bold;">' . $shorten_image_name . '</span>';
 			break;
 			case 'image_name_unbold':
-				$shorten_image_name = (utf8_strlen(htmlspecialchars_decode($image_name)) > $this->gallery_config->get('shortnames') + 3) ? (utf8_substr(htmlspecialchars_decode($image_name), 0, $this->gallery_config->get('shortnames')) . '...') : ($image_name);
+				$shorten_image_name = $image_name;
 				$content = $shorten_image_name;
 			break;
 			case 'thumbnail':
@@ -326,29 +326,7 @@ class image
 
 		return str_replace(array('{IMAGE_URL}', '{IMAGE_NAME}', '{CONTENT}'), array($url, $image_name, $content), $tpl);
 	}
-	/**
-	* generate image name using shortnames
-	*
-	* @param	string	$image_name
-	* 
-	* return	string $image_name
-	*/
-	public function parse_image_name($image_name)
-	{
-		$output = $image_name;
-		if ($this->gallery_config->get('shortnames') > -1)
-		{
-			if (utf8_strlen(htmlspecialchars_decode($image_name)) > $this->gallery_config->get('shortnames') + 3)
-			{
-				$output = utf8_substr(htmlspecialchars_decode($image_name), 0, $this->gallery_config->get('shortnames')) . '...';
-			}
-			else
-			{
-				$output = $image_name;
-			}
-		}
-		return $output;
-	}
+
 	/**
 	* Handle user- & total image_counter
 	*

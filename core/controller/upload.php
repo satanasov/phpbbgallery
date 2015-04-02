@@ -322,7 +322,7 @@ class upload
 			{
 				$data = $process->image_data[$image_id];
 				$this->template->assign_block_vars('image', array(
-					'U_IMAGE'		=> $this->image->generate_link('thumbnail', 'plugin', $image_id, $this->image->parse_image_name($data['image_name']), $album_id),
+					'U_IMAGE'		=> $this->image->generate_link('thumbnail', 'plugin', $image_id, $data['image_name'], $album_id),
 					'IMAGE_NAME'	=> $data['image_name'],
 					'IMAGE_DESC'	=> $data['image_desc'],
 				));

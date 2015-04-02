@@ -126,7 +126,7 @@ class index
 				'U_USERS_PERSONAL_GALLERIES' => $this->helper->route('phpbbgallery_personal'),
 				'U_PERSONAL_GALLERIES_IMAGES'	=> $this->gallery_config->get('num_images'),
 				'U_PERSONAL_GALLERIES_LAST_IMAGE'	=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $last_image['image_id'])),
-				'U_IMAGENAME'	=> ($last_image['image_id'] > 0) ? $this->image->parse_image_name($last_image['image_name']) : false,
+				'U_IMAGENAME'	=> ($last_image['image_id'] > 0) ? $last_image['image_name'] : false,
 				'U_IMAGE_ACTION'	=> $action_image,
 				'U_IMAGENAME_ACTION'	=> $this->helper->route('phpbbgallery_image', array('image_id' => $last_image['image_id'])),
 				'U_TIME'	=> ($last_image['image_id'] > 0) ?  $this->user->format_date($last_image['image_time']) : false,

@@ -420,50 +420,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$url = $this->get_url_from_meta($meta);
 		$crawler = self::request('GET', substr($url, 1));
 		
-		$this->assertContainsLang('YOUR_RATING', $crawler->text());
-		$this->logout();
-	}
-	public function test_shortname()
-	{
-		$this->login();
-		$this->admin_login();
-		$this->add_lang_ext('phpbbgallery/core', 'gallery');
-		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
-		$this->add_lang_ext('phpbbgallery/core', 'gallery_ucp');
-		$this->add_lang('common');
-		
-		// Change option
-		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
-		$form = $crawler->selectButton('submit')->form();
-		$form->setValues(array(
-			'config[shortnames]'	=> 1,
-		));
-
-		$crawler = self::submit($form);
-		// Should be updated
-		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
-		
-		// test
-		$crawler = self::request('GET', 'app.php/gallery/album/1');
-		$this->assertContains('V...', $crawler->text());
-		$this->assertNotContains('Valid', $crawler->text());
-		
-		// Change option
-		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
-		$form = $crawler->selectButton('submit')->form();
-		$form->setValues(array(
-			'config[shortnames]'	=> -1,
-		));
-
-		$crawler = self::submit($form);
-		// Should be updated
-		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
-		// test
-		$crawler = self::request('GET', 'app.php/gallery/album/1');
-		$this->assertNotContains('V...', $crawler->text());
-		$this->assertContains('Valid', $crawler->text());
-		
-		$this->logout();
+		$this->assertContainsLang('rating, your rating:', $crawler->text());
 		$this->logout();
 	}
 	public function image_on_image_page_data()
