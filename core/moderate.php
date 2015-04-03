@@ -58,6 +58,7 @@ class moderate
 		$sql = 'SELECT COUNT(image_id) as count 
 			FROM ' . $this->images_table . ' 
 			WHERE image_status = ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ' and ' . $this->db->sql_in_set('image_album_id', $mod_array) . '
+			GROUP BY image_id
 			ORDER BY image_id DESC';
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
@@ -192,7 +193,7 @@ class moderate
 		{
 			$actions['report']	= 'REPORT_A_CLOSE';
 		}
-		$sql = 'SELECT COUNT(image_id) as count FROM ' . $this->images_table . ' WHERE ' . $this->db->sql_in_set('image_status', $status) . ' AND image_album_id = ' . $album_id;
+		$sql = 'SELECT COUNT(image_id) as count FROM ' . $this->images_table . ' WHERE ' . $this->db->sql_in_set('image_status', $status) . ' AND image_album_id = ' . $album_id . ' GROUP BY image_id';
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
