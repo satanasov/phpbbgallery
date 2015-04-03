@@ -13,6 +13,7 @@ namespace phpbbgallery\tests\functional;
 */
 class phpbbgallery_beta_test extends phpbbgallery_base
 {
+	// TESTS DATA PROVIDERS
 	public function pagination_data()
 	{
 		return array(
@@ -24,6 +25,72 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 			),
 		);
 	}
+	
+	public function yes_no_data()
+	{
+		return array(
+			'yes'	=> array(
+				1
+			),
+			'no'	=> array(
+				0
+			),
+			'reset'	=> array(
+				1
+			),
+		);
+	}
+	public function image_on_image_page_data()
+	{
+		return array(
+			'image'	=> array(
+				'image',
+				true,
+				'app.php/gallery/image/1/source'
+			),
+			'next'	=> array(
+				'next',
+				true,
+				'app.php/gallery/image/4'
+			),
+			'none'	=> array(
+				'none',
+				false,
+				false
+			),
+			'reset'	=> array(
+				'next',
+				true,
+				'app.php/gallery/image/4'
+			),
+		);
+	}
+	public function thumbnail_link_data()
+	{
+		return array(
+			'image'	=> array(
+				'image',
+				true,
+				'app.php/gallery/image/1/source'
+			),
+			'image_page'	=> array(
+				'image_page',
+				true,
+				'app.php/gallery/image/1'
+			),
+			'none'	=> array(
+				'none',
+				false,
+				false
+			),
+			'reset'	=> array(
+				'image_page',
+				true,
+				'app.php/gallery/image/1'
+			),
+		);
+	}
+	// START BASIC GALLERY SETTINGS TESTS
 	/**
 	* @dataProvider pagination_data
 	*/
@@ -61,20 +128,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 	}
-	public function yes_no_data()
-	{
-		return array(
-			'yes'	=> array(
-				1
-			),
-			'no'	=> array(
-				0
-			),
-			'reset'	=> array(
-				1
-			),
-		);
-	}
+	
 	/**
 	* @dataProvider yes_no_data
 	*/
@@ -423,31 +477,31 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->assertContains('rating, your rating:', $crawler->text());
 		$this->logout();
 	}
-	public function image_on_image_page_data()
+    // END BASIC GALLERY SETTINGS TESTS
+
+	// START ALBUM SETTINGS TESTS
+	public function test_album_display()
 	{
-		return array(
-			'image'	=> array(
-				'image',
-				true,
-				'app.php/gallery/image/1/source'
-			),
-			'next'	=> array(
-				'next',
-				true,
-				'app.php/gallery/image/4'
-			),
-			'none'	=> array(
-				'none',
-				false,
-				false
-			),
-			'reset'	=> array(
-				'next',
-				true,
-				'app.php/gallery/image/4'
-			),
-		);
+		$this->login();
+		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang('common');
+
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'album_display[]'	=> 0,
+		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
+
+		// Test 
+	
 	}
+	// END ALBUM SETTINGS TESTS
 	/**
 	* @dataProvider image_on_image_page_data
 	*/
@@ -483,31 +537,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		}		
 		$this->logout();
 	}
-	public function thumbnail_link_data()
-	{
-		return array(
-			'image'	=> array(
-				'image',
-				true,
-				'app.php/gallery/image/1/source'
-			),
-			'image_page'	=> array(
-				'image_page',
-				true,
-				'app.php/gallery/image/1'
-			),
-			'none'	=> array(
-				'none',
-				false,
-				false
-			),
-			'reset'	=> array(
-				'image_page',
-				true,
-				'app.php/gallery/image/1'
-			),
-		);
-	}
+	
 	/**
 	* @dataProvider thumbnail_link_data
 	*/
