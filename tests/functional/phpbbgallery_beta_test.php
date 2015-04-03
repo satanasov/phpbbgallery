@@ -492,7 +492,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
 		$form = $crawler->selectButton('submit')->form();
 		$form->setValues(array(
-			'album_display[]'	=> 0,
+			'album_display[]'	=> array(0),
 		));
 		$crawler = self::submit($form);
 		// Should be updated
