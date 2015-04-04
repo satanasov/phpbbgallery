@@ -1106,8 +1106,8 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				'r',
 				'd',
 				'Valid',
-				'Image in sublabum to move',
 				'Valid but needs approve',
+				'Image in sublabum to move',
 			),
 			'comment_asc'	=> array(
 				'c',
