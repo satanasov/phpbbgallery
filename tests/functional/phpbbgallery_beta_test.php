@@ -1021,9 +1021,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 	}
-	/**
-	* @dataProvider image_polaroid_info_data
-	*/
+
 	public function sort_key_data()
 	{
 		return array(
@@ -1036,6 +1034,9 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 			),
 		);
 	}
+	/**
+	* @dataProvider sort_key_data
+	*/
 	public function test_default_sort_key($sort_key, $sort_dir, $first, $second, $third)
 	{
 		$this->login();
