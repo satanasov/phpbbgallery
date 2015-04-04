@@ -1021,7 +1021,22 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 	}
-	public function test_default_sort_key()
+	/**
+	* @dataProvider image_polaroid_info_data
+	*/
+	public function sort_key_data()
+	{
+		return array(
+			'time_asc'	=> array(
+				't',
+				'd',
+				'Image in sublabum to move'
+				'Valid but needs approve',
+				'Valid',
+			),
+		);
+	}
+	public function test_default_sort_key($sort_key, $sort_dir, $first, $second, $third)
 	{
 		$this->login();
 		$this->admin_login();
@@ -1029,8 +1044,22 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
 		$this->add_lang('common');
 		
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'config[default_sort_key]'	=> $sort_key,
+			'config[default_sort_dir]'	=> $sort_dir,
+		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
+
+		// Test
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
-		$this->assertContains('zazazazaza', $crawler->text());
+		$this->assertContains($first, $crawler->filter('div#polaroid')->eq(0)->text());
+		$this->assertContains($second, $crawler->filter('div#polaroid')->eq(1)->text());
+		$this->assertContains($third, $crawler->filter('div#polaroid')->eq(2)->text());
 		
 		$this->logout();
 		$this->logout();
