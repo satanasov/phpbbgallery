@@ -483,6 +483,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 	public function image_polaroid_info_data()
 	{
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang('common');
 		return array(
 			'none'	=> array(
 				array(0),
