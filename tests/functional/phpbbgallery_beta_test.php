@@ -967,7 +967,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				),
 			),
 			'reset'	=> array(
-				array(2,4,6,8,16,32,64,128),
+				array(2,4,8,16,32,64,128),
 				array(
 					$this->lang('ALBUM')	=> false,
 					$this->lang('COMMENTS')	=> true,
