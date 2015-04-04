@@ -1063,9 +1063,9 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 			'view_count_asc'	=> array(
 				'vc',
 				'a',
-				'Valid',
-				'Image in sublabum to move',
 				'Valid but needs approve',
+				'Image in sublabum to move',
+				'Valid',
 			),
 			'username_desc'	=> array(
 				'u',
@@ -1091,8 +1091,8 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 			'rating_desc'	=> array(
 				'ra',
 				'd',
-				'Valid but needs approve',
 				'Valid',
+				'Valid but needs approve',
 				'Image in sublabum to move',
 			),
 			'rating_count_asc'	=> array(
@@ -1105,9 +1105,9 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 			'rating_count_desc'	=> array(
 				'r',
 				'd',
-				'Valid but needs approve',
-				'Image in sublabum to move',
 				'Valid',
+				'Image in sublabum to move',
+				'Valid but needs approve',
 			),
 			'comment_asc'	=> array(
 				'c',
@@ -1133,9 +1133,9 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 			'last_comment_desc'	=> array(
 				'lc',
 				'd',
-				'Valid but needs approve',
-				'Image in sublabum to move',
 				'Valid',
+				'Image in sublabum to move',
+				'Valid but needs approve',
 			),
 			'reset'	=> array(
 				't',
