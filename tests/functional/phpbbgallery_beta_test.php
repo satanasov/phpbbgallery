@@ -1030,7 +1030,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 			'time_asc'	=> array(
 				't',
 				'd',
-				'Image in sublabum to move'
+				'Image in sublabum to move',
 				'Valid but needs approve',
 				'Valid',
 			),
