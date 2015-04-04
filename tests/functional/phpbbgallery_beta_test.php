@@ -496,6 +496,18 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 					$this->lang('RATING')	=> false,
 				),
 			),
+			'none'	=> array(
+				array(2,4,6,8,16,32,64,128),
+				array(
+					$this->lang('ALBUM')	=> false,
+					$this->lang('COMMENTS')	=> true,
+					'Valid'	=> true,
+					$this->lang('UPLOADED_ON_DATE')	=> true,
+					$this->lang('IMAGE_VIEWS')	=> false,
+					$this->lang('UPLOADED_BY_USER')	=> true,
+					$this->lang('RATING')	=> false,
+				),
+			),
 		);
 	}
 	/**
