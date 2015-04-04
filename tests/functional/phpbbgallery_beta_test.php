@@ -480,7 +480,28 @@ class phpbbgallery_beta_test extends phpbbgallery_base
     // END BASIC GALLERY SETTINGS TESTS
 
 	// START ALBUM SETTINGS TESTS
-	public function test_album_display()
+	public function image_polaroid_info_data()
+	{
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		return array(
+			'none'	=> array(
+				array(0),
+				array(
+					$this->lang('ALBUM')	=> false,
+					$this->lang('COMMENTS')	=> false,
+					'Valid'	=> false,
+					$this->lang('UPLOADED_ON_DATE')	=> false,
+					$this->lang('IMAGE_VIEWS')	=> false,
+					$this->lang('UPLOADED_BY_USER')	=> false,
+					$this->lang('RATING')	=> false,
+				),
+			),
+		);
+	}
+	/**
+	* @dataProvider image_polaroid_info_data
+	*/
+	public function test_album_display($options, $tests)
 	{
 		$this->login();
 		$this->admin_login();
@@ -492,7 +513,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
 		$form = $crawler->selectButton('submit')->form();
 		$form->setValues(array(
-			'album_display'	=> array(0),
+			'album_display'	=> $options,
 		));
 		$crawler = self::submit($form);
 		// Should be updated
@@ -502,14 +523,18 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		$object = $crawler->filter('div.polaroid')->eq(2);
 		
-		$this->assertNotContains($this->lang('ALBUM'), $object->text());
-		$this->assertNotContains($this->lang('COMMENTS'), $object->text());
-		$this->assertNotContains('Valid', $object->filter('p')->text());
-		$this->assertNotContains($this->lang('UPLOADED_ON_DATE'), $object->text());
-		$this->assertNotContains($this->lang('IMAGE_VIEWS'), $object->text());
-		$this->assertNotContains($this->lang('UPLOADED_BY_USER'), $object->text());
-		$this->assertNotContains($this->lang('RATING'), $object->text());
-		
+		foreach ($tests as $test => $state)
+		{
+			if ($state)
+			{
+				$this->assertContains($test, $object->text());
+			}
+			else
+			{
+				$this->assertNotContains($test, $object->text());
+			}
+		}
+
 		$this->logout();
 		$this->logout();
 	}
