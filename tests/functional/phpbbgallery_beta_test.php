@@ -1058,9 +1058,9 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 
 		// Test
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
-		$this->assertContains($first, $crawler->filter('div.polaroid')->eq(1)->text());
-		$this->assertContains($second, $crawler->filter('div.polaroid')->eq(2)->text());
-		$this->assertContains($third, $crawler->filter('div.polaroid')->eq(3)->text());
+		$this->assertContains($first, $crawler->filter('div.polaroid')->eq(0)->text());
+		$this->assertContains($second, $crawler->filter('div.polaroid')->eq(1)->text());
+		$this->assertContains($third, $crawler->filter('div.polaroid')->eq(2)->text());
 		
 		$this->logout();
 		$this->logout();
