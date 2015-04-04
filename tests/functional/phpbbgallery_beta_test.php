@@ -489,7 +489,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(0),
 				array(
 					$this->lang('ALBUM')	=> false,
-					$this->lang('COMMENTS')	=> false,
+					$this->lang('COMMENT')	=> false,
 					'Valid'	=> false,
 					$this->lang('UPLOADED_ON_DATE')	=> false,
 					$this->lang('IMAGE_VIEWS')	=> false,
@@ -502,7 +502,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(1),
 				array(
 					$this->lang('ALBUM')	=> true,
-					$this->lang('COMMENTS')	=> false,
+					$this->lang('COMMENT')	=> false,
 					'Valid'	=> false,
 					$this->lang('UPLOADED_ON_DATE')	=> false,
 					$this->lang('IMAGE_VIEWS')	=> false,
@@ -515,7 +515,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(2),
 				array(
 					$this->lang('ALBUM')	=> false,
-					$this->lang('COMMENTS')	=> true,
+					$this->lang('COMMENT')	=> true,
 					'Valid'	=> false,
 					$this->lang('UPLOADED_ON_DATE')	=> false,
 					$this->lang('IMAGE_VIEWS')	=> false,
@@ -528,7 +528,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(4),
 				array(
 					$this->lang('ALBUM')	=> false,
-					$this->lang('COMMENTS')	=> false,
+					$this->lang('COMMENT')	=> false,
 					'Valid'	=> true,
 					$this->lang('UPLOADED_ON_DATE')	=> false,
 					$this->lang('IMAGE_VIEWS')	=> false,
@@ -541,7 +541,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(8),
 				array(
 					$this->lang('ALBUM')	=> false,
-					$this->lang('COMMENTS')	=> false,
+					$this->lang('COMMENT')	=> false,
 					'Valid'	=> false,
 					$this->lang('UPLOADED_ON_DATE')	=> true,
 					$this->lang('IMAGE_VIEWS')	=> false,
@@ -554,7 +554,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(16),
 				array(
 					$this->lang('ALBUM')	=> false,
-					$this->lang('COMMENTS')	=> false,
+					$this->lang('COMMENT')	=> false,
 					'Valid'	=> false,
 					$this->lang('UPLOADED_ON_DATE')	=> false,
 					$this->lang('IMAGE_VIEWS')	=> true,
@@ -567,7 +567,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(32),
 				array(
 					$this->lang('ALBUM')	=> false,
-					$this->lang('COMMENTS')	=> false,
+					$this->lang('COMMENT')	=> false,
 					'Valid'	=> false,
 					$this->lang('UPLOADED_ON_DATE')	=> true,
 					$this->lang('IMAGE_VIEWS')	=> false,
@@ -580,7 +580,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(64),
 				array(
 					$this->lang('ALBUM')	=> false,
-					$this->lang('COMMENTS')	=> false,
+					$this->lang('COMMENT')	=> false,
 					'Valid'	=> false,
 					$this->lang('UPLOADED_ON_DATE')	=> false,
 					$this->lang('IMAGE_VIEWS')	=> false,
@@ -593,7 +593,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(128),
 				array(
 					$this->lang('ALBUM')	=> false,
-					$this->lang('COMMENTS')	=> false,
+					$this->lang('COMMENT')	=> false,
 					'Valid'	=> false,
 					$this->lang('UPLOADED_ON_DATE')	=> false,
 					$this->lang('IMAGE_VIEWS')	=> false,
@@ -606,7 +606,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(1, 128),
 				array(
 					$this->lang('ALBUM')	=> true,
-					$this->lang('COMMENTS')	=> false,
+					$this->lang('COMMENT')	=> false,
 					'Valid'	=> false,
 					$this->lang('UPLOADED_ON_DATE')	=> false,
 					$this->lang('IMAGE_VIEWS')	=> false,
@@ -619,7 +619,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(2, 128),
 				array(
 					$this->lang('ALBUM')	=> false,
-					$this->lang('COMMENTS')	=> true,
+					$this->lang('COMMENT')	=> true,
 					'Valid'	=> false,
 					$this->lang('UPLOADED_ON_DATE')	=> false,
 					$this->lang('IMAGE_VIEWS')	=> false,
@@ -632,7 +632,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(4, 128),
 				array(
 					$this->lang('ALBUM')	=> false,
-					$this->lang('COMMENTS')	=> false,
+					$this->lang('COMMENT')	=> false,
 					'Valid'	=> false,
 					$this->lang('UPLOADED_ON_DATE')	=> false,
 					$this->lang('IMAGE_VIEWS')	=> false,
@@ -645,7 +645,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(8, 128),
 				array(
 					$this->lang('ALBUM')	=> false,
-					$this->lang('COMMENTS')	=> false,
+					$this->lang('COMMENT')	=> false,
 					'Valid'	=> false,
 					$this->lang('UPLOADED_ON_DATE')	=> true,
 					$this->lang('IMAGE_VIEWS')	=> false,
@@ -658,7 +658,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(16, 128),
 				array(
 					$this->lang('ALBUM')	=> false,
-					$this->lang('COMMENTS')	=> false,
+					$this->lang('COMMENT')	=> false,
 					'Valid'	=> false,
 					$this->lang('UPLOADED_ON_DATE')	=> false,
 					$this->lang('IMAGE_VIEWS')	=> true,
@@ -671,7 +671,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(32, 128),
 				array(
 					$this->lang('ALBUM')	=> false,
-					$this->lang('COMMENTS')	=> false,
+					$this->lang('COMMENT')	=> false,
 					'Valid'	=> false,
 					$this->lang('UPLOADED_ON_DATE')	=> false,
 					$this->lang('IMAGE_VIEWS')	=> false,
@@ -684,7 +684,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(64, 128),
 				array(
 					$this->lang('ALBUM')	=> false,
-					$this->lang('COMMENTS')	=> false,
+					$this->lang('COMMENT')	=> false,
 					'Valid'	=> false,
 					$this->lang('UPLOADED_ON_DATE')	=> false,
 					$this->lang('IMAGE_VIEWS')	=> false,
@@ -697,7 +697,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(1, 64, 128),
 				array(
 					$this->lang('ALBUM')	=> true,
-					$this->lang('COMMENTS')	=> false,
+					$this->lang('COMMENT')	=> false,
 					'Valid'	=> false,
 					$this->lang('UPLOADED_ON_DATE')	=> false,
 					$this->lang('IMAGE_VIEWS')	=> false,
@@ -710,7 +710,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(2, 64, 128),
 				array(
 					$this->lang('ALBUM')	=> false,
-					$this->lang('COMMENTS')	=> true,
+					$this->lang('COMMENT')	=> true,
 					'Valid'	=> false,
 					$this->lang('UPLOADED_ON_DATE')	=> false,
 					$this->lang('IMAGE_VIEWS')	=> false,
@@ -723,7 +723,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(4, 64, 128),
 				array(
 					$this->lang('ALBUM')	=> false,
-					$this->lang('COMMENTS')	=> false,
+					$this->lang('COMMENT')	=> false,
 					'Valid'	=> true,
 					$this->lang('UPLOADED_ON_DATE')	=> false,
 					$this->lang('IMAGE_VIEWS')	=> false,
@@ -736,7 +736,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(8, 64, 128),
 				array(
 					$this->lang('ALBUM')	=> false,
-					$this->lang('COMMENTS')	=> false,
+					$this->lang('COMMENT')	=> false,
 					'Valid'	=> false,
 					$this->lang('UPLOADED_ON_DATE')	=> true,
 					$this->lang('IMAGE_VIEWS')	=> false,
@@ -749,7 +749,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(16, 64, 128),
 				array(
 					$this->lang('ALBUM')	=> false,
-					$this->lang('COMMENTS')	=> false,
+					$this->lang('COMMENT')	=> false,
 					'Valid'	=> false,
 					$this->lang('UPLOADED_ON_DATE')	=> false,
 					$this->lang('IMAGE_VIEWS')	=> true,
@@ -762,7 +762,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(32, 64, 128),
 				array(
 					$this->lang('ALBUM')	=> false,
-					$this->lang('COMMENTS')	=> false,
+					$this->lang('COMMENT')	=> false,
 					'Valid'	=> false,
 					$this->lang('UPLOADED_ON_DATE')	=> false,
 					$this->lang('IMAGE_VIEWS')	=> false,
@@ -775,7 +775,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(1, 32, 64, 128),
 				array(
 					$this->lang('ALBUM')	=> true,
-					$this->lang('COMMENTS')	=> false,
+					$this->lang('COMMENT')	=> false,
 					'Valid'	=> false,
 					$this->lang('UPLOADED_ON_DATE')	=> false,
 					$this->lang('IMAGE_VIEWS')	=> false,
@@ -788,7 +788,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(2, 32, 64, 128),
 				array(
 					$this->lang('ALBUM')	=> false,
-					$this->lang('COMMENTS')	=> true,
+					$this->lang('COMMENT')	=> true,
 					'Valid'	=> false,
 					$this->lang('UPLOADED_ON_DATE')	=> false,
 					$this->lang('IMAGE_VIEWS')	=> false,
@@ -801,7 +801,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(4, 32, 64, 128),
 				array(
 					$this->lang('ALBUM')	=> false,
-					$this->lang('COMMENTS')	=> false,
+					$this->lang('COMMENT')	=> false,
 					'Valid'	=> true,
 					$this->lang('UPLOADED_ON_DATE')	=> false,
 					$this->lang('IMAGE_VIEWS')	=> false,
@@ -814,7 +814,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(8, 32, 64, 128),
 				array(
 					$this->lang('ALBUM')	=> false,
-					$this->lang('COMMENTS')	=> false,
+					$this->lang('COMMENT')	=> false,
 					'Valid'	=> false,
 					$this->lang('UPLOADED_ON_DATE')	=> true,
 					$this->lang('IMAGE_VIEWS')	=> false,
@@ -827,7 +827,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(16, 32, 64, 128),
 				array(
 					$this->lang('ALBUM')	=> false,
-					$this->lang('COMMENTS')	=> false,
+					$this->lang('COMMENT')	=> false,
 					'Valid'	=> false,
 					$this->lang('UPLOADED_ON_DATE')	=> false,
 					$this->lang('IMAGE_VIEWS')	=> true,
@@ -840,7 +840,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(1, 16, 32, 64, 128),
 				array(
 					$this->lang('ALBUM')	=> true,
-					$this->lang('COMMENTS')	=> false,
+					$this->lang('COMMENT')	=> false,
 					'Valid'	=> false,
 					$this->lang('UPLOADED_ON_DATE')	=> false,
 					$this->lang('IMAGE_VIEWS')	=> true,
@@ -853,7 +853,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(2, 16, 32, 64, 128),
 				array(
 					$this->lang('ALBUM')	=> false,
-					$this->lang('COMMENTS')	=> true,
+					$this->lang('COMMENT')	=> true,
 					'Valid'	=> false,
 					$this->lang('UPLOADED_ON_DATE')	=> false,
 					$this->lang('IMAGE_VIEWS')	=> true,
@@ -866,7 +866,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(4, 16, 32, 64, 128),
 				array(
 					$this->lang('ALBUM')	=> false,
-					$this->lang('COMMENTS')	=> false,
+					$this->lang('COMMENT')	=> false,
 					'Valid'	=> true,
 					$this->lang('UPLOADED_ON_DATE')	=> false,
 					$this->lang('IMAGE_VIEWS')	=> true,
@@ -879,7 +879,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(8, 16, 32, 64, 128),
 				array(
 					$this->lang('ALBUM')	=> false,
-					$this->lang('COMMENTS')	=> false,
+					$this->lang('COMMENT')	=> false,
 					'Valid'	=> false,
 					$this->lang('UPLOADED_ON_DATE')	=> true,
 					$this->lang('IMAGE_VIEWS')	=> true,
@@ -892,7 +892,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(1, 8, 16, 32, 64, 128),
 				array(
 					$this->lang('ALBUM')	=> true,
-					$this->lang('COMMENTS')	=> false,
+					$this->lang('COMMENT')	=> false,
 					'Valid'	=> false,
 					$this->lang('UPLOADED_ON_DATE')	=> true,
 					$this->lang('IMAGE_VIEWS')	=> true,
@@ -905,7 +905,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(2, 8, 16, 32, 64, 128),
 				array(
 					$this->lang('ALBUM')	=> false,
-					$this->lang('COMMENTS')	=> true,
+					$this->lang('COMMENT')	=> true,
 					'Valid'	=> false,
 					$this->lang('UPLOADED_ON_DATE')	=> true,
 					$this->lang('IMAGE_VIEWS')	=> true,
@@ -918,7 +918,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(4, 8, 16, 32, 64, 128),
 				array(
 					$this->lang('ALBUM')	=> false,
-					$this->lang('COMMENTS')	=> false,
+					$this->lang('COMMENT')	=> false,
 					'Valid'	=> true,
 					$this->lang('UPLOADED_ON_DATE')	=> true,
 					$this->lang('IMAGE_VIEWS')	=> true,
@@ -931,7 +931,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(1, 4, 8, 16, 32, 64, 128),
 				array(
 					$this->lang('ALBUM')	=> true,
-					$this->lang('COMMENTS')	=> false,
+					$this->lang('COMMENT')	=> false,
 					'Valid'	=> true,
 					$this->lang('UPLOADED_ON_DATE')	=> true,
 					$this->lang('IMAGE_VIEWS')	=> true,
@@ -944,7 +944,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(2, 4, 8, 16, 32, 64, 128),
 				array(
 					$this->lang('ALBUM')	=> false,
-					$this->lang('COMMENTS')	=> true,
+					$this->lang('COMMENT')	=> true,
 					'Valid'	=> true,
 					$this->lang('UPLOADED_ON_DATE')	=> true,
 					$this->lang('IMAGE_VIEWS')	=> true,
@@ -957,7 +957,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(1, 2, 4, 8, 16, 32, 64, 128),
 				array(
 					$this->lang('ALBUM')	=> true,
-					$this->lang('COMMENTS')	=> true,
+					$this->lang('COMMENT')	=> true,
 					'Valid'	=> true,
 					$this->lang('UPLOADED_ON_DATE')	=> true,
 					$this->lang('IMAGE_VIEWS')	=> true,
@@ -970,7 +970,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				array(2,4,8,16,32,64,128),
 				array(
 					$this->lang('ALBUM')	=> false,
-					$this->lang('COMMENTS')	=> true,
+					$this->lang('COMMENT')	=> true,
 					'Valid'	=> true,
 					$this->lang('UPLOADED_ON_DATE')	=> true,
 					$this->lang('IMAGE_VIEWS')	=> false,
