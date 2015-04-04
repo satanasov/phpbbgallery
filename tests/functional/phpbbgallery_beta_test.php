@@ -1021,6 +1021,21 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 	}
+	public function test_default_sort_key()
+	{
+		$this->login();
+		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang('common');
+		
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
+		$this->assertContains('zazazazaza', $crawler->text());
+		
+		$this->logout();
+		$this->logout();
+		
+	}
 	// END ALBUM SETTINGS TESTS
 	/**
 	* @dataProvider image_on_image_page_data
