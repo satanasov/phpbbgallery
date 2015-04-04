@@ -514,7 +514,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 			'only_comments'	=> array(
 				array(2),
 				array(
-					$this->lang('ALBUM')	=> fale,
+					$this->lang('ALBUM')	=> false,
 					$this->lang('COMMENTS')	=> true,
 					'Valid'	=> false,
 					$this->lang('UPLOADED_ON_DATE')	=> false,
