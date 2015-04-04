@@ -498,8 +498,20 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		// Should be updated
 		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 
-		// Test 
-	
+		// Test
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
+		$object = $crawler->filter('div.polaroid')->eq(2);
+		
+		$this->assertNotContains($this->lang('ALBUM'), $object->text();
+		$this->assertNotContains($this->lang('COMMENTS'), $object->text();
+		$this->assertNotContains('Valid', $object->filter('p')->text();
+		$this->assertNotContains($this->lang('UPLOADED_ON_DATE'), $object->text();
+		$this->assertNotContains($this->lang('IMAGE_VIEWS'), $object->text();
+		$this->assertNotContains($this->lang('UPLOADED_BY_USER'), $object->text();
+		$this->assertNotContains($this->lang('RATING'), $object->text();
+		
+		$this->logout();
+		$this->logout();
 	}
 	// END ALBUM SETTINGS TESTS
 	/**

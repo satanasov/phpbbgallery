@@ -149,6 +149,7 @@ $lang = array_merge($lang, array(
 	'IMAGE_PCT'							=> '%.2f%% of all images',
 	'IMAGE_STATUS'						=> 'Status',
 	'IMAGE_URL'							=> 'Image-URL',
+	'IMAGE_VIEWS'							=> 'Views',
 	'IMAGE_WIDTH'						=> 'Image width',
 	'IMAGES_REPORTED_SUCCESSFULLY'		=> 'The image was successful reported',
 	'IMAGES_UPDATED_SUCCESSFULLY'		=> 'Your image information has been updated successfully',
