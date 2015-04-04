@@ -138,6 +138,7 @@ $lang = array_merge($lang, array(
 	'IMAGE_PCT'						=> '%.2f%% всех фотографий',
 	'IMAGE_STATUS'					=> 'Статус',
 	'IMAGE_URL'						=> 'Ссылка на фото',
+	'IMAGE_VIEWS'							=> 'Views',
 	'IMAGE_WIDTH'					=> 'Ширина фото',
 	'IMAGES_REPORTED_SUCCESSFULLY'	=> 'Фото обжаловано',
 	'IMAGES_UPDATED_SUCCESSFULLY'	=> 'Данные о фотографии обновлены',
