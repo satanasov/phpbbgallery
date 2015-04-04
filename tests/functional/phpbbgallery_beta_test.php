@@ -973,10 +973,10 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 					$this->lang('COMMENT')	=> true,
 					'Valid'	=> true,
 					$this->lang('UPLOADED_ON_DATE')	=> true,
-					$this->lang('IMAGE_VIEWS')	=> false,
+					$this->lang('IMAGE_VIEWS')	=> true,
 					$this->lang('UPLOADED_BY_USER')	=> true,
-					$this->lang('RATING')	=> false,
-					$this->lang('IP')	=> false,
+					$this->lang('RATING')	=> true,
+					$this->lang('IP')	=> true,
 				),
 			),
 		);
