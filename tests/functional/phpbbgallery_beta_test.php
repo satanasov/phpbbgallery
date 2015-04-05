@@ -1063,15 +1063,15 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 			'view_count_asc'	=> array(
 				'vc',
 				'a',
-				'Valid but needs approve',
 				'Image in sublabum to move',
+				'Valid but needs approve',
 				'Valid',
 			),
 			'username_desc'	=> array(
 				'u',
 				'd',
-				'Valid but needs approve',
 				'Image in sublabum to move',
+				'Valid but needs approve',
 				'Valid',
 			),
 			'username_asc'	=> array(
