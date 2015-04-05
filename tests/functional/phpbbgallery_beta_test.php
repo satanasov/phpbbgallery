@@ -1178,6 +1178,65 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 		
 	}
+	public function test_album_images()
+	{
+		$this->login();
+		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang('common');
+		
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'config[album_images]'	=> 3,
+		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
+
+		// Test
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
+		$upload_url = substr($crawler->filter('a:contains("' . $this->lang('UPLOAD_IMAGE') . '")')->attr('href'), 1);	
+		
+		$crawler = self::request('GET', $upload_url);
+		
+		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
+		$this->assertContains('First test album!', $crawler->text());
+		
+		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
+		
+		$form['image_file_0'] =  __DIR__ . '/images/valid.jpg';;
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
+		$this->assertContains('First test album!', $crawler->text());
+		
+		//$this->assertContains('zazazazazaza', $crawler->text());
+		$form = $crawler->selectButton($this->lang['SUBMIT'])->form();
+		$form['image_name'] = array(
+			0 => 'Valid',
+		);
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('ALBUM_UPLOAD_SUCCESSFUL', $crawler->text());
+		$this->assertNotContains('This album has reached the quota of images. You cannot upload images anymore.', $crawler->text());
+		
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'config[album_images]'	=> 2500,
+		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
+		
+		$this->logout();
+		$this->logout();
+
+	}
 	// END ALBUM SETTINGS TESTS
 	/**
 	* @dataProvider image_on_image_page_data
