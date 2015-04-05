@@ -1204,6 +1204,8 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 
 		// Test
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
+		$this->assertContains('zazazazazaza', $crawler->text());
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		$upload_url = substr($crawler->filter('a:contains("' . $this->lang('UPLOAD_IMAGE') . '")')->attr('href'), 1);	
 		
 		$crawler = self::request('GET', $upload_url);
