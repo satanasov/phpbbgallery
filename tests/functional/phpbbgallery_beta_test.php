@@ -1224,6 +1224,34 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 
 	}
+	/**
+	* @dataProvider yes_no_data
+	*/
+	public function test_mini_thumbnail_disp($option)
+	{
+		$this->login();
+		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang('common');
+		
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'config[mini_thumbnail_disp]'	=> $option,
+		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
+		
+		// Test
+		$crawler = self::request('GET', 'app.php/gallery');
+		$this->assertEquals($option, $crawler->filter('div.polaroid')->eq(0)->filter('img')->count());
+		$this->logout();
+		$this->logout();
+
+	}
 	// END ALBUM SETTINGS TESTS
 	/**
 	* @dataProvider image_on_image_page_data
