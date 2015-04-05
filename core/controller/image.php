@@ -246,7 +246,15 @@ class image
 		$sql_sort_order = $sort_by_sql[$sort_key] . ' ' . (($sort_dir == 'd') ? 'DESC' : 'ASC');
 
 		// Let's see if there is prieveus image
-		$sql = 'SELECT image_id, image_name FROM ' . $this->table_images . ' WHERE ' . $sort_by_sql[$sort_key] . ' < ';
+		$sql = 'SELECT image_id, image_name FROM ' . $this->table_images . ' WHERE ' . $sort_by_sql[$sort_key];
+		if ($sort_dir == 'a')
+		{
+			$sql .= ' < ';
+		}
+		else
+		{
+			$sql .= ' > ';
+		}
 		if (is_string($this->data[$sort_by_sql[$sort_key]]))
 		{
 			$sql .= '\'' . $this->db->sql_escape($this->data[$sort_by_sql[$sort_key]]) . '\'';
@@ -261,7 +269,15 @@ class image
 		$this->db->sql_freeresult($result);
 
 		// Now next
-		$sql = 'SELECT image_id, image_name FROM ' . $this->table_images . ' WHERE ' . $sort_by_sql[$sort_key] . ' > ';
+		$sql = 'SELECT image_id, image_name FROM ' . $this->table_images . ' WHERE ' . $sort_by_sql[$sort_key];
+		if ($sort_dir == 'a')
+		{
+			$sql .= ' > ';
+		}
+		else
+		{
+			$sql .= ' < ';
+		}
 		if (is_string($this->data[$sort_by_sql[$sort_key]]))
 		{
 			$sql .= '\'' . $this->db->sql_escape($this->data[$sort_by_sql[$sort_key]]) . '\'';
@@ -271,6 +287,7 @@ class image
 			$sql .= $this->db->sql_escape($this->data[$sort_by_sql[$sort_key]]);
 		}
 		$sql .= ' and image_album_id = ' . (int) $album_id . ' ORDER BY ' . $sql_sort_order;
+
 		$result = $this->db->sql_query_limit($sql, 1, 0);
 		$next = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
