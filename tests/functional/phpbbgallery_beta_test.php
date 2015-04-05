@@ -46,12 +46,12 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 			'image'	=> array(
 				'image',
 				true,
-				'app.php/gallery/image/1/source'
+				'app.php/gallery/image/2/source'
 			),
 			'next'	=> array(
 				'next',
 				true,
-				'app.php/gallery/image/4'
+				'app.php/gallery/image/1'
 			),
 			'none'	=> array(
 				'none',
@@ -61,7 +61,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 			'reset'	=> array(
 				'next',
 				true,
-				'app.php/gallery/image/4'
+				'app.php/gallery/image/1'
 			),
 		);
 	}
@@ -1245,10 +1245,9 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$crawler = self::submit($form);
 		// Should be updated
 		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
-		$crawler = self::request('GET', 'app.php/gallery/album/1');
-		$this->assertContains('zazazazazaza', $crawler->text());
+
 		// Test image
-		$crawler = self::request('GET', 'app.php/gallery/image/1');
+		$crawler = self::request('GET', 'app.php/gallery/image/2');
 		if ($has_link)
 		{
 			$link = $crawler->filter('div#image')->filter('a')->attr('href');
