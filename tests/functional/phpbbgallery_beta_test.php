@@ -1174,7 +1174,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->assertContains($second, $crawler->filter('div.polaroid')->eq(1)->text());
 		$this->assertContains($third, $crawler->filter('div.polaroid')->eq(2)->text());
 		
-		$url = $crawler->filter('div.polaroid')->eq(0)->filter('p')->filter('a:contains')->attr('href');
+		$url = $crawler->filter('div.polaroid')->eq(0)->filter('p')->filter('a')->attr('href');
 		$crawler = self::request('GET', $url);
 		
 		$this->assertContains($second, $crawler->filter('div.image_next_image')->text());
@@ -1207,7 +1207,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		
 		$crawler = self::request('GET', $upload_url);
 
-		$this->assertNotContains('This album has reached the quota of images. You cannot upload images anymore.', $crawler->text());
+		$this->assertContains('This album has reached the quota of images. You cannot upload images anymore.', $crawler->text());
 		
 		// Change option
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
