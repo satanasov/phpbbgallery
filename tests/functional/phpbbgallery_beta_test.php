@@ -1253,6 +1253,54 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 
 	}
 	// END ALBUM SETTINGS TESTS
+	
+	// START SEARCH SETTINGS
+	/**
+	* @dataProvider image_polaroid_info_data
+	*/
+	public function test_search_display($options, $tests)
+	{
+		$this->login();
+		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang('common');
+
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'search_display'	=> $options,
+		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
+
+		// Test
+		$crawler = self::request('GET', 'app.php/gallery/search');
+		$form = $crawler->selectButton('submit')->form();
+		$form['keywords'] = 'valid';
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('SEARCH', $crawler->text());
+		
+		$object = $crawler->filter('div.polaroid')->eq(0);
+		foreach ($tests as $test => $state)
+		{
+			if ($state)
+			{
+				$this->assertContains($test, $object->text());
+			}
+			else
+			{
+				$this->assertNotContains($test, $object->text());
+			}
+		}
+		
+		$this->logout();
+		$this->logout();
+	}
+	// END SEARCH SETTINGS
 	/**
 	* @dataProvider image_on_image_page_data
 	*/
