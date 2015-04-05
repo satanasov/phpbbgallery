@@ -1175,7 +1175,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->assertContains($third, $crawler->filter('div.polaroid')->eq(2)->text());
 		
 		$url = $crawler->filter('div.polaroid')->eq(0)->filter('p')->filter('a')->attr('href');
-		$crawler = self::request('GET', sustr($url,1));
+		$crawler = self::request('GET', substr($url,1));
 		
 		$this->assertContains($second, $crawler->filter('div.image_next_image')->text());
 		
