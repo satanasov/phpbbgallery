@@ -1057,8 +1057,8 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				'vc',
 				'd',
 				'Valid',
-				'Image in sublabum to move',
 				'Valid but needs approve',
+				'Image in sublabum to move',
 			),
 			'view_count_asc'	=> array(
 				'vc',
@@ -1070,8 +1070,8 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 			'username_desc'	=> array(
 				'u',
 				'd',
-				'Image in sublabum to move',
 				'Valid but needs approve',
+				'Image in sublabum to move',
 				'Valid',
 			),
 			'username_asc'	=> array(
