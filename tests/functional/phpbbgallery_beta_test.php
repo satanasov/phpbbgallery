@@ -1174,6 +1174,11 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->assertContains($second, $crawler->filter('div.polaroid')->eq(1)->text());
 		$this->assertContains($third, $crawler->filter('div.polaroid')->eq(2)->text());
 		
+		$url = $crawler->filter('div.polaroid')->eq(0)->filter('p')->filter('a:contains')->attr('href');
+		$crawler = self::request('GET', $url);
+		
+		$this->assertContains($second, $crawler->filter('div.image_next_image')->text());
+		
 		$this->logout();
 		$this->logout();
 		
@@ -1201,26 +1206,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$upload_url = substr($crawler->filter('a:contains("' . $this->lang('UPLOAD_IMAGE') . '")')->attr('href'), 1);	
 		
 		$crawler = self::request('GET', $upload_url);
-		
-		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
-		$this->assertContains('First test album!', $crawler->text());
-		
-		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
-		
-		$form['image_file_0'] =  __DIR__ . '/images/valid.jpg';;
-		$crawler = self::submit($form);
-		
-		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
-		$this->assertContains('First test album!', $crawler->text());
-		
-		//$this->assertContains('zazazazazaza', $crawler->text());
-		$form = $crawler->selectButton($this->lang['SUBMIT'])->form();
-		$form['image_name'] = array(
-			0 => 'Valid',
-		);
-		$crawler = self::submit($form);
-		
-		$this->assertContainsLang('ALBUM_UPLOAD_SUCCESSFUL', $crawler->text());
+
 		$this->assertNotContains('This album has reached the quota of images. You cannot upload images anymore.', $crawler->text());
 		
 		// Change option
