@@ -267,7 +267,7 @@ class image
 			}
 		}
 		$next = $prev = false;
-		if (count($images_array) > $cur)
+		if (count($images_array) > $cur + 1)
 		{
 			$next = array(
 				'image_id'	=> $images_array[$cur + 1]['image_id'],
