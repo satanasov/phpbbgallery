@@ -244,52 +244,43 @@ class image
 		}
 		gen_sort_selects($limit_days, $sort_by_text, $sort_days, $sort_key, $sort_dir, $s_limit_days, $s_sort_key, $s_sort_dir, $u_sort_param);
 		$sql_sort_order = $sort_by_sql[$sort_key] . ' ' . (($sort_dir == 'd') ? 'DESC' : 'ASC');
+		$sql_sort_order .= $sql_help_sort;
 
 		// Let's see if there is prieveus image
-		$sql = 'SELECT image_id, image_name FROM ' . $this->table_images . ' WHERE ' . $sort_by_sql[$sort_key];
-		if ($sort_dir == 'a')
+		$sql = 'SELECT *
+			FROM ' . $this->table_images . '
+			WHERE image_album_id = ' . (int) $album_id . "
+				AND image_status <> 3
+			ORDER BY $sql_sort_order" . $sql_help_sort;
+		$result = $this->db->sql_query($sql);
+		$images_array = array();
+		while($row = $this->db->sql_fetchrow($result))
 		{
-			$sql .= ' < ';
+			$images_array[] = $row;
 		}
-		else
+		$cur = 0;
+		foreach ($images_array as $id => $var)
 		{
-			$sql .= ' > ';
+			if ($var['image_id'] == $image_id)
+			{
+				$cur = $id;
+			}
 		}
-		if (is_string($this->data[$sort_by_sql[$sort_key]]))
+		$next = $prev = false;
+		if (count($images_array) > $cur)
 		{
-			$sql .= '\'' . $this->db->sql_escape($this->data[$sort_by_sql[$sort_key]]) . '\'';
+			$next = array(
+				'image_id'	=> $images_array[$cur + 1]['image_id'],
+				'image_name'	=> $images_array[$cur + 1]['image_name'],
+			);
 		}
-		else
+		if ($cur > 0)
 		{
-			$sql .= $this->db->sql_escape($this->data[$sort_by_sql[$sort_key]]);
+			$prev = array(
+				'image_id'	=> $images_array[$cur - 1]['image_id'],
+				'image_name'	=> $images_array[$cur - 1]['image_name'],
+			);
 		}
-		$sql .= ' and image_album_id = ' . (int) $album_id . ' ORDER BY ' . $sql_sort_order;
-		$result = $this->db->sql_query_limit($sql, 1, 0);
-		$prev = $this->db->sql_fetchrow($result);
-		$this->db->sql_freeresult($result);
-
-		// Now next
-		$sql = 'SELECT image_id, image_name FROM ' . $this->table_images . ' WHERE ' . $sort_by_sql[$sort_key];
-		if ($sort_dir == 'a')
-		{
-			$sql .= ' > ';
-		}
-		else
-		{
-			$sql .= ' < ';
-		}
-		if (is_string($this->data[$sort_by_sql[$sort_key]]))
-		{
-			$sql .= '\'' . $this->db->sql_escape($this->data[$sort_by_sql[$sort_key]]) . '\'';
-		}
-		else
-		{
-			$sql .= $this->db->sql_escape($this->data[$sort_by_sql[$sort_key]]);
-		}
-		$sql .= ' and image_album_id = ' . (int) $album_id . ' ORDER BY ' . $sql_sort_order;
-
-		$result = $this->db->sql_query_limit($sql, 1, 0);
-		$next = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 
 		$this->template->assign_vars(array(
