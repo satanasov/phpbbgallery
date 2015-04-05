@@ -246,6 +246,7 @@ class search
 				'BLOCK_NAME'	=> '',
 				'U_BLOCK'	=> $this->helper->route('phpbbgallery_search'),
 			));
+
 			// Now let's get display options
 			$show_ip = $show_ratings = $show_username = $show_views = $show_time = $show_imagename = $show_comments = $show_album = false;
 			$show_options = $this->gallery_config->get('search_display');
@@ -288,32 +289,32 @@ class search
 			{
 				$show_album = true;
 			}
-			switch ($this->gallery_config->get('link_thumbnail'))
-			{
-				case 'image_page':
-					$action = $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id']));
-				break;
-				case 'image':
-					$action = $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $row['image_id']));
-				break;
-				default:
-					$action = false;
-				break;
-			}
-			switch ($this->gallery_config->get('link_image_name'))
-			{
-				case 'image_page':
-					$action_image = $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id']));
-				break;
-				case 'image':
-					$action_image = $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $row['image_id']));
-				break;
-				default:
-					$action_image = false;
-				break;
-			}
 			foreach ($rowset as $row)
 			{
+				switch ($this->gallery_config->get('link_thumbnail'))
+				{
+					case 'image_page':
+						$action = $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id']));
+					break;
+					case 'image':
+						$action = $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $row['image_id']));
+					break;
+					default:
+						$action = false;
+					break;
+				}
+				switch ($this->gallery_config->get('link_image_name'))
+				{
+					case 'image_page':
+						$action_image = $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id']));
+					break;
+					case 'image':
+						$action_image = $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $row['image_id']));
+					break;
+					default:
+						$action_image = false;
+					break;
+				}
 				$album_data = $this->album->get_info($row['image_album_id']);
 
 				$this->template->assign_block_vars('imageblock.image', array(
