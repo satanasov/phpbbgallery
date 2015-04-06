@@ -1611,6 +1611,141 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 	}
+	/**
+	* @dataProvider yes_no_data
+	*/
+	public function test_allow_gif($option)
+	{
+		$this->login();
+		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang('common');
+		
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'config[allow_gif]'	=> $option,
+		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
+		
+		// Test
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
+		$upload_url = substr($crawler->filter('a:contains("' . $this->lang('UPLOAD_IMAGE') . '")')->attr('href'), 1);
+		$crawler = self::request('GET', $upload_url);
+		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
+		$form['image_file_0'] =  __DIR__ . '/images/valid.gif';
+		$crawler = self::submit($form);
+		if ($option == 1)
+		{
+			$form = $crawler->selectButton($this->lang['SUBMIT'])->form();
+			$form['image_name'] = array(
+				0 => 'Test Gif image',
+			);
+			$crawler = self::submit($form);
+			
+			$this->assertContainsLang('ALBUM_UPLOAD_SUCCESSFUL', $crawler->text());
+		}
+		else
+		{
+			$this->assertContains($this->lang('DISALLOWED_EXTENSION'), $crawler->filter('p.error')->text());
+		}
+		$this->logout();
+		$this->logout();
+	}
+	/**
+	* @dataProvider yes_no_data
+	*/
+	public function test_allow_jpg($option)
+	{
+		$this->login();
+		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang('common');
+		
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'config[allow_jpg]'	=> $option,
+		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
+		
+		// Test
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
+		$upload_url = substr($crawler->filter('a:contains("' . $this->lang('UPLOAD_IMAGE') . '")')->attr('href'), 1);
+		$crawler = self::request('GET', $upload_url);
+		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
+		$form['image_file_0'] =  __DIR__ . '/images/valid.jpg';
+		$crawler = self::submit($form);
+		if ($option == 1)
+		{
+			$form = $crawler->selectButton($this->lang['SUBMIT'])->form();
+			$form['image_name'] = array(
+				0 => 'Test jpg image',
+			);
+			$crawler = self::submit($form);
+			
+			$this->assertContainsLang('ALBUM_UPLOAD_SUCCESSFUL', $crawler->text());
+		}
+		else
+		{
+			$this->assertContains($this->lang('DISALLOWED_EXTENSION'), $crawler->filter('p.error')->text());
+		}
+		$this->logout();
+		$this->logout();
+	}
+	/**
+	* @dataProvider yes_no_data
+	*/
+	public function test_allow_png($option)
+	{
+		$this->login();
+		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang('common');
+		
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'config[allow_png]'	=> $option,
+		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
+		
+		// Test
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
+		$upload_url = substr($crawler->filter('a:contains("' . $this->lang('UPLOAD_IMAGE') . '")')->attr('href'), 1);
+		$crawler = self::request('GET', $upload_url);
+		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
+		$form['image_file_0'] =  __DIR__ . '/images/valid.png';
+		$crawler = self::submit($form);
+		if ($option == 1)
+		{
+			$form = $crawler->selectButton($this->lang['SUBMIT'])->form();
+			$form['image_name'] = array(
+				0 => 'Test png image',
+			);
+			$crawler = self::submit($form);
+			
+			$this->assertContainsLang('ALBUM_UPLOAD_SUCCESSFUL', $crawler->text());
+		}
+		else
+		{
+			$this->assertContains($this->lang('DISALLOWED_EXTENSION'), $crawler->filter('p.error')->text());
+		}
+		$this->logout();
+		$this->logout();
+	}
 	// END IMAGE SETTINGS
 	/**
 	* @dataProvider image_on_image_page_data
@@ -1670,7 +1805,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
-		$object = $crawler->filter('div.polaroid')->eq(6)->filter('div#thumbnail');
+		$object = $crawler->filter('div.polaroid')->eq(13)->filter('div#thumbnail');
 		if ($has_link)
 		{
 			$this->assertContains($search, $object->filter('a')->attr('href'));
@@ -1705,7 +1840,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
-		$object = $crawler->filter('div.polaroid')->eq(6)->filter('p')->eq(0);
+		$object = $crawler->filter('div.polaroid')->eq(13)->filter('p')->eq(0);
 		if ($has_link)
 		{
 			$this->assertContains($search, $object->filter('a')->attr('href'));
