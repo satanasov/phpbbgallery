@@ -1788,7 +1788,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 	}*/
-	public function test_medium_size()
+	public function test_description_length()
 	{
 		$this->login();
 		$this->admin_login();
@@ -1858,7 +1858,72 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 	}
-	
+	/**
+	* @dataProvider yes_no_data
+	*/
+	public function test_disp_nextprev_thumbnail($option)
+	{
+		$this->login();
+		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang('common');
+		
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'config[disp_nextprev_thumbnail]'	=> $option,
+		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
+		
+		// Test
+		$crawler = self::request('GET', 'app.php/gallery/image/2');
+
+		$this->assertEquals($option, $crawler->filter('div.image_prev_image')->filter('img'));
+		$this->assertEquals($option, $crawler->filter('div.image_prev_image')->filter('img'));
+
+		$this->logout();
+		$this->logout();
+	}
+	/**
+	* @dataProvider yes_no_data
+	*/
+	public function test_disp_image_url($option)
+	{
+		$this->login();
+		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang('common');
+		
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'config[disp_image_url]'	=> $option,
+		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
+		
+		// Test
+		$crawler = self::request('GET', 'app.php/gallery/image/2');
+
+		if ($option == 1)
+		{
+			$this->assertContains($this->lang('IMAGE_URL'), $crawler->text());
+		}
+		else
+		{
+			$this->assertNotContains($this->lang('IMAGE_URL'), $crawler->text());
+		}
+
+		$this->logout();
+		$this->logout();
+	}
 	// END IMAGE SETTINGS
 	/**
 	* @dataProvider image_on_image_page_data
