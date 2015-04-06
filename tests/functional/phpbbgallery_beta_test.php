@@ -1439,6 +1439,47 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 	}
+	public function test_max_size_dont_allow_resize()
+	{
+		$this->login();
+		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang('common');
+
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'config[max_width]'		=> 100,
+			'config[max_height]'	=> 100,
+			'config[allow_resize]'	=> 0,
+		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
+		
+		// Test
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
+		$upload_url = substr($crawler->filter('a:contains("' . $this->lang('UPLOAD_IMAGE') . '")')->attr('href'), 1);	
+		
+		$crawler = self::request('GET', $upload_url);
+		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
+		$form['image_file_0'] =  __DIR__ . '/images/valid.jpg';;
+		$crawler = self::submit($form);
+		$this->assertContains($this->lang('UPLOAD_IMAGE_SIZE_TOO_BIG'), $crawler->filter('p.error')->text());
+		
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'config[max_width]'		=> 4096,
+			'config[max_height]'	=> 2048,
+			'config[allow_resize]'	=> 1,
+		));
+		$this->logout();
+		$this->logout();
+	}
 	// END IMAGE SETTINGS
 	/**
 	* @dataProvider image_on_image_page_data
