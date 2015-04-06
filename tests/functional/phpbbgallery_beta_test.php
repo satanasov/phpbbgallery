@@ -1746,9 +1746,6 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 	}
-	/**
-	* @dataProvider yes_no_data
-	*/
 	/*public function test_allow_zip($option)
 	{
 		$this->login();
