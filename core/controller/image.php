@@ -693,7 +693,10 @@ class image
 			$image_desc = $image_desc[0];
 			$image_name = $this->request->variable('image_name', array(''), true);
 			$image_name = $image_name[0];
-
+			if(strlen($image_desc) > $this->gallery_config->get('description_length'))
+			{
+				trigger_error($this->user->lang('DESC_TOO_LONG'));
+			}
 			// Create message parser instance
 			include_once($phpbb_root_path . 'includes/message_parser.' . $phpEx);
 			$message_parser = new \parse_message();
