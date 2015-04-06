@@ -1303,7 +1303,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 	// END SEARCH SETTINGS
 	
 	// START IMAGE SETTINGS
-	public function test_search_display()
+	public function test_num_uploads()
 	{
 		$this->login();
 		$this->admin_login();
@@ -1343,7 +1343,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 	}
-	public function test_search_display()
+	public function test_max_filesize()
 	{
 		$this->login();
 		$this->admin_login();
