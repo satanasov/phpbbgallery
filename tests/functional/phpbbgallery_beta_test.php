@@ -1399,8 +1399,8 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
 		$form = $crawler->selectButton('submit')->form();
 		$form->setValues(array(
-			'config[max_width]'		=> 100,
-			'config[max_height]'	=> 100,
+			'config[max_width]'		=> 150,
+			'config[max_height]'	=> 150,
 			'config[allow_resize]'	=> 1,
 		));
 		$crawler = self::submit($form);
@@ -1433,7 +1433,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$url = $crawler->filter('a:contains("This should be resized")')->attr('href');
 		$image_array = getimagesize('http://localhost' . $url . '/source');
 		
-		$this->assertEquals(100, $image_array[0]);
+		$this->assertEquals(150, $image_array[0]);
 		$this->assertEquals(100, $image_array[1]);
 		
 		$this->logout();
@@ -1477,6 +1477,69 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 			'config[max_height]'	=> 2048,
 			'config[allow_resize]'	=> 1,
 		));
+		$this->logout();
+		$this->logout();
+	}
+	/**
+	* @dataProvider yes_no_data
+	*/
+	public function test_allow_rotate($option)
+	{
+		$this->login();
+		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang('common');
+		
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'config[allow_rotate]'	=> $option,
+		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
+		
+		// Test
+		$crawler = self::request('GET', $upload_url);
+		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
+		$form['image_file_0'] =  __DIR__ . '/images/valid.jpg';;
+		$crawler = self::submit($form);
+		
+		$form = $crawler->selectButton($this->lang['SUBMIT'])->form();
+		$form['image_name'] = array(
+			0 => 'Rotate test',
+		);
+		if ($option == 1)
+		{
+			$form['rotate'] = array(
+				0 => '270',
+			);
+		}
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('ALBUM_UPLOAD_SUCCESSFUL', $crawler->text());
+		
+		$meta = $crawler->filter('meta[http-equiv="refresh"]')->attr('content');
+		$this->assertContains('app.php/gallery/album/1', $meta);
+
+		$url = $this->get_url_from_meta($meta);
+		$crawler = self::request('GET', substr($url, 1));
+		
+		$url = $crawler->filter('a:contains("Rotate test")')->eq(0)->attr('href');
+		$image_array = getimagesize('http://localhost' . $url . '/source');
+		if ($option == 1)
+		{
+			$this->assertEquals(300, $image_array[0]);
+			$this->assertEquals(450, $image_array[1]);
+		}
+		else
+		{
+			$this->assertEquals(450, $image_array[0]);
+			$this->assertEquals(300, $image_array[1]);
+		}
+		
 		$this->logout();
 		$this->logout();
 	}
@@ -1539,7 +1602,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
-		$object = $crawler->filter('div.polaroid')->eq(3)->filter('div#thumbnail');
+		$object = $crawler->filter('div.polaroid')->eq(6)->filter('div#thumbnail');
 		if ($has_link)
 		{
 			$this->assertContains($search, $object->filter('a')->attr('href'));
@@ -1574,7 +1637,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
-		$object = $crawler->filter('div.polaroid')->eq(3)->filter('p')->eq(0);
+		$object = $crawler->filter('div.polaroid')->eq(6)->filter('p')->eq(0);
 		if ($has_link)
 		{
 			$this->assertContains($search, $object->filter('a')->attr('href'));
