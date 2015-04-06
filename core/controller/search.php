@@ -144,6 +144,7 @@ class search
 			$this->images_table => 'i',
 		);
 		$sql_array['ORDER_BY'] = $sql_order;
+		$sql_array['GROUP_BY'] = $sort_by_sql[$sort_key];
 		if ($keywords || $username || $user_id || $search_id || $submit)
 		{
 			// Let's resolve username to user id ... or array of them.
@@ -235,6 +236,7 @@ class search
 				trigger_error('NO_SEARCH_RESULTS');
 			}
 			$sql_array['SELECT'] = '*';
+			$sql_array['GROUP_BY']	= 'image_id';
 			$sql = $this->db->sql_build_query('SELECT', $sql_array);
 			$result = $this->db->sql_query_limit($sql, $this->gallery_config->get('items_per_page'), $start);
 			while ($row = $this->db->sql_fetchrow($result))
