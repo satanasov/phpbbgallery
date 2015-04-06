@@ -1514,6 +1514,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 			);
 		}
 		$crawler = self::submit($form);
+		$this->assertContains('zazazazaza', $crawler->text());
 		$form = $crawler->selectButton($this->lang['SUBMIT'])->form();
 		$form['image_name'] = array(
 			0 => 'Rotate test',
