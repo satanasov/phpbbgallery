@@ -1477,6 +1477,9 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 			'config[max_height]'	=> 2048,
 			'config[allow_resize]'	=> 1,
 		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 		$this->logout();
 		$this->logout();
 	}
@@ -1514,7 +1517,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 			);
 		}
 		$crawler = self::submit($form);
-		$this->assertContains('zazazazaza', $crawler->text());
+
 		$form = $crawler->selectButton($this->lang['SUBMIT'])->form();
 		$form['image_name'] = array(
 			0 => 'Rotate test',
