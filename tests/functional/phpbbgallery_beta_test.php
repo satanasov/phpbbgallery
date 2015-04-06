@@ -1882,9 +1882,16 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		// Test
 		$crawler = self::request('GET', 'app.php/gallery/image/2');
 
-		$this->assertEquals($option, $crawler->filter('div.image_prev_image')->filter('img'));
-		$this->assertEquals($option, $crawler->filter('div.image_prev_image')->filter('img'));
-
+		if ($option == 1)
+		{
+			$this->assertEquals(1, $crawler->filter('div.image_prev_image')->filter('img'));
+			$this->assertEquals(1, $crawler->filter('div.image_prev_image')->filter('img'));
+		}
+		else
+		{
+			$this->assertEquals(0, $crawler->filter('div.image_prev_image')->filter('img'));
+			$this->assertEquals(0, $crawler->filter('div.image_prev_image')->filter('img'));
+		}
 		$this->logout();
 		$this->logout();
 	}
