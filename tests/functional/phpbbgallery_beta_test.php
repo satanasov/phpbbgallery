@@ -1339,6 +1339,10 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		// Should be updated
 		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 		
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
+		$upload_url = substr($crawler->filter('a:contains("' . $this->lang('UPLOAD_IMAGE') . '")')->attr('href'), 1);	
+		
+		$crawler = self::request('GET', $upload_url);
 		$this->assertEquals(1, $crawler->filter('input#image_file_1')->count());
 		$this->logout();
 		$this->logout();
@@ -1366,6 +1370,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$upload_url = substr($crawler->filter('a:contains("' . $this->lang('UPLOAD_IMAGE') . '")')->attr('href'), 1);	
 		
 		$crawler = self::request('GET', $upload_url);
+		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
 		$form['image_file_0'] =  __DIR__ . '/images/valid.jpg';;
 		$crawler = self::submit($form);
 		
