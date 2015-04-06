@@ -1339,7 +1339,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		// Should be updated
 		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 		
-		$this->assertEquals(1, $crawler->filter('input#image_file_1')->cont());
+		$this->assertEquals(1, $crawler->filter('input#image_file_1')->count());
 		$this->logout();
 		$this->logout();
 	}
