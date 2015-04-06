@@ -1327,7 +1327,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		
 		$crawler = self::request('GET', $upload_url);
 		
-		$this->assertEquals(0, $crawler->filter('input#image_file_1')->cont());
+		$this->assertEquals(0, $crawler->filter('input#image_file_1')->count());
 		
 		// Change option
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
