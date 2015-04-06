@@ -354,4 +354,5 @@ $lang = array_merge($lang, array(
 	),
 
 	'QUICK_MOD'	=> 'Select moderator action',
+	'WRONG_FILESIZE'	=> 'Image is bigger then the limit!',
 ));
