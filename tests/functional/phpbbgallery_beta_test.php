@@ -1413,7 +1413,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		
 		$crawler = self::request('GET', $upload_url);
 		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
-		$form['image_file_0'] =  __DIR__ . '/images/valid.jpg';;
+		$form['image_file_0'] =  __DIR__ . '/images/valid.jpg';
 		$crawler = self::submit($form);
 		$form = $crawler->selectButton($this->lang['SUBMIT'])->form();
 		$form['image_name'] = array(
@@ -1514,7 +1514,6 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 			);
 		}
 		$crawler = self::submit($form);
-		
 		$form = $crawler->selectButton($this->lang['SUBMIT'])->form();
 		$form['image_name'] = array(
 			0 => 'Rotate test',
