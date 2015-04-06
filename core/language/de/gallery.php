@@ -355,4 +355,5 @@ $lang = array_merge($lang, array(
 		1	=>	'Bild verschoben',
 		2	=> 	'%s Bilder verschoben',
 	),
+	'WRONG_FILESIZE'	=> 'Image is bigger then the limit!',
 ));
