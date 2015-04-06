@@ -1387,6 +1387,59 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 	}
+	public function test_max_size_allow_resize()
+	{
+		$this->login();
+		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang('common');
+
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'config[max_width]'		=> 100,
+			'config[max_height]'	=> 100,
+			'config[allow_resize]'	=> 1,
+		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
+		
+		// Test
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
+		$upload_url = substr($crawler->filter('a:contains("' . $this->lang('UPLOAD_IMAGE') . '")')->attr('href'), 1);	
+		
+		$crawler = self::request('GET', $upload_url);
+		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
+		$form['image_file_0'] =  __DIR__ . '/images/valid.jpg';;
+		$crawler = self::submit($form);
+		$form = $crawler->selectButton($this->lang['SUBMIT'])->form();
+		$form['image_name'] = array(
+			0 => 'This should be resized',
+		);
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('ALBUM_UPLOAD_SUCCESSFUL', $crawler->text());
+		
+		//$crawler = self::request('GET', 'app.php/gallery/album/1');
+		$meta = $crawler->filter('meta[http-equiv="refresh"]')->attr('content');
+		$this->assertContains('app.php/gallery/album/1', $meta);
+
+		$url = $this->get_url_from_meta($meta);
+		$crawler = self::request('GET', substr($url, 1));
+		
+		$url = $crawler->filter('a:contains("This should be resized")')->attr('href');
+		$crawler = self::request('GET', substr($url,1) . '/source');
+		$image_array = getimagesize('http://localhost' . $url . '/source');
+		
+		$this->assertEquals(100, $image_array[0]);
+		$this->assertEquals(100, $image_array[1]);
+		
+		$this->logout();
+		$this->logout();
+	}
 	// END IMAGE SETTINGS
 	/**
 	* @dataProvider image_on_image_page_data
