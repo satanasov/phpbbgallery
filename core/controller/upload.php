@@ -252,10 +252,17 @@ class upload
 					if ($own_images >= $this->auth->acl_check('i_count', $album_id, $album_data['album_user_id']))
 					{
 						//@todo: Add return link
-						trigger_error($user->lang('USER_REACHED_QUOTA', $this->auth->acl_check('i_count', $album_id, $album_data['album_user_id'])));
+						trigger_error($this->user->lang('USER_REACHED_QUOTA', $this->auth->acl_check('i_count', $album_id, $album_data['album_user_id'])));
 					}
 				}
-
+				$description_array = $this->request->variable('message', array(''), true);
+				foreach ($description_array as $var)
+				{
+					if(strlen($var) > $this->gallery_config->get('description_length'))
+					{
+						trigger_error($this->user->lang('DESC_TOO_LONG'));
+					}
+				}
 				$upload_files_limit = ($this->auth->acl_check('i_unlimited', $album_id, $album_data['album_user_id'])) ? $this->gallery_config->get('num_uploads') : min(($this->auth->acl_check('i_count', $album_id, $album_data['album_user_id']) - $own_images), $this->gallery_config->get('num_uploads'));
 
 				$upload_ids = $this->request->variable('upload_ids', array(''));
@@ -265,7 +272,7 @@ class upload
 				$process->get_images($upload_ids);
 				$image_names = $this->request->variable('image_name', array(''), true);
 				$process->set_names($image_names);
-				$process->set_descriptions(request_var('message', array(''), true));
+				$process->set_descriptions($description_array);
 				$process->set_image_num(request_var('image_num', 0));
 				$process->use_same_name(request_var('same_name', false));
 
