@@ -1431,7 +1431,6 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$crawler = self::request('GET', substr($url, 1));
 		
 		$url = $crawler->filter('a:contains("This should be resized")')->attr('href');
-		$crawler = self::request('GET', substr($url,1) . '/source');
 		$image_array = getimagesize('http://localhost' . $url . '/source');
 		
 		$this->assertEquals(100, $image_array[0]);
