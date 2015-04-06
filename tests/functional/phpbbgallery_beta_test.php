@@ -1315,7 +1315,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
 		$form = $crawler->selectButton('submit')->form();
 		$form->setValues(array(
-			'num_uploads'	=> 1,
+			'config[num_uploads]'	=> 1,
 		));
 		$crawler = self::submit($form);
 		// Should be updated
@@ -1333,7 +1333,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
 		$form = $crawler->selectButton('submit')->form();
 		$form->setValues(array(
-			'num_uploads'	=> 10,
+			'config[num_uploads]'	=> 10,
 		));
 		$crawler = self::submit($form);
 		// Should be updated
@@ -1355,7 +1355,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
 		$form = $crawler->selectButton('submit')->form();
 		$form->setValues(array(
-			'max_filesize'	=> 100,
+			'config[max_filesize]'	=> 100,
 		));
 		$crawler = self::submit($form);
 		// Should be updated
@@ -1374,7 +1374,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
 		$form = $crawler->selectButton('submit')->form();
 		$form->setValues(array(
-			'max_filesize'	=> 512000,
+			'config[max_filesize]'	=> 512000,
 		));
 		$crawler = self::submit($form);
 		// Should be updated
