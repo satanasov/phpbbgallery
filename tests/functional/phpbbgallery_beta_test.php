@@ -1502,21 +1502,23 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 		
 		// Test
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
+		$upload_url = substr($crawler->filter('a:contains("' . $this->lang('UPLOAD_IMAGE') . '")')->attr('href'), 1);
 		$crawler = self::request('GET', $upload_url);
 		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
-		$form['image_file_0'] =  __DIR__ . '/images/valid.jpg';;
-		$crawler = self::submit($form);
-		
-		$form = $crawler->selectButton($this->lang['SUBMIT'])->form();
-		$form['image_name'] = array(
-			0 => 'Rotate test',
-		);
+		$form['image_file_0'] =  __DIR__ . '/images/valid.jpg';
 		if ($option == 1)
 		{
 			$form['rotate'] = array(
 				0 => '270',
 			);
 		}
+		$crawler = self::submit($form);
+		
+		$form = $crawler->selectButton($this->lang['SUBMIT'])->form();
+		$form['image_name'] = array(
+			0 => 'Rotate test',
+		);
 		$crawler = self::submit($form);
 		
 		$this->assertContainsLang('ALBUM_UPLOAD_SUCCESSFUL', $crawler->text());
