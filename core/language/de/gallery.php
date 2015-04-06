@@ -117,6 +117,7 @@ $lang = array_merge($lang, array(
 	'DESC_TOO_LONG'					=> 'Deine Beschreibung ist zu lang',
 	'DESCRIPTION_LENGTH'			=> 'Gib deine Beschreibung hier ein. Sie darf nicht mehr als <strong>%d</strong> Zeichen enthalten.',
 	'DETAILS'						=> 'Details',
+	'DISALLOWED_EXTENSION'			=> 'This image extension is not allowed',
 	'DONT_RATE_IMAGE'				=> 'Bild nicht bewerten',
 
 	'EDIT_COMMENT'					=> 'Kommentar ändern',

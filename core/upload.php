@@ -118,11 +118,11 @@ class upload
 	*/
 	public function upload_zip()
 	{
-		global $phpbb_ext_gallery;
+		global $phpbb_ext_gallery, $phpbb_root_path, $phpEx;
 
 		if (!class_exists('compress_zip'))
 		{
-			$phpbb_ext_gallery->url->_include('functions_compress', 'phpbb');
+			include_once($phpbb_root_path . 'includes/functions_compress.' . $phpEx);
 		}
 
 		global $user;
@@ -137,7 +137,7 @@ class upload
 			return false;
 		}
 
-		$compress = new compress_zip('r', $this->zip_file->destination_file);
+		$compress = new \compress_zip('r', $this->zip_file->destination_file);
 		$compress->extract($tmp_dir);
 		$compress->close();
 

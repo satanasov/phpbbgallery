@@ -109,6 +109,7 @@ $lang = array_merge($lang, array(
 	'DESC_TOO_LONG'					=> 'Описание слишком длинное',
 	'DESCRIPTION_LENGTH'			=> 'Введите описание (не более <strong>%d</strong> символов).',
 	'DETAILS'						=> 'Информация',
+	'DISALLOWED_EXTENSION'			=> 'This image extension is not allowed',
 	'DONT_RATE_IMAGE'				=> 'Нет оценки',
 	'EDIT_COMMENT'					=> 'Редактировать комментарий',
 	'EDIT_IMAGE'					=> 'Редактировать',
