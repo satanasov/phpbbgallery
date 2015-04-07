@@ -1932,6 +1932,108 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 	}
 	// END IMAGE SETTINGS
+	
+	// BEGIN THUMBNAIL SETTINGS
+	public function test_medium_size()
+	{
+		$this->login();
+		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang('common');
+		
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'config[thumbnail_width]'	=> 15,
+			'config[thumbnail_height]'	=> 15,
+		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
+		
+		// Test
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
+		$upload_url = substr($crawler->filter('a:contains("' . $this->lang('UPLOAD_IMAGE') . '")')->attr('href'), 1);	
+		
+		$crawler = self::request('GET', $upload_url);
+		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
+		$form['image_file_0'] =  __DIR__ . '/images/valid.jpg';
+		$crawler = self::submit($form);
+		$form = $crawler->selectButton($this->lang['SUBMIT'])->form();
+		$form['image_name'] = array(
+			0 => 'mini',
+		);
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('ALBUM_UPLOAD_SUCCESSFUL', $crawler->text());
+		
+		//$crawler = self::request('GET', 'app.php/gallery/album/1');
+		$meta = $crawler->filter('meta[http-equiv="refresh"]')->attr('content');
+		$this->assertContains('app.php/gallery/album/1', $meta);
+
+		$url = $this->get_url_from_meta($meta);
+		$crawler = self::request('GET', substr($url, 1));
+		
+		$url = $crawler->filter('a:contains("mini")')->attr('href');
+		$image_array = getimagesize('http://localhost' . $url . '/mini');
+		
+		$this->assertEquals(15, $image_array[0]);
+		$this->assertEquals(10, $image_array[1]);
+		
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'config[thumbnail_width]'	=> 240,
+			'config[thumbnail_height]'	=> 160,
+		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
+		
+		$this->logout();
+		$this->logout();
+	}
+	// END THUMBNAIL SETTINGS
+	
+	// START IMAGE SETTINGS
+	/**
+	* @dataProvider thumbnail_link_data
+	*/
+	public function test_thumbnail_link($option, $has_link, $search)
+	{
+		$this->login();
+		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang('common');
+		
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'config[link_thumbnail]'	=> $option,
+		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
+
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
+		$object = $crawler->filter('div.polaroid')->eq(15)->filter('div#thumbnail');
+		if ($has_link)
+		{
+			$this->assertContains($search, $object->filter('a')->attr('href'));
+		}
+		else
+		{
+			$this->assertEquals(0, $object->filter('a')->count());
+			$this->assertEquals(1, $object->filter('img')->count());
+		}
+		
+		$this->logout();
+	}
 	/**
 	* @dataProvider image_on_image_page_data
 	*/
@@ -1967,42 +2069,6 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		}		
 		$this->logout();
 	}
-	
-	/**
-	* @dataProvider thumbnail_link_data
-	*/
-	public function test_thumbnail_link($option, $has_link, $search)
-	{
-		$this->login();
-		$this->admin_login();
-		$this->add_lang_ext('phpbbgallery/core', 'gallery');
-		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
-		$this->add_lang('common');
-		
-		// Change option
-		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
-		$form = $crawler->selectButton('submit')->form();
-		$form->setValues(array(
-			'config[link_thumbnail]'	=> $option,
-		));
-		$crawler = self::submit($form);
-		// Should be updated
-		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
-
-		$crawler = self::request('GET', 'app.php/gallery/album/1');
-		$object = $crawler->filter('div.polaroid')->eq(14)->filter('div#thumbnail');
-		if ($has_link)
-		{
-			$this->assertContains($search, $object->filter('a')->attr('href'));
-		}
-		else
-		{
-			$this->assertEquals(0, $object->filter('a')->count());
-			$this->assertEquals(1, $object->filter('img')->count());
-		}
-		
-		$this->logout();
-	}
 	/**
 	* @dataProvider thumbnail_link_data
 	*/
@@ -2025,7 +2091,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
-		$object = $crawler->filter('div.polaroid')->eq(14)->filter('p')->eq(0);
+		$object = $crawler->filter('div.polaroid')->eq(15)->filter('p')->eq(0);
 		if ($has_link)
 		{
 			$this->assertContains($search, $object->filter('a')->attr('href'));
@@ -2037,4 +2103,5 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		
 		$this->logout();
 	}
+	// END LINK SETTINGS
 }
