@@ -1970,14 +1970,13 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->assertContainsLang('ALBUM_UPLOAD_SUCCESSFUL', $crawler->text());
 		
 		//$crawler = self::request('GET', 'app.php/gallery/album/1');
-		$meta = $crawler->filter('meta[http-equiv="refresh"]')->attr('content');
 		$this->assertContains('app.php/gallery/album/1', $meta);
 
-		$url = $this->get_url_from_meta($meta);
-		$crawler = self::request('GET', substr($url, 1));
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		
+		$this->assertContains('zazazazaza', $crawler->text());
 		$url = $crawler->filter('a:contains("mini")')->attr('href');
-		$this->assertContains('zazazaza', $url);
+		
 		$image_array = getimagesize('http://localhost' . $url . '/mini');
 		
 		$this->assertEquals(15, $image_array[0]);
