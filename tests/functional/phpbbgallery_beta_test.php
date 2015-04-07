@@ -1934,7 +1934,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 	// END IMAGE SETTINGS
 	
 	// BEGIN THUMBNAIL SETTINGS
-	public function test_medium_size()
+	public function test_thumbnail_size()
 	{
 		$this->login();
 		$this->admin_login();
