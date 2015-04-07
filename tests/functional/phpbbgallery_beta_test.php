@@ -1884,13 +1884,13 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 
 		if ($option == 1)
 		{
-			$this->assertEquals(1, $crawler->filter('div.image_prev_image')->filter('img'));
-			$this->assertEquals(1, $crawler->filter('div.image_prev_image')->filter('img'));
+			$this->assertEquals(1, $crawler->filter('div.image_prev_image')->filter('img')->count());
+			$this->assertEquals(1, $crawler->filter('div.image_prev_image')->filter('img')->count());
 		}
 		else
 		{
-			$this->assertEquals(0, $crawler->filter('div.image_prev_image')->filter('img'));
-			$this->assertEquals(0, $crawler->filter('div.image_prev_image')->filter('img'));
+			$this->assertEquals(0, $crawler->filter('div.image_prev_image')->filter('img')->count());
+			$this->assertEquals(0, $crawler->filter('div.image_prev_image')->filter('img')->count());
 		}
 		$this->logout();
 		$this->logout();
