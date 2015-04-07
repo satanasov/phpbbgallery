@@ -111,7 +111,7 @@ class config
 
 		//'thumbnail_cache'		=> true,
 		'thumbnail_height'		=> 160,
-		'thumbnail_infoline'	=> false,
+		//'thumbnail_infoline'	=> false,
 		'thumbnail_quality'		=> 50,
 		'thumbnail_width'		=> 240,
 

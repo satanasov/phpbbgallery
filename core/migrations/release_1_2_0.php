@@ -223,7 +223,7 @@ class release_1_2_0 extends \phpbb\db\migration\migration
 
 		//'thumbnail_cache'		=> true,
 		'thumbnail_height'		=> 160,
-		'thumbnail_infoline'	=> false,
+		//'thumbnail_infoline'	=> false,
 		'thumbnail_quality'		=> 50,
 		'thumbnail_width'		=> 240,
 
