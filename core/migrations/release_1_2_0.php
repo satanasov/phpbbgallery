@@ -221,7 +221,7 @@ class release_1_2_0 extends \phpbb\db\migration\migration
 
 		'search_display'		=> 45,
 
-		'thumbnail_cache'		=> true,
+		//'thumbnail_cache'		=> true,
 		'thumbnail_height'		=> 160,
 		'thumbnail_infoline'	=> false,
 		'thumbnail_quality'		=> 50,

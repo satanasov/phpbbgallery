@@ -109,7 +109,7 @@ class config
 
 		'search_display'		=> 45,
 
-		'thumbnail_cache'		=> true,
+		//'thumbnail_cache'		=> true,
 		'thumbnail_height'		=> 160,
 		'thumbnail_infoline'	=> false,
 		'thumbnail_quality'		=> 50,
