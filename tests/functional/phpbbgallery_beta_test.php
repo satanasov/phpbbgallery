@@ -1974,7 +1974,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		
-		$this->assertContains('zazazazaza', $crawler->text());
+		//$this->assertContains('zazazazaza', $crawler->text());
 		$url = $crawler->filter('a:contains("mini")')->attr('href');
 		
 		$image_array = getimagesize('http://localhost' . $url . '/mini');
