@@ -1970,7 +1970,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->assertContainsLang('ALBUM_UPLOAD_SUCCESSFUL', $crawler->text());
 		
 		//$crawler = self::request('GET', 'app.php/gallery/album/1');
-		$this->assertContains('app.php/gallery/album/1', $meta);
+		//$this->assertContains('app.php/gallery/album/1', $meta);
 
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		
