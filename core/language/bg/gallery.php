@@ -246,6 +246,7 @@ $lang = array_merge($lang, array(
 	'SEARCH_RECENT'					=> 'Скорошни изображения',
 	'NO_SEARCH_RESULTS_RECENT'		=> 'Няма качени изображения или нямате права да ги видите!',
 	'SEARCH_RECENT_COMMENTS'		=> 'Скорошни коментари',
+	'NO_SEARCH_RESULTS_RECENT_COMMENTS'	=> 'Няма скорошни коментари или нямате права да и видите!',
 	'SEARCH_SUBALBUMS'				=> 'Търси в подалбуми',
 	'SEARCH_TOPRATED'				=> 'Най-оценявани',
 	'SEARCH_USER_IMAGES'			=> 'Търси изображения на потребител',

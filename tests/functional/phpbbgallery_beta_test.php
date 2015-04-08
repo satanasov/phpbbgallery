@@ -2131,8 +2131,8 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 			'random'	=> array(
 				array(2),
 				array(
-					$this->lang('RECENT_IMAGES')	=> true,
-					$this->lang('RANDOM_IMAGES')	=> false,
+					$this->lang('RECENT_IMAGES')	=> false,
+					$this->lang('RANDOM_IMAGES')	=> true,
 					$this->lang('SEARCH_RECENT_COMMENTS')	=> false,
 				),
 			),
