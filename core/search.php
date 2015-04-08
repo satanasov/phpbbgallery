@@ -119,6 +119,21 @@ class search
 		{
 			$sql .= ' and image_user_id = ' . (int) $user;
 		}
+		if (!$this->gallery_config->get('rrc_gindex_pegas'))
+		{
+			$sql_no_user = 'SELECT album_id FROM ' . $this->albums_table . ' WHERE album_user_id > 0';
+			$result = $this->db->sql_query($sql_no_user);
+			$exclude_albums = array();
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$exclude_albums[] = $row['album_id'];
+			}
+			$this->db->sql_freeresult($result);
+			if (!empty($exclude_albums))
+			{
+				$sql .= ' and ' . $this->db->sql_in_set('image_album_id', $exclude_albums, true);
+			}
+		}
 		$sql .= ' AND ((' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('i_view'), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
 					OR (' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('a_list'), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
 					OR ' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('m_status'), false, true) . ')
@@ -257,6 +272,9 @@ class search
 				'IMAGE_ID'		=> $row['image_id'],
 				'U_IMAGE'		=> $action_image,
 				'UC_IMAGE_NAME'	=> $show_imagename ? $row['image_name'] : false,
+				'U_ALBUM'	=> $show_album ? $this->helper->route('phpbbgallery_album', array('album_id' => $album_data['album_id'])) : false,
+				'ALBUM_NAME'	=> $show_album ? $album_data['album_name'] : false,
+				'IMAGE_VIEWS'	=> $show_views ? $row['image_view_count'] : false,
 				//'UC_THUMBNAIL'	=> 'self::generate_link('thumbnail', $phpbb_ext_gallery->config->get('link_thumbnail'), $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id']),
 				'UC_THUMBNAIL'		=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $row['image_id'])),
 				'UC_THUMBNAIL_ACTION'	=> $action,
@@ -266,11 +284,12 @@ class search
 				'POSTER'		=> $show_username ? get_username_string('full', $row['image_user_id'], $row['image_username'], $row['image_user_colour']) : false,
 				'TIME'			=> $show_time ? $this->user->format_date($row['image_time']) : false,
 
-				'S_RATINGS'		=> ($show_ratings && $this->config['phpbb_gallery_allow_rates'] && $this->gallery_auth->acl_check('i_rate', $row['image_album_id'], $album_data['album_user_id'])) ? $row['image_rate_avg'] : '',
+				'S_RATINGS'		=> ($this->config['phpbb_gallery_allow_rates'] == 1 && $show_ratings) ? ($row['image_rates'] > 0 ? $row['image_rate_avg'] / 100 : $this->user->lang('NOT_RATED')) : false,
 				'U_RATINGS'		=> $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id'])) . '#rating',
 				'L_COMMENTS'	=> ($row['image_comments'] == 1) ? $this->user->lang['COMMENT'] : $this->user->lang['COMMENTS'],
 				'S_COMMENTS'	=> $show_comments ? (($this->config['phpbb_gallery_allow_comments'] && $this->gallery_auth->acl_check('c_read', $row['image_album_id'], $album_data['album_user_id'])) ? (($row['image_comments']) ? $row['image_comments'] : $this->user->lang['NO_COMMENTS']) : '') : false,
 				'U_COMMENTS'	=> $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id'])) . '#comments',
+				'U_USER_IP'		=> $show_ip && $this->gallery_auth->acl_check('m_status', $row['image_album_id'], $album_data['album_user_id']) ? $row['image_user_ip'] : false,
 
 				'S_IMAGE_REPORTED'		=> $row['image_reported'],
 				'U_IMAGE_REPORTED'		=> '',//($image_data['image_reported']) ? $phpbb_ext_gallery->url->append_sid('mcp', "mode=report_details&amp;album_id={$image_data['image_album_id']}&amp;option_id=" . $image_data['image_reported']) : '',
@@ -297,8 +316,23 @@ class search
 		$sql_order = 'image_id DESC';
 		$sql = 'SELECT COUNT(image_id) as count
 			FROM ' . $this->images_table . '
-			WHERE image_status <> ' . \phpbbgallery\core\image\image::STATUS_ORPHAN . '
-				AND ((' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('i_view'), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
+			WHERE image_status <> ' . \phpbbgallery\core\image\image::STATUS_ORPHAN;
+		if (!$this->gallery_config->get('rrc_gindex_pegas'))
+		{
+			$sql_no_user = 'SELECT album_id FROM ' . $this->albums_table . ' WHERE album_user_id > 0';
+			$result = $this->db->sql_query($sql_no_user);
+			$exclude_albums = array();
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$exclude_albums[] = $row['album_id'];
+			}
+			$this->db->sql_freeresult($result);
+			if (!empty($exclude_albums))
+			{
+				$sql .= ' and ' . $this->db->sql_in_set('image_album_id', $exclude_albums, true);
+			}
+		}	
+		$sql .= '	AND ((' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('i_view'), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
 					OR ' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('m_status'), false, true) . ')
 			GROUP BY image_id
 			ORDER BY ' . $sql_order;
@@ -406,6 +440,21 @@ class search
 		if ($user > 0)
 		{
 			$sql .= ' and image_user_id = ' . (int) $user;
+		}
+		if (!$this->gallery_config->get('rrc_gindex_pegas'))
+		{
+			$sql_no_user = 'SELECT album_id FROM ' . $this->albums_table . ' WHERE album_user_id > 0';
+			$result = $this->db->sql_query($sql_no_user);
+			$exclude_albums = array();
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$exclude_albums[] = $row['album_id'];
+			}
+			$this->db->sql_freeresult($result);
+			if (!empty($exclude_albums))
+			{
+				$sql .= ' and ' . $this->db->sql_in_set('image_album_id', $exclude_albums, true);
+			}
 		}
 		$sql .= ' AND ((' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('i_view'), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
 					OR ' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('m_status'), false, true) . ')
@@ -564,6 +613,9 @@ class search
 				'IMAGE_ID'		=> $row['image_id'],
 				'U_IMAGE'		=> $action_image,
 				'UC_IMAGE_NAME'	=> $show_imagename ? $row['image_name'] : false,
+				'U_ALBUM'	=> $show_album ? $this->helper->route('phpbbgallery_album', array('album_id' => $album_data['album_id'])) : false,
+				'ALBUM_NAME'	=> $show_album ? $album_data['album_name'] : false,
+				'IMAGE_VIEWS'	=> $show_views ? $row['image_view_count'] : false,
 				//'UC_THUMBNAIL'	=> 'self::generate_link('thumbnail', $phpbb_ext_gallery->config->get('link_thumbnail'), $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id']),
 				'UC_THUMBNAIL'		=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $row['image_id'])),
 				'UC_THUMBNAIL_ACTION'	=> $action,
@@ -573,11 +625,12 @@ class search
 				'POSTER'		=> $show_username ? get_username_string('full', $row['image_user_id'], $row['image_username'], $row['image_user_colour']) : false,
 				'TIME'			=> $show_time ? $this->user->format_date($row['image_time']) : false,
 
-				'S_RATINGS'		=> ($show_ratings && $this->config['phpbb_gallery_allow_rates'] && $this->gallery_auth->acl_check('i_rate', $row['image_album_id'], $album_data['album_user_id'])) ? $row['image_rate_avg'] : '',
+				'S_RATINGS'		=> ($this->config['phpbb_gallery_allow_rates'] == 1 && $show_ratings) ? ($row['image_rates'] > 0 ? $row['image_rate_avg'] / 100 : $this->user->lang('NOT_RATED')) : false,
 				'U_RATINGS'		=> $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id'])) . '#rating',
 				'L_COMMENTS'	=> ($row['image_comments'] == 1) ? $this->user->lang['COMMENT'] : $this->user->lang['COMMENTS'],
 				'S_COMMENTS'	=> $show_comments ? (($this->config['phpbb_gallery_allow_comments'] && $this->gallery_auth->acl_check('c_read', $row['image_album_id'], $album_data['album_user_id'])) ? (($row['image_comments']) ? $row['image_comments'] : $this->user->lang['NO_COMMENTS']) : '') : false,
 				'U_COMMENTS'	=> $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id'])) . '#comments',
+				'U_USER_IP'		=> $show_ip && $this->gallery_auth->acl_check('m_status', $row['image_album_id'], $album_data['album_user_id']) ? $row['image_user_ip'] : false,
 
 				'S_IMAGE_REPORTED'		=> $row['image_reported'],
 				'U_IMAGE_REPORTED'		=> '',//($image_data['image_reported']) ? $phpbb_ext_gallery->url->append_sid('mcp', "mode=report_details&amp;album_id={$image_data['image_album_id']}&amp;option_id=" . $image_data['image_reported']) : '',
