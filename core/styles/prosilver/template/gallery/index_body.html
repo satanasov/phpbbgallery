@@ -198,6 +198,8 @@ function toggleElement(oElement)
 <!-- ENDIF -->
 <!-- IF U_RECENT_COMMENTS -->
 	<h2><a href="javascript: toggleElement( getElement('recent-comments'));">{L_SEARCH_RECENT_COMMENTS}</a> </h2>
+	<!-- IF ERROR --><h2>{ERROR}</h2>
+	<!-- ELSE -->
 	<div id="recent-comments" <!-- IF COMMENTS_EXPAND --><!-- ELSE -->style="display: none;"<!-- ENDIF -->>
 		<!-- BEGIN commentrow -->
 		<a id="{commentrow.COMMENT_ID}"></a>
@@ -226,6 +228,7 @@ function toggleElement(oElement)
 		</div>
 		<!-- END commentrow -->
 	</div>
+	<!-- ENDIF -->
 <!-- ENDIF -->
 
 
