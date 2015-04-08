@@ -144,23 +144,49 @@ class index
 				));
 			}
 		}
-
-		// Now before build random and recent ... let's check if we have images that can build it
-		if ($this->gallery_config->get('pegas_index_recent'))
+		
+		if ($this->gallery_config->get('rrc_gindex_mode') > 0)
 		{
-			$this->template->assign_vars(array(
-				'U_RECENT'	=> true,
-			));
-			$this->gallery_search->recent($this->gallery_config->get('pegas_index_rct_count'), -1);
+			$config_value = $this->gallery_config->get('rrc_gindex_mode');
+			$recent_comments = $random_images = $recent_images = false;
+			if ($config_value >= 4)
+			{
+				$recent_comments = true;
+				$config_value = $config_value - 4;
+			}
+			if ($config_value >= 2)
+			{
+				$random_images = true;
+				$config_value = $config_value - 2;
+			}
+			if ($config_value == 1)
+			{
+				$recent_images = true;
+			}
+			// Now before build random and recent ... let's check if we have images that can build it
+			if ($recent_images)
+			{
+				$this->template->assign_vars(array(
+					'U_RECENT'	=> true,
+				));
+				$this->gallery_search->recent($this->gallery_config->get('pegas_index_rct_count'), -1);
+			}
+			if ($random_images)
+			{
+				$this->template->assign_vars(array(
+					'U_RANDOM'	=> true,
+				));
+				$this->gallery_search->random($this->gallery_config->get('pegas_index_rnd_count'));
+			}
+			if ($recent_comments)
+			{
+				$this->template->assign_vars(array(
+					'U_RECENT_COMMENTS'	=> true,
+					'S_RECENT_COMMENTS' => $this->helper->route('phpbbgallery_search_commented'),
+				));
+				$this->gallery_search->recent_comments(15, 0);
+			}
 		}
-		if ($this->gallery_config->get('pegas_index_random'))
-		{
-			$this->template->assign_vars(array(
-				'U_RANDOM'	=> true,
-			));
-			$this->gallery_search->random($this->gallery_config->get('pegas_index_rnd_count'));
-		}
-
 		$this->display_legend();
 		$this->display_brithdays();
 		$this->assign_dropdown_links('phpbbgallery_index');

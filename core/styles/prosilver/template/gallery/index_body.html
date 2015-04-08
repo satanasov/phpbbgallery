@@ -1,5 +1,29 @@
 <!-- INCLUDE gallery/gallery_header.html -->
+<script type="text/javascript">
+function getElement(iElementId)
+{
+	if (document.all) 
+	{
+		return document.all[iElementId];
+	}
+	if (document.getElementById)
+	{
+		return document.getElementById(iElementId);
+	}
+}
 
+function toggleElement(oElement)
+{
+	if (oElement.style.display == "none")
+	{
+		oElement.style.display = "";
+	}
+	else
+	{
+		oElement.style.display = "none";
+	}
+}
+</script>
 <p class="{S_CONTENT_FLOW_END}<!-- IF S_USER_LOGGED_IN --> rightside<!-- ENDIF -->"><!-- IF S_USER_LOGGED_IN -->{LAST_VISIT_DATE}<!-- ELSE -->{CURRENT_TIME}<!-- ENDIF --></p>
 <!-- IF U_MCP --><p>{CURRENT_TIME} <br />[&nbsp;<a href="{U_MCP}">{L_MCP}</a>&nbsp;]</p><!-- ELSEIF S_USER_LOGGED_IN --><p>{CURRENT_TIME}</p><!-- ENDIF -->
 
@@ -171,6 +195,37 @@
 
 <!-- IF U_RECENT or U_RANDOM-->
 	<!-- INCLUDE gallery/imageblock_polaroid.html -->
+<!-- ENDIF -->
+<!-- IF U_RECENT_COMMENTS -->
+	<h2><a href="javascript: toggleElement( getElement('recent-comments'));">{L_SEARCH_RECENT_COMMENTS}</a> </h2>
+	<div id="recent-comments" <!-- IF COMMENTS_EXPAND --><!-- ELSE -->style="display: none;"<!-- ENDIF -->>
+		<!-- BEGIN commentrow -->
+		<a id="{commentrow.COMMENT_ID}"></a>
+		<div class="post <!-- IF commentrow.S_ROW_COUNT is odd -->bg1<!-- ELSE -->bg2<!-- ENDIF -->">
+			<div class="inner">
+				<span class="corners-top"><span></span></span>
+				<div class="postbody">
+						<ul class="post-buttons">
+							<!-- IF commentrow.U_EDIT --><li><a href="{commentrow.U_EDIT}" title="{L_EDIT_COMMENT}" class="button icon-button edit-icon"><span>{L_EDIT_COMMENT}</span></a></li><!-- ENDIF -->
+							<!-- IF commentrow.U_DELETE --><li><a href="{commentrow.U_DELETE}" title="{L_DELETE_COMMENT}" class="button icon-button delete-icon"><span>{L_DELETE_COMMENT}</span></a></li><!-- ENDIF -->
+							<!-- IF commentrow.U_QUOTE --><li><a href="{commentrow.U_QUOTE}" title="{L_QUOTE_COMMENT}" class="button icon-button quote-icon"><span>{L_QUOTE_COMMENT}</span></a></li><!-- ENDIF -->
+						</ul>
+						<p class="author"><a href="{commentrow.U_COMMENT}">{MINI_POST_IMG}</a>&nbsp;{L_POST_BY_AUTHOR} <strong>{commentrow.POST_AUTHOR_FULL}</strong> &raquo; {commentrow.TIME} </p>
+					<div class="content">{commentrow.TEXT}</div>
+				</div>
+				<dl class="postprofile" id="profile{commentrow.COMMENT_ID}">
+					<dd>{L_COMMENT_ON}:</dd>
+					<dd>{commentrow.UC_IMAGE_NAME}</dd>
+					<dt>{commentrow.UC_THUMBNAIL}</dt><br />
+
+					<dd>{L_UPLOADED_BY_USER} {commentrow.IMAGE_AUTHOR}</dd>
+					<dd>{commentrow.IMAGE_TIME}</dd>
+				</dl>
+				<span class="corners-bottom"><span></span></span>
+			</div>
+		</div>
+		<!-- END commentrow -->
+	</div>
 <!-- ENDIF -->
 
 

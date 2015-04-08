@@ -202,9 +202,9 @@ class release_1_2_0 extends \phpbb\db\migration\migration
 		'num_uploads'			=> 10,
 
 		'pegas_index_album'		=> false,
-		'pegas_index_random'	=> true,
+		//'pegas_index_random'	=> true,
 		'pegas_index_rnd_count'	=> 4,
-		'pegas_index_recent'	=> true,
+		//'pegas_index_recent'	=> true,
 		'pegas_index_rct_count'	=> 4,
 		'profile_user_images'	=> true,
 		'profile_pega'			=> true,
