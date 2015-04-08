@@ -131,7 +131,7 @@ class search
 			$this->db->sql_freeresult($result);
 			if (!empty($exclude_albums))
 			{
-				$sql .= ' and ' . $this->db->sql_in_set('image_album_id', $exclude_albums, true);
+				$sql .= ' and ' . $this->db->sql_in_set('image_album_id', $exclude_albums, true, true);
 			}
 		}
 		$sql .= ' AND ((' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('i_view'), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
@@ -329,7 +329,7 @@ class search
 			$this->db->sql_freeresult($result);
 			if (!empty($exclude_albums))
 			{
-				$sql .= ' and ' . $this->db->sql_in_set('image_album_id', $exclude_albums, true);
+				$sql .= ' and ' . $this->db->sql_in_set('image_album_id', $exclude_albums, true, true);
 			}
 		}	
 		$sql .= '	AND ((' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('i_view'), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
@@ -358,7 +358,7 @@ class search
 				$this->images_table => 'i',
 				$this->comments_table => 'c',
 			),
-			'WHERE'	=> 'i.image_id = c.comment_image_id and ' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('c_read')),
+			'WHERE'	=> 'i.image_id = c.comment_image_id and ' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('c_read'), false, true),
 			'ORDER_BY'	=> 'comment_time DESC'
 		);
 		$sql_array['SELECT'] = 'COUNT(c.comment_id) as count';
@@ -382,8 +382,10 @@ class search
 		$this->db->sql_freeresult($result);
 		if(empty($rowset))
 		{
-			$this->template->assign_var('S_NO_SEARCH', true);
-			trigger_error('NO_SEARCH');
+			$this->template->assign_vars(array(
+				'ERROR'	=> $this->user->lang('NO_SEARCH_RESULTS_RECENT_COMMENTS'),
+			));
+			return;
 		}
 
 		$this->user_loader->load_users(array_keys($users_array));

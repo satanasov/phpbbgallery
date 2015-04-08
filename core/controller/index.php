@@ -145,7 +145,7 @@ class index
 			}
 		}
 		
-		if ($this->gallery_config->get('rrc_gindex_mode') > 0 and $this->gallery_config->get('num_images') > 0)
+		if ($this->gallery_config->get('rrc_gindex_mode'))
 		{
 			$config_value = $this->gallery_config->get('rrc_gindex_mode');
 			$recent_comments = $random_images = $recent_images = false;
@@ -183,7 +183,7 @@ class index
 				$this->template->assign_vars(array(
 					'U_RECENT_COMMENTS'	=> true,
 					'S_RECENT_COMMENTS' => $this->helper->route('phpbbgallery_search_commented'),
-					'COMMENTS_EXPAND'	=> $this->gallery_config->get('rrc_gindex_comments') ? true : false;
+					'COMMENTS_EXPAND'	=> $this->gallery_config->get('rrc_gindex_comments') ? true : false,
 				));
 				$this->gallery_search->recent_comments($this->gallery_config->get('items_per_page'), 0);
 			}
