@@ -2213,5 +2213,37 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 			}
 		}
 	}
+	/**
+	* @dataProvider yes_no_data
+	*/
+	public function test_rrc_gindex_comments($option)
+	{
+		$this->login();
+		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang('common');
+
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'rrc_gindex_mode'	=> $options,
+		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
+
+		// Test
+		$crawler = self::request('GET', 'app.php/gallery');
+		if ($option == 1)
+		{
+			$this->assertContains('display: none', $crawler->filter('div#recent-comments')->attr('style'));
+		}
+		else
+		{
+			$this->assertNotContains('display: none', $crawler->filter('div#recent-comments')->attr('style'));
+		}
+	}
 	// END RRC GINDEX TESTS
 }
