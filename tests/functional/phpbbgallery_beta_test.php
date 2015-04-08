@@ -1975,7 +1975,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		
 		//$this->assertContains('zazazazaza', $crawler->text());
-		$url = $crawler->filster('div.polaroid')->eq(0)->filter('a')->eq(0)->attr('href');
+		$url = $crawler->filter('div.polaroid')->eq(0)->filter('a')->eq(0)->attr('href');
 		
 		$image_array = getimagesize('http://localhost' . $url . '/mini');
 		
