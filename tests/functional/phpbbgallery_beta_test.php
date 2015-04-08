@@ -2120,59 +2120,59 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 					$this->lang('SEARCH_RECENT_COMMENTS')	=> false,
 				),
 			),
-			'random'	=> array(
+			'recent'	=> array(
 				array(1),
 				array(
-					$this->lang('RANDOM_IMAGES')	=> true,
-					$this->lang('RECENT_IMAGES')	=> false,
+					$this->lang('RECENT_IMAGES')	=> true,
+					$this->lang('RANDOM_IMAGES')	=> false,
 					$this->lang('SEARCH_RECENT_COMMENTS')	=> false,
 				),
 			),
-			'recent'	=> array(
+			'random'	=> array(
 				array(2),
 				array(
-					$this->lang('RANDOM_IMAGES')	=> false,
 					$this->lang('RECENT_IMAGES')	=> true,
+					$this->lang('RANDOM_IMAGES')	=> false,
 					$this->lang('SEARCH_RECENT_COMMENTS')	=> false,
 				),
 			),
 			'comments'	=> array(
 				array(4),
 				array(
-					$this->lang('RANDOM_IMAGES')	=> false,
 					$this->lang('RECENT_IMAGES')	=> false,
+					$this->lang('RANDOM_IMAGES')	=> false,
 					$this->lang('SEARCH_RECENT_COMMENTS')	=> true,
 				),
 			),
 			'random_comments'	=> array(
 				array(1, 4),
 				array(
-					$this->lang('RANDOM_IMAGES')	=> true,
-					$this->lang('RECENT_IMAGES')	=> false,
+					$this->lang('RECENT_IMAGES')	=> true,
+					$this->lang('RANDOM_IMAGES')	=> false,
 					$this->lang('SEARCH_RECENT_COMMENTS')	=> true,
 				),
 			),
 			'recent_comments'	=> array(
 				array(2, 4),
 				array(
-					$this->lang('RANDOM_IMAGES')	=> false,
-					$this->lang('RECENT_IMAGES')	=> true,
+					$this->lang('RECENT_IMAGES')	=> false,
+					$this->lang('RANDOM_IMAGES')	=> true,
 					$this->lang('SEARCH_RECENT_COMMENTS')	=> true,
 				),
 			),
 			'random_recent'	=> array(
 				array(1, 2),
 				array(
-					$this->lang('RANDOM_IMAGES')	=> true,
 					$this->lang('RECENT_IMAGES')	=> true,
+					$this->lang('RANDOM_IMAGES')	=> true,
 					$this->lang('SEARCH_RECENT_COMMENTS')	=> false,
 				),
 			),
 			'all'	=> array(
 				array(1, 2, 4),
 				array(
-					$this->lang('RANDOM_IMAGES')	=> true,
 					$this->lang('RECENT_IMAGES')	=> true,
+					$this->lang('RANDOM_IMAGES')	=> true,
 					$this->lang('SEARCH_RECENT_COMMENTS')	=> true,
 				),
 			),

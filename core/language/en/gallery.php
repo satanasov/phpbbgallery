@@ -246,6 +246,7 @@ $lang = array_merge($lang, array(
 	'SEARCH_RECENT'					=> 'Recent images',
 	'NO_SEARCH_RESULTS_RECENT'		=> 'There are no images or you do not have access to see them!',
 	'SEARCH_RECENT_COMMENTS'		=> 'Recent comments',
+	'NO_SEARCH_RESULTS_RECENT_COMMENTS'	=> 'There are no recent comments or you do not have access!',
 	'SEARCH_SUBALBUMS'				=> 'Search subalbums',
 	'SEARCH_TOPRATED'				=> 'Top rated images',
 	'SEARCH_USER_IMAGES'			=> 'Search user’s images',
