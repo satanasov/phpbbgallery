@@ -226,6 +226,7 @@ $lang = array_merge($lang, array(
 	'SEARCH_RECENT'					=> 'Последние фото',
 	'NO_SEARCH_RESULTS_RECENT'		=> 'Нет изображений или вы не имеете права просматривать их!',
 	'SEARCH_RECENT_COMMENTS'		=> 'Последние комментарии',
+	'NO_SEARCH_RESULTS_RECENT_COMMENTS'	=> 'There are no recent comments or you do not have access!',
 	'SEARCH_SUBALBUMS'				=> 'Поиск во вложенных альбомах',
 	'SEARCH_TOPRATED'				=> 'Фото с наивысшей оценкой',
 	'SEARCH_USER_IMAGES'			=> 'Найти все фото пользователя',
