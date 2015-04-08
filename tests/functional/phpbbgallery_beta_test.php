@@ -2105,4 +2105,113 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 	}
 	// END LINK SETTINGS
+	
+	// START RRC GINDEX TESTS
+	public function rrc_gidex_data()
+	{
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang('common');
+		return array(
+			'none'	=> array(
+				array(0),
+				array(
+					$this->lang('RANDOM_IMAGES')	=> false,
+					$this->lang('RECENT_IMAGES')	=> false,
+					$this->lang('SEARCH_RECENT_COMMENTS')	=> false,
+				),
+			),
+			'random'	=> array(
+				array(1),
+				array(
+					$this->lang('RANDOM_IMAGES')	=> true,
+					$this->lang('RECENT_IMAGES')	=> false,
+					$this->lang('SEARCH_RECENT_COMMENTS')	=> false,
+				),
+			),
+			'recent'	=> array(
+				array(2),
+				array(
+					$this->lang('RANDOM_IMAGES')	=> false,
+					$this->lang('RECENT_IMAGES')	=> true,
+					$this->lang('SEARCH_RECENT_COMMENTS')	=> false,
+				),
+			),
+			'comments'	=> array(
+				array(4),
+				array(
+					$this->lang('RANDOM_IMAGES')	=> false,
+					$this->lang('RECENT_IMAGES')	=> false,
+					$this->lang('SEARCH_RECENT_COMMENTS')	=> true,
+				),
+			),
+			'random_comments'	=> array(
+				array(1, 4),
+				array(
+					$this->lang('RANDOM_IMAGES')	=> true,
+					$this->lang('RECENT_IMAGES')	=> false,
+					$this->lang('SEARCH_RECENT_COMMENTS')	=> true,
+				),
+			),
+			'recent_comments'	=> array(
+				array(2, 4),
+				array(
+					$this->lang('RANDOM_IMAGES')	=> false,
+					$this->lang('RECENT_IMAGES')	=> true,
+					$this->lang('SEARCH_RECENT_COMMENTS')	=> true,
+				),
+			),
+			'random_recent'	=> array(
+				array(1, 2),
+				array(
+					$this->lang('RANDOM_IMAGES')	=> true,
+					$this->lang('RECENT_IMAGES')	=> true,
+					$this->lang('SEARCH_RECENT_COMMENTS')	=> false,
+				),
+			),
+			'all'	=> array(
+				array(1, 2, 4),
+				array(
+					$this->lang('RANDOM_IMAGES')	=> true,
+					$this->lang('RECENT_IMAGES')	=> true,
+					$this->lang('SEARCH_RECENT_COMMENTS')	=> true,
+				),
+			),
+		);
+	}
+	/**
+	* @dataProvider rrc_gidex_data
+	*/
+	public function test_rrc_gindex_mode($options, $tests)
+	{
+		$this->login();
+		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang('common');
+
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'rrc_gindex_mode'	=> $options,
+		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
+
+		// Test
+		$crawler = self::request('GET', 'app.php/gallery');
+		foreach($tests as $test => $response)
+		{
+			if ($response)
+			{
+				$this->assertContains($test, $crawler->text());
+			}
+			else
+			{
+				$this->assertNotContains($test, $crawler->text());
+			}
+		}
+	}
+	// END RRC GINDEX TESTS
 }
