@@ -2203,7 +2203,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 	}
 	/**
-	* @ data Provider yes_no_data
+	* @dataProvider yes_no_data
 	*/
 	public function test_rrc_gindex_comments($option)
 	{
