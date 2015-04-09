@@ -2205,7 +2205,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 	/**
 	* @ data Provider yes_no_data
 	*/
-	/*public function test_rrc_gindex_comments($option)
+	public function test_rrc_gindex_comments($option)
 	{
 		$this->login();
 		$this->admin_login();
@@ -2225,6 +2225,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 
 		// Test
 		$crawler = self::request('GET', 'app.php/gallery');
+		$this->assertContains('zazazazaza', $crawler->filter('div#recent-comments')->attr('style'));
 		if ($option == 1)
 		{
 			$this->assertContains('display: none', $crawler->filter('div#recent-comments')->attr('style'));
@@ -2233,7 +2234,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		{
 			$this->assertNotContains('display: none', $crawler->filter('div#recent-comments')->attr('style'));
 		}
-	}*/
+	}
 	/**
 	* @dataProvider image_polaroid_info_data
 	*/
