@@ -2277,13 +2277,29 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		{
 			if ($state)
 			{
-				$this->assertContains($test, $object_recent->text());
-				$this->assertContains($test, $object_random->text());
+				if ($test == 'Valid')
+				{
+					$this->assertEquals(1, $object_recent->filter('p')->filter('a')->count());
+					$this->assertEquals(1, $object_random->filter('p')->filter('a')->count());
+				}
+				else
+				{
+					$this->assertContains($test, $object_recent->text());
+					$this->assertContains($test, $object_random->text());
+				}
 			}
 			else
 			{
-				$this->assertNotContains($test, $object_recent->text());
-				$this->assertNotContains($test, $object_random->text());
+				if ($test == 'Valid')
+				{
+					$this->assertEquals(0, $object_recent->filter('p')->filter('a')->count());
+					$this->assertEquals(0, $object_random->filter('p')->filter('a')->count());
+				}
+				else
+				{
+					$this->assertNotContains($test, $object_recent->text());
+					$this->assertNotContains($test, $object_random->text());
+				}
 			}
 		}
 		
