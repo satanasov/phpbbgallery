@@ -270,7 +270,7 @@ class search
 			}
 			$this->template->assign_block_vars('imageblock.image', array(
 				'IMAGE_ID'		=> $row['image_id'],
-				'U_IMAGE'		=> $action_image,
+				'U_IMAGE'		=> $show_imagename ? $action_image : false,
 				'UC_IMAGE_NAME'	=> $show_imagename ? $row['image_name'] : false,
 				'U_ALBUM'	=> $show_album ? $this->helper->route('phpbbgallery_album', array('album_id' => $album_data['album_id'])) : false,
 				'ALBUM_NAME'	=> $show_album ? $album_data['album_name'] : false,
@@ -613,7 +613,7 @@ class search
 			}
 			$this->template->assign_block_vars('imageblock.image', array(
 				'IMAGE_ID'		=> $row['image_id'],
-				'U_IMAGE'		=> $action_image,
+				'U_IMAGE'		=> $show_imagename ? $action_image : false,
 				'UC_IMAGE_NAME'	=> $show_imagename ? $row['image_name'] : false,
 				'U_ALBUM'	=> $show_album ? $this->helper->route('phpbbgallery_album', array('album_id' => $album_data['album_id'])) : false,
 				'ALBUM_NAME'	=> $show_album ? $album_data['album_name'] : false,
