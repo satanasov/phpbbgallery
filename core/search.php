@@ -334,7 +334,7 @@ class search
 			{
 				$sql .= ' and ' . $this->db->sql_in_set('image_album_id', $exclude_albums, true, true);
 			}
-		}	
+		}
 		$sql .= '	AND ((' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('i_view'), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
 					OR ' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('m_status'), false, true) . ')
 			GROUP BY image_id
