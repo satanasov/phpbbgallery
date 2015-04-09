@@ -2203,9 +2203,9 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 	}
 	/**
-	* @ data Provider yes_no_data
+	* @dataProvider yes_no_data
 	*/
-	/*public function test_rrc_gindex_comments($option)
+	public function test_rrc_gindex_comments($option)
 	{
 		$this->login();
 		$this->admin_login();
@@ -2227,13 +2227,13 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'app.php/gallery');
 		if ($option == 1)
 		{
-			$this->assertContains('display: none', $crawler->filter('div#recent-comments')->attr('style'));
+			$this->assertNotContains('display: none;', $crawler->filter('div#recent-comments')->attr('style'));
 		}
 		else
 		{
-			$this->assertNotContains('display: none', $crawler->filter('div#recent-comments')->attr('style'));
+			$this->assertContains('display: none;', $crawler->filter('div#recent-comments')->attr('style'));
 		}
-	}*/
+	}
 	/**
 	* @dataProvider image_polaroid_info_data
 	*/
