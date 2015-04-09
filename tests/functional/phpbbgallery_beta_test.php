@@ -29,9 +29,6 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 	public function yes_no_data()
 	{
 		return array(
-			'yes'	=> array(
-				1
-			),
 			'no'	=> array(
 				0
 			),
@@ -48,17 +45,12 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				true,
 				'app.php/gallery/image/2/source'
 			),
-			'next'	=> array(
-				'next',
-				true,
-				'app.php/gallery/image/1'
-			),
 			'none'	=> array(
 				'none',
 				false,
 				false
 			),
-			'reset'	=> array(
+			'next'	=> array(
 				'next',
 				true,
 				'app.php/gallery/image/1'
@@ -73,17 +65,12 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				true,
 				'app.php/gallery/image/1/source'
 			),
-			'image_page'	=> array(
-				'image_page',
-				true,
-				'app.php/gallery/image/1'
-			),
 			'none'	=> array(
 				'none',
 				false,
 				false
 			),
-			'reset'	=> array(
+			'image_page'	=> array(
 				'image_page',
 				true,
 				'app.php/gallery/image/1'
@@ -2020,8 +2007,8 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		// Should be updated
 		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 
-		$crawler = self::request('GET', 'app.php/gallery/album/1/page/2');
-		$object = $crawler->filter('div.polaroid')->eq(0)->filter('div#thumbnail');
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
+		$object = $crawler->filter('div.polaroid')->eq(11)->filter('div#thumbnail');
 		if ($has_link)
 		{
 			$this->assertContains($search, $object->filter('a')->attr('href'));
@@ -2090,9 +2077,9 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		// Should be updated
 		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 
-		$crawler = self::request('GET', 'app.php/gallery/album/1/page/2');
+		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		//$this->assertContains('zazazazazaza', $crawler->text());
-		$object = $crawler->filter('div.polaroid')->eq(0)->filter('p')->eq(0);
+		$object = $crawler->filter('div.polaroid')->eq(11)->filter('p')->eq(0);
 		if ($has_link)
 		{
 			$this->assertContains($search, $object->filter('a')->attr('href'));
