@@ -144,7 +144,7 @@ class index
 				));
 			}
 		}
-		
+
 		if ($this->gallery_config->get('rrc_gindex_mode'))
 		{
 			$config_value = $this->gallery_config->get('rrc_gindex_mode');
