@@ -2271,8 +2271,8 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		// Test
 		$crawler = self::request('GET', 'app.php/gallery');
 		
-		$object_recent = $crawler->filter('div.polaroid')->eq(1);
-		$object_random = $crawler->filter('div.polaroid')->eq(5);
+		$object_recent = $crawler->filter('div.polaroid')->eq(2);
+		$object_random = $crawler->filter('div.polaroid')->eq(6);
 		foreach ($tests as $test => $state)
 		{
 			if ($state)
