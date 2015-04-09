@@ -271,6 +271,9 @@ class search
 			{
 				$show_views = true;
 				$show_options = $show_options - 16;
+				$this->template->assign_block_vars('imageblock', array(
+					'IMAGE_VIEWS'	=> true,
+				));
 			}
 			if ($show_options >= 8)
 			{
