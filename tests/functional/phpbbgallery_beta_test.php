@@ -29,9 +29,6 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 	public function yes_no_data()
 	{
 		return array(
-			'yes'	=> array(
-				1
-			),
 			'no'	=> array(
 				0
 			),
@@ -48,17 +45,12 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				true,
 				'app.php/gallery/image/2/source'
 			),
-			'next'	=> array(
-				'next',
-				true,
-				'app.php/gallery/image/1'
-			),
 			'none'	=> array(
 				'none',
 				false,
 				false
 			),
-			'reset'	=> array(
+			'next'	=> array(
 				'next',
 				true,
 				'app.php/gallery/image/1'
@@ -73,17 +65,12 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				true,
 				'app.php/gallery/image/1/source'
 			),
-			'image_page'	=> array(
-				'image_page',
-				true,
-				'app.php/gallery/image/1'
-			),
 			'none'	=> array(
 				'none',
 				false,
 				false
 			),
-			'reset'	=> array(
+			'image_page'	=> array(
 				'image_page',
 				true,
 				'app.php/gallery/image/1'
