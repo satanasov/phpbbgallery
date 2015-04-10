@@ -453,7 +453,7 @@ class search
 					OR ' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('m_status'), $exclude_albums), false, true) . ')
 			GROUP BY image_id
 			ORDER BY ' . $sql_order;
-var_dump($sql);
+
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
