@@ -210,6 +210,7 @@ services:
             - @phpbbgallery.core.config
             - @dbal.conn
             - %tables.phpbbgallery.albums%
+            - %tables.phpbbgallery.users%
             - %core.php_ext%
         tags:
             - { name: event.listener }
