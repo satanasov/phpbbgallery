@@ -2438,42 +2438,52 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 	}
-	/**
-	* @dataProvider yes_no_data
-	*/
-	public function test_profile_pega($option)
+	// profile_pega test is in charlie
+	public function rrc_profile_mode_data()
 	{
-		$this->login();
-		$this->admin_login();
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
-		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
 		$this->add_lang('common');
-
-		// Change option
-		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
-		$form = $crawler->selectButton('submit')->form();
-		$form->setValues(array(
-			'config[profile_pega]'	=> $option,
-		));
-		$crawler = self::submit($form);
-		// Should be updated
-		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
-		
-		//Test
-		$crawler = self::request('GET', 'memberlist.php?mode=viewprofile&u=2&sid=' . $this->sid );
-		if ($option == 1)
-		{
-			$this->assertContains($this->lang('VISIT_GALLERY'), $crawler->text());
-		}
-		else
-		{
-			$this->assertNotContains($this->lang('VISIT_GALLERY'), $crawler->text());
-		}
-		$this->logout();
-		$this->logout();
+		return array(
+			'none'	=> array(
+				array(0),
+				array(
+					$this->lang('RANDOM_IMAGES')	=> false,
+					$this->lang('RECENT_IMAGES')	=> false,
+				),
+			),
+			'recent'	=> array(
+				array(1),
+				array(
+					$this->lang('RECENT_IMAGES')	=> true,
+					$this->lang('RANDOM_IMAGES')	=> false,
+				),
+			),
+			'random'	=> array(
+				array(2),
+				array(
+					$this->lang('RECENT_IMAGES')	=> false,
+					$this->lang('RANDOM_IMAGES')	=> true,
+				),
+			),
+			'random_recent'	=> array(
+				array(1, 2),
+				array(
+					$this->lang('RECENT_IMAGES')	=> true,
+					$this->lang('RANDOM_IMAGES')	=> true,
+					$this->lang('SEARCH_RECENT_COMMENTS')	=> false,
+				),
+			),
+			'all'	=> array(
+				array(1, 2),
+				array(
+					$this->lang('RECENT_IMAGES')	=> true,
+					$this->lang('RANDOM_IMAGES')	=> true,
+				),
+			),
+		);
 	}
 	/**
-	* @dataProvider rrc_gidex_data
+	* @dataProvider rrc_profile_mode_data
 	*/
 	public function test_rrc_profile_mode($options, $tests)
 	{
