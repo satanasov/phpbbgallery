@@ -2368,4 +2368,109 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 	}
 	// END RRC GINDEX TESTS
+	
+	// START PHPBB INTEGRATION
+	/**
+	* @dataProvider yes_no_data
+	*/
+	public function test_disp_total_images($option)
+	{
+		$this->login();
+		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang('common');
+
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'config[disp_total_images]'	=> $option,
+		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
+		
+		//Test
+		$crawler = self::request('GET', 'index.php');
+		if ($option == 1)
+		{
+			$this->assertContains($this->lang('TOTAL_IMAGES'), $crawler->text());
+		}
+		else
+		{
+			$this->assertNotContains($this->lang('TOTAL_IMAGES'), $crawler->text());
+		}
+		$this->logout();
+		$this->logout();
+	}
+	/**
+	* @dataProvider yes_no_data
+	*/
+	public function test_profile_user_images($option)
+	{
+		$this->login();
+		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang('common');
+
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'config[profile_user_images]'	=> $option,
+		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
+		
+		//Test
+		$crawler = self::request('GET', 'memberlist.php?mode=viewprofile&u=2&sid=' . $this->sid );
+		if ($option == 1)
+		{
+			$this->assertContains($this->lang('GALLERY_IMAGES'), $crawler->text());
+		}
+		else
+		{
+			$this->assertNotContains($this->lang('GALLERY_IMAGES'), $crawler->text());
+		}
+		$this->logout();
+		$this->logout();
+	}
+	/**
+	* @dataProvider yes_no_data
+	*/
+	public function test_profile_pega($option)
+	{
+		$this->login();
+		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang('common');
+
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'config[profile_pega]'	=> $option,
+		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
+		
+		//Test
+		$crawler = self::request('GET', 'memberlist.php?mode=viewprofile&u=2&sid=' . $this->sid );
+		if ($option == 1)
+		{
+			$this->assertContains($this->lang('GALLERY'), $crawler->text());
+		}
+		else
+		{
+			$this->assertNotContains($this->lang('GALLERY'), $crawler->text());
+		}
+		$this->logout();
+		$this->logout();
+	}
+	// END PHPBB INTEGRATION
 }
