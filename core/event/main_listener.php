@@ -65,6 +65,12 @@ class main_listener implements EventSubscriberInterface
 		$this->user->add_lang_ext('phpbbgallery/core', 'gallery');
 		$this->user->add_lang_ext('phpbbgallery/core', 'gallery_notifications');
 		$this->user->add_lang_ext('phpbbgallery/core', 'permissions_gallery');
+		if ($this->gallery_config->get('disp_total_images') == 1)
+		{
+			$this->template->assign_vars(array(
+				'PHPBBGALLERY_INDEX_STATS'	=> $this->gallery_config->get('num_images'),
+			));
+		}
 	}
 	public function add_page_header_link($event)
 	{
