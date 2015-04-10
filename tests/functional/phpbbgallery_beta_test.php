@@ -2512,7 +2512,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 	}
-	public function test_profile_pega($option)
+	public function test_rrc_profile_items()
 	{
 		$this->login();
 		$this->admin_login();
@@ -2546,6 +2546,65 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$crawler = self::submit($form);
 		// Should be updated
 		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
+		
+		$this->logout();
+		$this->logout();
+	}
+	/**
+	* @dataProvider image_polaroid_info_data
+	*/
+	public function test_rrc_profile_display($options, $tests)
+	{
+		$this->login();
+		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang('common');
+
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'rrc_profile_display'	=> $options,
+		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
+
+		// Test
+		$crawler = self::request('GET', 'memberlist.php?mode=viewprofile&u=2&sid=' . $this->sid);
+		
+		$object_recent = $crawler->filter('div.polaroid')->eq(0);
+		$object_random = $crawler->filter('div.polaroid')->eq(4);
+		foreach ($tests as $test => $state)
+		{
+			if ($state)
+			{
+				if ($test == 'Valid')
+				{
+					$this->assertEquals(1, $object_recent->filter('p')->filter('a')->count());
+					$this->assertEquals(1, $object_random->filter('p')->filter('a')->count());
+				}
+				else
+				{
+					$this->assertContains($test, $object_recent->text());
+					$this->assertContains($test, $object_random->text());
+				}
+			}
+			else
+			{
+				if ($test == 'Valid')
+				{
+					$this->assertEquals(0, $object_recent->filter('p')->filter('a')->count());
+					$this->assertEquals(0, $object_random->filter('p')->filter('a')->count());
+				}
+				else
+				{
+					$this->assertNotContains($test, $object_recent->text());
+					$this->assertNotContains($test, $object_random->text());
+				}
+			}
+		}
 		
 		$this->logout();
 		$this->logout();
