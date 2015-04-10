@@ -2227,11 +2227,11 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'app.php/gallery');
 		if ($option == 1)
 		{
-			$this->assertContains('display: none;', $crawler->filter('div#recent-comments')->attr('style'));
+			$this->assertNotContains('display: none;', $crawler->filter('div#recent-comments')->attr('style'));
 		}
 		else
 		{
-			$this->assertNotContains('display: none;', $crawler->filter('div#recent-comments')->attr('style'));
+			$this->assertContains('display: none;', $crawler->filter('div#recent-comments')->attr('style'));
 		}
 	}
 	/**
