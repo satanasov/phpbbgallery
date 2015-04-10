@@ -338,10 +338,10 @@ class config_module
 					'rrc_profile_mode'			=> array('lang' => 'RRC_PROFILE_MODE',				'validate' => 'int',	'type' => 'custom',			'explain' => true,	'method' => 'rrc_modes'),
 					'rrc_profile_items'			=> array('lang' => 'RRC_PROFILE_ITEMS',				'validate' => 'int',	'type' => 'text:7:3'),
 					'rrc_profile_display'		=> array('lang' => 'RRC_DISPLAY_OPTIONS',			'validate' => 'int',	'type' => 'custom',			'method' => 'rrc_display'),
-					'rrc_profile_pegas'			=> array('lang' => 'RRC_GINDEX_PGALLERIES',			'validate' => 'bool',	'type' => 'radio:yes_no'),
-					'viewtopic_icon'			=> array('lang' => 'DISP_VIEWTOPIC_ICON',			'validate' => 'bool',	'type' => 'radio:yes_no'),
-					'viewtopic_images'			=> array('lang' => 'DISP_VIEWTOPIC_IMAGES',			'validate' => 'bool',	'type' => 'radio:yes_no'),
-					'viewtopic_link'			=> array('lang' => 'DISP_VIEWTOPIC_LINK',			'validate' => 'bool',	'type' => 'radio:yes_no'),
+					//'rrc_profile_pegas'			=> array('lang' => 'RRC_GINDEX_PGALLERIES',			'validate' => 'bool',	'type' => 'radio:yes_no'),
+					//'viewtopic_icon'			=> array('lang' => 'DISP_VIEWTOPIC_ICON',			'validate' => 'bool',	'type' => 'radio:yes_no'),
+					//'viewtopic_images'			=> array('lang' => 'DISP_VIEWTOPIC_IMAGES',			'validate' => 'bool',	'type' => 'radio:yes_no'),
+					//'viewtopic_link'			=> array('lang' => 'DISP_VIEWTOPIC_LINK',			'validate' => 'bool',	'type' => 'radio:yes_no'),
 				),
 
 				'INDEX_SETTINGS'	=> array(

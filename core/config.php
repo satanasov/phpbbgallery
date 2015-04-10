@@ -105,7 +105,7 @@ class config
 		'rrc_profile_items'	=> 4,
 		'rrc_profile_display'	=> 141,
 		'rrc_profile_mode'		=> 3,
-		'rrc_profile_pegas'		=> true,
+		//'rrc_profile_pegas'		=> true,
 
 		'search_display'		=> 45,
 
@@ -116,9 +116,9 @@ class config
 		'thumbnail_width'		=> 240,
 
 		'version'				=> '',
-		'viewtopic_icon'		=> true,
-		'viewtopic_images'		=> true,
-		'viewtopic_link'		=> false,
+		//'viewtopic_icon'		=> true,
+		//'viewtopic_images'		=> true,
+		//'viewtopic_link'		=> false,
 
 		'watermark_changed'		=> 0,
 		'watermark_enabled'		=> true,
