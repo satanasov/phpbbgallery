@@ -2293,5 +2293,79 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 	}
+	public function test_prepare_rrc_gindex_pegas()
+	{
+		$this->login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_ucp');
+		$this->add_lang('ucp');
+		
+		$crawler = self::request('GET', 'ucp.php?i=-phpbbgallery-core-ucp-main_module&mode=manage_albums&sid='  . $this->sid);
+		
+		$upload_url = substr($crawler->filter('a:contains("' . $this->lang('UPLOAD_IMAGE') . '")')->attr('href'), 1);
+		
+		$crawler = self::request('GET', $upload_url);
+		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
+		$form['image_file_0'] =  __DIR__ . '/images/valid.jpg';
+		$crawler = self::submit($form);
+		$form = $crawler->selectButton($this->lang['SUBMIT'])->form();
+		$form['image_name'] = array(
+			0 => 'Image in Personal album',
+		);
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('ALBUM_UPLOAD_SUCCESSFUL', $crawler->text());
+		
+		//$crawler = self::request('GET', 'app.php/gallery/album/1');
+		$meta = $crawler->filter('meta[http-equiv="refresh"]')->attr('content');
+
+		$url = $this->get_url_from_meta($meta);
+		$crawler = self::request('GET', substr($url, 1));
+		
+		$this->assertContains('Image in Personal album', $crawler->text());
+		
+		$this->logout();
+		$this->logout();
+	}
+	/**
+	* @dataProvider yes_no_data
+	*/
+	public function test_rrc_gindex_pegas($option)
+	{
+		$this->login();
+		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang('common');
+
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'config[rrc_gindex_pegas]'	=> $option,
+		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
+		
+		//Test
+		
+		if ($option == 1)
+		{
+			$crawler = self::request('GET', 'app.php/gallery/search/recent');
+			$this->assertContains('Image in Personal album', $crawler->text());
+			$crawler = self::request('GET', 'app.php/gallery/search/random');
+			$this->assertContains('Image in Personal album', $crawler->text());
+		}
+		else
+		{
+			$crawler = self::request('GET', 'app.php/gallery/search/recent');
+			$this->assertNotContains('Image in Personal album', $crawler->text());
+			$crawler = self::request('GET', 'app.php/gallery/search/random');
+			$this->assertNotContains('Image in Personal album', $crawler->text());
+		}
+		$this->logout();
+		$this->logout();
+	}
 	// END RRC GINDEX TESTS
 }
