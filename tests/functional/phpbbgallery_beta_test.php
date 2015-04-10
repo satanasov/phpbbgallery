@@ -2429,11 +2429,11 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'memberlist.php?mode=viewprofile&u=2&sid=' . $this->sid );
 		if ($option == 1)
 		{
-			$this->assertContains($this->lang('GALLERY_IMAGES'), $crawler->filter('div#bg2')->eq(0)->filter('div#column2')->text());
+			$this->assertContains($this->lang('GALLERY_IMAGES'), $crawler->filter('div.bg2')->eq(0)->filter('div.column2')->text());
 		}
 		else
 		{
-			$this->assertNotContains($this->lang('GALLERY_IMAGES'), $crawler->filter('div#bg2')->eq(0)->filter('div#column2')->text());
+			$this->assertNotContains($this->lang('GALLERY_IMAGES'), $crawler->filter('div.bg2')->eq(0)->filter('div.column2')->text());
 		}
 		$this->logout();
 		$this->logout();
@@ -2502,13 +2502,51 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		{
 			if ($response)
 			{
-				$this->assertContains($test, $crawler->filter('div.phpbb_gallery_user_profile')->text());
+				$this->assertContains($test, $crawler->filter('div#phpbb_gallery_user_profile')->text());
 			}
 			else
 			{
-				$this->assertNotContains($test, $crawler->filter('div.phpbb_gallery_user_profile')->text());
+				$this->assertNotContains($test, $crawler->filter('div#phpbb_gallery_user_profile')->text());
 			}
 		}
+		$this->logout();
+		$this->logout();
+	}
+	public function test_profile_pega($option)
+	{
+		$this->login();
+		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang('common');
+
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'config[rrc_profile_items]'	=> 1,
+		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
+		
+		// Test
+		
+		$crawler = self::request('GET', 'memberlist.php?mode=viewprofile&u=2&sid=' . $this->sid);
+		
+		$this->assertEquals(2, $crawler->filter('div.polaroid')->count());
+		
+		// Revert
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'config[rrc_profile_items]'	=> 4,
+		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
+		
 		$this->logout();
 		$this->logout();
 	}
