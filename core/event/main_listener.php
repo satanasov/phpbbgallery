@@ -48,7 +48,7 @@ class main_listener implements EventSubscriberInterface
 	*/
 	public function __construct(\phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user, \phpbbgallery\core\search $gallery_search,
 	\phpbbgallery\core\config $gallery_config, \phpbb\db\driver\driver_interface $db,
-	$albums_table, $php_ext)
+	$albums_table, $users_table, $php_ext)
 	{
 		$this->helper = $helper;
 		$this->template = $template;
@@ -58,6 +58,7 @@ class main_listener implements EventSubscriberInterface
 		$this->db = $db;
 		$this->php_ext = $php_ext;
 		$this->albums_table = $albums_table;
+		$this->users_table = $users_table;
 	}
 	public function load_language_on_setup($event)
 	{
@@ -105,6 +106,29 @@ class main_listener implements EventSubscriberInterface
 			$u_block = ' ';
 			$this->gallery_search->random($this->gallery_config->get('rrc_profile_items'), $event['data']['user_id'], 'rrc_profile_display', $block_name, $u_block);
 		}
+
+		// Now - do we show statistics
+		if ($this->gallery_config->get('profile_user_images') == 1)
+		{
+			$sql = 'SELECT * FROM ' . $this->users_table . ' WHERE user_id = ' . $event['data']['user_id'];
+			$result = $this->db->sql_query($sql);
+			$user_info = $this->db->sql_fetchrow($result);
+			$this->db->sql_freeresult($result);
+			if ($user_info)
+			{
+				$this->template->assign_vars(array(
+					'U_GALLERY_IMAGES_ALLOW'	=> true,
+					'U_GALLERY_IMAGES'	=> $user_info['user_images'],
+				));
+			}
+			else
+			{
+				$this->template->assign_vars(array(
+					'U_GALLERY_IMAGES_ALLOW'	=> true,
+					'U_GALLERY_IMAGES'	=> 0,
+				));
+			}
+		}
 	}
 	public function get_user_ids($event)
 	{
@@ -117,6 +141,7 @@ class main_listener implements EventSubscriberInterface
 			{
 				$this->albums[$row['album_user_id']] = (int) $row['album_id'];
 			}
+			$this->db->sql_freeresult($result);
 		}
 	}
 	public function profile_fileds($event)
