@@ -119,24 +119,20 @@ class search
 		{
 			$sql .= ' and image_user_id = ' . (int) $user;
 		}
+		$exclude_albums = array();
 		if (!$this->gallery_config->get('rrc_gindex_pegas'))
 		{
 			$sql_no_user = 'SELECT album_id FROM ' . $this->albums_table . ' WHERE album_user_id > 0';
 			$result = $this->db->sql_query($sql_no_user);
-			$exclude_albums = array();
 			while ($row = $this->db->sql_fetchrow($result))
 			{
-				$exclude_albums[] = $row['album_id'];
+				$exclude_albums[] = (int) $row['album_id'];
 			}
 			$this->db->sql_freeresult($result);
-			if (!empty($exclude_albums))
-			{
-				$sql .= ' and ' . $this->db->sql_in_set('image_album_id', $exclude_albums, true, true);
-			}
 		}
-		$sql .= ' AND ((' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('i_view'), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
-					OR (' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('a_list'), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
-					OR ' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('m_status'), false, true) . ')
+		$sql .= ' AND ((' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
+					OR (' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('a_list'), $exclude_albums), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
+					OR ' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('m_status'), $exclude_albums), false, true) . ')
 			ORDER BY ' . $sql_order;
 
 		if (!$sql_limit)
@@ -320,23 +316,19 @@ class search
 		$sql = 'SELECT COUNT(image_id) as count
 			FROM ' . $this->images_table . '
 			WHERE image_status <> ' . \phpbbgallery\core\image\image::STATUS_ORPHAN;
+		$exclude_albums = array();
 		if (!$this->gallery_config->get('rrc_gindex_pegas'))
 		{
 			$sql_no_user = 'SELECT album_id FROM ' . $this->albums_table . ' WHERE album_user_id > 0';
 			$result = $this->db->sql_query($sql_no_user);
-			$exclude_albums = array();
 			while ($row = $this->db->sql_fetchrow($result))
 			{
-				$exclude_albums[] = $row['album_id'];
+				$exclude_albums[] = (int) $row['album_id'];
 			}
 			$this->db->sql_freeresult($result);
-			if (!empty($exclude_albums))
-			{
-				$sql .= ' and ' . $this->db->sql_in_set('image_album_id', $exclude_albums, true, true);
-			}
 		}
-		$sql .= '	AND ((' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('i_view'), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
-					OR ' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('m_status'), false, true) . ')
+		$sql .= '	AND ((' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
+					OR ' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('m_status'), $exclude_albums), false, true) . ')
 			GROUP BY image_id
 			ORDER BY ' . $sql_order;
 
@@ -446,26 +438,22 @@ class search
 		{
 			$sql .= ' and image_user_id = ' . (int) $user;
 		}
+		$exclude_albums = array();
 		if (!$this->gallery_config->get('rrc_gindex_pegas'))
 		{
 			$sql_no_user = 'SELECT album_id FROM ' . $this->albums_table . ' WHERE album_user_id > 0';
 			$result = $this->db->sql_query($sql_no_user);
-			$exclude_albums = array();
 			while ($row = $this->db->sql_fetchrow($result))
 			{
-				$exclude_albums[] = $row['album_id'];
+				$exclude_albums[] = (int) $row['album_id'];
 			}
 			$this->db->sql_freeresult($result);
-			if (!empty($exclude_albums))
-			{
-				$sql .= ' and ' . $this->db->sql_in_set('image_album_id', $exclude_albums, true);
-			}
 		}
-		$sql .= ' AND ((' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('i_view'), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
-					OR ' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('m_status'), false, true) . ')
+		$sql .= ' AND ((' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
+					OR ' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('m_status'), $exclude_albums), false, true) . ')
 			GROUP BY image_id
 			ORDER BY ' . $sql_order;
-
+var_dump($sql);
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
