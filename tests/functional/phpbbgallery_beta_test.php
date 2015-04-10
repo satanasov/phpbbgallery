@@ -2429,11 +2429,11 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'memberlist.php?mode=viewprofile&u=2&sid=' . $this->sid );
 		if ($option == 1)
 		{
-			$this->assertContains($this->lang('GALLERY_IMAGES'), $crawler->text());
+			$this->assertContains($this->lang('GALLERY_IMAGES'), $crawler->filter('div#bg2')->eq(0)->filter('div#column2')->text());
 		}
 		else
 		{
-			$this->assertNotContains($this->lang('GALLERY_IMAGES'), $crawler->text());
+			$this->assertNotContains($this->lang('GALLERY_IMAGES'), $crawler->filter('div#bg2')->eq(0)->filter('div#column2')->text());
 		}
 		$this->logout();
 		$this->logout();
@@ -2463,11 +2463,11 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'memberlist.php?mode=viewprofile&u=2&sid=' . $this->sid );
 		if ($option == 1)
 		{
-			$this->assertContains($this->lang('GALLERY'), $crawler->text());
+			$this->assertContains($this->lang('VISIT_GALLERY'), $crawler->text());
 		}
 		else
 		{
-			$this->assertNotContains($this->lang('GALLERY'), $crawler->text());
+			$this->assertNotContains($this->lang('VISIT_GALLERY'), $crawler->text());
 		}
 		$this->logout();
 		$this->logout();
