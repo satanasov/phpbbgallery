@@ -182,6 +182,7 @@ class search
 			),
 
 			'WHERE'			=> 'i.image_status <> ' . \phpbbgallery\core\image\image::STATUS_ORPHAN . ' AND ' . $sql_where,
+			'GROUP_BY'	=> 'i.image_id, a.album_name, a.album_status, a.album_user_id',
 			'ORDER_BY'		=> $sql_order,
 		);
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
@@ -354,6 +355,7 @@ class search
 				$this->comments_table => 'c',
 			),
 			'WHERE'	=> 'i.image_id = c.comment_image_id and ' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('c_read'), false, true),
+			'GROUP_BY'	=> 'c.comment_id, i.image_id',
 			'ORDER_BY'	=> 'comment_time DESC'
 		);
 		$sql_array['SELECT'] = 'COUNT(c.comment_id) as count';
