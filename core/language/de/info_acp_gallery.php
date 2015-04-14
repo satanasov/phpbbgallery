@@ -8,7 +8,7 @@
 * @copyright (c) 2007 nickvergessen nickvergessen@gmx.de http://www.flying-bits.org
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
-* Übersetzt von franki (http://dieahnen.de/ahnenforum/)
+* German translation by franki (http://dieahnen.de/ahnenforum/)
 **/
 
 /**
@@ -44,7 +44,7 @@ $lang = array_merge($lang, array(
 
 	// A little line where you can give yourself some credits on the translation.
 	//'GALLERY_TRANSLATION_INFO'		=> 'English “phpBB Gallery“-Translation by <a href="http://www.flying-bits.org/">nickvergessen</a>',
-	'GALLERY_TRANSLATION_INFO'			=> 'Übersetzt von franki <a href="http://dieahnen.de/ahnenforum/">Die Ahnen</a>',
+	'GALLERY_TRANSLATION_INFO'			=> 'German “phpBB Gallery“-Translation by <a href="http://dieahnen.de/ahnenforum/">franki</a>',
 
 	'IMAGES'							=> 'Bilder',
 	'IMG_BUTTON_UPLOAD_IMAGE'			=> 'Bild hochladen',
