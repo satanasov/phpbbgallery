@@ -8,7 +8,7 @@
 * @copyright (c) 2007 nickvergessen nickvergessen@gmx.de http://www.flying-bits.org
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
-* Übersetzt von franki (http://dieahnen.de/ahnenforum/)
+* German translation by franki (http://dieahnen.de/ahnenforum/)
 **/
 
 /**
@@ -151,7 +151,7 @@ $lang = array_merge($lang, array(
 	'IMAGE_PCT'						=> '%.2f%% aller Bilder',
 	'IMAGE_STATUS'					=> 'Status',
 	'IMAGE_URL'						=> 'Bildlink',
-	'IMAGE_VIEWS'							=> 'Views',
+	'IMAGE_VIEWS'							=> 'Ansichten',
 	'IMAGE_WIDTH'					=> 'Bildbreite',
 	'IMAGES_REPORTED_SUCCESSFULLY'	=> 'Das Bild wurde erfolgreich gemeldet',
 	'IMAGES_UPDATED_SUCCESSFULLY'	=> 'Deine Bilderinformationen wurden erfolgreich aktualisiert',
@@ -249,7 +249,7 @@ $lang = array_merge($lang, array(
 	'SEARCH_RECENT'					=> 'Neueste Bilder',
 	'NO_SEARCH_RESULTS_RECENT'		=> 'Es gibt keine Bilder oder Du hast nicht die Berechtigung sie zu sehen!',
 	'SEARCH_RECENT_COMMENTS'		=> 'Neueste Kommentare',
-	'NO_SEARCH_RESULTS_RECENT_COMMENTS'	=> 'There are no recent comments or you do not have access!',
+	'NO_SEARCH_RESULTS_RECENT_COMMENTS'	=> 'Es gibt keine aktuellen Kommentare, oder Du hast keinen Zugriff!',
 	'SEARCH_SUBALBUMS'				=> 'Subalben durchsuchen',
 	'SEARCH_TOPRATED'				=> 'Beste Bewertungen',
 	'SEARCH_USER_IMAGES'			=> 'Bilder des Mitglieds anzeigen',
@@ -348,6 +348,7 @@ $lang = array_merge($lang, array(
 	'WATCHING_ALBUM'				=> 'Du wirst über neue Bilder in diesem Album benachrichtigt.',
 	'WATCHING_IMAGE'				=> 'Du wirst über Kommentare zu diesem Bild benachrichtigt.',
 	'WATCHING_PEGAS'				=> 'Du beobachtest neue persönliche Alben jetzt automatisch.',
+	'WRONG_FILESIZE'				=> 'Die Grenze der Bildgrösse ist überschritten!',
 
 	'YOUR_COMMENT'					=> 'Dein Kommentar',
 	'YOUR_PERSONAL_ALBUM'			=> 'Dein persönliches Album',
@@ -357,5 +358,4 @@ $lang = array_merge($lang, array(
 		1	=>	'Bild verschoben',
 		2	=> 	'%s Bilder verschoben',
 	),
-	'WRONG_FILESIZE'	=> 'Image is bigger then the limit!',
 ));
