@@ -12,122 +12,49 @@
 <h2><a href="{S_ALBUM_ACTION}">{IMAGE_NAME}</a></h2>
 
 <div class="post bg2<!-- IF S_IMAGE_REPORTED --> reported<!-- ENDIF -->">
-	<div class="inner"><span class="corners-top"><span></span></span>
+	<div class="inner">
 		<div style="text-align: center; padding: 20px;" id="image">
-			<!-- IF UC_IMAGE_ACTION --><a href="{UC_IMAGE_ACTION}"><!-- ENDIF --><img src="{UC_IMAGE}" alt="{IMAGE_NAME}" /><!-- IF UC_IMAGE_ACTION --></a><!-- ENDIF -->
+			<!-- IF UC_IMAGE_ACTION --><a href="{UC_IMAGE_ACTION}"><!-- ENDIF --><img src="{UC_IMAGE}" alt="{IMAGE_NAME}" class="attach-image" /><!-- IF UC_IMAGE_ACTION --></a><!-- ENDIF -->
 			<!-- IF S_IMAGE_REPORTED --><br /><br /><a href="{U_IMAGE_REPORTED}"><span class="error">{L_IMAGE_REPORTED}</span></a><!-- ENDIF -->
 			<br /><span class="image-description">{IMAGE_DESC}</span>
 		</div>
-	<span class="corners-bottom"><span></span></span></div>
+	</div>
 </div>
 <!-- IF UC_PREV_IMAGE or UC_NEXT_IMAGE -->
 <div class="post bg2">
-	<div class="inner"><span class="corners-top"><span></span></span>
+	<div class="inner">
 		<div style="text-align: center; overflow: hidden;">
 			<!-- IF UC_PREV_IMAGE --><div class="image_prev_image">{UC_PREV_IMAGE}</div><!-- ENDIF --><!-- IF UC_NEXT_IMAGE --><div class="image_next_image">{UC_NEXT_IMAGE}</div><!-- ENDIF -->
 		</div>
 	</div>
 </div>
 <!-- ENDIF -->
-<div id="details" class="panel">
-	<div class="inner"><span class="corners-top"><span></span></span>
-		<div class="postbody">
-			<ul class="post-buttons">
-				<!-- EVENT gallery_viewimage_actions -->
-				<!--<li><a href="{U_EDIT}" title="{L_EDIT_IMAGE}" class="button icon-button icon-notification"><span>{L_EDIT_IMAGE}</span></a></li>-->
-				<!-- IF U_EDIT --><li><a href="{U_EDIT}" title="{L_EDIT_IMAGE}" class="button icon-button edit-icon"><span>{L_EDIT_IMAGE}</span></a></li><!-- ENDIF -->
-				<!-- IF U_DELETE --><li><a href="{U_DELETE}" title="{L_DELETE_IMAGE}" class="button icon-button delete-icon"><span>{L_DELETE_IMAGE}</span></a></li><!-- ENDIF -->
-				<!-- IF U_REPORT --><li><a href="{U_REPORT}" title="{L_REPORT_IMAGE}" class="button icon-button report-icon"><span>{L_REPORT_IMAGE}</span></a></li><!-- ENDIF -->
-			</ul>
-			<h3>{IMAGE_NAME}</h3>
-			<hr />
-
-			<fieldset class="fields1 anti-postbody">
-				<!-- IF CONTEST_RANK -->
-				<dl class="column1">
-					<dt><label>{L_CONTEST_RESULT}:</label></dt>
-					<dd>{CONTEST_RANK}</dd>
-				</dl>
-				<!-- ENDIF -->
-				<dl class="column2">
-					<dt><label>{L_UPLOADED_ON_DATE}:</label></dt>
-					<dd>{IMAGE_TIME}</dd>
-				</dl>
-				<!-- IF IMAGE_URL -->
-				<dl class="column1">
-					<dt><label>{L_IMAGE_URL}:</label></dt>
-					<dd><input type="text" size="28" value="{IMAGE_URL}" class="inputbox autowidth-gallery" onclick="this.focus();this.select();" /></dd>
-				</dl>
-				<!-- ENDIF -->
-				<dl class="column2">
-					<dt><label>{L_GALLERY_VIEWS}:</label></dt>
-					<dd>{IMAGE_VIEW}</dd>
-				</dl>
-				<!-- IF IMAGE_BBCODE -->
-				<dl class="column1">
-					<dt><label>{L_IMAGE_BBCODE}:</label></dt>
-					<dd><input type="text" size="28" value="{IMAGE_BBCODE}" class="inputbox autowidth-gallery" onclick="this.focus();this.select();" /></dd>
-					<!-- IF IMAGE_IMGURL_BBCODE -->
-						<dd><input type="text" size="28" value="{IMAGE_IMGURL_BBCODE}" class="inputbox autowidth-gallery" onclick="this.focus();this.select();" /></dd>
-					<!-- ENDIF -->
-				</dl>
-				<!-- ENDIF -->
-				<!-- IF S_VIEW_RATE -->
-				<dl class="column2">
-					<dt><label>{L_RATING}:</label></dt>
-					<dd><!-- IF CONTEST_RESULT_HIDDEN -->{CONTEST_RESULT_HIDDEN}<!-- ELSE -->{IMAGE_RATING}<!-- ENDIF --><!-- IF S_YOUR_RATING --> ({L_YOUR_RATING}: {S_YOUR_RATING})<!-- ENDIF --></dd>
-				</dl>
-				<!-- ENDIF -->
-				<!-- IF S_ALLOWED_TO_RATE -->
-				<form id="postform" action="{S_RATE_ACTION}" method="post">
-				<dl class="column2">
-					<dt><label>{L_YOUR_RATING}:</label></dt>
-					<dd>
-						<!-- IF .rate_scale -->
-							<select name="rating" onchange="this.form.submit();">
-							<!-- BEGIN rate_scale -->
-								<!-- IF rate_scale.RATE_POINT == 1 --><option value="0">{L_DONT_RATE_IMAGE}</option><!-- ENDIF -->
-								<option value="{rate_scale.RATE_POINT}">{rate_scale.RATE_POINT}</option>
-							<!-- END rate_scale -->
-							</select>
-						<!-- ELSE -->
-							{CONTEST_RATING}
-						<!-- ENDIF -->
-					</dd>
-				</dl>
-				{S_FORM_TOKEN}
-				</form>
-				<!-- ENDIF -->
-			</fieldset>
-
-			<!-- EVENT gallery_viewimage_details -->
-		</div>
-
-		<dl class="postprofile" id="profile_poster<!-- IF S_POSTER_ONLINE --> online<!-- ENDIF -->">
-			<dt>
+<div id="details" class="panel<!-- IF S_POSTER_ONLINE --> online<!-- ENDIF -->">
+	<div class="inner">
+		<dl class="postprofile" id="profile_poster">
+			<dt class="<!-- IF POSTER_RANK_TITLE or POSTER_RANK_IMG -->has-profile-rank<!-- ELSE -->no-profile-rank<!-- ENDIF --> <!-- IF POSTER_AVATAR -->has-avatar<!-- ELSE -->no-avatar<!-- ENDIF -->">
+				<div class="avatar-container">
 				<!-- IF POSTER_AVATAR -->
-					<!-- IF U_POSTER --><a href="{U_POSTER}">{POSTER_AVATAR}</a><!-- ELSE -->{POSTER_AVATAR}<!-- ENDIF --><br />
+					<!-- IF U_POSTER --><a href="{U_POSTER}" class="avatar">{POSTER_AVATAR}</a>
+					<!-- ELSE --><span class="avatar">{POSTER_AVATAR}</span><!-- ENDIF -->
 				<!-- ENDIF -->
+				</div>
 				<!-- IF not U_POSTER --><strong>{POSTER_FULL}</strong><!-- ELSE -->{POSTER_FULL}<!-- ENDIF -->
 			</dt>
-
 			<!-- IF POSTER_RANK_TITLE or POSTER_RANK_IMG --><dd>{POSTER_RANK_TITLE}<!-- IF POSTER_RANK_TITLE and POSTER_RANK_IMG --><br /><!-- ENDIF -->{POSTER_RANK_IMG}</dd><!-- ENDIF -->
-
-			<dd>&nbsp;</dd>
-
-			<!-- IF POSTER_POSTS != '' --><dd><strong>{L_POSTS}:</strong> {POSTER_POSTS}</dd><!-- ENDIF -->
-			<!-- IF POSTER_GALLERY_IMAGES != '' --><dd><strong>{L_IMAGES}:</strong> <!-- IF U_POSTER_GALLERY_SEARCH --><a href="{U_POSTER_GALLERY_SEARCH}">{POSTER_GALLERY_IMAGES}</a><!-- ELSE -->{POSTER_GALLERY_IMAGES}<!-- ENDIF --></dd><!-- ENDIF -->
-			<!-- IF POSTER_JOINED --><dd><strong>{L_JOINED}:</strong> {POSTER_JOINED}</dd><!-- ENDIF -->
-			<!-- IF POSTER_FROM --><dd><strong>{L_LOCATION}:</strong> {POSTER_FROM}</dd><!-- ENDIF -->
-			<!-- IF POSTER_IP --><dd><strong>{L_IP}:</strong> {POSTER_IP} [ <a href="{U_POSTER_WHOIS}" onclick="popup(this.href, 750, 500); return false;">{L_WHOIS}</a> ]</dd><!-- ENDIF -->
+			<!-- IF POSTER_POSTS != '' --><dd><strong>{L_POSTS}{L_COLON}</strong> {POSTER_POSTS}</dd><!-- ENDIF -->
+			<!-- IF POSTER_GALLERY_IMAGES != '' --><dd><strong>{L_IMAGES}{L_COLON}</strong> <!-- IF U_POSTER_GALLERY_SEARCH --><a href="{U_POSTER_GALLERY_SEARCH}">{POSTER_GALLERY_IMAGES}</a><!-- ELSE -->{POSTER_GALLERY_IMAGES}<!-- ENDIF --></dd><!-- ENDIF -->
+			<!-- IF POSTER_JOINED --><dd><strong>{L_JOINED}{L_COLON}</strong> {POSTER_JOINED}</dd><!-- ENDIF -->
+			<!-- IF POSTER_FROM --><dd><strong>{L_LOCATION}{L_COLON}</strong> {POSTER_FROM}</dd><!-- ENDIF -->
+			<!-- IF POSTER_IP --><dd><strong>{L_IP}{L_COLON}</strong> <a href="{U_POSTER_WHOIS}" title="{L_WHOIS}" onclick="popup(this.href, 750, 500); return false;">{POSTER_IP}</a></dd><!-- ENDIF -->
 
 			<!-- IF S_PROFILE_FIELD1 -->
 				<!-- Use a construct like this to include admin defined profile fields. Replace FIELD1 with the name of your field. -->
-				<dd><strong>{PROFILE_FIELD1_NAME}:</strong> {PROFILE_FIELD1_VALUE}</dd>
+				<dd><strong>{PROFILE_FIELD1_NAME}{L_COLON}</strong> {PROFILE_FIELD1_VALUE}</dd>
 			<!-- ENDIF -->
 
 			<!-- BEGIN custom_fields -->
-				<dd><strong>{custom_fields.PROFILE_FIELD_NAME}:</strong> {custom_fields.PROFILE_FIELD_VALUE}</dd>
+				<dd><strong>{custom_fields.PROFILE_FIELD_NAME}{L_COLON}</strong> {custom_fields.PROFILE_FIELD_VALUE}</dd>
 			<!-- END custom_fields -->
 
 			<!-- IF not S_IS_BOT -->
@@ -140,66 +67,121 @@
 			<!-- ENDIF -->
 			<dd class="profile-contact">
 				<strong>{L_CONTACT}{L_COLON}</strong>
-				<div class="dropdown-container dropdown-left dropdown-down">
-					<a href="#" class="dropdown-trigger dropdown-toggle"><span class="imageset icon_contact" title="{L_CONTACT} {POSTER_USERNAME}">{L_CONTACT} {POSTER_USERNAME}</span></a>
-					<div style="display: none; margin-left: -1163.97px;" class="dropdown hidden">
+				<div class="dropdown-container dropdown-left">
+					<a href="#" class="dropdown-trigger"><span class="imageset icon_contact" title="{L_CONTACT} {POSTER_USERNAME}">{L_CONTACT} {POSTER_USERNAME}</span></a>
+					<div class="dropdown hidden">
 						<div class="pointer"><div class="pointer-inner"></div></div>
-						<div style="margin-left: 0px; left: 0px; max-width: 1580px;" class="dropdown-contents contact-icons dropdown-nonscroll">
-							<div>
-								<!-- IF U_POSTER_PM --><a href="{U_POSTER_PM}" title="{L_PRIVATE_MESSAGE}">
-									<span class="contact-icon pm-icon">{L_PRIVATE_MESSAGE}</span>
-								</a><!-- ENDIF -->
-								<!-- IF U_POSTER_EMAIL --><a href="{U_POSTER_EMAIL}" title="{U_POSTER_EMAIL}">
-									<span class="contact-icon email-icon">{U_POSTER_EMAIL}</span>
-								</a><!-- ENDIF -->
-								<!-- IF U_POSTER_JABBER --><a href="{U_POSTER_JABBER}" title="{L_JABBER}" onclick="popup(this.href, 750, 320); return false;">
-									<span class="contact-icon jabber-icon">{L_JABBER}</span>
-								</a><!-- ENDIF -->
-								<!-- IF U_POSTER_ICQ --><a href="{U_POSTER_ICQ}" title="{L_ICQ}" class="last-cell">
-									<span class="contact-icon phpbb_icq-icon">{L_ICQ}</span>
-								</a><!-- ENDIF -->
-							</div>
-						<div>
-							<!-- IF U_POSTER_WWW --><a href="{U_POSTER_WWW}" title="{L_VISIT_WEBSITE}: {U_WWW}">
-								<span class="contact-icon phpbb_website-icon">{L_VISIT_WEBSITE}: {U_WWW}</span>
-							</a><!-- ENDIF -->
-						</div>
+						<div class="dropdown-contents contact-icons">
+							<!-- IF U_POSTER_PM --><a href="{U_POSTER_PM}" title="{L_PRIVATE_MESSAGE}"><span class="contact-icon pm-icon">{L_PRIVATE_MESSAGE}</span></a><!-- ENDIF -->
+							<!-- IF U_POSTER_EMAIL --><a href="{U_POSTER_EMAIL}" title="{L_SEND_EMAIL}"><span class="contact-icon email-icon">{U_POSTER_EMAIL}</span></a><!-- ENDIF -->
+							<!-- IF U_POSTER_JABBER --><a href="{U_POSTER_JABBER}" title="{L_JABBER}" onclick="popup(this.href, 750, 320); return false;"><span class="contact-icon jabber-icon">{L_JABBER}</span></a><!-- ENDIF -->
+							<!-- IF U_POSTER_ICQ --><a href="{U_POSTER_ICQ}" title="{L_ICQ}" class="last-cell"><span class="contact-icon phpbb_icq-icon">{L_ICQ}</span></a><!-- ENDIF -->
+							<!-- IF U_POSTER_WWW --><a href="{U_POSTER_WWW}" title="{L_VISIT_WEBSITE}{L_COLON} {U_WWW}"><span class="contact-icon phpbb_website-icon">{L_VISIT_WEBSITE}{L_COLON} {U_WWW}</span></a><!-- ENDIF -->
 						</div>
 					</div>
 				</div>
 			</dd>
-
 		</dl>
-	<span class="corners-bottom"><span></span></span></div>
-	<!-- IF S_QUICK_MOD -->
-	<form method="post" action="{S_MOD_ACTION}">
-	<fieldset class="quickmod" style="float: none; width: 100%;">
-		<label for="quick-mod-select">{L_QUICK_MOD}:</label>
-		<select name="action" id="quick-mod-select">
-			<!-- IF S_QM_MOVE --><option value="images_move">{L_QUEUE_A_MOVE}</option><!-- ENDIF -->
-			<!-- IF S_QM_EDIT --><option value="image_edit">{L_EDIT_IMAGE}</option><!-- ENDIF -->
-			<!-- IF S_QM_STATUS -->
-				<!-- IF not S_STATUS_UNAPPROVED --><option value="images_unapprove">{L_QUEUE_A_UNAPPROVE}</option><!-- ENDIF -->
-				<!-- IF not S_STATUS_APPROVED --><option value="images_approve">{L_QUEUE_A_APPROVE}</option><!-- ENDIF -->
-				<!-- IF not S_STATUS_LOCKED --><option value="images_lock">{L_QUEUE_A_LOCK}</option><!-- ENDIF -->
+
+		<div class="postbody">
+			<ul class="post-buttons">
+				<!-- EVENT gallery_viewimage_actions -->
+				<!-- IF U_EDIT --><li><a href="{U_EDIT}" title="{L_EDIT_IMAGE}" class="button icon-button edit-icon"><span>{L_EDIT_IMAGE}</span></a></li><!-- ENDIF -->
+				<!-- IF U_DELETE --><li><a href="{U_DELETE}" title="{L_DELETE_IMAGE}" class="button icon-button delete-icon"><span>{L_DELETE_IMAGE}</span></a></li><!-- ENDIF -->
+				<!-- IF U_REPORT --><li><a href="{U_REPORT}" title="{L_REPORT_IMAGE}" class="button icon-button report-icon"><span>{L_REPORT_IMAGE}</span></a></li><!-- ENDIF -->
+			</ul>
+			<h3>{IMAGE_NAME}</h3>
+			<hr />
+
+			<fieldset class="fields1 anti-postbody">
+				<!-- IF CONTEST_RANK -->
+				<dl class="column1">
+					<dt><label>{L_CONTEST_RESULT}{L_COLON}</label></dt>
+					<dd>{CONTEST_RANK}</dd>
+				</dl>
+				<!-- ENDIF -->
+				<dl class="column2">
+					<dt><label>{L_UPLOADED_ON_DATE}{L_COLON}</label></dt>
+					<dd>{IMAGE_TIME}</dd>
+				</dl>
+				<!-- IF IMAGE_URL -->
+				<dl class="column1">
+					<dt><label>{L_IMAGE_URL}{L_COLON}</label></dt>
+					<dd><input type="text" size="28" value="{IMAGE_URL}" class="inputbox autowidth-gallery" onclick="this.focus();this.select();" /></dd>
+				</dl>
+				<!-- ENDIF -->
+				<dl class="column2">
+					<dt><label>{L_GALLERY_VIEWS}{L_COLON}</label></dt>
+					<dd>{IMAGE_VIEW}</dd>
+				</dl>
+				<!-- IF IMAGE_BBCODE -->
+				<dl class="column1">
+					<dt><label>{L_IMAGE_BBCODE}{L_COLON}</label></dt>
+					<dd><input type="text" size="28" value="{IMAGE_BBCODE}" class="inputbox autowidth-gallery" onclick="this.focus();this.select();" /></dd>
+					<!-- IF IMAGE_IMGURL_BBCODE -->
+						<dd><input type="text" size="28" value="{IMAGE_IMGURL_BBCODE}" class="inputbox autowidth-gallery" onclick="this.focus();this.select();" /></dd>
+					<!-- ENDIF -->
+				</dl>
+				<!-- ENDIF -->
+				<!-- IF S_VIEW_RATE -->
+				<dl class="column2">
+					<dt><label>{L_RATING}{L_COLON}</label></dt>
+					<dd><!-- IF CONTEST_RESULT_HIDDEN -->{CONTEST_RESULT_HIDDEN}<!-- ELSE -->{IMAGE_RATING}<!-- ENDIF --><!-- IF S_YOUR_RATING --> ({L_YOUR_RATING}{L_COLON} {S_YOUR_RATING})<!-- ENDIF --></dd>
+				</dl>
+				<!-- ENDIF -->
+				<!-- IF S_ALLOWED_TO_RATE -->
+				<form id="postform" action="{S_RATE_ACTION}" method="post">
+				<dl class="column2">
+					<dt><label>{L_YOUR_RATING}{L_COLON}</label></dt>
+					<dd<!-- IF .rate_scale --> title="{L_RATE_IMAGE}"<!-- ENDIF -->>
+						<!-- IF .rate_scale -->
+							<!-- BEGIN rate_scale -->
+								<input type="submit" id="{rate_scale.RATE_POINT}" class="button" name="rating" value="{rate_scale.RATE_POINT}" />
+							<!-- END rate_scale -->
+						<!-- ELSE -->
+							{CONTEST_RATING}
+						<!-- ENDIF -->
+					</dd>
+				</dl>
+				{S_FORM_TOKEN}
+				</form>
+				<!-- ENDIF -->
+			</fieldset>
+
+			<!-- EVENT gallery_viewimage_details -->
+
+			<!-- IF S_QUICK_MOD -->
+			<hr />
+			<form method="post" action="{S_MOD_ACTION}">
+			<fieldset class="display-options">
+				<label for="quick-mod-select">{L_MCP_SHORT}{L_COLON}</label>
+				<select name="action" id="quick-mod-select">
+					<!-- IF S_QM_MOVE --><option value="images_move">{L_QUEUE_A_MOVE}</option><!-- ENDIF -->
+					<!-- IF S_QM_EDIT --><option value="image_edit">{L_EDIT_IMAGE}</option><!-- ENDIF -->
+					<!-- IF S_QM_STATUS -->
+						<!-- IF not S_STATUS_UNAPPROVED --><option value="images_unapprove">{L_QUEUE_A_UNAPPROVE}</option><!-- ENDIF -->
+						<!-- IF not S_STATUS_APPROVED --><option value="images_approve">{L_QUEUE_A_APPROVE}</option><!-- ENDIF -->
+						<!-- IF not S_STATUS_LOCKED --><option value="images_lock">{L_QUEUE_A_LOCK}</option><!-- ENDIF -->
+					<!-- ENDIF -->
+					<!-- IF S_QM_DELETE --><option value="images_delete">{L_QUEUE_A_DELETE}</option><!-- ENDIF -->
+					<!-- IF S_QM_REPORT and S_IMAGE_REPORTED --><option value="report_details">{L_READ_REPORT}</option><!-- ENDIF -->
+				</select>
+				<input type="submit" value="{L_GO}" class="button2" />
+				{S_FORM_TOKEN}
+			</fieldset>
+			</form>
 			<!-- ENDIF -->
-			<!-- IF S_QM_DELETE --><option value="images_delete">{L_QUEUE_A_DELETE}</option><!-- ENDIF -->
-			<!-- IF S_QM_REPORT and S_IMAGE_REPORTED --><option value="report_details">{L_READ_REPORT}</option><!-- ENDIF -->
-		</select>
-		<input type="submit" value="{L_GO}" class="button2" />
-		{S_FORM_TOKEN}
-	</fieldset>
-	</form>
-	<!-- ENDIF -->
+		</div>
+	</div>
 </div>
 
 <!--
 <!-- IF IMAGE_DESC -->
 <div class="panel">
-	<div class="inner"><span class="corners-top"><span></span></span>
+	<div class="inner">
 		<h3>{L_IMAGE_DESC}</h3>
 		<div class="postbody" style="width: 100%"><div class="content">{IMAGE_DESC}</div></div>
-	<span class="corners-bottom"><span></span></span></div>
+	</div>
 </div>
 <!-- ENDIF -->
 -->
@@ -207,13 +189,13 @@
 <a name="rating"></a>
 <form id="postform" action="{S_COMMENT_ACTION}" method="post">
 <div id="postingbox" class="panel">
-	<div class="inner"><span class="corners-top"><span></span></span>
+	<div class="inner">
 		<h3>{L_POST_COMMENT}</h3>
 		<fieldset id="comment-box" class="fields1">
 			<!-- IF S_ALLOWED_TO_COMMENT and not S_HIDE_COMMENT_INPUT -->
 				<!-- IF not S_USER_LOGGED_IN -->
 					<dl>
-						<dt><label>{L_USERNAME}:</label></dt>
+						<dt><label>{L_USERNAME}{L_COLON}</label></dt>
 						<dd><input class="inputbox autowidth" type="text" name="username" maxlength="32" /></dd>
 					</dl>
 				<!-- ENDIF -->
@@ -255,7 +237,7 @@
 			{CONTEST_COMMENTS}
 		<!-- ENDIF -->
 		{S_FORM_TOKEN}
-	<span class="corners-bottom"><span></span></span></div>
+	</div>
 </div>
 </form>
 <!-- ENDIF -->
@@ -264,9 +246,9 @@
 <a name="comments"></a>
 <!-- IF not .commentrow or S_COMMENTS_DISABLED -->
 	<div id="comments" class="panel">
-		<div class="inner"><span class="corners-top"><span></span></span>
+		<div class="inner">
 			<strong><!-- IF S_COMMENTS_DISABLED -->{L_IMAGE_COMMENTS_DISABLED}<!-- ELSE -->{L_NO_COMMENTS}<!-- ENDIF --></strong>
-		<span class="corners-bottom"><span></span></span></div>
+		</div>
 	</div>
 <!-- ENDIF -->
 <!-- IF .commentrow -->
@@ -282,11 +264,58 @@
 		</div>
 	</div>
 	<!-- ENDIF -->
-<br><br>
+	<br /><br />
 	<!-- BEGIN commentrow -->
-	<div class="post <!-- IF commentrow.S_ROW_COUNT is odd -->bg1<!-- ELSE -->bg2<!-- ENDIF --><!-- IF commentrow.S_ONLINE --> online<!-- ENDIF -->">
+	<div class="post has-profile <!-- IF commentrow.S_ROW_COUNT is odd -->bg1<!-- ELSE -->bg2<!-- ENDIF --><!-- IF commentrow.S_ONLINE --> online<!-- ENDIF -->">
 	<a id="comment_{commentrow.COMMENT_ID}"></a>
-		<div class="inner"><span class="corners-top"><span></span></span>
+		<div class="inner">
+			<dl class="postprofile" id="profile{commentrow.COMMENT_ID}">
+				<dt class="<!-- IF commentrow.RANK_TITLE or commentrow.RANK_IMG -->has-profile-rank<!-- ELSE -->no-profile-rank<!-- ENDIF --> <!-- IF commentrow.POSTER_AVATAR -->has-avatar<!-- ELSE -->no-avatar<!-- ENDIF -->">
+					<div class="avatar-container">
+					<!-- IF commentrow.POSTER_AVATAR -->
+						<!-- IF commentrow.U_POST_AUTHOR --><a href="{commentrow.U_POST_AUTHOR}" class="avatar">{commentrow.POSTER_AVATAR}</a><!-- ELSE --><span class="avatar">{commentrow.POSTER_AVATAR}</span><!-- ENDIF -->
+					<!-- ENDIF -->
+					</div>
+					<!-- IF not commentrow.U_POST_AUTHOR --><strong>{commentrow.POST_AUTHOR_FULL}</strong><!-- ELSE -->{commentrow.POST_AUTHOR_FULL}<!-- ENDIF -->
+				</dt>
+				<!-- IF commentrow.RANK_TITLE or commentrow.RANK_IMG --><dd>{commentrow.RANK_TITLE}<!-- IF commentrow.RANK_TITLE and commentrow.RANK_IMG --><br /><!-- ENDIF -->{commentrow.RANK_IMG}</dd><!-- ENDIF -->
+				<!-- IF commentrow.POSTER_POSTS != '' --><dd><strong>{L_POSTS}{L_COLON}</strong> {commentrow.POSTER_POSTS}</dd><!-- ENDIF -->
+				<!-- IF commentrow.GALLERY_IMAGES != '' --><dd><strong>{L_IMAGES}{L_COLON}</strong> <!-- IF commentrow.U_GALLERY_SEARCH --><a href="{commentrow.U_GALLERY_SEARCH}">{commentrow.GALLERY_IMAGES}</a><!-- ELSE -->{commentrow.GALLERY_IMAGES}<!-- ENDIF --></dd><!-- ENDIF -->
+				<!-- IF commentrow.POSTER_JOINED --><dd><strong>{L_JOINED}{L_COLON}</strong> {commentrow.POSTER_JOINED}</dd><!-- ENDIF -->
+				<!-- IF commentrow.POSTER_FROM --><dd><strong>{L_LOCATION}{L_COLON}</strong> {commentrow.POSTER_FROM}</dd><!-- ENDIF -->
+				<!-- IF commentrow.S_PROFILE_FIELD1 -->
+					<!-- Use a construct like this to include admin defined profile fields. Replace FIELD1 with the name of your field. -->
+					<dd><strong>{commentrow.PROFILE_FIELD1_NAME}{L_COLON}</strong> {commentrow.PROFILE_FIELD1_VALUE}</dd>
+				<!-- ENDIF -->
+				<!-- BEGIN custom_fields -->
+					<dd><strong>{commentrow.custom_fields.PROFILE_FIELD_NAME}{L_COLON}</strong> {commentrow.custom_fields.PROFILE_FIELD_VALUE}</dd>
+				<!-- END custom_fields -->
+				<!-- IF not S_IS_BOT -->
+					<!-- IF commentrow.U_PM or commentrow.U_EMAIL or commentrow.U_WWW or commentrow.U_MSN or commentrow.U_ICQ -->
+						<!-- DEFINE $DISPLAY_PROFILE_ICONS = true -->
+					<!-- ELSEIF commentrow.U_YIM or commentrow.U_AIM or commentrow.U_JABBER or commentrow.U_GALLERY -->
+						<!-- DEFINE $DISPLAY_PROFILE_ICONS = true -->
+					<!-- ENDIF -->
+				<!-- ENDIF -->
+				<!-- IF $DISPLAY_PROFILE_ICONS -->
+				<dd class="profile-contact">
+					<strong>{L_CONTACT}{L_COLON}</strong>
+					<div class="dropdown-container dropdown-left">
+						<a href="#" class="dropdown-trigger"><span class="imageset icon_contact" title="{L_CONTACT} {POSTER_USERNAME}">{L_CONTACT} {POSTER_USERNAME}</a>
+						<div class="dropdown hidden">
+							<div class="pointer"><div class="pointer-inner"></div></div>
+							<div class="dropdown-contents contact-icons">
+								<!-- IF U_POSTER_PM --><a href="{U_POSTER_PM}" title="{L_PRIVATE_MESSAGE}"><span class="contact-icon pm-icon">{L_PRIVATE_MESSAGE}</span></a><!-- ENDIF -->
+								<!-- IF U_POSTER_EMAIL --><a href="{U_POSTER_EMAIL}" title="{L_SEND_EMAIL}"><span class="contact-icon email-icon">{U_POSTER_EMAIL}</span></a><!-- ENDIF -->
+								<!-- IF U_POSTER_JABBER --><a href="{U_POSTER_JABBER}" title="{L_JABBER}" onclick="popup(this.href, 750, 320); return false;"><span class="contact-icon jabber-icon">{L_JABBER}</span></a><!-- ENDIF -->
+								<!-- IF U_POSTER_ICQ --><a href="{U_POSTER_ICQ}" title="{L_ICQ}" class="last-cell"><span class="contact-icon phpbb_icq-icon">{L_ICQ}</span></a><!-- ENDIF -->
+								<!-- IF U_POSTER_WWW --><a href="{U_POSTER_WWW}" title="{L_VISIT_WEBSITE}{L_COLON} {U_WWW}"><span class="contact-icon phpbb_website-icon">{L_VISIT_WEBSITE}{L_COLON} {U_WWW}</span></a><!-- ENDIF -->
+							</div>
+						</div>
+					</div>
+				</dd>
+				<!-- ENDIF -->
+			</dl>
 			<div class="postbody">
 				<!-- IF commentrow.U_DELETE or commentrow.U_EDIT or commentrow.U_INFO or commentrow.U_QUOTE -->
 					<ul class="post-buttons">
@@ -296,84 +325,18 @@
 						<!-- IF commentrow.U_QUOTE --><li><a href="{commentrow.U_QUOTE}" title="{L_QUOTE_COMMENT}" class="button icon-button quote-icon"><span>{L_QUOTE_COMMENT}</span></a></li><!-- ENDIF -->
 					</ul>
 				<!-- ENDIF -->
-				<p class="author"><a href="{commentrow.U_COMMENT}">{MINI_POST_IMG}</a>&nbsp;{L_POST_BY_AUTHOR} <strong>{commentrow.POST_AUTHOR_FULL}</strong> &raquo; {commentrow.TIME} </p>
+				<p class="author"><a href="{commentrow.U_COMMENT}">{MINI_POST_IMG}</a><span class="responsive-hide">{L_POST_BY_AUTHOR} <strong>{commentrow.POST_AUTHOR_FULL}</strong> &raquo; </span>{commentrow.TIME} </p>
 				<div class="content">{commentrow.TEXT}</div>
 				<!-- IF commentrow.EDIT_INFO --><div class="notice">{commentrow.EDIT_INFO}</div><!-- ENDIF -->
 				<!-- IF commentrow.SIGNATURE --><div id="sig{commentrow.COMMENT_ID}" class="signature">{commentrow.SIGNATURE}</div><!-- ENDIF -->
 			</div>
-			<dl class="postprofile" id="profile{commentrow.COMMENT_ID}">
-				<dt>
-					<!-- IF commentrow.POSTER_AVATAR -->
-						<!-- IF commentrow.U_POST_AUTHOR --><a href="{commentrow.U_POST_AUTHOR}">{commentrow.POSTER_AVATAR}</a><!-- ELSE -->{commentrow.POSTER_AVATAR}<!-- ENDIF --><br />
-					<!-- ENDIF -->
-					<!-- IF not commentrow.U_POST_AUTHOR --><strong>{commentrow.POST_AUTHOR_FULL}</strong><!-- ELSE -->{commentrow.POST_AUTHOR_FULL}<!-- ENDIF -->
-				</dt>
-
-				<!-- IF commentrow.RANK_TITLE or commentrow.RANK_IMG --><dd>{commentrow.RANK_TITLE}<!-- IF commentrow.RANK_TITLE and commentrow.RANK_IMG --><br /><!-- ENDIF -->{commentrow.RANK_IMG}</dd><!-- ENDIF -->
-
-				<dd>&nbsp;</dd>
-
-				<!-- IF commentrow.POSTER_POSTS != '' --><dd><strong>{L_POSTS}:</strong> {commentrow.POSTER_POSTS}</dd><!-- ENDIF -->
-				<!-- IF commentrow.GALLERY_IMAGES != '' --><dd><strong>{L_IMAGES}:</strong> <!-- IF commentrow.U_GALLERY_SEARCH --><a href="{commentrow.U_GALLERY_SEARCH}">{commentrow.GALLERY_IMAGES}</a><!-- ELSE -->{commentrow.GALLERY_IMAGES}<!-- ENDIF --></dd><!-- ENDIF -->
-				<!-- IF commentrow.POSTER_JOINED --><dd><strong>{L_JOINED}:</strong> {commentrow.POSTER_JOINED}</dd><!-- ENDIF -->
-				<!-- IF commentrow.POSTER_FROM --><dd><strong>{L_LOCATION}:</strong> {commentrow.POSTER_FROM}</dd><!-- ENDIF -->
-
-				<!-- IF commentrow.S_PROFILE_FIELD1 -->
-					<!-- Use a construct like this to include admin defined profile fields. Replace FIELD1 with the name of your field. -->
-					<dd><strong>{commentrow.PROFILE_FIELD1_NAME}:</strong> {commentrow.PROFILE_FIELD1_VALUE}</dd>
-				<!-- ENDIF -->
-
-				<!-- BEGIN custom_fields -->
-					<dd><strong>{commentrow.custom_fields.PROFILE_FIELD_NAME}:</strong> {commentrow.custom_fields.PROFILE_FIELD_VALUE}</dd>
-				<!-- END custom_fields -->
-
-				<!-- IF not S_IS_BOT -->
-					<!-- IF commentrow.U_PM or commentrow.U_EMAIL or commentrow.U_WWW or commentrow.U_MSN or commentrow.U_ICQ -->
-						<!-- DEFINE $DISPLAY_PROFILE_ICONS = true -->
-					<!-- ELSEIF commentrow.U_YIM or commentrow.U_AIM or commentrow.U_JABBER or commentrow.U_GALLERY -->
-						<!-- DEFINE $DISPLAY_PROFILE_ICONS = true -->
-					<!-- ENDIF -->
-				<!-- ENDIF -->
-				<!-- IF $DISPLAY_PROFILE_ICONS -->
-					<dd class="profile-contact">
-				<strong>{L_CONTACT}{L_COLON}</strong>
-				<div class="dropdown-container dropdown-left dropdown-down">
-					<a href="#" class="dropdown-trigger dropdown-toggle"><span class="imageset icon_contact" title="{L_CONTACT} {POSTER_USERNAME}">{L_CONTACT} {POSTER_USERNAME}</a>
-					<div style="display: none; margin-left: -1163.97px;" class="dropdown hidden">
-						<div class="pointer"><div class="pointer-inner"></div></div>
-						<div style="margin-left: 0px; left: 0px; max-width: 1580px;" class="dropdown-contents contact-icons dropdown-nonscroll">
-							<div>
-								<!-- IF U_POSTER_PM --><a href="{U_POSTER_PM}" title="{L_PRIVATE_MESSAGE}">
-									<span class="contact-icon pm-icon">{L_PRIVATE_MESSAGE}</span>
-								</a><!-- ENDIF -->
-								<!-- IF U_POSTER_EMAIL --><a href="{U_POSTER_EMAIL}" title="{U_POSTER_EMAIL}">
-									<span class="contact-icon email-icon">{U_POSTER_EMAIL}</span>
-								</a><!-- ENDIF -->
-								<!-- IF U_POSTER_JABBER --><a href="{U_POSTER_JABBER}" title="{L_JABBER}" onclick="popup(this.href, 750, 320); return false;">
-									<span class="contact-icon jabber-icon">{L_JABBER}</span>
-								</a><!-- ENDIF -->
-								<!-- IF U_POSTER_ICQ --><a href="{U_POSTER_ICQ}" title="{L_ICQ}" class="last-cell">
-									<span class="contact-icon phpbb_icq-icon">{L_ICQ}</span>
-								</a><!-- ENDIF -->
-							</div>
-						<div>
-							<!-- IF U_POSTER_WWW --><a href="{U_POSTER_WWW}" title="{L_VISIT_WEBSITE}: {U_WWW}">
-								<span class="contact-icon phpbb_website-icon">{L_VISIT_WEBSITE}: {U_WWW}</span>
-							</a><!-- ENDIF -->
-						</div>
-						</div>
-					</div>
-				</div>
-			</dd>
-				<!-- ENDIF -->
-			</dl>
-		<span class="corners-bottom"><span></span></span></div>
+		</div>
 	</div>
 	<!-- END commentrow -->
 
 	<form action="{S_ALBUM_ACTION}" method="post">
 	<fieldset class="display-options" style="margin-top: 0; ">
-		<label>{L_ORDER}: <select name="sort_order"><option value="ASC"<!-- IF SORT_ASC --> selected="selected"<!-- ENDIF -->>{L_SORT_ASCENDING}</option><option value="DESC"<!-- IF not SORT_ASC --> selected="selected"<!-- ENDIF -->>{L_SORT_DESCENDING}</option></select>&nbsp;<input type="submit" name="submit" value="{L_GO}" class="button2" /></label>
+		<label>{L_ORDER}{L_COLON} <select name="sort_order"><option value="ASC"<!-- IF SORT_ASC --> selected="selected"<!-- ENDIF -->>{L_SORT_ASCENDING}</option><option value="DESC"<!-- IF not SORT_ASC --> selected="selected"<!-- ENDIF -->>{L_SORT_DESCENDING}</option></select>&nbsp;<input type="submit" name="submit" value="{L_GO}" class="button2" /></label>
 	</fieldset>
 	</form>
 	<hr />
@@ -397,7 +360,7 @@
 <!-- IF ALBUM_JUMPBOX -->
 <form method="post" id="jumpbox" action="{S_JUMPBOX_ACTION}" onsubmit="if(document.jumpbox.album_id.value == -1){return false;}">
 	<fieldset class="jumpbox">
-		<label for="album_id" accesskey="album_id">{L_JUMP_TO}:</label>
+		<label for="album_id" accesskey="album_id">{L_JUMP_TO}{L_COLON}</label>
 		<select name="album_id" id="album_id" onchange="if(this.options[this.selectedIndex].value != -1){ document.forms['jumpbox'].submit() }">
 			{ALBUM_JUMPBOX}
 		</select>
