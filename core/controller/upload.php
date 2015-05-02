@@ -268,7 +268,7 @@ class upload
 				}
 				$upload_files_limit = ($this->auth->acl_check('i_unlimited', $album_id, $album_data['album_user_id'])) ? $this->gallery_config->get('num_uploads') : min(($this->auth->acl_check('i_count', $album_id, $album_data['album_user_id']) - $own_images), $this->gallery_config->get('num_uploads'));
 
-				$upload_ids = $this->request->variable('upload_ids', '');
+				$upload_ids = $this->request->variable('upload_ids', array(''));
 				if(empty($upload_ids) && $submode == 'fast_upload'){
 					$upload_ids = $process->generate_hidden_fields();
 				}
