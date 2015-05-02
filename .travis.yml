@@ -1,5 +1,5 @@
 language: php
-
+sudo: required
 matrix:
   include:
     - php: 5.3.3
