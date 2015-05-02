@@ -1,0 +1,41 @@
+<script type="text/javascript">
+		jQuery(document).ready(function()
+		{
+			jQuery('#submit_pic').on('click',function(event){
+				event.stopPropagation(); // Stop stuff happening
+				event.preventDefault(); // Totally stop stuff happening
+				
+				fast_upload();
+			});
+		});
+		function fast_upload(){
+			//http://abandon.ie/notebook/simple-file-uploads-using-jquery-ajax
+			var data = new FormData();
+			data.append('image_file_0',jQuery('#image_file_0').get(0).files[0]);
+			data.append('mode','upload');
+			data.append('submode','fast_upload');
+			data.append('submit','submit');
+			data.append('name','posting');
+			data.append('creation_time',jQuery('input[name="creation_time"]').val());
+			data.append('form_token',jQuery('input[name="form_token"]').val());
+			//2 ways : either construct a path that use the original api based on the selected gallery_id
+			// or make a new function -> may be necessary to bypass the 2 steps upload ?
+			var url = 'app.php/gallery/album/'+jQuery('#album_id').val()+'/upload';
+			jQuery.ajax({
+				url:url, 
+				method:'post',
+				cache: false,
+				data:data,
+				processData: false, // Don't process the files
+				contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+			}).done(function(data){
+				jQuery.each(data.UPLOADED.image_data,function(index,value){
+					jQuery('#message').append('[album]'+value.image_id+'[/album]');
+					jQuery('#images_list').append('<a href="#message">'+value.image_name+'</a>').on('click',function(){
+						jQuery('#message').append('[album]'+value.image_id+'[/album]');
+					});
+				});
+				
+			});
+		}
+</script>

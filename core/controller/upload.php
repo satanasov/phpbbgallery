@@ -75,6 +75,7 @@ class upload
 		$submit = $this->request->variable('submit', false);
 		$error = '';
 		$mode = $this->request->variable('mode', 'upload');
+		$submode = $this->request->variable('submode', ''); //well, upload edit doesnt use check_form anyway...
 		if ($mode == 'upload')
 		{
 			// Upload Quota Check
@@ -115,7 +116,11 @@ class upload
 			$process = new \phpbbgallery\core\upload($album_id, $upload_files_limit);
 			if ($submit)
 			{
-				if (!check_form_key('gallery'))
+				//Goddamit, getting tired cc@Elsensee, thx
+				$checked = false;
+				
+				if (!check_form_key('gallery') && 
+					 (!check_form_key('posting') && $submode!="fast_upload") )
 				{
 					trigger_error('FORM_INVALID');
 				}
@@ -146,7 +151,7 @@ class upload
 						$process->set_username($username);
 					}
 				}
-
+				
 				if (empty($process->errors))
 				{
 
@@ -186,7 +191,6 @@ class upload
 					$captcha->reset();
 				}*/
 			}
-
 			if (!$submit || (isset($process) && !$process->uploaded_files))
 			{
 				for ($i = 0; $i < $upload_files_limit; $i++)
@@ -226,9 +230,10 @@ class upload
 				}*/
 			}
 		}
+		
 		if ($mode == 'upload_edit')
 		{
-			if ($submit)
+			if ($submit || $submode == "fast_upload")
 			{
 				// Upload Quota Check
 				// 1. Check album-configuration Quota
@@ -265,8 +270,11 @@ class upload
 				}
 				$upload_files_limit = ($this->auth->acl_check('i_unlimited', $album_id, $album_data['album_user_id'])) ? $this->gallery_config->get('num_uploads') : min(($this->auth->acl_check('i_count', $album_id, $album_data['album_user_id']) - $own_images), $this->gallery_config->get('num_uploads'));
 
-				$upload_ids = $this->request->variable('upload_ids', array(''));
-
+				$upload_ids = $this->request->variable('upload_ids', '');
+				if(empty($upload_ids) && $submode == 'fast_upload'){
+					$upload_ids = $process->generate_hidden_fields();
+				}
+				
 				$process = new \phpbbgallery\core\upload($album_id, $upload_files_limit);
 				$process->set_rotating($this->request->variable('rotate', array(0)));
 				$process->get_images($upload_ids);
@@ -313,7 +321,6 @@ class upload
 					$meta_refresh_time = 20;
 				}
 				$message .= '<br /><br />' . sprintf($this->user->lang['CLICK_RETURN_ALBUM'], '<a href="' . $album_backlink . '">', '</a>');
-
 				// ToDo - notifications!!!
 				//$phpbb_gallery_notification->send_notification('album', $album_id, $image_names[0]);
 
@@ -321,6 +328,18 @@ class upload
 				$this->album->update_info($album_id);
 
 				$this->url->meta_refresh($meta_refresh_time, $album_backlink);
+				//posting ajax behavior
+				if($submode == 'fast_upload'){
+				
+					$json_response = new \phpbb\json_response;
+					$json_response->send(array(
+						'MESSAGE_TITLE'		=> $message,
+						'MESSAGE_TEXT'		=> $msg_text,
+						'UPLOADED'			=> $process
+					));
+				
+				}
+				//normal ajax+boxes behavior
 				trigger_error($message);
 			}
 
@@ -354,6 +373,8 @@ class upload
 				'S_HIDDEN_FIELDS'	=> $s_hidden_fields,
 			));
 		}
+		
+		
 		return $this->helper->render('gallery/posting_body.html', $page_title);
 	}
 }

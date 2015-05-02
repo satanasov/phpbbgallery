@@ -208,6 +208,8 @@ services:
             - @user
             - @phpbbgallery.core.search
             - @phpbbgallery.core.config
+            - @phpbbgallery.core.user
+            - @phpbbgallery.core.album
             - @dbal.conn
             - %tables.phpbbgallery.albums%
             - %tables.phpbbgallery.users%

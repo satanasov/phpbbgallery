@@ -24,6 +24,7 @@ class main_listener implements EventSubscriberInterface
 			'core.generate_profile_fields_template_data_before'	       => 'profile_fileds',
 			'core.grab_profile_fields_data'	       => 'get_user_ids',
 			//'core.viewonline_overwrite_location'	=> 'add_newspage_viewonline',
+			'core.posting_modify_template_vars'		=> 'add_posting_info',
 		);
 	}
 	/* @var \phpbb\controller\helper */
@@ -46,15 +47,17 @@ class main_listener implements EventSubscriberInterface
 	* @param \phpbb\user				$user		User object
 	* @param string						$php_ext	phpEx
 	*/
-	public function __construct(\phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user, \phpbbgallery\core\search $gallery_search,
-	\phpbbgallery\core\config $gallery_config, \phpbb\db\driver\driver_interface $db,
-	$albums_table, $users_table, $php_ext)
+	public function __construct(\phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user,
+	\phpbbgallery\core\search $gallery_search,\phpbbgallery\core\config $gallery_config, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\album\album $gallery_album, 
+	\phpbb\db\driver\driver_interface $db, $albums_table, $users_table, $php_ext)
 	{
 		$this->helper = $helper;
 		$this->template = $template;
 		$this->user = $user;
 		$this->gallery_search = $gallery_search;
 		$this->gallery_config = $gallery_config;
+		$this->gallery_user = $gallery_user;
+		$this->gallery_album = $gallery_album;
 		$this->db = $db;
 		$this->php_ext = $php_ext;
 		$this->albums_table = $albums_table;
@@ -188,5 +191,15 @@ class main_listener implements EventSubscriberInterface
 			}
 			$this->target ++;
 		}
+	}
+	function add_posting_info ($event)
+	{	
+		$this->gallery_user->set_user_id($this->user->data['user_id']);
+		$user_album = $this->gallery_user->get_own_root_album();
+		//im having troubles getting only public + user only..
+		$album_lists = $this->gallery_album->get_albumbox(false,'album_id',$user_album,false,false,
+				$this->gallery_album->get_public(),$this->gallery_album->get_type_upload());
+		$this->template->assign_vars(array(
+			'S_SELECT_ALBUM'	=> $album_lists ));
 	}
 }
