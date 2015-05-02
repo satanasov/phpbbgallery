@@ -48,7 +48,7 @@ class main_listener implements EventSubscriberInterface
 	* @param string						$php_ext	phpEx
 	*/
 	public function __construct(\phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user,
-	\phpbbgallery\core\search $gallery_search,\phpbbgallery\core\config $gallery_config, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\album\album $gallery_album, 
+	\phpbbgallery\core\search $gallery_search,\phpbbgallery\core\config $gallery_config, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\album\album $gallery_album,
 	\phpbb\db\driver\driver_interface $db, $albums_table, $users_table, $php_ext)
 	{
 		$this->helper = $helper;
@@ -193,7 +193,7 @@ class main_listener implements EventSubscriberInterface
 		}
 	}
 	function add_posting_info ($event)
-	{	
+	{
 		$this->gallery_user->set_user_id($this->user->data['user_id']);
 		$user_album = $this->gallery_user->get_own_root_album();
 		//im having troubles getting only public + user only..

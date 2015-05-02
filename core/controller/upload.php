@@ -117,8 +117,7 @@ class upload
 			if ($submit)
 			{
 				//Goddamit, getting tired cc@Elsensee, thx
-				if (!check_form_key('gallery') && 
-					 (!check_form_key('posting') && $submode != "fast_upload") )
+				if (!check_form_key('gallery') && (!check_form_key('posting') && $submode != "fast_upload") )
 				{
 					trigger_error('FORM_INVALID');
 				}
@@ -149,8 +148,8 @@ class upload
 						$process->set_username($username);
 					}
 				}
-				
-				if (empty($process->errors))
+
+				if(empty($process->errors))
 				{
 
 					for ($file_count = 0; $file_count < $upload_files_limit; $file_count++)
@@ -228,7 +227,7 @@ class upload
 				}*/
 			}
 		}
-		
+
 		if ($mode == 'upload_edit')
 		{
 			if ($submit || $submode == "fast_upload")
@@ -272,7 +271,7 @@ class upload
 				if(empty($upload_ids) && $submode == 'fast_upload'){
 					$upload_ids = $process->generate_hidden_fields();
 				}
-				
+
 				$process = new \phpbbgallery\core\upload($album_id, $upload_files_limit);
 				$process->set_rotating($this->request->variable('rotate', array(0)));
 				$process->get_images($upload_ids);
@@ -328,14 +327,12 @@ class upload
 				$this->url->meta_refresh($meta_refresh_time, $album_backlink);
 				//posting ajax behavior
 				if($submode == 'fast_upload'){
-				
 					$json_response = new \phpbb\json_response;
 					$json_response->send(array(
 						'MESSAGE_TITLE'		=> $message,
 						'MESSAGE_TEXT'		=> $msg_text,
 						'UPLOADED'			=> $process
 					));
-				
 				}
 				//normal ajax+boxes behavior
 				trigger_error($message);
@@ -371,8 +368,6 @@ class upload
 				'S_HIDDEN_FIELDS'	=> $s_hidden_fields,
 			));
 		}
-		
-		
 		return $this->helper->render('gallery/posting_body.html', $page_title);
 	}
 }
