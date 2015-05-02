@@ -31,7 +31,7 @@
 			}).done(function(data){
 				jQuery.each(data.UPLOADED.image_data,function(index,value){
 					jQuery('#message').append('[album]'+value.image_id+'[/album]');
-					jQuery('#images_list').append('<a href="#message">'+value.image_name+'</a>').on('click',function(){
+					jQuery('#images_list').append('<a href="#message">'+value.image_name+'</a></br>').on('click',function(){
 						jQuery('#message').append('[album]'+value.image_id+'[/album]');
 					});
 				});

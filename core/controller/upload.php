@@ -117,10 +117,8 @@ class upload
 			if ($submit)
 			{
 				//Goddamit, getting tired cc@Elsensee, thx
-				$checked = false;
-				
 				if (!check_form_key('gallery') && 
-					 (!check_form_key('posting') && $submode!="fast_upload") )
+					 (!check_form_key('posting') && $submode != "fast_upload") )
 				{
 					trigger_error('FORM_INVALID');
 				}
