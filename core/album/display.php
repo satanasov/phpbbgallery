@@ -35,16 +35,16 @@ class display
 
 	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $db,
 	\phpbb\pagination $pagination, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \phpbbgallery\core\auth\auth $gallery_auth,
-	\phpbbgallery\core\user $gallery_user, \phpbbgallery\core\misc $misc, $root_path, $php_ext, $albums_table, $contests_table, $moderators_table, $tracking_table)
+	\phpbbgallery\core\user $gallery_user, \phpbbgallery\core\misc $misc, $root_path, $php_ext, $albums_table, $contests_table, $tracking_table, $moderators_table)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
-		$this->db = $db;
 		$this->helper = $helper;
+		$this->db = $db;
+		$this->pagination = $pagination;
 		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
-		$this->pagination = $pagination;
 		$this->gallery_auth = $gallery_auth;
 		$this->gallery_user = $gallery_user;
 		$this->misc = $misc;
@@ -52,8 +52,8 @@ class display
 		$this->php_ext = $php_ext;
 		$this->table_albums = $albums_table;
 		$this->table_contests = $contests_table;
-		$this->table_moderators = $moderators_table;
 		$this->table_tracking = $tracking_table;
+		$this->table_moderators = $moderators_table;
 	}
 
 	/**
