@@ -40,8 +40,8 @@ services:
             - %core.php_ext%
             - %tables.phpbbgallery.albums%
             - %tables.phpbbgallery.contests%
-            - %tables.phpbbgallery.moderators%
             - %tables.phpbbgallery.tracking%
+            - %tables.phpbbgallery.moderators%
     phpbbgallery.core.album.loader:
         class: phpbbgallery\core\album\loader
         arguments:
