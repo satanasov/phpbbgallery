@@ -171,13 +171,11 @@ class config
 	}
 
 	public function inc($name, $value)
-	{
-		$old = $this->config['phpbb_gallery_' . $name];
-		$this->config->set('phpbb_gallery_' . $name, ((int) $old + (int) $value));
+	{	
+		$this->config->increment('phpbb_gallery_' . $name, (int) $value);
 	}
 	public function dec($name, $value)
 	{
-		$old = $this->config['phpbb_gallery_' . $name];
-		$this->config->set('phpbb_gallery_' . $name, ((int) $old - (int) $value));
+		$this->config->increment('phpbb_gallery_' . $name, (int) $value * -1);
 	}
 }
