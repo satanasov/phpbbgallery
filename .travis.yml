@@ -64,4 +64,3 @@ script:
 
 after_script:
   - sh -c "if [ '$COVERAGE' != '0' ] && [ '$TRAVIS_PHP_VERSION' = '5.6' ] && [ '$DB' = 'mysqli' ]; then php phpBB/ext/$EXTSNIFF/vendor/bin/coveralls -v; fi"
-  - ls -la
