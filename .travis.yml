@@ -62,7 +62,7 @@ script:
   - phpBB/vendor/bin/phpunit --configuration phpBB/ext/$EXTNAME/travis/phpunit-$DB-travis.xml --bootstrap ./tests/bootstrap.php
   - sh -c "if [ '$EPV' != '0' ] && [ '$TRAVIS_PHP_VERSION' = '5.3.3' ] && [ '$DB' = 'mysqli' ]; then phpBB/ext/$EXTNAME/vendor/bin/EPV.php run --dir='phpBB/ext/$EXTNAME/'; fi"
   - pwd
-  - cd
+  - ls -la
   - travis/run-testsuite.sh $DB $TRAVIS_PHP_VERSION
 
 after_script:
