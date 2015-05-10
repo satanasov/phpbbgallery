@@ -592,4 +592,14 @@ class user
 		$row = $this->db->sql_fetchrow($result);
 		return (int) $row['personal_album_id'];
 	}
+
+	/**
+	* Destroy user data and set this class to empty
+	*/
+	public function destroy()
+	{
+		$this->user_id = null;
+		$this->entry_exists = null;
+		$this->data = array();
+	}
 }
