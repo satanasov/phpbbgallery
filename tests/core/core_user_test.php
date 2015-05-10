@@ -1,7 +1,4 @@
 <?php
-/**
-* @coversDefaultClass \phpbbgallery\core\user
-*/
 
 /**
 *
@@ -59,11 +56,6 @@ class core_user_test extends core_base
 	* Test user id and load user data
 	*
 	* @dataProvider data_set_user_id
-	* @covers ::set_user_id
-	* @covers ::load_data
-	* @covers ::is_user
-	* @covers ::get_data
-	* @covers ::destroy
 	*/
 	public function test_set_user_id($user_id, $expected, $album_id)
 	{
@@ -105,10 +97,6 @@ class core_user_test extends core_base
 	/**
 	* Test Update Data
 	* @dataProvider data_update_data
-	* @covers ::update_data
-	* @covers ::force_load
-	* @covers ::update
-	* @covers ::insert
 	*/
 	public function test_udpate_data($user_id, $new_var)
 	{
