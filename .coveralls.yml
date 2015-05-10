@@ -1,5 +1,6 @@
 # .coveralls.yml configuration
 
 # for php-coveralls
+src: logs
 service_name: trvis-ci
 coverage_clover: logs/clover.xml
