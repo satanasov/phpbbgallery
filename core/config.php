@@ -171,7 +171,7 @@ class config
 	}
 
 	public function inc($name, $value)
-	{	
+	{
 		$this->config->increment('phpbb_gallery_' . $name, (int) $value);
 	}
 	public function dec($name, $value)
