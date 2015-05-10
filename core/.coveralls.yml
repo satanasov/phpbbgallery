@@ -2,7 +2,5 @@
 
 # for php-coveralls
 src_dir: ../
-service_name: trvis-ci
 coverage_clover: /home/travis/build/satanasov/phpBB3/phpBB/ext/phpbbgallery/logs/clover.xml
 json_path: /home/travis/build/satanasov/phpBB3/phpBB/ext/phpbbgallery/logs/coveralls-upload.json
-repo_token: W40aQW3BASRvUFo5ojqkAArZtaLYxT3zX
