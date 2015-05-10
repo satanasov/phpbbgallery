@@ -1,32 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dataset>
-	<table name="phpbb_users">
-		<column>user_id</column>
-		<column>group_id</column>
-		<column>username</column>
-		<column>username_clean</column>
-		<column>user_permissions</column>
-		<column>user_sig</column>
-		<column>user_type</column>
-		<row>
-			<value>1</value>
-			<value>1</value>
-			<value>user 1</value>
-			<value>user 1</value>
-			<value></value>
-			<value></value>
-			<value>2</value>
-		</row>
-		<row>
-			<value>2</value>
-			<value>1</value>
-			<value>user 2</value>
-			<value>user 2</value>
-			<value></value>
-			<value></value>
-			<value>3</value>
-		</row>
-	</table>
 	<table name="phpbb_config">
 		<column>config_name</column>
 		<column>config_value</column>
@@ -44,6 +17,48 @@
 		<row>
 			<value>phpbb_gallery_link_thumbnail</value>
 			<value>image_page</value>
+			<value>0</value>
+		</row>
+	</table>
+	<table name="phpbb_gallery_users">
+		<column>user_id</column>
+		<column>watch_own</column>
+		<column>watch_favo</column>
+		<column>watch_com</column>
+		<column>user_images</column>
+		<column>personal_album_id</column>
+		<column>user_lastmark</column>
+		<column>user_last_update</column>
+		<column>user_permissions</column>
+		<column>user_permissions_changed</column>
+		<column>user_allow_comments</column>
+		<column>subscribe_pegas</column>
+		<row>
+			<value>2</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value></value>
+			<value></value>
+			<value>1</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>52</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value></value>
+			<value></value>
+			<value>1</value>
 			<value>0</value>
 		</row>
 	</table>

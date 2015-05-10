@@ -43,10 +43,11 @@ class core_base extends \phpbb_database_test_case
 	{
 		parent::setUp();
 
-		global $config;
+		global $config, $phpbb_dispatcher;
 		
 		$this->db = $this->new_dbal();
 
 		$config = $this->config = new \phpbb\config\config(array());
+		$phpbb_dispatcher = $this->dispatcher = new \phpbb_mock_event_dispatcher();
 	}
 }
