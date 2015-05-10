@@ -21,6 +21,10 @@
 	"require": {
 		"php": ">=5.3"
 	},
+	"require-dev": {
+		"phpbb/epv": "dev-master",
+		"satooshi/php-coveralls": "dev-master"
+	},
 	"extra": {
 		"display-name": "phpBB Gallery",
 		"soft-require": {
