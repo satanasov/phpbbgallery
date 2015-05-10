@@ -3,4 +3,4 @@
 # for php-coveralls
 src_dir: ../
 service_name: trvis-ci
-coverage_clover: logs/clover.xml
+coverage_clover: /home/travis/build/satanasov/phpBB3/phpBB/ext/phpbbgallery/logs/clover.xml
