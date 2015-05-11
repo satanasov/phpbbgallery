@@ -132,21 +132,24 @@ class main_listener implements EventSubscriberInterface
 	}
 	public function get_user_ids($event)
 	{
-		$this->user_ids = $event['user_ids'];
-		if ($this->gallery_config->get('profile_pega'))
+		if (count($event['user_ids']) == 1)
 		{
-			$sql = 'SELECT album_id, album_user_id FROM ' . $this->albums_table . ' WHERE parent_id = 0 and ' . $this->db->sql_in_set('album_user_id', $this->user_ids);
-			$result = $this->db->sql_query($sql);
-			while ($row = $this->db->sql_fetchrow($result))
+			$this->user_ids = $event['user_ids'];
+			if ($this->gallery_config->get('profile_pega'))
 			{
-				$this->albums[$row['album_user_id']] = (int) $row['album_id'];
+				$sql = 'SELECT album_id, album_user_id FROM ' . $this->albums_table . ' WHERE parent_id = 0 and ' . $this->db->sql_in_set('album_user_id', $this->user_ids);
+				$result = $this->db->sql_query($sql);
+				while ($row = $this->db->sql_fetchrow($result))
+				{
+					$this->albums[$row['album_user_id']] = (int) $row['album_id'];
+				}
+				$this->db->sql_freeresult($result);
 			}
-			$this->db->sql_freeresult($result);
 		}
 	}
 	public function profile_fileds($event)
 	{
-		if ($this->target < count($this->user_ids))
+		if (count($this->user_ids) == 1)
 		{
 			if (isset($this->albums[$this->user_ids[$this->target]]))
 			{
