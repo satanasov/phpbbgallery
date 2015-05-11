@@ -453,7 +453,6 @@ class search
 		}
 		$sql .= ' AND ((' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
 					OR ' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('m_status'), $exclude_albums), false, true) . ')
-			GROUP BY image_id
 			ORDER BY ' . $sql_order;
 
 		$result = $this->db->sql_query($sql);
@@ -472,7 +471,6 @@ class search
 			ORDER BY ' . $sql_order;
 
 		$result = $this->db->sql_query_limit($sql, $sql_limit, $start);
-		//var_dump($sql);
 		$id_ary = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
