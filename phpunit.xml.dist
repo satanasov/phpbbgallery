@@ -27,11 +27,14 @@
 			<directory>./tests/</directory>
 		</blacklist>
 		<whitelist processUncoveredFilesFromWhitelist="true">
-			<directory suffix=".php">./core/</directory>
+			<directory suffix=".php">./</directory>
 			<exclude>
 				<directory suffix=".php">./core/language/</directory>
 				<directory suffix=".php">./core/migrations/</directory>
 				<directory suffix=".php">./core/style/</directory>
+				<directory suffix=".php">./language/</directory>
+				<directory suffix=".php">./migrations/</directory>
+				<directory suffix=".php">./style/</directory>
 			</exclude>
 		</whitelist>
 	</filter>
