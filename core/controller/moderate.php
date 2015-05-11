@@ -297,7 +297,7 @@ class moderate
 		{
 			if (confirm_box(true))
 			{
-				$this->report->close_reports($report_ary);
+				$this->report->close_reports_by_image($report_ary);
 				$message = $this->user->lang('WAITING_REPORTED_DONE', count($report_ary));
 				$this->url->meta_refresh(3, $back_link);
 				trigger_error($message);
