@@ -104,5 +104,156 @@ class core_user_test extends core_base
 		$this->assertTrue($this->gallery_user->update_data(array('personal_album_id' => $new_var)));
 		$this->assertEquals($new_var, $this->gallery_user->get_data('personal_album_id'));
 		$this->assertTrue($this->gallery_user->entry_exists);
+		$this->gallery_user->destroy();
+	}
+
+
+	/**
+	* Test update images
+	*/
+	public function test_update_images()
+	{
+		$this->gallery_user->set_user_id(2);
+		$this->assertEquals($this->gallery_user->get_data('user_images'), 0);
+		$this->gallery_user->update_images(5);
+		$this->assertEquals($this->gallery_user->get_data('user_images'), 5);
+		$this->gallery_user->update_images(5);
+		$this->assertEquals($this->gallery_user->get_data('user_images'), 10);
+		$this->gallery_user->update_images(-10);
+		$this->assertEquals($this->gallery_user->get_data('user_images'), 0);
+		$this->gallery_user->destroy();
+	}
+
+	/**
+	* Test delete user
+	* Before deleting them we will have to create few users
+	*/
+	public function test_delete()
+	{
+		// First we will create 3 users
+		$this->gallery_user->set_user_id(53);
+		$this->gallery_user->update_data(array('personal_album_id' => 2));
+		$this->gallery_user->set_user_id(54);
+		$this->gallery_user->update_data(array('personal_album_id' => 3));
+		$this->gallery_user->set_user_id(55);
+		$this->gallery_user->update_data(array('personal_album_id' => 4));
+		$sql = 'SELECT COUNT(user_id) as count FROM phpbb_gallery_users WHERE user_id > 0';
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
+		$this->assertEquals(5, $row['count']);
+		$this->gallery_user->delete();
+		$sql = 'SELECT COUNT(user_id) as count FROM phpbb_gallery_users WHERE user_id > 0';
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
+		$this->assertEquals(4, $row['count']);
+		$this->gallery_user->destroy();
+	}
+
+	/**
+	* Test delete users
+	* Test single ID, array of IDs or string of all
+	*/
+	public function test_delete_users()
+	{
+		$this->gallery_user->set_user_id(55);
+		$this->gallery_user->update_data(array('personal_album_id' => 4));
+		$this->gallery_user->delete_users(array(53, 54));
+		$sql = 'SELECT COUNT(user_id) as count FROM phpbb_gallery_users WHERE user_id > 0';
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
+		$this->assertEquals(3, $row['count']);
+		$this->gallery_user->delete_users(52);
+		$sql = 'SELECT COUNT(user_id) as count FROM phpbb_gallery_users WHERE user_id > 0';
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
+		$this->assertEquals(2, $row['count']);
+		$this->gallery_user->delete_users('all');
+		$sql = 'SELECT COUNT(user_id) as count FROM phpbb_gallery_users WHERE user_id > 0';
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
+		$this->assertEquals(0, $row['count']);
+	}
+
+	/**
+	* Test update users
+	* Test single ID, array of IDs or string of all
+	* First we create 5 new users
+	*/
+	public function test_update_users()
+	{
+		$this->gallery_user->set_user_id(2);
+		$this->gallery_user->update_data(array('personal_album_id' => 1));
+		$this->gallery_user->set_user_id(52);
+		$this->gallery_user->update_data(array('personal_album_id' => 2));
+		$this->gallery_user->set_user_id(53);
+		$this->gallery_user->update_data(array('personal_album_id' => 3));
+		$this->gallery_user->set_user_id(54);
+		$this->gallery_user->update_data(array('personal_album_id' => 4));
+		$this->gallery_user->set_user_id(55);
+		$this->gallery_user->update_data(array('personal_album_id' => 5));
+		$this->gallery_user->destroy();
+		$sql = 'SELECT COUNT(user_id) as count FROM phpbb_gallery_users WHERE user_images > 0';
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow($result);
+		$this->assertEquals(0, $row['count']);
+		$data = array(
+			'user_images' => 3,
+		);
+		$this->gallery_user->update_users(2, $data);
+		$sql = 'SELECT COUNT(user_id) as count FROM phpbb_gallery_users WHERE user_images > 0';
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow($result);
+		$this->assertEquals(1, $row['count']);
+		
+		$this->gallery_user->update_users(array(52,53), $data);
+		$sql = 'SELECT COUNT(user_id) as count FROM phpbb_gallery_users WHERE user_images > 0';
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow($result);
+		$this->assertEquals(3, $row['count']);
+		
+		$this->gallery_user->update_users('all', $data);
+		$sql = 'SELECT COUNT(user_id) as count FROM phpbb_gallery_users WHERE user_images > 0';
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow($result);
+		$this->assertEquals(5, $row['count']);
+	}
+
+	public function data_sql_build_where()
+	{
+		return array(
+			'single' => array(
+				2,
+				'WHERE user_id = 2'
+			),
+			'array' => array(
+				array(2,3),
+				'WHERE user_id IN (2, 3)',
+			),
+			'all' => array(
+				'all',
+				'',
+			),
+		);
+	}
+
+	/**
+	* Test SQL Build Where
+	* @dataProvider data_sql_build_where
+	*/
+	public function test_sql_build_where($input, $expected)
+	{
+		if ($input == 'all')
+		{
+			$this->assertEmpty($this->gallery_user->sql_build_where($input));
+		}
+		else
+		{
+			$this->assertContains($expected, $this->gallery_user->sql_build_where($input));
+		}
 	}
 }
