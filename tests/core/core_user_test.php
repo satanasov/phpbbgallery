@@ -256,4 +256,12 @@ class core_user_test extends core_base
 			$this->assertContains($expected, $this->gallery_user->sql_build_where($input));
 		}
 	}
+	
+	public function test_get_own_root_album()
+	{
+		$this->gallery_user->set_user_id(2);
+		$this->assertEquals(1, $this->gallery_user->get_own_root_album());
+		$this->gallery_user->set_user_id(3);
+		$this->assertEquals(0, $this->gallery_user->get_own_root_album());
+	}
 }
