@@ -73,7 +73,7 @@ class upload
 		}
 		$page_title = 'Upload to "' . $album_data['album_name'] . '"';
 
-		// Before all 
+		// Before all
 		if (!$this->check_fs())
 		{
 			trigger_error('NO_WRITE_ACCESS');
@@ -369,7 +369,7 @@ class upload
 		$phpbbgallery_core_file_medium = $phpbb_root_path . 'files/phpbbgallery/core/medium';
 		$phpbbgallery_core_file_mini = $phpbb_root_path . 'files/phpbbgallery/core/mini';
 		$phpbbgallery_core_file_source = $phpbb_root_path . 'files/phpbbgallery/core/source';
-		
+
 		if (file_exists($phpbbgallery_core_file) && is_writable($phpbbgallery_core_file) && file_exists($phpbbgallery_core_file_source) && is_writable($phpbbgallery_core_file_source))
 		{
 			return true;

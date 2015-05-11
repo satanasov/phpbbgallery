@@ -151,45 +151,41 @@ class main_listener implements EventSubscriberInterface
 	{
 		if (count($this->user_ids) == 1)
 		{
-			if (isset($this->albums[$this->user_ids[$this->target]]))
-			{
-				$data = $event['profile_row'];
-				$data['phpbb_gallery'] = array(
-					'value' => $this->helper->route('phpbbgallery_album', array('album_id' => $this->albums[$this->user_ids[$this->target]])),
-					'data' => array(
-						'field_id'				=> '',
-						'lang_id'				=> '',
-						'lang_name'				=> 'GALLERY',
-						'lang_explain'			=> '',
-						'lang_default_value'	=> '',
-						'field_name'			=> 'phpbb_gallery',
-						'field_type'			=> 'profilefields.type.url',
-						'field_ident'			=> 'phpbb_gallery',
-						'field_length'			=> '40',
-						'field_minlen'			=> '12',
-						'field_maxlen'			=> '255',
-						'field_novalue'			=> '',
-						'field_default_value'	=> '',
-						'field_validation'		=> '',
-						'field_required'		=> '0',
-						'field_show_on_reg'		=> '0',
-						'field_hide'			=> '0',
-						'field_no_view'			=> '0',
-						'field_active'			=> '1',
-						'field_order'			=> '',
-						'field_show_profile'	=> '1',
-						'field_show_on_vt'		=> '1',
-						'field_show_novalue'	=> '0',
-						'field_show_on_pm'		=> '1',
-						'field_show_on_ml'		=> '1',
-						'field_is_contact'		=> '1',
-						'field_contact_desc'	=> 'VISIT_GALLERY',
-						'field_contact_url'		=> '%s',
-					),
-				);
-				$event['profile_row'] = $data;
-			}
-			$this->target ++;
+			$data = $event['profile_row'];
+			$data['phpbb_gallery'] = array(
+				'value' => $this->helper->route('phpbbgallery_album', array('album_id' => $this->albums[$this->user_ids[$this->target]])),
+				'data' => array(
+					'field_id'				=> '',
+					'lang_id'				=> '',
+					'lang_name'				=> 'GALLERY',
+					'lang_explain'			=> '',
+					'lang_default_value'	=> '',
+					'field_name'			=> 'phpbb_gallery',
+					'field_type'			=> 'profilefields.type.url',
+					'field_ident'			=> 'phpbb_gallery',
+					'field_length'			=> '40',
+					'field_minlen'			=> '12',
+					'field_maxlen'			=> '255',
+					'field_novalue'			=> '',
+					'field_default_value'	=> '',
+					'field_validation'		=> '',
+					'field_required'		=> '0',
+					'field_show_on_reg'		=> '0',
+					'field_hide'			=> '0',
+					'field_no_view'			=> '0',
+					'field_active'			=> '1',
+					'field_order'			=> '',
+					'field_show_profile'	=> '1',
+					'field_show_on_vt'		=> '1',
+					'field_show_novalue'	=> '0',
+					'field_show_on_pm'		=> '1',
+					'field_show_on_ml'		=> '1',
+					'field_is_contact'		=> '1',
+					'field_contact_desc'	=> 'VISIT_GALLERY',
+					'field_contact_url'		=> '%s',
+				),
+			);
+			$event['profile_row'] = $data;	
 		}
 	}
 }
