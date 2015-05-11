@@ -452,8 +452,7 @@ class search
 			$this->db->sql_freeresult($result);
 		}
 		$sql .= ' AND ((' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
-					OR ' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('m_status'), $exclude_albums), false, true) . ')
-			ORDER BY ' . $sql_order;
+					OR ' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('m_status'), $exclude_albums), false, true) . ');
 
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
