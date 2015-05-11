@@ -64,6 +64,7 @@ class upload
 		add_form_key('gallery');
 		$album_backlink = $this->helper->route('phpbbgallery_album', array('album_id'	=> $album_id));
 		$album_loginlink = 'ucp.php?mode=login';
+		$error = '';
 		//Let's get authorization
 		$this->auth->load_user_premissions($this->user->data['user_id']);
 		if (!$this->auth->acl_check('i_upload', $album_id, $album_data['album_user_id']) || ($album_data['album_status'] == $this->album->status_locked()))
@@ -72,8 +73,12 @@ class upload
 		}
 		$page_title = 'Upload to "' . $album_data['album_name'] . '"';
 
+		// Before all 
+		if (!$this->check_fs())
+		{
+			trigger_error('NO_WRITE_ACCESS');
+		}
 		$submit = $this->request->variable('submit', false);
-		$error = '';
 		$mode = $this->request->variable('mode', 'upload');
 		if ($mode == 'upload')
 		{
@@ -355,5 +360,23 @@ class upload
 			));
 		}
 		return $this->helper->render('gallery/posting_body.html', $page_title);
+	}
+
+	private function check_fs()
+	{
+		global $phpbb_root_path;
+		$phpbbgallery_core_file = $phpbb_root_path . 'files/phpbbgallery/core';
+		$phpbbgallery_core_file_medium = $phpbb_root_path . 'files/phpbbgallery/core/medium';
+		$phpbbgallery_core_file_mini = $phpbb_root_path . 'files/phpbbgallery/core/mini';
+		$phpbbgallery_core_file_source = $phpbb_root_path . 'files/phpbbgallery/core/source';
+		
+		if (file_exists($phpbbgallery_core_file) && is_writable($phpbbgallery_core_file) && file_exists($phpbbgallery_core_file_source) && is_writable($phpbbgallery_core_file_source))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 }

@@ -176,6 +176,7 @@ $lang = array_merge($lang, array(
 	'NO_IMAGES_LONG'				=> 'Этот альбом пуст.',
 	'NOT_ALLOWED_FILE_TYPE'			=> 'Этот тип файла не разрешён',
 	'NOT_RATED'						=> 'не оценено',
+	'NO_WRITE_ACCESS'				=> 'The upload directory is missing or phpBB has no write access to it.<br>Please contact the board admin!',
 	'ORDER'							=> 'Порядок',
 	'ORIG_FILENAME'					=> 'Использовать название файла в качестве названия фотографии',
 	'OUT_OF_RANGE_VALUE'			=> 'Значение выходит за допустимые рамки',

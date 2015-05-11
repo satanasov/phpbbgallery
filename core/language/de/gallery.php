@@ -193,6 +193,8 @@ $lang = array_merge($lang, array(
 	'NOT_RATED'						=> 'Nicht bewertet',
 	'NO_SEARCH_RESULTS'				=> 'Keine Alben gefunden',
 
+	'NO_WRITE_ACCESS'				=> 'The upload directory is missing or phpBB has no write access to it.<br>Please contact the board admin!',
+
 	'ORDER'							=> 'Reihenfolge',
 	'ORIG_FILENAME'					=> 'Dateinamen als Bildname verwenden (das Eingabefeld ist ohne Funktion)',
 	'OUT_OF_RANGE_VALUE'			=> 'Wert ist ausserhalb des Bereichs',

@@ -191,6 +191,8 @@ $lang = array_merge($lang, array(
 	'NOT_ALLOWED_FILE_TYPE'			=> 'This file type is not allowed',
 	'NOT_RATED'						=> 'not rated',
 
+	'NO_WRITE_ACCESS'				=> 'The upload directory is missing or phpBB has no write access to it.<br>Please contact the board admin!',
+
 	'ORDER'							=> 'Order',
 	'ORIG_FILENAME'					=> 'Take filename as imagename (the insert-field has no function)',
 	'OUT_OF_RANGE_VALUE'			=> 'Value is out of range',
