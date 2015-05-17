@@ -130,6 +130,7 @@ class search
 			}
 			$this->db->sql_freeresult($result);
 		}
+		$exclude_albums = array_merge($exclude_albums, $this->gallery_auth->get_exclude_zebra());
 		$sql .= ' AND ((' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
 					OR (' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('a_list'), $exclude_albums), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
 					OR ' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('m_status'), $exclude_albums), false, true) . ')
@@ -328,6 +329,7 @@ class search
 			}
 			$this->db->sql_freeresult($result);
 		}
+		$exclude_albums = array_merge($exclude_albums, $this->gallery_auth->get_exclude_zebra());
 		$sql .= '	AND ((' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
 					OR ' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('m_status'), $exclude_albums), false, true) . ')
 			GROUP BY image_id
@@ -451,6 +453,7 @@ class search
 			}
 			$this->db->sql_freeresult($result);
 		}
+		$exclude_albums = array_merge($exclude_albums, $this->gallery_auth->get_exclude_zebra());
 		$sql .= ' AND ((' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
 					OR ' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('m_status'), $exclude_albums), false, true) . ')';
 

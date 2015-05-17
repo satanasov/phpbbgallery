@@ -1013,7 +1013,7 @@ class image
 	{
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 		$zebra_array = $this->gallery_auth->get_user_zebra($this->user->data['user_id']);
-		if (!$this->gallery_auth->acl_check('i_view', $album_id, $owner_id) || ($image_status == \phpbbgallery\core\image\image::STATUS_ORPHAN) || $this->gallery_auth->get_zebra_state($zebra_array, (int) $owner_id) < (int) $album_auth_level)
+		if (!$this->gallery_auth->acl_check('i_view', $album_id, $owner_id) || ($image_status == \phpbbgallery\core\image\image::STATUS_ORPHAN) || $this->gallery_auth->get_zebra_state($zebra_array, (int) $owner_id, (int) $album_id) < (int) $album_auth_level)
 		{
 			if ($this->user->data['is_bot'])
 			{

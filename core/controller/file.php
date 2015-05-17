@@ -273,7 +273,6 @@ class file
 			$this->data['album_id'] = 0;
 			$this->data['album_user_id'] = 1;
 			$this->data['image_filemissing'] = 0;
-			$this->data['image_filemissing'] = 0;
 			$this->data['album_watermark'] = 0;
 		}
 		if ((!$this->auth->acl_check('i_view', $this->data['album_id'], $this->data['album_user_id'])) || (!$this->auth->acl_check('m_status', $this->data['album_id'], $this->data['album_user_id']) && ($this->data['image_status'] == \phpbbgallery\core\image\image::STATUS_UNAPPROVED)))
@@ -288,7 +287,6 @@ class file
 			$this->data['album_id'] = 0;
 			$this->data['album_user_id'] = 1;
 			$this->data['image_filemissing'] = 0;
-			$this->data['image_filemissing'] = 0;
 			$this->data['album_watermark'] = 0;
 		}
 		/*if ($this->auth->get_zebra_state($zebra_array, (int) $this->data['album_user_id']) < (int) $this->data['album_auth_access'] && !$this->error)
@@ -302,7 +300,6 @@ class file
 			$this->data['image_status'] = 2;
 			$this->data['album_id'] = 0;
 			$this->data['album_user_id'] = 1;
-			$this->data['image_filemissing'] = 0;
 			$this->data['image_filemissing'] = 0;
 			$this->data['album_watermark'] = 0;
 		}*/
