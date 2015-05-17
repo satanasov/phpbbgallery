@@ -238,7 +238,7 @@ class index
 
 		$first_char = $this->request->variable('first_char', '');
 		$s_char_options = '<option value=""' . ((!$first_char) ? ' selected="selected"' : '') . '>' . $this->user->lang('ALL') . '</option>';
-// Loop the ASCII: a-z
+		// Loop the ASCII: a-z
 		for ($i = 97; $i < 123; $i++)
 		{
 			$s_char_options .= '<option value="' . chr($i) . '"' . (($first_char == chr($i)) ? ' selected="selected"' : '') . '>' . chr($i - 32) . '</option>';
