@@ -227,7 +227,7 @@ class file
 			$this->data['image_filemissing'] = 0;
 			$this->data['album_watermark'] = 0;
 		}
-		else 
+		else
 		{
 			$sql = 'SELECT *
 				FROM ' . $this->table_images . ' i

@@ -500,7 +500,7 @@ class image
 		));
 
 		if ($image_data['image_comments'] > 0)
-		{	
+		{
 			if (!class_exists('bbcode'))
 			{
 				$this->url->_include('bbcode', 'phpbb');
