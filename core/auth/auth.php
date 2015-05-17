@@ -361,6 +361,19 @@ class auth
 					continue;
 				}
 			}
+			else if ($album['album_auth_access'] == self::ACCESS_SPECIAL_FRIENDS)
+			{
+				if ($zebra == null)
+				{
+					$zebra = self::get_user_zebra($user_id);
+				}
+				if (!in_array($album['album_user_id'], $zebra['bff']))
+				{
+					// Level 4: Only special friends allowed
+					$this->_auth_data[$album['album_id']] = new \phpbbgallery\core\auth\set();
+					continue;
+				}
+			}
 			else if ($album['album_auth_access'] == self::ACCESS_FRIENDS)
 			{
 				if ($zebra == null)
@@ -402,6 +415,10 @@ class auth
 					{
 						$zebra['bff'][] = (int) $row['user_id'];
 					}
+					else
+					{
+						$zebra['friend'][] = (int) $row['user_id'];
+					}
 				}
 				else
 				{
@@ -416,11 +433,11 @@ class auth
 	/**
 	* Get zebra state
 	*/
-	public function get_zebra_state($zebra_array, $album_author)
+	public function get_zebra_state($zebra_array, $album_author, $album_id)
 	{
 		$state = 0;
 		// if we check for ourselves or user is mod or admin - make bigest possible step
-		if ($this->phpbb_user->data['user_id'] == $album_author || $this->auth->acl_getf_global('m_approve') || $this->auth->acl_get('a_user'))
+		if ($this->phpbb_user->data['user_id'] == $album_author || $this->acl_check('m_', $album_author, $album_id) || $this->auth->acl_get('a_user'))
 		{
 			$state = 5;
 		}
@@ -754,5 +771,25 @@ class auth
 			$user_ids[] = (int) $id;
 		}
 		return $user_ids;
+	}
+
+	/*
+	* Get all albums that user has no access
+	* return array	$exclude All albums we have no access due to zebra restrictions
+	*/
+	public function get_exclude_zebra()
+	{
+		$zebra_array = $this->get_user_zebra($this->phpbb_user->data['user_id']);
+		$albums = $this->cache->get_albums();
+		$exclude = array();
+		foreach($albums as $album)
+		{
+			// There is zebra only for users
+			if ($album['album_type'] == 1 && $album['album_user_id'] > 0 && $this->get_zebra_state($zebra_array, $album['album_user_id'], $album['album_id']) < $album['album_auth_access'])
+			{
+				$exclude[] = (int) $album['album_id'];
+			}
+		}
+		return $exclude;
 	}
 }
