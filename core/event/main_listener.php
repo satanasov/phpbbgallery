@@ -20,7 +20,7 @@ class main_listener implements EventSubscriberInterface
 		return array(
 			'core.user_setup'						=> 'load_language_on_setup',
 			'core.page_header'						=> 'add_page_header_link',
-			'core.memberlist_prepare_profile_data'	       => 'user_profile_galleries',
+			'core.memberlist_view_profile'	       => 'user_profile_galleries',
 			'core.generate_profile_fields_template_data_before'	       => 'profile_fileds',
 			'core.grab_profile_fields_data'	       => 'get_user_ids',
 			//'core.viewonline_overwrite_location'	=> 'add_newspage_viewonline',
@@ -98,19 +98,19 @@ class main_listener implements EventSubscriberInterface
 		{
 			$block_name	= $this->user->lang['RECENT_IMAGES'];
 			$u_block = ' ';
-			$this->gallery_search->recent($this->gallery_config->get('rrc_profile_items'), -1, $event['data']['user_id'], 'rrc_profile_display', $block_name, $u_block);
+			$this->gallery_search->recent($this->gallery_config->get('rrc_profile_items'), -1, $event['member']['user_id'], 'rrc_profile_display', $block_name, $u_block);
 		}
 		if ($random)
 		{
 			$block_name	= $this->user->lang['RANDOM_IMAGES'];
 			$u_block = ' ';
-			$this->gallery_search->random($this->gallery_config->get('rrc_profile_items'), $event['data']['user_id'], 'rrc_profile_display', $block_name, $u_block);
+			$this->gallery_search->random($this->gallery_config->get('rrc_profile_items'), $event['member']['user_id'], 'rrc_profile_display', $block_name, $u_block);
 		}
 
 		// Now - do we show statistics
 		if ($this->gallery_config->get('profile_user_images') == 1)
 		{
-			$sql = 'SELECT * FROM ' . $this->users_table . ' WHERE user_id = ' . $event['data']['user_id'];
+			$sql = 'SELECT * FROM ' . $this->users_table . ' WHERE user_id = ' . $event['member']['user_id'];
 			$result = $this->db->sql_query($sql);
 			$user_info = $this->db->sql_fetchrow($result);
 			$this->db->sql_freeresult($result);
