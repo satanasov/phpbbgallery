@@ -83,7 +83,8 @@ class release_1_2_0_create_filesystem extends \phpbb\db\migration\migration
 			{
 				$this->recursiveRemoveDirectory($file);
 			}
-			else {
+			else 
+			{
 				unlink($file);
 			}
 		}
