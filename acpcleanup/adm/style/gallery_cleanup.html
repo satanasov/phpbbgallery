@@ -28,6 +28,9 @@
 				<select id="entry" name="entry[]" multiple="multiple" size="10">
 					<!-- BEGIN entryrow --><option value="{entryrow.FILE_NAME}">{entryrow.FILE_NAME}</option><!-- END entryrow -->
 				</select>
+				<!-- IF ACP_IMPORT_INSTALLED -->
+				<dd><input name="move_to_import" class="radio" type="checkbox" id="move_to_import" value="1"><label for="move_to_import">{L_MOVE_TO_IMPORT}</label>
+				<!-- ENDIF -->
 			<!-- ENDIF --></dd>
 		</dl>
 
@@ -60,8 +63,12 @@
 				</select>
 			<!-- ENDIF --></dd>
 		</dl>
-
 		<!-- IF .commentrow or .authorrow -->
+		<dl>
+			<dt><label for="prune_rating_avg_check">{L_MOVE_TO_USER}:</label>
+				<br /><span>{L_MOVE_TO_USER_EXP}</span></dt>
+			<dd><input class="inputbox autowidth" type="text" name="new_author" size="15" value="" /></dd>
+		</dl>
 		<p class="submit-buttons">
 			<input class="button1" type="submit" name="submit" value="{L_CHANGE_AUTHOR_TO_GUEST}" />
 			<input class="button1" type="submit" name="delete" value="{L_DELETE}" />

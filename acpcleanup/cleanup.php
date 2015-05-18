@@ -249,6 +249,7 @@ class cleanup
 		$sql = 'SELECT image_id, image_filename
 			FROM ' . $this->images_table . '
 			' . $sql_where;
+
 		$result = $db->sql_query($sql);
 		$image_ids = $filenames = $update_albums = array();
 		while ($row = $db->sql_fetchrow($result))

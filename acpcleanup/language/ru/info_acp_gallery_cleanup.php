@@ -71,4 +71,9 @@ $lang = array_merge($lang, array(
     'LOG_CLEANUP_DELETE_ENTRIES'	=> '%s Изображения без файлов были удалены',
     'LOG_CLEANUP_DELETE_NO_AUTHOR'	=> '%s Изображения без действительных авторов были удалены',
     'LOG_CLEANUP_COMMENT_DELETE_NO_AUTHOR'	=> '%s Комментарии без действительных авторов были удалены',
+
+	'MOVE_TO_IMPORT'	=> 'Move images to Import directory',
+	'MOVE_TO_USER'		=> 'Move to user',
+	'MOVE_TO_USER_EXP'	=> 'Images and comments will be moved as those of user you have defined. If none is selected - Anonymous will be used.',
+	'CLEAN_USER_NOT_FOUND'	=> 'The user you selected does not exists!',
 	));
