@@ -18,11 +18,11 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 	*/
 	public function test_prepare_import()
 	{
-		$this->assertEquals(1, copy(__DIR__ . '/images/valid.jpg', __DIR__ . '/../../../../files/phpbbgallery/core/import/copy_to_public_no_change.jpg'));
-		$this->assertEquals(1, copy(__DIR__ . '/images/valid.jpg', __DIR__ . '/../../../../files/phpbbgallery/core/import/copy_to_public_change_uploader.jpg'));
-		$this->assertEquals(1, copy(__DIR__ . '/images/valid.jpg', __DIR__ . '/../../../../files/phpbbgallery/core/import/copy_to_public_change_image_name.jpg'));
-		$this->assertEquals(1, copy(__DIR__ . '/images/valid.jpg', __DIR__ . '/../../../../files/phpbbgallery/core/import/copy_to_personal_existing.jpg'));
-		$this->assertEquals(1, copy(__DIR__ . '/images/valid.jpg', __DIR__ . '/../../../../files/phpbbgallery/core/import/copy_to_personal_non_existing.jpg'));
+		$this->assertEquals(1, copy(__DIR__ . '/images/valid.jpg', __DIR__ . '/../../../../files/phpbbgallery/import/copy_to_public_no_change.jpg'));
+		$this->assertEquals(1, copy(__DIR__ . '/images/valid.jpg', __DIR__ . '/../../../../files/phpbbgallery/import/copy_to_public_change_uploader.jpg'));
+		$this->assertEquals(1, copy(__DIR__ . '/images/valid.jpg', __DIR__ . '/../../../../files/phpbbgallery/import/copy_to_public_change_image_name.jpg'));
+		$this->assertEquals(1, copy(__DIR__ . '/images/valid.jpg', __DIR__ . '/../../../../files/phpbbgallery/import/copy_to_personal_existing.jpg'));
+		$this->assertEquals(1, copy(__DIR__ . '/images/valid.jpg', __DIR__ . '/../../../../files/phpbbgallery/import/copy_to_personal_non_existing.jpg'));
 	}
 	public function test_acp_import_no_change()
 	{
