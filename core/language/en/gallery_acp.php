@@ -254,6 +254,7 @@ $lang = array_merge($lang, array(
 	'PEGA_CREATED'					=> 'Created personal gallery for %s.',
 	'PEGA_ALREADY_EXISTS'			=> '%s already has a personal gallery.',
 	'PGALLERIES_PER_PAGE'			=> 'Number of personal galleries per page',
+	'QUICK_ADD_FORM'				=> 'Allow users to upload images while creating a post',
 	'ITEMS_PER_PAGE'				=> 'Items per page',
 	'ITEMS_PER_PAGE_EXP'			=> 'How many images/albums per page',
 	'RANDOM_ON_INDEX'				=> 'Show random images on index',

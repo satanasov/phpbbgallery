@@ -108,6 +108,7 @@ class config
 		//'rrc_profile_pegas'		=> true,
 
 		'search_display'		=> 45,
+		'quick_add_form'		=> false,
 
 		//'thumbnail_cache'		=> true,
 		'thumbnail_height'		=> 160,

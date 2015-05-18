@@ -200,6 +200,8 @@ class main_listener implements EventSubscriberInterface
 		$album_lists = $this->gallery_album->get_albumbox(false,'album_id',$user_album,false,false,
 				$this->gallery_album->get_public(),$this->gallery_album->get_type_upload());
 		$this->template->assign_vars(array(
-			'S_SELECT_ALBUM'	=> $album_lists ));
+			'S_SELECT_ALBUM'	=> $album_lists,
+			'QUICK_ADD_FORM'	=> $this->gallery_config->get('quick_add_form'))
+		);
 	}
 }
