@@ -268,7 +268,8 @@ class upload
 				$upload_files_limit = ($this->auth->acl_check('i_unlimited', $album_id, $album_data['album_user_id'])) ? $this->gallery_config->get('num_uploads') : min(($this->auth->acl_check('i_count', $album_id, $album_data['album_user_id']) - $own_images), $this->gallery_config->get('num_uploads'));
 
 				$upload_ids = $this->request->variable('upload_ids', array(''));
-				if(empty($upload_ids) && $submode == 'fast_upload'){
+				if(empty($upload_ids) && $submode == 'fast_upload')
+				{
 					$upload_ids = $process->generate_hidden_fields();
 				}
 
@@ -326,7 +327,8 @@ class upload
 
 				$this->url->meta_refresh($meta_refresh_time, $album_backlink);
 				//posting ajax behavior
-				if($submode == 'fast_upload'){
+				if($submode == 'fast_upload')
+				{
 					$json_response = new \phpbb\json_response;
 					$json_response->send(array(
 						'MESSAGE_TITLE'		=> $message,
