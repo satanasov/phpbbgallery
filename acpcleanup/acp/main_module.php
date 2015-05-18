@@ -46,11 +46,21 @@ class main_module
 		$personals_bad = request_var('personal_bad', array(0), true);
 		$prune_pattern = request_var('prune_pattern', array('' => ''), true);
 
+		$move_to_import = request_var('move_to_import', 0);
+		$new_author = request_var('new_author', '');
+
 		$gallery_album = $phpbb_container->get('phpbbgallery.core.album');
 		$core_cleanup = $phpbb_container->get('phpbbgallery.acpcleanup.cleanup');
 		$gallery_auth = $phpbb_container->get('phpbbgallery.core.auth');
 		$gallery_config = $phpbb_container->get('phpbbgallery.core.config');
 
+		// Lets detect if ACP Import exists (find if directory is with RW access)
+		$acp_import_installed = false;
+		$acp_import_dir = $phpbb_ext_gallery->url->path('import');
+		if (file_exists($acp_import_dir) && is_writable($acp_import_dir))
+		{
+			$acp_import_installed = true;
+		}
 		if ($prune && empty($prune_pattern))
 		{
 			$prune_pattern['image_album_id'] = implode(',', request_var('prune_album_ids', array(0)));
@@ -105,14 +115,33 @@ class main_module
 			'personal'		=> $missing_personals,
 			'personal_bad'	=> $personals_bad,
 			'prune_pattern'	=> $prune_pattern,
+			'move_to_import'	=> $move_to_import,
 		));
 
 		if ($submit)
 		{
+			$user_id = 1;
+			if ($new_author)
+			{
+				$user_id = 0;
+				if (!function_exists('user_get_id_name'))
+				{
+					$phpbb_ext_gallery->url->_include('functions_user', 'phpbb');
+				}
+				user_get_id_name($user_id, $new_author);
+				if (is_array($user_id) && !empty($user_id))
+				{
+					$user_id = $user_id[0];
+				}
+				if (!$user_id)
+				{
+					trigger_error($user->lang('CLEAN_USER_NOT_FOUND', $new_author) . adm_back_link($this->u_action), E_USER_WARNING);
+				}
+			}
 			if ($missing_authors)
 			{
 				$sql = 'UPDATE ' . $table_prefix . 'gallery_images
-					SET image_user_id = ' . ANONYMOUS . ",
+					SET image_user_id = ' . $user_id . ",
 						image_user_colour = ''
 					WHERE " . $db->sql_in_set('image_id', $missing_authors);
 				$db->sql_query($sql);
@@ -120,7 +149,7 @@ class main_module
 			if ($missing_comments)
 			{
 				$sql = 'UPDATE ' . $table_prefix . 'gallery_comments
-					SET comment_user_id = ' . ANONYMOUS . ",
+					SET comment_user_id = ' . $user_id . ",
 						comment_user_colour = ''
 					WHERE " . $db->sql_in_set('comment_id', $missing_comments);
 				$db->sql_query($sql);
@@ -133,6 +162,13 @@ class main_module
 			$message = array();
 			if ($missing_entries)
 			{
+				if ($acp_import_installed && $move_to_import)
+				{
+					foreach($missing_entries as $entrie)
+					{
+						copy($phpbb_ext_gallery->url->path('upload') . '/' . $entrie, $phpbb_ext_gallery->url->path('import') . '/' . $entrie);
+					}
+				}
 				$message[] = $core_cleanup->delete_files($missing_entries);
 			}
 			if ($missing_sources)
@@ -443,6 +479,7 @@ class main_module
 			'S_GALLERY_MANAGE_RESTS'		=> true,
 			'ACP_GALLERY_TITLE'				=> $user->lang['ACP_GALLERY_CLEANUP'],
 			'ACP_GALLERY_TITLE_EXPLAIN'		=> $user->lang['ACP_GALLERY_CLEANUP_EXPLAIN'],
+			'ACP_IMPORT_INSTALLED'	=> $acp_import_installed,
 			'CHECK_SOURCE'			=> $this->u_action . '&amp;check_mode=source',
 			'CHECK_ENTRY'			=> $this->u_action . '&amp;check_mode=entry',
 

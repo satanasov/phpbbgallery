@@ -25,7 +25,7 @@ class url
 	/**
 	* Path from the phpbb root, into gallery's file root
 	*/
-	private $phpbb_gallery_file_path = 'files/phpbbgallery/core/';
+	private $phpbb_gallery_file_path = 'files/phpbbgallery/';
 
 	/**
 	* Path from the phpbb root, into gallery's root
@@ -39,9 +39,9 @@ class url
 
 
 	const IMAGE_PATH = 'images/';
-	const UPLOAD_PATH = 'source/';
-	const THUMBNAIL_PATH = 'mini/';
-	const MEDIUM_PATH = 'medium/';
+	const UPLOAD_PATH = 'core/source/';
+	const THUMBNAIL_PATH = 'core/mini/';
+	const MEDIUM_PATH = 'core/medium/';
 	const IMPORT_PATH = 'import/';
 
 	private $phpbb_gallery_relative = '';
