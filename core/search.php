@@ -707,6 +707,10 @@ class search
 			trigger_error('NO_SEARCH');
 		}
 
+		$this->template->assign_block_vars('imageblock', array(
+			'BLOCK_NAME'	=> $this->user->lang['SEARCH_TOPRATED'],
+			'U_BLOCK'	=> $this->helper->route('phpbbgallery_search_toprated'),
+		));
 		$this->user_loader->load_users(array_keys($users_array));
 		// Now let's get display options
 		$show_ip = $show_ratings = $show_username = $show_views = $show_time = $show_imagename = $show_comments = $show_album = false;
@@ -811,6 +815,7 @@ class search
 				'L_STATUS'	=> ($row['image_status'] == \phpbbgallery\core\image\image::STATUS_UNAPPROVED) ? $this->user->lang['APPROVE_IMAGE'] : (($row['image_status'] == \phpbbgallery\core\image\image::STATUS_APPROVED) ? $this->user->lang['CHANGE_IMAGE_STATUS'] : $this->user->lang['UNLOCK_IMAGE']),
 			));
 		}
+
 		$this->template->assign_vars(array(
 			'SEARCH_MATCHES'	=> $this->user->lang('TOTAL_IMAGES_SPRINTF', $count),
 			'SEARCH_TITLE'		=> $this->user->lang('SEARCH_TOPRATED'),
