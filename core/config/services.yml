@@ -147,26 +147,19 @@ services:
     phpbbgallery.core.search:
         class: phpbbgallery\core\search
         arguments:
-            - @auth
-            - @config
             - @dbal.conn
-            - @request
             - @template
             - @user
             - @controller.helper
-            - @phpbbgallery.core.album.display
             - @phpbbgallery.core.config
             - @phpbbgallery.core.auth
             - @phpbbgallery.core.album
             - @phpbbgallery.core.image
-            - @phpbbgallery.core.url
             - @pagination
             - @user_loader
             - %tables.phpbbgallery.images%
             - %tables.phpbbgallery.albums%
             - %tables.phpbbgallery.comments%
-            - %core.root_path%
-            - %core.php_ext%
     phpbbgallery.core.notification.helper:
         class: phpbbgallery\core\notification\helper
         arguments:
