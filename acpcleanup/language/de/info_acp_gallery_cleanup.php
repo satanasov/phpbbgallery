@@ -1,11 +1,11 @@
 <?php
 /**
 *
-* @package Gallery - ACP CleanUp Extension [English]
+* @package Gallery - ACP CleanUp Extension [German]
 * @copyright (c) 2012 nickvergessen - http://www.flying-bits.org/
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
-* Übersetzt von franki (http://dieahnen.de/ahnenforum/)
+* German translation by franki (http://dieahnen.de/ahnenforum/)
 */
 
 /**
@@ -72,8 +72,8 @@ $lang = array_merge($lang, array(
 	'LOG_CLEANUP_DELETE_NO_AUTHOR'		=> '%s Bilder ohne gültigem Autor wurden gelöscht.',
 	'LOG_CLEANUP_COMMENT_DELETE_NO_AUTHOR'	=> '%s Kommentare ohne gültigem Autor wurden gelöscht.',
 
-	'MOVE_TO_IMPORT'	=> 'Move images to Import directory',
-	'MOVE_TO_USER'		=> 'Move to user',
-	'MOVE_TO_USER_EXP'	=> 'Images and comments will be moved as those of user you have defined. If none is selected - Anonymous will be used.',
-	'CLEAN_USER_NOT_FOUND'	=> 'The user you selected does not exists!',
+	'MOVE_TO_IMPORT'			=> 'Verschieben von Bildern ins Import Verzeichnis',
+	'MOVE_TO_USER'				=> 'Wechseln zu Benutzer',
+	'MOVE_TO_USER_EXP'			=> 'Bilder und Kommentare werden als diejenigen des Benutzers verschoben werden, die Du definiert hast. Wenn Keine ausgewählt wird - wird Gast verwendet.',
+	'CLEAN_USER_NOT_FOUND'			=> 'The user you selected does not exists!',
 ));
