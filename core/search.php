@@ -271,10 +271,10 @@ class search
 				'POSTER'		=> $show_username ? get_username_string('full', $row['image_user_id'], $row['image_username'], $row['image_user_colour']) : false,
 				'TIME'			=> $show_time ? $this->user->format_date($row['image_time']) : false,
 
-				'S_RATINGS'		=> ($this->gallery_config['allow_rates'] == 1 && $show_ratings) ? ($row['image_rates'] > 0 ? $row['image_rate_avg'] / 100 : $this->user->lang('NOT_RATED')) : false,
+				'S_RATINGS'		=> ($this->gallery_config->get('allow_rates') == 1 && $show_ratings) ? ($row['image_rates'] > 0 ? $row['image_rate_avg'] / 100 : $this->user->lang('NOT_RATED')) : false,
 				'U_RATINGS'		=> $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id'])) . '#rating',
 				'L_COMMENTS'	=> ($row['image_comments'] == 1) ? $this->user->lang['COMMENT'] : $this->user->lang['COMMENTS'],
-				'S_COMMENTS'	=> $show_comments ? (($this->gallery_config['allow_comments'] && $this->gallery_auth->acl_check('c_read', $row['image_album_id'], $album_data['album_user_id'])) ? (($row['image_comments']) ? $row['image_comments'] : $this->user->lang['NO_COMMENTS']) : '') : false,
+				'S_COMMENTS'	=> $show_comments ? (($this->gallery_config->get('allow_comments') && $this->gallery_auth->acl_check('c_read', $row['image_album_id'], $album_data['album_user_id'])) ? (($row['image_comments']) ? $row['image_comments'] : $this->user->lang['NO_COMMENTS']) : '') : false,
 				'U_COMMENTS'	=> $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id'])) . '#comments',
 				'U_USER_IP'		=> $show_ip && $this->gallery_auth->acl_check('m_status', $row['image_album_id'], $album_data['album_user_id']) ? $row['image_user_ip'] : false,
 
@@ -609,10 +609,10 @@ class search
 				'POSTER'		=> $show_username ? get_username_string('full', $row['image_user_id'], $row['image_username'], $row['image_user_colour']) : false,
 				'TIME'			=> $show_time ? $this->user->format_date($row['image_time']) : false,
 
-				'S_RATINGS'		=> ($this->gallery_config['allow_rates'] == 1 && $show_ratings) ? ($row['image_rates'] > 0 ? $row['image_rate_avg'] / 100 : $this->user->lang('NOT_RATED')) : false,
+				'S_RATINGS'		=> ($this->gallery_config->get('allow_rates') == 1 && $show_ratings) ? ($row['image_rates'] > 0 ? $row['image_rate_avg'] / 100 : $this->user->lang('NOT_RATED')) : false,
 				'U_RATINGS'		=> $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id'])) . '#rating',
 				'L_COMMENTS'	=> ($row['image_comments'] == 1) ? $this->user->lang['COMMENT'] : $this->user->lang['COMMENTS'],
-				'S_COMMENTS'	=> $show_comments ? (($this->gallery_config['allow_comments'] && $this->gallery_auth->acl_check('c_read', $row['image_album_id'], $album_data['album_user_id'])) ? (($row['image_comments']) ? $row['image_comments'] : $this->user->lang['NO_COMMENTS']) : '') : false,
+				'S_COMMENTS'	=> $show_comments ? (($this->gallery_config->get('allow_comments') && $this->gallery_auth->acl_check('c_read', $row['image_album_id'], $album_data['album_user_id'])) ? (($row['image_comments']) ? $row['image_comments'] : $this->user->lang['NO_COMMENTS']) : '') : false,
 				'U_COMMENTS'	=> $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id'])) . '#comments',
 				'U_USER_IP'		=> $show_ip && $this->gallery_auth->acl_check('m_status', $row['image_album_id'], $album_data['album_user_id']) ? $row['image_user_ip'] : false,
 
@@ -783,10 +783,10 @@ class search
 				'POSTER'		=> $show_username ? get_username_string('full', $row['image_user_id'], $row['image_username'], $row['image_user_colour']) : false,
 				'TIME'			=> $show_time ? $this->user->format_date($row['image_time']) : false,
 
-				'S_RATINGS'		=> ($show_ratings && $this->gallery_config['allow_rates'] && $this->gallery_auth->acl_check('i_rate', $row['image_album_id'], $album_data['album_user_id'])) ? $row['image_rate_avg'] : '',
+				'S_RATINGS'		=> ($show_ratings && $this->gallery_config->get('allow_rates') && $this->gallery_auth->acl_check('i_rate', $row['image_album_id'], $album_data['album_user_id'])) ? $row['image_rate_avg'] : '',
 				'U_RATINGS'		=> $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id'])) . '#rating',
 				'L_COMMENTS'	=> ($row['image_comments'] == 1) ? $this->user->lang['COMMENT'] : $this->user->lang['COMMENTS'],
-				'S_COMMENTS'	=> $show_comments ? (($this->gallery_config['allow_comments'] && $this->gallery_auth->acl_check('c_read', $row['image_album_id'], $album_data['album_user_id'])) ? (($row['image_comments']) ? $row['image_comments'] : $this->user->lang['NO_COMMENTS']) : '') : false,
+				'S_COMMENTS'	=> $show_comments ? (($this->gallery_config->get('allow_comments') && $this->gallery_auth->acl_check('c_read', $row['image_album_id'], $album_data['album_user_id'])) ? (($row['image_comments']) ? $row['image_comments'] : $this->user->lang['NO_COMMENTS']) : '') : false,
 				'U_COMMENTS'	=> $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id'])) . '#comments',
 
 				'S_IMAGE_REPORTED'		=> $row['image_reported'],
