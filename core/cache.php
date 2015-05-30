@@ -16,10 +16,13 @@ class cache
 	private $phpbb_cache;
 	private $phpbb_db;
 
-	public function __construct(\phpbb\cache\service $cache, \phpbb\db\driver\driver_interface $db)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\db\driver\driver_interface $db,
+	$albums_table, $images_table)
 	{
 		$this->phpbb_cache = $cache;
 		$this->phpbb_db = $db;
+		$this->table_albums = $albums_table;
+		$this->table_images = $images_table;
 	}
 
 	public function get($data = 'albums')
@@ -38,7 +41,6 @@ class cache
 		static $albums;
 
 		global $table_prefix;
-
 		if (isset($albums))
 		{
 			return $albums;
@@ -84,8 +86,6 @@ class cache
 	{
 		static $images;
 
-		global $table_prefix;
-
 		if (isset($images))
 		{
 			return $images;
@@ -96,10 +96,10 @@ class cache
 			$sql_array = array(
 				'SELECT'	=> 'i.*, a.album_name',
 				'FROM'	=> array(
-					$table_prefix . 'gallery_images'	=> 'i',
-					$table_prefix . 'gallery_albums'	=> 'a'
+					$this->table_images	=> 'i',
+					$this->table_albums	=> 'a'
 				),
-				'WHERE'	=> $this->phpbb_db->sql_in_set('image_id', $image_ids_array)
+				'WHERE'	=> $this->phpbb_db->sql_in_set('image_id', $image_ids_array) . ' AND i.image_album_id = a.album_id'
 			);
 			$sql = $this->phpbb_db->sql_build_query('SELECT', $sql_array);
 			$result = $this->phpbb_db->sql_query($sql);

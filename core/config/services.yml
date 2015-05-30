@@ -72,6 +72,8 @@ services:
         arguments:
             - @cache
             - @dbal.conn
+            - %tables.phpbbgallery.albums%
+            - %tables.phpbbgallery.images%
     phpbbgallery.core.file.tool:
         class: phpbbgallery\core\file\file
         arguments:
