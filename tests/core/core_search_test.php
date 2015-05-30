@@ -24,4 +24,10 @@ class core_search_test extends core_base
 			$this->config
 		);
 	}
+	
+	// Dummy test
+	public function test_dummy()
+	{
+		$this->assertEquals(11, 11);
+	}
 }
