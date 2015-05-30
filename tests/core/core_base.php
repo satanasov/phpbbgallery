@@ -23,7 +23,7 @@ class core_base extends \phpbb_database_test_case
 	*/
 	static protected function setup_extensions()
 	{
-		return array('phpbbgallery/core');
+		return array('phpbbgallery/core', 'phpbbgallery/exif');
 	}
 	
 	protected $db;
@@ -49,5 +49,24 @@ class core_base extends \phpbb_database_test_case
 
 		$config = $this->config = new \phpbb\config\config(array());
 		$phpbb_dispatcher = $this->dispatcher = new \phpbb_mock_event_dispatcher();
+		
+		$this->template = $this->getMockBuilder('\phpbb\template\template')
+			->getMock();
+		
+		$this->user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
+		$this->user->optionset('viewcensors', false);
+		$this->user->style['style_path'] = 'prosilver';
+		
+		$controller_helper = $this->getMockBuilder('\phpbb\controller\helper')
+			->disableOriginalConstructor()
+			->getMock();
+		
+		$this->cache = new \phpbb\cache\service(
+			new \phpbb\cache\driver\null(),
+			$this->config,
+			$this->db,
+			$phpbb_root_path,
+			$phpEx
+		);
 	}
 }
