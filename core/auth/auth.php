@@ -686,7 +686,7 @@ class auth
 
 	/**
 	* Get all user IDs that have specific ACL for album
-	* 
+	*
 	* @param	string	$acl		One of the permissions, Exp: i_view; *_count permissions are not allowed!
 	* @param	int		$album_id	Album ID we want info for
 	*
