@@ -184,8 +184,6 @@
 		<column>filesize_upload</column>
 		<column>filesize_medium</column>
 		<column>filesize_cache</column>
-		<column>image_has_exif</column>
-		<column>image_exif_data</column>
 		<row>
 			<value>1</value>
 			<value>md5hashednamefor1.jpg</value>
@@ -218,8 +216,6 @@
 			<value>0</value>
 			<value>0</value>
 			<value>0</value>
-			<value>0</value>
-			<value></value>
 		</row>
 		<row>
 			<value>2</value>
@@ -253,8 +249,6 @@
 			<value>0</value>
 			<value>0</value>
 			<value>0</value>
-			<value>0</value>
-			<value></value>
 		</row>
 		<row>
 			<value>3</value>
@@ -288,8 +282,6 @@
 			<value>0</value>
 			<value>0</value>
 			<value>0</value>
-			<value>0</value>
-			<value></value>
 		</row>
 		<row>
 			<value>4</value>
@@ -323,8 +315,6 @@
 			<value>0</value>
 			<value>0</value>
 			<value>0</value>
-			<value>0</value>
-			<value></value>
 		</row>
 		<row>
 			<value>5</value>
@@ -358,8 +348,6 @@
 			<value>0</value>
 			<value>0</value>
 			<value>0</value>
-			<value>0</value>
-			<value></value>
 		</row>
 		<row>
 			<value>6</value>
@@ -393,8 +381,6 @@
 			<value>0</value>
 			<value>0</value>
 			<value>0</value>
-			<value>0</value>
-			<value></value>
 		</row>
 		<row>
 			<value>7</value>
@@ -428,8 +414,6 @@
 			<value>0</value>
 			<value>0</value>
 			<value>0</value>
-			<value>0</value>
-			<value></value>
 		</row>
 		<row>
 			<value>8</value>
@@ -463,8 +447,6 @@
 			<value>0</value>
 			<value>0</value>
 			<value>0</value>
-			<value>0</value>
-			<value></value>
 		</row>
 		<row>
 			<value>9</value>
@@ -498,8 +480,6 @@
 			<value>0</value>
 			<value>0</value>
 			<value>0</value>
-			<value>0</value>
-			<value></value>
 		</row>
 	</table>
 	<table name="phpbb_gallery_users">

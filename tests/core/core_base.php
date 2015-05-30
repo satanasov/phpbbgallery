@@ -23,7 +23,7 @@ class core_base extends \phpbb_database_test_case
 	*/
 	static protected function setup_extensions()
 	{
-		return array('phpbbgallery/core', 'phpbbgallery/exif');
+		return array('phpbbgallery/core');
 	}
 	
 	protected $db;
