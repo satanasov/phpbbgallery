@@ -645,11 +645,13 @@
 		<column>group_type</column>
 		<column>group_founder_manage</column>
 		<column>group_name</column>
+		<column>group_desc</column>
 		<column>group_skip_auth</column>
 		<row>
 			<value>5</value>
 			<value>3</value>
 			<value>1</value>
+			<value>ADMINISTRATORS</value>
 			<value>ADMINISTRATORS</value>
 			<value>0</value>
 		</row>
@@ -657,6 +659,7 @@
 			<value>2</value>
 			<value>3</value>
 			<value>1</value>
+			<value>REGISTERED</value>
 			<value>REGISTERED</value>
 			<value>0</value>
 		</row>
