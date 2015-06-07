@@ -112,7 +112,7 @@
 			<value>1</value>
 			<value></value>
 			<value></value>
-			<value>1</value>
+			<value>0</value>
 			<value>1</value>
 			<value>1</value>
 			<value>1</value>
@@ -482,6 +482,122 @@
 			<value>0</value>
 		</row>
 	</table>
+	<table name="phpbb_gallery_permissions">
+		<column>perm_id</column>
+		<column>perm_role_id</column>
+		<column>perm_album_id</column>
+		<column>perm_user_id</column>
+		<column>perm_group_id</column>
+		<column>perm_system</column>
+		<row>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>0</value>
+			<value>5</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>2</value>
+			<value>1</value>
+			<value>0</value>
+			<value>2</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>3</value>
+			<value>1</value>
+			<value>2</value>
+			<value>0</value>
+			<value>5</value>
+			<value>0</value>
+		</row>
+	</table>
+	<table name="phpbb_gallery_roles">
+		<column>role_id</column>
+		<column>a_list</column>
+		<column>i_view</column>
+		<column>i_watermark</column>
+		<column>i_upload</column>
+		<column>i_edit</column>
+		<column>i_delete</column>
+		<column>i_rate</column>
+		<column>i_approve</column>
+		<column>i_lock</column>
+		<column>i_report</column>
+		<column>i_count</column>
+		<column>i_unlimited</column>
+		<column>c_read</column>
+		<column>c_post</column>
+		<column>c_edit</column>
+		<column>c_delete</column>
+		<column>m_comments</column>
+		<column>m_delete</column>
+		<column>m_edit</column>
+		<column>m_move</column>
+		<column>m_report</column>
+		<column>m_status</column>
+		<column>a_count</column>
+		<column>a_unlimited</column>
+		<column>a_restrict</column>
+		<row>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+	</table>
 	<table name="phpbb_gallery_users">
 		<column>user_id</column>
 		<column>watch_own</column>
@@ -522,6 +638,69 @@
 			<value>0</value>
 			<value>1</value>
 			<value>0</value>
+		</row>
+	</table>
+	<table name="phpbb_groups">
+		<column>group_id</column>
+		<column>group_type</column>
+		<column>group_founder_manage</column>
+		<column>group_name</column>
+		<column>group_skip_auth</column>
+		<row>
+			<value>5</value>
+			<value>3</value>
+			<value>1</value>
+			<value>ADMINISTRATORS</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>3</value>
+			<value>1</value>
+			<value>REGISTERED</value>
+			<value>0</value>
+		</row>
+	</table>
+	<table name="phpbb_user_group">
+		<column>group_id</column>
+		<column>user_id</column>
+		<column>group_leader</column>
+		<column>user_pending</column>
+		<row>
+			<value>5</value>
+			<value>2</value>
+			<value>1</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>52</value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+	</table>
+	<table name="phpbb_zebra">
+		<column>user_id</column>
+		<column>zebra_id</column>
+		<column>friend</column>
+		<column>foe</column>
+		<row>
+			<value>2</value>
+			<value>52</value>
+			<value>1</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>52</value>
+			<value>2</value>
+			<value>1</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>53</value>
+			<value>2</value>
+			<value>0</value>
+			<value>1</value>
 		</row>
 	</table>
 </dataset>

@@ -57,6 +57,8 @@ class core_base extends \phpbb_database_test_case
 		$this->user->optionset('viewcensors', false);
 		$this->user->style['style_path'] = 'prosilver';
 		
+		$this->auth = $this->getMock('\phpbb\auth\auth');
+		
 		$controller_helper = $this->getMockBuilder('\phpbb\controller\helper')
 			->disableOriginalConstructor()
 			->getMock();

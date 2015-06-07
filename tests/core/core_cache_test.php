@@ -55,7 +55,7 @@ class core_cache_test extends core_base
 				'left_id'	=> 1,
 				'right_id'	=> 3,
 				'album_user_id'	=> 0,
-				'display_in_rrc'	=> true,
+				'display_in_rrc'	=> false,
 				'album_auth_access'	=> 0
 			),
 			'3'	=> array(
