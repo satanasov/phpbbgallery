@@ -21,6 +21,16 @@ class album
 	const STATUS_OPEN		= 0;
 	const STATUS_LOCKED		= 1;
 
+	protected $albums_table;
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user,
+	$albums_table, $watch_table, $contest_table)
+	{
+		$this->db = $db;
+		$this->user = $user;
+		$this->albums_table = $albums_table;
+		$this->watch_table = $watch_table;
+		$this->contests_table = $contest_table;
+	}
 	/**
 	* Get locked
 	*/
@@ -41,15 +51,11 @@ class album
 	/**
 	* Get album information
 	*/
-	static public function get_info($album_id, $extended_info = true)
+	public function get_info($album_id, $extended_info = true)
 	{
-		global $db, $user, $table_prefix, $phpbb_root_path, $phpbb_container, $phpEx;
-
-		$phpbb_gallery_url = $phpbb_container->get('phpbbgallery.core.url');
-
 		$sql_array = array(
 			'SELECT'		=> 'a.*',
-			'FROM'			=> array($table_prefix . 'gallery_albums' => 'a'),
+			'FROM'			=> array($this->albums_table => 'a'),
 
 			'WHERE'			=> 'a.album_id = ' . (int) $album_id,
 		);
@@ -59,24 +65,23 @@ class album
 			$sql_array['SELECT'] .= ', c.*, w.watch_id';
 			$sql_array['LEFT_JOIN'] = array(
 				array(
-					'FROM'		=> array($table_prefix . 'gallery_watch' => 'w'),
-					'ON'		=> 'a.album_id = w.album_id AND w.user_id = ' . (int) $user->data['user_id'],
+					'FROM'		=> array($this->watch_table => 'w'),
+					'ON'		=> 'a.album_id = w.album_id AND w.user_id = ' . (int) $this->user->data['user_id'],
 				),
 				array(
-					'FROM'		=> array($table_prefix . 'gallery_contests' => 'c'),
+					'FROM'		=> array($this->contests_table => 'c'),
 					'ON'		=> 'a.album_id = c.contest_album_id',
 				),
 			);
 		}
-		$sql = $db->sql_build_query('SELECT', $sql_array);
+		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 
-		$result = $db->sql_query($sql);
-		$row = $db->sql_fetchrow($result);
-		$db->sql_freeresult($result);
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
 
 		if (!$row)
 		{
-			meta_refresh(3, $phpbb_gallery_url->append_sid('index'));
 			trigger_error('ALBUM_NOT_EXIST');
 		}
 
@@ -101,24 +106,20 @@ class album
 	{
 		if ($user_id === false)
 		{
-			global $user;
-			$user_id = (int) $user->data['user_id'];
+			$user_id = (int) $this->user->data['user_id'];
 		}
 		else
 		{
 			$user_id = (int) $user_id;
 		}
 
-		global $db, $table_prefix;
-
-		$albums_table = $table_prefix . 'gallery_albums';
 		$sql = 'SELECT album_id
-			FROM ' . $albums_table . '
+			FROM ' . $this->albums_table . '
 			WHERE album_id = ' . (int) $album_id . '
 				AND album_user_id = ' . $user_id;
-		$result = $db->sql_query($sql);
-		$row = $db->sql_fetchrow($result);
-		$db->sql_freeresult($result);
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
 
 		if ($row === false)
 		{
