@@ -540,7 +540,7 @@ class manage
 	{
 		global $db, $user, $cache, $table_prefix, $phpbb_dispatcher, $table_name, $permissions_table, $roles_table, $phpbb_container;
 
-		$phpbb_ext_gallery_core_album = new \phpbbgallery\core\album\album();
+		$phpbb_ext_gallery_core_album = $phpbb_container->get('phpbbgallery.core.album');
 		$album_data = $phpbb_ext_gallery_core_album->get_info($album_id);
 
 		$gallery_cache = new \phpbbgallery\core\cache($cache, $db);
@@ -757,7 +757,7 @@ class manage
 		$phpbb_gallery_notification = new \phpbbgallery\core\notification();
 		$phpbb_gallery_config = $phpbb_container->get('phpbbgallery.core.config');
 		$phpbb_gallery_report = $phpbb_container->get('phpbbgallery.core.report');
-		$phpbb_ext_gallery_core_album = new \phpbbgallery\core\album\album();
+		$phpbb_ext_gallery_core_album = $phpbb_container->get('phpbbgallery.core.album');
 		// Lucifer TODO - Log to gallery log
 		//$sql = 'UPDATE ' . LOG_TABLE . "
 		//	SET album_id = $to_id

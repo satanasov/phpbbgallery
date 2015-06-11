@@ -102,7 +102,7 @@ class album
 	/**
 	* Check whether the album_user is the user who wants to do something
 	*/
-	static public function check_user($album_id, $user_id = false)
+	public function check_user($album_id, $user_id = false)
 	{
 		if ($user_id === false)
 		{
