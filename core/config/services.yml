@@ -20,6 +20,12 @@ parameters:
 services:
     phpbbgallery.core.album:
         class: phpbbgallery\core\album\album
+        arguments:
+            - @dbal.conn
+            - @user
+            - %tables.phpbbgallery.albums%
+            - %tables.phpbbgallery.watch%
+            - %tables.phpbbgallery.contests%
     phpbbgallery.core.misc:
         class: phpbbgallery\core\misc
     phpbbgallery.core.album.display:
