@@ -51,7 +51,7 @@ class albums_module
 		$manage_albums = new \phpbbgallery\core\album\manage(request_var('user_id', 0), request_var('parent_id', 0), $this->u_action);
 
 		// Init album
-		$phpbb_ext_gallery_core_album = new \phpbbgallery\core\album\album();
+		$phpbb_ext_gallery_core_album = $phpbb_container->get('phpbbgallery.core.album');
 
 		$phpbb_ext_gallery_core_album_display = $phpbb_container->get('phpbbgallery.core.album.display');
 

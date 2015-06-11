@@ -130,7 +130,7 @@ class permissions_module
 		$phpbb_ext_gallery_core_auth = $phpbb_container->get('phpbbgallery.core.auth');
 
 		// Init album
-		$phpbb_ext_gallery_core_album = new \phpbbgallery\core\album\album();
+		$phpbb_ext_gallery_core_album = $phpbb_container->get('phpbbgallery.core.album');
 
 		// Send contants to the template
 		$template->assign_vars(array(
@@ -1009,7 +1009,7 @@ class permissions_module
 		$phpbb_ext_gallery_core_auth = $phpbb_container->get('phpbbgallery.core.auth');
 
 		// Init album
-		$phpbb_ext_gallery_core_album = new \phpbbgallery\core\album\album();
+		$phpbb_ext_gallery_core_album = $phpbb_container->get('phpbbgallery.core.album');
 
 		$submit = isset($_POST['submit']) ? true : false;
 

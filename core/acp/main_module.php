@@ -63,7 +63,7 @@ class main_module
 		$users_table = $table_prefix . 'gallery_users';
 		$images_table = $table_prefix . 'gallery_images';
 		// Init album
-		$phpbb_ext_gallery_core_album = new \phpbbgallery\core\album\album();
+		$phpbb_ext_gallery_core_album = $phpbb_container->get('phpbbgallery.core.album');
 
 		// init users
 		$phpbb_gallery_user = $phpbb_container->get('phpbbgallery.core.user');
