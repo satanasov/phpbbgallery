@@ -229,6 +229,13 @@ class config_module
 
 		$return_ary = $this->display_vars[$mode];
 
+		/**
+		* Event to send the display vars
+		* @event gallery.core.acp.config.get_display_vars
+		* @var	string	mode		Mode we are requesting for
+		* @var	array	return_ary	Array we are sending back
+		* @since 1.2.0
+		*/
 		$vars = array('mode', 'return_ary');
 		extract($phpbb_dispatcher->trigger_event('gallery.core.acp.config.get_display_vars', compact($vars)));
 

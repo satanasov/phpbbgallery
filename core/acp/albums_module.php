@@ -134,6 +134,14 @@ class albums_module
 						*/
 					);
 
+					/**
+					* Event to send requested data
+					* @event gallery.core.acp.albums.request_data
+					* @var	string	action		Action we are taking
+					* @var	int		album_id	Album we are doing it to
+					* @var	array	album_data	Album data for the album
+					* @since 1.2.0
+					*/
 					$vars = array('action', 'album_id', 'album_data');
 					extract($phpbb_dispatcher->trigger_event('gallery.core.acp.albums.request_data', compact($vars)));
 
