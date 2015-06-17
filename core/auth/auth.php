@@ -782,7 +782,7 @@ class auth
 		$zebra_array = $this->get_user_zebra($this->phpbb_user->data['user_id']);
 		$albums = $this->cache->get_albums();
 		$exclude = array();
-		foreach($albums as $album)
+		foreach ($albums as $album)
 		{
 			// There is zebra only for users
 			if ($album['album_type'] == 1 && $album['album_user_id'] > 0 && $this->get_zebra_state($zebra_array, $album['album_user_id'], $album['album_id']) < $album['album_auth_access'])

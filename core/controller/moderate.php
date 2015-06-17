@@ -177,7 +177,7 @@ class moderate
 				if ($action == 'approve')
 				{
 					$count = 0;
-					foreach($approve_ary as $album_id => $approve_array)
+					foreach ($approve_ary as $album_id => $approve_array)
 					{
 						$this->image->approve_images($approve_array, $album_id);
 						$this->album->update_info($album_id);
@@ -367,7 +367,7 @@ class moderate
 		{
 			if (confirm_box(true) || $moving_target)
 			{
-				switch($action)
+				switch ($action)
 				{
 					case 'approve':
 						$this->image->approve_images($actions_array, $album_id);
@@ -489,7 +489,7 @@ class moderate
 		$quick_action = $this->request->variable('action', '');
 
 		// If we have quick mode (EDIT, DELETE) just send us to the page we need
-		switch($quick_action)
+		switch ($quick_action)
 		{
 			case 'images_move':
 				$route = $this->helper->route('phpbbgallery_moderate_image_move', array('image_id'	=> $image_id));

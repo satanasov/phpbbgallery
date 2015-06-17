@@ -127,7 +127,7 @@ class log
 		$sql_array['WHERE'] = implode(' and ', $sql_where);
 		if (isset($additional['sort_key']))
 		{
-			switch($additional['sort_key'])
+			switch ($additional['sort_key'])
 			{
 				case 'u':
 					$sql_array['ORDER_BY'] = 'log_user ' . (isset($additional['sort_dir']) ? 'ASC' : 'DESC');
@@ -183,7 +183,7 @@ class log
 		// Let's build template vars
 		if (!empty($logoutput))
 		{
-			foreach($logoutput as $var)
+			foreach ($logoutput as $var)
 			{
 				$this->template->assign_block_vars('log', array(
 					'U_LOG_ID'		=> $var['id'],

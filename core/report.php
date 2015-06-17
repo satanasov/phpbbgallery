@@ -293,7 +293,7 @@ class report
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query_limit($sql, $per_page, $page * $per_page);
 		// Build few arrays
-		while($row = $this->db->sql_fetchrow($result))
+		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$reported_images[] = array(
 				'image_id'	=> $row['image_id'],
@@ -321,7 +321,7 @@ class report
 		$this->user_loader->load_users(array_keys($users_array));
 
 		$reported_images_count = 0;
-		foreach($reported_images as $VAR)
+		foreach ($reported_images as $VAR)
 		{
 			$album_tmp = $this->album->get_info($VAR['image_album_id']);
 			$this->template->assign_block_vars('report_image_open', array(
