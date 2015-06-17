@@ -35,7 +35,7 @@ env:
     - EXTSNIFF="phpbbgallery/core"
     - SNIFF="1"            # Should we run code sniffer on your code?
     - IMAGE_ICC="1"        # Should we run icc profile sniffer on your images?
-    - EPV="0"              # Should we run EPV (Extension Pre Validator) on your code?
+    - EPV="1"              # Should we run EPV (Extension Pre Validator) on your code?
     - PHPBB_BRANCH="3.1.x"
 
 branches:
@@ -60,7 +60,10 @@ script:
   - sh -c "if [ '$IMAGE_ICC' != '0' ]; then travis/check-image-icc-profiles.sh $DB $TRAVIS_PHP_VERSION; fi"
   - mkdir phpBB/ext/$EXTNAME/logs
   - phpBB/vendor/bin/phpunit --configuration phpBB/ext/$EXTNAME/travis/phpunit-$DB-travis.xml --bootstrap ./tests/bootstrap.php --coverage-clover phpBB/ext/$EXTNAME/logs/clover.xml
-  - sh -c "if [ '$EPV' != '0' ] && [ '$TRAVIS_PHP_VERSION' = '5.3.3' ] && [ '$DB' = 'mysqli' ]; then phpBB/ext/$EXTSNIFF/vendor/bin/EPV.php run --dir='phpBB/ext/$EXTNAME/'; fi"
+  - sh -c "if [ '$EPV' != '0' ] && [ '$TRAVIS_PHP_VERSION' = '5.3.3' ] && [ '$DB' = 'mysqli' ]; then phpBB/ext/$EXTSNIFF/vendor/bin/EPV.php run --dir='phpBB/ext/$EXTNAME/core'; fi"
+  - sh -c "if [ '$EPV' != '0' ] && [ '$TRAVIS_PHP_VERSION' = '5.3.3' ] && [ '$DB' = 'mysqli' ]; then phpBB/ext/$EXTSNIFF/vendor/bin/EPV.php run --dir='phpBB/ext/$EXTNAME/acpcleanup'; fi"
+  - sh -c "if [ '$EPV' != '0' ] && [ '$TRAVIS_PHP_VERSION' = '5.3.3' ] && [ '$DB' = 'mysqli' ]; then phpBB/ext/$EXTSNIFF/vendor/bin/EPV.php run --dir='phpBB/ext/$EXTNAME/acpimport'; fi"
+  - sh -c "if [ '$EPV' != '0' ] && [ '$TRAVIS_PHP_VERSION' = '5.3.3' ] && [ '$DB' = 'mysqli' ]; then phpBB/ext/$EXTSNIFF/vendor/bin/EPV.php run --dir='phpBB/ext/$EXTNAME/exif'; fi"
 
 after_script:
   - sh -c "if [ '$COVERAGE' != '0' ] && [ '$TRAVIS_PHP_VERSION' = '5.6' ] && [ '$DB' = 'mysqli' ]; then php phpBB/ext/$EXTSNIFF/vendor/bin/coveralls -v; fi"
