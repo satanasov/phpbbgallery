@@ -263,7 +263,7 @@ class upload
 				$description_array = $this->request->variable('message', array(''), true);
 				foreach ($description_array as $var)
 				{
-					if(strlen($var) > $this->gallery_config->get('description_length'))
+					if (strlen($var) > $this->gallery_config->get('description_length'))
 					{
 						trigger_error($this->user->lang('DESC_TOO_LONG'));
 					}

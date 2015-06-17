@@ -73,7 +73,7 @@ class moderate
 		$result = $this->db->sql_query_limit($sql, $per_page, $page * $per_page);
 
 		$waiting_images = $users_array = array();
-		while($row = $this->db->sql_fetchrow($result))
+		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$waiting_images[] = array(
 				'image_id' => $row['image_id'],
@@ -245,7 +245,7 @@ class moderate
 
 		// Load users
 		$this->user_loader->load_users(array_keys($users_array));
-		foreach($images as $var)
+		foreach ($images as $var)
 		{
 			$this->template->assign_block_vars('overview', array(
 				'U_IMAGE_ID'	=> $var['image_id'],

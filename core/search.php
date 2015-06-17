@@ -365,7 +365,7 @@ class search
 			$users_array[$row['image_user_id']] = array('');
 		}
 		$this->db->sql_freeresult($result);
-		if(empty($rowset))
+		if (empty($rowset))
 		{
 			$this->template->assign_vars(array(
 				'ERROR'	=> $this->user->lang('NO_SEARCH_RESULTS_RECENT_COMMENTS'),
@@ -687,7 +687,7 @@ class search
 			$users_array[$row['image_user_id']] = array('');
 		}
 		$this->db->sql_freeresult($result);
-		if(empty($rowset))
+		if (empty($rowset))
 		{
 			$this->template->assign_var('S_NO_SEARCH', true);
 			trigger_error('NO_SEARCH');

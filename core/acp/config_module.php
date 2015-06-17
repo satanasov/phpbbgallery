@@ -38,7 +38,7 @@ class config_module
 
 		// Create the toolio config object
 		//$this->toolio_config = new phpbb_ext_gallery_core_config($config, $db, CONFIG_TABLE);
-		switch($mode)
+		switch ($mode)
 		{
 			case 'main':
 				$vars = $this->get_display_vars('main');

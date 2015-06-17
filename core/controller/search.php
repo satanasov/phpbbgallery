@@ -371,7 +371,7 @@ class search
 			}
 			if (!empty($user_id))
 			{
-				foreach($user_id as $var)
+				foreach ($user_id as $var)
 				{
 					$params[] = 'user_id[]=' . $var;
 				}
@@ -382,7 +382,7 @@ class search
 			}
 			if (!empty($search_album))
 			{
-				foreach($search_album as $var)
+				foreach ($search_album as $var)
 				{
 					$params[] = 'aid[]=' . $var;
 				}
