@@ -285,16 +285,16 @@ class release_1_2_0_db_create extends \phpbb\db\migration\migration
 					'PRIMARY_KEY'	=> 'log_id',
 				),
 			),
-			'add_columns'	=> array(
-				$this->table_prefix . 'sessions'	=> array(
-					'session_album_id'		=> array('UINT', 0),
-				),
-			),
-			'add_index' => array(
-				$this->table_prefix . 'sessions' => array(
-					'session_aid' => array('session_album_id'),
-				),
-			),
+			//'add_columns'	=> array(
+			//	$this->table_prefix . 'sessions'	=> array(
+			//		'session_album_id'		=> array('UINT', 0),
+			//	),
+			//),
+			//'add_index' => array(
+			//	$this->table_prefix . 'sessions' => array(
+			//		'session_aid' => array('session_album_id'),
+			//	),
+			//),
 		);
 	}
 
