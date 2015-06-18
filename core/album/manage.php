@@ -790,6 +790,15 @@ class manage
 
 		$phpbb_gallery_notification->delete_albums($from_id);
 
+		/**
+		* Event related to moving album content
+		* 
+		* @event gallery.core.album.manage.move_album_content
+		* @var	int	from_id		Album we are moving from
+		* @var	int	to_id		Album we are moving to
+		* @var	bool	sync	Should we sync the albums data
+		* @since 1.2.0
+		*/
 		$vars = array('from_id', 'to_id', 'sync');
 		extract($phpbb_dispatcher->trigger_event('gallery.core.album.manage.move_album_content', compact($vars)));
 

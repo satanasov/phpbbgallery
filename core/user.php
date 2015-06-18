@@ -389,6 +389,15 @@ class user
 				default:
 					$is_validated = false;
 
+					/**
+					* Event user validat data
+					* 
+					* @event gallery.core.user.validate_data
+					* @var	bool	is_validated	is value validated 
+					* @var	string	name			value name
+					* @var	mixed	value			value of the value
+					* @since 1.2.0
+					*/
 					$vars = array('is_validated', 'name', 'value');
 					extract($this->dispatcher->trigger_event('gallery.core.user.validate_data', compact($vars)));
 

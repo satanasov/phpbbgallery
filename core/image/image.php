@@ -160,6 +160,14 @@ class image
 		$phpbb_gallery_notification->delete_images($images);
 		$phpbb_gallery_report->delete_images($images);
 
+		/**
+		* Event delete images
+		* 
+		* @event gallery.core.image.delete_images
+		* @var	array	images			array of the image ids we are deleting
+		* @var	array	filenames		array of the image filenames
+		* @since 1.2.0
+		*/
 		$vars = array('images', 'filenames');
 		extract($phpbb_dispatcher->trigger_event('gallery.core.image.delete_images', compact($vars)));
 

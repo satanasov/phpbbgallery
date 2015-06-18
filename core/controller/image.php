@@ -329,6 +329,15 @@ class image
 			break;
 		}
 		$image_data = $this->data;
+		/**
+		* Event view image
+		* 
+		* @event gallery.core.viewimage
+		* @var	int		image_id		id of the image we are viewing
+		* @var	array	image_data		All the data related to the image
+		* @var	array	album_data		All the data related to the album image is part of
+		* @since 1.2.0
+		*/
 		$vars = array('image_id', 'image_data', 'album_data', 'page_title');
 		extract($this->dispatcher->trigger_event('gallery.core.viewimage', compact($vars)));
 		$this->data = $image_data;
