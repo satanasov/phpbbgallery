@@ -383,6 +383,14 @@ class albums_module
 							*/
 						);
 
+						/**
+						* Event to send default data
+						* 
+						* @event gallery.core.acp.albums.default_data
+						* @var	action	action		Action taken
+						* @var	array	album_data	Album data array
+						* @since 1.2.0
+						*/
 						$vars = array('action', 'album_data');
 						extract($phpbb_dispatcher->trigger_event('gallery.core.acp.albums.default_data', compact($vars)));
 

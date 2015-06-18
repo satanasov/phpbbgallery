@@ -254,12 +254,28 @@ class upload
 		$image_data = $this->image_data[$image_id];
 		$file_link = $phpbb_ext_gallery->url->path('upload') . $this->image_data[$image_id]['image_filename'];
 
+		/**
+		* Event upload image before
+		* 
+		* @event gallery.core.upload.update_image_before
+		* @var	array	additional_sql_data		array of additional settings 
+		* @var	array	image_data				array of image_data 
+		* @var	string	file_link				link to file
+		* @since 1.2.0
+		*/
 		$vars = array('additional_sql_data', 'image_data', 'file_link');
 		extract($phpbb_dispatcher->trigger_event('gallery.core.upload.update_image_before', compact($vars)));
 
 		// Rotate image
 		if (!$this->prepare_file_update($image_id))
 		{
+			/**
+			* Event upload image update
+			* 
+			* @event gallery.core.upload.update_image_nofilechange
+			* @var	array	additional_sql_data		array of additional settings 
+			* @since 1.2.0
+			*/
 			$vars = array('additional_sql_data');
 			extract($phpbb_dispatcher->trigger_event('gallery.core.upload.update_image_nofilechange', compact($vars)));
 		}

@@ -84,6 +84,14 @@ class settings_module
 				'user_allow_comments'	=> $this->request->variable('allow_comments', false),
 			);
 			$additional_settings = array();
+
+			/**
+			* Event set personal settings
+			* 
+			* @event gallery.core.ucp.set_settings_submit
+			* @var	array	additional_settings		array of additional settings
+			* @since 1.2.0
+			*/
 			$vars = array('additional_settings');
 			extract($this->dispatcher->trigger_event('gallery.core.ucp.set_settings_submit', compact($vars)));
 

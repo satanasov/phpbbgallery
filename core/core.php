@@ -144,9 +144,6 @@ class core
 			'FORUM_NAME'	=> 'Gallery Ext',//@todo: $this->phpbb_user->lang['GALLERY'],
 			'U_VIEW_FORUM'	=> $this->url->append_sid('index'),
 		));
-
-		global $phpbb_dispatcher;
-		$phpbb_dispatcher->trigger_event('gallery.core.setup');
 	}
 
 	/**
