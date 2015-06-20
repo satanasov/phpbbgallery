@@ -792,15 +792,15 @@ class manage
 
 		/**
 		* Event related to moving album content
-		* 
-		* @event gallery.core.album.manage.move_album_content
+		*
+		* @event phpbbgallery.core.album.manage.move_album_content
 		* @var	int	from_id		Album we are moving from
 		* @var	int	to_id		Album we are moving to
 		* @var	bool	sync	Should we sync the albums data
 		* @since 1.2.0
 		*/
 		$vars = array('from_id', 'to_id', 'sync');
-		extract($phpbb_dispatcher->trigger_event('gallery.core.album.manage.move_album_content', compact($vars)));
+		extract($phpbb_dispatcher->trigger_event('phpbbgallery.core.album.manage.move_album_content', compact($vars)));
 
 		$cache->destroy('sql', $table_prefix . 'gallery_albums');
 		$cache->destroy('sql', $table_prefix . 'gallery_comments');
@@ -907,8 +907,15 @@ class manage
 		$phpbb_gallery_config->set('num_images', $row['num_images']);
 		$phpbb_gallery_config->set('num_comments', $row['num_comments']);
 
+		/**
+		* Event delete album content
+		*
+		* @event phpbbgallery.core.album.manage.delete_album_content
+		* @var	int	album_id		Album we are deleting
+		* @since 1.2.0
+		*/
 		$vars = array('album_id');
-		extract($phpbb_dispatcher->trigger_event('gallery.core.album.manage.delete_album_content', compact($vars)));
+		extract($phpbb_dispatcher->trigger_event('phpbbgallery.core.album.manage.delete_album_content', compact($vars)));
 
 		$cache->destroy('sql', $table_prefix . 'gallery_albums');
 		$cache->destroy('sql', $table_prefix . 'gallery_comments');

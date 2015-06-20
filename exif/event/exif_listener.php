@@ -19,19 +19,19 @@ class exif_listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
-			'gallery.core.acp.config.get_display_vars'		=> 'acp_config_get_display_vars',
-			'gallery.core.config.load_config_sets'			=> 'config_load_config_sets',
-			'gallery.core.massimport.update_image_before'	=> 'massimport_update_image_before',
-			'gallery.core.massimport.update_image'			=> 'massimport_update_image',
-			'gallery.core.posting.edit_before_rotate'		=> 'posting_edit_before_rotate',
-			'gallery.core.ucp.set_settings_submit'			=> 'ucp_set_settings_submit',
-			'gallery.core.ucp.set_settings_nosubmit'		=> 'ucp_set_settings_nosubmit',
-			'gallery.core.upload.prepare_file_before'		=> 'upload_prepare_file_before',
-			'gallery.core.upload.update_image_before'		=> 'upload_update_image_before',
-			'gallery.core.upload.update_image_nofilechange'	=> 'upload_update_image_nofilechange',
-			'gallery.core.user.get_default_values'			=> 'user_get_default_values',
-			'gallery.core.user.validate_data'				=> 'user_validate_data',
-			'gallery.core.viewimage'						=> 'viewimage',
+			'phpbbgallery.core.acp.config.get_display_vars'		=> 'acp_config_get_display_vars',
+			'phpbbgallery.core.config.load_config_sets'			=> 'config_load_config_sets',
+			'phpbbgallery.core.massimport.update_image_before'	=> 'massimport_update_image_before',
+			'phpbbgallery.core.massimport.update_image'			=> 'massimport_update_image',
+			'phpbbgallery.core.posting.edit_before_rotate'		=> 'posting_edit_before_rotate',
+			'phpbbgallery.core.ucp.set_settings_submit'			=> 'ucp_set_settings_submit',
+			'phpbbgallery.core.ucp.set_settings_nosubmit'		=> 'ucp_set_settings_nosubmit',
+			'phpbbgallery.core.upload.prepare_file_before'		=> 'upload_prepare_file_before',
+			'phpbbgallery.core.upload.update_image_before'		=> 'upload_update_image_before',
+			'phpbbgallery.core.upload.update_image_nofilechange'	=> 'upload_update_image_nofilechange',
+			'phpbbgallery.core.user.get_default_values'			=> 'user_get_default_values',
+			'phpbbgallery.core.user.validate_data'				=> 'user_validate_data',
+			'phpbbgallery.core.viewimage'						=> 'viewimage',
 		);
 	}
 

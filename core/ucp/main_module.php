@@ -820,14 +820,14 @@ class main_module
 
 			/**
 			* Event delete user albums
-			* 
-			* @event gallery.core.ucp.delete_album
+			*
+			* @event phpbbgallery.core.ucp.delete_album
 			* @var	int		album_id			Album ID
 			* @var	array	deleted_albums		Deleted album IDs
 			* @since 1.2.0
 			*/
 			$vars = array('album_id', 'deleted_albums');
-			extract($phpbb_dispatcher->trigger_event('gallery.core.ucp.delete_album', compact($vars)));
+			extract($phpbb_dispatcher->trigger_event('phpbbgallery.core.ucp.delete_album', compact($vars)));
 
 			$cache->destroy('sql', $albums_table);
 			$cache->destroy('sql', $comments_table);

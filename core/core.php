@@ -175,9 +175,6 @@ class core
 		{
 			$this->init_popup();
 		}
-
-		global $phpbb_dispatcher;
-		$phpbb_dispatcher->trigger_event('gallery.core.init');
 	}
 
 	/**
@@ -198,8 +195,5 @@ class core
 			'U_POPUP_RECENT'	=> $this->url->append_sid('search', 'search_id=recent'),
 			'U_POPUP_UPLOAD'	=> ($can_upload) ? $this->url->append_sid('posting', 'mode=upload') : '',
 		));
-
-		global $phpbb_dispatcher;
-		$phpbb_dispatcher->trigger_event('gallery.core.init_popup');
 	}
 }

@@ -385,14 +385,14 @@ class albums_module
 
 						/**
 						* Event to send default data
-						* 
-						* @event gallery.core.acp.albums.default_data
+						*
+						* @event phpbbgallery.core.acp.albums.default_data
 						* @var	action	action		Action taken
 						* @var	array	album_data	Album data array
 						* @since 1.2.0
 						*/
 						$vars = array('action', 'album_data');
-						extract($phpbb_dispatcher->trigger_event('gallery.core.acp.albums.default_data', compact($vars)));
+						extract($phpbb_dispatcher->trigger_event('phpbbgallery.core.acp.albums.default_data', compact($vars)));
 
 						// Default values, 3 days later rate and 7 for the end of the contest
 						$contest_data = array(
@@ -560,8 +560,16 @@ class albums_module
 				//	'CONTEST_END'				=> $user->format_date($contest_data['contest_start'] + $contest_data['contest_end'], 'Y-m-d H:i'),
 				));
 
+				/**
+				* Event after assigning data to templete
+				*
+				* @event phpbbgallery.core.acp.albums.send_to_template
+				* @var	action	action		Action taken
+				* @var	array	album_data	Album data array
+				* @since 1.2.0
+				*/
 				$vars = array('action', 'album_data');
-				extract($phpbb_dispatcher->trigger_event('gallery.core.acp.albums.send_to_template', compact($vars)));
+				extract($phpbb_dispatcher->trigger_event('phpbbgallery.core.acp.albums.send_to_template', compact($vars)));
 
 				return;
 

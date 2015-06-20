@@ -391,15 +391,15 @@ class user
 
 					/**
 					* Event user validat data
-					* 
-					* @event gallery.core.user.validate_data
-					* @var	bool	is_validated	is value validated 
+					*
+					* @event phpbbgallery.core.user.validate_data
+					* @var	bool	is_validated	is value validated
 					* @var	string	name			value name
 					* @var	mixed	value			value of the value
 					* @since 1.2.0
 					*/
 					$vars = array('is_validated', 'name', 'value');
-					extract($this->dispatcher->trigger_event('gallery.core.user.validate_data', compact($vars)));
+					extract($this->dispatcher->trigger_event('phpbbgallery.core.user.validate_data', compact($vars)));
 
 					if ($is_validated)
 					{
@@ -434,8 +434,15 @@ class user
 
 		$default_values = self::$default_values;
 
+		/**
+		* Event user validat data
+		*
+		* @event phpbbgallery.core.user.get_default_values
+		* @var	array	default_values	the default values array
+		* @since 1.2.0
+		*/
 		$vars = array('default_values');
-		extract($this->dispatcher->trigger_event('gallery.core.user.get_default_values', compact($vars)));
+		extract($this->dispatcher->trigger_event('phpbbgallery.core.user.get_default_values', compact($vars)));
 
 		return $default_values;
 	}
