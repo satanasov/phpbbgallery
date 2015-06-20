@@ -24,7 +24,7 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 		$this->assertEquals(1, copy(__DIR__ . '/images/valid.jpg', __DIR__ . '/../../../../files/phpbbgallery/import/copy_to_personal_existing.jpg'));
 		$this->assertEquals(1, copy(__DIR__ . '/images/valid.jpg', __DIR__ . '/../../../../files/phpbbgallery/import/copy_to_personal_non_existing.jpg'));
 	}
-	public function test_acp_import_no_change()
+/*	public function test_acp_import_no_change()
 	{
 		$this->login();
 		$this->admin_login();
@@ -221,7 +221,7 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 
 		$this->logout();
 		$this->logout();
-	}
+	}*/
 	public function exif_data()
 	{
 		return array(
