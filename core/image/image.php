@@ -162,14 +162,14 @@ class image
 
 		/**
 		* Event delete images
-		* 
-		* @event gallery.core.image.delete_images
+		*
+		* @event phpbbgallery.core.image.delete_images
 		* @var	array	images			array of the image ids we are deleting
 		* @var	array	filenames		array of the image filenames
 		* @since 1.2.0
 		*/
 		$vars = array('images', 'filenames');
-		extract($phpbb_dispatcher->trigger_event('gallery.core.image.delete_images', compact($vars)));
+		extract($phpbb_dispatcher->trigger_event('phpbbgallery.core.image.delete_images', compact($vars)));
 
 		$sql = 'SELECT image_album_id, image_contest_rank
 			FROM ' . $table_prefix . 'gallery_images
@@ -327,8 +327,16 @@ class image
 
 				$tpl = '{CONTENT}';
 
+				/**
+				* Event generate link
+				*
+				* @event phpbbgallery.image.generate_link
+				* @var	string	mode	type of link
+				* @var	string	tpl		html to be outputed
+				* @since 1.2.0
+				*/
 				$vars = array('mode', 'tpl');
-				extract($phpbb_dispatcher->trigger_event('gallery.image.generate_link', compact($vars)));//@todo: Correctly identify the event
+				extract($phpbb_dispatcher->trigger_event('phpbbgallery.image.generate_link', compact($vars)));//@todo: Correctly identify the event
 			break;
 		}
 

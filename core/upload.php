@@ -256,28 +256,28 @@ class upload
 
 		/**
 		* Event upload image before
-		* 
-		* @event gallery.core.upload.update_image_before
-		* @var	array	additional_sql_data		array of additional settings 
-		* @var	array	image_data				array of image_data 
+		*
+		* @event phpbbgallery.core.upload.update_image_before
+		* @var	array	additional_sql_data		array of additional settings
+		* @var	array	image_data				array of image_data
 		* @var	string	file_link				link to file
 		* @since 1.2.0
 		*/
 		$vars = array('additional_sql_data', 'image_data', 'file_link');
-		extract($phpbb_dispatcher->trigger_event('gallery.core.upload.update_image_before', compact($vars)));
+		extract($phpbb_dispatcher->trigger_event('phpbbgallery.core.upload.update_image_before', compact($vars)));
 
 		// Rotate image
 		if (!$this->prepare_file_update($image_id))
 		{
 			/**
 			* Event upload image update
-			* 
-			* @event gallery.core.upload.update_image_nofilechange
-			* @var	array	additional_sql_data		array of additional settings 
+			*
+			* @event phpbbgallery.core.upload.update_image_nofilechange
+			* @var	array	additional_sql_data		array of additional settings
 			* @since 1.2.0
 			*/
 			$vars = array('additional_sql_data');
-			extract($phpbb_dispatcher->trigger_event('gallery.core.upload.update_image_nofilechange', compact($vars)));
+			extract($phpbb_dispatcher->trigger_event('phpbbgallery.core.upload.update_image_nofilechange', compact($vars)));
 		}
 
 		$sql_ary = array_merge($sql_ary, $additional_sql_data);
@@ -327,8 +327,16 @@ class upload
 		$additional_sql_data = array();
 		$file = $this->file;
 
+		/**
+		* Event upload image update
+		*
+		* @event phpbbgallery.core.upload.prepare_file_before
+		* @var	array	additional_sql_data		array of additional settings
+		* @var	array	file					File object
+		* @since 1.2.0
+		*/
 		$vars = array('additional_sql_data', 'file');
-		extract($phpbb_dispatcher->trigger_event('gallery.core.upload.prepare_file_before', compact($vars)));
+		extract($phpbb_dispatcher->trigger_event('phpbbgallery.core.upload.prepare_file_before', compact($vars)));
 
 		$this->tools->set_image_options($phpbb_ext_gallery_config->get('max_filesize'), $phpbb_ext_gallery_config->get('max_height'), $phpbb_ext_gallery_config->get('max_width'));
 		$this->tools->set_image_data($this->file->destination_file, '', $this->file->filesize, true);
