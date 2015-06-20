@@ -43,10 +43,10 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 		$this->assertContainsLang('IMPORT_SCHEMA_CREATED', $crawler->text());
 		
 		$meta = $crawler->filter('meta[http-equiv="refresh"]')->attr('content');
-		var_dump($meta);
 		$this->assertContains('adm', $meta);
 		
 		$url = $this->get_url_from_meta($meta);
+		var_dump($url);
 		$crawler = self::request('GET', substr($url, 17));
 		
 		$this->assertContains('images successful imported', $crawler->text());
