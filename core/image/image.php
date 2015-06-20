@@ -330,13 +330,13 @@ class image
 				/**
 				* Event generate link
 				*
-				* @event phpbbgallery.image.generate_link
+				* @event phpbbgallery.core.image.generate_link
 				* @var	string	mode	type of link
 				* @var	string	tpl		html to be outputed
 				* @since 1.2.0
 				*/
 				$vars = array('mode', 'tpl');
-				extract($phpbb_dispatcher->trigger_event('phpbbgallery.image.generate_link', compact($vars)));//@todo: Correctly identify the event
+				extract($phpbb_dispatcher->trigger_event('phpbbgallery.core.image.generate_link', compact($vars)));//@todo: Correctly identify the event
 			break;
 		}
 
