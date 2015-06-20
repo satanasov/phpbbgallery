@@ -26,7 +26,7 @@ class albums_module
 
 	function main($id, $mode)
 	{
-		global $auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path, $phpbb_ext_gallery;
+		global $auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path, $phpbb_ext_gallery, $request;
 		global $phpbb_dispatcher, $table_prefix, $table_name, $phpbb_container, $request, $moderators_table, $permissions_table, $roles_table, $users_table;
 		$helper = $phpbb_container->get('controller.helper');
 		$pagination = $phpbb_container->get('pagination');
@@ -48,7 +48,7 @@ class albums_module
 		$phpbb_ext_gallery_core_auth = $phpbb_container->get('phpbbgallery.core.auth');
 
 		// Init manage albums
-		$manage_albums = new \phpbbgallery\core\album\manage(request_var('user_id', 0), request_var('parent_id', 0), $this->u_action);
+		$manage_albums = new \phpbbgallery\core\album\manage($request->variable('user_id', 0), $request->variable('parent_id', 0), $this->u_action);
 
 		// Init album
 		$phpbb_ext_gallery_core_album = $phpbb_container->get('phpbbgallery.core.album');
@@ -64,11 +64,11 @@ class albums_module
 		$form_key = 'acp_gallery_albums';
 		add_form_key($form_key);
 
-		$action		= request_var('action', '');
+		$action		= $request->variable('action', '');
 		$update		= (isset($_POST['update'])) ? true : false;
-		$album_id	= request_var('a', 0);
+		$album_id	= $request->variable('a', 0);
 
-		$this->parent_id	= request_var('parent_id', 0);
+		$this->parent_id	= $request->variable('parent_id', 0);
 		$album_data = $errors = array();
 		if ($update && !check_form_key($form_key))
 		{
@@ -82,10 +82,10 @@ class albums_module
 			switch ($action)
 			{
 				case 'delete':
-					$action_subalbums	= request_var('action_subalbums', '');
-					$subalbums_to_id	= request_var('subalbums_to_id', 0);
-					$action_images		= request_var('action_images', '');
-					$images_to_id		= request_var('images_to_id', 0);
+					$action_subalbums	= $request->variable('action_subalbums', '');
+					$subalbums_to_id	= $request->variable('subalbums_to_id', 0);
+					$action_images		= $request->variable('action_images', '');
+					$images_to_id		= $request->variable('images_to_id', 0);
 
 					$errors = $manage_albums->delete_album($album_id, $action_images, $action_subalbums, $images_to_id, $subalbums_to_id);
 
@@ -110,40 +110,40 @@ class albums_module
 				case 'add':
 
 					$album_data += array(
-						'parent_id'				=> request_var('album_parent_id', $this->parent_id),
-						'album_type'			=> request_var('album_type', $phpbb_ext_gallery_core_album::TYPE_UPLOAD),
-						'type_action'			=> request_var('type_action', ''),
-						'album_status'			=> request_var('album_status', $phpbb_ext_gallery_core_album::STATUS_OPEN),
+						'parent_id'				=> $request->variable('album_parent_id', $this->parent_id),
+						'album_type'			=> $request->variable('album_type', $phpbb_ext_gallery_core_album::TYPE_UPLOAD),
+						'type_action'			=> $request->variable('type_action', ''),
+						'album_status'			=> $request->variable('album_status', $phpbb_ext_gallery_core_album::STATUS_OPEN),
 						'album_parents'			=> '',
-						'album_name'			=> utf8_normalize_nfc(request_var('album_name', '', true)),
-						'album_desc'			=> utf8_normalize_nfc(request_var('album_desc', '', true)),
+						'album_name'			=> utf8_normalize_nfc($request->variable('album_name', '', true)),
+						'album_desc'			=> utf8_normalize_nfc($request->variable('album_desc', '', true)),
 						'album_desc_uid'		=> '',
 						'album_desc_options'	=> 7,
 						'album_desc_bitfield'	=> '',
-						'album_image'			=> request_var('album_image', ''),
-						'album_watermark'		=> request_var('album_watermark', false),
-						'album_sort_key'		=> request_var('album_sort_key', ''),
-						'album_sort_dir'		=> request_var('album_sort_dir', ''),
-						'display_subalbum_list'	=> request_var('display_subalbum_list', false),
-						'display_on_index'		=> request_var('display_on_index', false),
-						'display_in_rrc'		=> request_var('display_in_rrc', false),
+						'album_image'			=> $request->variable('album_image', ''),
+						'album_watermark'		=> $request->variable('album_watermark', false),
+						'album_sort_key'		=> $request->variable('album_sort_key', ''),
+						'album_sort_dir'		=> $request->variable('album_sort_dir', ''),
+						'display_subalbum_list'	=> $request->variable('display_subalbum_list', false),
+						'display_on_index'		=> $request->variable('display_on_index', false),
+						'display_in_rrc'		=> $request->variable('display_in_rrc', false),
 						/*
-						'album_password'		=> request_var('album_password', '', true),
-						'album_password_confirm'=> request_var('album_password_confirm', '', true),
-						'album_password_unset'	=> request_var('album_password_unset', false),
+						'album_password'		=> $request->variable('album_password', '', true),
+						'album_password_confirm'=> $request->variable('album_password_confirm', '', true),
+						'album_password_unset'	=> $request->variable('album_password_unset', false),
 						*/
 					);
 
 					/**
 					* Event to send requested data
-					* @event gallery.core.acp.albums.request_data
+					* @event phpbbgallery.core.acp.albums.request_data
 					* @var	string	action		Action we are taking
 					* @var	int		album_id	Album we are doing it to
 					* @var	array	album_data	Album data for the album
 					* @since 1.2.0
 					*/
 					$vars = array('action', 'album_id', 'album_data');
-					extract($phpbb_dispatcher->trigger_event('gallery.core.acp.albums.request_data', compact($vars)));
+					extract($phpbb_dispatcher->trigger_event('phpbbgallery.core.acp.albums.request_data', compact($vars)));
 
 					// Categories are not able to be locked...
 					if ($album_data['album_type'] == $phpbb_ext_gallery_core_album::TYPE_CAT)
@@ -153,9 +153,9 @@ class albums_module
 
 					// Contests need contest_data, freaky... :-O
 					$contest_data = array(
-						'contest_start'			=> request_var('contest_start', ''),
-						'contest_rating'		=> request_var('contest_rating', ''),
-						'contest_end'			=> request_var('contest_end', ''),
+						'contest_start'			=> $request->variable('contest_start', ''),
+						'contest_rating'		=> $request->variable('contest_rating', ''),
+						'contest_end'			=> $request->variable('contest_end', ''),
 					);
 
 					// Get data for album description if specified
@@ -168,7 +168,7 @@ class albums_module
 
 					if (!sizeof($errors))
 					{
-						$album_perm_from = request_var('album_perm_from', 0);
+						$album_perm_from = $request->variable('album_perm_from', 0);
 
 						// Copy permissions? You do not need permissions for that in the gallery
 						if ($album_perm_from && $album_perm_from != $album_data['album_id'])
@@ -368,7 +368,7 @@ class albums_module
 							'parent_id'				=> $this->parent_id,
 							'album_type'			=> $phpbb_ext_gallery_core_album::TYPE_UPLOAD,
 							'album_status'			=> $phpbb_ext_gallery_core_album::STATUS_OPEN,
-							'album_name'			=> utf8_normalize_nfc(request_var('album_name', '', true)),
+							'album_name'			=> utf8_normalize_nfc($request->variable('album_name', '', true)),
 							'album_desc'			=> '',
 							'album_image'			=> '',
 							'album_watermark'		=> true,
@@ -420,7 +420,7 @@ class albums_module
 						$album_data['album_desc_bitfield'] = '';
 						$album_data['album_desc_options'] = 0;
 
-						generate_text_for_storage($album_data['album_desc'], $album_data['album_desc_uid'], $album_data['album_desc_bitfield'], $album_data['album_desc_options'], request_var('desc_allow_bbcode', false), request_var('desc_allow_urls', false), request_var('desc_allow_smilies', false));
+						generate_text_for_storage($album_data['album_desc'], $album_data['album_desc_uid'], $album_data['album_desc_bitfield'], $album_data['album_desc_options'], $request->variable('desc_allow_bbcode', false), $request->variable('desc_allow_urls', false), $request->variable('desc_allow_smilies', false));
 					}
 
 					// decode...
@@ -754,12 +754,5 @@ class albums_module
 		);
 
 		adm_page_footer();
-	}
-
-	function var_display($i)
-	{
-		echo '<pre>';
-		print_r($i);
-		echo '</pre>';
 	}
 }
