@@ -33,8 +33,8 @@ $lang = array_merge($lang, array(
 	'ACP_GALLERY_LOGS_EXPLAIN'			=> 'Diese Liste zeigt alle Vorgänge, die von Moderatoren an Bildern und Kommentaren durchgeführt wurden.',
 	'ACP_GALLERY_MANAGE_ALBUMS'			=> 'Alben verwalten',
 	'ACP_GALLERY_OVERVIEW'				=> 'Übersicht',
-	'ACP_IMPORT_ALBUMS'					=> 'Alben importieren',
-	'ACP_GALLERY_CLEANUP'				=> 'Balerie bereinigen',
+	'ACP_IMPORT_ALBUMS'					=> 'Bilder importieren',
+	'ACP_GALLERY_CLEANUP'				=> 'Galerie bereinigen',
 
 	'GALLERY'							=> 'Galerie',
 	'GALLERY_EXPLAIN'					=> 'Bilder Galerie',
