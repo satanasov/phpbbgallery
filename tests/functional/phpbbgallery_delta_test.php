@@ -233,14 +233,14 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 				'first',
 				0
 			),
-			'import_yes'	=> array(
+			/*'import_yes'	=> array(
 				'last',
 				1
 			),
 			'import_no'	=> array(
 				'last',
 				0
-			),
+			),*/
 			'reset'	=> array(
 				'first',
 				1
