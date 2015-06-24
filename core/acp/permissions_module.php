@@ -24,7 +24,7 @@ class permissions_module
 	function main($id, $mode)
 	{
 		global $auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path, $permissions, $phpbb_ext_gallery, $phpbb_container;
-		global $phpbb_dispatcher, $table_name, $permissions_table, $roles_table, $users_table;
+		global $phpbb_dispatcher, $table_name, $permissions_table, $roles_table, $users_table, $request;
 
 		$phpbb_ext_gallery = new \phpbbgallery\core\core($auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path);
 		$phpbb_ext_gallery->init();
@@ -39,7 +39,7 @@ class permissions_module
 		$this->page_title = $user->lang['ALBUM_AUTH_TITLE'];
 		add_form_key('acp_gallery');
 		$submit = (isset($_POST['submit_edit_options'])) ? true : ((isset($_POST['submit_add_options'])) ? true : false);
-		$action = request_var('action', '');
+		$action = $request->variable('action', '');
 
 		/**
 		* All our beautiful permissions
@@ -151,6 +151,7 @@ class permissions_module
 	function permissions_v_mask()
 	{
 		global $cache, $db, $template, $user, $phpbb_ext_gallery, $table_prefix, $phpbb_dispatcher, $phpbb_container;
+		global $request;
 
 		$roles_table = $table_prefix . 'gallery_roles';
 		$permissions_table = $table_prefix . 'gallery_permissions';
@@ -164,10 +165,10 @@ class permissions_module
 
 		$submit = (isset($_POST['submit'])) ? true : false;
 		$delete = (isset($_POST['delete'])) ? true : false;
-		$album_id = request_var('album_id', array(0));
-		$group_id = request_var('group_id', array(0));
-		$user_id = request_var('user_id', array(0));
-		$p_system = request_var('p_system', 0);
+		$album_id = $request->variable('album_id', array(0));
+		$group_id = $request->variable('group_id', array(0));
+		$user_id = $request->variable('user_id', array(0));
+		$p_system = $request->variable('p_system', 0);
 
 		if (!$p_system && !sizeof($album_id))
 		{
@@ -401,6 +402,7 @@ class permissions_module
 	function permissions_p_mask()
 	{
 		global $cache, $db, $permissions, $template, $user, $phpbb_ext_gallery, $phpbb_dispatcher, $table_prefix, $table_name, $users_table, $phpbb_container;
+		global $request;
 
 		$permissions_table = $table_prefix . 'gallery_permissions';
 		$roles_table = $table_prefix . 'gallery_roles';
@@ -418,12 +420,12 @@ class permissions_module
 
 		$submit = (isset($_POST['submit'])) ? true : false;
 		$delete = (isset($_POST['delete'])) ? true : false;
-		$album_id = request_var('album_id', array(0));
-		$group_id = request_var('group_id', array(0));
-		$user_id = request_var('user_id', array(0));
-		$username = request_var('username', array(''), true);
-		$usernames = request_var('usernames', '', true);
-		$p_system = request_var('p_system', 0);
+		$album_id = $request->variable('album_id', array(0));
+		$group_id = $request->variable('group_id', array(0));
+		$user_id = $request->variable('user_id', array(0));
+		$username = $request->variable('username', array(''), true);
+		$usernames = $request->variable('usernames', '', true);
+		$p_system = $request->variable('p_system', 0);
 
 		// Map usernames to ids and vice versa
 		if ($usernames)
@@ -663,6 +665,7 @@ class permissions_module
 	function permissions_set()
 	{
 		global $cache, $db, $permissions, $template, $user, $phpbb_ext_gallery, $phpbb_dispatcher, $table_prefix, $table_name, $phpbb_container;
+		global $request;
 
 		$permissions_table = $table_prefix . 'gallery_permissions';
 		$roles_table = $table_prefix . 'gallery_roles';
@@ -674,10 +677,10 @@ class permissions_module
 
 		// Send contants to the template
 		$submit = (isset($_POST['submit'])) ? true : false;
-		$album_id = request_var('album_id', array(0));
-		$group_id = request_var('group_id', array(0));
-		$user_id = request_var('user_id', array(0));
-		$p_system = request_var('p_system', $phpbb_ext_gallery_core_auth::PUBLIC_ALBUM);
+		$album_id = $request->variable('album_id', array(0));
+		$group_id = $request->variable('group_id', array(0));
+		$user_id = $request->variable('user_id', array(0));
+		$p_system = $request->variable('p_system', $phpbb_ext_gallery_core_auth::PUBLIC_ALBUM);
 
 		if (!sizeof($group_id) && !sizeof($user_id))
 		{
@@ -710,7 +713,7 @@ class permissions_module
 			* // currently does not support the amount of dimensions required. ;)
 			*/
 			//		$auth_settings = request_var('setting', array(0 => array(0 => array('' => 0))));
-			$request = request_var('setting', array(0 => array(0 => array('' => 0))));
+			$request = $request->variable('setting', array(0 => array(0 => array('' => 0))));
 			$p_mask_count = 0;
 			$auth_settings = $p_mask_storage = $c_mask_storage = $v_mask_storage = array();
 			foreach ($request as $c_mask => $v_sets)
@@ -764,7 +767,7 @@ class permissions_module
 			/**
 			* Inherit the permissions
 			*/
-			$inherit = request_var('setting', array(0 => array('' => 0)));
+			$inherit = $request->variable('setting', array(0 => array('' => 0)));
 			foreach ($inherit as $c_mask => $v_sets)
 			{
 				$c_mask = (int) $c_mask;
@@ -798,7 +801,6 @@ class permissions_module
 					}
 					else if ($i_mask)
 					{
-						var_dump($i_mask);
 						// Inherit permissions of one [c_mask][v_mask]
 						$v_mask = (int) $v_mask;
 						list($ci_mask, $vi_mask) = explode("_", $i_mask);
@@ -999,6 +1001,7 @@ class permissions_module
 	function copy_album_permissions()
 	{
 		global $cache, $db, $template, $user, $table_prefix, $phpbb_dispatcher, $table_name, $users_table, $phpbb_container;
+		global $request;
 
 		$albums_table = $table_prefix . 'gallery_albums';
 		$roles_table = $table_prefix . 'gallery_roles';
@@ -1015,8 +1018,8 @@ class permissions_module
 
 		if ($submit)
 		{
-			$src = request_var('src_album_id', 0);
-			$dest = request_var('dest_album_ids', array(0));
+			$src = $request->variable('src_album_id', 0);
+			$dest = $request->variable('dest_album_ids', array(0));
 
 			$sql = 'SELECT album_id
 				FROM ' . $albums_table . '

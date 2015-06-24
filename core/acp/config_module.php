@@ -28,6 +28,7 @@ class config_module
 		}
 
 		global $config, $db, $user, $template, $cache, $phpbb_container, $phpbb_root_path, $phpEx, $phpbb_gallery_url;
+		global $request;
 
 		$phpbb_gallery_url = $phpbb_container->get('phpbbgallery.core.url');
 		$user->add_lang_ext('phpbbgallery/core', array('gallery', 'gallery_acp'));
@@ -49,7 +50,7 @@ class config_module
 		// Init gallery configs class
 		$phpbb_gallery_configs = new \phpbbgallery\core\config($config);
 		$this->new_config = $phpbb_gallery_configs->get_all();
-		$cfg_array = (isset($_REQUEST['config'])) ? utf8_normalize_nfc(request_var('config', array('' => ''), true)) : $this->new_config;
+		$cfg_array = (isset($_REQUEST['config'])) ? utf8_normalize_nfc($request->variables('config', array('' => ''), true)) : $this->new_config;
 		$error = array();
 
 		// We validate the complete config if whished
@@ -79,17 +80,17 @@ class config_module
 				if (isset($null['method']) && (($null['method'] == 'rrc_display') || ($null['method'] == 'rrc_modes')))
 				{
 					// Changing the value, casted by int to not mess up anything
-					$config_value = (int) array_sum(request_var($config_name, array(0)));
+					$config_value = (int) array_sum($request->variables($config_name, array(0)));
 				}
 				// Recalculate the Watermark-position
 				if (isset($null['method']) && ($null['method'] == 'watermark_position'))
 				{
 					// Changing the value, casted by int to not mess up anything
-					$config_value = request_var('watermark_position_x', 0) + request_var('watermark_position_y', 0);
+					$config_value = $request->variables('watermark_position_x', 0) + $request->variables('watermark_position_y', 0);
 				}
 				if ($config_name == 'link_thumbnail')
 				{
-					$update_bbcode = request_var('update_bbcode', '');
+					$update_bbcode = $request->variables('update_bbcode', '');
 					// Update the BBCode
 					if ($update_bbcode)
 					{
@@ -562,12 +563,5 @@ class config_module
 		}
 
 		return $bbcode_tpl;
-	}
-
-	public function var_display($i)
-	{
-		echo '<pre>';
-		print_r($i);
-		echo '</pre>';
 	}
 }
