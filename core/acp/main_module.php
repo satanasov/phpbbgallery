@@ -20,6 +20,7 @@ class main_module
 	function main($id, $mode)
 	{
 		global $auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path, $phpbb_ext_gallery, $table_prefix, $phpbb_dispatcher;
+		global $request;
 
 		$phpbb_ext_gallery = new \phpbbgallery\core\core($auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path);
 		$phpbb_ext_gallery->init();
@@ -28,7 +29,7 @@ class main_module
 		$user->add_lang_ext('phpbbgallery/core', array('gallery_acp', 'gallery'));
 		$this->tpl_name = 'gallery_main';
 		add_form_key('acp_gallery');
-		$submode = request_var('submode', '');
+		$submode = $request->variable('submode', '');
 
 		switch ($mode)
 		{
@@ -48,7 +49,7 @@ class main_module
 	function overview()
 	{
 		global $auth, $config, $db, $template, $user, $phpbb_ext_gallery, $table_prefix, $phpbb_dispatcher, $phpbb_root_path;
-		global $phpbb_container;
+		global $phpbb_container, $request;
 
 		$phpbbgallery_core_file = $phpbb_root_path . 'files/phpbbgallery/core';
 		$phpbbgallery_core_file_medium = $phpbb_root_path . 'files/phpbbgallery/core/medium';
@@ -74,8 +75,8 @@ class main_module
 		// init config
 		$phpbb_ext_gallery_config = $phpbb_container->get('phpbbgallery.core.config');
 
-		$action = request_var('action', '');
-		$id = request_var('i', '');
+		$action = $request->variable('action', '');
+		$id = $request->variable('i', '');
 		$mode = 'overview';
 
 		// before we start let's check if directory structure is OK
@@ -213,7 +214,7 @@ class main_module
 					$confirm_lang = 'CONFIRM_OPERATION';
 				break;
 				case 'reset_rating':
-					$album_id = request_var('reset_album_id', 0);
+					$album_id = $request->variable('reset_album_id', 0);
 					$album_data = $phpbb_ext_gallery_core_album->get_info($album_id);
 					$confirm = true;
 					$confirm_lang = sprintf($user->lang['RESET_RATING_CONFIRM'], $album_data['album_name']);
@@ -229,7 +230,7 @@ class main_module
 						trigger_error($user->lang['NO_AUTH_OPERATION'] . adm_back_link($this->u_action), E_USER_WARNING);
 					}
 
-					$username = request_var('username', '', true);
+					$username = $request->variable('username', '', true);
 					$user_id = 0;
 					if ($username)
 					{
@@ -414,7 +415,7 @@ class main_module
 				break;
 
 				case 'reset_rating':
-					$album_id = request_var('reset_album_id', 0);
+					$album_id = $request->variable('reset_album_id', 0);
 
 					$image_ids = array();
 					$sql = 'SELECT image_id
