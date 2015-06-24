@@ -63,7 +63,7 @@ class manage
 	*/
 	public function update_album_data(&$album_data, &$contest_data)
 	{
-		global $db, $user, $cache, $table_prefix, $phpbb_container;
+		global $db, $user, $cache, $table_prefix, $phpbb_container, $request;
 
 		// define support class
 		$phpbb_ext_gallery_core_album = $phpbb_container->get('phpbbgallery.core.album');
@@ -172,7 +172,7 @@ class manage
 		{
 			// no album_id means we're creating a new album
 			unset($album_data_sql['type_action']);
-			$add_on_top = request_var('add_on_top', 0);
+			$add_on_top = $request->variable('add_on_top', 0);
 
 			if ($album_data_sql['parent_id'])
 			{
@@ -305,7 +305,7 @@ class manage
 				// we're turning a uploadable album into a non-uploadable album
 				if ($album_data_sql['type_action'] == 'move')
 				{
-					$to_album_id = request_var('to_album_id', 0);
+					$to_album_id = $request->variable('to_album_id', 0);
 
 					if ($to_album_id)
 					{

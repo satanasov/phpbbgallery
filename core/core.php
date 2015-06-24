@@ -62,7 +62,7 @@ class core
 	*/
 	public function setup($lang_set = false, $update_session = true)
 	{
-		global $phpbb_container;
+		global $phpbb_container, $request;
 		$lang_sets = array('common');
 		if (is_array($lang_set))
 		{
@@ -108,7 +108,7 @@ class core
 
 		if ($this->phpbb_auth->acl_get('a_'))
 		{
-			$mvc_ignore = request_var('mvc_ignore', '');
+			$mvc_ignore = $request->variable('mvc_ignore', '');
 			if (!$this->config->get('mvc_ignore') && check_link_hash($mvc_ignore, 'mvc_ignore'))
 			{
 				// Ignore the warning for 7 days
@@ -128,7 +128,7 @@ class core
 			}
 		}
 
-		if (request_var('display', '') == 'popup')
+		if ($request->variable('display', '') == 'popup')
 		{
 			$this->init_popup();
 		}
@@ -151,7 +151,7 @@ class core
 	*/
 	public function init()
 	{
-		global $phpbb_container;
+		global $phpbb_container, $request;
 		//@todo: phpbb_gallery_url::_include('functions_phpbb', 'phpbb', 'includes/gallery/');
 		//@todo: phpbb_gallery_plugins::init(phpbb_gallery_url::path());
 
@@ -171,7 +171,7 @@ class core
 			//@todo: $this->config->set('mvc_version', phpbb_gallery_modversioncheck::check(true));
 		}
 
-		if (request_var('display', '') == 'popup')
+		if ($request->variable('display', '') == 'popup')
 		{
 			$this->init_popup();
 		}
@@ -182,14 +182,14 @@ class core
 	*/
 	public function init_popup()
 	{
-		global $template, $user;
+		global $template, $user, $request;
 
 		self::$display_popup = '&amp;display=popup';
 
 		$can_upload = $this->auth->acl_album_ids('i_upload', 'bool');
 
 		$template->assign_vars(array(
-			'S_IN_GALLERY_POPUP'			=> (request_var('display', '') == 'popup') ? true : false,
+			'S_IN_GALLERY_POPUP'			=> ($request->variable('display', '') == 'popup') ? true : false,
 
 			'U_POPUP_OWN'		=> $this->url->append_sid('search', 'user_id=' . (int) $user->data['user_id']),
 			'U_POPUP_RECENT'	=> $this->url->append_sid('search', 'search_id=recent'),
