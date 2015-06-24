@@ -278,8 +278,8 @@ class upload
 				$image_names = $this->request->variable('image_name', array(''), true);
 				$process->set_names($image_names);
 				$process->set_descriptions($description_array);
-				$process->set_image_num(request_var('image_num', 0));
-				$process->use_same_name(request_var('same_name', false));
+				$process->set_image_num($this->request->variable('image_num', 0));
+				$process->use_same_name($this->request->variable('same_name', false));
 
 				$success = true;
 				$phpbb_gallery_notification = new \phpbbgallery\core\notification();

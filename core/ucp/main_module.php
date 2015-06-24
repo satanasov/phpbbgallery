@@ -22,7 +22,7 @@ class main_module
 		global $auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path, $phpbb_ext_gallery, $phpbb_container, $table_prefix;
 		global $phpbb_ext_gallery_core_album, $albums_table, $phpbb_ext_gallery_core_auth, $phpbb_ext_gallery_core_album_display, $images_table;
 		global $phpbb_gallery_image, $users_table, $phpbb_ext_gallery_config, $comments_table, $rates_table, $reports_table, $watch_table, $contests_table;
-		global $phpbb_ext_gallery_user;
+		global $phpbb_ext_gallery_user, $request;
 
 		$phpbb_ext_gallery = new \phpbbgallery\core\core($auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path);
 		$phpbb_ext_gallery->init();
@@ -56,8 +56,8 @@ class main_module
 		$this->tpl_name = 'gallery/ucp_gallery';
 		add_form_key('ucp_gallery');
 
-		$mode = request_var('mode', 'manage_albums');
-		$action = request_var('action', '');
+		$mode = $request->variable('mode', 'manage_albums');
+		$action = $request->variable('action', '');
 		$cancel = (isset($_POST['cancel'])) ? true : false;
 		if ($cancel)
 		{
@@ -149,6 +149,7 @@ class main_module
 	function initialise_album()
 	{
 		global $cache, $db, $template, $user, $phpbb_ext_gallery, $phpbb_ext_gallery_core_auth, $phpbb_ext_gallery_core_album, $phpbb_ext_gallery_config, $albums_table, $phpbb_ext_gallery_user;
+		global $request;
 
 		// we will have to initialse $phpbb_ext_gallery_user
 		$phpbb_ext_gallery_user->set_user_id($user->data['user_id']);
@@ -162,10 +163,10 @@ class main_module
 
 			$album_data = array(
 				'album_name'					=> $user->data['username'],
-				'parent_id'						=> request_var('parent_id', 0),
+				'parent_id'						=> $request->variable('parent_id', 0),
 				//left_id and right_id default by db
 				'album_desc_options'			=> 7,
-				'album_desc'					=> utf8_normalize_nfc(request_var('album_desc', '', true)),
+				'album_desc'					=> utf8_normalize_nfc($request->variable('album_desc', '', true)),
 				'album_parents'					=> '',
 				'album_type'					=> $phpbb_ext_gallery_core_album::TYPE_UPLOAD,
 				'album_status'					=> $phpbb_ext_gallery_core_album::STATUS_OPEN,
@@ -199,9 +200,9 @@ class main_module
 	function manage_albums()
 	{
 		global $cache, $db, $template, $user, $phpbb_ext_gallery, $phpbb_ext_gallery_core_album, $albums_table, $phpbb_ext_gallery_core_auth, $phpbb_ext_gallery_core_album_display;
-		global $phpbb_container;
+		global $phpbb_container, $request;
 
-		$parent_id = request_var('parent_id', $phpbb_ext_gallery->user->get_data('personal_album_id'));
+		$parent_id = $request->variable('parent_id', $phpbb_ext_gallery->user->get_data('personal_album_id'));
 		$phpbb_ext_gallery_core_album->check_user($parent_id);
 		$helper = $phpbb_container->get('controller.helper');
 
@@ -290,7 +291,7 @@ class main_module
 
 	function create_album()
 	{
-		global $cache, $db, $template, $user, $phpbb_ext_gallery, $phpbb_ext_gallery_core_auth, $albums_table, $phpbb_ext_gallery_core_album;
+		global $cache, $db, $template, $user, $phpbb_ext_gallery, $phpbb_ext_gallery_core_auth, $albums_table, $phpbb_ext_gallery_core_album, $request;
 
 		$phpbb_ext_gallery->url->_include(array('bbcode', 'message_parser'), 'phpbb');
 
@@ -313,11 +314,11 @@ class main_module
 		}
 
 		$submit = (isset($_POST['submit'])) ? true : false;
-		$redirect = request_var('redirect', '');
+		$redirect = $request->variable('redirect', '');
 
 		if (!$submit)
 		{
-			$parent_id = request_var('parent_id', 0);
+			$parent_id = $request->variable('parent_id', 0);
 			$phpbb_ext_gallery_core_album->check_user($parent_id);
 			$parents_list = $phpbb_ext_gallery_core_album->get_albumbox(false, '', $parent_id, false, false, $user->data['user_id']);
 
@@ -360,16 +361,16 @@ class main_module
 
 			// Create the subalbum
 			$album_data = array(
-				'album_name'					=> request_var('album_name', '', true),
-				'parent_id'						=> request_var('parent_id', 0),
+				'album_name'					=> $request->variable('album_name', '', true),
+				'parent_id'						=> $request->variable('parent_id', 0),
 				'album_parents'					=> '',
 				'album_type'					=> $phpbb_ext_gallery_core_album::TYPE_UPLOAD,
 				'album_status'					=> $phpbb_ext_gallery_core_album::STATUS_OPEN,
 				'album_desc_options'			=> 7,
-				'album_desc'					=> utf8_normalize_nfc(request_var('album_desc', '', true)),
+				'album_desc'					=> utf8_normalize_nfc($request->variable('album_desc', '', true)),
 				'album_user_id'					=> $user->data['user_id'],
 				'album_last_username'			=> '',
-				'album_auth_access'				=> ($phpbb_ext_gallery->auth->acl_check('a_restrict', $phpbb_ext_gallery_core_auth::OWN_ALBUM)) ? request_var('album_auth_access', 0) : 0,
+				'album_auth_access'				=> ($phpbb_ext_gallery->auth->acl_check('a_restrict', $phpbb_ext_gallery_core_auth::OWN_ALBUM)) ? $request->variable('album_auth_access', 0) : 0,
 			);
 
 			$album_data['album_auth_access'] = min(3, max(0, $album_data['album_auth_access']));
@@ -379,7 +380,7 @@ class main_module
 				trigger_error('MISSING_ALBUM_NAME');
 			}
 			$album_data['parent_id'] = ($album_data['parent_id']) ? $album_data['parent_id'] : $phpbb_ext_gallery->user->get_data('personal_album_id');
-			generate_text_for_storage($album_data['album_desc'], $album_data['album_desc_uid'], $album_data['album_desc_bitfield'], $album_data['album_desc_options'], request_var('desc_parse_bbcode', false), request_var('desc_parse_urls', false), request_var('desc_parse_smilies', false));
+			generate_text_for_storage($album_data['album_desc'], $album_data['album_desc_uid'], $album_data['album_desc_bitfield'], $album_data['album_desc_options'], $request->variable('desc_parse_bbcode', false), $request->variable('desc_parse_urls', false), $request->variable('desc_parse_smilies', false));
 
 			/**
 			* borrowed from phpBB3
@@ -433,14 +434,15 @@ class main_module
 	function edit_album()
 	{
 		global $config, $cache, $db, $template, $user, $phpbb_ext_gallery, $phpbb_ext_gallery_core_album, $phpbb_ext_gallery_core_auth, $albums_table, $phpbb_ext_gallery_core_album_display;
+		global $request;
 
 		$phpbb_ext_gallery->url->_include(array('bbcode','message_parser'), 'phpbb');
 
-		$album_id = request_var('album_id', 0);
+		$album_id = $request->variable('album_id', 0);
 		$phpbb_ext_gallery_core_album->check_user($album_id);
 
 		$submit = (isset($_POST['submit'])) ? true : false;
-		$redirect = request_var('redirect', '');
+		$redirect = $request->variable('redirect', '');
 		if (!$submit)
 		{
 			$album_data = $phpbb_ext_gallery_core_album->get_info($album_id);
@@ -505,17 +507,17 @@ class main_module
 			}
 
 			$album_data = array(
-				'album_name'					=> ($album_id == $phpbb_ext_gallery->user->get_data('personal_album_id')) ? $user->data['username'] : request_var('album_name', '', true),
+				'album_name'					=> ($album_id == $phpbb_ext_gallery->user->get_data('personal_album_id')) ? $user->data['username'] : $request->variable('album_name', '', true),
 				'parent_id'						=> request_var('parent_id', (($album_id == $phpbb_ext_gallery->user->get_data('personal_album_id')) ? 0 : $phpbb_ext_gallery->user->get_data('personal_album_id'))),
 				//left_id and right_id are created some lines later
 				'album_parents'					=> '',
 				'album_type'					=> $phpbb_ext_gallery_core_album::TYPE_UPLOAD,
 				'album_desc_options'			=> 7,
-				'album_desc'					=> utf8_normalize_nfc(request_var('album_desc', '', true)),
-				'album_auth_access'				=> ($phpbb_ext_gallery->auth->acl_check('a_restrict', $phpbb_ext_gallery_core_auth::OWN_ALBUM)) ? request_var('album_auth_access', 0) : 0,
+				'album_desc'					=> utf8_normalize_nfc($request->variable('album_desc', '', true)),
+				'album_auth_access'				=> ($phpbb_ext_gallery->auth->acl_check('a_restrict', $phpbb_ext_gallery_core_auth::OWN_ALBUM)) ? $request->variable('album_auth_access', 0) : 0,
 			);
 
-			generate_text_for_storage($album_data['album_desc'], $album_data['album_desc_uid'], $album_data['album_desc_bitfield'], $album_data['album_desc_options'], request_var('desc_parse_bbcode', false), request_var('desc_parse_urls', false), request_var('desc_parse_smilies', false));
+			generate_text_for_storage($album_data['album_desc'], $album_data['album_desc_uid'], $album_data['album_desc_bitfield'], $album_data['album_desc_options'], $request->variable('desc_parse_bbcode', false), $request->variable('desc_parse_urls', false), $request->variable('desc_parse_smilies', false));
 			$row = $phpbb_ext_gallery_core_album->get_info($album_id);
 			if (!$row['parent_id'])
 			{
@@ -665,16 +667,16 @@ class main_module
 	function delete_album()
 	{
 		global $cache, $db, $template, $user, $phpbb_ext_gallery, $phpbb_ext_gallery_core_album, $albums_table;
-		global $images_table, $phpbb_gallery_image, $phpbb_ext_gallery_config, $phpbb_dispatcher;
+		global $images_table, $phpbb_gallery_image, $phpbb_ext_gallery_config, $phpbb_dispatcher, $request;
 		global $comments_table, $images_table, $rates_table, $reports_table, $watch_table, $phpbb_ext_gallery_core_auth;
 
 		$s_hidden_fields = build_hidden_fields(array(
-			'album_id'		=> request_var('album_id', 0),
+			'album_id'		=> $request->variable('album_id', 0),
 		));
 
 		if (confirm_box(true))
 		{
-			$album_id = request_var('album_id', 0);
+			$album_id = $request->variable('album_id', 0);
 			$left_id = $right_id = 0;
 			$deleted_images_na = '';
 			$deleted_albums = array();
@@ -843,7 +845,7 @@ class main_module
 		}
 		else
 		{
-			$album_id = request_var('album_id', 0);
+			$album_id = $request->variable('album_id', 0);
 			$phpbb_ext_gallery_core_album->check_user($album_id);
 			confirm_box(false, 'DELETE_ALBUM', $s_hidden_fields);
 		}
@@ -851,12 +853,12 @@ class main_module
 
 	function move_album()
 	{
-		global $cache, $db, $user, $phpbb_ext_gallery_core_album, $albums_table;
+		global $cache, $db, $user, $phpbb_ext_gallery_core_album, $albums_table, $request;
 
-		$album_id = request_var('album_id', 0);
+		$album_id = $request->variable('album_id', 0);
 		$phpbb_ext_gallery_core_album->check_user($album_id);
 
-		$move = request_var('move', '', true);
+		$move = $request->variable('move', '', true);
 		$moving = $phpbb_ext_gallery_core_album->get_info($album_id);
 
 		$sql = 'SELECT album_id, left_id, right_id
@@ -922,15 +924,15 @@ class main_module
 	function manage_subscriptions()
 	{
 		global $db, $template, $user, $phpbb_container, $phpbb_ext_gallery, $phpbb_gallery_notification, $watch_table, $albums_table, $contests_table;
-		global $images_table, $comments_table;
+		global $images_table, $comments_table, $request;
 
 		$phpbb_ext_gallery_core_image = $phpbb_container->get('phpbbgallery.core.image');
 		$phpbb_ext_gallery_config = $phpbb_container->get('phpbbgallery.core.config');
 		$phpbb_gallery_notification = new \phpbbgallery\core\notification();
 
-		$action = request_var('action', '');
-		$image_id_ary = request_var('image_id_ary', array(0));
-		$album_id_ary = request_var('album_id_ary', array(0));
+		$action = $request->variable('action', '');
+		$image_id_ary = $request->variable('image_id_ary', array(0));
+		$album_id_ary = $request->variable('album_id_ary', array(0));
 		if (($image_id_ary || $album_id_ary) && ($action == 'unsubscribe'))
 		{
 			if ($album_id_ary)
@@ -995,7 +997,7 @@ class main_module
 		$db->sql_freeresult($result);
 
 		// Subscribed images
-		$start				= request_var('start', 0);
+		$start				= $request->variable('start', 0);
 		$images_per_page	= $phpbb_ext_gallery_config->get('album_rows') * $phpbb_ext_gallery_config->get('album_columns');
 		$total_images		= 0;
 

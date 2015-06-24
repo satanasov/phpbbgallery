@@ -63,7 +63,7 @@ class album
 	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $db,
 	\phpbb\pagination $pagination, \phpbb\template\template $template, \phpbb\user $user, \phpbbgallery\core\album\display $display,
 	\phpbbgallery\core\album\loader $loader, \phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\auth\level $auth_level,  \phpbbgallery\core\config $gallery_config,
-	\phpbbgallery\core\notification\helper $notifications_helper, \phpbbgallery\core\url $url, \phpbbgallery\core\image\image $image,
+	\phpbbgallery\core\notification\helper $notifications_helper, \phpbbgallery\core\url $url, \phpbbgallery\core\image\image $image, \phpbb\request\request $request
 	$images_table)
 	{
 		$this->config = $config;
@@ -80,6 +80,7 @@ class album
 		$this->url = $url;
 		$this->image = $image;
 		$this->gallery_config = $gallery_config;
+		$this->request = $request;
 		$this->table_images = $images_table;
 	}
 
@@ -184,9 +185,9 @@ class album
 
 	protected function display_images($album_id, $album_data, $start, $limit)
 	{
-		$sort_days	= request_var('st', 0);
-		$sort_key	= request_var('sk', ($album_data['album_sort_key']) ? $album_data['album_sort_key'] : $this->config['phpbb_gallery_default_sort_key']);
-		$sort_dir	= request_var('sd', ($album_data['album_sort_dir']) ? $album_data['album_sort_dir'] : $this->config['phpbb_gallery_default_sort_dir']);
+		$sort_days	= $this->request->variable('st', 0);
+		$sort_key	= $this->request->variable('sk', ($album_data['album_sort_key']) ? $album_data['album_sort_key'] : $this->config['phpbb_gallery_default_sort_key']);
+		$sort_dir	= $this->request->variable('sd', ($album_data['album_sort_dir']) ? $album_data['album_sort_dir'] : $this->config['phpbb_gallery_default_sort_dir']);
 
 		$image_status_check = ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED;
 		$image_counter = $album_data['album_images'];
