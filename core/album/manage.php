@@ -829,6 +829,7 @@ class manage
 		global $cache, $db, $phpbb_dispatcher, $table_prefix, $config, $phpbb_container;
 		$phpbb_ext_gallery_core_image = $phpbb_container->get('phpbbgallery.core.image');
 		$phpbb_gallery_notification = new \phpbbgallery\core\notification();
+		$phpbb_gallery_user = $phpbb_container->get('phpbbgallery.core.user');
 		$phpbb_gallery_config = $phpbb_container->get('phpbbgallery.core.config');
 		$album_id = (int) $album_id;
 
@@ -890,8 +891,8 @@ class manage
 		{
 			foreach ($image_counts as $image_user_id => $substract)
 			{
-				$uploader = new \phpbbgallery\core\user($db, $image_user_id, false);
-				$uploader->update_images((0 - $substract));
+				$phpbb_gallery_user->set_user_id($image_user_id);
+				$phpbb_gallery_user->update_images((0 - $substract));
 			}
 		}
 
