@@ -80,17 +80,17 @@ class config_module
 				if (isset($null['method']) && (($null['method'] == 'rrc_display') || ($null['method'] == 'rrc_modes')))
 				{
 					// Changing the value, casted by int to not mess up anything
-					$config_value = (int) array_sum($request->variables($config_name, array(0)));
+					$config_value = (int) array_sum($request->variable($config_name, array(0)));
 				}
 				// Recalculate the Watermark-position
 				if (isset($null['method']) && ($null['method'] == 'watermark_position'))
 				{
 					// Changing the value, casted by int to not mess up anything
-					$config_value = $request->variables('watermark_position_x', 0) + $request->variables('watermark_position_y', 0);
+					$config_value = $request->variable('watermark_position_x', 0) + $request->variable('watermark_position_y', 0);
 				}
 				if ($config_name == 'link_thumbnail')
 				{
-					$update_bbcode = $request->variables('update_bbcode', '');
+					$update_bbcode = $request->variable('update_bbcode', '');
 					// Update the BBCode
 					if ($update_bbcode)
 					{
