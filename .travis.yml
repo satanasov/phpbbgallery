@@ -13,13 +13,7 @@ matrix:
     - php: 5.4
       env: DB=mariadb
     - php: 5.4
-      env: 
-        - DB=postgres
-        - TEST=alpha
-    - php: 5.4
-      env: 
-        - DB=postgres
-        - TEST=normal
+      env: DB=postgres
     - php: 5.4
       env: DB=sqlite3
     - php: 5.5
@@ -66,7 +60,6 @@ script:
   - sh -c "if [ '$IMAGE_ICC' != '0' ]; then travis/check-image-icc-profiles.sh $DB $TRAVIS_PHP_VERSION; fi"
   - mkdir phpBB/ext/$EXTNAME/logs
   - phpBB/vendor/bin/phpunit --configuration phpBB/ext/$EXTNAME/travis/phpunit-$DB-travis.xml --bootstrap ./tests/bootstrap.php --coverage-clover phpBB/ext/$EXTNAME/logs/clover.xml
-  - sh -c "if [ '$TEST' != 'alpha' ]; then phpBB/vendor/bin/phpunit --configurcation phpBB/ext/$EXTNAME/travis/phpunit-$DB-travis.xml --bootstrap ./tests/bootstrap.php --coverage-clover phpBB/ext/$EXTNAME/logs/clover.xml --group functional_alpha; fi"
   - sh -c "if [ '$EPV' != '0' ] && [ '$TRAVIS_PHP_VERSION' = '5.3.3' ] && [ '$DB' = 'mysqli' ]; then phpBB/ext/$EXTSNIFF/vendor/bin/EPV.php run --dir='phpBB/ext/$EXTNAME/core'; fi"
   - sh -c "if [ '$EPV' != '0' ] && [ '$TRAVIS_PHP_VERSION' = '5.3.3' ] && [ '$DB' = 'mysqli' ]; then phpBB/ext/$EXTSNIFF/vendor/bin/EPV.php run --dir='phpBB/ext/$EXTNAME/acpcleanup'; fi"
   - sh -c "if [ '$EPV' != '0' ] && [ '$TRAVIS_PHP_VERSION' = '5.3.3' ] && [ '$DB' = 'mysqli' ]; then phpBB/ext/$EXTSNIFF/vendor/bin/EPV.php run --dir='phpBB/ext/$EXTNAME/acpimport'; fi"
