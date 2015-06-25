@@ -713,10 +713,10 @@ class permissions_module
 			* // currently does not support the amount of dimensions required. ;)
 			*/
 			//		$auth_settings = request_var('setting', array(0 => array(0 => array('' => 0))));
-			$request = $request->variable('setting', array(0 => array(0 => array('' => 0))));
+			$requests = $request->variable('setting', array(0 => array(0 => array('' => 0))));
 			$p_mask_count = 0;
 			$auth_settings = $p_mask_storage = $c_mask_storage = $v_mask_storage = array();
-			foreach ($request as $c_mask => $v_sets)
+			foreach ($requests as $c_mask => $v_sets)
 			{
 				$c_mask = (int) $c_mask;
 				$c_mask_storage[] = $c_mask;
