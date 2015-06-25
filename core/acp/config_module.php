@@ -50,7 +50,7 @@ class config_module
 		// Init gallery configs class
 		$phpbb_gallery_configs = new \phpbbgallery\core\config($config);
 		$this->new_config = $phpbb_gallery_configs->get_all();
-		$cfg_array = (isset($_REQUEST['config'])) ? utf8_normalize_nfc($request->variables('config', array('' => ''), true)) : $this->new_config;
+		$cfg_array = (isset($_REQUEST['config'])) ? utf8_normalize_nfc($request->variable('config', array('' => ''), true)) : $this->new_config;
 		$error = array();
 
 		// We validate the complete config if whished
