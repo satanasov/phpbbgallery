@@ -153,13 +153,13 @@ class main_module
 						/**
 						* Event to trigger before mass update
 						*
-						* @event phbbgallery.acpimport.update_image_before
+						* @event phpbbgallery.acpimport.update_image_before
 						* @var	array	additional_sql_data		array of additional sql_data
 						* @var	string	file_link				String with real file link
 						* @since 1.2.0
 						*/
 						$vars = array('additional_sql_data', 'file_link');
-						extract($phpbb_dispatcher->trigger_event('phbbgallery.acpimport.update_image_before', compact($vars)));
+						extract($phpbb_dispatcher->trigger_event('phpbbgallery.acpimport.update_image_before', compact($vars)));
 
 						if (($filetype[0] > $gallery_config->get('max_width')) || ($filetype[1] > $gallery_config->get('max_height')))
 						{
