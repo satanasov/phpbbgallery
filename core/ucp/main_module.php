@@ -508,7 +508,7 @@ class main_module
 
 			$album_data = array(
 				'album_name'					=> ($album_id == $phpbb_ext_gallery->user->get_data('personal_album_id')) ? $user->data['username'] : $request->variable('album_name', '', true),
-				'parent_id'						=> request_var('parent_id', (($album_id == $phpbb_ext_gallery->user->get_data('personal_album_id')) ? 0 : $phpbb_ext_gallery->user->get_data('personal_album_id'))),
+				'parent_id'						=> $request->variable('parent_id', (($album_id == $phpbb_ext_gallery->user->get_data('personal_album_id')) ? 0 : $phpbb_ext_gallery->user->get_data('personal_album_id'))),
 				//left_id and right_id are created some lines later
 				'album_parents'					=> '',
 				'album_type'					=> $phpbb_ext_gallery_core_album::TYPE_UPLOAD,

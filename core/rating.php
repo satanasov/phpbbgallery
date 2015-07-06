@@ -294,7 +294,7 @@ class rating
 	*/
 	public function submit_rating($user_id = false, $points = false, $user_ip = false)
 	{
-		global $phpbb_container;
+		global $phpbb_container, $request;
 		$config = $phpbb_container->get('phpbbgallery.core.config');
 
 		switch (self::MODE_SELECT)//@todo: phpbb_ext_gallery_core_config::get('rating_mode'))
@@ -306,7 +306,7 @@ class rating
 				global $user;
 
 				$user_id = ($user_id) ? $user_id : $user->data['user_id'];
-				$points = ($points) ? $points : request_var('rating', 0);
+				$points = ($points) ? $points : $request->variable('rating', 0);
 				$points = max(1, min($points, $config->get('max_rating')));
 			break;
 		}

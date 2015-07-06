@@ -32,7 +32,7 @@ class main_module
 
 	function import()
 	{
-		global $db, $template, $user, $phpbb_dispatcher, $phpbb_container, $gallery_url, $request, $table_prefix ,$gallery_config, $gallery_album;
+		global $db, $template, $user, $phpbb_dispatcher, $phpbb_container, $gallery_url, $request, $table_prefix ,$gallery_config, $gallery_album, $request;
 
 		$import_schema = $request->variable('import_schema', '');
 		$images = $request->variable('images', array(''), true);
@@ -150,8 +150,16 @@ class main_module
 						$additional_sql_data = array();
 						$file_link = $gallery_url->path('upload') . $image_filename;
 
+						/**
+						* Event to trigger before mass update
+						*
+						* @event phbbgallery.acpimport.update_image_before
+						* @var	array	additional_sql_data		array of additional sql_data
+						* @var	string	file_link				String with real file link
+						* @since 1.2.0
+						*/
 						$vars = array('additional_sql_data', 'file_link');
-						extract($phpbb_dispatcher->trigger_event('gallery.core.massimport.update_image_before', compact($vars)));
+						extract($phpbb_dispatcher->trigger_event('phbbgallery.acpimport.update_image_before', compact($vars)));
 
 						if (($filetype[0] > $gallery_config->get('max_width')) || ($filetype[1] > $gallery_config->get('max_height')))
 						{
@@ -169,8 +177,16 @@ class main_module
 						}
 						$file_updated = (bool) $image_tools->resized;
 
+						/**
+						* Event to trigger before mass update
+						*
+						* @event phpbbgallery.acpimport.update_image
+						* @var	array	additional_sql_data		array of additional sql_data
+						* @var	bool	file_updated			is file resized
+						* @since 1.2.0
+						*/
 						$vars = array('additional_sql_data', 'file_updated');
-						extract($phpbb_dispatcher->trigger_event('gallery.core.massimport.update_image', compact($vars)));
+						extract($phpbb_dispatcher->trigger_event('phpbbgallery.acpimport.update_image', compact($vars)));
 
 						$sql_ary = array_merge($sql_ary, $additional_sql_data);
 
@@ -281,7 +297,7 @@ class main_module
 				trigger_error('HACKING_ATTEMPT', E_USER_WARNING);
 			}
 
-			$album_id = request_var('album_id', 0);
+			$album_id = $request->variable('album_id', 0);
 			if (isset($_POST['users_pega']))
 			{
 				$image_user =  $phpbb_container->get('phpbbgallery.core.user');
@@ -320,9 +336,9 @@ class main_module
 
 			$start_time = time();
 			$import_schema = md5($start_time);
-			$filename = (request_var('filename', '') == 'filename') ? true : false;
-			$image_name = request_var('image_name', '', true);
-			$num_offset = request_var('image_num', 0);
+			$filename = ($request->variable('filename', '') == 'filename') ? true : false;
+			$image_name = $request->variable('image_name', '', true);
+			$num_offset = $request->variable('image_num', 0);
 
 			$this->create_import_schema($import_schema, $album_row['album_id'], $user_row, $start_time, $num_offset, 0, sizeof($images), $image_name, $filename, $images);
 

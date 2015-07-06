@@ -32,22 +32,22 @@ class main_module
 
 	function cleanup()
 	{
-		global $auth, $cache, $db, $template, $user, $phpbb_ext_gallery, $phpbb_dispatcher, $table_prefix, $phpbb_container;
+		global $auth, $cache, $db, $template, $user, $phpbb_ext_gallery, $table_prefix, $phpbb_container $request;
 
 		$delete = (isset($_POST['delete'])) ? true : false;
 		$prune = (isset($_POST['prune'])) ? true : false;
 		$submit = (isset($_POST['submit'])) ? true : false;
 
-		$missing_sources = request_var('source', array(0));
-		$missing_entries = request_var('entry', array(''), true);
-		$missing_authors = request_var('author', array(0), true);
-		$missing_comments = request_var('comment', array(0), true);
-		$missing_personals = request_var('personal', array(0), true);
-		$personals_bad = request_var('personal_bad', array(0), true);
-		$prune_pattern = request_var('prune_pattern', array('' => ''), true);
+		$missing_sources = $request->variable('source', array(0));
+		$missing_entries = $request->variable('entry', array(''), true);
+		$missing_authors = $request->variable('author', array(0), true);
+		$missing_comments = $request->variable('comment', array(0), true);
+		$missing_personals = $request->variable('personal', array(0), true);
+		$personals_bad = $request->variable('personal_bad', array(0), true);
+		$prune_pattern = $request->variable('prune_pattern', array('' => ''), true);
 
-		$move_to_import = request_var('move_to_import', 0);
-		$new_author = request_var('new_author', '');
+		$move_to_import = $request->variable('move_to_import', 0);
+		$new_author = $request->variable('new_author', '');
 
 		$gallery_album = $phpbb_container->get('phpbbgallery.core.album');
 		$core_cleanup = $phpbb_container->get('phpbbgallery.acpcleanup.cleanup');
@@ -63,10 +63,10 @@ class main_module
 		}
 		if ($prune && empty($prune_pattern))
 		{
-			$prune_pattern['image_album_id'] = implode(',', request_var('prune_album_ids', array(0)));
+			$prune_pattern['image_album_id'] = implode(',', $request->variable('prune_album_ids', array(0)));
 			if (isset($_POST['prune_username_check']))
 			{
-				$usernames = request_var('prune_usernames', '', true);
+				$usernames = $request->variable('prune_usernames', '', true);
 				$usernames = explode("\n", $usernames);
 				$prune_pattern['image_user_id'] = array();
 				if (!empty($usernames))
@@ -86,7 +86,7 @@ class main_module
 			}
 			if (isset($_POST['prune_time_check']))
 			{
-				$prune_time = explode('-', request_var('prune_time', ''));
+				$prune_time = explode('-', $request->variable('prune_time', ''));
 
 				if (sizeof($prune_time) == 3)
 				{
@@ -95,15 +95,15 @@ class main_module
 			}
 			if (isset($_POST['prune_comments_check']))
 			{
-				$prune_pattern['image_comments'] = request_var('prune_comments', 0);
+				$prune_pattern['image_comments'] = $request->variable('prune_comments', 0);
 			}
 			if (isset($_POST['prune_ratings_check']))
 			{
-				$prune_pattern['image_rates'] = request_var('prune_ratings', 0);
+				$prune_pattern['image_rates'] = $request->variable('prune_ratings', 0);
 			}
 			if (isset($_POST['prune_rating_avg_check']))
 			{
-				$prune_pattern['image_rate_avg'] = (int) (request_var('prune_rating_avg', 0.0) * 100);
+				$prune_pattern['image_rate_avg'] = (int) ($request->variable('prune_rating_avg', 0.0) * 100);
 			}
 		}
 
@@ -219,8 +219,6 @@ class main_module
 			$cache->destroy('sql', $table_prefix . 'gallery_reports');
 			$cache->destroy('sql', $table_prefix . 'gallery_watch');
 
-			//$phpbb_dispatcher->trigger_event('gallery.core.acp.main.cleanup_finished', compact($vars));
-
 			$message_string = '';
 			foreach ($message as $lang_key)
 			{
@@ -328,7 +326,7 @@ class main_module
 		}
 		$db->sql_freeresult($result);
 
-		$check_mode = request_var('check_mode', '');
+		$check_mode = $request->variable('check_mode', '');
 		if ($check_mode == 'source')
 		{
 			$source_missing = array();
