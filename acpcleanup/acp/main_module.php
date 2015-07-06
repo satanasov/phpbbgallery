@@ -32,7 +32,7 @@ class main_module
 
 	function cleanup()
 	{
-		global $auth, $cache, $db, $template, $user, $phpbb_ext_gallery, $table_prefix, $phpbb_container $request;
+		global $auth, $cache, $db, $template, $user, $phpbb_ext_gallery, $table_prefix, $phpbb_container, $request;
 
 		$delete = (isset($_POST['delete'])) ? true : false;
 		$prune = (isset($_POST['prune'])) ? true : false;
