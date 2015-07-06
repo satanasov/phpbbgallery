@@ -28,7 +28,7 @@ class config_module
 		}
 
 		global $config, $db, $user, $template, $cache, $phpbb_container, $phpbb_root_path, $phpEx, $phpbb_gallery_url;
-		global $request;
+		global $request, $config;
 
 		$phpbb_gallery_url = $phpbb_container->get('phpbbgallery.core.url');
 		$user->add_lang_ext('phpbbgallery/core', array('gallery', 'gallery_acp'));
