@@ -287,21 +287,6 @@ class url
 	*/
 	public function get_uri($route)
 	{
-		$is_secure = $this->request->server('HTTPS', '');
-		$url = $this->config['server_name'];
-		if ($is_secure == 'on')
-		{
-			$url = 'https://' . $url;
-		}
-		else
-		{
-			$url = 'http://' . $url;
-		}
-
-		$split = parse_url($url);
-
-		$uri = $split['scheme'] . '://' . $split['host'] . $route;
-
-		return $uri;
+		return generate_board_url() . $route;
 	}
 }
