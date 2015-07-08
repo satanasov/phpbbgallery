@@ -287,21 +287,26 @@ class url
 	*/
 	public function get_uri($route)
 	{
-		$is_secure = $this->request->server('HTTPS', '');
 		$url = $this->config['server_name'];
-		if ($is_secure == 'on')
+		if ($this->config['force_server_vars'] == 1)
 		{
-			$url = 'https://' . $url;
+			$url = $this->config['server_protocol'] . $url;
 		}
 		else
 		{
-			$url = 'http://' . $url;
+			$is_secure = $this->request->server('HTTPS', '');
+			if ($is_secure == 'on')
+			{
+				$url = 'https://' . $url;
+			}
+			else
+			{
+				$url = 'http://' . $url;
+			}
 		}
-
 		$split = parse_url($url);
 
 		$uri = $split['scheme'] . '://' . $split['host'] . $route;
-
 		return $uri;
 	}
 }
