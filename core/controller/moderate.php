@@ -635,7 +635,7 @@ class moderate
 		$album_loginlink = append_sid('/ucp.php?mode=login');
 		$meta_refresh_time = 2;
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
-		if (!$this->gallery_auth->acl_check('m_status', $image_data['image_album_id'], $album_data))
+		if (!$this->gallery_auth->acl_check('m_status', $image_data['image_album_id'], $album_data['album_user_id']))
 		{
 			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 		}
@@ -696,7 +696,7 @@ class moderate
 		$album_loginlink = append_sid('/ucp.php?mode=login');
 		$meta_refresh_time = 2;
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
-		if (!$this->gallery_auth->acl_check('m_status', $image_data['image_album_id'], $album_data))
+		if (!$this->gallery_auth->acl_check('m_status', $image_data['image_album_id'], $album_data['album_user_id']))
 		{
 			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 		}
@@ -732,14 +732,14 @@ class moderate
 		$album_id = $image_data['image_album_id'];
 		$user_id = $image_data['image_user_id'];
 		$album_data =  $this->album->get_info($album_id);
-		$album_backlink = append_sid('/gallery/' . $album_id);
+		$album_backlink = append_sid('/gallery/album/' . $album_id);
 		$image_backlink = append_sid('/gallery/image/' . $image_id);
 		$album_loginlink = append_sid('/ucp.php?mode=login');
 		$meta_refresh_time = 2;
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery_mcp'));
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
-		if (!$this->gallery_auth->acl_check('m_move', $image_data['image_album_id'], $album_data))
+		if (!$this->gallery_auth->acl_check('m_move', $image_data['image_album_id'], $album_data['album_user_id']))
 		{
 			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 		}
@@ -780,14 +780,14 @@ class moderate
 		$album_id = $image_data['image_album_id'];
 		$user_id = $image_data['image_user_id'];
 		$album_data =  $this->album->get_info($album_id);
-		$album_backlink = append_sid('/gallery/' . $album_id);
+		$album_backlink = append_sid('/gallery/album/' . $album_id);
 		$image_backlink = append_sid('/gallery/image/' . $image_id);
 		$album_loginlink = append_sid('/ucp.php?mode=login');
 		$meta_refresh_time = 2;
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery_mcp'));
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
-		if (!$this->gallery_auth->acl_check('m_status', $image_data['image_album_id'], $album_data))
+		if (!$this->gallery_auth->acl_check('m_status', $image_data['image_album_id'], $album_data['album_user_id']))
 		{
 			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 		}
