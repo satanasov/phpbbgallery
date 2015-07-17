@@ -998,7 +998,7 @@ class main_module
 
 		// Subscribed images
 		$start				= $request->variable('start', 0);
-		$images_per_page	= $phpbb_ext_gallery_config->get('album_rows') * $phpbb_ext_gallery_config->get('album_columns');
+		$images_per_page	= $phpbb_ext_gallery_config->get('items_per_page');
 		$total_images		= 0;
 
 		$sql = 'SELECT COUNT(image_id) as images
