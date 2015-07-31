@@ -157,6 +157,7 @@ $lang = array_merge($lang, array(
 	'IMAGES_UPDATED_SUCCESSFULLY'	=> 'Deine Bilderinformationen wurden erfolgreich aktualisiert',
 	'INSERT_IMAGE_POST'				=> 'Bild in Beitrag einfügen',
 	'INVALID_USERNAME'				=> 'Der Benutzername ist ungültig',
+	'INVALID_IMAGE'					=> 'Invalid Image',
 
 	'LAST_COMMENT'					=> 'Letzter Kommentar',
 	'LAST_IMAGE'					=> 'Letztes Bild',
