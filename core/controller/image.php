@@ -1052,4 +1052,9 @@ class image
 			redirect('/gallery/album/' . $album_id);
 		}
 	}
+
+	public function error($message)
+	{
+		trigger_error($message);
+	}
 }

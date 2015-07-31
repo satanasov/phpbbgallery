@@ -145,6 +145,7 @@ $lang = array_merge($lang, array(
 	'IMAGES_UPDATED_SUCCESSFULLY'	=> 'Данные о фотографии обновлены',
 	'INSERT_IMAGE_POST'				=> 'Вставить фото в сообщение',
 	'INVALID_USERNAME'				=> 'Неверное имя пользователя',
+	'INVALID_IMAGE'					=> 'Invalid Image',
 	'LAST_COMMENT'					=> 'Последний комментарий',
 	'LAST_IMAGE'					=> 'Последнее фото',
 	'LAST_IMAGE_BY'					=> 'Автор',
