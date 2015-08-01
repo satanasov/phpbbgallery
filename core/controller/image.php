@@ -588,18 +588,22 @@ class image
 				}
 
 				$user_id = $row['comment_user_id'];
-				if ($user_cache[$user_id]['sig'] && empty($user_cache[$user_id]['sig_parsed']))
+				$user_deleted = (isset($user_cache[$user_id]) ? false : true);
+				if (!$user_deleted)
 				{
-					$user_cache[$user_id]['sig'] = censor_text($user_cache[$user_id]['sig']);
-
-					if ($user_cache[$user_id]['sig_bbcode_bitfield'])
+					if ($user_cache[$user_id]['sig'] && empty($user_cache[$user_id]['sig_parsed']))
 					{
-						$bbcode->bbcode_second_pass($user_cache[$user_id]['sig'], $user_cache[$user_id]['sig_bbcode_uid'], $user_cache[$user_id]['sig_bbcode_bitfield']);
-					}
+						$user_cache[$user_id]['sig'] = censor_text($user_cache[$user_id]['sig']);
 
-					$user_cache[$user_id]['sig'] = bbcode_nl2br($user_cache[$user_id]['sig']);
-					$user_cache[$user_id]['sig'] = smiley_text($user_cache[$user_id]['sig']);
-					$user_cache[$user_id]['sig_parsed'] = true;
+						if ($user_cache[$user_id]['sig_bbcode_bitfield'])
+						{
+							$bbcode->bbcode_second_pass($user_cache[$user_id]['sig'], $user_cache[$user_id]['sig_bbcode_uid'], $user_cache[$user_id]['sig_bbcode_bitfield']);
+						}
+
+						$user_cache[$user_id]['sig'] = bbcode_nl2br($user_cache[$user_id]['sig']);
+						$user_cache[$user_id]['sig'] = smiley_text($user_cache[$user_id]['sig']);
+						$user_cache[$user_id]['sig_parsed'] = true;
+					}
 				}
 
 				$this->template->assign_block_vars('commentrow', array(
@@ -613,30 +617,30 @@ class image
 					'U_EDIT'		=> ($this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']) || ($this->gallery_auth->acl_check('c_edit', $album_id, $album_data['album_user_id']) && ($row['comment_user_id'] == $this->user->data['user_id']) && $this->user->data['is_registered'])) ? $this->helper->route('phpbbgallery_comment_edit', array('image_id'	=> $image_id, 'comment_id'	=> $row['comment_id'])) : '',
 					'U_INFO'		=> ($this->auth->acl_get('a_')) ? $this->url->append_sid('mcp', 'mode=whois&amp;ip=' . $row['comment_user_ip']) : '',
 
-					'POST_AUTHOR_FULL'		=> get_username_string('full', $user_id, $row['comment_username'], $user_cache[$user_id]['user_colour']),
-					'POST_AUTHOR_COLOUR'	=> get_username_string('colour', $user_id, $row['comment_username'], $user_cache[$user_id]['user_colour']),
-					'POST_AUTHOR'			=> get_username_string('username', $user_id, $row['comment_username'], $user_cache[$user_id]['user_colour']),
-					'U_POST_AUTHOR'			=> get_username_string('profile', $user_id, $row['comment_username'], $user_cache[$user_id]['user_colour']),
+					'POST_AUTHOR_FULL'		=> get_username_string('full', $user_id, $row['comment_username'], ($user_deleted ? '' : $user_cache[$user_id]['user_colour'])),
+					'POST_AUTHOR_COLOUR'	=> get_username_string('colour', $user_id, $row['comment_username'], ($user_deleted ? '' : $user_cache[$user_id]['user_colour'])),
+					'POST_AUTHOR'			=> get_username_string('username', $user_id, $row['comment_username'], ($user_deleted ? '' : $user_cache[$user_id]['user_colour'])),
+					'U_POST_AUTHOR'			=> get_username_string('profile', $user_id, $row['comment_username'], ($user_deleted ? '' : $user_cache[$user_id]['user_colour'])),
 
-					'SIGNATURE'			=> ($row['comment_signature']) ? $user_cache[$user_id]['sig'] : '',
-					'RANK_TITLE'		=> $user_cache[$user_id]['rank_title'],
-					'RANK_IMG'			=> $user_cache[$user_id]['rank_image'],
-					'RANK_IMG_SRC'		=> $user_cache[$user_id]['rank_image_src'],
-					'POSTER_JOINED'		=> $user_cache[$user_id]['joined'],
-					'POSTER_POSTS'		=> $user_cache[$user_id]['posts'],
+					'SIGNATURE'			=> ($row['comment_signature'] && !$user_deleted) ? $user_cache[$user_id]['sig'] : '',
+					'RANK_TITLE'		=> $user_deleted ? '' : $user_cache[$user_id]['rank_title'],
+					'RANK_IMG'			=> $user_deleted ? '' : $user_cache[$user_id]['rank_image'],
+					'RANK_IMG_SRC'		=> $user_deleted ? '' : $user_cache[$user_id]['rank_image_src'],
+					'POSTER_JOINED'		=> $user_deleted ? '' : $user_cache[$user_id]['joined'],
+					'POSTER_POSTS'		=> $user_deleted ? '' : $user_cache[$user_id]['posts'],
 					'POSTER_FROM'		=> isset($user_cache[$user_id]['from']) ? $user_cache[$user_id]['from'] : '',
-					'POSTER_AVATAR'		=> $user_cache[$user_id]['avatar'],
-					'POSTER_WARNINGS'	=> $user_cache[$user_id]['warnings'],
-					'POSTER_AGE'		=> $user_cache[$user_id]['age'],
+					'POSTER_AVATAR'		=> $user_deleted ? '' : $user_cache[$user_id]['avatar'],
+					'POSTER_WARNINGS'	=> $user_deleted ? '' : $user_cache[$user_id]['warnings'],
+					'POSTER_AGE'		=> $user_deleted ? '' : $user_cache[$user_id]['age'],
 
 					'ICQ_STATUS_IMG'	=> isset($user_cache[$user_id]['icq_status_img']) ? $user_cache[$user_id]['icq_status_img'] : '',
-					'ONLINE_IMG'		=> ($user_id == ANONYMOUS || !$this->config['load_onlinetrack']) ? '' : (($user_cache[$user_id]['online']) ? $this->user->img('icon_user_online', 'ONLINE') : $this->user->img('icon_user_offline', 'OFFLINE')),
-					'S_ONLINE'			=> ($user_id == ANONYMOUS || !$this->config['load_onlinetrack']) ? false : (($user_cache[$user_id]['online']) ? true : false),
+					'ONLINE_IMG'		=> ($user_id == ANONYMOUS || !$this->config['load_onlinetrack']) ? '' : ($user_deleted ? '' : (($user_cache[$user_id]['online']) ? $this->user->img('icon_user_online', 'ONLINE') : $this->user->img('icon_user_offline', 'OFFLINE'))),
+					'S_ONLINE'			=> ($user_id == ANONYMOUS || !$this->config['load_onlinetrack']) ? false : ($user_deleted ? '' : (($user_cache[$user_id]['online']) ? true : false)),
 
-					'U_PROFILE'		=> $user_cache[$user_id]['profile'],
-					'U_SEARCH'		=> $user_cache[$user_id]['search'],
-					'U_PM'			=> ($user_id != ANONYMOUS && $this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm') && ($user_cache[$user_id]['allow_pm'] || $this->auth->acl_gets('a_', 'm_'))) ? $this->url->append_sid('phpbb', 'ucp', 'i=pm&amp;mode=compose&amp;u=' . $user_id) : '',
-					'U_EMAIL'		=> $user_cache[$user_id]['email'],
+					'U_PROFILE'		=> $user_deleted ? '' : $user_cache[$user_id]['profile'],
+					'U_SEARCH'		=> $user_deleted ? '' : $user_cache[$user_id]['search'],
+					'U_PM'			=> (!$user_deleted && $user_id != ANONYMOUS && $this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm') && ($user_cache[$user_id]['allow_pm'] || $this->auth->acl_gets('a_', 'm_'))) ? $this->url->append_sid('phpbb', 'ucp', 'i=pm&amp;mode=compose&amp;u=' . $user_id) : '',
+					'U_EMAIL'		=> $user_deleted ? '' : $user_cache[$user_id]['email'],
 					'U_WWW'			=> isset($user_cache[$user_id]['www']) ? $user_cache[$user_id]['www'] : '',
 					'U_ICQ'			=> isset($user_cache[$user_id]['icq']) ? $user_cache[$user_id]['icq'] : '',
 					'U_AIM'			=> isset($user_cache[$user_id]['aim']) ? $user_cache[$user_id]['aim'] : '',
@@ -644,9 +648,9 @@ class image
 					'U_YIM'			=> isset($user_cache[$user_id]['yim']) ? $user_cache[$user_id]['yim'] : '',
 					'U_JABBER'		=> isset($user_cache[$user_id]['jabber']) ? $user_cache[$user_id]['jabber'] : '',
 
-					'U_GALLERY'			=> $user_cache[$user_id]['gallery_album'],
-					'GALLERY_IMAGES'	=> $user_cache[$user_id]['gallery_images'],
-					'U_GALLERY_SEARCH'	=> $user_cache[$user_id]['gallery_search'],
+					'U_GALLERY'			=> $user_deleted ? '' : $user_cache[$user_id]['gallery_album'],
+					'GALLERY_IMAGES'	=> $user_deleted ? '' : $user_cache[$user_id]['gallery_images'],
+					'U_GALLERY_SEARCH'	=> $user_deleted ? '' : $user_cache[$user_id]['gallery_search'],
 				));
 			}
 			$this->db->sql_freeresult($result);
