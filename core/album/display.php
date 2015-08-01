@@ -500,7 +500,7 @@ class display
 				$album_rows[$parent_id]['album_contest_marked'] = $row['contest_marked'];
 				$album_rows[$parent_id]['orig_album_last_image_time'] = $row['album_last_image_time'];
 			}
-			else if ($row['album_type'])
+			else if ($row['album_type'] && isset($subalbums[$parent_id]))
 			{
 				$subalbums[$parent_id][$album_id]['display'] = ($row['display_on_index']) ? true : false;
 				$subalbums[$parent_id][$album_id]['name'] = $row['album_name'];
