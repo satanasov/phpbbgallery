@@ -2,8 +2,8 @@ language: php
 
 matrix:
   include:
-     - SUIT=core
-     - SUIT=functional
+    - SUIT=core
+    - SUIT=functional
 #    - php: 5.3.3
 #      env: DB=mysqli
 #    - php: 5.3
