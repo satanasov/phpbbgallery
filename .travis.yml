@@ -2,31 +2,94 @@ language: php
 
 matrix:
   include:
-    - SUIT=core
-    - SUIT=functional
-#    - php: 5.3.3
-#      env: DB=mysqli
-#    - php: 5.3
-#      env: DB=mysqli # MyISAM
-#    - php: 5.4
-#      env: DB=mysqli
-#    - php: 5.4
-#      env: DB=mysql
-#    - php: 5.4
-#      env: DB=mariadb
-#    - php: 5.4
-#      env: DB=postgres
-#    - php: 5.4
-#      env: DB=sqlite3
-#    - php: 5.5
-#      env: DB=mysqli
+    - php: 5.3.3
+      env:
+        - DB=mysqli
+        - SUIT=core
+    - php: 5.3.3
+      env:
+        - DB=mysqli
+        - SUIT=functional
+    - php: 5.3
+      env: 
+        - DB=mysqli # MyISAM
+        - SUIT=core
+    - php: 5.3
+      env: 
+        - DB=mysqli # MyISAM
+        - SUIT=functional
+    - php: 5.4
+      env: 
+        - DB=mysqli
+        - SUIT=core
+    - php: 5.4
+      env: 
+        - DB=mysqli
+        - SUIT=functional
+    - php: 5.4
+      env: 
+        - DB=mysql
+        - SUIT=core
+    - php: 5.4
+      env: 
+        - DB=mysql
+        - SUIT=functional
+    - php: 5.4
+      env: 
+        - DB=mariadb
+        - SUIT=core
+    - php: 5.4
+      env: 
+        - DB=mariadb
+        - SUIT=functional
+    - php: 5.4
+      env: 
+        - DB=postgres
+        - SUIT=core
+    - php: 5.4
+      env: 
+        - DB=postgres
+        - SUIT=functional
+    - php: 5.4
+      env: 
+        - DB=sqlite3
+        - SUIT=core
+    - php: 5.4
+      env: 
+        - DB=sqlite3
+        - SUIT=functional
+    - php: 5.5
+      env: 
+        - DB=mysqli
+        - SUIT=core
+    - php: 5.5
+      env: 
+        - DB=mysqli
+        - SUIT=functional
     - php: 5.6
       env: 
         - DB=mysqli
-#    - php: hhvm
-#      env: DB=mysqli 
-#    - php: 7
-#      env: DB=mysqli
+        - SUIT=core
+    - php: 5.6
+      env: 
+        - DB=mysqli
+        - SUIT=functional
+    - php: hhvm
+      env: 
+        - DB=mysqli 
+        - SUIT=core
+    - php: hhvm
+      env: 
+        - DB=mysqli 
+        - SUIT=functional
+    - php: 7
+      env: 
+        - DB=mysqli
+        - SUIT=core
+    - php: 7
+      env: 
+        - DB=mysqli
+        - SUIT=functional
   allow_failures:
     - php: hhvm
     - php: 7
