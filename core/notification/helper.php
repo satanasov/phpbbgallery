@@ -111,6 +111,16 @@ class helper
 			//break;
 		}
 	}
+	public function delete_notifications($type, $target)
+	{
+		$phpbb_notifications = $this->phpbb_container->get('notification_manager');
+		switch ($type)
+		{
+			case 'report':
+				$phpbb_notifications->delete_notifications('notification.type.phpbbgallery_new_report', $target);
+			break;
+		}
+	}
 
 	// Read notification (in some cases it is needed)
 	public function read($type, $target)
