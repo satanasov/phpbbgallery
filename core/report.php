@@ -195,7 +195,7 @@ class report
 	*
 	* @param	mixed	$report_ids		Array or integer with report_id.
 	*/
-	static public function delete($report_ids)
+	public function delete($report_ids)
 	{
 		global $db, $table_prefix;
 
@@ -209,6 +209,9 @@ class report
 			SET image_reported = ' . self::UNREPORTED . '
 			WHERE ' . $db->sql_in_set('image_reported', $report_ids);
 		$db->sql_query($sql);
+
+		// Let's delete notifications
+		$this->notification_helper->delete_notifications('report', $report_ids);
 	}
 
 
@@ -217,11 +220,27 @@ class report
 	*
 	* @param	mixed	$image_ids		Array or integer with image_id.
 	*/
-	static public function delete_images($image_ids)
+	public function delete_images($image_ids)
 	{
 		global $db, $table_prefix;
 
 		$image_ids = self::cast_mixed_int2array($image_ids);
+
+		// Let's build array for report notifications for images we are deleting
+		$sql = 'SELECT report_id FROM ' . $table_prefix . 'gallery_reports
+			WHERE ' . $db->sql_in_set('report_image_id', $image_ids);
+		$result = $db->sql_query($sql);
+		$reports = array();
+		while ($row = $db->sql_fetchrow($result))
+		{
+			$reports[] = $row['report_id'];
+		}
+		$db->sql_freeresult($result);
+		if (!empty($reports))
+		{
+			$reports = self::cast_mixed_int2array($reports);
+			$this->notification_helper->delete_notifications('report', $reports);
+		}
 
 		$sql = 'DELETE FROM ' . $table_prefix . 'gallery_reports
 			WHERE ' . $db->sql_in_set('report_image_id', $image_ids);
@@ -234,11 +253,27 @@ class report
 	*
 	* @param	mixed	$album_ids		Array or integer with album_id.
 	*/
-	static public function delete_albums($album_ids)
+	public function delete_albums($album_ids)
 	{
 		global $db, $table_prefix;
 
 		$album_ids = self::cast_mixed_int2array($album_ids);
+
+		// Let's build array for report notifications for albums we are deleting
+		$sql = 'SELECT report_id FROM ' . $table_prefix . 'gallery_reports
+			WHERE ' . $db->sql_in_set('report_album_id', $album_ids);
+		$result = $db->sql_query($sql);
+		$reports = array();
+		while ($row = $db->sql_fetchrow($result))
+		{
+			$reports[] = $row['report_id'];
+		}
+		$db->sql_freeresult($result);
+		if (!empty($reports))
+		{
+			$reports = self::cast_mixed_int2array($repors);
+			$this->notification_helper->delete_notifications('report', $reports);
+		}
 
 		$sql = 'DELETE FROM ' . $table_prefix . 'gallery_reports
 			WHERE ' . $db->sql_in_set('report_album_id', $album_ids);
