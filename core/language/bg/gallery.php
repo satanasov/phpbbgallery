@@ -132,6 +132,8 @@ $lang = array_merge($lang, array(
 	'FILETYPES_PNG'					=> 'png',
 	'FILETYPES_ZIP'					=> 'zip',
 
+	'FULL_EDITOR'					=> 'Пълен редактор',
+
 	'GALLERY_IMAGE'					=> 'Изображение',
 	'GALLERY_IMAGES'					=> 'Изображения',
 	'GALLERY_VIEWS'					=> 'Прегледи',

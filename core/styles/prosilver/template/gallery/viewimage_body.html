@@ -184,6 +184,39 @@
 </div>
 
 <!-- IF not S_IS_BOT and S_ALLOWED_TO_COMMENT -->
+<!-- IF S_ALLOWED_TO_COMMENT and not S_HIDE_COMMENT_INPUT -->
+<form method="post" action="{S_COMMENT_ACTION}" id="postform">
+<!-- EVENT quickreply_editor_panel_before -->
+	<div class="panel">
+		<div class="inner">
+				<h2 class="quickreply-title">{L_POST_COMMENT}</h2>
+				<fieldset class="fields1">
+				<!-- IF not S_USER_LOGGED_IN -->
+					<dl>
+						<dt><label>{L_USERNAME}:</label></dt>
+						<dd><input class="inputbox autowidth" type="text" name="username" maxlength="32" /></dd>
+					</dl>
+				<!-- ENDIF -->
+				<!-- IF CAPTCHA_TEMPLATE -->
+					<!-- INCLUDE {CAPTCHA_TEMPLATE} -->
+				<!-- ENDIF -->
+				<!-- EVENT quickreply_editor_message_before -->
+				<div id="message-box">
+					<textarea style="height: 9em;" name="message" rows="7" cols="76" tabindex="3" class="inputbox" name="message" id="message"></textarea>
+				</div>
+				<!-- EVENT quickreply_editor_message_after -->
+				</fieldset>
+				<fieldset class="submit-buttons">
+					{S_FORM_TOKEN}
+					{QR_HIDDEN_FIELDS}
+					<input type="submit" accesskey="f" tabindex="6" name="preview" value="{L_FULL_EDITOR}" class="button2" id="qr_full_editor" />&nbsp;
+					<input type="submit" accesskey="s" tabindex="7" name="submit" value="{L_SUBMIT}" class="button1"/>&nbsp;
+				</fieldset>
+		</div>
+	</div>
+<!-- EVENT quickreply_editor_panel_after -->
+</form>
+<!-- ENDIF -->
 <a name="rating"></a>
 <form id="postform" action="{S_COMMENT_ACTION}" method="post">
 <div id="postingbox" class="panel">
