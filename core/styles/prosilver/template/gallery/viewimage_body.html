@@ -1,14 +1,4 @@
 <!-- INCLUDE gallery/gallery_header.html -->
-<!--<svg width="0" height="0">
-  <defs>
-    <clipPath id="left_arrow">
-     <polygon style="stroke-width: 1px; vector-effect: non-scaling-stroke;" points="0 35 70 0 70 70"></polygon>
-    </clipPath>
-     <clipPath id="right_arrow">
-     <polygon style="stroke-width: 1px; vector-effect: non-scaling-stroke;" points="70 35 0 0 0 70"></polygon>
-    </clipPath>
-  </defs>
-</svg> -->
 <h2><a href="{S_ALBUM_ACTION}">{IMAGE_NAME}</a></h2>
 
 <div class="post bg2<!-- IF S_IMAGE_REPORTED --> reported<!-- ENDIF -->">
@@ -193,16 +183,6 @@
 	<!-- ENDIF -->
 </div>
 
-<!--
-<!-- IF IMAGE_DESC -->
-<div class="panel">
-	<div class="inner"><span class="corners-top"><span></span></span>
-		<h3>{L_IMAGE_DESC}</h3>
-		<div class="postbody" style="width: 100%"><div class="content">{IMAGE_DESC}</div></div>
-	<span class="corners-bottom"><span></span></span></div>
-</div>
-<!-- ENDIF -->
--->
 <!-- IF not S_IS_BOT and S_ALLOWED_TO_COMMENT -->
 <a name="rating"></a>
 <form id="postform" action="{S_COMMENT_ACTION}" method="post">
