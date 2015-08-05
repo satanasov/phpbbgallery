@@ -267,6 +267,12 @@ $table_comments, $phpbb_root_path, $php_ext)
 			$sig_checked = $this->user->optionget('attachsig');
 		}
 
+		$preview = $this->request->variable('preview', false);
+		if ($preview)
+		{
+			$comment_plain = $this->request->variable('message', '', true);
+		}
+
 		if ($this->misc->display_captcha('comment'))
 		{
 			if (!$submit || !$captcha->is_solved())
