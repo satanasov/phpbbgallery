@@ -180,3 +180,14 @@ input.autowidth-gallery {
 	width: 48%;
 	clip-path: url(#right_arrow);
 }
+
+.postbody_album {
+	text-align:center;
+}
+.postbody_album img.postimage {
+	margin: 10px auto 10px auto;
+	max-width: 100%;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
