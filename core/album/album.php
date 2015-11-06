@@ -151,7 +151,6 @@ class album
 
 		// Inint auth
 		$gallery_cache = new \phpbbgallery\core\cache($cache, $db);
-		//$gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $table_name);
 		$gallery_user = $phpbb_container->get('phpbbgallery.core.user');
 		$phpbb_ext_gallery_core_auth = $phpbb_container->get('phpbbgallery.core.auth');
 
@@ -269,7 +268,7 @@ class album
 				$disabled = true;
 			}
 
-			if ($list)
+			if ($list && !$disabled)
 			{
 				$selected = (is_array($select_id)) ? ((in_array($row['album_id'], $select_id)) ? ' selected="selected"' : '') : (($row['album_id'] == $select_id) ? ' selected="selected"' : '');
 				$album_list .= '<option value="' . $row['album_id'] . '"' . (($disabled) ? ' disabled="disabled" class="disabled-option"' : $selected) . '>' . $padding . $row['album_name'] . ' (ID: ' . $row['album_id'] . ')</option>';

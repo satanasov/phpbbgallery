@@ -853,7 +853,7 @@ class main_module
 
 	function move_album()
 	{
-		global $cache, $db, $user, $phpbb_ext_gallery_core_album, $albums_table, $request;
+		global $cache, $db, $user, $phpbb_ext_gallery, $phpbb_ext_gallery_core_album, $albums_table, $request;
 
 		$album_id = $request->variable('album_id', 0);
 		$phpbb_ext_gallery_core_album->check_user($album_id);
@@ -923,7 +923,7 @@ class main_module
 
 	function manage_subscriptions()
 	{
-		global $db, $template, $user, $phpbb_container, $phpbb_ext_gallery, $phpbb_gallery_notification, $watch_table, $albums_table, $contests_table;
+		global $db, $template, $user, $phpbb_container, $phpbb_ext_gallery, $phpbb_ext_gallery_core_album, $phpbb_gallery_notification, $watch_table, $albums_table, $contests_table;
 		global $images_table, $comments_table, $request;
 
 		$phpbb_ext_gallery_core_image = $phpbb_container->get('phpbbgallery.core.image');

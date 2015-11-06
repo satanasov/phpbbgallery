@@ -43,7 +43,7 @@ class helper
 		switch ($type)
 		{
 			case 'approval':
-				$targets = $this->gallery_auth->acl_users_ids('i_approve', $target['album_id']);
+				$targets = $this->gallery_auth->acl_users_ids('m_status', $target['album_id']);
 				$album_data = $this->album_load->get($target['album_id']);
 				$notification_data = array(
 					'user_ids' => $targets,
