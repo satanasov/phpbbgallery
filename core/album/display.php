@@ -114,6 +114,12 @@ class display
 	*/
 	public function generate_navigation($album_data)
 	{
+		// Add gallery menu entry
+		// TO DO !!! THIS SHOULD BE MOVED TO MENU CREATOR!!
+		$this->template->assign_block_vars('navlinks', array(
+			'FORUM_NAME'   => $this->user->lang['GALLERY'],
+			'U_VIEW_FORUM'   => $this->helper->route('phpbbgallery_index'),
+		));
 		// Get album parents
 		$album_parents = $this->get_parents($album_data);
 
