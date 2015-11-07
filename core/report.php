@@ -301,6 +301,10 @@ class report
 		if ($album === 0)
 		{
 			$mod_array = $this->gallery_auth->acl_album_ids('m_report');
+			if (empty($mod_array))
+			{
+				$mod_array[] = 0;
+			}
 		}
 		else
 		{

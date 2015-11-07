@@ -432,7 +432,7 @@ class moderate
 				}
 				if ($action == 'move')
 				{
-					$category_select = $this->album->get_albumbox(false, 'moving_target', $album_id, 'i_upload', $album_id);
+					$category_select = $this->album->get_albumbox(false, 'moving_target', $album_id, 'm_move', $album_id);
 					$this->template->assign_vars(array(
 						'S_MOVING_IMAGES'	=> true,
 						'S_ALBUM_SELECT'	=> $category_select,
@@ -757,7 +757,7 @@ class moderate
 		}
 		else
 		{
-			$category_select = $this->album->get_albumbox(false, 'moving_target', $album_id, 'i_upload', $album_id);
+			$category_select = $this->album->get_albumbox(false, 'moving_target', $album_id, 'm_move', $album_id);
 			$this->template->assign_vars(array(
 				'S_MOVING_IMAGES'	=> true,
 				'S_ALBUM_SELECT'	=> $category_select,
