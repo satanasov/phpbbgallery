@@ -49,16 +49,19 @@ class moderate
 		if ($album === 0)
 		{
 			$mod_array = $this->gallery_auth->acl_album_ids('m_status');
+			if (empty($mod_array))
+			{
+				$mod_array[] = 0;
+			}
 		}
 		else
 		{
 			$mod_array = array($album);
 		}
 		// Let's get count of unaproved
-		$sql = 'SELECT COUNT(image_id) as count 
+		$sql = 'SELECT COUNT(DISTINCT image_id) as count 
 			FROM ' . $this->images_table . ' 
 			WHERE image_status = ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ' and ' . $this->db->sql_in_set('image_album_id', $mod_array) . '
-			GROUP BY image_id
 			ORDER BY image_id DESC';
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
@@ -193,7 +196,7 @@ class moderate
 		{
 			$actions['report']	= 'REPORT_A_CLOSE';
 		}
-		$sql = 'SELECT COUNT(image_id) as count FROM ' . $this->images_table . ' WHERE ' . $this->db->sql_in_set('image_status', $status) . ' AND image_album_id = ' . $album_id . ' GROUP BY image_id';
+		$sql = 'SELECT COUNT(DISTINCT image_id) as count FROM ' . $this->images_table . ' WHERE ' . $this->db->sql_in_set('image_status', $status) . ' AND image_album_id = ' . $album_id;
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
@@ -273,6 +276,7 @@ class moderate
 				'album_id'	=> $album_id
 			),
 		), 'pagination', 'page', $count, $per_page, ($page - 1) * $per_page);
+
 		$select = '<select name="select_action">';
 		foreach ($actions as $id => $var)
 		{
