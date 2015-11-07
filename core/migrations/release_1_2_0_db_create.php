@@ -279,7 +279,7 @@ class release_1_2_0_db_create extends \phpbb\db\migration\migration
 						'log_ip'	=> array('VCHAR:40', ''),
 						'album'		=> array('UINT', 0),
 						'image'		=> array('UINT', 0),
-						'description'	=> array('VCHAR:256', ''),
+						'description'	=> array('MTEXT_UNI', ''),
 						'deleted'	=> array('UINT:1', 0),
 					),
 					'PRIMARY_KEY'	=> 'log_id',
