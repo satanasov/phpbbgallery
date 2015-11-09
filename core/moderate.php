@@ -61,8 +61,7 @@ class moderate
 		// Let's get count of unaproved
 		$sql = 'SELECT COUNT(DISTINCT image_id) as count 
 			FROM ' . $this->images_table . ' 
-			WHERE image_status = ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ' and ' . $this->db->sql_in_set('image_album_id', $mod_array) . '
-			ORDER BY image_id DESC';
+			WHERE image_status = ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ' and ' . $this->db->sql_in_set('image_album_id', $mod_array);
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
