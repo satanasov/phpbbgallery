@@ -5,7 +5,7 @@ matrix:
     - php: 5.3.3
       env:
         - DB=mysqli
-        - SUIT=core
+        - SUIT=core,event
     - php: 5.3.3
       env:
         - DB=mysqli
@@ -13,7 +13,7 @@ matrix:
     - php: 5.3
       env: 
         - DB=mysqli # MyISAM
-        - SUIT=core
+        - SUIT=core,event
     - php: 5.3
       env: 
         - DB=mysqli # MyISAM
@@ -21,7 +21,7 @@ matrix:
     - php: 5.4
       env: 
         - DB=mysqli
-        - SUIT=core
+        - SUIT=core,event
     - php: 5.4
       env: 
         - DB=mysqli
@@ -29,7 +29,7 @@ matrix:
     - php: 5.4
       env: 
         - DB=mysql
-        - SUIT=core
+        - SUIT=core,event
     - php: 5.4
       env: 
         - DB=mysql
@@ -37,7 +37,7 @@ matrix:
     - php: 5.4
       env: 
         - DB=mariadb
-        - SUIT=core
+        - SUIT=core,event
     - php: 5.4
       env: 
         - DB=mariadb
@@ -45,7 +45,7 @@ matrix:
     - php: 5.4
       env: 
         - DB=postgres
-        - SUIT=core
+        - SUIT=core,event
     - php: 5.4
       env: 
         - DB=postgres
@@ -53,7 +53,7 @@ matrix:
     - php: 5.4
       env: 
         - DB=sqlite3
-        - SUIT=core
+        - SUIT=core,event
     - php: 5.4
       env: 
         - DB=sqlite3
@@ -61,7 +61,7 @@ matrix:
     - php: 5.5
       env: 
         - DB=mysqli
-        - SUIT=core
+        - SUIT=core,event
     - php: 5.5
       env: 
         - DB=mysqli
@@ -69,7 +69,7 @@ matrix:
     - php: 5.6
       env: 
         - DB=mysqli
-        - SUIT=core
+        - SUIT=core,event
     - php: 5.6
       env: 
         - DB=mysqli
@@ -77,7 +77,7 @@ matrix:
     - php: hhvm
       env: 
         - DB=mysqli 
-        - SUIT=core
+        - SUIT=core,event
     - php: hhvm
       env: 
         - DB=mysqli 
@@ -85,7 +85,7 @@ matrix:
     - php: 7
       env: 
         - DB=mysqli
-        - SUIT=core
+        - SUIT=core,event
     - php: 7
       env: 
         - DB=mysqli
