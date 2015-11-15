@@ -13,6 +13,7 @@ namespace phpbbgallery\tests\core;
 * @group core
 */
 require_once dirname(__FILE__) . '/../../../../includes/functions.php';
+require_once dirname(__FILE__) . '/../../../../includes/functions_content.php';
 
 class core_base extends \phpbb_database_test_case
 {
@@ -59,7 +60,7 @@ class core_base extends \phpbb_database_test_case
 		
 		$this->auth = $this->getMock('\phpbb\auth\auth');
 		
-		$controller_helper = $this->getMockBuilder('\phpbb\controller\helper')
+		$this->controller_helper = $controller_helper = $this->getMockBuilder('\phpbb\controller\helper')
 			->disableOriginalConstructor()
 			->getMock();
 		
@@ -70,5 +71,10 @@ class core_base extends \phpbb_database_test_case
 			$phpbb_root_path,
 			$phpEx
 		);
+
+		$this->pagination = $this->getMockBuilder('\phpbb\pagination')->disableOriginalConstructor()
+			->getMock();
+
+		$this->user_loader = new \phpbb\user_loader($this->db, __DIR__ . '/../../../', 'php', 'phpbb_users');
 	}
 }
