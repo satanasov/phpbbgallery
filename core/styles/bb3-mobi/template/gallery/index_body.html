@@ -1,0 +1,63 @@
+<!-- INCLUDE gallery/gallery_header.html -->
+
+<!-- IF S_USER_LOGGED_IN and not S_IS_BOT -->
+<a href="{U_GALLERY_SEARCH}">{L_SEARCH}</a>
+<!-- IF U_G_SEARCH_RECENT --> | <a href="{U_G_SEARCH_RECENT}">{L_VIEW_SEARCH_RECENT}</a><!-- ENDIF -->
+<!-- IF U_G_SEARCH_COMMENTED --> | <a href="{U_G_SEARCH_COMMENTED}">{L_VIEW_SEARCH_COMMENTED}</a><!-- ENDIF -->
+<br /><a href="{U_G_SEARCH_SELF}">{L_VIEW_SEARCH_SELF}</a>
+<!-- IF U_G_SEARCH_RANDOM --> | <a href="{U_G_SEARCH_RANDOM}">{L_VIEW_SEARCH_RANDOM}</a><!-- ENDIF -->
+<!-- IF U_G_SEARCH_TOPRATED --> | <a href="{U_G_SEARCH_TOPRATED}">{L_VIEW_SEARCH_TOPRATED}</a><!-- ENDIF -->
+<!-- IF U_G_SEARCH_CONTESTS --><div class="panel bg3"><a href="{U_G_SEARCH_CONTESTS}">{L_VIEW_SEARCH_CONTESTS}</a></div><!-- ENDIF -->
+<!-- IF U_MARK_ALBUMS --><p class="mark-read"><i><a href="{U_MARK_ALBUMS}">{L_MARK_ALBUMS_READ}</a></i></p><!-- ENDIF -->
+<!-- ENDIF -->
+
+<!-- INCLUDE gallery/albumlist_polaroid.html -->
+
+<!-- IF S_USERS_PERSONAL_GALLERIES -->
+<div class="post bg3">
+<div class="inner">
+	<a href="{U_IMAGE_ACTION}" class="avatar"><img src="{U_PERSONAL_GALLERIES_LAST_IMAGE}"<!-- IF U_IMAGENAME --> title="{U_IMAGENAME} - {U_TIME}"<!-- ENDIF --> alt="" /></a>
+	<a class="forumtitle" href="{U_USERS_PERSONAL_GALLERIES}">{L_USERS_PERSONAL_ALBUMS}</a> [<b>{U_PERSONAL_GALLERIES_IMAGES}</b>]
+	<!-- IF S_PERSONAL_ALBUM -->
+	<div class="row"><a href="{U_PERSONAL_ALBUM}">{L_YOUR_PERSONAL_ALBUM} [<span<!-- IF !U_PERSONAL_ALBUM_COLOR --> class="username"<!-- ELSE --> class="username-coloured" style="color: #{U_PERSONAL_ALBUM_COLOR};"<!-- ENDIF -->>{U_PERSONAL_ALBUM_USER}</span></a>]</div>
+	<!-- ENDIF -->
+</div>
+</div>
+<!-- ENDIF -->
+
+<!-- IF .pagination -->
+<div class="action-bar">
+	<!-- IF .pagination -->
+	<div class="rightside pagination">
+		<!-- INCLUDE pagination.html -->
+	</div>
+	<!-- ENDIF -->
+</div>
+<!-- ENDIF -->
+
+<!-- IF not S_USER_LOGGED_IN and not S_IS_BOT and S_DISP_LOGIN -->
+<div class="panel small-icon">
+<!-- IF S_REGISTER_ENABLED -->
+<a href="{U_REGISTER}"><img src="{T_THEME_PATH}/images/icon_register.png" alt=""/> {L_REGISTER}</a><br /><!-- ENDIF -->
+<a href="{U_LOGIN_LOGOUT}"><img src="{T_THEME_PATH}/images/icon_logout.png" alt=""/> {L_LOGIN_LOGOUT}</a>
+</div>
+<!-- ENDIF -->
+
+<!-- IF S_DISPLAY_BIRTHDAY_LIST -->
+<div class="panel bg3">{L_BIRTHDAYS}
+<div class="post bg1"><!-- IF .birthdays -->{L_CONGRATULATIONS}{L_COLON} <b><!-- BEGIN birthdays -->{birthdays.USERNAME}<!-- IF birthdays.AGE !== '' --> ({birthdays.AGE})<!-- ENDIF --><!-- IF not birthdays.S_LAST_ROW -->, <!-- ENDIF --><!-- END birthdays --></b><!-- ELSE -->{L_NO_BIRTHDAYS}<!-- ENDIF --></div>
+</div>
+<!-- ENDIF -->
+
+<!-- IF U_VIEWONLINE --><p><a href="{U_VIEWONLINE}">{L_WHO_IS_ONLINE}</a></p><!-- ENDIF -->
+
+<!-- IF TOTAL_IMAGES -->
+<div class="panel bg3">{L_STATISTICS}
+<div class="post bg1">{TOTAL_IMAGES}
+<!-- IF TOTAL_COMMENTS --><br />{TOTAL_COMMENTS}<!-- ENDIF -->
+<!-- IF TOTAL_PGALLERIES --><br />{TOTAL_PGALLERIES}<!-- IF NEWEST_PGALLERIES --><br />{NEWEST_PGALLERIES}<!-- ENDIF --><!-- ENDIF -->
+</div>
+</div>
+<!-- ENDIF -->
+
+<!-- INCLUDE gallery/gallery_footer.html -->

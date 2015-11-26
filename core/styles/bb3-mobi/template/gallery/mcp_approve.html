@@ -1,0 +1,52 @@
+<!-- IF S_AJAX_REQUEST -->
+<h3>{MESSAGE_TITLE}</h3>
+<p>{MESSAGE_TEXT}</p>
+<!-- IF S_NOTIFY_POSTER -->
+	<p><input type="checkbox" name="notify_poster" checked="checked" /> <!-- IF S_APPROVE -->{L_NOTIFY_POSTER_APPROVAL}<!-- ELSE -->{L_NOTIFY_POSTER_DISAPPROVAL}<!-- ENDIF --></p>
+<!-- ENDIF -->
+
+<!-- IF not S_APPROVE and not S_RESTORE and .reason -->
+	<p><b>{L_DISAPPROVE_REASON}{L_COLON}</b>
+	<select name="reason_id">
+		<!-- BEGIN reason --><option value="{reason.ID}"<!-- IF reason.S_SELECTED --> selected="selected"<!-- ENDIF -->>{reason.DESCRIPTION}</option><!-- END reason -->
+	</select></p>
+
+	<p><b>{L_MORE_INFO}{L_COLON}</b><br /><i>{L_CAN_LEAVE_BLANK}</i><br />
+		<textarea class="inputbox" name="reason" id="reason" rows="4" cols="20">{REASON}</textarea>
+	</p>
+<!-- ENDIF -->
+<div class="submit-buttons">
+	<input type="button" name="confirm" value="{YES_VALUE}" class="button1" />&nbsp;
+	<input type="button" name="cancel" value="{L_NO}" class="button2" />
+</div>
+<!-- ELSE -->
+<!-- INCLUDE overall_header.html -->
+<form id="confirm" action="{S_CONFIRM_ACTION}" method="post">
+<div class="panel">
+	{S_FORM_TOKEN}
+	<div class="inner">
+		<h2>{MESSAGE_TITLE}</h2>
+		<!-- IF ADDITIONAL_MSG --><p class="error">{ADDITIONAL_MSG}</p><!-- ENDIF -->
+		<!-- IF S_NOTIFY_POSTER -->
+		<div class="post bg3">
+			<input type="checkbox" name="notify_poster" checked="checked" /> <!-- IF S_APPROVE -->{L_NOTIFY_POSTER_APPROVAL}<!-- ELSE -->{L_NOTIFY_POSTER_DISAPPROVAL}<!-- ENDIF --></div>
+		<!-- ENDIF -->
+		<!-- IF not S_APPROVE and not S_RESTORE and .reason -->
+		<div class="post bg3">{L_DISAPPROVE_REASON}{L_COLON}<br />
+			<select name="reason_id">
+			<!-- BEGIN reason --><option value="{reason.ID}"<!-- IF reason.S_SELECTED --> selected="selected"<!-- ENDIF -->>{reason.DESCRIPTION}</option><!-- END reason -->
+			</select>
+		</div>
+		<div class="post bg3">{L_MORE_INFO}{L_COLON}<br /><i>{L_CAN_LEAVE_BLANK}</i><br />
+		<textarea class="inputbox" name="reason" id="reason" rows="4" cols="20">{REASON}</textarea></div>
+		<!-- ENDIF -->
+		<div class="content"><b>{MESSAGE_TEXT}</b></div>
+		<div class="submit-buttons">
+			{S_HIDDEN_FIELDS}<input type="submit" name="confirm" value="{YES_VALUE}" class="button1" />&nbsp; 
+			<input type="submit" name="cancel" value="{L_NO}" class="button2" />
+		</div>
+	</div>
+</div>
+</form>
+<!-- INCLUDE overall_footer.html -->
+<!-- ENDIF -->

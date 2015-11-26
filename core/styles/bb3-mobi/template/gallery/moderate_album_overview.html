@@ -1,0 +1,47 @@
+<!-- INCLUDE gallery/gallery_header.html -->
+<h2>{L_MCP}<!-- IF U_ALBUM_NAME --> - {U_ALBUM_NAME}<!-- ENDIF --></h2>
+<!-- IF .pagination --><p>{TOTAL_PAGES}</p><!-- ENDIF -->
+<div class="panel">
+	<div class="row bg3"><a href="{U_GALLERY_MODERATE_OVERVIEW}">{L_GALLERY_MCP_MAIN}</a></div>
+	<!-- IF L_GALLERY_MCP_ALBUM_OVERVIEW -->
+	<div class="row bg2"><a href="{U_ALBUM_OVERVIEW}">{L_GALLERY_MCP_ALBUM_OVERVIEW}</a></div><!-- ENDIF -->
+	<div class="row bg3"><a href="{U_GALLERY_MODERATE_APPROVE}">{L_GALLERY_MCP_QUEUE}</a></div>
+	<div class="row bg3"><a href="{U_GALLERY_MODERATE_REPORT}">{L_GALLERY_MCP_REPORTED}</a></div>
+	<div class="row bg3"><a href="{U_GALLERY_MCP_LOGS}">{L_MCP_LOGS}</a></div>
+</div>
+<p>{L_GALLERY_MCP_QUEUE}</p>
+<h2>{L_GALLERY_MCP_QUEUE}</h2>
+<form id="overview_action" method="post" action="{S_GALLERY_MODERATE_OVERVIEW_ACTION}">
+<!-- IF .overview -->
+<div class="header">{L_GALLERY_MCP_QUEUE_DETAIL}</div>
+<!-- BEGIN overview -->
+<div class="row<!-- IF overview.S_ROW_COUNT is odd --> bg1<!-- ELSE --> bg2<!-- ENDIF -->">
+	<div class="inner">
+	<span class="avatar"><a href="{overview.U_IMAGE_MODERATE_URL}"><img src="{overview.U_IMAGE}" alt="{overview.U_IMAGE_NAME}"></a></span>
+		<a href="{overview.U_IMAGE_MODERATE_URL}" class="topictitle">{overview.U_IMAGE_NAME}<!-- IF overview.U_IS_REPORTED --><span class="imageset icon_topic_reported" style="float: right;" title="{L_REPORTED_IMAGES}">{L_REPORTED_IMAGES}</span><!-- ENDIF --><!-- IF overview.U_IS_UNAPPROVED --><span class="image_unapproved" title="{L_QUEUE_STATUS_0}">&nbsp;</span><!-- ENDIF --><!-- IF overview.U_IS_LOCKED --><span class="image_locked" title="{L_QUEUE_STATUS_2}">{L_QUEUE_STATUS_2}</span><!-- ENDIF --></a><br />
+		{L_UPLOADED_BY_USER}{L_COLON} {overview.IMAGE_AUTHOR} &raquo; {overview.IMAGE_TIME}
+	</div>
+	<div class="content">
+		<input name="action[]" value="{overview.U_IMAGE_ID}" type="checkbox">
+		{L_ALBUM}{L_COLON} <a href="{overview.IMAGE_ALBUM_URL}">{overview.IMAGE_ALBUM}</a>
+	</div>
+</div>
+<!-- END overview -->
+<!-- ELSE -->
+<div class="panel"><b>{L_NO_WAITING_UNAPPROVED_IMAGE}</b></div>
+<!-- ENDIF -->
+<!-- IF .overview -->
+<div class="action-bar bg3">
+	{U_ACTION_SELECT} &nbsp; <input class="button1" name="submit" value="{L_GO}" type="submit">
+	<div class="rightside"><a href="#" onclick="marklist('overview_action', 'action', true); return false;">Mark all</a> :: <a href="#" onclick="marklist('overview_action', 'action', false); return false;">Unmark all</a></div>
+</div>
+<!-- ENDIF -->
+</form>
+<!-- IF .pagination -->
+<div class="action-bar">
+	<div class="rightside pagination">
+	<!-- INCLUDE pagination.html -->
+	</div>
+</div>
+<!-- ENDIF -->
+<!-- INCLUDE gallery/gallery_footer.html -->

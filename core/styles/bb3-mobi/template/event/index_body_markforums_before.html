@@ -1,0 +1,16 @@
+<!-- BEGIN imageblock -->
+<!-- IF imageblock.U_BLOCK --><div class="header"><a href="{imageblock.U_BLOCK}">{imageblock.BLOCK_NAME}</a></div><!-- ENDIF -->
+<!-- IF not imageblock.ERROR -->
+<!-- BEGIN image -->
+	<!-- IF imageblock.image.S_FIRST_ROW -->
+		<table width="100%">
+	<!-- ENDIF -->
+		<td class="row<!-- IF imageblock.image.S_ROW_COUNT is even --> bg1<!-- ELSE --> bg2<!-- ENDIF -->">
+			<!-- IF imageblock.image.UC_THUMBNAIL_ACTION --><a href="{imageblock.image.UC_THUMBNAIL_ACTION}" title="{imageblock.image.UC_IMAGE_NAME}"><!-- ENDIF --><img src="{imageblock.image.UC_THUMBNAIL}" width="100%" height="auto" alt="{imageblock.image.UC_IMAGE_NAME}" /><!-- IF imageblock.image.UC_THUMBNAIL_ACTION --></a><!-- ENDIF -->
+		</td>
+	<!-- IF imageblock.image.S_LAST_ROW -->
+		</tr></table>
+	<!-- ENDIF -->
+<!-- END image -->
+<!-- ENDIF -->
+<!-- END imageblock -->

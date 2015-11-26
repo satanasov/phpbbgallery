@@ -1,0 +1,21 @@
+<!-- INCLUDE gallery/gallery_header.html -->
+<h2><!-- IF U_STATUS -->{L_GALLERY_MCP_REPO_OPEN}<!-- ELSE -->{L_GALLERY_MCP_REPO_DONE}<!-- ENDIF --></h2>
+<!-- IF .pagination --><p>{TOTAL_PAGES}</p><!-- ENDIF -->
+<div class="panel">
+	<div class="row bg3"><a href="{U_GALLERY_MODERATE_OVERVIEW}">{L_GALLERY_MCP_MAIN}</a></div>
+	<!-- IF U_ALBUM_OVERVIEW --><div class="row bg3"><a href="{U_ALBUM_OVERVIEW}">{L_GALLERY_MCP_ALBUM_OVERVIEW}</a></div><!-- ENDIF -->
+	<div class="row bg3"><a href="{U_GALLERY_MODERATE_APPROVE}">{L_GALLERY_MCP_QUEUE}</a></div>
+	<div class="row bg2"><a href="{U_GALLERY_MODERATE_REPORT}">{L_GALLERY_MCP_REPORTED}</a></div>
+	<div class="row bg3"><a href="{U_GALLERY_MCP_LOGS}">{L_MCP_LOGS}</a></div>
+</div>
+<div class="post bg3<!-- IF U_STATUS --> error<!-- ENDIF -->"><a href="{U_GALLERY_MODERATE_REPORT}">{L_GALLERY_MCP_REPO_OPEN}</a></div>
+<div class="post bg3<!-- IF !U_STATUS --> error<!-- ENDIF -->"><a href="{U_GALLERY_MODERATE_REPORT_CLOSED}">{L_GALLERY_MCP_REPO_DONE}</a></div>
+<!-- INCLUDE gallery/moderate_report_queue.html -->
+<!-- IF .pagination -->
+<div class="action-bar">
+	<div class="rightside pagination">
+		<!-- INCLUDE pagination.html -->
+	</div>
+</div>
+<!-- ENDIF -->
+<!-- INCLUDE gallery/gallery_footer.html -->

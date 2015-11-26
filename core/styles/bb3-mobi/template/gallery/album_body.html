@@ -1,0 +1,109 @@
+<!-- INCLUDE gallery/gallery_header.html -->
+
+<h2><a href="{U_VIEW_ALBUM}">{ALBUM_NAME}</a></h2>
+<!-- IF not S_IN_GALLERY_POPUP -->
+<!-- IF ALBUM_DESC --><p><i>{ALBUM_DESC}</i></p><!-- ENDIF -->
+<!-- IF ALBUM_CONTEST_START -->{ALBUM_CONTEST_START}<br /><!-- ENDIF -->
+<!-- IF ALBUM_CONTEST_RATING -->{ALBUM_CONTEST_RATING}<br /><!-- ENDIF -->
+<!-- IF ALBUM_CONTEST_END -->{ALBUM_CONTEST_END}<br /><br /><!-- ENDIF -->
+<!-- IF MODERATORS --><div class="content"><b>{L_MODERATORS}{L_COLON}</b> {MODERATORS}</div><!-- ENDIF -->
+<!-- IF U_EDIT_ALBUM --><a href="{U_EDIT_ALBUM}">{L_EDIT_ALBUM}</a><!-- ENDIF -->
+<!-- IF U_CREATE_ALBUM --><!-- IF U_EDIT_ALBUM --> | <!-- ENDIF --><a href="{U_CREATE_ALBUM}">{L_CREATE_SUBALBUM}</a><!-- ENDIF -->
+<!-- ENDIF -->
+
+<!-- IF .albumrow -->
+	<!-- IF not S_IS_BOT and U_MARK_ALBUMS -->
+	<div class="mark-read"><a href="{U_MARK_ALBUMS}">{L_MARK_ALBUMS_READ}</a></div>
+	<!-- ENDIF -->
+	<!-- INCLUDE gallery/albumlist_polaroid.html -->
+<!-- ENDIF -->
+
+<!-- IF S_IS_POSTABLE and not S_IN_GALLERY_POPUP and not S_IS_BOT -->
+<div class="action-bar">
+	<!-- IF S_DISPLAY_SEARCHBOX -->
+	<div class="rightside">
+		<form method="post" id="album-search" action="{S_SEARCHBOX_ACTION}">
+			<div>
+				<input class="inputbox autowidth" type="text" name="keywords" id="search_keywords" size="20" value="{L_SEARCH_ALBUM}" placeholder="{LA_SEARCH_ALBUM}" />
+				<input class="button2" type="submit" value="{L_SEARCH}" />
+				<input type="hidden" value="{ALBUM_ID}" name="aid[]" />
+			</div>
+		</form>
+	</div>
+	<!-- ENDIF -->
+	<!-- IF U_SLIDE_SHOW -->
+	<a href="{U_SLIDE_SHOW}" class="button">{L_SLIDE_SHOW}</a><!-- ENDIF -->
+</div>
+<!-- IF TOTAL_IMAGES -->
+<div class="header">
+	{TOTAL_IMAGES} | <a href="{U_WATCH_TOGLE}""><!-- IF S_IS_WATCHED -->{L_UNWATCH_ALBUM}<!-- ELSE -->{L_WATCH_ALBUM}<!-- ENDIF --></a>
+</div>
+<!-- ENDIF -->
+<!-- ENDIF -->
+
+<!-- IF .imageblock -->
+	<!-- IF S_IN_GALLERY_POPUP -->
+		<!-- INCLUDE gallery/imageblock_popup.html -->
+	<!-- ELSE -->
+		<!-- INCLUDE gallery/imageblock_polaroid.html -->
+	<!-- ENDIF -->
+<!-- ELSE -->
+	<!-- IF S_IS_POSTABLE -->
+	<div class="panel"><div class="inner"><b>{L_NO_IMAGES_LONG}</b></div></div>
+	<!-- ENDIF -->
+<!-- ENDIF -->
+
+<!-- IF S_IS_POSTABLE -->
+	<!-- IF S_SELECT_SORT_KEY or PREVIOUS_PAGE or NEXT_PAGE -->
+	<form action="{S_ALBUM_ACTION}" method="post">
+	<div class="post bg3">
+		<!-- IF PREVIOUS_PAGE --><a href="{PREVIOUS_PAGE}">{L_PREVIOUS}</a><!-- ENDIF -->
+		<!-- IF NEXT_PAGE --><!-- IF PREVIOUS_PAGE --> | <!-- ENDIF --><a href="{NEXT_PAGE}">{L_NEXT}</a><!-- ENDIF -->
+		<div class="dropdown-container">
+			<!-- IF S_SELECT_SORT_KEY -->
+			<a href="#" title="{L_DISPLAY_TOPICS}" class="dropdown-trigger">{L_SORT_BY}</a>
+			<div class="dropdown hidden">{S_SELECT_SORT_KEY} {S_SELECT_SORT_DIR}
+			<input type="submit" name="sort" value="{L_GO}" class="button2" /></div>
+			<!-- ENDIF -->
+		</div>
+	</div>
+	</form>
+	<!-- ENDIF -->
+	<!-- IF .imageblock -->
+	<div class="action-bar">
+		<!-- IF .pagination -->
+		<div class="rightside pagination">
+			<!-- INCLUDE pagination.html -->
+		</div>
+		<!-- ENDIF -->
+		<a href="<!-- IF U_UPLOAD_IMAGE -->{U_UPLOAD_IMAGE}<!-- ELSE -->#<!-- ENDIF -->" class="button"><!-- IF S_IS_LOCKED -->{L_ALBUM_LOCKED}<!-- ELSE -->{L_UPLOAD_IMAGE}<!-- ENDIF --></a>
+	</div>
+	<!-- ENDIF -->
+<!-- ENDIF -->
+
+<p> &laquo; <a href="{U_RETURN_LINK}">{L_RETURN_LINK}</a></p>
+<!-- IF ALBUM_JUMPBOX -->
+<form method="post" id="jumpbox" action="{S_JUMPBOX_ACTION}" onsubmit="if(this.album_id.value == -1){return false;}">
+	<div class="panel">
+		<select name="album_id" id="album_id" onchange="if(this.options[this.selectedIndex].value != -1){ document.forms['jumpbox'].submit() }">
+		<option selected="selected">{L_JUMP_TO}</option>
+			{ALBUM_JUMPBOX}
+		</select>
+		<input type="submit" value="{L_GO}" class="button2" />
+	</div>
+</form>
+<!-- ENDIF -->
+
+<!-- IF not S_IN_GALLERY_POPUP and S_DISPLAY_ONLINE_LIST -->
+<div class="panel bg3"><a href="{U_VIEWONLINE}">{L_WHO_IS_ONLINE}</a>
+	<div class="post bg1">{LOGGED_IN_USER_LIST}</div>
+</div>
+<!-- ENDIF -->
+
+<!-- IF not S_IN_GALLERY_POPUP and S_IS_POSTABLE -->
+<div class="panel bg3">{L_ALBUM_PERMISSIONS}
+	<div class="post bg1"><!-- BEGIN rules -->{rules.RULE}<br /><!-- END rules --></div>
+</div>
+<!-- ENDIF -->
+
+<!-- INCLUDE gallery/gallery_footer.html -->

@@ -1,0 +1,106 @@
+<!-- INCLUDE gallery/gallery_header.html -->
+<script type="text/javascript">
+function getElement(iElementId)
+{
+	if (document.all) 
+	{
+		return document.all[iElementId];
+	}
+	if (document.getElementById)
+	{
+		return document.getElementById(iElementId);
+	}
+}
+
+function toggleElement(oElement)
+{
+	if (oElement.style.display == "none")
+	{
+		oElement.style.display = "";
+	}
+	else
+	{
+		oElement.style.display = "none";
+	}
+}
+</script>
+<h2><!-- IF SEARCH_TITLE -->{SEARCH_TITLE}<!-- ELSE -->{SEARCH_MATCHES}<!-- ENDIF --><!-- IF SEARCH_WORDS -->: <a href="{U_SEARCH_WORDS}">{SEARCH_WORDS}</a><!-- ENDIF --></h2>
+<!-- IF IGNORED_WORDS --><p>{L_IGNORED_TERMS}: <b>{IGNORED_WORDS}</b></p><!-- ENDIF -->
+<!-- IF U_GALLERY_SEARCH --><p><a href="{U_GALLERY_SEARCH}" title="{L_SEARCH_ADV}">{L_RETURN_TO_SEARCH_ADV}</a></p><!-- ENDIF -->
+
+<!-- IF SEARCH_MATCHES -->
+<form method="post" action="{S_SEARCH_ACTION}">
+<div class="action-bar">
+	<div class="rightside">
+		<!-- IF SEARCH_IN_RESULTS -->
+		{L_SEARCH_IN_RESULTS}{L_COLON}
+		<input type="text" name="add_keywords" id="add_keywords" value="" class="inputbox autowidth" />
+		<input type="hidden" name="show_results" value="posts" />
+		<input class="button2" type="submit" name="submit" value="{L_SEARCH}" />
+		<!-- ENDIF -->
+	</div>
+</div>
+</form>
+<!-- ENDIF -->
+
+<!-- IF SEARCH_MATCHES --><b>{SEARCH_MATCHES}</b><!-- ENDIF -->
+
+<!-- IF SEARCH_MATCHES -->
+	<!-- INCLUDE gallery/imageblock_polaroid.html -->
+<!-- ENDIF -->
+
+<!-- IF .commentrow -->
+<div id="recent-comments">
+<!-- BEGIN commentrow -->
+<a id="{commentrow.COMMENT_ID}"></a>
+<div class="post <!-- IF commentrow.S_ROW_COUNT is odd -->bg1<!-- ELSE -->bg2<!-- ENDIF -->">
+	<div class="inner">
+		<p class="author">
+		<a href="{commentrow.U_COMMENT}">{MINI_POST_IMG}</a>&nbsp;{L_POST_BY_AUTHOR} <b>{commentrow.POST_AUTHOR_FULL}</b> &raquo; {commentrow.TIME}
+		<!-- IF commentrow.U_EDIT or commentrow.U_DELETE or commentrow.U_QUOTE -->
+			<span class="rightside">
+			<!-- IF commentrow.U_EDIT -->
+			<a href="{commentrow.U_EDIT}" title="{L_EDIT_COMMENT}" class="button"><span>{L_BUTTON_EDIT}</span></a><!-- ENDIF -->
+			<!-- IF commentrow.U_DELETE -->
+			<a href="{commentrow.U_DELETE}" title="{L_DELETE_COMMENT}" class="button"><span>{L_DELETE}</span></a><!-- ENDIF -->
+			<!-- IF commentrow.U_QUOTE -->
+			<a href="{commentrow.U_QUOTE}" title="{L_QUOTE_COMMENT}" class="button"><span>{L_QUOTE}</span></a><!-- ENDIF -->
+			</span>
+		<!-- ENDIF -->
+		</p>
+	</div>
+	<div class="content">{commentrow.TEXT}</div>
+	<div class="attachbox">
+		<div class="inner">
+		<span class="avatar">{commentrow.UC_THUMBNAIL}</span>
+			<b>{commentrow.UC_IMAGE_NAME}</b><br />
+			<i>{commentrow.IMAGE_AUTHOR} &raquo; {commentrow.IMAGE_TIME}</i>
+		</div>
+	</div>
+</div>
+<!-- END commentrow -->
+</div>
+<!-- ENDIF -->
+
+<!-- IF SEARCH_IN_RESULTS and S_SELECT_SORT_KEY -->
+<form method="post" action="{S_SEARCH_ACTION}">
+<div class="post bg3 dropdown-container">
+	<!-- IF PREVIOUS_PAGE --><a href="{PREVIOUS_PAGE}">{L_PREVIOUS}</a><!-- ENDIF -->
+	<!-- IF NEXT_PAGE --><a href="{NEXT_PAGE}" class="rightside">{L_NEXT}</a><!-- ENDIF -->
+	<!-- IF PREVIOUS_PAGE or NEXT_PAGE--><hr /><!-- ENDIF -->
+	<a href="#" title="{L_DISPLAY_TOPICS}" class="dropdown-trigger">{L_SORT_BY}</a>
+	<div class="dropdown hidden">{S_SELECT_SORT_KEY} {S_SELECT_SORT_DIR}
+	<input type="submit" name="sort" value="{L_GO}" class="button2" /></div>
+</div>
+</form>
+<!-- ENDIF -->
+
+<!-- IF .pagination -->
+<div class="action-bar">
+	<div class="pagination">
+		<!-- INCLUDE pagination.html -->
+	</div>
+</div>
+<!-- ENDIF -->
+
+<!-- INCLUDE gallery/gallery_footer.html -->

@@ -1,0 +1,57 @@
+<form id="gallery_approve" method="post" action="{S_GALLERY_APPROVE_ACTION}">
+	<div class="panel">
+		<div class="inner">
+			<!-- IF U_OVERVIEW -->
+			<h3>{L_LATEST_IMAGES_UNAPPROVED}</h3>
+			<!-- ELSE -->
+			<p> {TOTAL_IMAGES_WAITING} </p>
+			<!-- ENDIF -->
+			<!-- IF .unaproved -->
+				<ul class="topiclist two-long-columns">
+					<li class="header">
+						<dl>
+							<dt><div class="list-inner">{L_GALLERY_MCP_QUEUE_DETAIL}</div></dt>
+							<dd class="moderation"><span>{L_ALBUM}</span></dd>
+						</dl>
+					</li>
+				</ul>
+				<ul class="topiclist cplist missing-column responsive-show-all">
+					<!-- BEGIN unaproved -->
+					<li class="row<!-- IF unaproved.S_ROW_COUNT is odd --> bg1<!-- ELSE --> bg2<!-- ENDIF -->">
+						<dl>
+							<dt>
+								<div class="list-inner">
+									<span style="display: inline; float: left;">
+										<a href="{unaproved.U_IMAGE_MODERATE_URL}"><img style="max-width: 70px; max-height: 70px;" src="{unaproved.U_IMAGE}" alt="{unaproved.U_IMAGE_NAME}"></a>
+									</span>
+									<span style="margin-left: 10px;">
+										<a href="{unaproved.U_IMAGE_MODERATE_URL}" class="topictitle">{unaproved.U_IMAGE_NAME}</a><br />
+										<span style="margin-left: 10px; vertical-align: middle;">{L_UPLOADED_BY_USER}: {unaproved.IMAGE_AUTHOR} &raquo; {unaproved.IMAGE_TIME}</span>
+									</span>
+								</div>
+							</dt>
+							<dd class="moderation">
+								<span>
+									{L_ALBUM}: <a href="{unaproved.IMAGE_ALBUM_URL}">{unaproved.IMAGE_ALBUM}</a>
+								</span>
+							</dd>
+							<dd class="mark">
+								<input name="approval[{unaproved.IMAGE_ALBUM_ID}][]" value="{unaproved.U_IMAGE_ID}" type="checkbox">
+							</dd>
+						</dl>
+					</li>
+					<!-- END unaproved -->
+				</ul>
+			<!-- ELSE -->
+				<p> {L_NO_WAITING_UNAPPROVED_IMAGE}
+			<!-- ENDIF -->
+			</div>
+		</div>
+		<!-- IF .unaproved -->
+		<fieldset class="display-actions">
+			<input class="button2" name="action[disapprove]" value="{L_DISAPPROVE}" type="submit">&nbsp;
+			<input class="button1" name="action[approve]" value="{L_APPROVE}" type="submit">
+			<div><a href="#" onclick="marklist('gallery_approve', 'approval', true); return false;">Mark all</a> :: <a href="#" onclick="marklist('gallery_approve', 'approval', false); return false;">Unmark all</a></div>
+		</fieldset>
+		<!-- ENDIF -->
+	</form>

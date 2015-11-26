@@ -1,0 +1,44 @@
+<!-- INCLUDE gallery/gallery_header.html -->
+<h2><a href="{U_VIEW_ALBUM}">{L_ALBUM}: {ALBUM_NAME}</a></h2>
+
+<div class="panel">
+	<div class="post">
+		<a href="{U_EDIT_IMAGE}" title="{L_EDIT_IMAGE}" class="button"><span>{L_EDIT_IMAGE}</span></a>
+		<a href="{U_DELETE_IMAGE}" title="{L_DELETE_IMAGE}" class="button"><span>{L_DELETE_IMAGE}</span></a>
+
+		<h3>{IMAGE_NAME}</h3>
+		<p class="author">{UPLOADER} &raquo; {IMAGE_TIME}<br />
+			{L_ALBUM}{L_COLON} <a href="{U_VIEW_ALBUM}">{ALBUM_NAME}</a><!-- IF U_MOVE_IMAGE --> &raquo; <a href="{U_MOVE_IMAGE}">{L_MOVE}</a><!-- ENDIF --><br />
+			{L_STATUS}{L_COLON} <b>{STATUS}</b>
+		</p>
+
+		<div class="content">
+			<span style="avatar">{UC_IMAGE}</span>
+			<!-- IF IMAGE_DESC --><b>{L_IMAGE_DESC}{L_COLON}</b><br />{IMAGE_DESC}<!-- ENDIF -->
+		</div>
+	</div>
+</div>
+
+<!-- IF .reports -->
+<div id="report" class="panel">
+	<!-- BEGIN reports -->
+	<div class="post<!-- IF reports.STATUS == 1 --> bg3<!-- ENDIF -->">
+		<p class="author">{L_REPORT_BY} {reports.REPORTER} &raquo; {reports.REPORT_TIME}</p>
+		<div class="content">{reports.REPORT_NOTE}</div>
+		<!-- IF reports.STATUS == 0 -->
+		<p class="author">{L_CLOSED_BY} {reports.MANAGER} </p>
+		<hr />
+		<!-- ENDIF -->
+	</div>
+	<!-- END reports -->
+</div>
+<!-- ENDIF -->
+
+<form method="post" action="{S_MCP_ACTION}">
+	<div class="panel submit-buttons">
+		<select name="action">{U_SELECT}</select>
+		<input class="button2" type="submit" value="{L_SUBMIT}" />
+		<input type="hidden" value="{REPORT_ID}" name="image_id_ary[{REPORT_ID}]" />
+	</div>
+</form>
+

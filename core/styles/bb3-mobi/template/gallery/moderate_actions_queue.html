@@ -1,0 +1,16 @@
+<!-- IF U_OVERVIEW -->
+<h3>{L_LATEST_LOGS}</h3>
+<!-- ENDIF -->
+<!-- IF S_HAS_LOGS -->
+<div class="header">{L_ACTION}</div>
+<!-- BEGIN log -->
+<div class="post <!-- IF log.S_ROW_COUNT is odd -->bg1<!-- ELSE -->bg2<!-- ENDIF -->"
+	<p class="author">{log.U_LOG_USER} &raquo; {log.U_TIME} [{log.U_LOG_IP}]</p>
+	{log.U_LOG_ACTION}<br />
+	<!-- IF log.U_IMAGE_LINK --><a href="{log.U_IMAGE_LINK}">{L_LOGVIEW_VIEWIMAGE}</a><!-- ENDIF -->
+	<!-- IF log.U_ALBUM_LINK --><!-- IF log.U_IMAGE_LINK --> | <!-- ENDIF --><a href="{log.U_ALBUM_LINK}">{L_LOGVIEW_VIEWALBUM}</a><!-- ENDIF -->
+</div>
+<!-- END log -->
+<!-- ELSE -->
+<div class="post bg3">{L_NO_ENTRIES}</div>
+<!-- ENDIF -->

@@ -1,0 +1,49 @@
+<!-- BEGIN imageblock -->
+<!-- IF imageblock.U_BLOCK --><div class="header"><a href="{imageblock.U_BLOCK}">{imageblock.BLOCK_NAME}</a></div><!-- ENDIF -->
+
+<!-- IF imageblock.ERROR -->
+<p class="error">{imageblock.ERROR}</p>
+<!-- ELSE -->
+
+<!-- BEGIN image -->
+
+<div class="post <!-- IF imageblock.image.S_ROW_COUNT is odd -->bg1<!-- ELSE -->bg2<!-- ENDIF -->">
+	<h3><!-- IF imageblock.image.U_IMAGE --><a href="{imageblock.image.U_IMAGE}">{imageblock.image.UC_IMAGE_NAME}</a><!-- ELSE -->{imageblock.image.UC_IMAGE_NAME}<!-- ENDIF --></h3>
+	<p style="text-align: center;">
+		<!-- IF imageblock.image.UC_THUMBNAIL_ACTION -->
+		<a href="{imageblock.image.UC_THUMBNAIL_ACTION}"><img src="{imageblock.image.UC_THUMBNAIL}" alt="" title="{imageblock.image.UC_IMAGE_NAME}" /></a>
+		<!-- ELSE -->
+		<img src="{imageblock.image.UC_THUMBNAIL}" alt="" title="{imageblock.image.UC_IMAGE_NAME}" />
+		<!-- ENDIF -->
+	</p>
+	<hr />
+	<div class="content">
+		<!-- IF imageblock.image.U_ALBUM -->
+		{L_ALBUM_NAME}{L_COLON} <a href="{imageblock.image.U_ALBUM}"><b>{imageblock.image.ALBUM_NAME}</b></a><br /><!-- ENDIF -->
+		<!-- IF imageblock.image.POSTER -->{L_UPLOADED_BY_USER}{L_COLON} {imageblock.image.POSTER}<!-- ENDIF -->
+		<!-- IF imageblock.image.TIME --> | {L_UPLOADED_ON_DATE}{L_COLON} {imageblock.image.TIME}<!-- ENDIF -->
+		<!-- IF imageblock.IMAGE_VIEWS --> | {L_IMAGE_VIEWS}{L_COLON} {imageblock.image.IMAGE_VIEWS}<!-- ENDIF -->
+		<!-- IF imageblock.image.S_RATINGS --><br />{L_RATING}{L_COLON} <a href="{imageblock.image.U_RATINGS}">{imageblock.image.S_RATINGS}</a><!-- ENDIF -->
+		<!-- IF imageblock.image.S_COMMENTS --> | {imageblock.image.L_COMMENTS}{L_COLON} <a href="{imageblock.image.U_COMMENTS}">{imageblock.image.S_COMMENTS}</a><!-- ENDIF -->
+		<!-- IF imageblock.image.U_USER_IP --> | {L_IP}{L_COLON} {imageblock.image.U_USER_IP}<!-- ENDIF -->
+		<!-- IF imageblock.image.S_STATUS_UNAPPROVED -->
+			<br />
+			<form method="post" class="mcp_approve" action="{imageblock.image.S_STATUS_UNAPPROVED_ACTION}">
+				<p class="post-notice unapproved">
+					<input class="button2" type="submit" value="{L_DISAPPROVE}" name="action[disapprove]">
+					<input class="button1" type="submit" value="{L_APPROVE}" name="action[approve]">
+				</p>
+			</form>
+		<!-- ENDIF -->
+	</div>
+</div>
+
+<!-- IF imageblock.image.S_LAST_ROW -->
+	<span class="clear"></span>
+<!-- ENDIF -->
+
+<!-- END image -->
+
+<!-- ENDIF -->
+
+<!-- END imageblock -->

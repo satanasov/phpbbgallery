@@ -1,0 +1,15 @@
+<!-- INCLUDE gallery/gallery_header.html -->
+<h2>{L_MCP}<!-- IF U_ALBUM_NAME --> - {U_ALBUM_NAME}<!-- ENDIF --></h2>
+<div class="panel">
+	<div class="row bg2"><a href="{U_GALLERY_MODERATE_OVERVIEW}">{L_GALLERY_MCP_MAIN}</a></div>
+	<!-- IF U_ALBUM_OVERVIEW --><div class="row bg3"><a href="{U_ALBUM_OVERVIEW}">{L_GALLERY_MCP_ALBUM_OVERVIEW}</a></div><!-- ENDIF -->
+	<div class="row bg3"><a href="{U_GALLERY_MODERATE_APPROVE}">{L_GALLERY_MCP_QUEUE}</a></div>
+	<div class="row bg3"><a href="{U_GALLERY_MODERATE_REPORT}">{L_GALLERY_MCP_REPORTED}</a></div>
+	<div class="row bg3"><a href="{U_GALLERY_MCP_LOGS}">{L_MCP_LOGS}</a></div>
+</div>
+<p>{L_GALLERY_MCP_OVERVIEW}</p>
+<h2>{L_GALLERY_MCP_MAIN}</h2>
+<!-- INCLUDE gallery/moderate_approve_queue.html -->
+<!-- INCLUDE gallery/moderate_report_queue.html -->
+<!-- INCLUDE gallery/moderate_actions_queue.html -->
+<!-- INCLUDE gallery/gallery_footer.html -->

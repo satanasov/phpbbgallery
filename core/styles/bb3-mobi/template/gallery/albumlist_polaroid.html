@@ -1,0 +1,52 @@
+<!-- BEGIN albumrow -->
+	<!-- IF (albumrow.S_IS_CAT and not albumrow.S_FIRST_ROW) or albumrow.S_NO_CAT -->
+		</div>
+	<!-- ENDIF -->
+
+	<!-- IF albumrow.S_IS_CAT or albumrow.S_FIRST_ROW or albumrow.S_NO_CAT -->
+	<div class="forumbg">
+		<div<!-- IF albumrow.S_FIRST_ROW --> class="header"<!-- ENDIF -->><!-- IF albumrow.S_IS_CAT --><a href="{albumrow.U_VIEWALBUM}">{albumrow.ALBUM_NAME}</a><!-- ELSE -->{L_ALBUM}<!-- ENDIF --></div>
+	<!-- ENDIF -->
+
+	<!-- IF not albumrow.S_IS_CAT -->
+	<div class="row">
+		<div class="inner">
+		<!-- IF albumrow.UC_THUMBNAIL --><span class="avatar"><img src="{albumrow.UC_THUMBNAIL}" alt="" title="{albumrow.UC_IMAGE_NAME}" /></span><!-- ENDIF -->
+		<a href="{albumrow.U_VIEWALBUM}" class="forumtitle"<!-- IF S_PERSONAL_GALLERY and albumrow.ALBUM_COLOUR --> style="color: {albumrow.ALBUM_COLOUR};"<!-- ENDIF -->>{albumrow.ALBUM_NAME}</a> [<b>{albumrow.IMAGES}<!-- IF albumrow.UNAPPROVED_IMAGES --> + <span class="error">{albumrow.UNAPPROVED_IMAGES}</span><!-- ENDIF --></b>]
+		<!-- IF albumrow.ALBUM_DESC --><br /><i>{albumrow.ALBUM_DESC}</i><!-- ENDIF -->
+
+		<!-- IF EXTENDED_POLAROID and albumrow.MODERATORS -->
+			<hr />
+			<b>{albumrow.L_MODERATOR_STR}{L_COLON}</b> {albumrow.MODERATORS}
+		<!-- ENDIF --><br />
+
+		<!-- IF .albumrow.subalbum and albumrow.S_LIST_SUBALBUMS -->
+		<div class="dropdown-container">
+			<a href="#" class="responsive-menu-link dropdown-trigger">{albumrow.L_SUBALBUM_STR}</a>
+			<div class="dropdown" style="display: none;">
+				<div class="pointer"><div class="pointer-inner"></div></div>
+				<div class="dropdown-contents">
+					<!-- BEGIN subalbum -->
+						<a href="{albumrow.subalbum.U_SUBALBUM}" class="subforum<!-- IF albumrow.subalbum.S_UNREAD --> unread<!-- ELSE --> read<!-- ENDIF -->" title="<!-- IF albumrow.subalbum.UNREAD -->{L_UNREAD_IMAGES}<!-- ELSE -->{L_NO_UNREAD_IMAGES}<!-- ENDIF -->">{albumrow.subalbum.SUBALBUM_NAME}</a><!-- IF not albumrow.subalbum.S_LAST_ROW --><br /><!-- ENDIF -->
+					<!-- END subalbum -->
+				</div>
+			</div>
+		</div>
+		<!-- ENDIF -->
+		</div>
+	</div>
+	<!-- ENDIF -->
+
+	<!-- IF albumrow.S_LAST_ROW --></div><!-- ENDIF -->
+
+<!-- BEGINELSE -->
+	<div class="panel">
+		<div class="inner">
+			<b>{L_NO_ALBUMS}</b>
+		</div>
+	</div>
+<!-- END albumrow -->
+
+<!-- IF .albumrow -->
+	<!-- INCLUDEJS gallery/gallery.js -->
+<!-- ENDIF -->

@@ -1,0 +1,50 @@
+<!-- INCLUDE gallery/gallery_header.html -->
+
+<h2>{L_SEARCH}</h2>
+
+<form method="post" action="{S_SEARCH_ACTION}">
+
+<div class="panel">
+	<h3>{L_SEARCH_QUERY}</h3>
+	<div class="post bg3">{L_SEARCH_KEYWORDS}{L_COLON}<!-- IF S_IMPLEMENTED --><br /><i>{L_SEARCH_KEYWORDS_EXPLAIN}</i><!-- ENDIF --><br />
+		<input type="text" class="inputbox" name="keywords" id="keywords" size="40" title="{L_SEARCH_KEYWORDS}" />
+		<input type="radio" name="terms" id="terms1" value="all" checked="checked" /> {L_SEARCH_ALL_TERMS}
+		<input type="radio" name="terms" id="terms2" value="any" /> {L_SEARCH_ANY_TERMS}</div>
+	<div class="post bg3">{L_SEARCH_AUTHOR}{L_COLON}<br /><i>{L_SEARCH_AUTHOR_EXPLAIN}</i><br />
+		<input type="text" class="inputbox" name="username" id="username" size="40" title="{L_SEARCH_AUTHOR}" /></div>
+</div>
+
+<div class="panel bg2">
+	<h3>{L_SEARCH_OPTIONS}</h3>
+	<div class="post bg1">{L_SEARCH_ALBUMS}{L_COLON}<!-- IF S_IMPLEMENTED --><br /><i>{L_SEARCH_ALBUMS_EXPLAIN}</i><!-- ENDIF --><br />
+		<select name="aid[]" id="search_album" multiple="multiple" size="8" title="{L_SEARCH_ALBUMS}">{S_ALBUM_OPTIONS}</select>
+	</div>
+	<!-- IF S_IMPLEMENTED -->
+	<div class="post bg1">{L_SEARCH_SUBALBUMS}{L_COLON}<br />
+		<input type="radio" name="sc" id="search_child1" value="1" checked="checked" /> {L_YES} 
+		<input type="radio" name="sc" id="search_child2" value="0" /> {L_NO}</div>
+	<!-- ENDIF -->
+	<!-- IF S_IMPLEMENTED -->
+	<div class="post bg1">{L_SEARCH_WITHIN}{L_COLON}<br />
+		<input type="radio" name="sf" id="sf1" value="all" checked="checked" /> {L_SEARCH_IMAGE_COMMENTS} 
+		<input type="radio" name="sf" id="sf2" value="msgonly" /> {L_SEARCH_IMAGE_VALUES}<br />
+		<input type="radio" name="sf" id="sf3" value="titleonly" /> {L_SEARCH_IMAGENAME} 
+		<input type="radio" name="sf" id="sf4" value="firstpost" /> {L_SEARCH_COMMENTS}
+	</div>
+	<!-- ENDIF -->
+	<hr class="dashed" />
+	<div class="post bg3">{L_RESULT_SORT}{L_COLON}<br />
+		<p>{S_SELECT_SORT_KEY}</p>
+		<input type="radio" name="sd" id="sa" value="a" /> {L_SORT_ASCENDING} 
+		<input type="radio" name="sd" id="sd" value="d" checked="checked" /> {L_SORT_DESCENDING}
+	</div>
+</div>
+
+<div class="panel bg3 submit-buttons">
+	{S_HIDDEN_FIELDS}<input type="reset" value="{L_RESET}" name="reset" class="button2" />&nbsp; 
+	<input type="submit" name="submit" value="{L_SEARCH}" class="button1" />
+</div>
+
+</form>
+
+<!-- INCLUDE gallery/gallery_footer.html -->

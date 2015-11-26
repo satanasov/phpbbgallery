@@ -1,0 +1,26 @@
+.icon-gallery {
+	background: transparent url("./images/icon_gallery.png") 50% 50% no-repeat;
+}
+.icon-gallery span {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+}
+.g_unapproved {
+	background: 100% 0 no-repeat url("./images/icon_gallery_unapproved.gif");
+}
+.g_locked {
+	background: 100% 0 no-repeat url("./images/icon_gallery_locked.gif");
+}
+.g_reported {
+	background: 100% 0 no-repeat url("./images/icon_gallery_reported.gif");
+}
+.image_locked {
+	background: transparent url("./images/lock.png") 0 0 no-repeat;
+	overflow: hidden;
+	display: inline-block;
+	float: right;
+	margin: 1px;
+	width: 16px;
+	height: 16px;
+}

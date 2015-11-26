@@ -1,0 +1,31 @@
+<form id="gallery_report" method="post" action="{S_GALLERY_REPORT_ACTION}">
+<div class="header"><!-- IF U_OVERVIEW -->{L_LATEST_IMAGES_REPORTED}<!-- ELSE -->{TOTAL_IMAGES_REPORTED}<!-- ENDIF --></div>
+<!-- IF .report_image_open -->
+<div class="post bg3">{L_GALLERY_MCP_QUEUE_DETAIL} / {L_GALLERY_MCP_REPO_DETAIL}</div>
+<!-- BEGIN report_image_open -->
+<div class="row<!-- IF report_image_open.S_ROW_COUNT is odd --> bg1<!-- ELSE --> bg2<!-- ENDIF -->">
+	<div class="inner">
+		<span class="avatar">
+		<a href="{report_image_open.U_IMAGE_URL}"><img src="{report_image_open.U_IMAGE}" alt="{report_image_open.U_IMAGE_NAME}"></a></span>
+		<a href="{report_image_open.REPORT_URL}" class="topictitle">{report_image_open.U_IMAGE_NAME}</a><br />
+		{report_image_open.IMAGE_AUTHOR} &raquo; {report_image_open.IMAGE_TIME}<br />
+		{L_ALBUM}{L_COLON} <a href="{report_image_open.IMAGE_ALBUM_URL}">{report_image_open.IMAGE_ALBUM}</a>
+	</div>
+	<div class="content">
+		<!-- IF U_STATUS --><input name="report[]" value="{report_image_open.U_IMAGE_ID}" type="checkbox"><!-- ENDIF -->
+		{L_REPORT_BY}{L_COLON} {report_image_open.REPORT_AUTHOR} &raquo; {report_image_open.REPORT_TIME}
+	</div>
+</div>
+<!-- END report_image_open -->
+<!-- ELSE -->
+<div class="panel"><b>{L_REPORT_NOT_FOUND}</b></div>
+<!-- ENDIF -->
+<!-- IF U_STATUS -->
+<!-- IF .report_image_open -->
+<div class="action-bar bg3">
+	<input class="button1" type="submit" name="action[close]" value="{L_CLOSE_REPORTS}" />
+	<div class="rightside"><a href="#" onclick="marklist('gallery_report', 'report', true); return false;">Mark all</a> :: <a href="#" onclick="marklist('gallery_report', 'report', false); return false;">Unmark all</a></div>
+</div>
+<!-- ENDIF -->
+<!-- ENDIF -->
+</form>

@@ -1,0 +1,142 @@
+<script type="text/javascript">
+//<![CDATA[
+var gallery_popup_window = false;
+var current_active_message = 0;
+
+function set_text_field(id)
+{
+	current_active_message = id
+	text_name = 'message_' + id;
+
+	if (gallery_popup_window)
+	{
+		gallery_popup_window.text_name = 'message_' + id;
+	}
+}
+
+var same_name = false;
+
+function change_read_write()
+{
+	same_name = document.getElementById('same_name').checked;
+	if (!same_name)
+	{
+		<!-- BEGIN image -->
+			<!-- IF not image.S_FIRST_ROW -->
+		make_writable('{image.S_ROW_COUNT}')
+			<!-- ENDIF -->
+		<!-- END image -->
+	}
+	else
+	{
+		update_all('message');
+		update_all('image_name');
+		<!-- BEGIN image -->
+			<!-- IF not image.S_FIRST_ROW -->
+		make_readonly('{image.S_ROW_COUNT}');
+			<!-- ENDIF -->
+		<!-- END image -->
+		set_text_field(0);
+	}
+}
+
+function make_readonly(image) {
+	var element;
+
+	// Message field
+	element = document.getElementById('message_' + image);
+	element.readOnly = true;
+	add_class(element, 'readonly');
+
+	// Image name
+	element = document.getElementById('image_name_' + image);
+	element.readOnly = true;
+	add_class(element, 'readonly');
+
+	// Description length note
+	element = document.getElementById('desc_length_' + image);
+	element.style.display = 'none';
+}
+
+function make_writable(image) {
+	var element;
+
+	// Message field
+	element = document.getElementById('message_' + image);
+	element.readOnly = false;
+	remove_class(element, 'readonly');
+
+	// Image name
+	element = document.getElementById('image_name_' + image);
+	element.readOnly = false;
+	remove_class(element, 'readonly');
+
+	// Description length note
+	element = document.getElementById('desc_length_' + image);
+	element.style.display = 'block';
+}
+
+function update_all(what)
+{
+	if (same_name)
+	{
+		var content = document.getElementById(what + '_0').value;
+		var count = 0;
+		if (parseInt(document.getElementById('image_num').value))
+		{
+			count = parseInt(document.getElementById('image_num').value);
+		}
+		<!-- BEGIN image -->
+			<!-- IF not image.S_FIRST_ROW -->
+		document.getElementById(what + '_{image.S_ROW_COUNT}').value = content.split('{' + 'NUM' + '}').join(({image.S_ROW_COUNT} + count));
+			<!-- ENDIF -->
+		<!-- END image -->
+	}
+}
+
+function has_class(ele, cls) {
+	return ele.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
+}
+
+function add_class(ele, cls) {
+	if (!this.has_class(ele, cls))
+	{
+		ele.className += " " + cls;
+	}
+}
+
+function remove_class(ele, cls)
+{
+	if (has_class(ele, cls))
+	{
+		var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
+		ele.className = ele.className.replace(reg,' ');
+	}
+}
+
+/**
+* Window popup
+* Based on the function of phpBB.
+* Just storing the return of window.open(),
+* so we can set the text_name in the popup aswell.
+*/
+function gallery_popup(url, width, height, name)
+{
+	if (!name)
+	{
+		name = '_popup';
+	}
+
+	gallery_popup_window = window.open(url.replace(/&amp;/g, '&'), name, 'height=' + height + ',resizable=yes,scrollbars=yes, width=' + width);
+
+	/**
+	* Update the value of text_name when the window got opened...
+	* We use a 0.5 second timeout here, so the browser got the popup open, before we try to set the field.
+	* Hopefully users on super-fast computers, are not too fast in selecting the smilies.
+	*/
+	setTimeout("set_text_field(current_active_message)", 500);
+
+	return false;
+}
+//]]>
+</script>

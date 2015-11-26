@@ -1,0 +1,200 @@
+<!-- INCLUDE gallery/gallery_header.html -->
+<h2><a href="{S_ALBUM_ACTION}">{IMAGE_NAME}</a></h2>
+
+<div class="post bg2<!-- IF S_IMAGE_REPORTED --> reported<!-- ENDIF -->">
+<div class="inner">
+	<!-- IF CONTEST_RANK --><div style="text-align: center; padding: 5px;"><b>{L_CONTEST_RESULT}{L_COLON}</b> {CONTEST_RANK}</div><!-- ENDIF -->
+	<div class="panel" style="text-align: center; padding: 5px;" id="image">
+		<!-- IF S_VIEW_RATE -->
+		<div class="post bg1"><b>{L_RATING}{L_COLON}</b>
+			<!-- IF CONTEST_RESULT_HIDDEN -->{CONTEST_RESULT_HIDDEN}<!-- ELSE -->{IMAGE_RATING}<!-- ENDIF --><!-- IF S_YOUR_RATING --> ({L_YOUR_RATING}{L_COLON} {S_YOUR_RATING})<!-- ENDIF --></div>
+		<!-- ENDIF -->
+		<!-- IF UC_IMAGE_ACTION --><a href="{UC_IMAGE_ACTION}"><!-- ENDIF --><img src="{UC_IMAGE}" alt="{IMAGE_NAME}" /><!-- IF UC_IMAGE_ACTION --></a><!-- ENDIF -->
+		<!-- IF S_ALLOWED_TO_RATE -->
+		<div class="post bg3"<!-- IF .rate_scale --> title="{L_RATE_IMAGE}"<!-- ENDIF -->>
+			<form id="postform" action="{S_RATE_ACTION}" method="post">
+			<!-- IF .rate_scale -->
+				<!-- BEGIN rate_scale -->
+					<input type="submit" id="{rate_scale.RATE_POINT}" class="button" name="rating" value="{rate_scale.RATE_POINT}" />
+				<!-- END rate_scale -->
+			<!-- ELSE -->
+				{CONTEST_RATING}
+			<!-- ENDIF -->
+			{S_FORM_TOKEN}
+			</form>
+		</div>
+		<!-- ENDIF -->
+		<!-- IF S_IMAGE_REPORTED --><br /><a href="{U_IMAGE_REPORTED}"><span class="error">{L_IMAGE_REPORTED}</span></a><!-- ENDIF -->
+		<!-- IF IMAGE_DESC --><br />{IMAGE_DESC}<!-- ENDIF -->
+	</div>
+	<!-- IF U_EDIT or U_DELETE or U_REPORT -->
+	<span class="rightside">
+		<!-- EVENT gallery_viewimage_actions -->
+		<!-- IF U_EDIT --><a href="{U_EDIT}" title="{L_EDIT_IMAGE}" class="button"><span>{L_EDIT_IMAGE}</span></a><!-- ENDIF -->
+		<!-- IF U_DELETE -->
+		<a href="{U_DELETE}" title="{L_DELETE_IMAGE}" class="button"><span>x</span></a><!-- ENDIF -->
+		<!-- IF U_REPORT --><a href="{U_REPORT}" title="{L_REPORT_IMAGE}" class="button"><span>!</span></a><!-- ENDIF -->
+	</span>
+	<!-- ENDIF -->
+</div>
+</div>
+
+<!-- IF S_QUICK_MOD -->
+<form method="post" action="{S_MOD_ACTION}">
+<div class="submit-buttons">
+	<select name="action" id="quick-mod-select">
+		<!-- IF S_QM_MOVE --><option value="images_move">{L_QUEUE_A_MOVE}</option><!-- ENDIF -->
+		<!-- IF S_QM_EDIT --><option value="image_edit">{L_EDIT_IMAGE}</option><!-- ENDIF -->
+		<!-- IF S_QM_STATUS -->
+			<!-- IF not S_STATUS_UNAPPROVED --><option value="images_unapprove">{L_QUEUE_A_UNAPPROVE}</option><!-- ENDIF -->
+			<!-- IF not S_STATUS_APPROVED --><option value="images_approve">{L_QUEUE_A_APPROVE}</option><!-- ENDIF -->
+			<!-- IF not S_STATUS_LOCKED --><option value="images_lock">{L_QUEUE_A_LOCK}</option><!-- ENDIF -->
+		<!-- ENDIF -->
+		<!-- IF S_QM_DELETE --><option value="images_delete">{L_QUEUE_A_DELETE}</option><!-- ENDIF -->
+		<!-- IF S_QM_REPORT and S_IMAGE_REPORTED --><option value="report_details">{L_READ_REPORT}</option><!-- ENDIF -->
+	</select>
+	<input type="submit" value="{L_GO}" class="button2" />
+	{S_FORM_TOKEN}
+</div>
+</form>
+<!-- ENDIF -->
+
+<!-- IF UC_PREV_IMAGE or UC_NEXT_IMAGE -->
+<div class="post bg2">
+	<div class="inner">
+		<!-- IF UC_PREV_IMAGE --><span>{UC_PREV_IMAGE}</span><!-- ENDIF -->
+		<!-- IF UC_NEXT_IMAGE --><span class="rightside">{UC_NEXT_IMAGE}</span><!-- ENDIF -->
+	</div>
+</div>
+<!-- ENDIF -->
+
+<div id="details" class="panel">
+
+	<div class="inner">
+		<p class="author small-icon">
+			<!-- IF POSTER_AVATAR --><span class="avatar">{POSTER_AVATAR}</span><!-- ENDIF -->
+			<img src="{T_THEME_PATH}/images/icon_<!-- IF S_POSTER_ONLINE -->online<!-- ELSE -->offline<!-- ENDIF -->.gif" alt="" /> <b>{POSTER_FULL}</b> &raquo; {IMAGE_TIME}
+			<!-- IF POSTER_GALLERY_IMAGES != '' --><br /><b>{L_IMAGES}{L_COLON}</b> <!-- IF U_POSTER_GALLERY_SEARCH --><a href="{U_POSTER_GALLERY_SEARCH}">{POSTER_GALLERY_IMAGES}</a><!-- ELSE -->{POSTER_GALLERY_IMAGES}<!-- ENDIF --> | <!-- ENDIF -->
+			<b>{L_GALLERY_VIEWS}{L_COLON}</b> {IMAGE_VIEW}
+			<!-- IF POSTER_IP --> | <b>{L_IP}{L_COLON}</b> <a href="{U_POSTER_WHOIS}" onclick="popup(this.href, 750, 500); return false;">{POSTER_IP}</a><!-- ENDIF -->
+		</p>
+	</div>
+
+	<!-- IF IMAGE_URL -->
+	<div class="row bg2 dropdown-container"><a href="#" class="dropdown-trigger">{L_IMAGE_URL}</a>
+	<div class="dropdown hidden"><input type="text" value="{IMAGE_URL}" class="inputbox" onclick="this.focus();this.select();" /></div>
+	</div>
+	<!-- ENDIF -->
+	<!-- IF IMAGE_BBCODE -->
+	<div class="row bg1 dropdown-container"><a href="#" class="dropdown-trigger">{L_IMAGE_BBCODE}</a>
+	<div class="dropdown hidden">
+		<input type="text" value="{IMAGE_BBCODE}" class="inputbox autowidth" onclick="this.focus();this.select();" />
+		<!-- IF IMAGE_IMGURL_BBCODE -->
+		<br /><input type="text" value="{IMAGE_IMGURL_BBCODE}" class="inputbox" onclick="this.focus();this.select();" /><!-- ENDIF -->
+	</div>
+	</div>
+	<!-- ENDIF -->
+	<!-- EVENT gallery_viewimage_details -->
+
+</div>
+
+<!-- IF not S_IS_BOT and S_ALLOWED_TO_COMMENT -->
+<a name="rating"></a>
+<form id="postform" action="{S_COMMENT_ACTION}" method="post">
+<div id="postingbox" class="panel bg3">
+	<div class="inner">
+		<h3>{L_POST_COMMENT}</h3>
+			<!-- IF S_ALLOWED_TO_COMMENT and not S_HIDE_COMMENT_INPUT -->
+
+			<!-- IF not S_USER_LOGGED_IN -->
+				<div class="post bg2">{L_USERNAME}{L_COLON}<br />
+					<input class="inputbox autowidth" type="text" name="username" maxlength="32" /></div>
+			<!-- ENDIF -->
+			<!-- IF CAPTCHA_TEMPLATE -->
+				<!-- INCLUDE {CAPTCHA_TEMPLATE} -->
+			<!-- ENDIF -->
+			<!-- INCLUDE posting_buttons.html -->
+
+			<!-- IF S_SMILIES_ALLOWED and .smiley -->
+			<div class="post bg1" id="smiley-box">
+			<!-- BEGIN smiley -->
+			<!-- IF smiley.S_ROW_COUNT < 10 or not S_SHOW_SMILEY_LINK -->
+			<a class="small-icon" href="#" onclick="insert_text('{smiley.A_SMILEY_CODE}', true); return false;"><img src="{smiley.SMILEY_IMG}" width="{smiley.SMILEY_WIDTH}" height="{smiley.SMILEY_HEIGHT}" alt="{smiley.SMILEY_CODE}" title="{smiley.SMILEY_DESC}" /></a><!-- ENDIF -->
+			<!-- END smiley -->
+			<!-- IF S_SHOW_SMILEY_LINK --><a href="{U_MORE_SMILIES}" onclick="popup(this.href, 750, 350, '_phpbbsmilies'); return false;">{L_MORE_SMILIES}</a><!-- ENDIF -->
+			</div>
+			<!-- ENDIF -->
+			<div class="post bg1" id="message-box">
+				{L_COMMENT_LENGTH}<br />
+				<textarea name="message" id="message" rows="5" cols="25" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" class="inputbox"></textarea>
+			</div>
+
+			<p><input type="checkbox" name="attach_sig" id="attach_sig"{S_SIGNATURE_CHECKED} /> {L_ATTACH_SIG}</p>
+			<div class="submit-buttons"><input type="submit" name="submit" value="{L_SUBMIT}" class="button1" /></div>
+
+		<!-- ELSE IF S_HIDE_COMMENT_INPUT -->
+			<!-- IF S_ALLOWED_TO_RATE --><hr class="dashed" /><!-- ENDIF -->
+			{CONTEST_COMMENTS}
+		<!-- ENDIF -->
+		{S_FORM_TOKEN}
+	</div>
+</div>
+</form>
+<!-- ENDIF -->
+
+<!-- IF S_ALLOWED_READ_COMMENTS -->
+	<a name="comments"></a>
+	<!-- IF not .commentrow or S_COMMENTS_DISABLED -->
+		<div id="comments" class="panel">
+			<div class="inner">
+				<strong><!-- IF S_COMMENTS_DISABLED -->{L_IMAGE_COMMENTS_DISABLED}<!-- ELSE -->{L_NO_COMMENTS}<!-- ENDIF --></strong>
+			</div>
+		</div>
+	<!-- ENDIF -->
+
+	<!-- IF .commentrow -->
+		<!-- IF TOTAL_COMMENTS --><div class="header">{TOTAL_COMMENTS}</div><!-- ENDIF -->
+		<!-- BEGIN commentrow -->
+		<div id="comment_{commentrow.COMMENT_ID}" class="post <!-- IF commentrow.S_ROW_COUNT is odd -->bg1<!-- ELSE -->bg2<!-- ENDIF -->">
+			<div class="inner">
+				<p class="author small-icon">
+					<!-- IF commentrow.POSTER_AVATAR --><span class="avatar">{commentrow.POSTER_AVATAR}</span><!-- ENDIF -->
+					<a href="{commentrow.U_COMMENT}"><img src="{T_THEME_PATH}/images/icon_<!-- IF commentrow.S_ONLINE -->online<!-- ELSE -->offline<!-- ENDIF -->.gif" alt="" title="{MINI_POST_IMG}" /></a>&nbsp;<b>{commentrow.POST_AUTHOR_FULL}</b> &raquo; {commentrow.TIME}
+					<!-- IF not S_IS_BOT and (commentrow.U_DELETE or commentrow.U_INFO) -->
+					<span class="rightside">
+						<!-- IF commentrow.U_DELETE -->
+						<a href="{commentrow.U_DELETE}" title="{L_DELETE_COMMENT}" class="button"><span>{L_DELETE}</span></a><!-- ENDIF -->
+						<!-- IF commentrow.U_INFO -->
+						<a href="{commentrow.U_INFO}" title="{L_IP}" class="button" onclick="popup(this.href, 750, 500); return false;"><span>{L_IP}</span></a><!-- ENDIF -->
+					</span>
+					<!-- ENDIF -->
+				</p>
+			</div>
+			<div class="content">{commentrow.TEXT}</div>
+			<!-- IF commentrow.U_EDIT -->
+			<a href="{commentrow.U_EDIT}" title="{L_EDIT_COMMENT}" class="button rightside"><span>{L_BUTTON_EDIT}</span></a><!-- ENDIF -->
+			<!-- IF commentrow.U_QUOTE -->
+			<a href="{commentrow.U_QUOTE}" title="{L_QUOTE_COMMENT}" class="button rightside"><span>{L_QUOTE}</span></a><!-- ENDIF -->
+			<!-- IF commentrow.U_POSTER_PM -->
+			<a href="{commentrow.U_POSTER_PM}" title="{L_PRIVATE_MESSAGE}" class="button rightside"><span>{L_BUTTON_PM}</span></a><!-- ENDIF -->
+			<!-- IF commentrow.EDIT_INFO --><p><i>{commentrow.EDIT_INFO}</i></p><!-- ENDIF -->
+			<!-- IF commentrow.SIGNATURECLOSE --><hr />{commentrow.SIGNATURE}<!-- ENDIF -->
+		</div>
+		<!-- END commentrow -->
+		<form action="{S_ALBUM_ACTION}" method="post">
+		<div class="submit-buttons bg3">
+			{L_ORDER}: <select name="sort_order"><option value="ASC"<!-- IF SORT_ASC --> selected="selected"<!-- ENDIF -->>{L_SORT_ASCENDING}</option><option value="DESC"<!-- IF not SORT_ASC --> selected="selected"<!-- ENDIF -->>{L_SORT_DESCENDING}</option></select>&nbsp;<input type="submit" name="submit" value="{L_GO}" class="button2" />
+		</div>
+		</form>
+		<!-- IF .pagination -->
+		<div class="topic-actions">
+			<div class="rightside pagination">
+				<!-- INCLUDE pagination.html -->
+			</div>
+		</div>
+		<!-- ENDIF -->
+	<!-- ENDIF -->
+<!-- ENDIF -->
+
+<p> &laquo; <a href="{U_RETURN_LINK}">{S_RETURN_LINK}</a></p>
+<!-- INCLUDE gallery/gallery_footer.html -->
