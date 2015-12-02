@@ -255,6 +255,7 @@ class search
 					$action_image = false;
 				break;
 			}
+
 			$this->template->assign_block_vars('imageblock.image', array(
 				'IMAGE_ID'		=> $row['image_id'],
 				'U_IMAGE'		=> $show_imagename ? $action_image : false,
