@@ -44,7 +44,7 @@ class core_base extends \phpbb_database_test_case
 	{
 		parent::setUp();
 
-		global $config, $phpbb_dispatcher;
+		global $config, $phpbb_dispatcher, $auth, $user;
 		
 		$this->db = $this->new_dbal();
 
@@ -58,7 +58,12 @@ class core_base extends \phpbb_database_test_case
 		$this->user->optionset('viewcensors', false);
 		$this->user->style['style_path'] = 'prosilver';
 		
+		$user = $this->user;
+		
 		$this->auth = $this->getMock('\phpbb\auth\auth');
+		$this->auth->method('get_acl')
+			->willReturn(true);
+		$auth = $this->auth;
 		
 		$this->controller_helper = $controller_helper = $this->getMockBuilder('\phpbb\controller\helper')
 			->disableOriginalConstructor()
