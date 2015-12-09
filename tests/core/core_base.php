@@ -44,7 +44,7 @@ class core_base extends \phpbb_database_test_case
 	{
 		parent::setUp();
 
-		global $config, $phpbb_dispatcher, $auth, $user, $cache;
+		global $config, $phpbb_dispatcher, $user, $cache;
 		
 		$this->db = $this->new_dbal();
 
@@ -63,9 +63,6 @@ class core_base extends \phpbb_database_test_case
 		$user = $this->user;
 		
 		$this->auth = $this->getMock('\phpbb\auth\auth');
-		$this->auth->method('get_acl')
-			->willReturn(true);
-		$auth = $this->auth;
 		
 		$this->controller_helper = $this->getMockBuilder('\phpbb\controller\helper')
 			->disableOriginalConstructor()
