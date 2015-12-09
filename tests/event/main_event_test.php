@@ -56,7 +56,6 @@ class main_event_test extends \phpbb_database_test_case
 
 		$this->gallery_search = $this->getMockBuilder('\phpbbgallery\core\search')
 			->disableOriginalConstructor()
-			->setMethods(array('recent'))
 			->getMock();
 		
 		$this->config = new \phpbb\config\config(array());
@@ -171,11 +170,8 @@ class main_event_test extends \phpbb_database_test_case
 
 	public function test_user_profile_galleries()
 	{
-		$event_data = array(
-			'member'	=> array(
-				'user_id' => 2,
-			),
-		);
+		$member = array('user_id' => 2);
+		$event_data = array('member');
 		$event = new \phpbb\event\data(compact($event_data));
 		$this->config['phpbb_gallery_rrc_profile_mode'] = 3;
 		$this->config['phpbb_gallery_rrc_profile_items'] = 3;
@@ -185,5 +181,5 @@ class main_event_test extends \phpbb_database_test_case
 		$dispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
 		$dispatcher->addListener('core.memberlist_view_profile', array($this->listener, 'user_profile_galleries'));
 		$dispatcher->dispatch('core.memberlist_view_profile', $event);
-	}	*/
+	}	*/	
 }
