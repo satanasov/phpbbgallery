@@ -204,9 +204,6 @@ class search
 		{
 			$show_views = true;
 			$show_options = $show_options - 16;
-			$this->template->assign_block_vars('imageblock', array(
-				'IMAGE_VIEWS'	=> true,
-			));
 		}
 		if ($show_options >= 8)
 		{
@@ -262,7 +259,7 @@ class search
 				'UC_IMAGE_NAME'	=> $show_imagename ? $row['image_name'] : false,
 				'U_ALBUM'	=> $show_album ? $this->helper->route('phpbbgallery_album', array('album_id' => $album_data['album_id'])) : false,
 				'ALBUM_NAME'	=> $show_album ? $album_data['album_name'] : false,
-				'IMAGE_VIEWS'	=> $show_views ? $row['image_view_count'] : false,
+				'IMAGE_VIEWS'	=> $show_views ? $row['image_view_count'] : -1,
 				//'UC_THUMBNAIL'	=> 'self::generate_link('thumbnail', $phpbb_ext_gallery->config->get('link_thumbnail'), $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id']),
 				'UC_THUMBNAIL'		=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $row['image_id'])),
 				'UC_THUMBNAIL_ACTION'	=> $action,
@@ -301,7 +298,7 @@ class search
 	public function recent_count()
 	{
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
-		$sql_order = 'image_id DESC';
+
 		$sql = 'SELECT COUNT(image_id) as count
 			FROM ' . $this->images_table . '
 			WHERE image_status <> ' . \phpbbgallery\core\image\image::STATUS_ORPHAN;
@@ -318,13 +315,9 @@ class search
 		}
 		$exclude_albums = array_merge($exclude_albums, $this->gallery_auth->get_exclude_zebra());
 		$sql .= '	AND ((' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
-					OR ' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('m_status'), $exclude_albums), false, true) . ')
-			GROUP BY image_id
-			ORDER BY ' . $sql_order;
-
+					OR ' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('m_status'), $exclude_albums), false, true) . ')';
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
-
 		return (int) $row['count'];
 	}
 
@@ -377,6 +370,7 @@ class search
 		$this->user_loader->load_users(array_keys($users_array));
 		foreach ($rowset as $var)
 		{
+
 			$album_tmp = $this->album->get_info($var['image_album_id']);
 			$this->template->assign_block_vars('commentrow', array(
 				'COMMENT_ID'	=> $var['comment_id'],
@@ -388,7 +382,7 @@ class search
 				'TIME'	=> $this->user->format_date($var['comment_time']),
 				'TEXT'	=> generate_text_for_display($var['comment'], $var['comment_uid'], $var['comment_bitfield'], 7),
 				'UC_IMAGE_NAME'	=> '<a href="' . $this->helper->route('phpbbgallery_image', array('image_id' => $var['comment_image_id'])) . '">' . $var['image_name'] . '</a>',
-				//'UC_THUMBNAIL'		=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $var['image_id'])),
+				'UC_THUMBNAIL'		=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $var['image_id'])),
 				'UC_THUMBNAIL'		=> $this->image->generate_link('thumbnail', $this->gallery_config->get('link_thumbnail'), $var['comment_image_id'], $var['image_name'], $var['image_album_id']),
 				'IMAGE_AUTHOR'		=> $this->user_loader->get_username((int) $var['image_user_id'], 'full'),
 				'IMAGE_TIME'		=> $this->user->format_date($var['image_time']),
@@ -525,6 +519,7 @@ class search
 		// Now let's get display options
 		$show_ip = $show_ratings = $show_username = $show_views = $show_time = $show_imagename = $show_comments = $show_album = false;
 		$show_options = $this->gallery_config->get($fields);
+
 		if ($show_options >= 128)
 		{
 			$show_ip = true;
@@ -544,9 +539,6 @@ class search
 		{
 			$show_views = true;
 			$show_options = $show_options - 16;
-			$this->template->assign_block_vars('imageblock', array(
-				'IMAGE_VIEWS'	=> true,
-			));
 		}
 		if ($show_options >= 8)
 		{
@@ -600,7 +592,7 @@ class search
 				'UC_IMAGE_NAME'	=> $show_imagename ? $row['image_name'] : false,
 				'U_ALBUM'	=> $show_album ? $this->helper->route('phpbbgallery_album', array('album_id' => $album_data['album_id'])) : false,
 				'ALBUM_NAME'	=> $show_album ? $album_data['album_name'] : false,
-				'IMAGE_VIEWS'	=> $show_views ? $row['image_view_count'] : false,
+				'IMAGE_VIEWS'	=> $show_views ? $row['image_view_count'] : -1,
 				//'UC_THUMBNAIL'	=> 'self::generate_link('thumbnail', $phpbb_ext_gallery->config->get('link_thumbnail'), $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id']),
 				'UC_THUMBNAIL'		=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $row['image_id'])),
 				'UC_THUMBNAIL_ACTION'	=> $action,
@@ -701,7 +693,7 @@ class search
 		$this->user_loader->load_users(array_keys($users_array));
 		// Now let's get display options
 		$show_ip = $show_ratings = $show_username = $show_views = $show_time = $show_imagename = $show_comments = $show_album = false;
-		$show_options = $this->gallery_config->get('rrc_profile_display');
+		$show_options = $this->gallery_config->get('rrc_gindex_display');
 		if ($show_options >= 128)
 		{
 			$show_ip = true;
@@ -721,9 +713,6 @@ class search
 		{
 			$show_views = true;
 			$show_options = $show_options - 16;
-			$this->template->assign_block_vars('imageblock', array(
-				'IMAGE_VIEWS'	=> true,
-			));
 		}
 		if ($show_options >= 8)
 		{
@@ -784,7 +773,7 @@ class search
 				'POSTER'		=> $show_username ? get_username_string('full', $row['image_user_id'], $row['image_username'], $row['image_user_colour']) : false,
 				'TIME'			=> $show_time ? $this->user->format_date($row['image_time']) : false,
 
-				'S_RATINGS'		=> ($show_ratings && $this->gallery_config->get('allow_rates') && $this->gallery_auth->acl_check('i_rate', $row['image_album_id'], $album_data['album_user_id'])) ? $row['image_rate_avg'] : '',
+				'S_RATINGS'		=> ($show_ratings && $this->gallery_config->get('allow_rates') && $this->gallery_auth->acl_check('i_rate', $row['image_album_id'], $album_data['album_user_id'])) ? $row['image_rate_avg'] / 100 : '',
 				'U_RATINGS'		=> $this->helper->route('phpbbgallery_image', array('image_id' => $row['image_id'])) . '#rating',
 				'L_COMMENTS'	=> ($row['image_comments'] == 1) ? $this->user->lang['COMMENT'] : $this->user->lang['COMMENTS'],
 				'S_COMMENTS'	=> $show_comments ? (($this->gallery_config->get('allow_comments') && $this->gallery_auth->acl_check('c_read', $row['image_album_id'], $album_data['album_user_id'])) ? (($row['image_comments']) ? $row['image_comments'] : $this->user->lang['NO_COMMENTS']) : '') : false,

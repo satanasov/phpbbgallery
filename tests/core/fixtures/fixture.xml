@@ -152,6 +152,55 @@
 			<value>0</value>
 		</row>
 	</table>
+	<table name="phpbb_gallery_comments">
+		<column>comment_id</column>
+		<column>comment_image_id</column>
+		<column>comment_user_id</column>
+		<column>comment_time</column>
+		<column>comment</column>
+		<row>
+			<value>1</value>
+			<value>1</value>
+			<value>52</value>
+			<value>1438791990</value>
+			<value>This is test comment 1!!!!!</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>2</value>
+			<value>52</value>
+			<value>1438792100</value>
+			<value>This is test comment 2!!!!!</value>
+		</row>
+		<row>
+			<value>3</value>
+			<value>3</value>
+			<value>52</value>
+			<value>1438792200</value>
+			<value>This is test comment 3!!!!!</value>
+		</row>
+		<row>
+			<value>4</value>
+			<value>4</value>
+			<value>2</value>
+			<value>1438792300</value>
+			<value>This is test comment 4!!!!!</value>
+		</row>
+		<row>
+			<value>5</value>
+			<value>5</value>
+			<value>2</value>
+			<value>1438792400</value>
+			<value>This is test comment 5!!!!!</value>
+		</row>
+		<row>
+			<value>6</value>
+			<value>6</value>
+			<value>2</value>
+			<value>1438792500</value>
+			<value>This is test comment 6!!!!!</value>
+		</row>
+	</table>
 	<table name="phpbb_gallery_images">
 		<column>image_id</column>
 		<column>image_filename</column>
@@ -208,8 +257,8 @@
 			<value>0</value>
 			<value>0</value>
 			<value>0</value>
-			<value>0</value>
-			<value>0</value>
+			<value>1</value>
+			<value>1</value>
 			<value>1</value>
 			<value>0</value>
 			<value>0</value>
@@ -238,11 +287,11 @@
 			<value>0</value>
 			<value>0</value>
 			<value>0</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0</value>
+			<value>2</value>
+			<value>30</value>
+			<value>150</value>
+			<value>1</value>
+			<value>2</value>
 			<value>1</value>
 			<value>0</value>
 			<value>0</value>
@@ -258,9 +307,9 @@
 			<value></value>
 			<value>10fu4clu</value>
 			<value></value>
-			<value>2</value>
-			<value>admin</value>
-			<value>admin</value>
+			<value>52</value>
+			<value>testuser</value>
+			<value>testuser</value>
 			<value></value>
 			<value>127.0.0.1</value>
 			<value>0</value>
@@ -274,8 +323,8 @@
 			<value>0</value>
 			<value>0</value>
 			<value>0</value>
-			<value>0</value>
-			<value>0</value>
+			<value>1</value>
+			<value>3</value>
 			<value>1</value>
 			<value>0</value>
 			<value>0</value>
@@ -307,8 +356,8 @@
 			<value>0</value>
 			<value>0</value>
 			<value>0</value>
-			<value>0</value>
-			<value>0</value>
+			<value>1</value>
+			<value>4</value>
 			<value>1</value>
 			<value>0</value>
 			<value>0</value>
@@ -324,9 +373,9 @@
 			<value></value>
 			<value>10fu4clu</value>
 			<value></value>
-			<value>2</value>
-			<value>admin</value>
-			<value>admin</value>
+			<value>53</value>
+			<value>Test2</value>
+			<value>Test2</value>
 			<value></value>
 			<value>127.0.0.1</value>
 			<value>0</value>
@@ -337,11 +386,11 @@
 			<value>0</value>
 			<value>0</value>
 			<value>0</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0</value>
+			<value>1</value>
+			<value>10</value>
+			<value>1000</value>
+			<value>1</value>
+			<value>5</value>
 			<value>1</value>
 			<value>0</value>
 			<value>0</value>
@@ -357,9 +406,9 @@
 			<value></value>
 			<value>10fu4clu</value>
 			<value></value>
-			<value>2</value>
-			<value>admin</value>
-			<value>admin</value>
+			<value>52</value>
+			<value>testuser</value>
+			<value>testuser</value>
 			<value></value>
 			<value>127.0.0.1</value>
 			<value>0</value>
@@ -373,8 +422,8 @@
 			<value>0</value>
 			<value>0</value>
 			<value>0</value>
-			<value>0</value>
-			<value>0</value>
+			<value>1</value>
+			<value>6</value>
 			<value>1</value>
 			<value>0</value>
 			<value>0</value>
@@ -456,9 +505,9 @@
 			<value></value>
 			<value>10fu4clu</value>
 			<value></value>
-			<value>2</value>
-			<value>admin</value>
-			<value>admin</value>
+			<value>52</value>
+			<value>testuser</value>
+			<value>testuser</value>
 			<value></value>
 			<value>127.0.0.1</value>
 			<value>0</value>

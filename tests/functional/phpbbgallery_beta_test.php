@@ -1987,41 +1987,6 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 	
 	// START IMAGE SETTINGS
 	/**
-	* @dataProvider thumbnail_link_data
-	*/
-	public function test_thumbnail_link($option, $has_link, $search)
-	{
-		$this->login();
-		$this->admin_login();
-		$this->add_lang_ext('phpbbgallery/core', 'gallery');
-		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
-		$this->add_lang('common');
-		
-		// Change option
-		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
-		$form = $crawler->selectButton('submit')->form();
-		$form->setValues(array(
-			'config[link_thumbnail]'	=> $option,
-		));
-		$crawler = self::submit($form);
-		// Should be updated
-		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
-
-		$crawler = self::request('GET', 'app.php/gallery/album/1');
-		$object = $crawler->filter('div.polaroid')->eq(11)->filter('div#thumbnail');
-		if ($has_link)
-		{
-			$this->assertContains($search, $object->filter('a')->attr('href'));
-		}
-		else
-		{
-			$this->assertEquals(0, $object->filter('a')->count());
-			$this->assertEquals(1, $object->filter('img')->count());
-		}
-		
-		$this->logout();
-	}
-	/**
 	* @dataProvider image_on_image_page_data
 	*/
 	public function test_image_on_image_page($option, $has_link, $search)
@@ -2054,41 +2019,6 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 			$this->assertEquals(0, $crawler->filter('div#image')->filter('a')->count());
 			$this->assertEquals(1, $crawler->filter('div#image')->filter('img')->count());
 		}		
-		$this->logout();
-	}
-	/**
-	* @dataProvider thumbnail_link_data
-	*/
-	public function test_image_name_link($option, $has_link, $search)
-	{
-		$this->login();
-		$this->admin_login();
-		$this->add_lang_ext('phpbbgallery/core', 'gallery');
-		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
-		$this->add_lang('common');
-		
-		// Change option
-		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
-		$form = $crawler->selectButton('submit')->form();
-		$form->setValues(array(
-			'config[link_image_name]'	=> $option,
-		));
-		$crawler = self::submit($form);
-		// Should be updated
-		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
-
-		$crawler = self::request('GET', 'app.php/gallery/album/1');
-		//$this->assertContains('zazazazazaza', $crawler->text());
-		$object = $crawler->filter('div.polaroid')->eq(11)->filter('p')->eq(0);
-		if ($has_link)
-		{
-			$this->assertContains($search, $object->filter('a')->attr('href'));
-		}
-		else
-		{
-			$this->assertEquals(0, $object->filter('a')->count());
-		}
-		
 		$this->logout();
 	}
 	// END LINK SETTINGS
@@ -2233,65 +2163,6 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		{
 			$this->assertContains('display: none;', $crawler->filter('div#recent-comments')->attr('style'));
 		}
-	}
-	/**
-	* @dataProvider image_polaroid_info_data
-	*/
-	public function test_rrc_gindex_display($options, $tests)
-	{
-		$this->login();
-		$this->admin_login();
-		$this->add_lang_ext('phpbbgallery/core', 'gallery');
-		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
-		$this->add_lang('common');
-
-		// Change option
-		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
-		$form = $crawler->selectButton('submit')->form();
-		$form->setValues(array(
-			'rrc_gindex_display'	=> $options,
-		));
-		$crawler = self::submit($form);
-		// Should be updated
-		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
-
-		// Test
-		$crawler = self::request('GET', 'app.php/gallery');
-		
-		$object_recent = $crawler->filter('div.polaroid')->eq(2);
-		$object_random = $crawler->filter('div.polaroid')->eq(6);
-		foreach ($tests as $test => $state)
-		{
-			if ($state)
-			{
-				if ($test == 'Valid')
-				{
-					$this->assertEquals(1, $object_recent->filter('p')->filter('a')->count());
-					$this->assertEquals(1, $object_random->filter('p')->filter('a')->count());
-				}
-				else
-				{
-					$this->assertContains($test, $object_recent->text());
-					$this->assertContains($test, $object_random->text());
-				}
-			}
-			else
-			{
-				if ($test == 'Valid')
-				{
-					$this->assertEquals(0, $object_recent->filter('p')->filter('a')->count());
-					$this->assertEquals(0, $object_random->filter('p')->filter('a')->count());
-				}
-				else
-				{
-					$this->assertNotContains($test, $object_recent->text());
-					$this->assertNotContains($test, $object_random->text());
-				}
-			}
-		}
-		
-		$this->logout();
-		$this->logout();
 	}
 	public function test_prepare_rrc_gindex_pegas()
 	{
@@ -2522,65 +2393,6 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$crawler = self::submit($form);
 		// Should be updated
 		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
-		
-		$this->logout();
-		$this->logout();
-	}
-	/**
-	* @dataProvider image_polaroid_info_data
-	*/
-	public function test_rrc_profile_display($options, $tests)
-	{
-		$this->login();
-		$this->admin_login();
-		$this->add_lang_ext('phpbbgallery/core', 'gallery');
-		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
-		$this->add_lang('common');
-
-		// Change option
-		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
-		$form = $crawler->selectButton('submit')->form();
-		$form->setValues(array(
-			'rrc_profile_display'	=> $options,
-		));
-		$crawler = self::submit($form);
-		// Should be updated
-		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
-
-		// Test
-		$crawler = self::request('GET', 'memberlist.php?mode=viewprofile&u=2&sid=' . $this->sid);
-		
-		$object_recent = $crawler->filter('div.polaroid')->eq(0);
-		$object_random = $crawler->filter('div.polaroid')->eq(4);
-		foreach ($tests as $test => $state)
-		{
-			if ($state)
-			{
-				if ($test == 'Valid')
-				{
-					$this->assertEquals(1, $object_recent->filter('p')->filter('a')->count());
-					$this->assertEquals(1, $object_random->filter('p')->filter('a')->count());
-				}
-				else
-				{
-					$this->assertContains($test, $object_recent->text());
-					$this->assertContains($test, $object_random->text());
-				}
-			}
-			else
-			{
-				if ($test == 'Valid')
-				{
-					$this->assertEquals(0, $object_recent->filter('p')->filter('a')->count());
-					$this->assertEquals(0, $object_random->filter('p')->filter('a')->count());
-				}
-				else
-				{
-					$this->assertNotContains($test, $object_recent->text());
-					$this->assertNotContains($test, $object_random->text());
-				}
-			}
-		}
 		
 		$this->logout();
 		$this->logout();

@@ -272,9 +272,6 @@ class album
 		{
 			$show_views = true;
 			$show_options = $show_options - 16;
-			$this->template->assign_block_vars('imageblock', array(
-				'IMAGE_VIEWS'	=> true,
-			));
 		}
 		if ($show_options >= 8)
 		{
@@ -344,7 +341,7 @@ class album
 				'UC_IMAGE_NAME'	=> $show_imagename ? $image_data['image_name'] : false,
 				'U_ALBUM'	=> $show_album ? $this->helper->route('phpbbgallery_album', array('album_id' => $album_data['album_id'])) : false,
 				'ALBUM_NAME'	=> $show_album ? $album_data['album_name'] : false,
-				'IMAGE_VIEWS'	=> $show_views ? $image_data['image_view_count'] : false,
+				'IMAGE_VIEWS'	=> $show_views ? $image_data['image_view_count'] : -1,
 				//'UC_THUMBNAIL'	=> 'self::generate_link('thumbnail', $phpbb_ext_gallery->config->get('link_thumbnail'), $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id']),
 				'UC_THUMBNAIL'		=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $image_data['image_id'])),
 				'UC_THUMBNAIL_ACTION'	=> $action,
