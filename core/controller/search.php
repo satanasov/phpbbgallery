@@ -271,9 +271,6 @@ class search
 			{
 				$show_views = true;
 				$show_options = $show_options - 16;
-				$this->template->assign_block_vars('imageblock', array(
-					'IMAGE_VIEWS'	=> true,
-				));
 			}
 			if ($show_options >= 8)
 			{
@@ -329,7 +326,7 @@ class search
 					//'UC_THUMBNAIL'	=> 'self::generate_link('thumbnail', $phpbb_ext_gallery->config->get('link_thumbnail'), $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id']),
 					'U_ALBUM'	=> $show_album ? $this->helper->route('phpbbgallery_album', array('album_id' => $album_data['album_id'])) : false,
 					'ALBUM_NAME'	=> $show_album ? $album_data['album_name'] : false,
-					'IMAGE_VIEWS'	=> $show_views ? $row['image_view_count'] : false,
+					'IMAGE_VIEWS'	=> $show_views ? $row['image_view_count'] : -1,
 					'UC_THUMBNAIL'		=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $row['image_id'])),
 					'UC_THUMBNAIL_ACTION'	=> $action,
 					'S_UNAPPROVED'	=> ($this->gallery_auth->acl_check('m_status', $row['image_album_id'], $album_data['album_user_id']) && ($row['image_status'] == \phpbbgallery\core\image\image::STATUS_UNAPPROVED)) ? true : false,

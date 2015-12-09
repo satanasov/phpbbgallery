@@ -168,7 +168,7 @@ class main_event_test extends \phpbb_database_test_case
 
 	/**
 	* Test user_profile_galleries
-	*/
+
 	public function test_user_profile_galleries()
 	{
 		$event_data = array(
@@ -185,5 +185,5 @@ class main_event_test extends \phpbb_database_test_case
 		$dispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
 		$dispatcher->addListener('core.memberlist_view_profile', array($this->listener, 'user_profile_galleries'));
 		$dispatcher->dispatch('core.memberlist_view_profile', $event);
-	}
+	}	*/
 }

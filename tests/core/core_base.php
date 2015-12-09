@@ -44,7 +44,7 @@ class core_base extends \phpbb_database_test_case
 	{
 		parent::setUp();
 
-		global $config, $phpbb_dispatcher, $auth, $user;
+		global $config, $phpbb_dispatcher, $auth, $user, $cache;
 		
 		$this->db = $this->new_dbal();
 
@@ -57,6 +57,8 @@ class core_base extends \phpbb_database_test_case
 		$this->user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
 		$this->user->optionset('viewcensors', false);
 		$this->user->style['style_path'] = 'prosilver';
+		$this->user->method('lang')
+			->will($this->returnArgument(0));
 		
 		$user = $this->user;
 		
@@ -65,11 +67,15 @@ class core_base extends \phpbb_database_test_case
 			->willReturn(true);
 		$auth = $this->auth;
 		
-		$this->controller_helper = $controller_helper = $this->getMockBuilder('\phpbb\controller\helper')
+		$this->controller_helper = $this->getMockBuilder('\phpbb\controller\helper')
 			->disableOriginalConstructor()
 			->getMock();
+		// Define some controller_helper stuff
+		$this->controller_helper->method('route')->will($this->returnArgument(0));
+
+		$controller_helper = $this->controller_helper;
 		
-		$this->cache = new \phpbb\cache\service(
+		$cache = $this->cache = new \phpbb\cache\service(
 			new \phpbb\cache\driver\null(),
 			$this->config,
 			$this->db,
@@ -80,6 +86,11 @@ class core_base extends \phpbb_database_test_case
 		$this->pagination = $this->getMockBuilder('\phpbb\pagination')->disableOriginalConstructor()
 			->getMock();
 
-		$this->user_loader = new \phpbb\user_loader($this->db, __DIR__ . '/../../../', 'php', 'phpbb_users');
+		//$this->user_loader = new \phpbb\user_loader($this->db, __DIR__ . '/../../../', 'php', 'phpbb_users');
+		$this->user_loader = $this->getMockBuilder('\phpbb\user_loader')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->user_loader->method('get_username')
+			->will($this->returnArgument(0));
 	}
 }
