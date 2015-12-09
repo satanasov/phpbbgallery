@@ -2,94 +2,94 @@ language: php
 
 matrix:
   include:
-#    - php: 5.3.3
-#      env:
-#        - DB=mysqli
- #       - SUIT=core,event
- #   - php: 5.3.3
- #     env:
- #       - DB=mysqli
- #       - SUIT=functional
- #   - php: 5.3
- #     env: 
- #       - DB=mysqli # MyISAM
- #       - SUIT=core,event
- #   - php: 5.3
- #     env: 
- #       - DB=mysqli # MyISAM
- #       - SUIT=functional
- #   - php: 5.4
- #     env: 
- #       - DB=mysqli
- #       - SUIT=core,event
- #   - php: 5.4
- #     env: 
- #       - DB=mysqli
- #       - SUIT=functional
+    - php: 5.3.3
+      env:
+        - DB=mysqli
+        - SUIT=core,event
+    - php: 5.3.3
+      env:
+        - DB=mysqli
+        - SUIT=functional
+    - php: 5.3
+      env: 
+        - DB=mysqli # MyISAM
+        - SUIT=core,event
+    - php: 5.3
+      env: 
+        - DB=mysqli # MyISAM
+        - SUIT=functional
+    - php: 5.4
+      env: 
+        - DB=mysqli
+        - SUIT=core,event
+    - php: 5.4
+      env: 
+        - DB=mysqli
+        - SUIT=functional
     - php: 5.4
       env: 
         - DB=mysql
         - SUIT=core,event
- #   - php: 5.4
- #     env: 
- #       - DB=mysql
- #       - SUIT=functional
- #   - php: 5.4
- #     env: 
- #       - DB=mariadb
- #       - SUIT=core,event
- #   - php: 5.4
- #     env: 
- #       - DB=mariadb
- #       - SUIT=functional
- #   - php: 5.4
- #     env: 
- #       - DB=postgres
- #       - SUIT=core,event
- #   - php: 5.4
- #     env: 
- #       - DB=postgres
- #       - SUIT=functional
+    - php: 5.4
+      env: 
+        - DB=mysql
+        - SUIT=functional
+    - php: 5.4
+      env: 
+        - DB=mariadb
+        - SUIT=core,event
+    - php: 5.4
+      env: 
+        - DB=mariadb
+        - SUIT=functional
+    - php: 5.4
+      env: 
+        - DB=postgres
+        - SUIT=core,event
+    - php: 5.4
+      env: 
+        - DB=postgres
+        - SUIT=functional
     - php: 5.4
       env: 
         - DB=sqlite3
         - SUIT=core,event
- #   - php: 5.4
- #     env: 
- #       - DB=sqlite3
- #       - SUIT=functional
- #   - php: 5.5
- #     env: 
- #       - DB=mysqli
- #       - SUIT=core,event
- #   - php: 5.5
- #     env: 
- #       - DB=mysqli
- #       - SUIT=functional
- #   - php: 5.6
- #     env: 
- #       - DB=mysqli
- #       - SUIT=core,event
- #   - php: 5.6
- #     env: 
- #       - DB=mysqli
- #       - SUIT=functional
- #   - php: hhvm
- #     env: 
- #       - DB=mysqli 
- #       - SUIT=core,event
- #   - php: hhvm
- #     env: 
- #       - DB=mysqli 
- #       - SUIT=functional
- #   - php: 7
- #     env: 
- #       - DB=mysqli
- #       - SUIT=core,event
- #   - php: 7
- #     env: 
- #       - DB=mysqli
- #       - SUIT=functional
+    - php: 5.4
+      env: 
+        - DB=sqlite3
+        - SUIT=functional
+    - php: 5.5
+      env: 
+        - DB=mysqli
+        - SUIT=core,event
+    - php: 5.5
+      env: 
+        - DB=mysqli
+        - SUIT=functional
+    - php: 5.6
+      env: 
+        - DB=mysqli
+        - SUIT=core,event
+    - php: 5.6
+      env: 
+        - DB=mysqli
+        - SUIT=functional
+    - php: hhvm
+      env: 
+        - DB=mysqli 
+        - SUIT=core,event
+    - php: hhvm
+      env: 
+        - DB=mysqli 
+        - SUIT=functional
+    - php: 7
+      env: 
+        - DB=mysqli
+        - SUIT=core,event
+    - php: 7
+      env: 
+        - DB=mysqli
+        - SUIT=functional
   allow_failures:
     - php: hhvm
     - php: 7
