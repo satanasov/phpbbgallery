@@ -78,8 +78,8 @@ class main_event_test extends \phpbb_database_test_case
 			$this->gallery_config,
 			$this->db,
 			'php',
-			'phpbb_gallery_albums',
-			'phpbb_gallery_users'
+			'phpbb_gallery_users',
+			'phpbb_gallery_albums'
 		);
 	}
 
@@ -165,21 +165,78 @@ class main_event_test extends \phpbb_database_test_case
 		$dispatcher->dispatch('core.page_header');
 	}
 
+	public function user_profile_galleries_data()
+	{
+		return array(
+			array(
+				3,
+				1
+			),
+			array(
+				2,
+				1
+			),
+			array(
+				1,
+				1
+			),
+			array(
+				0,
+				1
+			),
+			array(
+				3,
+				0
+			),
+			array(
+				2,
+				0
+			),
+			array(
+				1,
+				0
+			),
+			array(
+				0,
+				0
+			),
+		);
+	}
 	/**
 	* Test user_profile_galleries
-
-	public function test_user_profile_galleries()
+	*
+	* @dataProvider user_profile_galleries_data
+	*/
+	public function test_user_profile_galleries($profile_mode, $profile_user_images)
 	{
 		$member = array('user_id' => 2);
 		$event_data = array('member');
 		$event = new \phpbb\event\data(compact($event_data));
-		$this->config['phpbb_gallery_rrc_profile_mode'] = 3;
+		$this->config['phpbb_gallery_rrc_profile_mode'] = $profile_mode;
 		$this->config['phpbb_gallery_rrc_profile_items'] = 3;
+		$this->config['phpbb_gallery_profile_user_images'] = $profile_user_images;
 		$this->set_listener();
-		$this->gallery_search->expects($this->once())
-			->method('recent');
+		if ($profile_mode == 2 || $profile_mode == 3)
+		{
+			$this->gallery_search->expects($this->once())
+				->method('random');
+		}
+		if ($profile_mode == 1 || $profile_mode == 3)
+		{
+			$this->gallery_search->expects($this->once())
+				->method('recent');
+		}
+		if ($profile_user_images == 1)
+		{
+			$this->template->expects($this->once())
+				->method('assign_vars')
+				->with(array(
+					'U_GALLERY_IMAGES_ALLOW'	=> true,
+					'U_GALLERY_IMAGES'	=> 0
+				));
+		}
 		$dispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
 		$dispatcher->addListener('core.memberlist_view_profile', array($this->listener, 'user_profile_galleries'));
 		$dispatcher->dispatch('core.memberlist_view_profile', $event);
-	}	*/	
+	}	
 }
