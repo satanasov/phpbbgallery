@@ -46,6 +46,7 @@ class main_event_test extends \phpbb_database_test_case
 		$this->controller_helper = $this->getMockBuilder('\phpbb\controller\helper')
 			->disableOriginalConstructor()
 			->getMock();
+		$this->controller_helper->method('route')->will($this->returnArgument(1));
 
 		$this->template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
@@ -77,9 +78,9 @@ class main_event_test extends \phpbb_database_test_case
 			$this->gallery_search,
 			$this->gallery_config,
 			$this->db,
-			'php',
+			'phpbb_gallery_albums',
 			'phpbb_gallery_users',
-			'phpbb_gallery_albums'
+			'php'
 		);
 	}
 
@@ -238,5 +239,99 @@ class main_event_test extends \phpbb_database_test_case
 		$dispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
 		$dispatcher->addListener('core.memberlist_view_profile', array($this->listener, 'user_profile_galleries'));
 		$dispatcher->dispatch('core.memberlist_view_profile', $event);
-	}	
+	}
+
+	public function gallery_link_in_profile_data()
+	{
+		return array(
+			array(
+				1, // profile_pega
+				2, // user_id
+				true //expect return
+			),
+			array(
+				0, // profile_pega
+				2, // user_id
+				false //expect return
+			),
+			array(
+				1, // profile_pega
+				3, // user_id
+				false //expect return
+			),
+			array(
+				0, // profile_pega
+				3, // user_id
+				false //expect return
+			),
+		);
+	}
+	/**
+	* Test events
+	*
+	* @dataProvider gallery_link_in_profile_data
+	* profile_fileds
+	* get_user_ids
+	*/
+	public function test_gallery_link_events($option, $user_id, $expect)
+	{
+		$this->config['phpbb_gallery_profile_pega'] = $option;
+		$user_ids = array($user_id);
+		$event_data = array('user_ids');
+		$event_one = new \phpbb\event\data(compact($event_data));
+		$profile_row = array();
+		$event_two_data = array('profile_row');
+		$event_two = new \phpbb\event\data(compact($event_two_data));
+		$this->set_listener();
+		$dispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
+		$dispatcher->addListener('core.grab_profile_fields_data', array($this->listener, 'get_user_ids'));
+		$dispatcher->addListener('core.generate_profile_fields_template_data_before', array($this->listener, 'profile_fileds'));
+		$dispatcher->dispatch('core.grab_profile_fields_data', $event_one);
+		$dispatcher->dispatch('core.generate_profile_fields_template_data_before', $event_two);
+		
+		$ouput = $event_two->get_data_filtered($event_two_data);
+		$expacted = array(
+			'phpbb_gallery'	=> array(
+				'value'	=> array('album_id'	=> 1),
+				'data'	=> array(
+					'field_id'				=> '',
+					'lang_id'				=> '',
+					'lang_name'				=> 'GALLERY',
+					'lang_explain'			=> '',
+					'lang_default_value'	=> '',
+					'field_name'			=> 'phpbb_gallery',
+					'field_type'			=> 'profilefields.type.url',
+					'field_ident'			=> 'phpbb_gallery',
+					'field_length'			=> '40',
+					'field_minlen'			=> '12',
+					'field_maxlen'			=> '255',
+					'field_novalue'			=> '',
+					'field_default_value'	=> '',
+					'field_validation'		=> '',
+					'field_required'		=> '0',
+					'field_show_on_reg'		=> '0',
+					'field_hide'			=> '0',
+					'field_no_view'			=> '0',
+					'field_active'			=> '1',
+					'field_order'			=> '',
+					'field_show_profile'	=> '1',
+					'field_show_on_vt'		=> '1',
+					'field_show_novalue'	=> '0',
+					'field_show_on_pm'		=> '1',
+					'field_show_on_ml'		=> '1',
+					'field_is_contact'		=> '1',
+					'field_contact_desc'	=> 'VISIT_GALLERY',
+					'field_contact_url'		=> '%s',
+				)
+			)
+		);
+		if ($expect)
+		{
+			$this->assertEquals($expacted, $ouput['profile_row']);
+		}
+		else
+		{
+			$this->assertEmpty($ouput['profile_row']);
+		}
+	}
 }
