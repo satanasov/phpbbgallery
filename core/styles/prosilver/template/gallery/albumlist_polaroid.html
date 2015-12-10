@@ -23,17 +23,21 @@
 
 			<!-- IF albumrow.LAST_IMAGE_TIME -->
 				<span>
-					<!-- IF albumrow.UC_IMAGE_NAME -->{albumrow.UC_IMAGE_NAME}<br /><!-- ENDIF -->
-					<p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px;">{L_LAST_IMAGE_BY}{L_COLON} {albumrow.LAST_USER_FULL} {albumrow.UC_LASTIMAGE_ICON}</p>
-					<p>{albumrow.LAST_IMAGE_TIME}</p>
+					<div style="height: 33px; padding-top: 2px;">
+						<!-- IF albumrow.UC_IMAGE_NAME -->{albumrow.UC_IMAGE_NAME}<br /><!-- ENDIF -->
+						<p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px;">{L_LAST_IMAGE_BY}{L_COLON} {albumrow.LAST_USER_FULL} {albumrow.UC_LASTIMAGE_ICON}</p>
+						<p>{albumrow.LAST_IMAGE_TIME}</p>
+					</div>
 				</span>
 			<!-- ELSE -->
-			<span><div style="height: 50px;"></div></span>
+			<span><div style="height: 33px; padding-top: 2px;"></div></span>
 			<!-- ENDIF -->
 
 			<!-- IF EXTENDED_POLAROID and albumrow.MODERATORS -->
 				<hr />
 				<strong>{albumrow.L_MODERATOR_STR}{L_COLON}</strong> {albumrow.MODERATORS}
+				<br />
+			<!-- ELSE -->
 				<br />
 			<!-- ENDIF -->
 
