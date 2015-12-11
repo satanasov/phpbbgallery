@@ -56,7 +56,7 @@ class config
 
 		'gdlib_version'		=> 2,
 
-		'hotlinking_domains'	=> 'flying-bits.org',
+		'hotlinking_domains'	=> 'anavaro.com',
 
 		'jpg_quality'			=> 100,
 
