@@ -55,7 +55,7 @@ class core_config_test extends core_base
 			'disp_total_images'			=> true,
 			'disp_whoisonline'			=> true,
 			'gdlib_version'		=> 2,
-			'hotlinking_domains'	=> 'flying-bits.org',
+			'hotlinking_domains'	=> 'anavaro.com',
 			'jpg_quality'			=> 100,
 			'link_thumbnail'		=> 'image_page',
 			'link_imagepage'		=> 'image',
