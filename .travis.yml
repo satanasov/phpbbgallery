@@ -48,6 +48,7 @@ env:
     - IMAGE_ICC="1"        # Should we run icc profile sniffer on your images?
     - EPV="1"              # Should we run EPV (Extension Pre Validator) on your code?
     - PHPBB_BRANCH="3.1.x"
+    - COVERAGE="1"		   # Should we run covarage?
 
 branches:
   only:
@@ -76,3 +77,5 @@ script:
   - sh -c "if [ '$EPV' != '0' ] && [ '$TRAVIS_PHP_VERSION' = '5.3.3' ] && [ '$DB' = 'mysqli' ]; then phpBB/ext/$EXTSNIFF/vendor/bin/EPV.php run --dir='phpBB/ext/$EXTNAME/acpimport'; fi"
   - sh -c "if [ '$EPV' != '0' ] && [ '$TRAVIS_PHP_VERSION' = '5.3.3' ] && [ '$DB' = 'mysqli' ]; then phpBB/ext/$EXTSNIFF/vendor/bin/EPV.php run --dir='phpBB/ext/$EXTNAME/exif'; fi"
 
+after_script:
+  - sh -c "if [ '$COVERAGE' != '0' ] && [ '$TRAVIS_PHP_VERSION' = '5.6' ] && [ '$DB' = 'mysqli' ]; then php phpBB/ext/$EXTSNIFF/vendor/bin/coveralls -v; fi"
