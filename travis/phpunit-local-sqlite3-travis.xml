@@ -32,6 +32,29 @@
 		</exclude>
 	</groups>
 
+	<filter>
+		<whitelist processUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">../</directory>
+			<exclude>
+				<directory suffix=".php">../core/language/</directory>
+				<directory suffix=".php">../core/migrations/</directory>
+				<directory suffix=".php">../core/style/</directory>
+				<directory suffix=".php">../core/vendor/</directory>
+				<directory suffix=".php">../acpcleanup/language/</directory>
+				<directory suffix=".php">../acpcleanup/migrations/</directory>
+				<directory suffix=".php">../acpcleanup/style/</directory>
+				<directory suffix=".php">../acpimport/language/</directory>
+				<directory suffix=".php">../acpimport/migrations/</directory>
+				<directory suffix=".php">../acpimport/style/</directory>
+				<directory suffix=".php">../exif/language/</directory>
+				<directory suffix=".php">../exif/migrations/</directory>
+				<directory suffix=".php">../exif/style/</directory>
+				<directory suffix=".php">../tests/</directory>
+				<directory suffix=".php">../travis/</directory>
+			</exclude>
+		</whitelist>
+	</filter>
+
 	<php>
 		<!--server name="PHPBB_TEST_DBMS" value="phpbb\db\driver\sqlite3" /-->
 		<!--server name="PHPBB_TEST_DBHOST" value="../phpbb_unit_tests.sqlite3" /-->
