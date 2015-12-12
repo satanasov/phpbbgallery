@@ -1,6 +1,6 @@
 # phpBB Gallery
 
-[![Build Status](https://travis-ci.org/satanasov/phpbbgallery.svg?branch=master)](https://travis-ci.org/satanasov/phpbbgallery) 
+[![Build Status](https://travis-ci.org/satanasov/phpbbgallery.svg?branch=master)](https://travis-ci.org/satanasov/phpbbgallery) [![Coverage Status](https://coveralls.io/repos/satanasov/phpbbgallery/badge.svg?branch=master&service=github)](https://coveralls.io/github/satanasov/phpbbgallery?branch=master)
 
 © 2012 - [nickvergessen](http://www.flying-bits.org)
 
