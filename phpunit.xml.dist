@@ -32,14 +32,21 @@
 				<directory suffix=".php">./core/language/</directory>
 				<directory suffix=".php">./core/migrations/</directory>
 				<directory suffix=".php">./core/style/</directory>
-				<directory suffix=".php">./language/</directory>
-				<directory suffix=".php">./migrations/</directory>
-				<directory suffix=".php">./style/</directory>
+				<directory suffix=".php">./acpimport/language/</directory>
+				<directory suffix=".php">./acpimport/migrations/</directory>
+				<directory suffix=".php">./acpimport/style/</directory>
+				<directory suffix=".php">./acpcleanup/language/</directory>
+				<directory suffix=".php">./acpcleanup/migrations/</directory>
+				<directory suffix=".php">./acpcleanup/style/</directory>
+				<directory suffix=".php">./exif/language/</directory>
+				<directory suffix=".php">./exif/migrations/</directory>
+				<directory suffix=".php">./exif/style/</directory>
+				<directory suffix=".php">./tests/</directory>
 			</exclude>
 		</whitelist>
 	</filter>
 
 	<logging>
-		<log type="coverage-clover" target="./logs/clover.xml"/>
+		<log type="coverage-clover" target="logs/clover.xml"/>
 	</logging>
 </phpunit>
