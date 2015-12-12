@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="true"
+         backupStaticAttributes="true"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false"
+         syntaxCheck="true"
+		 strict="true"
+         verbose="true"
+         bootstrap="../tests/bootstrap.php">
+	<testsuites>
+		<testsuite name="phpBB Test Suite">
+			<directory suffix="_test.php">../tests</directory>
+			<exclude>../tests/functional</exclude>
+			<exclude>../tests/lint_test.php</exclude>
+			<exclude>../tests/ui</exclude>
+		</testsuite>
+		<testsuite name="phpBB Functional Tests">
+			<directory suffix="_test.php" phpVersion="5.3.19" phpVersionOperator=">=">../tests/functional</directory>
+		</testsuite>
+		<testsuite name="phpBB UI Tests">
+			<directory suffix="_test.php" phpVersion="5.3.19" phpVersionOperator=">=">../tests/ui</directory>
+		</testsuite>
+	</testsuites>
+
+	<groups>
+		<exclude>
+			<group>slow</group>
+		</exclude>
+	</groups>
+
+	<filter>
+		<whitelist processUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">../</directory>
+			<exclude>
+				<directory suffix=".php">../core/language/</directory>
+				<directory suffix=".php">../core/migrations/</directory>
+				<directory suffix=".php">../core/style/</directory>
+				<directory suffix=".php">../core/vendor/</directory>
+				<directory suffix=".php">../acpcleanup/language/</directory>
+				<directory suffix=".php">../acpcleanup/migrations/</directory>
+				<directory suffix=".php">../acpcleanup/style/</directory>
+				<directory suffix=".php">../acpimport/language/</directory>
+				<directory suffix=".php">../acpimport/migrations/</directory>
+				<directory suffix=".php">../acpimport/style/</directory>
+				<directory suffix=".php">../exif/language/</directory>
+				<directory suffix=".php">../exif/migrations/</directory>
+				<directory suffix=".php">../exif/style/</directory>
+				<directory suffix=".php">../tests/</directory>
+				<directory suffix=".php">../travis/</directory>
+			</exclude>
+		</whitelist>
+	</filter>
+
+	<php>
+		<server name="PHPBB_TEST_DBMS" value="phpbb\db\driver\postgres"/>
+		<server name="PHPBB_TEST_DBHOST" value="localhost" />
+		<server name="PHPBB_TEST_DBPORT" value="5432" />
+		<server name="PHPBB_TEST_DBNAME" value="phpbb_tests" />
+		<server name="PHPBB_TEST_DBUSER" value="postgres" />
+		<server name="PHPBB_TEST_DBPASSWD" value="" />
+		<server name="PHPBB_TEST_REDIS_HOST" value="localhost" />
+		<server name="PHPBB_TEST_TABLE_PREFIX" value="phpbb_"/>
+		<server name="PHPBB_FUNCTIONAL_URL" value="http://localhost/" />
+	</php>
+</phpunit>

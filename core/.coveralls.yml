@@ -1,6 +1,6 @@
 # .coveralls.yml configuration
 
 # for php-coveralls
-src_dir: ../
-coverage_clover: /home/travis/build/satanasov/phpBB3/phpBB/ext/phpbbgallery/logs/clover.xml
-json_path: /home/travis/build/satanasov/phpBB3/phpBB/ext/phpbbgallery/logs/coveralls-upload.json
+src_dir: ../../../
+coverage_clover: ../logs/clover.xml
+json_path: ../logs/coveralls-upload.json
