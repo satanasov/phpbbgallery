@@ -34,7 +34,7 @@ class album
 	/**
 	* Get locked
 	*/
-	static public function status_locked()
+	public function get_status_locked()
 	{
 		return 1;
 	}
@@ -82,7 +82,7 @@ class album
 
 		if (!$row)
 		{
-			trigger_error('ALBUM_NOT_EXIST');
+			throw new \phpbb\exception\http_exception(404, 'ALBUM_NOT_EXIST');
 		}
 
 		if ($extended_info  && !isset($row['contest_id']))
@@ -124,7 +124,7 @@ class album
 		if ($row === false)
 		{
 			// return false;
-			trigger_error('NO_ALBUM_STEALING');
+			throw new \phpbb\exception\http_exception(403, 'NO_ALBUM_STEALING');
 		}
 
 		return true;
@@ -423,11 +423,6 @@ class album
 		$cache->destroy('sql', $albums_table);
 
 		return $personal_album_id;
-	}
-
-	public function get_status_locked()
-	{
-		return 1;
 	}
 
 	/**

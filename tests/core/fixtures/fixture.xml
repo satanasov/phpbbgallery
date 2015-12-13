@@ -151,6 +151,39 @@
 			<value>1</value>
 			<value>0</value>
 		</row>
+		<row>
+			<value>4</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value></value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>TestUserAlbum1</value>
+			<value></value>
+			<value>7</value>
+			<value></value>
+			<value></value>
+			<value>2</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value></value>
+			<value>0</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value></value>
+			<value></value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>0</value>
+		</row>
 	</table>
 	<table name="phpbb_gallery_comments">
 		<column>comment_id</column>
