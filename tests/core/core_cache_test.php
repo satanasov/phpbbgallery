@@ -69,6 +69,17 @@ class core_cache_test extends core_base
 				'display_in_rrc'	=> true,
 				'album_auth_access'	=> 0
 			),
+			'4'	=> array(
+				'album_id'	=> 4,
+				'parent_id'	=> 0,
+				'album_name'	=> 'TestUserAlbum1',
+				'album_type'	=> 1,
+				'left_id'	=> 0,
+				'right_id'	=> 0,
+				'album_user_id'	=> 2,
+				'display_in_rrc'	=> true,
+				'album_auth_access'	=> 0
+			),
 		);
 		
 		$this->assertEquals($test_array, $this->gallery_cache->get_albums());
