@@ -50,7 +50,7 @@ class core_album_test extends core_base
 	*/
 	public function test_get_type_upload()
 	{
-		$this->assertEquals($this->album->get_type_upload(), 0);
+		$this->assertEquals($this->album->get_type_upload(), 1);
 	}
 
 	/**
