@@ -57,7 +57,7 @@ class core_album_test extends core_base
 	* Test get_info
 	* Here we test only exception.
 	* Normal get info is tested in core_search_test where it is called!
-	
+	*/
 	public function test_get_info_fail()
 	{
 		try
@@ -70,7 +70,7 @@ class core_album_test extends core_base
 			$this->assertEquals(404, $exception->getStatusCode());
 			$this->assertEquals('ALBUM_NOT_EXIST', $exception->getMessage());
 		}
-	}*/
+	}
 
 	/**
 	* Test check_user
