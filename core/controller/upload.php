@@ -67,7 +67,7 @@ class upload
 		$error = '';
 		//Let's get authorization
 		$this->auth->load_user_premissions($this->user->data['user_id']);
-		if (!$this->auth->acl_check('i_upload', $album_id, $album_data['album_user_id']) || ($album_data['album_status'] == $this->album->status_locked()))
+		if (!$this->auth->acl_check('i_upload', $album_id, $album_data['album_user_id']) || ($album_data['album_status'] == $this->album->get_status_locked()))
 		{
 			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 		}
