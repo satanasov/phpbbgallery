@@ -86,7 +86,7 @@ class core_album_test extends core_base
 	* Test check_user
 	* Here we test only exception.
 	*
-	
+	*/
 	public function test_check_user_fail_case_wrong_user()
 	{
 		$this->user->data['user_id'] = 3;
@@ -100,12 +100,12 @@ class core_album_test extends core_base
 			$this->assertEquals(403, $exception->getStatusCode());
 			$this->assertEquals('NO_ALBUM_STEALING', $exception->getMessage());
 		}
-	}*/
+	}
 	/**
 	* Test check_user
 	* Here we test only exception.
 	*
-
+	*/
 	public function test_check_user_fail_case_wrong_passed_user()
 	{
 		$this->user->data['user_id'] = 2;
@@ -119,5 +119,5 @@ class core_album_test extends core_base
 			$this->assertEquals(403, $exception->getStatusCode());
 			$this->assertEquals('NO_ALBUM_STEALING', $exception->getMessage());
 		}
-	}	*/
+	}	
 }
