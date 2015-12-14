@@ -89,5 +89,7 @@ class core_base extends \phpbb_database_test_case
 			->getMock();
 		$this->user_loader->method('get_username')
 			->will($this->returnArgument(0));
+		
+		$this->request = $this->getMock('\phpbb\request\request');
 	}
 }
