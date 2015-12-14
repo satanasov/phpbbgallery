@@ -154,9 +154,10 @@ class search
 				{
 					trigger_error(sprintf($this->user->lang['TOO_FEW_AUTHOR_CHARS'], $this->config['min_search_author_chars']));
 				}
+				$username_parsed = (strpos($username, '*') !== false) ? ' username_clean ' . $this->db->sql_like_expression(str_replace('*', $this->db->get_any_char(), utf8_clean_string($this->db->sql_escape($username)))) : ' username_clean = \'' . $this->db->sql_escape(utf8_clean_string($username)) .'\'';
 				$sql = 'SELECT user_id
 					FROM ' . USERS_TABLE . '
-					WHERE ' . (strpos($username, '*') !== false) ? ' username_clean ' . $this->db->sql_like_expression(str_replace('*', $this->db->get_any_char(), utf8_clean_string($this->db->sql_escape($username)))) : ' username_clean = \'' . $this->db->sql_escape(utf8_clean_string($username)) . '\'
+					WHERE ' . $username_parsed . '
 					AND user_type IN (' . USER_NORMAL . ', ' . USER_FOUNDER . ')';
 				$result = $this->db->sql_query_limit($sql, 100);
 
@@ -166,7 +167,7 @@ class search
 				}
 				$this->db->sql_freeresult($result);
 				$user_id_ary[] = (int) ANONYMOUS;
-				$user_id = $user_id_array;
+				$user_id = $user_id_ary;
 			}
 
 			if (!empty($user_id))
@@ -224,8 +225,9 @@ class search
 			{
 				$sql_where[] = $this->db->sql_in_set('i.image_album_id', $search_album);
 			}
-			$sql_array['WHERE'] = implode(' and ', $sql_where);
+			$sql_array['WHERE'] = implode(' and ', array_filter($sql_where));
 			$sql_array['SELECT'] = 'COUNT(i.image_id) as count';
+
 			$sql = $this->db->sql_build_query('SELECT', $sql_array);
 			$result = $this->db->sql_query($sql);
 			$row = $this->db->sql_fetchrow($result);
