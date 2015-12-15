@@ -117,7 +117,7 @@ class display
 		// Add gallery menu entry
 		// TO DO !!! THIS SHOULD BE MOVED TO MENU CREATOR!!
 		$this->template->assign_block_vars('navlinks', array(
-			'FORUM_NAME'   => $this->user->lang['GALLERY'],
+			'FORUM_NAME'   => $this->user->lang('GALLERY'),
 			'U_VIEW_FORUM'   => $this->helper->route('phpbbgallery_index'),
 		));
 		// Get album parents
@@ -647,7 +647,7 @@ class display
 					}
 				}
 
-				$l_subalbums = (sizeof($subalbums[$album_id]) == 1) ? $this->user->lang['SUBALBUM'] : $this->user->lang['SUBALBUMS'];
+				$l_subalbums = (sizeof($subalbums[$album_id]) == 1) ? $this->user->lang('SUBALBUM') : $this->user->lang('SUBALBUMS');
 				$folder_image = ($album_unread) ? 'forum_unread_subforum' : 'forum_read_subforum';
 			}
 			else
@@ -716,10 +716,10 @@ class display
 				'UNAPPROVED_IMAGES'		=> ($this->gallery_auth->acl_check('m_status', $album_id, $row['album_user_id'])) ? ($row['album_images_real'] - $row['album_images']) : 0,
 				'ALBUM_IMG_STYLE'		=> $folder_image,
 				'ALBUM_FOLDER_IMG'		=> $this->user->img($folder_image, $folder_alt),
-				'ALBUM_FOLDER_IMG_ALT'	=> isset($this->user->lang[$folder_alt]) ? $this->user->lang[$folder_alt] : '',
+				'ALBUM_FOLDER_IMG_ALT'	=> isset($this->user->lang[$folder_alt]) ? $this->user->lang($folder_alt) : '',
 				//'ALBUM_IMAGE'			=> ($row['album_image']) ? $row['album_image'] : '',
 				'LAST_IMAGE_TIME'		=> $lastimage_time,
-				'LAST_USER_FULL'		=> ($s_username_hidden) ? $this->user->lang['CONTEST_USERNAME'] : get_username_string('full', $row['album_last_user_id'], $row['album_last_username'], $row['album_last_user_colour']),
+				'LAST_USER_FULL'		=> ($s_username_hidden) ? $this->user->lang('CONTEST_USERNAME') : get_username_string('full', $row['album_last_user_id'], $row['album_last_username'], $row['album_last_user_colour']),
 				'UC_THUMBNAIL'			=> $this->config['phpbb_gallery_mini_thumbnail_disp'] ? $lastimage_uc_thumbnail : '',
 				'UC_FAKE_THUMBNAIL'		=> $this->config['phpbb_gallery_mini_thumbnail_disp'] ? $lastimage_uc_fake_thumbnail : '',
 				'UC_IMAGE_NAME'			=> $lastimage_uc_name,
@@ -751,7 +751,7 @@ class display
 		$this->template->assign_vars(array(
 			'U_MARK_ALBUMS'		=> ($this->user->data['is_registered']) ? $this->helper->route('phpbbgallery_album', array('album_id' => $root_data['album_id'], 'hash' => generate_link_hash('global'), 'mark' => 'albums')) : '',
 			'S_HAS_SUBALBUM'	=> ($visible_albums) ? true : false,
-			'L_SUBFORUM'		=> ($visible_albums == 1) ? $this->user->lang['SUBALBUM'] : $this->user->lang['SUBALBUMS'],
+			'L_SUBFORUM'		=> ($visible_albums == 1) ? $this->user->lang('SUBALBUM') : $this->user->lang('SUBALBUMS'),
 			'LAST_POST_IMG'		=> $this->user->img('icon_topic_latest', 'VIEW_LATEST_POST'),
 			'FAKE_THUMB_SIZE'	=> $this->config['phpbb_gallery_mini_thumbnail_size'],
 		));
