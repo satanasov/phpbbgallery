@@ -59,6 +59,9 @@ class gallery_index_test extends \phpbb_database_test_case
 			->getMock();
 			
 		$this->user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
+		$this->user
+			->method('lang')
+			->will($this->returnArgument(0));
 		
 		$user = $this->user;
 		
@@ -70,6 +73,9 @@ class gallery_index_test extends \phpbb_database_test_case
 			->willReturnCallback(function ($template_file, $page_title = '', $status_code = 200, $display_online_list = false) {
 				return new \Symfony\Component\HttpFoundation\Response($template_file, $status_code);
 			});
+		$this->controller_helper
+			->method('route')
+			->will($this->returnArgument(0));
 		
 		$cache = $this->cache = new \phpbb\cache\service(
 			new \phpbb\cache\driver\null(),
@@ -221,46 +227,119 @@ class gallery_index_test extends \phpbb_database_test_case
 	}
 
 	/**
-	* Data for test index controller base function
-	*/
-	public function controller_base_data()
-	{
-		return array(
-			'admin_no_gindex' => array(
-				2, // User ID
-				5, // User Group
-				true, // Is registered
-				0, // rrc_gindex_mode
-				0, // disp_birthdays
-				3, // Expected calls of assign_block_vars method
-				6, // Expected calls of the assign_vars method
-			),
-			'user_no_gindex' => array(
-				53, // User ID
-				2, // User Group
-				true, // Is registered
-				0, // rrc_gindex_mode
-				0, // disp_birthdays
-				1, // Expected calls of assign_block_vars method
-				5, // Expected calls of the assign_vars method
-			),
-		);
-	}
-	/**
 	* Test controller index
 	* function base()
-	*
-	* @dataProvider controller_base_data
+	* As I can't pass parameters to ->withConsecutive but I want to
+	* will have to make diferent test for each case
+	* 
 	*/
-	public function test_controller_base($user_id, $group, $is_registered, $rrc_gindex_mode, $disp_birthdays, $exp_block_vars, $exp_vars)
+	public function test_controller_base_case_1()
 	{
-		$this->template->expects($this->exactly($exp_block_vars))
-			->method('assign_block_vars');
-		$this->template->expects($this->exactly($exp_vars))
+		$this->template->expects($this->exactly(3))
+			->method('assign_block_vars')
+			->withConsecutive(
+				array('albumrow', array(
+					'S_IS_CAT' => false,
+					'S_NO_CAT' => false,
+					'S_LOCKED_ALBUM' => false,
+					'S_UNREAD_ALBUM' => false,
+					'S_LIST_SUBALBUMS' => true,
+					'S_SUBALBUMS' => true,
+					'ALBUM_ID' => 1,
+					'ALBUM_NAME' => 'TestPublicAlbum1',
+					'ALBUM_DESC' => '',
+					'IMAGES' => 6,
+					'UNAPPROVED_IMAGES' => 0,
+					'ALBUM_IMG_STYLE' => 'forum_read_subforum',
+					'ALBUM_FOLDER_IMG' => null,
+					'ALBUM_FOLDER_IMG_ALT' => '',
+					'LAST_IMAGE_TIME' => null,
+					'LAST_USER_FULL' => '<span class="username">admin</span>',
+					'UC_THUMBNAIL' => '',
+					'UC_FAKE_THUMBNAIL' => '',
+					'UC_IMAGE_NAME' => '',
+					'UC_LASTIMAGE_ICON' => '',
+					'ALBUM_COLOUR' => '',
+					'MODERATORS' => '',
+					'SUBALBUMS' => '<a href="phpbbgallery_album" class="subforum read" title="NO_NEW_IMAGES">TestPublicAlbumSubAlbum1</a>',
+					'L_SUBALBUM_STR' => 'SUBALBUM',
+					'L_ALBUM_FOLDER_ALT' => '',
+					'L_MODERATOR_STR' => '',
+					'U_VIEWALBUM' => 'phpbbgallery_album'
+				)),
+				array('albumrow.subalbum', array(
+					'U_SUBALBUM' => 'phpbbgallery_album',
+					'SUBALBUM_NAME' => 'TestPublicAlbumSubAlbum1',
+					'S_UNREAD' => false,
+				)),
+				array('navlinks', array(
+					'FORUM_NAME' => 'GALLERY',
+					'U_VIEW_FORUM' => 'phpbbgallery_index',
+				))
+			);
+		$this->template->expects($this->exactly(6))
 			->method('assign_vars');
-		$this->gallery_config->set('rrc_gindex_mode', $rrc_gindex_mode);
-		$this->gallery_config->set('disp_birthdays', $disp_birthdays);
-		$controller = $this->get_controller($user_id, $group, $is_registered);
+		$this->gallery_config->set('rrc_gindex_mode', 0);
+		$this->gallery_config->set('link_image_icon', 'image_page');
+		$this->gallery_config->set('pegas_index_album', 0);
+		$this->gallery_config->set('disp_birthdays', 0);
+		$controller = $this->get_controller(2, 5, true);
+		$response = $controller->base();
+		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
+		$this->assertEquals('200', $response->getStatusCode());
+	}
+
+	public function test_controller_base_case_2()
+	{
+		$this->template->expects($this->exactly(3))
+			->method('assign_block_vars')
+			->withConsecutive(
+				array('albumrow', array(
+					'S_IS_CAT' => false,
+					'S_NO_CAT' => false,
+					'S_LOCKED_ALBUM' => false,
+					'S_UNREAD_ALBUM' => false,
+					'S_LIST_SUBALBUMS' => true,
+					'S_SUBALBUMS' => true,
+					'ALBUM_ID' => 1,
+					'ALBUM_NAME' => 'TestPublicAlbum1',
+					'ALBUM_DESC' => '',
+					'IMAGES' => 6,
+					'UNAPPROVED_IMAGES' => 0,
+					'ALBUM_IMG_STYLE' => 'forum_read_subforum',
+					'ALBUM_FOLDER_IMG' => null,
+					'ALBUM_FOLDER_IMG_ALT' => '',
+					'LAST_IMAGE_TIME' => null,
+					'LAST_USER_FULL' => '<span class="username">admin</span>',
+					'UC_THUMBNAIL' => '',
+					'UC_FAKE_THUMBNAIL' => '',
+					'UC_IMAGE_NAME' => '',
+					'UC_LASTIMAGE_ICON' => '',
+					'ALBUM_COLOUR' => '',
+					'MODERATORS' => '',
+					'SUBALBUMS' => '<a href="phpbbgallery_album" class="subforum read" title="NO_NEW_IMAGES">TestPublicAlbumSubAlbum1</a>',
+					'L_SUBALBUM_STR' => 'SUBALBUM',
+					'L_ALBUM_FOLDER_ALT' => '',
+					'L_MODERATOR_STR' => '',
+					'U_VIEWALBUM' => 'phpbbgallery_album'
+				)),
+				array('albumrow.subalbum', array(
+					'U_SUBALBUM' => 'phpbbgallery_album',
+					'SUBALBUM_NAME' => 'TestPublicAlbumSubAlbum1',
+					'S_UNREAD' => false,
+				)),
+				array('navlinks', array(
+					'FORUM_NAME' => 'GALLERY',
+					'U_VIEW_FORUM' => 'phpbbgallery_index',
+				))
+			);
+		$this->template->expects($this->exactly(5))
+			->method('assign_vars');
+		$this->gallery_config->set('link_image_icon', 'image');
+		$this->gallery_config->set('pegas_index_album', 1);
+		$this->gallery_config->set('rrc_gindex_mode', 0);
+		$this->gallery_config->set('disp_birthdays', 0);
+		$controller = $this->get_controller(2, 5, true);
 		$response = $controller->base();
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
 		$this->assertEquals('200', $response->getStatusCode());
