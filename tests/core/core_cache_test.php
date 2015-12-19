@@ -33,7 +33,7 @@ class core_cache_test extends core_base
 	/**
 	* Test get_albums function in cache
 	* Test is disabled untill I find a way to make it not conflict with controller
-	*/
+
 	public function test_get_albums()
 	{
 		$test_array = array(
