@@ -801,11 +801,13 @@
 		<column>username_clean</column>
 		<column>user_birthday</column>
 		<column>user_permissions</column>
+		<column>user_sig</column>
 		<row>
 			<value>56</value>
 			<value>BdayUser1</value>
 			<value>bdayuser1</value>
 			<value></value>
+			<value>0</value>
 			<value>0</value>
 		</row>
 		<row>
@@ -813,6 +815,7 @@
 			<value>BdayUser2</value>
 			<value>bdayuser2</value>
 			<value></value>
+			<value>0</value>
 			<value>0</value>
 		</row>
 	</table>
