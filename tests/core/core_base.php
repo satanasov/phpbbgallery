@@ -42,9 +42,25 @@ class core_base extends \phpbb_database_test_case
 	*/
 	public function setUp()
 	{
-		parent::setUp();
-
 		global $config, $phpbb_dispatcher, $user, $cache;
+
+		
+	
+		/*$sql = 'DELETE FROM phpbb_config;';
+		$sql .= 'DELETE FROM phpbb_gallery_albums;';
+		$sql .= 'DELETE FROM phpbb_gallery_comments;';
+		$sql .= 'DELETE FROM phpbb_gallery_images;';
+		$sql .= 'DELETE FROM phpbb_gallery_permissions;';
+		$sql .= 'DELETE FROM phpbb_gallery_roles;';
+		$sql .= 'DELETE FROM phpbb_gallery_users;';
+		$sql .= 'DELETE FROM phpbb_groups;';
+		$sql .= 'DELETE FROM phpbb_users;';
+		$sql .= 'DELETE FROM phpbb_user_group;';
+		$sql .= 'DELETE FROM phpbb_zebra;';
+		
+		$this->db->sql_query($sql);*/
+	
+		parent::setUp();
 		
 		$this->db = $this->new_dbal();
 
@@ -80,6 +96,8 @@ class core_base extends \phpbb_database_test_case
 			$phpEx
 		);
 
+		$this->cache->purge();
+
 		$this->pagination = $this->getMockBuilder('\phpbb\pagination')->disableOriginalConstructor()
 			->getMock();
 
@@ -91,5 +109,10 @@ class core_base extends \phpbb_database_test_case
 			->will($this->returnArgument(0));
 		
 		$this->request = $this->getMock('\phpbb\request\request');
+	}
+
+	protected function tearDown()
+	{
+		parent::tearDown();
 	}
 }
