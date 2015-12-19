@@ -184,6 +184,39 @@
 			<value>1</value>
 			<value>0</value>
 		</row>
+		<row>
+			<value>5</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value></value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>TestUserAlbum2</value>
+			<value></value>
+			<value>7</value>
+			<value></value>
+			<value></value>
+			<value>52</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value></value>
+			<value>0</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value></value>
+			<value></value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>0</value>
+		</row>
 	</table>
 	<table name="phpbb_gallery_comments">
 		<column>comment_id</column>
@@ -595,34 +628,50 @@
 			<value>5</value>
 			<value>0</value>
 		</row>
+		<row>
+			<value>4</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>5</value>
+			<value>-2</value>
+		</row>
+		<row>
+			<value>5</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>5</value>
+			<value>-3</value>
+		</row>
 	</table>
 	<table name="phpbb_gallery_roles">
-		<column>role_id</column>
-		<column>a_list</column>
-		<column>i_view</column>
-		<column>i_watermark</column>
-		<column>i_upload</column>
-		<column>i_edit</column>
-		<column>i_delete</column>
-		<column>i_rate</column>
-		<column>i_approve</column>
-		<column>i_lock</column>
-		<column>i_report</column>
-		<column>i_count</column>
-		<column>i_unlimited</column>
-		<column>c_read</column>
-		<column>c_post</column>
-		<column>c_edit</column>
-		<column>c_delete</column>
-		<column>m_comments</column>
-		<column>m_delete</column>
-		<column>m_edit</column>
-		<column>m_move</column>
-		<column>m_report</column>
-		<column>m_status</column>
-		<column>a_count</column>
-		<column>a_unlimited</column>
-		<column>a_restrict</column>
+			<column>role_id</column>
+			<column>a_list</column>
+			<column>i_view</column>
+			<column>i_watermark</column>
+			<column>i_upload</column>
+			<column>i_edit</column>
+			<column>i_delete</column>
+			<column>i_rate</column>
+			<column>i_approve</column>
+			<column>i_lock</column>
+			<column>i_report</column>
+			<column>i_count</column>
+			<column>i_unlimited</column>
+			<column>c_read</column>
+			<column>c_post</column>
+			<column>c_edit</column>
+			<column>c_delete</column>
+			<column>m_comments</column>
+			<column>m_delete</column>
+			<column>m_edit</column>
+			<column>m_move</column>
+			<column>m_report</column>
+			<column>m_status</column>
+			<column>a_count</column>
+			<column>a_unlimited</column>
+			<column>a_restrict</column>
 		<row>
 			<value>1</value>
 			<value>1</value>
@@ -743,6 +792,30 @@
 			<value>1</value>
 			<value>REGISTERED</value>
 			<value>REGISTERED</value>
+			<value>0</value>
+		</row>
+	</table>
+	<table name="phpbb_users">
+		<column>user_id</column>
+		<column>username</column>
+		<column>username_clean</column>
+		<column>user_birthday</column>
+		<column>user_permissions</column>
+		<column>user_sig</column>
+		<row>
+			<value>56</value>
+			<value>BdayUser1</value>
+			<value>bdayuser1</value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>57</value>
+			<value>BdayUser2</value>
+			<value>bdayuser2</value>
+			<value></value>
+			<value>0</value>
 			<value>0</value>
 		</row>
 	</table>

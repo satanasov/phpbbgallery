@@ -152,4 +152,14 @@ class cache
 	{
 		$this->phpbb_cache->destroy('_images');
 	}
+
+	/**
+	* Destroy album cache
+	* Basicly some tests fail due album cache not destroyed ...
+	* So lets try it now?
+	*/
+	public function destroy_albums()
+	{
+		$this->phpbb_cache->destroy('_albums');
+	}
 }
