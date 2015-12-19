@@ -71,7 +71,6 @@ class core_display_test extends core_base
 			'phpbb_gallery_albums_modscache'
 		);
 	}
-
 	public function test_get_branch()
 	{
 		$this->assertTrue(true);
