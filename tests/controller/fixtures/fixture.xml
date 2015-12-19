@@ -818,15 +818,18 @@
 		<column>user_id</column>
 		<column>group_leader</column>
 		<column>user_pending</column>
+		<column>user_permissions</column>
 		<row>
 			<value>5</value>
 			<value>2</value>
 			<value>1</value>
 			<value>0</value>
+			<value>0</value>
 		</row>
 		<row>
 			<value>2</value>
 			<value>52</value>
+			<value>0</value>
 			<value>0</value>
 			<value>0</value>
 		</row>
