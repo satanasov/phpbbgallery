@@ -800,17 +800,20 @@
 		<column>username</column>
 		<column>username_clean</column>
 		<column>user_birthday</column>
+		<column>user_permissions</column>
 		<row>
 			<value>56</value>
 			<value>BdayUser1</value>
 			<value>bdayuser1</value>
 			<value></value>
+			<value>0</value>
 		</row>
 		<row>
 			<value>57</value>
 			<value>BdayUser2</value>
 			<value>bdayuser2</value>
 			<value></value>
+			<value>0</value>
 		</row>
 	</table>
 	<table name="phpbb_user_group">
@@ -818,18 +821,15 @@
 		<column>user_id</column>
 		<column>group_leader</column>
 		<column>user_pending</column>
-		<column>user_permissions</column>
 		<row>
 			<value>5</value>
 			<value>2</value>
 			<value>1</value>
 			<value>0</value>
-			<value>0</value>
 		</row>
 		<row>
 			<value>2</value>
 			<value>52</value>
-			<value>0</value>
 			<value>0</value>
 			<value>0</value>
 		</row>
