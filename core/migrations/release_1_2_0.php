@@ -98,7 +98,7 @@ class release_1_2_0 extends \phpbb\db\migration\migration
 
 			// Logs
 			array('module.add', array('acp', 'ACP_FORUM_LOGS', array(
-				'module_basename'	=> 'logs',
+				'module_basename'	=> '\phpbbgallery\core\acp\gallery_logs_module',
 				'module_langname'	=> 'ACP_GALLERY_LOGS',
 				'module_mode'		=> 'gallery',
 				'module_auth'		=> 'ext_phpbbgallery/core && acl_a_viewlogs',
