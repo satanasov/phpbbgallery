@@ -414,7 +414,7 @@ class display
 				'FROM'	=> array(USERS_TABLE => 'u'),
 				'ON'	=> 'u.user_id = a.album_user_id',
 			);
-			$sql_array['ORDER_BY'] = 'u.username_clean DESC, a.left_id';
+			$sql_array['ORDER_BY'] = 'u.username_clean, a.left_id';
 		}
 
 		$sql_array['LEFT_JOIN'][] = array(
