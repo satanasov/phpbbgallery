@@ -803,6 +803,22 @@
 		<column>user_permissions</column>
 		<column>user_sig</column>
 		<row>
+			<value>2</value>
+			<value>Admin</value>
+			<value>admin</value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>52</value>
+			<value>TestUser1</value>
+			<value>testuser1</value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+		<row>
 			<value>56</value>
 			<value>BdayUser1</value>
 			<value>bdayuser1</value>
