@@ -382,7 +382,7 @@ class search
 				'TIME'	=> $this->user->format_date($var['comment_time']),
 				'TEXT'	=> generate_text_for_display($var['comment'], $var['comment_uid'], $var['comment_bitfield'], 7),
 				'UC_IMAGE_NAME'	=> '<a href="' . $this->helper->route('phpbbgallery_image', array('image_id' => $var['comment_image_id'])) . '">' . $var['image_name'] . '</a>',
-				'UC_THUMBNAIL'		=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $var['image_id'])),
+				//'UC_THUMBNAIL'		=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $var['image_id'])),
 				'UC_THUMBNAIL'		=> $this->image->generate_link('thumbnail', $this->gallery_config->get('link_thumbnail'), $var['comment_image_id'], $var['image_name'], $var['image_album_id']),
 				'IMAGE_AUTHOR'		=> $this->user_loader->get_username((int) $var['image_user_id'], 'full'),
 				'IMAGE_TIME'		=> $this->user->format_date($var['image_time']),
