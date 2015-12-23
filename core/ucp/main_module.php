@@ -983,7 +983,7 @@ class main_module
 			$template->assign_block_vars('album_row', array(
 				'ALBUM_ID'			=> $row['album_id'],
 				'ALBUM_NAME'		=> $row['album_name'],
-				'U_VIEW_ALBUM'		=> $phpbb_ext_gallery->url->show_album($row['image_album_id']),
+				'U_VIEW_ALBUM'		=> $phpbb_ext_gallery->url->show_album($row['album_id']),
 				'ALBUM_DESC'		=> generate_text_for_display($row['album_desc'], $row['album_desc_uid'], $row['album_desc_bitfield'], $row['album_desc_options']),
 
 				'UC_IMAGE_NAME'		=> $phpbb_ext_gallery_core_image->generate_link('image_name', $phpbb_ext_gallery_config->get('link_image_name'), $row['album_last_image_id'], $row['album_last_image_name'], $row['album_id']),
