@@ -147,7 +147,7 @@ class main_listener implements EventSubscriberInterface
 	}
 	public function profile_fileds($event)
 	{
-		if (isset($this->albums[$this->user_ids[$this->target]]))
+		if (isset($this->user_ids[$this->target]) && isset($this->albums[$this->user_ids[$this->target]]))
 		{
 			$data = $event['profile_row'];
 			$data['phpbb_gallery'] = array(
