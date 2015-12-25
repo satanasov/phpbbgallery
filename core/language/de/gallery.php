@@ -8,7 +8,7 @@
 * @copyright (c) 2007 nickvergessen nickvergessen@gmx.de http://www.flying-bits.org
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
-* Übersetzt von franki (http://dieahnen.de/ahnenforum/)
+* German translation by franki (http://dieahnen.de/ahnenforum/)
 **/
 
 /**
@@ -117,7 +117,7 @@ $lang = array_merge($lang, array(
 	'DESC_TOO_LONG'					=> 'Deine Beschreibung ist zu lang',
 	'DESCRIPTION_LENGTH'			=> 'Gib deine Beschreibung hier ein. Sie darf nicht mehr als <strong>%d</strong> Zeichen enthalten.',
 	'DETAILS'						=> 'Details',
-	'DISALLOWED_EXTENSION'			=> 'This image extension is not allowed',
+	'DISALLOWED_EXTENSION'			=> 'Dieses Bild-Erweiterung ist nicht erlaubt',
 	'DONT_RATE_IMAGE'				=> 'Bild nicht bewerten',
 
 	'EDIT_COMMENT'					=> 'Kommentar ändern',
@@ -153,7 +153,7 @@ $lang = array_merge($lang, array(
 	'IMAGE_PCT'						=> '%.2f%% aller Bilder',
 	'IMAGE_STATUS'					=> 'Status',
 	'IMAGE_URL'						=> 'Bildlink',
-	'IMAGE_VIEWS'							=> 'Views',
+	'IMAGE_VIEWS'							=> 'Ansichten',
 	'IMAGE_WIDTH'					=> 'Bildbreite',
 	'IMAGES_REPORTED_SUCCESSFULLY'	=> 'Das Bild wurde erfolgreich gemeldet',
 	'IMAGES_UPDATED_SUCCESSFULLY'	=> 'Deine Bilderinformationen wurden erfolgreich aktualisiert',
@@ -206,7 +206,7 @@ $lang = array_merge($lang, array(
 	'PERCENT'						=> '%',
 	'PERSONAL_ALBUMS'				=> 'Persönliche Alben',
 	'PIXELS'						=> 'Pixel',
-	'PLUGIN_CLASS_MISSING'			=> 'Gallery Plugin Fehler: Die Klasse „%s“ konnte nicht gefunden werden!',
+	'PLUGIN_CLASS_MISSING'			=> 'Galerie-Plugin Fehler: Die Klasse „%s“ konnte nicht gefunden werden!',
 	'POST_COMMENT'					=> 'Kommentar schreiben',
 	'POST_COMMENT_RATE_IMAGE'		=> 'Kommentar schreiben und Bild bewerten',
 	'POSTER'						=> 'Autor',
@@ -254,7 +254,7 @@ $lang = array_merge($lang, array(
 	'SEARCH_RECENT'					=> 'Neueste Bilder',
 	'NO_SEARCH_RESULTS_RECENT'		=> 'Es gibt keine Bilder oder Du hast nicht die Berechtigung sie zu sehen!',
 	'SEARCH_RECENT_COMMENTS'		=> 'Neueste Kommentare',
-	'NO_SEARCH_RESULTS_RECENT_COMMENTS'	=> 'There are no recent comments or you do not have access!',
+	'NO_SEARCH_RESULTS_RECENT_COMMENTS'	=> 'Es gibt keine aktuellen Kommentare, oder Du hast keinen Zugriff!',
 	'SEARCH_SUBALBUMS'				=> 'Subalben durchsuchen',
 	'SEARCH_TOPRATED'				=> 'Beste Bewertungen',
 	'SEARCH_USER_IMAGES'			=> 'Bilder des Mitglieds anzeigen',
@@ -325,6 +325,8 @@ $lang = array_merge($lang, array(
 	'USERNAME_BEGINS_WITH'			=> 'Benutzername fängt an mit',
 	'USERS_PERSONAL_ALBUMS'			=> 'Persönliche Alben der Mitglieder',
 
+	'VISIT_GALLERY'					=> 'Benutzer Galerie besuchen',
+
 	'VIEW_ALBUM'					=> 'Album ansehen',
 	'VIEW_ALBUM_IMAGES'				=> array(
 		1	=> '1 Bild',
@@ -345,8 +347,6 @@ $lang = array_merge($lang, array(
 	'VIEWING_ALBUM'					=> 'Betrachtet Album %s',
 	'VIEWING_IMAGE'					=> 'Betrachtet ein Bild im Album %s',
 
-	'VISIT_GALLERY'					=> 'Benutzer Galerie besuchen',
-
 	'WATCH_ALBUM'					=> 'Album beobachten',
 	'WATCH_IMAGE'					=> 'Bild beobachten',
 	'WATCH_PEGAS'					=> 'Neue Alben automatisch beobachten',
@@ -362,5 +362,5 @@ $lang = array_merge($lang, array(
 		1	=>	'Bild verschoben',
 		2	=> 	'%s Bilder verschoben',
 	),
-	'WRONG_FILESIZE'	=> 'Image is bigger then the limit!',
+	'WRONG_FILESIZE'	=> 'Das Bild ist größer als die Grenze!',
 ));
