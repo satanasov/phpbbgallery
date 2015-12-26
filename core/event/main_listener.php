@@ -149,9 +149,14 @@ class main_listener implements EventSubscriberInterface
 	{
 		if (isset($this->user_ids[$this->target]) && isset($this->albums[$this->user_ids[$this->target]]))
 		{
+			// Format relative URL to personal gallery
+			$relative_url = $this->helper->route('phpbbgallery_album', array('album_id' => $this->albums[$this->user_ids[$this->target]]));
+			// Format absolute URL to personal gallery
+			$absolute_url = generate_board_url(true) . $relative_url;
+			
 			$data = $event['profile_row'];
 			$data['phpbb_gallery'] = array(
-				'value' => $this->helper->route('phpbbgallery_album', array('album_id' => $this->albums[$this->user_ids[$this->target]])),
+				'value' => $absolute_url,
 				'data' => array(
 					'field_id'				=> '',
 					'lang_id'				=> '',
