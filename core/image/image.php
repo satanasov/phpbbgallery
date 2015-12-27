@@ -109,9 +109,9 @@ class image
 		$sql = 'SELECT username, user_colour, user_id
 			FROM ' . USERS_TABLE . '
 			WHERE user_id = ' . (int) $user_id[0];
-		$result = $db->sql_query($sql);
-		$row = $db->sql_fetchrow($result);
-		$db->sql_freeresult($result);
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
 
 		return $row;
 	}
