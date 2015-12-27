@@ -832,9 +832,11 @@ class image
 
 				if ($change_image_count)
 				{
-					$new_user = new phpbb_gallery_user($db, $user_data['user_id'], false);
+					$new_user = new \phpbbgallery\core\user($this->db, $this->dispatcher, $this->table_users);
+					$new_user->set_user_id($user_data['user_id']);
 					$new_user->update_images(1);
-					$old_user = new phpbb_gallery_user($db, $image_data['image_user_id'], false);
+					$old_user = new \phpbbgallery\core\user($this->db, $this->dispatcher, $this->table_users);
+					$old_user->set_user_id($image_data['image_user_id']);
 					$old_user->update_images(-1);
 				}
 
