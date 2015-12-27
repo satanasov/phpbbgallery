@@ -100,7 +100,7 @@ class release_1_2_0 extends \phpbb\db\migration\migration
 			array('module.add', array('acp', 'ACP_FORUM_LOGS', array(
 				'module_basename'	=> '\phpbbgallery\core\acp\gallery_logs_module',
 				'module_langname'	=> 'ACP_GALLERY_LOGS',
-				'module_mode'		=> 'gallery',
+				'module_mode'		=> 'main',
 				'module_auth'		=> 'ext_phpbbgallery/core && acl_a_viewlogs',
 			))),
 
