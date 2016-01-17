@@ -727,7 +727,6 @@ class albums_module
 			'U_ACTION'		=> $this->u_action . '&amp;parent_id=' . $this->parent_id,
 
 			'U_PROGRESS_BAR'	=> $this->u_action . '&amp;action=progress_bar',
-			'UA_PROGRESS_BAR'	=> addslashes($this->u_action . '&amp;action=progress_bar'),
 		));
 	}
 
