@@ -424,11 +424,11 @@ class gallery_index_test extends controller_base
 				)),
 				array('birthdays', array(
 					'USERNAME' => '<span class="username">BdayUser1</span>',
-					'AGE' => 16
+					'AGE' => 17
 				)),
 				array('birthdays', array(
 					'USERNAME' => '<span class="username">BdayUser2</span>',
-					'AGE' => 16
+					'AGE' => 17
 				)),
 				array('navlinks', array(
 					'FORUM_NAME' => 'GALLERY',
