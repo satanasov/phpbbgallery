@@ -58,7 +58,7 @@ class release_1_2_0 extends \phpbb\db\migration\migration
 				'module_basename'	=> '\phpbbgallery\core\acp\gallery_logs_module',
 				'module_langname'	=> 'ACP_GALLERY_LOGS',
 				'module_mode'		=> 'main',
-				'module_auth'		=> 'ext_phpbbgallery/core && acl_a_gallery_manage',
+				'module_auth'		=> 'ext_phpbbgallery/core && acl_a_viewlogs',
 			))),
 			// Todo CLEANUP Add-on
 			/*array('module.add', array('acp', 'PHPBB_GALLERY', array(
@@ -94,7 +94,7 @@ class release_1_2_0 extends \phpbb\db\migration\migration
 				'module_langname'	=> 'UCP_GALLERY_FAVORITES',
 				'module_mode'		=> 'manage_favorites',
 				'module_auth'		=> 'ext_phpbbgallery/core',
-			))),*/
+			))),
 
 			// Logs
 			array('module.add', array('acp', 'ACP_FORUM_LOGS', array(
@@ -102,7 +102,7 @@ class release_1_2_0 extends \phpbb\db\migration\migration
 				'module_langname'	=> 'ACP_GALLERY_LOGS',
 				'module_mode'		=> 'main',
 				'module_auth'		=> 'ext_phpbbgallery/core && acl_a_viewlogs',
-			))),
+			))),*/
 
 			// @todo: ADD BBCODE
 			array('custom', array(array(&$this, 'install_config'))),
