@@ -53,7 +53,7 @@ class helper
 					'uploader'	=> $target['uploader'],
 					'album_url'	=> $this->url->get_uri($this->helper->route('phpbbgallery_core_album', array('album_id' => $target['album_id']))),
 				);
-				$phpbb_notifications->add_notifications('notification.type.phpbbgallery_core_image_for_approval', $notification_data);
+				$phpbb_notifications->add_notifications('notification.type.phpbbgallery_image_for_approval', $notification_data);
 			break;
 			case 'approved':
 				$targets = $target['targets'];
@@ -65,7 +65,7 @@ class helper
 					'last_image_id'	=> $target['last_image'],
 					'album_url'	=> $this->url->get_uri($this->helper->route('phpbbgallery_core_album', array('album_id' => $target['album_id']))),
 				);
-				$phpbb_notifications->add_notifications('notification.type.phpbbgallery_core_image_approved', $notification_data);
+				$phpbb_notifications->add_notifications('notification.type.phpbbgallery_image_approved', $notification_data);
 			break;
 			case 'new_image':
 				$targets = $target['targets'];
@@ -129,7 +129,7 @@ class helper
 		switch ($type)
 		{
 			case 'approval':
-				$phpbb_notifications->mark_notifications_read_by_parent('notification.type.phpbbgallery_core_image_for_approval', $target, false);
+				$phpbb_notifications->mark_notifications_read_by_parent('notification.type.phpbbgallery_image_for_approval', $target, false);
 			break;
 		}
 	}
