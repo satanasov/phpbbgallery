@@ -276,10 +276,10 @@ class main_module
 		$template->assign_vars(array(
 			'NAVIGATION'		=> $navigation,
 			'S_ALBUM'			=> $parent_id,
-			'U_GOTO'			=> $helper->route('phpbbgallery_album', array('album_id' => $parent_id)),
+			'U_GOTO'			=> $helper->route('phpbbgallery_core_album', array('album_id' => $parent_id)),
 			'U_EDIT'			=> $this->u_action . '&amp;action=edit&amp;album_id=' . $parent_id,
 			'U_DELETE'			=> $this->u_action . '&amp;action=delete&amp;album_id=' . $parent_id,
-			'U_UPLOAD'			=> $helper->route('phpbbgallery_album_upload', array('album_id' => $parent_id)),
+			'U_UPLOAD'			=> $helper->route('phpbbgallery_core_album_upload', array('album_id' => $parent_id)),
 			'ICON_MOVE_DOWN'			=> '<img src="' . $phpbb_ext_gallery->url->path('images') . 'icon_down.gif" alt="" />',
 			'ICON_MOVE_DOWN_DISABLED'	=> '<img src="' . $phpbb_ext_gallery->url->path('images') . 'icon_down_disabled.gif" alt="" />',
 			'ICON_MOVE_UP'				=> '<img src="' . $phpbb_ext_gallery->url->path('images') . 'icon_up.gif" alt="" />',

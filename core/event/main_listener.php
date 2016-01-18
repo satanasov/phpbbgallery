@@ -76,7 +76,7 @@ class main_listener implements EventSubscriberInterface
 	public function add_page_header_link($event)
 	{
 		$this->template->assign_vars(array(
-			'U_GALLERY'	=> $this->helper->route('phpbbgallery_index'),
+			'U_GALLERY'	=> $this->helper->route('phpbbgallery_core_index'),
 		));
 	}
 	public function user_profile_galleries($event)
@@ -155,7 +155,7 @@ class main_listener implements EventSubscriberInterface
 			{
 				$data = $event['profile_row'];
 				$data['phpbb_gallery'] = array(
-					'value' => $this->helper->route('phpbbgallery_album', array('album_id' => $this->albums[$this->user_ids[$this->target]])),
+					'value' => $this->helper->route('phpbbgallery_core_album', array('album_id' => $this->albums[$this->user_ids[$this->target]])),
 					'data' => array(
 						'field_id'				=> '',
 						'lang_id'				=> '',

@@ -365,14 +365,14 @@ class report
 			$album_tmp = $this->album->get_info($VAR['image_album_id']);
 			$this->template->assign_block_vars('report_image_open', array(
 				'U_IMAGE_ID'	=> $VAR['image_id'],
-				'U_IMAGE'	=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $VAR['image_id'])),
-				'U_IMAGE_URL'	=> $this->helper->route('phpbbgallery_image', array('image_id'	=> $VAR['image_id'])),
+				'U_IMAGE'	=> $this->helper->route('phpbbgallery_core_image_file_mini', array('image_id' => $VAR['image_id'])),
+				'U_IMAGE_URL'	=> $this->helper->route('phpbbgallery_core_image', array('image_id'	=> $VAR['image_id'])),
 				'U_IMAGE_NAME'	=> $VAR['image_name'],
 				'IMAGE_AUTHOR'	=> $this->user_loader->get_username($VAR['image_user_id'], 'full'),
 				'IMAGE_TIME'	=> $this->user->format_date($VAR['image_time']),
 				'IMAGE_ALBUM'	=> $album_tmp['album_name'],
-				'IMAGE_ALBUM_URL'	=> $this->helper->route('phpbbgallery_album', array('album_id' => $VAR['image_album_id'])),
-				'REPORT_URL'	=> $this->helper->route('phpbbgallery_moderate_image', array('image_id' => $VAR['image_id'])),
+				'IMAGE_ALBUM_URL'	=> $this->helper->route('phpbbgallery_core_album', array('album_id' => $VAR['image_album_id'])),
+				'REPORT_URL'	=> $this->helper->route('phpbbgallery_core_moderate_image', array('image_id' => $VAR['image_id'])),
 				'REPORT_AUTHOR'	=> $this->user_loader->get_username($VAR['reporter_id'], 'full'),
 				'REPORT_TIME'	=> $this->user->format_date($VAR['report_time']),
 			));
@@ -381,14 +381,14 @@ class report
 		}
 		$this->template->assign_vars(array(
 			'TOTAL_IMAGES_REPORTED' => $status == 1 ? $this->user->lang('WAITING_REPORTED_IMAGE', (int) $count) : $this->user->lang('WAITING_REPORTED_DONE', (int) $count),
-			'S_GALLERY_REPORT_ACTION'	=> $status == 1 ? ($album > 0 ? $this->helper->route('phpbbgallery_moderate_reports_album', array('album_id' => $album)) : $this->helper->route('phpbbgallery_moderate_reports')) : false,
+			'S_GALLERY_REPORT_ACTION'	=> $status == 1 ? ($album > 0 ? $this->helper->route('phpbbgallery_core_moderate_reports_album', array('album_id' => $album)) : $this->helper->route('phpbbgallery_core_moderate_reports')) : false,
 		));
 		if ($album === 0)
 		{
 			$this->pagination->generate_template_pagination(array(
 				'routes' => array(
-					$status == 1 ? 'phpbbgallery_moderate_reports' : 'phpbbgallery_moderate_reports_closed',
-					$status == 1 ? 'phpbbgallery_moderate_reports_page' : 'phpbbgallery_moderate_reports_closed_page',
+					$status == 1 ? 'phpbbgallery_core_moderate_reports' : 'phpbbgallery_core_moderate_reports_closed',
+					$status == 1 ? 'phpbbgallery_core_moderate_reports_page' : 'phpbbgallery_core_moderate_reports_closed_page',
 				),
 				'params' => array(
 				),
@@ -401,8 +401,8 @@ class report
 		{
 			$this->pagination->generate_template_pagination(array(
 				'routes' => array(
-					$status == 1 ? 'phpbbgallery_moderate_reports_album' : 'phpbbgallery_moderate_reports_closed_album',
-					$status == 1 ? 'phpbbgallery_moderate_reports_album_page' : 'phpbbgallery_moderate_reports_closed_album_page',
+					$status == 1 ? 'phpbbgallery_core_moderate_reports_album' : 'phpbbgallery_core_moderate_reports_closed_album',
+					$status == 1 ? 'phpbbgallery_core_moderate_reports_album_page' : 'phpbbgallery_core_moderate_reports_closed_album_page',
 				),
 				'params' => array(
 					'album_id'	=> $album,
