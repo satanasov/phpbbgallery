@@ -62,7 +62,7 @@ class upload
 		$album_data = $this->album->get_info($album_id);
 		$this->display->generate_navigation($album_data);
 		add_form_key('gallery');
-		$album_backlink = $this->helper->route('phpbbgallery_album', array('album_id'	=> $album_id));
+		$album_backlink = $this->helper->route('phpbbgallery_core_album', array('album_id'	=> $album_id));
 		$album_loginlink = 'ucp.php?mode=login';
 		$error = '';
 		//Let's get authorization
@@ -207,7 +207,7 @@ class upload
 					'S_MAX_WIDTH'			=> $this->gallery_config->get('max_width'),
 					'S_MAX_HEIGHT'			=> $this->gallery_config->get('max_height'),
 					'S_ALLOWED_FILETYPES'	=> implode(', ', $process->get_allowed_types(true)),
-					'S_ALBUM_ACTION'		=>  $this->helper->route('phpbbgallery_album_upload', array('album_id' => $album_id)),
+					'S_ALBUM_ACTION'		=>  $this->helper->route('phpbbgallery_core_album_upload', array('album_id' => $album_id)),
 					'S_UPLOAD'				=> true,
 					'S_ALLOW_ROTATE'		=> ($this->gallery_config->get('allow_rotate') && function_exists('imagerotate')),
 					'S_UPLOAD_LIMIT'		=> $upload_files_limit,
@@ -350,7 +350,7 @@ class upload
 				'ERROR'				=> $error,
 				'S_UPLOAD_EDIT'		=> true,
 				'S_ALLOW_ROTATE'	=> $s_can_rotate,
-				'S_ALBUM_ACTION'		=>  $this->helper->route('phpbbgallery_album_upload', array('album_id' => $album_id)),
+				'S_ALBUM_ACTION'		=>  $this->helper->route('phpbbgallery_core_album_upload', array('album_id' => $album_id)),
 				'S_USERNAME'		=> (!$this->user->data['is_registered']) ? $username : '',
 				'NUM_IMAGES'		=> $num_images,
 				'COLOUR_ROWSPAN'	=> ($s_can_rotate) ? $num_images * 3 : $num_images * 2,

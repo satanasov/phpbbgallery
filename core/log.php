@@ -190,8 +190,8 @@ class log
 					'U_LOG_USER'	=> $this->user_loader->get_username($var['user'], 'full'),
 					'U_TYPE'		=> $var['type'],
 					'U_LOG_IP'		=> $var['ip'],
-					'U_ALBUM_LINK'	=> $var['album'] != 0 ? $this->helper->route('phpbbgallery_album', array('album_id'	=> $var['album'])) : false,
-					'U_IMAGE_LINK'	=> $var['image'] != 0 ? $this->helper->route('phpbbgallery_image', array('image_id'	=> $var['image'])) : false,
+					'U_ALBUM_LINK'	=> $var['album'] != 0 ? $this->helper->route('phpbbgallery_core_album', array('album_id'	=> $var['album'])) : false,
+					'U_IMAGE_LINK'	=> $var['image'] != 0 ? $this->helper->route('phpbbgallery_core_image', array('image_id'	=> $var['image'])) : false,
 					//'U_LOG_ACTION'	=> $description,
 					'U_LOG_ACTION'	=> $description = $this->user->lang($var['description'][0], isset($var['description'][1]) ? $var['description'][1] : false, isset($var['description'][2]) ? $var['description'][2] : false, isset($var['description'][3]) ? $var['description'][3] : false),
 					'U_TIME'		=> $this->user->format_date($var['time']),
@@ -207,8 +207,8 @@ class log
 		{
 			$this->pagination->generate_template_pagination(array(
 				'routes' => array(
-					'phpbbgallery_moderate_action_log',
-					'phpbbgallery_moderate_action_log_page',
+					'phpbbgallery_core_moderate_action_log',
+					'phpbbgallery_core_moderate_action_log_page',
 				),
 				'params' => array(
 				),
@@ -240,8 +240,8 @@ class log
 		{
 			$this->pagination->generate_template_pagination(array(
 				'routes' => array(
-					'phpbbgallery_moderate_action_log_album',
-					'phpbbgallery_moderate_action_log_album_page',
+					'phpbbgallery_core_moderate_action_log_album',
+					'phpbbgallery_core_moderate_action_log_album_page',
 				),
 				'params' => array(
 					'album_id'	=> $album,

@@ -159,7 +159,7 @@ class main_event_test extends \phpbb_database_test_case
 		$this->template->expects($this->once())
 			->method('assign_vars')
 			->with(array(
-				'U_GALLERY'	=> $this->controller_helper->route('phpbbgallery_index'),
+				'U_GALLERY'	=> $this->controller_helper->route('phpbbgallery_core_index'),
 			));
 		$dispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
 		$dispatcher->addListener('core.page_header', array($this->listener, 'add_page_header_link'));

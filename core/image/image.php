@@ -250,7 +250,7 @@ class image
 		global $user, $phpbb_root_path, $phpEx;
 		global $phpbb_ext_gallery;//@todo:
 
-		$image_page_url = $this->helper->route('phpbbgallery_image', array('image_id' => $image_id));
+		$image_page_url = $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_id));
 		//$image_page_url = $phpbb_ext_gallery_url->append_sid('image_page', "album_id=$album_id&amp;image_id=$image_id{$additional_parameters}");
 		//$image_url = $phpbb_ext_gallery_url->append_sid('image', "album_id=$album_id&amp;image_id=$image_id{$additional_parameters}" . ((!$count) ? '&amp;view=no_count' : ''));
 		$image_url = $this->url->show_image($image_id, 'medium');

@@ -366,7 +366,6 @@ class file
 		}
 
 		$this->tool->send_image_to_browser();
-		exit;
 	}
 
 	protected function resize($image_id, $resize_width, $resize_height, $store_filesize = '', $put_details = false)

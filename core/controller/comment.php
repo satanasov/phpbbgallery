@@ -105,8 +105,8 @@ $table_comments, $phpbb_root_path, $php_ext)
 		$this->display->generate_navigation($album_data);
 		$page_title = $image_data['image_name'];
 
-		$image_backlink = $this->helper->route('phpbbgallery_image', array('image_id' => $image_id));
-		$album_backlink = $this->helper->route('phpbbgallery_album', array('album_id' => $album_id));
+		$image_backlink = $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_id));
+		$album_backlink = $this->helper->route('phpbbgallery_core_album', array('album_id' => $album_id));
 		$image_loginlink = $this->url->append_sid('relative', 'image_page', "album_id=$album_id&amp;image_id=$image_id");
 
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
@@ -300,7 +300,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 			'IMAGE_NAME'			=> $image_data['image_name'],
 
 			'S_SIGNATURE_CHECKED'	=> (isset($sig_checked) && $sig_checked) ? ' checked="checked"' : '',
-			'S_ALBUM_ACTION'		=> $this->helper->route('phpbbgallery_comment_add', array('image_id' => $image_id, 'comment_id' => 0)),
+			'S_ALBUM_ACTION'		=> $this->helper->route('phpbbgallery_core_comment_add', array('image_id' => $image_id, 'comment_id' => 0)),
 			//'S_ALBUM_ACTION'		=> append_sid($this->url->path('full') . 'comment/' . $image_id . '/add/0'),
 		));
 
@@ -337,8 +337,8 @@ $table_comments, $phpbb_root_path, $php_ext)
 		$this->display->generate_navigation($album_data);
 		$page_title = $image_data['image_name'];
 
-		$image_backlink = $this->helper->route('phpbbgallery_image', array('image_id' => $image_id));
-		$album_backlink = $this->helper->route('phpbbgallery_album', array('album_id' => $album_id));
+		$image_backlink = $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_id));
+		$album_backlink = $this->helper->route('phpbbgallery_core_album', array('album_id' => $album_id));
 		$image_loginlink = $this->url->append_sid('relative', 'image_page', "album_id=$album_id&amp;image_id=$image_id");
 		if ($comment_id != 0)
 		{
@@ -496,7 +496,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 			'IMAGE_NAME'			=> $image_data['image_name'],
 
 			'S_SIGNATURE_CHECKED'	=> (isset($sig_checked) && $sig_checked) ? ' checked="checked"' : '',
-			'S_ALBUM_ACTION'		=> $this->helper->route('phpbbgallery_comment_edit', array('image_id' => $image_id, 'comment_id' => $comment_id)),
+			'S_ALBUM_ACTION'		=> $this->helper->route('phpbbgallery_core_comment_edit', array('image_id' => $image_id, 'comment_id' => $comment_id)),
 			//'S_ALBUM_ACTION'		=> append_sid($this->url->path('full') . 'comment/' . $image_id . '/edit/'. $comment_id),
 		));
 
@@ -533,8 +533,8 @@ $table_comments, $phpbb_root_path, $php_ext)
 		$this->display->generate_navigation($album_data);
 		$page_title = $image_data['image_name'];
 
-		$image_backlink = $this->helper->route('phpbbgallery_image', array('image_id' => $image_id));
-		$album_backlink = $this->helper->route('phpbbgallery_album', array('album_id' => $album_id));
+		$image_backlink = $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_id));
+		$album_backlink = $this->helper->route('phpbbgallery_core_album', array('album_id' => $album_id));
 		$image_loginlink = $this->url->append_sid('relative', 'image_page', "album_id=$album_id&amp;image_id=$image_id");
 		if ($comment_id != 0)
 		{
@@ -674,8 +674,8 @@ $table_comments, $phpbb_root_path, $php_ext)
 		$this->display->generate_navigation($album_data);
 		$page_title = $image_data['image_name'];
 
-		$image_backlink = $this->helper->route('phpbbgallery_image', array('image_id' => $image_id));
-		$album_backlink = $this->helper->route('phpbbgallery_album', array('album_id' => $album_id));
+		$image_backlink = $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_id));
+		$album_backlink = $this->helper->route('phpbbgallery_core_album', array('album_id' => $album_id));
 		$image_loginlink = $this->url->append_sid('relative', 'image_page', "album_id=$album_id&amp;image_id=$image_id");
 
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);

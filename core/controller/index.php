@@ -112,10 +112,10 @@ class index
 			switch ($this->gallery_config->get('link_image_icon'))
 			{
 				case 'image_page':
-					$action_image = $this->helper->route('phpbbgallery_image', array('image_id' => $last_image['image_id']));
+					$action_image = $this->helper->route('phpbbgallery_core_image', array('image_id' => $last_image['image_id']));
 				break;
 				case 'image':
-					$action_image = $this->helper->route('phpbbgallery_image_file_source', array('image_id' => $last_image['image_id']));
+					$action_image = $this->helper->route('phpbbgallery_core_image_file_source', array('image_id' => $last_image['image_id']));
 				break;
 				default:
 					$action_image = false;
@@ -123,12 +123,12 @@ class index
 			}
 			$this->template->assign_vars(array(
 				'S_USERS_PERSONAL_GALLERIES'	=> true,
-				'U_USERS_PERSONAL_GALLERIES' => $this->helper->route('phpbbgallery_personal'),
+				'U_USERS_PERSONAL_GALLERIES' => $this->helper->route('phpbbgallery_core_personal'),
 				'U_PERSONAL_GALLERIES_IMAGES'	=> $this->gallery_config->get('num_images'),
-				'U_PERSONAL_GALLERIES_LAST_IMAGE'	=> $this->helper->route('phpbbgallery_image_file_mini', array('image_id' => $last_image['image_id'])),
+				'U_PERSONAL_GALLERIES_LAST_IMAGE'	=> $this->helper->route('phpbbgallery_core_image_file_mini', array('image_id' => $last_image['image_id'])),
 				'U_IMAGENAME'	=> ($last_image['image_id'] > 0) ? $last_image['image_name'] : false,
 				'U_IMAGE_ACTION'	=> $action_image,
-				'U_IMAGENAME_ACTION'	=> $this->helper->route('phpbbgallery_image', array('image_id' => $last_image['image_id'])),
+				'U_IMAGENAME_ACTION'	=> $this->helper->route('phpbbgallery_core_image', array('image_id' => $last_image['image_id'])),
 				'U_TIME'	=> ($last_image['image_id'] > 0) ?  $this->user->format_date($last_image['image_time']) : false,
 				'U_UPLOADER'	=> ($last_image['image_id'] > 0) ? get_username_string('full', $last_image['image_user_id'], $last_image['image_username'], $last_image['image_user_colour']) : false,
 			));
@@ -138,7 +138,7 @@ class index
 			{
 				$this->template->assign_vars(array(
 					'S_PERSONAL_ALBUM'	=> true,
-					'U_PERSONAL_ALBUM'	=> $this->helper->route('phpbbgallery_album', array('album_id' => $personal_album)),
+					'U_PERSONAL_ALBUM'	=> $this->helper->route('phpbbgallery_core_album', array('album_id' => $personal_album)),
 					'U_PERSONAL_ALBUM_USER'	=> $this->user->data['username'],
 					'U_PERSONAL_ALBUM_COLOR'	=> $this->user->data['user_colour'],
 				));
@@ -182,7 +182,7 @@ class index
 			{
 				$this->template->assign_vars(array(
 					'U_RECENT_COMMENTS'	=> true,
-					'S_RECENT_COMMENTS' => $this->helper->route('phpbbgallery_search_commented'),
+					'S_RECENT_COMMENTS' => $this->helper->route('phpbbgallery_core_search_commented'),
 					'COMMENTS_EXPAND'	=> $this->gallery_config->get('rrc_gindex_comments') ? true : false,
 				));
 				$this->gallery_search->recent_comments($this->gallery_config->get('items_per_page'), 0);
@@ -190,11 +190,11 @@ class index
 		}
 		$this->display_legend();
 		$this->display_brithdays();
-		$this->assign_dropdown_links('phpbbgallery_index');
+		$this->assign_dropdown_links('phpbbgallery_core_index');
 
 		$this->template->assign_block_vars('navlinks', array(
 			'FORUM_NAME'	=> $this->user->lang('GALLERY'),
-			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_index'),
+			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_core_index'),
 		));
 
 		return $this->helper->render('gallery/index_body.html', $this->user->lang('GALLERY'));
@@ -223,8 +223,8 @@ class index
 
 		$this->pagination->generate_template_pagination(array(
 			'routes' => array(
-				'phpbbgallery_personal',
-				'phpbbgallery_personal_page',),
+				'phpbbgallery_core_personal',
+				'phpbbgallery_core_personal_page',),
 				'params' => array()), 'pagination', 'page', $this->display->albums_total, $this->display->album_limit, $this->display->album_start
 		);
 
@@ -233,7 +233,7 @@ class index
 		));
 		if (!$this->gallery_config->get('pegas_index_album'))
 		{
-			$this->assign_dropdown_links('phpbbgallery_personal');
+			$this->assign_dropdown_links('phpbbgallery_core_personal');
 		}
 
 		$first_char = $this->request->variable('first_char', '');
@@ -251,11 +251,11 @@ class index
 
 		$this->template->assign_block_vars('navlinks', array(
 			'FORUM_NAME'	=> $this->user->lang('GALLERY'),
-			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_index'),
+			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_core_index'),
 		));
 		$this->template->assign_block_vars('navlinks', array(
 			'FORUM_NAME'	=> $this->user->lang('PERSONAL_ALBUMS'),
-			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_personal'),
+			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_core_personal'),
 		));
 
 		return $this->helper->render('gallery/index_body.html', $this->user->lang('PERSONAL_ALBUMS'));
@@ -286,21 +286,21 @@ class index
 			'TOTAL_IMAGES'		=> ($this->gallery_config->get('disp_statistic')) ? $this->user->lang('TOTAL_IMAGES_SPRINTF', $this->gallery_config->get('num_images')) : '',
 			'TOTAL_COMMENTS'	=> ($this->gallery_config->get('allow_comments')) ? $this->user->lang('TOTAL_COMMENTS_SPRINTF', $this->gallery_config->get('num_comments')) : '',
 			'TOTAL_PGALLERIES'	=> ($this->gallery_auth->acl_check('a_list', \phpbbgallery\core\auth\auth::PERSONAL_ALBUM)) ? $this->user->lang('TOTAL_PEGAS_SPRINTF', $this->gallery_config->get('num_pegas')) : '',
-			'NEWEST_PGALLERIES'	=> ($this->gallery_config->get('num_pegas')) ? sprintf($this->user->lang['NEWEST_PGALLERY'], '<a href="' . $this->helper->route('phpbbgallery_album', array('album_id' => $this->gallery_config->get('newest_pega_album_id'))) . '" '. ($this->gallery_config->get('newest_pega_user_colour') ? 'class="username-coloured" style="color: #' . $this->gallery_config->get('newest_pega_user_colour') . ';"' : 'class="username"') . '>' . $this->gallery_config->get('newest_pega_username') . '</a>') : '',
+			'NEWEST_PGALLERIES'	=> ($this->gallery_config->get('num_pegas')) ? sprintf($this->user->lang['NEWEST_PGALLERY'], '<a href="' . $this->helper->route('phpbbgallery_core_album', array('album_id' => $this->gallery_config->get('newest_pega_album_id'))) . '" '. ($this->gallery_config->get('newest_pega_user_colour') ? 'class="username-coloured" style="color: #' . $this->gallery_config->get('newest_pega_user_colour') . ';"' : 'class="username"') . '>' . $this->gallery_config->get('newest_pega_username') . '</a>') : '',
 		));
 
 		$this->template->assign_vars(array(
-			'U_MCP'		=> ($this->gallery_auth->acl_check_global('m_')) ? $this->helper->route('phpbbgallery_moderate') : '',
+			'U_MCP'		=> ($this->gallery_auth->acl_check_global('m_')) ? $this->helper->route('phpbbgallery_core_moderate') : '',
 			'U_MARK_ALBUMS'					=> ($this->user->data['is_registered']) ? $this->helper->route($base_route, array('hash' => generate_link_hash('global'), 'mark' => 'albums')) : '',
 			'S_LOGIN_ACTION'			=> append_sid($this->root_path . 'ucp.' . $this->php_ext, 'mode=login&amp;redirect=' . urlencode($this->helper->route($base_route))),
 
-			'U_GALLERY_SEARCH'				=> $this->helper->route('phpbbgallery_search'),
-			'U_G_SEARCH_COMMENTED'			=> $this->config['phpbb_gallery_allow_comments'] && $show_comments ? $this->helper->route('phpbbgallery_search_commented') : false,
-			//'U_G_SEARCH_CONTESTS'			=> $this->config['phpbb_gallery_allow_rates'] && $this->config['phpbb_gallery_contests_ended'] ? $this->helper->route('phpbbgallery_search_contests') : '',
-			'U_G_SEARCH_RECENT'				=> $show_recent ? $this->helper->route('phpbbgallery_search_recent') : false,
-			'U_G_SEARCH_RANDOM'				=> $show_random ? $this->helper->route('phpbbgallery_search_random') : false,
-			'U_G_SEARCH_SELF'				=> $this->helper->route('phpbbgallery_search_egosearch'),
-			'U_G_SEARCH_TOPRATED'			=> $this->config['phpbb_gallery_allow_rates'] ? $this->helper->route('phpbbgallery_search_toprated') : '',
+			'U_GALLERY_SEARCH'				=> $this->helper->route('phpbbgallery_core_search'),
+			'U_G_SEARCH_COMMENTED'			=> $this->config['phpbb_gallery_allow_comments'] && $show_comments ? $this->helper->route('phpbbgallery_core_search_commented') : false,
+			//'U_G_SEARCH_CONTESTS'			=> $this->config['phpbb_gallery_allow_rates'] && $this->config['phpbb_gallery_contests_ended'] ? $this->helper->route('phpbbgallery_core_search_contests') : '',
+			'U_G_SEARCH_RECENT'				=> $show_recent ? $this->helper->route('phpbbgallery_core_search_recent') : false,
+			'U_G_SEARCH_RANDOM'				=> $show_random ? $this->helper->route('phpbbgallery_core_search_random') : false,
+			'U_G_SEARCH_SELF'				=> $this->helper->route('phpbbgallery_core_search_egosearch'),
+			'U_G_SEARCH_TOPRATED'			=> $this->config['phpbb_gallery_allow_rates'] ? $this->helper->route('phpbbgallery_core_search_toprated') : '',
 		));
 	}
 
