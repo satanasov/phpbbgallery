@@ -1577,8 +1577,8 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 
 		$url = $this->get_url_from_meta($meta);
 		$crawler = self::request('GET', substr($url, 1));
-		$this->assertContains('zazazazaza', $crawler->text());
 		$url = $crawler->filter('a:contains("medium")')->attr('href');
+		$this->assertContains('zazazazaza', $url);
 		$image_array = getimagesize('http://localhost' . $url . '/medium');
 		
 		$this->assertEquals(150, $image_array[0]);
