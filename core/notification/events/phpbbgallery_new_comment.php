@@ -36,7 +36,7 @@ class phpbbgallery_new_comment extends \phpbb\notification\type\base
 	*/
 	public function get_type()
 	{
-		return 'notification.type.phpbbgallery_new_comment';
+		return 'phpbbgallery.core.notification.new_comment';
 	}
 	/**
 	* Notification option data (for outputting to the user)

@@ -53,7 +53,7 @@ class helper
 					'uploader'	=> $target['uploader'],
 					'album_url'	=> $this->url->get_uri($this->helper->route('phpbbgallery_core_album', array('album_id' => $target['album_id']))),
 				);
-				$phpbb_notifications->add_notifications('notification.type.phpbbgallery_image_for_approval', $notification_data);
+				$phpbb_notifications->add_notifications('phpbbgallery.core.notification.image_for_approval', $notification_data);
 			break;
 			case 'approved':
 				$targets = $target['targets'];
@@ -65,7 +65,7 @@ class helper
 					'last_image_id'	=> $target['last_image'],
 					'album_url'	=> $this->url->get_uri($this->helper->route('phpbbgallery_core_album', array('album_id' => $target['album_id']))),
 				);
-				$phpbb_notifications->add_notifications('notification.type.phpbbgallery_image_approved', $notification_data);
+				$phpbb_notifications->add_notifications('phpbbgallery.core.notification.image_approved', $notification_data);
 			break;
 			case 'new_image':
 				$targets = $target['targets'];
@@ -77,7 +77,7 @@ class helper
 					'last_image_id'	=> $target['last_image'],
 					'album_url'	=> $this->url->get_uri($this->helper->route('phpbbgallery_core_album', array('album_id' => $target['album_id']))),
 				);
-				$phpbb_notifications->add_notifications('notification.type.phpbbgallery_new_image', $notification_data);
+				$phpbb_notifications->add_notifications('phpbbgallery.core.notification.new_image', $notification_data);
 			break;
 			case 'new_comment':
 				$notification_data = array(
@@ -87,7 +87,7 @@ class helper
 					'poster'	=> $target['poster_id'],
 					'url'		=> $this->url->get_uri($this->helper->route('phpbbgallery_core_image', array('image_id' => $target['image_id']))),
 				);
-				$phpbb_notifications->add_notifications('notification.type.phpbbgallery_new_comment', $notification_data);
+				$phpbb_notifications->add_notifications('phpbbgallery.core.notification.new_comment', $notification_data);
 			break;
 			case 'new_report':
 				if ($target['reported_album_id'] == 0)
@@ -101,7 +101,7 @@ class helper
 					'reporter'	=> $target['reporter_id'],
 					'url'		=> $this->url->get_uri($this->helper->route('phpbbgallery_core_moderate_image', array('image_id' => $target['reported_image_id']))),
 				);
-				$phpbb_notifications->add_notifications('notification.type.phpbbgallery_new_report', $notification_data);
+				$phpbb_notifications->add_notifications('phpbbgallery.core.notification.new_report', $notification_data);
 			break;
 			///case 'add':
 			//	$phpbb_notifications->add_notifications('notification.type.zebraadd', $notification_data);
@@ -117,7 +117,7 @@ class helper
 		switch ($type)
 		{
 			case 'report':
-				$phpbb_notifications->delete_notifications('notification.type.phpbbgallery_new_report', $target);
+				$phpbb_notifications->delete_notifications('phpbbgallery.core.notification.new_report', $target);
 			break;
 		}
 	}
@@ -129,7 +129,7 @@ class helper
 		switch ($type)
 		{
 			case 'approval':
-				$phpbb_notifications->mark_notifications_read_by_parent('notification.type.phpbbgallery_image_for_approval', $target, false);
+				$phpbb_notifications->mark_notifications_read_by_parent('phpbbgallery.core.notification.image_for_approval', $target, false);
 			break;
 		}
 	}

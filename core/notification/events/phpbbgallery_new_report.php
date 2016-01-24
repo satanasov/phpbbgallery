@@ -36,7 +36,7 @@ class phpbbgallery_new_report extends \phpbb\notification\type\base
 	*/
 	public function get_type()
 	{
-		return 'notification.type.phpbbgallery_new_report';
+		return 'phpbbgallery.core.notification.new_report';
 	}
 	/**
 	* Notification option data (for outputting to the user)
