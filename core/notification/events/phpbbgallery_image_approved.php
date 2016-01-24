@@ -36,7 +36,7 @@ class phpbbgallery_image_approved extends \phpbb\notification\type\base
 	*/
 	public function get_type()
 	{
-		return 'notification.type.phpbbgallery_image_approved';
+		return 'phpbbgallery.core.notification.image_approved';
 	}
 	/**
 	* Notification option data (for outputting to the user)

@@ -400,7 +400,7 @@ services:
 #### Define notification types #####
 ####################################
 
-    notification.type.phpbbgallery_image_for_approval:
+    phpbbgallery.core.notification.image_for_approval:
         class: phpbbgallery\core\notification\events\phpbbgallery_image_for_approval
         scope: prototype # scope MUST be prototype for this to work!
         arguments:
@@ -418,7 +418,7 @@ services:
             - %tables.user_notifications%
         tags:
             - { name: notification.type }
-    notification.type.phpbbgallery_image_approved:
+    phpbbgallery.core.notification.image_approved:
         class: phpbbgallery\core\notification\events\phpbbgallery_image_approved
         scope: prototype # scope MUST be prototype for this to work!
         arguments:
@@ -436,7 +436,7 @@ services:
             - %tables.user_notifications%
         tags:
             - { name: notification.type }
-    notification.type.phpbbgallery_new_image:
+    phpbbgallery.core.notification.new_image:
         class: phpbbgallery\core\notification\events\phpbbgallery_new_image
         scope: prototype # scope MUST be prototype for this to work!
         arguments:
@@ -454,7 +454,7 @@ services:
             - %tables.user_notifications%
         tags:
             - { name: notification.type }
-    notification.type.phpbbgallery_new_comment:
+    phpbbgallery.core.notification.new_comment:
         class: phpbbgallery\core\notification\events\phpbbgallery_new_comment
         scope: prototype # scope MUST be prototype for this to work!
         arguments:
@@ -472,7 +472,7 @@ services:
             - %tables.user_notifications%
         tags:
             - { name: notification.type }
-    notification.type.phpbbgallery_new_report:
+    phpbbgallery.core.notification.new_report:
         class: phpbbgallery\core\notification\events\phpbbgallery_new_report
         scope: prototype # scope MUST be prototype for this to work!
         arguments:
