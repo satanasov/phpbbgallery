@@ -4,7 +4,7 @@
 
 © 2012 - [nickvergessen](http://www.flying-bits.org)
 
-© 2014 - [Lucifer](http://www.anavaro.com)
+© 2014 - 2016 - [Lucifer](http://www.anavaro.com)
 
 Welcome to phpBB Gallery version 1.2
 

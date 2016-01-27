@@ -40,7 +40,7 @@ class controller_base extends \phpbb_database_test_case
 	*/
 	public function setUp()
 	{
-		
+		global $request;
 		parent::setUp();
 		//Let's build some deps
 		$this->auth = $this->getMock('\phpbb\auth\auth');
@@ -52,7 +52,7 @@ class controller_base extends \phpbb_database_test_case
 		$this->db = $this->new_dbal();
 		$db = $this->db;
 		
-		$this->request = $this->getMock('\phpbb\request\request');
+		$request = $this->request = $this->getMock('\phpbb\request\request');
 		
 		$this->template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
@@ -104,6 +104,10 @@ class controller_base extends \phpbb_database_test_case
 			->disableOriginalConstructor()
 			->getMock();
 			
+		$this->gallery_notification_helper = $this->getMockBuilder('\phpbbgallery\core\notification\helper')
+			->disableOriginalConstructor()
+			->getMock();
+		
 		$this->gallery_cache = new \phpbbgallery\core\cache(
 			$this->cache,
 			$this->db,
@@ -130,6 +134,13 @@ class controller_base extends \phpbb_database_test_case
 			'phpbb_gallery_albums'
 		);
 		
+		$this->gallery_auth_level = new \phpbbgallery\core\auth\level(
+			$this->gallery_auth,
+			$this->config,
+			$this->template,
+			$this->user
+		);
+		
 		$this->misc = $this->getMockBuilder('\phpbbgallery\core\misc')
 			->disableOriginalConstructor()
 			->getMock();
@@ -152,6 +163,12 @@ class controller_base extends \phpbb_database_test_case
 			'phpbb_gallery_contests',
 			'phpbb_gallery_albums_track',
 			'phpbb_gallery_albums_modscache'
+		);
+		
+		$this->gallery_loader = new \phpbbgallery\core\album\loader(
+			$this->db,
+			$this->user,
+			'phpbb_gallery_albums'
 		);
 
 		$this->gallery_album = new \phpbbgallery\core\album\album(
@@ -187,6 +204,14 @@ class controller_base extends \phpbb_database_test_case
 			'phpbb_gallery_images',
 			'phpbb_gallery_albums',
 			'phpbb_gallery_comments'
+		);
+		
+		$this->gallery_url = new \phpbbgallery\core\url(
+			$this->template,
+			$this->request,
+			$this->config,
+			'/',
+			'adm'
 		);
 	}
 }
