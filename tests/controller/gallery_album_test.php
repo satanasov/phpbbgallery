@@ -70,7 +70,7 @@ class gallery_album_test extends controller_base
 		return $controller;
 	}
 
-	public function test_for_base()
+	public function test_for_base_clean()
 	{
 		$this->template->expects($this->exactly(10))
 			->method('assign_block_vars')
@@ -264,6 +264,235 @@ class gallery_album_test extends controller_base
 		$response = $controller->base(1);
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
 		$this->assertEquals('200', $response->getStatusCode());
+	}
+
+	/** 
+	* Let's test for base with some options
+	* so we can get some more coveralls to go cover
+	*/
+	public function test_for_base_load_modreators_allow_rates_and_comments()
+	{
+		$this->template->expects($this->exactly(11))
+			->method('assign_block_vars')
+			->withConsecutive(
+				array(
+					'rules',
+					array(
+						'RULE' => null
+					)
+				),
+				array(
+					'rules',
+					array(
+						'RULE' => null
+					)
+				),
+				array(
+					'rules',
+					array(
+						'RULE' => null
+					)
+				),
+				array(
+					'rules',
+					array(
+						'RULE' => null
+					)
+				),
+				array(
+					'rules',
+					array(
+						'RULE' => null
+					)
+				),
+				array(
+					'navlinks',
+					array(
+						'FORUM_NAME' => 'GALLERY',
+						'U_VIEW_FORUM' => 'phpbbgallery_core_index'
+					)
+				),
+				array(
+					'navlinks',
+					array(
+						'FORUM_NAME' => 'TestPublicAlbum1',
+						'FORUM_ID' => 1,
+						'U_VIEW_FORUM' => 'phpbbgallery_core_album'
+					)
+				),
+				array(
+					'imageblock',
+					array(
+						'BLOCK_NAME' => 'TestPublicAlbum1'
+					)
+				),
+				array(
+					'imageblock.image',
+					array(
+						'IMAGE_ID' => 1,
+						'U_IMAGE' => 'phpbbgallery_core_image',
+						'UC_IMAGE_NAME' => 'TestImage1',
+						'U_ALBUM' => false,
+						'ALBUM_NAME' => false,
+						'IMAGE_VIEWS' => 0,
+						'UC_THUMBNAIL' => 'phpbbgallery_core_image_file_mini',
+						'UC_THUMBNAIL_ACTION' => 'phpbbgallery_core_image',
+						'S_UNAPPROVED' => false,
+						'S_LOCKED' => false,
+						'S_REPORTED' => false,
+						'POSTER' => '<span class="username">admin</span>',
+						'TIME' => null,
+						'S_RATINGS' => 'NOT_RATED',
+						'U_RATINGS' => 'phpbbgallery_core_image#rating',
+						'L_COMMENTS' => null,
+						'S_COMMENTS' => '',
+						'U_COMMENTS' => 'phpbbgallery_core_image#comments',
+						'U_USER_IP' => false,
+						'S_IMAGE_REPORTED' => 0,
+						'U_IMAGE_REPORTED' => '',
+						'S_STATUS_APPROVED' => true,
+						'S_STATUS_UNAPPROVED' => false,
+						'S_STATUS_UNAPPROVED_ACTION' => '',
+						'S_STATUS_LOCKED' => false,
+						'U_REPORT' => '',
+						'U_STATUS' => '',
+						'L_STATUS' => null,
+					)
+				),
+				array(
+					'imageblock.image',
+					array(
+						'IMAGE_ID' => 2,
+						'U_IMAGE' => 'phpbbgallery_core_image',
+						'UC_IMAGE_NAME' => 'TestImage2',
+						'U_ALBUM' => false,
+						'ALBUM_NAME' => false,
+						'IMAGE_VIEWS' => 0,
+						'UC_THUMBNAIL' => 'phpbbgallery_core_image_file_mini',
+						'UC_THUMBNAIL_ACTION' => 'phpbbgallery_core_image',
+						'S_UNAPPROVED' => false,
+						'S_LOCKED' => false,
+						'S_REPORTED' => false,
+						'POSTER' => '<span class="username">admin</span>',
+						'TIME' => null,
+						'S_RATINGS' => 1.5,
+						'U_RATINGS' => 'phpbbgallery_core_image#rating',
+						'L_COMMENTS' => null,
+						'S_COMMENTS' => '',
+						'U_COMMENTS' => 'phpbbgallery_core_image#comments',
+						'U_USER_IP' => false,
+						'S_IMAGE_REPORTED' => 0,
+						'U_IMAGE_REPORTED' => '',
+						'S_STATUS_APPROVED' => true,
+						'S_STATUS_UNAPPROVED' => false,
+						'S_STATUS_UNAPPROVED_ACTION' => '',
+						'S_STATUS_LOCKED' => false,
+						'U_REPORT' => '',
+						'U_STATUS' => '',
+						'L_STATUS' => null,
+					)
+				),
+				array(
+					'imageblock.image',
+					array(
+						'IMAGE_ID' => 3,
+						'U_IMAGE' => 'phpbbgallery_core_image',
+						'UC_IMAGE_NAME' => 'TestImage3',
+						'U_ALBUM' => false,
+						'ALBUM_NAME' => false,
+						'IMAGE_VIEWS' => 0,
+						'UC_THUMBNAIL' => 'phpbbgallery_core_image_file_mini',
+						'UC_THUMBNAIL_ACTION' => 'phpbbgallery_core_image',
+						'S_UNAPPROVED' => false,
+						'S_LOCKED' => false,
+						'S_REPORTED' => false,
+						'POSTER' => '<span class="username">testuser</span>',
+						'TIME' => null,
+						'S_RATINGS' => 'NOT_RATED',
+						'U_RATINGS' => 'phpbbgallery_core_image#rating',
+						'L_COMMENTS' => null,
+						'S_COMMENTS' => '',
+						'U_COMMENTS' => 'phpbbgallery_core_image#comments',
+						'U_USER_IP' => false,
+						'S_IMAGE_REPORTED' => 0,
+						'U_IMAGE_REPORTED' => '',
+						'S_STATUS_APPROVED' => true,
+						'S_STATUS_UNAPPROVED' => false,
+						'S_STATUS_UNAPPROVED_ACTION' => '',
+						'S_STATUS_LOCKED' => false,
+						'U_REPORT' => '',
+						'U_STATUS' => '',
+						'L_STATUS' => null,
+					)
+				)
+			);
+		$this->template->expects($this->exactly(4))
+			->method('assign_vars')
+			->withConsecutive(
+				array(
+					array(
+						'ALBUM_ID' => 1,
+						'ALBUM_NAME' => 'TestPublicAlbum1',
+						'ALBUM_DESC' => '',
+						'U_VIEW_ALBUM' => 'phpbbgallery_core_album',
+					)
+				),
+				array(
+					array(
+						'U_MARK_ALBUMS' => 'phpbbgallery_core_album',
+						'S_HAS_SUBALBUM' => false,
+						'L_SUBFORUM' => 'SUBALBUMS',
+						'LAST_POST_IMG' => null,
+						'FAKE_THUMB_SIZE' => ''
+
+					)
+				),
+				array(
+					array(
+						'S_IS_POSTABLE' => true,
+						'S_IS_LOCKED' => false,
+						'U_RETURN_LINK' => 'phpbbgallery_core_index',
+						'L_RETURN_LINK' => 'RETURN_TO_GALLERY',
+						'S_ALBUM_ACTION' => 'phpbbgallery_core_album',
+						'S_IS_WATCHED' => false,
+						'U_WATCH_TOGLE' => 'phpbbgallery_core_album_watch'
+					)
+				),
+				array(
+					array(
+						'TOTAL_IMAGES' => 'VIEW_ALBUM_IMAGES',
+						'S_SELECT_SORT_DIR' => '<select name="sd" id="sd"><option value="a" selected="selected"></option><option value="d"></option></select>',
+						'S_SELECT_SORT_KEY' => '<select name="sk" id="sk"><option value="t" selected="selected"></option><option value="n"></option><option value="vc"></option><option value="u"></option><option value="ra"></option><option value="r"></option></select>'
+					)
+				)
+			);
+		$this->config['load_moderators'] = true;
+		$this->config['phpbb_gallery_allow_rates'] = true;
+		$this->config['phpbb_gallery_allow_rates'] = true;
+		$controller = $this->get_controller(2, 5, true);
+		$response = $controller->base(1);
+		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
+		$this->assertEquals('200', $response->getStatusCode());
+	}
+	
+	/**
+	* We will test try to load wrong album
+	*/
+	public function test_controller_album_fail_no_album()
+	{
+		$controller = $this->get_controller(2, 5, true);
+		try
+		{
+			$controller->base(99);
+			$this->fail('This should trow \phpbb\exception\http_exception');
+		}
+		catch (\phpbb\exception\http_exception $exception)
+		{
+			$this->assertEquals(404, $exception->getStatusCode());
+			$this->assertEquals('ALBUM_NOT_EXIST', $exception->getMessage());
+		}
+		//$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
+		//$this->assertEquals('404', $response->getStatusCode());
 	}
 	protected function tearDown()
 	{
