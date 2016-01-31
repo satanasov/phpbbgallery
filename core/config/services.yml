@@ -96,6 +96,11 @@ services:
             - @phpbbgallery.core.url
             - @phpbbgallery.core.log
             - @phpbbgallery.core.notification.helper
+            - @phpbbgallery.core.report
+            - @phpbbgallery.core.cache
+            - @phpbbgallery.core.user
+            - @phpbbgallery.core.file.tool
+            - @phpbbgallery.core.comment
             - %tables.phpbbgallery.images%
     phpbbgallery.core.user:
         class: phpbbgallery\core\user

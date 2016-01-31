@@ -47,7 +47,8 @@ class image
 	*/
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\album\album $album,
 								\phpbbgallery\core\config $gallery_config, \phpbb\controller\helper $helper, \phpbbgallery\core\url $url, \phpbbgallery\core\log $gallery_log,
-								\phpbbgallery\core\notification\helper $notification_helper,
+								\phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\report $report, \phpbbgallery\core\cache $gallery_cache,
+								\phpbbgallery\core\user $gallery_user, \phpbbgallery\core\file\file $file, \phpbbgallery\core\comment $comment,
 								$table_images)
 	{
 		$this->db = $db;
@@ -57,8 +58,13 @@ class image
 		$this->gallery_config = $gallery_config;
 		$this->helper = $helper;
 		$this->url = $url;
-		$this->notification_helper = $notification_helper;
 		$this->gallery_log = $gallery_log;
+		$this->notification_helper = $notification_helper;
+		$this->gallery_cache = $gallery_cache;
+		$this->gallery_report = $report;
+		$this->gallery_user = $gallery_user;
+		$this->file = $file;
+		$this->comment = $comment;
 		$this->table_images = $table_images;
 	}
 	/**
@@ -126,13 +132,8 @@ class image
 	*/
 	public function delete_images($images, $filenames = array(), $resync_albums = true, $skip_files = false)
 	{
-		global $phpbb_container, $table_prefix, $phpbb_dispatcher, $db;
-		$image_tools = $phpbb_container->get('phpbbgallery.core.file.tool');
-		$album = $phpbb_container->get('phpbbgallery.core.album');
 		$phpbb_gallery_image_rating = new \phpbbgallery\core\rating($images);
-		$phpbb_gallery_comment = $phpbb_container->get('phpbbgallery.core.comment');
 		$phpbb_gallery_notification = new \phpbbgallery\core\notification();
-		$phpbb_gallery_report = $phpbb_container->get('phpbbgallery.core.report');
 		$phpbb_gallery_contest = new \phpbbgallery\core\contest();
 		if (empty($images))
 		{
@@ -151,14 +152,14 @@ class image
 				}
 			}
 			$filenames = array_merge($filenames, self::get_filenames($need_filenames));
-			$image_tools->delete($filenames);
+			$this->file->delete($filenames);
 		}
 
 		// Delete the ratings...
 		$phpbb_gallery_image_rating->delete_ratings($images);
-		$phpbb_gallery_comment->delete_images($images);
+		$$this->comment->delete_images($images);
 		$phpbb_gallery_notification->delete_images($images);
-		$phpbb_gallery_report->delete_images($images);
+		$this->gallery_report->delete_images($images);
 
 		/**
 		* Event delete images
@@ -172,12 +173,12 @@ class image
 		extract($phpbb_dispatcher->trigger_event('phpbbgallery.core.image.delete_images', compact($vars)));
 
 		$sql = 'SELECT image_album_id, image_contest_rank
-			FROM ' . $table_prefix . 'gallery_images
-			WHERE ' . $db->sql_in_set('image_id', $images) . '
+			FROM ' . $this->table_images . '
+			WHERE ' . $this->db->sql_in_set('image_id', $images) . '
 			GROUP BY image_album_id, image_contest_rank';
-		$result = $db->sql_query($sql);
+		$result = $this->db->sql_query($sql);
 		$resync_album_ids = $resync_contests = array();
-		while ($row = $db->sql_fetchrow($result))
+		while ($row = $this->db->sql_fetchrow($result))
 		{
 			if ($row['image_contest_rank'])
 			{
@@ -185,13 +186,13 @@ class image
 			}
 			$resync_album_ids[] = (int) $row['image_album_id'];
 		}
-		$db->sql_freeresult($result);
+		$this->db->sql_freeresult($result);
 		$resync_contests = array_unique($resync_contests);
 		$resync_album_ids = array_unique($resync_album_ids);
 
-		$sql = 'DELETE FROM ' . $table_prefix . 'gallery_images
-			WHERE ' . $db->sql_in_set('image_id', $images);
-		$db->sql_query($sql);
+		$sql = 'DELETE FROM ' . $this->table_images . '
+			WHERE ' . $this->db->sql_in_set('image_id', $images);
+		$this->db->sql_query($sql);
 
 		// The images need to be deleted, before we grab the new winners.
 		$phpbb_gallery_contest->resync_albums($resync_contests);
@@ -199,7 +200,7 @@ class image
 		{
 			foreach ($resync_album_ids as $album_id)
 			{
-				$album->update_info($album_id);
+				$this->album->update_info($album_id);
 			}
 		}
 
@@ -247,9 +248,6 @@ class image
 	*/
 	public function generate_link($content, $mode, $image_id, $image_name, $album_id, $is_gif = false, $count = true, $additional_parameters = '', $next_image = 0)
 	{
-		global $user, $phpbb_root_path, $phpEx;
-		global $phpbb_ext_gallery;//@todo:
-
 		$image_page_url = $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_id));
 		//$image_page_url = $phpbb_ext_gallery_url->append_sid('image_page', "album_id=$album_id&amp;image_id=$image_id{$additional_parameters}");
 		//$image_url = $phpbb_ext_gallery_url->append_sid('image', "album_id=$album_id&amp;image_id=$image_id{$additional_parameters}" . ((!$count) ? '&amp;view=no_count' : ''));
@@ -286,7 +284,7 @@ class image
 				}
 			break;
 			case 'lastimage_icon':
-				$content = $user->img('icon_topic_latest', 'VIEW_LATEST_IMAGE');
+				$content = $this->user->img('icon_topic_latest', 'VIEW_LATEST_IMAGE');
 			break;
 		}
 
@@ -352,33 +350,29 @@ class image
 	*/
 	public function handle_counter($image_id_ary, $add, $readd = false)
 	{
-		global $db, $phpbb_ext_gallery, $table_prefix, $phpbb_container;
-
 		if (empty($image_id_ary))
 		{
 			return;
 		}
 
-		$image_user = $phpbb_container->get('phpbbgallery.core.user');
-
 		$num_images = $num_comments = 0;
 		$sql = 'SELECT SUM(image_comments) as comments
-			FROM ' . $table_prefix . 'gallery_images
+			FROM ' . $this->table_images .'
 			WHERE image_status ' . (($readd) ? '=' : '<>') . ' ' . self::STATUS_UNAPPROVED . '
-				AND ' . $db->sql_in_set('image_id', $image_id_ary) . '
+				AND ' . $this->db->sql_in_set('image_id', $image_id_ary) . '
 			GROUP BY image_user_id';
-		$result = $db->sql_query($sql);
-		$num_comments = $db->sql_fetchfield('comments');
-		$db->sql_freeresult($result);
+		$result = $this->db->sql_query($sql);
+		$num_comments = $this->db->sql_fetchfield('comments');
+		$this->db->sql_freeresult($result);
 
 		$sql = 'SELECT COUNT(image_id) images, image_user_id
-			FROM ' . $table_prefix . 'gallery_images
+			FROM ' . $this->table_images .' 
 			WHERE image_status ' . (($readd) ? '=' : '<>') . ' ' . self::STATUS_UNAPPROVED . '
-				AND ' . $db->sql_in_set('image_id', $image_id_ary) . '
+				AND ' . $this->db->sql_in_set('image_id', $image_id_ary) . '
 			GROUP BY image_user_id';
-		$result = $db->sql_query($sql);
+		$result = $this->db->sql_query($sql);
 
-		while ($row = $db->sql_fetchrow($result))
+		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$sql_ary = array(
 				'user_id'				=> (int) $row['image_user_id'],
@@ -388,10 +382,10 @@ class image
 
 			$num_images = $num_images + $row['images'];
 
-			$image_user->set_user_id((int) $row['image_user_id'], false);
-			$image_user->update_images((($add) ? $row['images'] : 0 - $row['images']));
+			$this->gallery_user->set_user_id((int) $row['image_user_id'], false);
+			$this->gallery_user->update_images((($add) ? $row['images'] : 0 - $row['images']));
 		}
-		$db->sql_freeresult($result);
+		$this->db->sql_freeresult($result);
 
 		if ($add)
 		{
@@ -407,16 +401,15 @@ class image
 
 	public function get_image_data($image_id)
 	{
-		global $db, $table_prefix;
 		if (empty($image_id))
 		{
 			return;
 		}
 
-		$sql = 'SELECT * FROM ' . $table_prefix . 'gallery_images WHERE image_id = ' . $image_id;
-		$result = $db->sql_query($sql);
-		$row = $db->sql_fetchrow($result);
-		$db->sql_freeresult($result);
+		$sql = 'SELECT * FROM ' . $this->table_images .' WHERE image_id = ' . $image_id;
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
 
 		if ($row)
 		{
@@ -472,26 +465,24 @@ class image
 	*/
 	public function unapprove_images($image_id_ary, $album_id)
 	{
-		global $db, $table_prefix;
-
 		self::handle_counter($image_id_ary, false);
 
-		$sql = 'UPDATE ' . $table_prefix . 'gallery_images 
+		$sql = 'UPDATE ' . $this->table_images .' 
 			SET image_status = ' . self::STATUS_UNAPPROVED . '
 			WHERE image_status <> ' . self::STATUS_ORPHAN . '
-				AND ' . $db->sql_in_set('image_id', $image_id_ary);
-		$db->sql_query($sql);
+				AND ' . $this->db->sql_in_set('image_id', $image_id_ary);
+		$this->db->sql_query($sql);
 
 		$sql = 'SELECT image_id, image_name
-			FROM ' . $table_prefix . 'gallery_images 
+			FROM ' . $this->table_images .' 
 			WHERE image_status <> ' . self::STATUS_ORPHAN . '
-				AND ' . $db->sql_in_set('image_id', $image_id_ary);
-		$result = $db->sql_query($sql);
-		while ($row = $db->sql_fetchrow($result))
+				AND ' . $this->db->sql_in_set('image_id', $image_id_ary);
+		$result = $this->db->sql_query($sql);
+		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$this->gallery_log->add_log('moderator', 'unapprove', $album_id, $row['image_id'], array('LOG_GALLERY_UNAPPROVED', $row['image_name']));
 		}
-		$db->sql_freeresult($result);
+		$this->db->sql_freeresult($result);
 	}
 	/**
 	* Move image
@@ -500,28 +491,23 @@ class image
 	*/
 	public function move_image($image_id_ary, $album_id)
 	{
-		global $phpbb_container, $table_prefix, $db;
-		$album = $phpbb_container->get('phpbbgallery.core.album');
-		$report = $phpbb_container->get('phpbbgallery.core.report');
-		$cache = $phpbb_container->get('phpbbgallery.core.cache');
-
-		$target_data = $album->get_info($album_id);
+		$target_data = $this->album->get_info($album_id);
 
 		// Store images to cache (so we can log them)
-		$image_cache = $cache->get_images($image_id_ary);
+		$image_cache = $this->gallery_cache->get_images($image_id_ary);
 		//TO DO - Contests
-		$sql = 'UPDATE ' . $table_prefix . 'gallery_images 
+		$sql = 'UPDATE ' . $this->table_images . '
 			SET image_album_id = ' . $album_id . '
-			WHERE ' . $db->sql_in_set('image_id', $image_id_ary);
-		$db->sql_query($sql);
+			WHERE ' . $this->db->sql_in_set('image_id', $image_id_ary);
+		$this->db->sql_query($sql);
 
-		$report->move_images($image_id_ary, $album_id);
+		$this->gallery_report->move_images($image_id_ary, $album_id);
 
 		foreach ($image_id_ary as $image)
 		{
 			$this->gallery_log->add_log('moderator', 'move', 0, $image, array('LOG_GALLERY_MOVED', $image_cache[$image]['image_name'], $target_data['album_name']));
 		}
-		$cache->destroy_images();
+		$this->gallery_cache->destroy_images();
 		//You will need to take care for album sync for the target and source
 	}
 
@@ -532,25 +518,24 @@ class image
 	*/
 	public function lock_images($image_id_ary, $album_id)
 	{
-		global $db, $table_prefix;
 		self::handle_counter($image_id_ary, false);
 
-		$sql = 'UPDATE ' . $table_prefix . 'gallery_images 
+		$sql = 'UPDATE ' . $this->table_images . ' 
 			SET image_status = ' . self::STATUS_LOCKED . '
 			WHERE image_status <> ' . self::STATUS_ORPHAN . '
-				AND ' . $db->sql_in_set('image_id', $image_id_ary);
-		$db->sql_query($sql);
+				AND ' . $this->db->sql_in_set('image_id', $image_id_ary);
+		$this->db->sql_query($sql);
 
 		$sql = 'SELECT image_id, image_name
-			FROM ' . $table_prefix . 'gallery_images 
+			FROM ' . $this->table_images . ' 
 			WHERE image_status <> ' . self::STATUS_ORPHAN . '
-				AND ' . $db->sql_in_set('image_id', $image_id_ary);
-		$result = $db->sql_query($sql);
-		while ($row = $db->sql_fetchrow($result))
+				AND ' . $this->db->sql_in_set('image_id', $image_id_ary);
+		$result = $this->db->sql_query($sql);
+		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$this->gallery_log->add_log('moderator', 'lock', $album_id, $row['image_id'], array('LOG_GALLERY_LOCKED', $row['image_name']));
 		}
-		$db->sql_freeresult($result);
+		$this->db->sql_freeresult($result);
 	}
 
 	/**
