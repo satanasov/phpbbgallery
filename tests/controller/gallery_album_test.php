@@ -272,9 +272,15 @@ class gallery_album_test extends controller_base
 	*/
 	public function test_for_base_load_modreators_allow_rates_and_comments()
 	{
-		$this->template->expects($this->exactly(11))
+		$this->template->expects($this->exactly(12))
 			->method('assign_block_vars')
 			->withConsecutive(
+				array(
+					'rules',
+					array(
+						'RULE' => null
+					)
+				),
 				array(
 					'rules',
 					array(
@@ -330,13 +336,13 @@ class gallery_album_test extends controller_base
 					'imageblock.image',
 					array(
 						'IMAGE_ID' => 1,
-						'U_IMAGE' => 'phpbbgallery_core_image',
+						'U_IMAGE' => 'phpbbgallery_core_image_file_source',
 						'UC_IMAGE_NAME' => 'TestImage1',
-						'U_ALBUM' => false,
-						'ALBUM_NAME' => false,
+						'U_ALBUM' => 'phpbbgallery_core_album',
+						'ALBUM_NAME' => 'TestPublicAlbum1',
 						'IMAGE_VIEWS' => 0,
 						'UC_THUMBNAIL' => 'phpbbgallery_core_image_file_mini',
-						'UC_THUMBNAIL_ACTION' => 'phpbbgallery_core_image',
+						'UC_THUMBNAIL_ACTION' => 'phpbbgallery_core_image_file_source',
 						'S_UNAPPROVED' => false,
 						'S_LOCKED' => false,
 						'S_REPORTED' => false,
@@ -345,7 +351,7 @@ class gallery_album_test extends controller_base
 						'S_RATINGS' => 'NOT_RATED',
 						'U_RATINGS' => 'phpbbgallery_core_image#rating',
 						'L_COMMENTS' => null,
-						'S_COMMENTS' => '',
+						'S_COMMENTS' => 1,
 						'U_COMMENTS' => 'phpbbgallery_core_image#comments',
 						'U_USER_IP' => false,
 						'S_IMAGE_REPORTED' => 0,
@@ -363,13 +369,13 @@ class gallery_album_test extends controller_base
 					'imageblock.image',
 					array(
 						'IMAGE_ID' => 2,
-						'U_IMAGE' => 'phpbbgallery_core_image',
+						'U_IMAGE' => 'phpbbgallery_core_image_file_source',
 						'UC_IMAGE_NAME' => 'TestImage2',
-						'U_ALBUM' => false,
-						'ALBUM_NAME' => false,
+						'U_ALBUM' => 'phpbbgallery_core_album',
+						'ALBUM_NAME' => 'TestPublicAlbum1',
 						'IMAGE_VIEWS' => 0,
 						'UC_THUMBNAIL' => 'phpbbgallery_core_image_file_mini',
-						'UC_THUMBNAIL_ACTION' => 'phpbbgallery_core_image',
+						'UC_THUMBNAIL_ACTION' => 'phpbbgallery_core_image_file_source',
 						'S_UNAPPROVED' => false,
 						'S_LOCKED' => false,
 						'S_REPORTED' => false,
@@ -378,7 +384,7 @@ class gallery_album_test extends controller_base
 						'S_RATINGS' => 1.5,
 						'U_RATINGS' => 'phpbbgallery_core_image#rating',
 						'L_COMMENTS' => null,
-						'S_COMMENTS' => '',
+						'S_COMMENTS' => 1,
 						'U_COMMENTS' => 'phpbbgallery_core_image#comments',
 						'U_USER_IP' => false,
 						'S_IMAGE_REPORTED' => 0,
@@ -396,13 +402,13 @@ class gallery_album_test extends controller_base
 					'imageblock.image',
 					array(
 						'IMAGE_ID' => 3,
-						'U_IMAGE' => 'phpbbgallery_core_image',
+						'U_IMAGE' => 'phpbbgallery_core_image_file_source',
 						'UC_IMAGE_NAME' => 'TestImage3',
-						'U_ALBUM' => false,
-						'ALBUM_NAME' => false,
+						'U_ALBUM' => 'phpbbgallery_core_album',
+						'ALBUM_NAME' => 'TestPublicAlbum1',
 						'IMAGE_VIEWS' => 0,
 						'UC_THUMBNAIL' => 'phpbbgallery_core_image_file_mini',
-						'UC_THUMBNAIL_ACTION' => 'phpbbgallery_core_image',
+						'UC_THUMBNAIL_ACTION' => 'phpbbgallery_core_image_file_source',
 						'S_UNAPPROVED' => false,
 						'S_LOCKED' => false,
 						'S_REPORTED' => false,
@@ -411,7 +417,7 @@ class gallery_album_test extends controller_base
 						'S_RATINGS' => 'NOT_RATED',
 						'U_RATINGS' => 'phpbbgallery_core_image#rating',
 						'L_COMMENTS' => null,
-						'S_COMMENTS' => '',
+						'S_COMMENTS' => 1,
 						'U_COMMENTS' => 'phpbbgallery_core_image#comments',
 						'U_USER_IP' => false,
 						'S_IMAGE_REPORTED' => 0,
@@ -426,7 +432,7 @@ class gallery_album_test extends controller_base
 					)
 				)
 			);
-		$this->template->expects($this->exactly(4))
+		$this->template->expects($this->exactly(5))
 			->method('assign_vars')
 			->withConsecutive(
 				array(
@@ -449,6 +455,12 @@ class gallery_album_test extends controller_base
 				),
 				array(
 					array(
+						'L_MODERATORS' => 'MODERATOR',
+						'MODERATORS' => '<span>G_ADMINISTRATORS</span>'
+					)
+				),
+				array(
+					array(
 						'S_IS_POSTABLE' => true,
 						'S_IS_LOCKED' => false,
 						'U_RETURN_LINK' => 'phpbbgallery_core_index',
@@ -462,13 +474,16 @@ class gallery_album_test extends controller_base
 					array(
 						'TOTAL_IMAGES' => 'VIEW_ALBUM_IMAGES',
 						'S_SELECT_SORT_DIR' => '<select name="sd" id="sd"><option value="a" selected="selected"></option><option value="d"></option></select>',
-						'S_SELECT_SORT_KEY' => '<select name="sk" id="sk"><option value="t" selected="selected"></option><option value="n"></option><option value="vc"></option><option value="u"></option><option value="ra"></option><option value="r"></option></select>'
+						'S_SELECT_SORT_KEY' => '<select name="sk" id="sk"><option value="t" selected="selected"></option><option value="n"></option><option value="vc"></option><option value="u"></option><option value="ra"></option><option value="r"></option><option value="c"></option><option value="lc"></option></select>'
 					)
 				)
 			);
 		$this->config['load_moderators'] = true;
 		$this->config['phpbb_gallery_allow_rates'] = true;
-		$this->config['phpbb_gallery_allow_rates'] = true;
+		$this->config['phpbb_gallery_allow_comments'] = true;
+		$this->config['phpbb_gallery_album_display'] = 255;
+		$this->config['phpbb_gallery_link_thumbnail'] = 'image';
+		$this->config['phpbb_gallery_link_image_name'] = 'image';
 		$controller = $this->get_controller(2, 5, true);
 		$response = $controller->base(1);
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
