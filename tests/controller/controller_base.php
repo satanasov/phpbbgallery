@@ -162,7 +162,7 @@ class controller_base extends \phpbb_database_test_case
 			'phpbb_gallery_albums',
 			'phpbb_gallery_contests',
 			'phpbb_gallery_albums_track',
-			'phpbb_gallery_albums_modscache'
+			'phpbb_gallery_modscache'
 		);
 		
 		$this->gallery_loader = new \phpbbgallery\core\album\loader(

@@ -101,7 +101,7 @@ class album
 		}
 		catch (\Exception $e)
 		{
-			return $this->error($e->getMessage(), 404);
+			throw new \phpbb\exception\http_exception(404, 'ALBUM_NOT_EXIST');
 		}
 
 		$album_data = $this->loader->get($album_id);
@@ -459,17 +459,5 @@ class album
 				trigger_error($this->user->lang('NOT_AUTHORISED'));
 			}
 		}
-	}
-
-	protected function error($message, $status = 200, $title = '')
-	{
-		$title = $title ?: 'INFORMATION';
-
-		$this->template->assign_vars(array(
-			'MESSAGE_TITLE'		=> $this->user->lang($title),
-			'MESSAGE_TEXT'		=> $message,
-		));
-
-		return $this->helper->render('message_body.html', $this->user->lang($title), $status);
 	}
 }
