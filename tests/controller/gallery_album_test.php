@@ -11,7 +11,7 @@
 namespace phpbbgallery\tests\controller;
 
 /**
-* @group controller1
+* @group controller
 */
 
 require_once dirname(__FILE__) . '/../../../../includes/functions.php';

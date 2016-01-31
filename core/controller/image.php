@@ -149,7 +149,7 @@ class image
 		}
 		catch (\Exception $e)
 		{
-			return $this->error($e->getMessage(), 404);
+			throw new \phpbb\exception\http_exception(404, 'INVALID_IMAGE');
 		}
 
 		$album_id = (int) $this->data['image_album_id'];
@@ -1057,10 +1057,5 @@ class image
 			//return $this->error('NOT_AUTHORISED', 403);
 			redirect('/gallery/album/' . $album_id);
 		}
-	}
-
-	public function error($message)
-	{
-		trigger_error($message);
 	}
 }
