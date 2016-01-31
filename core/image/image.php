@@ -48,7 +48,7 @@ class image
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\album\album $album,
 								\phpbbgallery\core\config $gallery_config, \phpbb\controller\helper $helper, \phpbbgallery\core\url $url, \phpbbgallery\core\log $gallery_log,
 								\phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\report $report, \phpbbgallery\core\cache $gallery_cache,
-								\phpbbgallery\core\user $gallery_user, \phpbbgallery\core\file\file $file, \phpbbgallery\core\comment $comment,
+								\phpbbgallery\core\user $gallery_user, \phpbbgallery\core\file\file $file,
 								$table_images)
 	{
 		$this->db = $db;
@@ -64,7 +64,6 @@ class image
 		$this->gallery_report = $report;
 		$this->gallery_user = $gallery_user;
 		$this->file = $file;
-		$this->comment = $comment;
 		$this->table_images = $table_images;
 	}
 	/**
@@ -132,7 +131,9 @@ class image
 	*/
 	public function delete_images($images, $filenames = array(), $resync_albums = true, $skip_files = false)
 	{
+		global $phpbb_container, $phpbb_dispatcher;
 		$phpbb_gallery_image_rating = new \phpbbgallery\core\rating($images);
+		$phpbb_gallery_comment = $phpbb_container->get('phpbbgallery.core.comment');
 		$phpbb_gallery_notification = new \phpbbgallery\core\notification();
 		$phpbb_gallery_contest = new \phpbbgallery\core\contest();
 		if (empty($images))
@@ -157,7 +158,7 @@ class image
 
 		// Delete the ratings...
 		$phpbb_gallery_image_rating->delete_ratings($images);
-		$$this->comment->delete_images($images);
+		$phpbb_gallery_comment->delete_images($images);
 		$phpbb_gallery_notification->delete_images($images);
 		$this->gallery_report->delete_images($images);
 
