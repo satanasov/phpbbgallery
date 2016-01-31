@@ -597,6 +597,22 @@
 			<value>0</value>
 		</row>
 	</table>
+	<table name="phpbb_gallery_modscache">
+		<column>album_id</column>
+		<column>user_id</column>
+		<column>username</column>
+		<column>group_id</column>
+		<column>group_name</column>
+		<column>display_on_index</column>
+		<row>
+			<value>1</value>
+			<value>0</value>
+			<value></value>
+			<value>5</value>
+			<value>ADMINISTRATORS</value>
+			<value>1</value>
+		</row>
+	</table>
 	<table name="phpbb_gallery_permissions">
 		<column>perm_id</column>
 		<column>perm_role_id</column>
