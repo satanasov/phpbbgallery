@@ -1,6 +1,0 @@
-# .coveralls.yml configuration
-
-# for php-coveralls
-src_dir: ../../../
-coverage_clover: ../logs/clover.xml
-json_path: ../logs/coveralls-upload.json
