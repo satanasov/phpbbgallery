@@ -23,13 +23,13 @@
 
 			<!-- IF not S_USER_LOGGED_IN -->
 			<dl>
-				<dt><label for="username">{L_USERNAME}:</label></dt>
+				<dt><label for="username">{L_USERNAME}{L_COLON}</label></dt>
 				<dd id="username"><input class="inputbox autowidth" type="text" tabindex="1" name="username" value="{USERNAME}" size="60" maxlength="32" /></dd>
 			</dl>
 			<!-- ENDIF -->
 			<!-- IF S_ALLOWED_TO_RATE -->
 				<dl>
-					<dt><label>{L_YOUR_RATING}:</label></dt>
+					<dt><label>{L_YOUR_RATING}{L_COLON}</label></dt>
 					<dd>
 					<!-- IF .rate_scale -->
 						<select name="rating">
@@ -50,7 +50,7 @@
 			<!-- ENDIF -->
 
 			<dl>
-				<dt><label for="message">{L_YOUR_COMMENT}:</label></dt>
+				<dt><label for="message">{L_YOUR_COMMENT}{L_COLON}</label></dt>
 			</dl>
 
 			<!-- INCLUDE posting_buttons.html -->

@@ -28,7 +28,7 @@
 					<!-- IF albumrow.ALBUM_IMAGE --><span class="forum-image"><img src="{T_IMAGES_PATH}{albumrow.ALBUM_IMAGE}" alt="{albumrow.ALBUM_NAME}" /></span><!-- ENDIF -->
 					<a href="{albumrow.U_VIEWALBUM}" class="forumtitle"<!-- IF S_PERSONAL_GALLERY and albumrow.ALBUM_COLOUR --> style="color: {albumrow.ALBUM_COLOUR};"<!-- ENDIF -->>{albumrow.ALBUM_NAME}</a><br />
 					{albumrow.ALBUM_DESC}
-					<!-- IF albumrow.MODERATORS --><br /><strong>{albumrow.L_MODERATOR_STR}:</strong> {albumrow.MODERATORS}<!-- ENDIF -->
+					<!-- IF albumrow.MODERATORS --><br /><strong>{albumrow.L_MODERATOR_STR}{L_COLON}</strong> {albumrow.MODERATORS}<!-- ENDIF -->
 					<!-- IF albumrow.SUBALBUMS and albumrow.S_LIST_SUBALBUMS --><br /><strong>{albumrow.L_SUBALBUM_STR}</strong> {albumrow.SUBALBUMS}<!-- ENDIF -->
 				</dt>
 				<dd class="posts">{albumrow.IMAGES} <!-- IF albumrow.UNAPPROVED_IMAGES --> + <span class="reported-images-number">{albumrow.UNAPPROVED_IMAGES}</span><!-- ENDIF --> <dfn>{L_IMAGES}</dfn></dd>

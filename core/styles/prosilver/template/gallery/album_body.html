@@ -9,7 +9,7 @@
 	<!-- IF ALBUM_CONTEST_START --><span>{ALBUM_CONTEST_START}<br /></span><!-- ENDIF -->
 	<!-- IF ALBUM_CONTEST_RATING --><span>{ALBUM_CONTEST_RATING}<br /></span><!-- ENDIF -->
 	<!-- IF ALBUM_CONTEST_END --><span>{ALBUM_CONTEST_END}<br /><br /></span><!-- ENDIF -->
-	<!-- IF MODERATORS --><strong>{L_MODERATORS}:</strong> {MODERATORS}<br /><!-- ENDIF -->
+	<!-- IF MODERATORS --><strong>{L_MODERATORS}{L_COLON}</strong> {MODERATORS}<br /><!-- ENDIF -->
 	<!-- IF U_EDIT_ALBUM --><br /><strong><a href="{U_EDIT_ALBUM}">{L_EDIT_ALBUM}</a></strong><!-- ENDIF -->
 	<!-- IF U_CREATE_ALBUM --><br /><strong><a href="{U_CREATE_ALBUM}">{L_CREATE_SUBALBUM}</a></strong><!-- ENDIF -->
 </div>
@@ -73,9 +73,7 @@
 <!-- ELSE -->
 	<!-- IF S_IS_POSTABLE -->
 	<div class="panel" style="margin-top: 20px;">
-		<div class="inner"><span class="corners-top"><span></span></span>
 		<strong>{L_NO_IMAGES_LONG}</strong>
-		<span class="corners-bottom"><span></span></span></div>
 	</div>
 	<!-- ENDIF -->
 <!-- ENDIF -->
@@ -122,7 +120,7 @@
 <!-- IF ALBUM_JUMPBOX -->
 	<form method="post" id="jumpbox" action="{S_JUMPBOX_ACTION}" onsubmit="if(this.album_id.value == -1){return false;}">
 		<fieldset class="jumpbox">
-			<label for="album_id" accesskey="album_id">{L_JUMP_TO}:</label>
+			<label for="album_id" accesskey="album_id">{L_JUMP_TO}{L_COLON}</label>
 			<select name="album_id" id="album_id" onchange="if(this.options[this.selectedIndex].value != -1){ document.forms['jumpbox'].submit() }">
 				{ALBUM_JUMPBOX}
 			</select>

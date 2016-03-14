@@ -104,7 +104,7 @@ function gallery_init_colours(block_id, quick)
 <!-- ELSEIF S_PERMISSION_V_MASK -->
 
 	<!-- IF C_MASKS_NAMES -->
-		<p><strong>{L_C_MASKS}:</strong> {C_MASKS_NAMES}</p>
+		<p><strong>{L_C_MASKS}{L_COLON}</strong> {C_MASKS_NAMES}</p>
 	<!-- ENDIF -->
 
 	<div style="float: {S_CONTENT_FLOW_BEGIN}; width: 48%;">
@@ -189,7 +189,7 @@ function gallery_init_colours(block_id, quick)
 
 <!-- BEGIN c_mask -->
 	<h3>{c_mask.C_MASK_NAME}</h3>
-	<!-- IF c_mask.INHERIT_C_MASKS --><p>{L_INHERIT_PERMISSIONS_ALBUM}: <select name="inherit[{c_mask.C_MASK_ID}][full]" id="inherit[{c_mask.C_MASK_ID}][full]" onchange="inherit_album({c_mask.S_ROW_COUNT}, this.options[this.selectedIndex].value);">{c_mask.INHERIT_C_MASKS}</select></p><!-- ENDIF -->
+	<!-- IF c_mask.INHERIT_C_MASKS --><p>{L_INHERIT_PERMISSIONS_ALBUM}{L_COLON} <select name="inherit[{c_mask.C_MASK_ID}][full]" id="inherit[{c_mask.C_MASK_ID}][full]" onchange="inherit_album({c_mask.S_ROW_COUNT}, this.options[this.selectedIndex].value);">{c_mask.INHERIT_C_MASKS}</select></p><!-- ENDIF -->
 
 	<div id="c_mask{c_mask.S_ROW_COUNT}">
 	<!-- BEGIN v_mask -->
@@ -203,7 +203,7 @@ function gallery_init_colours(block_id, quick)
 			</div>
 		</div>
 		<dl class="permissions-simple">
-			<dt style="width: 20%"><label for="inherit[{c_mask.C_MASK_ID}][{c_mask.v_mask.VICTIM_ID}]">{L_INHERIT_PERMISSIONS_VICTIM}:</label></dt>
+			<dt style="width: 20%"><label for="inherit[{c_mask.C_MASK_ID}][{c_mask.v_mask.VICTIM_ID}]">{L_INHERIT_PERMISSIONS_VICTIM}{L_COLON}</label></dt>
 			<dd><select name="inherit[{c_mask.C_MASK_ID}][{c_mask.v_mask.VICTIM_ID}]" id="inherit[{c_mask.C_MASK_ID}][{c_mask.v_mask.VICTIM_ID}]" onchange="inherit_victim({c_mask.S_ROW_COUNT}, {c_mask.v_mask.S_ROW_COUNT}, this.options[this.selectedIndex].value);">{c_mask.v_mask.INHERIT_VICTIMS}</select></dd>
 		</dl>
 		<div class="permissions-advanced" id="advanced{c_mask.S_ROW_COUNT}{c_mask.v_mask.S_ROW_COUNT}">
@@ -285,7 +285,7 @@ function gallery_init_colours(block_id, quick)
 		<legend>{L_LOOK_UP_ALBUM}</legend>
 
 		<dl>
-			<dt><label for="src_album">{L_COPY_PERMISSIONS_FROM}:</label><br /><span>{L_COPY_PERMISSIONS_ALBUM_FROM_EXPLAIN}</span></dt>
+			<dt><label for="src_album">{L_COPY_PERMISSIONS_FROM}{L_COLON}</label><br /><span>{L_COPY_PERMISSIONS_ALBUM_FROM_EXPLAIN}</span></dt>
 			<dd><select id="src_album" name="src_album_id"><option value="0">{L_SELECT_ALBUM}</option><option value="-1">------------------</option>{S_ALBUM_OPTIONS}</select></dd>
 		</dl>
 	</fieldset>
@@ -295,7 +295,7 @@ function gallery_init_colours(block_id, quick)
 		<p>{L_LOOK_UP_ALBUMS_EXPLAIN}</p>
 
 		<dl>
-			<dt><label for="dest_albums">{L_COPY_PERMISSIONS_TO}:</label><br /><span>{L_COPY_PERMISSIONS_ALBUM_TO_EXPLAIN}</span></dt>
+			<dt><label for="dest_albums">{L_COPY_PERMISSIONS_TO}{L_COLON}</label><br /><span>{L_COPY_PERMISSIONS_ALBUM_TO_EXPLAIN}</span></dt>
 			<dd><select id="dest_albums" name="dest_album_ids[]" multiple="multiple" size="10">{S_ALBUM_OPTIONS}</select></dd>
 		</dl>
 	</fieldset>
