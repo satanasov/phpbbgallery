@@ -7,14 +7,14 @@
 		<p>{L_TITLE_EXPLAIN}</p>
 		<fieldset>
 		<dl>
-			<dt><label for="watch_own1">{L_WATCH_OWN}:</label></dt>
+			<dt><label for="watch_own1">{L_WATCH_OWN}{L_COLON}</label></dt>
 			<dd>
 				<label for="watch_own1"><input type="radio" name="watch_own" id="watch_own1" value="1"<!-- IF S_WATCH_OWN --> checked="checked"<!-- ENDIF --> /> {L_YES}</label> 
 				<label for="watch_own0"><input type="radio" name="watch_own" id="watch_own0" value="0"<!-- IF not S_WATCH_OWN --> checked="checked"<!-- ENDIF --> /> {L_NO}</label>
 			</dd>
 		</dl>
 		<dl>
-			<dt><label for="watch_com1">{L_WATCH_COM}:</label></dt>
+			<dt><label for="watch_com1">{L_WATCH_COM}{L_COLON}</label></dt>
 			<dd>
 				<label for="watch_com1"><input type="radio" name="watch_com" id="watch_com1" value="1"<!-- IF S_WATCH_COM --> checked="checked"<!-- ENDIF --> /> {L_YES}</label> 
 				<label for="watch_com0"><input type="radio" name="watch_com" id="watch_com0" value="0"<!-- IF not S_WATCH_COM --> checked="checked"<!-- ENDIF --> /> {L_NO}</label>
@@ -24,7 +24,7 @@
 		<hr />
 		<!-- IF S_COMMENTS_ENABLED -->
 		<dl>
-			<dt><label for="allow_comments1">{L_USER_ALLOW_COMMENTS}:</label></dt>
+			<dt><label for="allow_comments1">{L_USER_ALLOW_COMMENTS}{L_COLON}</label></dt>
 			<dd>
 				<label for="allow_comments1"><input type="radio" name="allow_comments" id="allow_comments1" value="1"<!-- IF S_ALLOW_COMMENTS --> checked="checked"<!-- ENDIF --> /> {L_YES}</label> 
 				<label for="allow_comments0"><input type="radio" name="allow_comments" id="allow_comments0" value="0"<!-- IF not S_ALLOW_COMMENTS --> checked="checked"<!-- ENDIF --> /> {L_NO}</label>
@@ -72,22 +72,22 @@
 			<fieldset>
 			<!-- IF not S_PERSONAL_ALBUM -->
 				<dl>
-					<dt><label for="parent_id">{L_ALBUM_PARENT}:</label></dt>
+					<dt><label for="parent_id">{L_ALBUM_PARENT}{L_COLON}</label></dt>
 					<dd><select id="parent_id" name="parent_id">{S_PARENT_OPTIONS}</select></dd>
 				</dl>
 				<dl>
-					<dt><label for="album_name">{L_ALBUM_NAME}:</label></dt>
+					<dt><label for="album_name">{L_ALBUM_NAME}{L_COLON}</label></dt>
 					<dd><input class="inputbox" type="text" id="album_name" name="album_name" value="{ALBUM_NAME}" maxlength="255" /></dd>
 				</dl>
 			<!-- ENDIF -->
 			<!-- IF S_AUTH_ACCESS_OPTIONS -->
 				<dl>
-					<dt><label for="album_auth_access">{L_ALBUM_ACCESS}:</label><br /><span>{L_ALBUM_ACCESS_EXPLAIN}</span></dt>
+					<dt><label for="album_auth_access">{L_ALBUM_ACCESS}{L_COLON}</label><br /><span>{L_ALBUM_ACCESS_EXPLAIN}</span></dt>
 					<dd><select id="album_auth_access" name="album_auth_access">{S_AUTH_ACCESS_OPTIONS}</select></dd>
 				</dl>
 			<!-- ENDIF -->
 			<dl>
-				<dt><label for="album_desc">{L_ALBUM_DESC}:</label></dt>
+				<dt><label for="album_desc">{L_ALBUM_DESC}{L_COLON}</label></dt>
 				<dd><textarea class="inputbox" id="album_desc" name="album_desc" rows="5" cols="45">{ALBUM_DESC}</textarea></dd>
 				<dd><label><input type="checkbox" class="radio" name="desc_parse_bbcode"<!-- IF S_DESC_BBCODE_CHECKED --> checked="checked"<!-- ENDIF --> /> {L_PARSE_BBCODE}</label>
 					<label><input type="checkbox" class="radio" name="desc_parse_smilies"<!-- IF S_DESC_SMILIES_CHECKED --> checked="checked"<!-- ENDIF --> /> {L_PARSE_SMILIES}</label>
@@ -224,7 +224,7 @@
 								<dfn>{L_LAST_IMAGE}</dfn> {image_row.UC_IMAGE_NAME}<br />
 								{L_UPLOADED_BY_USER} {image_row.UPLOADER}<br />
 								{image_row.IMAGE_TIME}<br />
-								{L_ALBUM}: <a href="{image_row.U_VIEW_ALBUM}" style="font-weight: bold;">{image_row.ALBUM_NAME}</a>
+								{L_ALBUM}{L_COLON} <a href="{image_row.U_VIEW_ALBUM}" style="font-weight: bold;">{image_row.ALBUM_NAME}</a>
 							</dt>
 								<dd class="moderation">
 									<!-- IF image_row.COMMENT -->

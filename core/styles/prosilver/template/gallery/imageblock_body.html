@@ -25,15 +25,15 @@
 								<tr>
 									<td class="bg2" style="vertical-align: top;">
 										<div class="gensmall" style="overflow: hidden;">
-											<!-- IF imageblock.imagerow.image.CONTEST_RANK -->{L_CONTEST_RESULT}: <strong>{imageblock.imagerow.image.CONTEST_RANK}</strong><br /><!-- ENDIF -->
-											<!-- IF imageblock.imagerow.image.UC_IMAGE_NAME -->{L_IMAGE_NAME}: {imageblock.imagerow.image.UC_IMAGE_NAME}<br /><!-- ENDIF -->
-											<!-- IF imageblock.imagerow.image.U_ALBUM -->{L_ALBUM_NAME}: <a href="{imageblock.imagerow.image.U_ALBUM}" style="font-weight: bold;" title="{imageblock.imagerow.image.ALBUM_NAME_FULL}">{imageblock.imagerow.image.ALBUM_NAME}</a><br /><!-- ENDIF -->
-											<!-- IF imageblock.imagerow.image.POSTER -->{L_UPLOADED_BY_USER}: {imageblock.imagerow.image.POSTER}<br /><!-- ENDIF -->
-											<!-- IF imageblock.imagerow.image.TIME -->{L_UPLOADED_ON_DATE}: {imageblock.imagerow.image.TIME}<br /><!-- ENDIF -->
-											<!-- IF imageblock.imagerow.image.VIEW > -1 -->{L_GALLERY_VIEWS}: {imageblock.imagerow.image.VIEW}<br /><!-- ENDIF -->
-											<!-- IF imageblock.imagerow.image.S_RATINGS -->{L_RATING}: <a href="{imageblock.imagerow.image.U_RATINGS}">{imageblock.imagerow.image.S_RATINGS}</a><br /><!-- ENDIF -->
-											<!-- IF imageblock.imagerow.image.S_COMMENTS -->{imageblock.imagerow.image.L_COMMENTS}: <a href="{imageblock.imagerow.image.U_COMMENTS}">{imageblock.imagerow.image.S_COMMENTS}</a><br /><!-- ENDIF -->
-											<!-- IF imageblock.imagerow.image.S_IP -->{L_IP}: {imageblock.imagerow.image.S_IP} &#187; <a href="{imageblock.imagerow.image.U_WHOIS}" onclick="popup(this.href, 750, 500); return false;">{L_WHOIS}</a><br /><!-- ENDIF -->
+											<!-- IF imageblock.imagerow.image.CONTEST_RANK -->{L_CONTEST_RESULT}{L_COLON} <strong>{imageblock.imagerow.image.CONTEST_RANK}</strong><br /><!-- ENDIF -->
+											<!-- IF imageblock.imagerow.image.UC_IMAGE_NAME -->{L_IMAGE_NAME}{L_COLON} {imageblock.imagerow.image.UC_IMAGE_NAME}<br /><!-- ENDIF -->
+											<!-- IF imageblock.imagerow.image.U_ALBUM -->{L_ALBUM_NAME}{L_COLON} <a href="{imageblock.imagerow.image.U_ALBUM}" style="font-weight: bold;" title="{imageblock.imagerow.image.ALBUM_NAME_FULL}">{imageblock.imagerow.image.ALBUM_NAME}</a><br /><!-- ENDIF -->
+											<!-- IF imageblock.imagerow.image.POSTER -->{L_UPLOADED_BY_USER}{L_COLON} {imageblock.imagerow.image.POSTER}<br /><!-- ENDIF -->
+											<!-- IF imageblock.imagerow.image.TIME -->{L_UPLOADED_ON_DATE}{L_COLON} {imageblock.imagerow.image.TIME}<br /><!-- ENDIF -->
+											<!-- IF imageblock.imagerow.image.VIEW > -1 -->{L_GALLERY_VIEWS}{L_COLON} {imageblock.imagerow.image.VIEW}<br /><!-- ENDIF -->
+											<!-- IF imageblock.imagerow.image.S_RATINGS -->{L_RATING}{L_COLON} <a href="{imageblock.imagerow.image.U_RATINGS}">{imageblock.imagerow.image.S_RATINGS}</a><br /><!-- ENDIF -->
+											<!-- IF imageblock.imagerow.image.S_COMMENTS -->{imageblock.imagerow.image.L_COMMENTS}{L_COLON} <a href="{imageblock.imagerow.image.U_COMMENTS}">{imageblock.imagerow.image.S_COMMENTS}</a><br /><!-- ENDIF -->
+											<!-- IF imageblock.imagerow.image.S_IP -->{L_IP}{L_COLON} {imageblock.imagerow.image.S_IP} &#187; <a href="{imageblock.imagerow.image.U_WHOIS}" onclick="popup(this.href, 750, 500); return false;">{L_WHOIS}</a><br /><!-- ENDIF -->
 											<!-- IF imageblock.imagerow.image.U_REPORT or imageblock.imagerow.image.U_STATUS or imageblock.imagerow.image.U_MOVE or  imageblock.imagerow.image.U_EDIT or imageblock.imagerow.image.U_DELETE -->
 											<a href="javascript: dE('moderate_imageblock_{imageblock.S_ROW_COUNT}_imagerow_{imageblock.imagerow.image.IMAGE_ID}');">{L_MODERATE}</a>
 											<div id="moderate_imageblock_{imageblock.S_ROW_COUNT}_imagerow_{imageblock.imagerow.image.IMAGE_ID}" style="display: none;">

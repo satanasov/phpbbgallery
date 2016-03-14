@@ -31,7 +31,7 @@
 	</div>
 
 	<div id="cp-main" class="mcp-main">
-	<h2>{SUBSECTION} - <a href="{U_VIEW_ALBUM}">{L_ALBUM}: {ALBUM_NAME}</a></h2>
+	<h2>{SUBSECTION} - <a href="{U_VIEW_ALBUM}">{L_ALBUM}{L_COLON} {ALBUM_NAME}</a></h2>
 
 	<!-- IF S_GALLERY_MCP_VIEWALBUM or S_QUEUE_LIST or S_REPORT_LIST -->
 		<div class="panel">
@@ -72,7 +72,7 @@
 								<dd class="moderation">
 									<span>{L_REPORT_BY} {image_row.REPORTER}<br />
 									{image_row.REPORT_TIME}<br />
-									{L_ALBUM}: <a href="{U_VIEW_ALBUM}" style="font-weight: bold;">{ALBUM_NAME}</a></span>
+									{L_ALBUM}{L_COLON} <a href="{U_VIEW_ALBUM}" style="font-weight: bold;">{ALBUM_NAME}</a></span>
 								</dd>
 							<!-- ENDIF -->
 							<!-- IF S_STATUS --><dd class="g_status">{image_row.STATUS}<!-- IF image_row.S_REPORTED --><br />{L_IMAGE_REPORTED}<!-- ENDIF --></dd><!-- ENDIF -->
@@ -173,15 +173,15 @@
 				<p class="author">
 					{L_POST_BY_AUTHOR} {UPLOADER}<br />
 					{IMAGE_TIME}<br />
-					{L_ALBUM}: <a href="{U_VIEW_ALBUM}" style="font-weight: bold;">{ALBUM_NAME}</a><!-- IF U_MOVE_IMAGE --> &raquo; <a href="{U_MOVE_IMAGE}" style="font-weight: bold;">{L_MOVE}</a><!-- ENDIF --><br />
-					{L_STATUS}: <span style="font-weight: bold;">{STATUS}</span>
+					{L_ALBUM}{L_COLON} <a href="{U_VIEW_ALBUM}" style="font-weight: bold;">{ALBUM_NAME}</a><!-- IF U_MOVE_IMAGE --> &raquo; <a href="{U_MOVE_IMAGE}" style="font-weight: bold;">{L_MOVE}</a><!-- ENDIF --><br />
+					{L_STATUS}{L_COLON} <span style="font-weight: bold;">{STATUS}</span>
 				</p>
 
 				<div class="content">
 					<div style="text-align: center; padding: 20px;">{UC_IMAGE}</div>
 					<!-- IF IMAGE_DESC -->
 						<hr />
-						<span style="font-weight: bold;">{L_IMAGE_DESC}:</span><br />
+						<span style="font-weight: bold;">{L_IMAGE_DESC}{L_COLON}</span><br />
 						{IMAGE_DESC}
 					<!-- ENDIF -->
 				</div>

@@ -25,7 +25,7 @@ function toggleElement(oElement)
 }
 </script>
 <h2><!-- IF SEARCH_TITLE -->{SEARCH_TITLE}<!-- ELSE -->{SEARCH_MATCHES}<!-- ENDIF --><!-- IF SEARCH_WORDS -->: <a href="{U_SEARCH_WORDS}">{SEARCH_WORDS}</a><!-- ENDIF --></h2>
-<!-- IF IGNORED_WORDS --> <p>{L_IGNORED_TERMS}: <strong>{IGNORED_WORDS}</strong></p><!-- ENDIF -->
+<!-- IF IGNORED_WORDS --> <p>{L_IGNORED_TERMS}{L_COLON} <strong>{IGNORED_WORDS}</strong></p><!-- ENDIF -->
 
 <!-- IF U_GALLERY_SEARCH --><p><a class="{S_CONTENT_FLOW_BEGIN}" href="{U_GALLERY_SEARCH}" title="{L_SEARCH_ADV}">{L_RETURN_TO_SEARCH_ADV}</a></p><!-- ENDIF -->
 
@@ -36,7 +36,7 @@ function toggleElement(oElement)
 	<!-- IF SEARCH_MATCHES -->
 		<div class="search-box">
 			<!-- IF SEARCH_IN_RESULTS -->
-				<label for="add_keywords">{L_SEARCH_IN_RESULTS}: <input type="text" name="add_keywords" id="add_keywords" value="" class="inputbox narrow" /></label>
+				<label for="add_keywords">{L_SEARCH_IN_RESULTS}{L_COLON} <input type="text" name="add_keywords" id="add_keywords" value="" class="inputbox narrow" /></label>
 				<input type="hidden" name="show_results" value="posts" />
 				<input class="button2" type="submit" name="submit" value="{L_SEARCH}" />
 			<!-- ENDIF -->
@@ -77,7 +77,7 @@ function toggleElement(oElement)
 				<div class="content">{commentrow.TEXT}</div>
 			</div>
 			<dl class="postprofile" id="profile{commentrow.COMMENT_ID}">
-				<dd>{L_COMMENT_ON}:</dd>
+				<dd>{L_COMMENT_ON}{L_COLON}</dd>
 				<dd>{commentrow.UC_IMAGE_NAME}</dd>
 				<dt>{commentrow.UC_THUMBNAIL}</dt><br />
 

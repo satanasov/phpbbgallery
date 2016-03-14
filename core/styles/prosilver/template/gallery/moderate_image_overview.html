@@ -1,7 +1,7 @@
 <!-- INCLUDE gallery/gallery_header.html -->
 <div class="panel bg3">
 	<div>
-	<h2><a href="{U_VIEW_ALBUM}">{L_ALBUM}: {ALBUM_NAME}</a></h2>
+	<h2><a href="{U_VIEW_ALBUM}">{L_ALBUM}{L_COLON} {ALBUM_NAME}</a></h2>
 		<div class="panel">
 			<div class="inner"><span class="corners-top"><span></span></span>
 
@@ -14,15 +14,15 @@
 				<p class="author">
 					{L_POST_BY_AUTHOR} {UPLOADER}<br />
 					{IMAGE_TIME}<br />
-					{L_ALBUM}: <a href="{U_VIEW_ALBUM}" style="font-weight: bold;">{ALBUM_NAME}</a><!-- IF U_MOVE_IMAGE --> &raquo; <a href="{U_MOVE_IMAGE}" style="font-weight: bold;">{L_MOVE}</a><!-- ENDIF --><br />
-					{L_STATUS}: <span style="font-weight: bold;">{STATUS}</span>
+					{L_ALBUM}{L_COLON} <a href="{U_VIEW_ALBUM}" style="font-weight: bold;">{ALBUM_NAME}</a><!-- IF U_MOVE_IMAGE --> &raquo; <a href="{U_MOVE_IMAGE}" style="font-weight: bold;">{L_MOVE}</a><!-- ENDIF --><br />
+					{L_STATUS}{L_COLON} <span style="font-weight: bold;">{STATUS}</span>
 				</p>
 
 				<div class="content">
 					<div style="text-align: center;">{UC_IMAGE}</div>
 					<!-- IF IMAGE_DESC -->
 						<hr />
-						<span style="font-weight: bold;">{L_IMAGE_DESC}:</span><br />
+						<span style="font-weight: bold;">{L_IMAGE_DESC}{L_COLON}</span><br />
 						{IMAGE_DESC}
 					<!-- ENDIF -->
 				</div>

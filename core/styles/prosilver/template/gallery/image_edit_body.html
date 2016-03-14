@@ -14,20 +14,20 @@
 
 			<!-- IF not S_USER_LOGGED_IN -->
 				<dl>
-					<dt><label for="username">{L_USERNAME}:</label></dt>
+					<dt><label for="username">{L_USERNAME}{L_COLON}</label></dt>
 					<dd id="username"><input class="inputbox autowidth" type="text" tabindex="1" name="username" value="{S_USERNAME}" size="60" maxlength="32" /></dd>
 				</dl>
 			<!-- ENDIF -->
 			<!-- IF BBCODE_STATUS -->
 			<dl>
-				<dt><label>{L_BBCODES}:</label></dt>
+				<dt><label>{L_BBCODES}{L_COLON}</label></dt>
 				<!-- IF S_BBCODE_ALLOWED --><dd><!-- INCLUDE posting_buttons.html --></dd><!-- ENDIF -->
 				<dd>{BBCODE_STATUS}<!-- IF S_BBCODE_ALLOWED -->; {IMG_STATUS} {FLASH_STATUS}; {URL_STATUS}; {SMILIES_STATUS}<!-- ENDIF --></dd>
 			</dl>
 			<!-- ENDIF -->
 			<!-- IF S_SMILIES_ALLOWED and .smiley -->
 				<dl>
-					<dt><label>{L_SMILIES}:</label></dt>
+					<dt><label>{L_SMILIES}{L_COLON}</label></dt>
 					<dd><!-- BEGIN smiley --><a href="#" onclick="insert_text('{smiley.A_SMILEY_CODE}', true); return false;"><img src="{smiley.SMILEY_IMG}" width="{smiley.SMILEY_WIDTH}" height="{smiley.SMILEY_HEIGHT}" alt="{smiley.SMILEY_CODE}" title="{smiley.SMILEY_DESC}" /></a> <!-- END smiley --></dd>
 					<!-- IF S_SHOW_SMILEY_LINK and S_SMILIES_ALLOWED--><dd><a href="{U_MORE_SMILIES}" onclick="gallery_popup(this.href, 300, 350, '_phpbbsmilies'); return false;">{L_MORE_SMILIES}</a></dd><!-- ENDIF -->
 				</dl>
@@ -37,17 +37,17 @@
 				<hr />
 				<dl>
 					<dt class="simulate-dt<!-- IF image.S_FIRST_ROW and (NUM_IMAGES > 1) --> first<!-- ENDIF -->">{image.U_IMAGE}</dt>
-					<dd class="simulate-dt"><label for="image_name_{image.S_ROW_COUNT}">{L_IMAGE_NAME}:</label></dd>
+					<dd class="simulate-dt"><label for="image_name_{image.S_ROW_COUNT}">{L_IMAGE_NAME}{L_COLON}</label></dd>
 					<!-- IF image.S_FIRST_ROW and (NUM_IMAGES > 1) -->
 						<dd class="simulate-dd"><input type="checkbox" name="same_name" id="same_name" value="1" onchange="change_read_write();" /> <label for="same_name">{L_USE_SAME_NAME}</label></dd>
 						<dd class="simulate-dd">{L_USE_NUM} <input class="inputbox autowidth" type="text" id="image_num" name="image_num" size="5" onchange="update_all('image_name'); update_all('message');" onkeyup="update_all('image_name'); update_all('message');" value="1" /></dd>
 					<!-- ENDIF -->
 					<dd class="simulate-dd"><input class="inputbox autowidth" type="text" tabindex="1{image.S_ROW_COUNT}" id="image_name_{image.S_ROW_COUNT}" name="image_name[{image.S_ROW_COUNT}]" value="{image.IMAGE_NAME}"<!-- IF image.S_FIRST_ROW --> onchange="update_all('image_name');" onselect="update_all('image_name');" onclick="update_all('image_name');" onkeyup="update_all('image_name');"<!-- ENDIF --> size="60" maxlength="128" /></dd>
-					<dd class="simulate-dt"><label for="message_{image.S_ROW_COUNT}">{L_IMAGE_DESC}:</label></dd>
+					<dd class="simulate-dt"><label for="message_{image.S_ROW_COUNT}">{L_IMAGE_DESC}{L_COLON}</label></dd>
 					<dd class="simulate-dd" id="desc_length_{image.S_ROW_COUNT}">{L_DESCRIPTION_LENGTH}</dd>
 					<dd class="simulate-dd"><textarea name="message[{image.S_ROW_COUNT}]" id="message_{image.S_ROW_COUNT}" rows="4" cols="76" tabindex="3" onchange="set_text_field({image.S_ROW_COUNT});<!-- IF image.S_FIRST_ROW --> update_all('message');<!-- ENDIF -->" onselect="set_text_field({image.S_ROW_COUNT});<!-- IF image.S_FIRST_ROW --> update_all('message');<!-- ENDIF --> storeCaret(this);" onclick="set_text_field({image.S_ROW_COUNT});<!-- IF image.S_FIRST_ROW --> update_all('message');<!-- ENDIF --> storeCaret(this);" onkeyup="set_text_field({image.S_ROW_COUNT});<!-- IF image.S_FIRST_ROW --> update_all('message');<!-- ENDIF --> storeCaret(this);" class="inputbox">{image.IMAGE_DESC}</textarea></dd>
 					<!-- IF S_ALLOW_ROTATE -->
-					<dd class="simulate-dt"><label for="rotate_{image.S_ROW_COUNT}_0">{L_ROTATE_IMAGE}:</label></dd>
+					<dd class="simulate-dt"><label for="rotate_{image.S_ROW_COUNT}_0">{L_ROTATE_IMAGE}{L_COLON}</label></dd>
 					<dd class="simulate-dd"><input type="radio" name="rotate[{image.S_ROW_COUNT}]" id="rotate_{image.S_ROW_COUNT}_0" value="0" checked="checked" /> <label for="rotate_{image.S_ROW_COUNT}_0">{L_ROTATE_NONE}</label> &nbsp;
 						<input type="radio" name="rotate[{image.S_ROW_COUNT}]" id="rotate_{image.S_ROW_COUNT}_270" value="270" /> <label for="rotate_{image.S_ROW_COUNT}_270">{L_ROTATE_RIGHT}</label> &nbsp;
 						<input type="radio" name="rotate[{image.S_ROW_COUNT}]" id="rotate_{image.S_ROW_COUNT}_180" value="180" /> <label for="rotate_{image.S_ROW_COUNT}_180">{L_ROTATE_UPSIDEDOWN}</label> &nbsp;
@@ -69,19 +69,19 @@
 		<fieldset class="fields1">
 			<!-- IF S_MOVE_PERSONAL -->
 				<dl>
-					<dt><label for="move_to_personal">{L_MOVE_TO_PERSONAL}:</label></dt>
+					<dt><label for="move_to_personal">{L_MOVE_TO_PERSONAL}{L_COLON}</label></dt>
 					<dd><input type="checkbox" class="checkbox" name="move_to_personal" id="move_to_personal" value="1" /> <!-- IF S_MOVE_MODERATOR -->{L_MOVE_TO_PERSONAL_MOD}<!-- ELSE -->{L_MOVE_TO_PERSONAL_EXPLAIN}<!-- ENDIF --></dd>
 				</dl>
 			<!-- ENDIF -->
 			<!-- IF S_COMMENTS_ENABLED -->
 				<dl>
-					<dt><label for="allow_comments">{L_COMMENTS}:</label></dt>
+					<dt><label for="allow_comments">{L_COMMENTS}{L_COLON}</label></dt>
 					<dd><input type="checkbox" class="checkbox" name="allow_comments" id="allow_comments"<!-- IF S_ALLOW_COMMENTS --> checked="checked"<!-- ENDIF --> value="1" /> <label for="allow_comments">{L_ALLOW_COMMENTS}</label></dd>
 				</dl>
 			<!-- ENDIF -->
 			<!-- IF S_CHANGE_AUTHOR and U_FIND_USERNAME -->
 				<dl>
-					<dt><label for="change_author">{L_CHANGE_AUTHOR}:</label></dt>
+					<dt><label for="change_author">{L_CHANGE_AUTHOR}{L_COLON}</label></dt>
 					<dd><input type="text" class="inputbox autowidth" name="change_author" id="change_author" value="" size="32" /> [ <a href="{U_FIND_USERNAME}" onclick="find_username(this.href); return false;">{L_FIND_USERNAME}</a> ]</dd>
 				</dl>
 			<!-- ENDIF -->

@@ -35,27 +35,27 @@
 			<fieldset class="fields1 anti-postbody">
 				<!-- IF CONTEST_RANK -->
 				<dl class="column1">
-					<dt><label>{L_CONTEST_RESULT}:</label></dt>
+					<dt><label>{L_CONTEST_RESULT}{L_COLON}</label></dt>
 					<dd>{CONTEST_RANK}</dd>
 				</dl>
 				<!-- ENDIF -->
 				<dl class="column2">
-					<dt><label>{L_UPLOADED_ON_DATE}:</label></dt>
+					<dt><label>{L_UPLOADED_ON_DATE}{L_COLON}</label></dt>
 					<dd>{IMAGE_TIME}</dd>
 				</dl>
 				<!-- IF IMAGE_URL -->
 				<dl class="column1">
-					<dt><label>{L_IMAGE_URL}:</label></dt>
+					<dt><label>{L_IMAGE_URL}{L_COLON}</label></dt>
 					<dd><input type="text" size="28" value="{IMAGE_URL}" class="inputbox autowidth-gallery" onclick="this.focus();this.select();" /></dd>
 				</dl>
 				<!-- ENDIF -->
 				<dl class="column2">
-					<dt><label>{L_GALLERY_VIEWS}:</label></dt>
+					<dt><label>{L_GALLERY_VIEWS}{L_COLON}</label></dt>
 					<dd>{IMAGE_VIEW}</dd>
 				</dl>
 				<!-- IF IMAGE_BBCODE -->
 				<dl class="column1">
-					<dt><label>{L_IMAGE_BBCODE}:</label></dt>
+					<dt><label>{L_IMAGE_BBCODE}{L_COLON}</label></dt>
 					<dd><input type="text" size="28" value="{IMAGE_BBCODE}" class="inputbox autowidth-gallery" onclick="this.focus();this.select();" /></dd>
 					<!-- IF IMAGE_IMGURL_BBCODE -->
 						<dd><input type="text" size="28" value="{IMAGE_IMGURL_BBCODE}" class="inputbox autowidth-gallery" onclick="this.focus();this.select();" /></dd>
@@ -64,14 +64,14 @@
 				<!-- ENDIF -->
 				<!-- IF S_VIEW_RATE -->
 				<dl class="column2">
-					<dt><label>{L_RATING}:</label></dt>
-					<dd><!-- IF CONTEST_RESULT_HIDDEN -->{CONTEST_RESULT_HIDDEN}<!-- ELSE -->{IMAGE_RATING}<!-- ENDIF --><!-- IF S_YOUR_RATING --> ({L_YOUR_RATING}: {S_YOUR_RATING})<!-- ENDIF --></dd>
+					<dt><label>{L_RATING}{L_COLON}</label></dt>
+					<dd><!-- IF CONTEST_RESULT_HIDDEN -->{CONTEST_RESULT_HIDDEN}<!-- ELSE -->{IMAGE_RATING}<!-- ENDIF --><!-- IF S_YOUR_RATING --> ({L_YOUR_RATING}{L_COLON} {S_YOUR_RATING})<!-- ENDIF --></dd>
 				</dl>
 				<!-- ENDIF -->
 				<!-- IF S_ALLOWED_TO_RATE -->
 				<form id="postform" action="{S_RATE_ACTION}" method="post">
 				<dl class="column2">
-					<dt><label>{L_YOUR_RATING}:</label></dt>
+					<dt><label>{L_YOUR_RATING}{L_COLON}</label></dt>
 					<dd>
 						<!-- IF .rate_scale -->
 							<select name="rating" onchange="this.form.submit();">
@@ -105,19 +105,19 @@
 
 			<dd>&nbsp;</dd>
 
-			<!-- IF POSTER_POSTS != '' --><dd><strong>{L_POSTS}:</strong> {POSTER_POSTS}</dd><!-- ENDIF -->
-			<!-- IF POSTER_GALLERY_IMAGES != '' --><dd><strong>{L_IMAGES}:</strong> <!-- IF U_POSTER_GALLERY_SEARCH --><a href="{U_POSTER_GALLERY_SEARCH}">{POSTER_GALLERY_IMAGES}</a><!-- ELSE -->{POSTER_GALLERY_IMAGES}<!-- ENDIF --></dd><!-- ENDIF -->
-			<!-- IF POSTER_JOINED --><dd><strong>{L_JOINED}:</strong> {POSTER_JOINED}</dd><!-- ENDIF -->
-			<!-- IF POSTER_FROM --><dd><strong>{L_LOCATION}:</strong> {POSTER_FROM}</dd><!-- ENDIF -->
-			<!-- IF POSTER_IP --><dd><strong>{L_IP}:</strong> {POSTER_IP} [ <a href="{U_POSTER_WHOIS}" onclick="popup(this.href, 750, 500); return false;">{L_WHOIS}</a> ]</dd><!-- ENDIF -->
+			<!-- IF POSTER_POSTS != '' --><dd><strong>{L_POSTS}{L_COLON}</strong> {POSTER_POSTS}</dd><!-- ENDIF -->
+			<!-- IF POSTER_GALLERY_IMAGES != '' --><dd><strong>{L_IMAGES}{L_COLON}</strong> <!-- IF U_POSTER_GALLERY_SEARCH --><a href="{U_POSTER_GALLERY_SEARCH}">{POSTER_GALLERY_IMAGES}</a><!-- ELSE -->{POSTER_GALLERY_IMAGES}<!-- ENDIF --></dd><!-- ENDIF -->
+			<!-- IF POSTER_JOINED --><dd><strong>{L_JOINED}{L_COLON}</strong> {POSTER_JOINED}</dd><!-- ENDIF -->
+			<!-- IF POSTER_FROM --><dd><strong>{L_LOCATION}{L_COLON}</strong> {POSTER_FROM}</dd><!-- ENDIF -->
+			<!-- IF POSTER_IP --><dd><strong>{L_IP}{L_COLON}</strong> {POSTER_IP} [ <a href="{U_POSTER_WHOIS}" onclick="popup(this.href, 750, 500); return false;">{L_WHOIS}</a> ]</dd><!-- ENDIF -->
 
 			<!-- IF S_PROFILE_FIELD1 -->
 				<!-- Use a construct like this to include admin defined profile fields. Replace FIELD1 with the name of your field. -->
-				<dd><strong>{PROFILE_FIELD1_NAME}:</strong> {PROFILE_FIELD1_VALUE}</dd>
+				<dd><strong>{PROFILE_FIELD1_NAME}{L_COLON}</strong> {PROFILE_FIELD1_VALUE}</dd>
 			<!-- ENDIF -->
 
 			<!-- BEGIN custom_fields -->
-				<dd><strong>{custom_fields.PROFILE_FIELD_NAME}:</strong> {custom_fields.PROFILE_FIELD_VALUE}</dd>
+				<dd><strong>{custom_fields.PROFILE_FIELD_NAME}{L_COLON}</strong> {custom_fields.PROFILE_FIELD_VALUE}</dd>
 			<!-- END custom_fields -->
 
 			<!-- IF not S_IS_BOT -->
@@ -150,8 +150,8 @@
 								</a><!-- ENDIF -->
 							</div>
 						<div>
-							<!-- IF U_POSTER_WWW --><a href="{U_POSTER_WWW}" title="{L_VISIT_WEBSITE}: {U_WWW}">
-								<span class="contact-icon phpbb_website-icon">{L_VISIT_WEBSITE}: {U_WWW}</span>
+							<!-- IF U_POSTER_WWW --><a href="{U_POSTER_WWW}" title="{L_VISIT_WEBSITE}{L_COLON} {U_WWW}">
+								<span class="contact-icon phpbb_website-icon">{L_VISIT_WEBSITE}{L_COLON} {U_WWW}</span>
 							</a><!-- ENDIF -->
 						</div>
 						</div>
@@ -164,7 +164,7 @@
 	<!-- IF S_QUICK_MOD -->
 	<form method="post" action="{S_MOD_ACTION}">
 	<fieldset class="quickmod" style="float: none; width: 100%;">
-		<label for="quick-mod-select">{L_QUICK_MOD}:</label>
+		<label for="quick-mod-select">{L_QUICK_MOD}{L_COLON}</label>
 		<select name="action" id="quick-mod-select">
 			<!-- IF S_QM_MOVE --><option value="images_move">{L_QUEUE_A_MOVE}</option><!-- ENDIF -->
 			<!-- IF S_QM_EDIT --><option value="image_edit">{L_EDIT_IMAGE}</option><!-- ENDIF -->
@@ -193,7 +193,7 @@
 						<fieldset class="fields1">
 						<!-- IF not S_USER_LOGGED_IN -->
 							<dl>
-								<dt><label>{L_USERNAME}:</label></dt>
+								<dt><label>{L_USERNAME}{L_COLON}</label></dt>
 								<dd><input class="inputbox autowidth" type="text" name="username" maxlength="32" /></dd>
 							</dl>
 						<!-- ENDIF -->
@@ -272,18 +272,18 @@
 
 				<dd>&nbsp;</dd>
 
-				<!-- IF commentrow.POSTER_POSTS != '' --><dd><strong>{L_POSTS}:</strong> {commentrow.POSTER_POSTS}</dd><!-- ENDIF -->
-				<!-- IF commentrow.GALLERY_IMAGES != '' --><dd><strong>{L_IMAGES}:</strong> <!-- IF commentrow.U_GALLERY_SEARCH --><a href="{commentrow.U_GALLERY_SEARCH}">{commentrow.GALLERY_IMAGES}</a><!-- ELSE -->{commentrow.GALLERY_IMAGES}<!-- ENDIF --></dd><!-- ENDIF -->
-				<!-- IF commentrow.POSTER_JOINED --><dd><strong>{L_JOINED}:</strong> {commentrow.POSTER_JOINED}</dd><!-- ENDIF -->
-				<!-- IF commentrow.POSTER_FROM --><dd><strong>{L_LOCATION}:</strong> {commentrow.POSTER_FROM}</dd><!-- ENDIF -->
+				<!-- IF commentrow.POSTER_POSTS != '' --><dd><strong>{L_POSTS}{L_COLON}</strong> {commentrow.POSTER_POSTS}</dd><!-- ENDIF -->
+				<!-- IF commentrow.GALLERY_IMAGES != '' --><dd><strong>{L_IMAGES}{L_COLON}</strong> <!-- IF commentrow.U_GALLERY_SEARCH --><a href="{commentrow.U_GALLERY_SEARCH}">{commentrow.GALLERY_IMAGES}</a><!-- ELSE -->{commentrow.GALLERY_IMAGES}<!-- ENDIF --></dd><!-- ENDIF -->
+				<!-- IF commentrow.POSTER_JOINED --><dd><strong>{L_JOINED}{L_COLON}</strong> {commentrow.POSTER_JOINED}</dd><!-- ENDIF -->
+				<!-- IF commentrow.POSTER_FROM --><dd><strong>{L_LOCATION}{L_COLON}</strong> {commentrow.POSTER_FROM}</dd><!-- ENDIF -->
 
 				<!-- IF commentrow.S_PROFILE_FIELD1 -->
 					<!-- Use a construct like this to include admin defined profile fields. Replace FIELD1 with the name of your field. -->
-					<dd><strong>{commentrow.PROFILE_FIELD1_NAME}:</strong> {commentrow.PROFILE_FIELD1_VALUE}</dd>
+					<dd><strong>{commentrow.PROFILE_FIELD1_NAME}{L_COLON}</strong> {commentrow.PROFILE_FIELD1_VALUE}</dd>
 				<!-- ENDIF -->
 
 				<!-- BEGIN custom_fields -->
-					<dd><strong>{commentrow.custom_fields.PROFILE_FIELD_NAME}:</strong> {commentrow.custom_fields.PROFILE_FIELD_VALUE}</dd>
+					<dd><strong>{commentrow.custom_fields.PROFILE_FIELD_NAME}{L_COLON}</strong> {commentrow.custom_fields.PROFILE_FIELD_VALUE}</dd>
 				<!-- END custom_fields -->
 
 				<!-- IF not S_IS_BOT -->
@@ -316,8 +316,8 @@
 								</a><!-- ENDIF -->
 							</div>
 						<div>
-							<!-- IF U_POSTER_WWW --><a href="{U_POSTER_WWW}" title="{L_VISIT_WEBSITE}: {U_WWW}">
-								<span class="contact-icon phpbb_website-icon">{L_VISIT_WEBSITE}: {U_WWW}</span>
+							<!-- IF U_POSTER_WWW --><a href="{U_POSTER_WWW}" title="{L_VISIT_WEBSITE}{L_COLON} {U_WWW}">
+								<span class="contact-icon phpbb_website-icon">{L_VISIT_WEBSITE}{L_COLON} {U_WWW}</span>
 							</a><!-- ENDIF -->
 						</div>
 						</div>
@@ -332,7 +332,7 @@
 
 	<form action="{S_ALBUM_ACTION}" method="post">
 	<fieldset class="display-options" style="margin-top: 0; ">
-		<label>{L_ORDER}: <select name="sort_order"><option value="ASC"<!-- IF SORT_ASC --> selected="selected"<!-- ENDIF -->>{L_SORT_ASCENDING}</option><option value="DESC"<!-- IF not SORT_ASC --> selected="selected"<!-- ENDIF -->>{L_SORT_DESCENDING}</option></select>&nbsp;<input type="submit" name="submit" value="{L_GO}" class="button2" /></label>
+		<label>{L_ORDER}{L_COLON} <select name="sort_order"><option value="ASC"<!-- IF SORT_ASC --> selected="selected"<!-- ENDIF -->>{L_SORT_ASCENDING}</option><option value="DESC"<!-- IF not SORT_ASC --> selected="selected"<!-- ENDIF -->>{L_SORT_DESCENDING}</option></select>&nbsp;<input type="submit" name="submit" value="{L_GO}" class="button2" /></label>
 	</fieldset>
 	</form>
 	<hr />
@@ -356,7 +356,7 @@
 <!-- IF ALBUM_JUMPBOX -->
 <form method="post" id="jumpbox" action="{S_JUMPBOX_ACTION}" onsubmit="if(document.jumpbox.album_id.value == -1){return false;}">
 	<fieldset class="jumpbox">
-		<label for="album_id" accesskey="album_id">{L_JUMP_TO}:</label>
+		<label for="album_id" accesskey="album_id">{L_JUMP_TO}{L_COLON}</label>
 		<select name="album_id" id="album_id" onchange="if(this.options[this.selectedIndex].value != -1){ document.forms['jumpbox'].submit() }">
 			{ALBUM_JUMPBOX}
 		</select>

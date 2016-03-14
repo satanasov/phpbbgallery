@@ -216,7 +216,7 @@ function toggleElement(oElement)
 					<div class="content">{commentrow.TEXT}</div>
 				</div>
 				<dl class="postprofile" id="profile{commentrow.COMMENT_ID}">
-					<dd>{L_COMMENT_ON}:</dd>
+					<dd>{L_COMMENT_ON}{L_COLON}</dd>
 					<dd>{commentrow.UC_IMAGE_NAME}</dd>
 					<dt>{commentrow.UC_THUMBNAIL}</dt><br />
 
@@ -236,8 +236,8 @@ function toggleElement(oElement)
 	<form method="post" action="{S_LOGIN_ACTION}" class="headerspace">
 	<h3><a href="{U_LOGIN_LOGOUT}">{L_LOGIN_LOGOUT}</a><!-- IF S_REGISTER_ENABLED -->&nbsp; &bull; &nbsp;<a href="{U_REGISTER}">{L_REGISTER}</a><!-- ENDIF --></h3>
 		<fieldset class="quick-login">
-			<label for="username">{L_USERNAME}:</label>&nbsp;<input type="text" name="username" id="username" size="10" class="inputbox" title="{L_USERNAME}" />
-			<label for="password">{L_PASSWORD}:</label>&nbsp;<input type="password" name="password" id="password" size="10" class="inputbox" title="{L_PASSWORD}" />
+			<label for="username">{L_USERNAME}{L_COLON}</label>&nbsp;<input type="text" name="username" id="username" size="10" class="inputbox" title="{L_USERNAME}" />
+			<label for="password">{L_PASSWORD}{L_COLON}</label>&nbsp;<input type="password" name="password" id="password" size="10" class="inputbox" title="{L_PASSWORD}" />
 			<!-- IF S_AUTOLOGIN_ENABLED -->
 				| <label for="autologin">{L_LOG_ME_IN} <input type="checkbox" name="autologin" id="autologin" /></label>
 			<!-- ENDIF -->
