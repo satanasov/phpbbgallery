@@ -23,7 +23,7 @@
 	},
 	"require-dev": {
 		"phpbb/epv": "dev-master",
-		"satooshi/php-coveralls": "dev-master"
+		"satooshi/php-coveralls": "~1.0"
 	},
 	"extra": {
 		"display-name": "phpBB Gallery",
