@@ -66,7 +66,7 @@ class user
 	 * @param	int		$user_id
 	 * @param	bool	$load		Shall we automatically load the users data from the database?
 	 */
-	public function set_user_id($user_id, $load = true)
+	public function set_user_id($user_id, $load = false)
 	{
 		$this->user_id		= (int) $user_id;
 		if ($load)
