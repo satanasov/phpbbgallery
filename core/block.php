@@ -16,6 +16,88 @@ namespace phpbbgallery\core;
 
 class block
 {
+	/**
+	 * The name of the outer template loop for the imageblock and comments
+	 * You need to call this on your second code block,
+	 * when you want to view the module two times with different settings on the same page.
+	 */
+	private $template_block_images = 'imageblock';
+	private $template_block_comments = 'commentrow';
+
+	/**
+	 * Modes that you want to display on the block.
+	 */
+	private $mode	= self::MODE_NONE;
+
+	const MODE_NONE		= 0;
+	const MODE_RECENT	= 1;
+	const MODE_RANDOM	= 2;
+	const MODE_COMMENT	= 4;
+
+	/**
+	 * Options which details of the images you want to view on the block.
+	 */
+	private $display		= self::DISPLAY_NONE;
+
+	const DISPLAY_NONE			= 0;
+	const DISPLAY_ALBUMNAME		= 1;
+	const DISPLAY_COMMENTS		= 2;
+	const DISPLAY_IMAGENAME		= 4;
+	const DISPLAY_IMAGETIME		= 8;
+	const DISPLAY_IMAGEVIEWS	= 16;
+	const DISPLAY_USERNAME		= 32;
+	const DISPLAY_RATINGS		= 64;
+	const DISPLAY_IP			= 128;
+
+	/**
+	 * Some integer numbers
+	 */
+	private $num_rows		= 0;
+	private $num_columns	= 0;
+	private $num_comments	= 0;
+	private $num_contests	= 0;
+	private $num_sql_limit	= 0;
+
+	/**
+	 * Option to toggle or display the comments by default.
+	 */
+	private $toggle_comments = false;
+
+	/**
+	 * Array of albums the images and comments are pulled from.
+	 * Empty array means all albums.
+	 */
+	private $albums = array();
+	private $include_pegas = true;
+
+	/**
+	 * Array of users the images and comments are pulled from.
+	 * Empty array means all users.
+	 */
+	private $users = array();
+
+	/**
+	 * Prepare sql_where_auth for the queries
+	 */
+	private $auth_moderate = array();
+	private $auth_view = array();
+	private $auth_comments = array();
+	private $sql_where_auth = '';
+
+	/**
+	 * Get image_ids to display
+	 */
+	private $images = array();
+	private $recent_images = array();
+	private $random_images = array();
+	private $contest_images = array();
+
+	/**
+	 * Query the image-table to get the data.
+	 */
+	private $images_data = array();
+
+	/*
 	public function __construct($mode = false, $display_options = false, $nums = false, $toggle_comments = '', $display_pegas = '')
 	{
 		$this->set_mode(($mode) ? $mode : (self::MODE_RECENT + self::MODE_RANDOM + self::MODE_COMMENT));
@@ -28,38 +110,58 @@ class block
 		{
 			phpbb_gallery::init();
 		} */
+	/*
+            global $user;
+            $user->add_lang_ext('phpbbgallery/core', array('gallery_acp', 'gallery'));
 
-		global $user;
-		$user->add_lang_ext('phpbbgallery/core', array('gallery_acp', 'gallery'));
-
-		if (!function_exists('generate_text_for_display'))
-		{
-			phpbb_gallery_url::_include('message_parser', 'phpbb');
-		}
+            if (!function_exists('generate_text_for_display'))
+            {
+                phpbb_gallery_url::_include('message_parser', 'phpbb');
+            }
+        }
+    */
+	/**
+	 * block constructor.
+	 * @param \phpbb\user $user
+	 * @param \phpbb\db\driver\driver_interface $db
+	 * @param auth\auth $gallery_auth
+	 * @param config $gallery_config
+	 * @param image\image $gallery_image
+	 * @param $images_table
+	 * @param $albums_table
+	 * @param $contests_table
+	 */
+	public function __construct(\phpbb\user $user, \phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\controller\helper $controller_helper,
+								\phpbbgallery\core\auth\auth $gallery_auth,	\phpbbgallery\core\config $gallery_config, \phpbbgallery\core\image\image $gallery_image,
+								$images_table, $albums_table, $contests_table)
+	{
+		// phpBB core
+		$this->user = $user;
+		$this->db = $db;
+		$this->template = $template;
+		$this->controller_helper = $controller_helper;
+		// phpBB Gallery Core
+		$this->gallery_auth = $gallery_auth;
+		$this->gallery_config = $gallery_config;
+		$this->gallery_image = $gallery_image;
+		// Variables (tables and shit)
+		$this->images_table = $images_table;
+		$this->albums_table = $albums_table;
+		$this->contests_table = $contests_table;
 	}
 
 	/**
-	* The name of the outer template loop for the imageblock and comments
-	* You need to call this on your second code block,
-	* when you want to view the module two times with different settings on the same page.
-	*/
-	private $template_block_images = 'imageblock';
-	private $template_block_comments = 'commentrow';
+	 * The name of the outer template loop for the imageblock and comments
+	 * You need to call this on your second code block,
+	 * when you want to view the module two times with different settings on the same page.
+	 * @param $image_block
+	 * @param string $comment_block
+	 */
 	public function set_template_block_name($image_block, $comment_block = 'commentrow')
 	{
 		$this->template_block_images = $image_block;
 		$this->template_block_comments = $comment_block;
 	}
-
-	/**
-	* Modes that you want to display on the block.
-	*/
-	private $mode	= self::MODE_NONE;
-
-	const MODE_NONE		= 0;
-	const MODE_RECENT	= 1;
-	const MODE_RANDOM	= 2;
-	const MODE_COMMENT	= 4;
 
 	/**
 	* @param	array	$modes	Array of strings: 'none', 'recent', 'random', 'comment'
@@ -96,22 +198,7 @@ class block
 	}
 
 	/**
-	* Options which details of the images you want to view on the block.
-	*/
-	private $display		= self::DISPLAY_NONE;
-
-	const DISPLAY_NONE			= 0;
-	const DISPLAY_ALBUMNAME		= 1;
-	const DISPLAY_COMMENTS		= 2;
-	const DISPLAY_IMAGENAME		= 4;
-	const DISPLAY_IMAGETIME		= 8;
-	const DISPLAY_IMAGEVIEWS	= 16;
-	const DISPLAY_USERNAME		= 32;
-	const DISPLAY_RATINGS		= 64;
-	const DISPLAY_IP			= 128;
-
-	/**
-	* @param	array	$modes	Array of strings:
+	* @param	array	$options	Array of strings:
 	*							'none', 'albumname', 'comments', 'imagename', 'imagetime', 'imageviews', 'username', 'ratings', 'ip'
 	*/
 	public function set_display_options($options = array())
@@ -130,8 +217,9 @@ class block
 	}
 
 	/**
-	* @param	int		$new_mode	Integer between 0 and 255 (including bounds)
-	*/
+	 * @param int $new_display
+	 * @internal param int $new_mode Integer between 0 and 255 (including bounds)
+	 */
 	public function set_display($new_display = self::DISPLAY_NONE)
 	{
 		if (is_int($new_display) && ($new_display >= 0) && ($new_display <= 255))
@@ -144,15 +232,6 @@ class block
 	{
 		return $this->display;
 	}
-
-	/**
-	* Some integer numbers
-	*/
-	private $num_rows		= 0;
-	private $num_columns	= 0;
-	private $num_comments	= 0;
-	private $num_contests	= 0;
-	private $num_sql_limit	= 0;
 
 	public function set_nums($nums = array())
 	{
@@ -188,7 +267,6 @@ class block
 	/**
 	* Option to toggle or display the comments by default.
 	*/
-	private $toggle_comments = false;
 
 	public function set_toggle($new_toggle)
 	{
@@ -202,8 +280,6 @@ class block
 	* Array of albums the images and comments are pulled from.
 	* Empty array means all albums.
 	*/
-	private $albums = array();
-	private $include_pegas = true;
 
 	public function add_albums($album_id)
 	{
@@ -242,7 +318,6 @@ class block
 	* Array of users the images and comments are pulled from.
 	* Empty array means all users.
 	*/
-	private $users = array();
 
 	public function add_users($user_id)
 	{
@@ -278,33 +353,23 @@ class block
 		$this->display_comments();
 	}
 
-	/**
-	* Prepare sql_where_auth for the queries
-	*/
-	private $auth_moderate = array();
-	private $auth_view = array();
-	private $auth_comments = array();
-	private $sql_where_auth = '';
-
 	private function get_album_permissions()
 	{
-		global $db;
-
 		$albums_is_empty = !empty($this->albums);
 
-		$this->auth_moderate = phpbb_gallery::$auth->acl_album_ids('m_status', 'array', !$albums_is_empty, $this->get_pegas());
+		$this->auth_moderate = $this->gallery_auth->acl_album_ids('m_status', 'array', !$albums_is_empty, $this->get_pegas());
 		if ($albums_is_empty)
 		{
 			$this->auth_moderate = array_intersect($this->auth_moderate, $this->albums);
 		}
-		$this->auth_view = array_diff(phpbb_gallery::$auth->acl_album_ids('i_view', 'array', !$albums_is_empty, $this->get_pegas()), $this->auth_moderate);
+		$this->auth_view = array_diff($this->gallery_auth->acl_album_ids('i_view', 'array', !$albums_is_empty, $this->get_pegas()), $this->auth_moderate);
 		if ($albums_is_empty)
 		{
 			$this->auth_view = array_intersect($this->auth_view, $this->albums);
 		}
-		if (phpbb_gallery_config::get('allow_comments') && ($this->mode & self::MODE_COMMENT) && $this->num_comments)
+		if ($this->gallery_config->get('allow_comments') && ($this->mode & self::MODE_COMMENT) && $this->num_comments)
 		{
-			$this->auth_comments = phpbb_gallery::$auth->acl_album_ids('c_read', 'array', !$albums_is_empty, $this->get_pegas());
+			$this->auth_comments = $this->gallery_auth->acl_album_ids('c_read', 'array', !$albums_is_empty, $this->get_pegas());
 			if ($albums_is_empty)
 			{
 				$this->auth_comments = array_intersect($this->auth_comments, $this->albums);
@@ -312,8 +377,8 @@ class block
 		}
 
 		$this->sql_where_auth = '(';
-		$this->sql_where_auth .= ((!empty($this->auth_view)) ? '(' . $db->sql_in_set('image_album_id', $this->auth_view) . ' AND image_status <> ' . phpbb_gallery_image::STATUS_UNAPPROVED . ((!empty($this->users)) ? ' AND image_contest = ' . phpbb_gallery_image::NO_CONTEST : '') . ')' : '');
-		$this->sql_where_auth .= ((!empty($this->auth_moderate)) ? ((!empty($this->auth_view)) ? ' OR ' : '') . '(' . $db->sql_in_set('image_album_id', $this->auth_moderate, false, true) . ')' : '');
+		$this->sql_where_auth .= ((!empty($this->auth_view)) ? '(' . $this->db->sql_in_set('image_album_id', $this->auth_view) . ' AND image_status <> ' . $this->gallery_image->get_status_unaproved() . ((!empty($this->users)) ? ' AND image_contest = ' . $this->gallery_image->get_no_contest() : '') . ')' : '');
+		$this->sql_where_auth .= ((!empty($this->auth_moderate)) ? ((!empty($this->auth_view)) ? ' OR ' : '') . '(' . $this->db->sql_in_set('image_album_id', $this->auth_moderate, false, true) . ')' : '');
 
 		if ($this->sql_where_auth == '(')
 		{
@@ -321,42 +386,35 @@ class block
 			$this->sql_where_auth = '0 = 1';
 			return;
 		}
-		$this->sql_where_auth .= (!empty($this->users)) ? ') AND ' . $db->sql_in_set('image_user_id', $this->users) : ')';
+		$this->sql_where_auth .= (!empty($this->users)) ? ') AND ' . $this->db->sql_in_set('image_user_id', $this->users) : ')';
 	}
 
 	/**
-	* Get image_ids to display
-	*/
-	private $images = array();
-	private $recent_images = array();
-	private $random_images = array();
-	private $contest_images = array();
-
+	 *
+     */
 	private function get_image_ids()
 	{
-		global $db;
-
 		$this->images = $this->recent_images = $this->random_images = $this->contest_images = array();
 		// First step: grab all the IDs we are going to display ...
 		if ($this->mode & self::MODE_RECENT)
 		{
 			$sql = 'SELECT image_id
-				FROM ' . GALLERY_IMAGES_TABLE . '
+				FROM ' . $this->images_table . '
 				WHERE ' . $this->sql_where_auth . '
-					AND image_status <> ' . phpbb_gallery_image::STATUS_ORPHAN . '
+					AND image_status <> ' . $this->gallery_image->get_status_orphan() . '
 				ORDER BY image_time DESC';
-			$result = $db->sql_query_limit($sql, $this->num_sql_limit);
+			$result = $this->db->sql_query_limit($sql, $this->num_sql_limit);
 
-			while ($row = $db->sql_fetchrow($result))
+			while ($row = $this->db->sql_fetchrow($result))
 			{
 				$this->images[] = $row['image_id'];
 				$this->recent_images[] = $row['image_id'];
 			}
-			$db->sql_freeresult($result);
+			$this->db->sql_freeresult($result);
 		}
 		if ($this->mode & self::MODE_RANDOM)
 		{
-			switch ($db->sql_layer)
+			switch ($this->db->get_sql_layer())
 			{
 				case 'postgres':
 					$random_sql = 'RANDOM()';
@@ -371,39 +429,39 @@ class block
 			}
 
 			$sql = 'SELECT image_id
-				FROM ' . GALLERY_IMAGES_TABLE . '
+				FROM ' . $this->images_table . '
 				WHERE ' . $this->sql_where_auth . '
-					AND image_status <> ' . phpbb_gallery_image::STATUS_ORPHAN . '
+					AND image_status <> ' . $this->gallery_image->get_status_orphan() . '
 				ORDER BY ' . $random_sql;
-			$result = $db->sql_query_limit($sql, $this->num_sql_limit);
+			$result = $this->db->sql_query_limit($sql, $this->num_sql_limit);
 
-			while ($row = $db->sql_fetchrow($result))
+			while ($row = $this->db->sql_fetchrow($result))
 			{
 				$this->images[] = $row['image_id'];
 				$this->random_images[] = $row['image_id'];
 			}
-			$db->sql_freeresult($result);
+			$this->db->sql_freeresult($result);
 		}
 		if ($this->num_contests)
 		{
 			$sql_array = array(
 				'SELECT'		=> 'c.*, a.album_name',
-				'FROM'			=> array(GALLERY_CONTESTS_TABLE => 'c'),
+				'FROM'			=> array($this->contests_table => 'c'),
 
 				'LEFT_JOIN'		=> array(
 					array(
-						'FROM'		=> array(GALLERY_ALBUMS_TABLE => 'a'),
+						'FROM'		=> array($this->albums_table => 'a'),
 						'ON'		=> 'a.album_id = c.contest_album_id',
 					),
 				),
 
-				'WHERE'			=> $db->sql_in_set('c.contest_album_id', array_unique(array_merge($this->auth_view, $this->auth_moderate)), false, true) . ' AND c.contest_marked = ' . phpbb_gallery_image::NO_CONTEST,
+				'WHERE'			=> $this->db->sql_in_set('c.contest_album_id', array_unique(array_merge($this->auth_view, $this->auth_moderate)), false, true) . ' AND c.contest_marked = ' . $this->gallery_image->get_no_contest(),
 				'ORDER_BY'		=> 'c.contest_start + c.contest_end DESC',
 			);
-			$sql = $db->sql_build_query('SELECT', $sql_array);
-			$result = $db->sql_query_limit($sql, $this->num_contests);
+			$sql = $this->db->sql_build_query('SELECT', $sql_array);
+			$result = $this->db->sql_query_limit($sql, $this->num_contests);
 
-			while ($row = $db->sql_fetchrow($result))
+			while ($row = $this->db->sql_fetchrow($result))
 			{
 				$this->images[] = $row['contest_first'];
 				$this->images[] = $row['contest_second'];
@@ -414,43 +472,37 @@ class block
 					'images'		=> array($row['contest_first'], $row['contest_second'], $row['contest_third'])
 				);
 			}
-			$db->sql_freeresult($result);
+			$this->db->sql_freeresult($result);
 		}
 		$this->images = array_unique($this->images);
 	}
 
-	/**
-	* Query the image-table to get the data.
-	*/
-	private $images_data = array();
 	private function get_image_data()
 	{
 		if (!empty($this->images))
 		{
-			global $db;
-
 			$sql_array = array(
 				'SELECT'		=> 'i.*, a.album_name, a.album_status, a.album_id, a.album_user_id',
-				'FROM'			=> array(GALLERY_IMAGES_TABLE => 'i'),
+				'FROM'			=> array($this->images_table => 'i'),
 
 				'LEFT_JOIN'		=> array(
 					array(
-						'FROM'		=> array(GALLERY_ALBUMS_TABLE => 'a'),
+						'FROM'		=> array($this->albums_table => 'a'),
 						'ON'		=> 'i.image_album_id = a.album_id',
 					),
 				),
 
-				'WHERE'			=> $db->sql_in_set('i.image_id', $this->images, false, true),
+				'WHERE'			=> $this->db->sql_in_set('i.image_id', $this->images, false, true),
 				'ORDER_BY'		=> 'i.image_time DESC',
 			);
-			$sql = $db->sql_build_query('SELECT', $sql_array);
-			$result = $db->sql_query($sql);
+			$sql = $this->db->sql_build_query('SELECT', $sql_array);
+			$result = $this->db->sql_query($sql);
 
-			while ($row = $db->sql_fetchrow($result))
+			while ($row = $this->db->sql_fetchrow($result))
 			{
 				$this->images_data[$row['image_id']] = $row;
 			}
-			$db->sql_freeresult($result);
+			$this->db->sql_freeresult($result);
 		}
 	}
 
@@ -459,39 +511,23 @@ class block
 	*/
 	private function display_images()
 	{
-		global $template, $user;
-
-		if (!empty($this->recent_images))
-		{
-			$num = 0;
-			$template->assign_block_vars($this->template_block_images, array(
-				'U_BLOCK'			=> phpbb_gallery_url::append_sid('search', 'search_id=recent'),
-				'BLOCK_NAME'		=> $user->lang['RECENT_IMAGES'],
-				'S_COL_WIDTH'		=> (100 / $this->num_columns) . '%',
-				'S_COLS'			=> $this->num_columns,
+		if (!empty($this->recent_images)) {
+			$this->template->assign_block_vars($this->template_block_images, array(
+				'U_BLOCK' => $this->controller_helper->route('phpbbgallery_core_search_recent'),
+				'BLOCK_NAME' => $this->user->lang('RECENT_IMAGES'),
 			));
 			foreach ($this->recent_images as $image)
 			{
-				if (($num % $this->num_columns) == 0)
-				{
-					$template->assign_block_vars($this->template_block_images . '.imagerow', array());
-				}
 				phpbb_gallery_image::assign_block($this->template_block_images . '.imagerow.image', $this->images_data[$image], $this->images_data[$image]['album_status'], $this->get_display(), $this->images_data[$image]['album_user_id']);
-				$num++;
-			}
-			while (($num % $this->num_columns) > 0)
-			{
-				$template->assign_block_vars($this->template_block_images . '.imagerow.no_image', array());
-				$num++;
 			}
 		}
 
 		if (!empty($this->random_images))
 		{
 			$num = 0;
-			$template->assign_block_vars($this->template_block_images, array(
+			$this->template->assign_block_vars($this->template_block_images, array(
 				'U_BLOCK'			=> phpbb_gallery_url::append_sid('search', 'search_id=random'),
-				'BLOCK_NAME'		=> $user->lang['RANDOM_IMAGES'],
+				'BLOCK_NAME'		=> $this->user->lang['RANDOM_IMAGES'],
 				'S_COL_WIDTH'		=> (100 / $this->num_columns) . '%',
 				'S_COLS'			=> $this->num_columns,
 			));
@@ -499,14 +535,14 @@ class block
 			{
 				if (($num % $this->num_columns) == 0)
 				{
-					$template->assign_block_vars($this->template_block_images . '.imagerow', array());
+					$this->template->assign_block_vars($this->template_block_images . '.imagerow', array());
 				}
 				phpbb_gallery_image::assign_block($this->template_block_images . '.imagerow.image', $this->images_data[$image], $this->images_data[$image]['album_status'], $this->get_display(), $this->images_data[$image]['album_user_id']);
 				$num++;
 			}
 			while (($num % $this->num_columns) > 0)
 			{
-				$template->assign_block_vars($this->template_block_images . '.imagerow.no_image', array());
+				$this->template->assign_block_vars($this->template_block_images . '.imagerow.no_image', array());
 				$num++;
 			}
 		}
@@ -516,7 +552,7 @@ class block
 			foreach ($this->contest_images as $contest => $contest_data)
 			{
 				$num = 0;
-				$template->assign_block_vars($this->template_block_images, array(
+				$this->template->assign_block_vars($this->template_block_images, array(
 					'U_BLOCK'			=> phpbb_gallery_url::append_sid('album', 'album_id=' . $contest_data['album_id'] . '&amp;sk=ra&amp;sd=d'),
 					'BLOCK_NAME'		=> sprintf($user->lang['CONTEST_WINNERS_OF'], $contest_data['album_name']),
 					'S_CONTEST_BLOCK'	=> true,
@@ -527,7 +563,7 @@ class block
 				{
 					if (($num % phpbb_gallery_contest::NUM_IMAGES) == 0)
 					{
-						$template->assign_block_vars($this->template_block_images . '.imagerow', array());
+						$this->template->assign_block_vars($this->template_block_images . '.imagerow', array());
 					}
 					if (!empty($this->images_data[$image]))
 					{
@@ -537,13 +573,13 @@ class block
 				}
 				while (($num % phpbb_gallery_contest::NUM_IMAGES) > 0)
 				{
-					$template->assign_block_vars($this->template_block_images . '.imagerow.no_image', array());
+					$this->template->assign_block_vars($this->template_block_images . '.imagerow.no_image', array());
 					$num++;
 				}
 			}
 		}
 
-		$template->assign_vars(array(
+		$this->template->assign_vars(array(
 			'S_THUMBNAIL_SIZE'	=> phpbb_gallery_config::get('thumbnail_height') + 20 + ((phpbb_gallery_config::get('thumbnail_infoline')) ? phpbb_gallery_constants::THUMBNAIL_INFO_HEIGHT : 0),
 		));
 	}

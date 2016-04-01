@@ -46,7 +46,7 @@ class config_module
 			break;
 		}
 		// Init gallery block class
-		$phpbb_ext_gallery_core_constants = new \phpbbgallery\core\block();
+		$phpbb_ext_gallery_core_constants = $phpbb_container->get('phpbbgallery.core.block');
 		// Init gallery configs class
 		$phpbb_gallery_configs = new \phpbbgallery\core\config($config);
 		$this->new_config = $phpbb_gallery_configs->get_all();
@@ -498,9 +498,9 @@ class config_module
 	*/
 	function rrc_modes($value, $key)
 	{
-		global $user;
+		global $user, $phpbb_container;
 
-		$phpbb_ext_gallery_core_block = new \phpbbgallery\core\block();
+		$phpbb_ext_gallery_core_block = $phpbb_container->get('phpbbgallery.core.block');
 
 		$rrc_mode_options = '';
 
@@ -521,9 +521,9 @@ class config_module
 	*/
 	function rrc_display($value, $key)
 	{
-		global $user;
+		global $user, $phpbb_container;
 		// Init gallery block class
-		$phpbb_ext_gallery_core_block = new \phpbbgallery\core\block();
+		$phpbb_ext_gallery_core_block = $phpbb_container->get('phpbbgallery.core.block');
 
 		$rrc_display_options = '';
 

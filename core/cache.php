@@ -16,8 +16,15 @@ class cache
 	private $phpbb_cache;
 	private $phpbb_db;
 
+	/**
+	 * cache constructor.
+	 * @param \phpbb\cache\service $cache
+	 * @param \phpbb\db\driver\driver_interface $db
+	 * @param $albums_table
+	 * @param $images_table
+     */
 	public function __construct(\phpbb\cache\service $cache, \phpbb\db\driver\driver_interface $db,
-	$albums_table, $images_table)
+								$albums_table, $images_table)
 	{
 		$this->phpbb_cache = $cache;
 		$this->phpbb_db = $db;
@@ -40,7 +47,6 @@ class cache
 	{
 		static $albums;
 
-		global $table_prefix;
 		if (isset($albums))
 		{
 			return $albums;
@@ -49,7 +55,7 @@ class cache
 		if (($albums = $this->phpbb_cache->get('_albums')) === false)
 		{
 			$sql = 'SELECT a.album_id, a.parent_id, a.album_name, a.album_type, a.left_id, a.right_id, a.album_user_id, a.display_in_rrc, a.album_auth_access
-				FROM ' . $table_prefix. 'gallery_albums a
+				FROM ' . $this->table_albums. ' a
 				LEFT JOIN ' . USERS_TABLE . ' u
 					ON (u.user_id = a.album_user_id)
 				ORDER BY u.username_clean, a.album_user_id, a.left_id ASC';
@@ -78,10 +84,11 @@ class cache
 	}
 
 	/**
-	* Get images cache - get some images and put them in cache
-	* @param	(array)	$image_ids_array	Array of images to be put in cache
-	* return 	(array)	$images				Array of the information we have for that images
-	*/
+	 * Get images cache - get some images and put them in cache
+	 * @param    (array)    $image_ids_array    Array of images to be put in cache
+	 * return    (array)    $images                Array of the information we have for that images
+	 * @return array
+	 */
 	public function get_images($image_ids_array)
 	{
 		static $images;

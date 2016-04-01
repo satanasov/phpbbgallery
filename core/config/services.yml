@@ -89,6 +89,7 @@ services:
         arguments:
             - @dbal.conn
             - @user
+            - @template
             - @phpbbgallery.core.auth
             - @phpbbgallery.core.album
             - @phpbbgallery.core.config
@@ -200,7 +201,19 @@ services:
             - @phpbbgallery.core.auth
             - @phpbbgallery.core.config
             - %tables.phpbbgallery.log%
-
+    phpbbgallery.core.block:
+        class: phpbbgallery\core\block
+        arguments:
+            - @user
+            - @dbal.conn
+            - @template
+            - @controller.helper
+            - @phpbbgallery.core.auth
+            - @phpbbgallery.core.config
+            - @phpbbgallery.core.image
+            - %tables.phpbbgallery.images%
+            - %tables.phpbbgallery.albums%
+            - %tables.phpbbgallery.contests%
 #######################
 #### Define event #####
 #######################
