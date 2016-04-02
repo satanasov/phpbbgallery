@@ -784,16 +784,19 @@
 		<column>username</column>
 		<column>username_clean</column>
 		<column>user_permissions</column>
+		<column>user_sig</column>
 		<row>
 			<value>2</value>
 			<value>admin</value>
 			<value>admin</value>
+			<value>someval</value>
 			<value>someval</value>
 		</row>
 		<row>
 			<value>52</value>
 			<value>testuser1</value>
 			<value>testuser1</value>
+			<value>someval</value>
 			<value>someval</value>
 		</row>
 	</table>
