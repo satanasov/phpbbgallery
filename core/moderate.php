@@ -293,7 +293,6 @@ class moderate
 			'U_ACTION_SELECT' => $select,
 		));
 	}
-	
 	public function delete_images($images, $files = array())
 	{
 		$image_rating = new \phpbbgallery\core\rating(0);

@@ -17,12 +17,12 @@ class cache
 	private $phpbb_db;
 
 	/**
-	 * cache constructor.
-	 * @param \phpbb\cache\service $cache
-	 * @param \phpbb\db\driver\driver_interface $db
-	 * @param $albums_table
-	 * @param $images_table
-     */
+	* cache constructor.
+	* @param \phpbb\cache\service $cache
+	* @param \phpbb\db\driver\driver_interface $db
+	* @param $albums_table
+	* @param $images_table
+	*/
 	public function __construct(\phpbb\cache\service $cache, \phpbb\db\driver\driver_interface $db,
 								$albums_table, $images_table)
 	{

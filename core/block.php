@@ -390,8 +390,8 @@ class block
 	}
 
 	/**
-	 *
-     */
+	*
+	*/
 	private function get_image_ids()
 	{
 		$this->images = $this->recent_images = $this->random_images = $this->contest_images = array();
@@ -511,7 +511,8 @@ class block
 	*/
 	private function display_images()
 	{
-		if (!empty($this->recent_images)) {
+		if (!empty($this->recent_images))
+		{
 			$this->template->assign_block_vars($this->template_block_images, array(
 				'U_BLOCK' => $this->controller_helper->route('phpbbgallery_core_search_recent'),
 				'BLOCK_NAME' => $this->user->lang('RECENT_IMAGES'),
