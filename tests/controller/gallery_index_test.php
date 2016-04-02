@@ -526,7 +526,7 @@ class gallery_index_test extends controller_base
 	*/
 	public function test_controller_base_case_4()
 	{
-		$this->template->expects($this->exactly(5))
+		$this->template->expects($this->exactly(4))
 			->method('assign_block_vars')
 			->withConsecutive(
 				array('albumrow', array(
@@ -566,36 +566,6 @@ class gallery_index_test extends controller_base
 				array('imageblock', array(
 					'BLOCK_NAME' => null,
 					'U_BLOCK' => 'phpbbgallery_core_search_recent'
-				)),
-				array('imageblock.image', array(
-					'IMAGE_ID' => 6,
-					'U_IMAGE' => 'phpbbgallery_core_image',
-					'UC_IMAGE_NAME' => 'TestImage6',
-					'U_ALBUM' => 'phpbbgallery_core_album',
-					'ALBUM_NAME' => 'TestPublicAlbumSubAlbum1',
-					'IMAGE_VIEWS' => -1,
-					'UC_THUMBNAIL' => 'phpbbgallery_core_image_file_mini',
-					'UC_THUMBNAIL_ACTION' => 'phpbbgallery_core_image',
-					'S_UNAPPROVED' => false,
-					'S_LOCKED' => false,
-					'S_REPORTED' => false,
-					'POSTER' => '<span class="username">testuser</span>',
-					'TIME' => null,
-					'S_RATINGS' => false,
-					'U_RATINGS' => 'phpbbgallery_core_image#rating',
-					'L_COMMENTS' => null,
-					'S_COMMENTS' => false,
-					'U_COMMENTS' => 'phpbbgallery_core_image#comments',
-					'U_USER_IP' => false,
-					'S_IMAGE_REPORTED' => 0,
-					'U_IMAGE_REPORTED' => '',
-					'S_STATUS_APPROVED' => true,
-					'S_STATUS_UNAPPROVED' => false,
-					'S_STATUS_UNAPPROVED_ACTION' => '',
-					'S_STATUS_LOCKED' => false,
-					'U_REPORT' => '',
-					'U_STATUS' => '',
-					'L_STATUS' => null,
 				)),
 				array('navlinks', array(
 					'FORUM_NAME' => 'GALLERY',

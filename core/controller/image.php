@@ -85,7 +85,7 @@ class image
 	\phpbb\template\template $template, \phpbb\user $user, \phpbbgallery\core\album\display $display, \phpbbgallery\core\album\loader $loader, \phpbbgallery\core\album\album $album,
 	\phpbbgallery\core\image\image $image, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\config $gallery_config,
 	\phpbbgallery\core\auth\level $auth_level, \phpbbgallery\core\url $url, \phpbbgallery\core\misc $misc, \phpbbgallery\core\comment $comment, \phpbbgallery\core\report $report,
-	\phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\log $gallery_log,
+	\phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\log $gallery_log, \phpbbgallery\core\moderate $moderate,
 	$albums_table, $images_table, $users_table, $table_comments, $phpbb_root_path, $php_ext)
 	{
 		$this->request = $request;
@@ -111,6 +111,7 @@ class image
 		$this->report = $report;
 		$this->notification_helper = $notification_helper;
 		$this->gallery_log = $gallery_log;
+		$this->moderate = $moderate;
 		$this->table_albums = $albums_table;
 		$this->table_images = $images_table;
 		$this->table_users = $users_table;
@@ -735,7 +736,7 @@ class image
 			$errors = array();
 			if (empty($sql_ary['image_name_clean']))
 			{
-				$errors[] = $user->lang['MISSING_IMAGE_NAME'];
+				$errors[] = $this->user->lang['MISSING_IMAGE_NAME'];
 			}
 
 			if (!$this->gallery_config->get('allow_comments') || !$this->gallery_config->get('comment_user_control'))
@@ -763,7 +764,7 @@ class image
 				}
 				else if ($this->request->variable('change_author', '', true))
 				{
-					$errors[] = $user->lang['INVALID_USERNAME'];
+					$errors[] = $this->user->lang['INVALID_USERNAME'];
 				}
 			}
 
@@ -771,7 +772,7 @@ class image
 			if ($move_to_personal)
 			{
 				$personal_album_id = 0;
-				if ($user->data['user_id'] != $image_data['image_user_id'])
+				if ($this->user->data['user_id'] != $image_data['image_user_id'])
 				{
 					$image_user = new \phpbbgallery\core\user($db, $image_data['image_user_id']);
 					$personal_album_id = $image_user->get_data('personal_album_id');
@@ -921,7 +922,7 @@ class image
 		if (confirm_box(true))
 		{
 			$this->image->handle_counter($image_id, false);
-			$this->image->delete_images(array($image_id), array($image_id => $image_data['image_filename']));
+			$this->moderate->delete_images(array($image_id), array($image_id => $image_data['image_filename']));
 			$this->album->update_info($album_id);
 
 			$message = $this->user->lang['DELETED_IMAGE'] . '<br />';

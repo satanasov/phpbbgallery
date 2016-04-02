@@ -59,12 +59,67 @@ class core_search_test extends core_base
 			'phpbb_gallery_watch',
 			'phpbb_gallery_contests'
 		);
-		
-		$this->gallery_image = $this->getMockBuilder('\phpbbgallery\core\image\image')
+
+		$this->url = new \phpbbgallery\core\url(
+			$this->template,
+			$this->request,
+			$this->config,
+			'/',
+			'php'
+		);
+		$this->log = new \phpbbgallery\core\log(
+			$this->db,
+			$this->user,
+			$this->user_loader,
+			$this->template,
+			$this->controller_helper,
+			$this->pagination,
+			$this->gallery_auth,
+			$this->gallery_config,
+			'phpbb_gallery_log'
+		);
+		$this->notification_helper = $this->getMockBuilder('\phpbbgallery\core\notification\helper')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->gallery_image->method('get_status_orphan')
-			->willReturn(3);
+
+		$this->report = new \phpbbgallery\core\report(
+			$this->log,
+			$this->gallery_auth,
+			$this->user,
+			$this->db,
+			$this->user_loader,
+			$this->gallery_album,
+			$this->template,
+			$this->controller_helper,
+			$this->gallery_config,
+			$this->pagination,
+			$this->notification_helper,
+			'phpbb_gallery_images',
+			'phpbb_gallery_reports'
+		);
+
+		$this->file = $this->getMockBuilder('\phpbbgallery\core\file\file')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->gallery_image = new \phpbbgallery\core\image\image(
+			$this->db,
+			$this->user,
+			$this->template,
+			$this->dispatcher,
+			$this->gallery_auth,
+			$this->gallery_album,
+			$this->gallery_config,
+			$this->controller_helper,
+			$this->url,
+			$this->log,
+			$this->notification_helper,
+			$this->report,
+			$this->gallery_cache,
+			$this->gallery_user,
+			$this->file,
+			'phpbb_gallery_image'
+		);
 
 		// Let's build Search
 		$this->gallery_search = new \phpbbgallery\core\search(
@@ -966,7 +1021,7 @@ class core_search_test extends core_base
 					'TIME'	=> null,
 					'TEXT'	=> 'This is test comment 6!!!!!',
 					'UC_IMAGE_NAME'	=> '<a href="phpbbgallery_core_image">TestImage6</a>',
-					'UC_THUMBNAIL'	=> null,
+					'UC_THUMBNAIL'	=> '<a href="phpbbgallery_core_image" title="TestImage6"><img src="http://gallery/image/6/mini" alt="TestImage6" title="TestImage6" /></a>',
 					'IMAGE_AUTHOR'	=> 52,
 					'IMAGE_TIME'	=> null,
 				)),
@@ -980,7 +1035,7 @@ class core_search_test extends core_base
 					'TIME'	=> null,
 					'TEXT'	=> 'This is test comment 5!!!!!',
 					'UC_IMAGE_NAME'	=> '<a href="phpbbgallery_core_image">TestImage5</a>',
-					'UC_THUMBNAIL'	=> null,
+					'UC_THUMBNAIL'	=> '<a href="phpbbgallery_core_image" title="TestImage5"><img src="http://gallery/image/5/mini" alt="TestImage5" title="TestImage5" /></a>',
 					'IMAGE_AUTHOR'	=> 53,
 					'IMAGE_TIME'	=> null,
 				)),
@@ -994,7 +1049,7 @@ class core_search_test extends core_base
 					'TIME'	=> null,
 					'TEXT'	=> 'This is test comment 4!!!!!',
 					'UC_IMAGE_NAME'	=> '<a href="phpbbgallery_core_image">TestImage4</a>',
-					'UC_THUMBNAIL'	=> null,
+					'UC_THUMBNAIL'	=> '<a href="phpbbgallery_core_image" title="TestImage4"><img src="http://gallery/image/4/mini" alt="TestImage4" title="TestImage4" /></a>',
 					'IMAGE_AUTHOR'	=> 2,
 					'IMAGE_TIME'	=> null,
 				)),
@@ -1008,7 +1063,7 @@ class core_search_test extends core_base
 					'TIME'	=> null,
 					'TEXT'	=> 'This is test comment 3!!!!!',
 					'UC_IMAGE_NAME'	=> '<a href="phpbbgallery_core_image">TestImage3</a>',
-					'UC_THUMBNAIL'	=> null,
+					'UC_THUMBNAIL'	=> '<a href="phpbbgallery_core_image" title="TestImage3"><img src="http://gallery/image/3/mini" alt="TestImage3" title="TestImage3" /></a>',
 					'IMAGE_AUTHOR'	=> 52,
 					'IMAGE_TIME'	=> null,
 				)),
@@ -1022,7 +1077,7 @@ class core_search_test extends core_base
 					'TIME'	=> null,
 					'TEXT'	=> 'This is test comment 2!!!!!',
 					'UC_IMAGE_NAME'	=> '<a href="phpbbgallery_core_image">TestImage2</a>',
-					'UC_THUMBNAIL'	=> null,
+					'UC_THUMBNAIL'	=> '<a href="phpbbgallery_core_image" title="TestImage2"><img src="http://gallery/image/2/mini" alt="TestImage2" title="TestImage2" /></a>',
 					'IMAGE_AUTHOR'	=> 2,
 					'IMAGE_TIME'	=> null,
 				)),
@@ -1036,7 +1091,7 @@ class core_search_test extends core_base
 					'TIME'	=> null,
 					'TEXT'	=> 'This is test comment 1!!!!!',
 					'UC_IMAGE_NAME'	=> '<a href="phpbbgallery_core_image">TestImage1</a>',
-					'UC_THUMBNAIL'	=> null,
+					'UC_THUMBNAIL'	=> '<a href="phpbbgallery_core_image" title="TestImage1"><img src="http://gallery/image/1/mini" alt="TestImage1" title="TestImage1" /></a>',
 					'IMAGE_AUTHOR'	=> 2,
 					'IMAGE_TIME'	=> null,
 				))
@@ -1065,7 +1120,7 @@ class core_search_test extends core_base
 					'TIME'	=> null,
 					'TEXT'	=> 'This is test comment 6!!!!!',
 					'UC_IMAGE_NAME'	=> '<a href="phpbbgallery_core_image">TestImage6</a>',
-					'UC_THUMBNAIL'	=> null,
+					'UC_THUMBNAIL'	=> '<a href="phpbbgallery_core_image" title="TestImage6"><img src="http://gallery/image/6/mini" alt="TestImage6" title="TestImage6" /></a>',
 					'IMAGE_AUTHOR'	=> 52,
 					'IMAGE_TIME'	=> null,
 				)),
@@ -1079,7 +1134,7 @@ class core_search_test extends core_base
 					'TIME'	=> null,
 					'TEXT'	=> 'This is test comment 5!!!!!',
 					'UC_IMAGE_NAME'	=> '<a href="phpbbgallery_core_image">TestImage5</a>',
-					'UC_THUMBNAIL'	=> null,
+					'UC_THUMBNAIL'	=> '<a href="phpbbgallery_core_image" title="TestImage5"><img src="http://gallery/image/5/mini" alt="TestImage5" title="TestImage5" /></a>',
 					'IMAGE_AUTHOR'	=> 53,
 					'IMAGE_TIME'	=> null,
 				))
@@ -1108,7 +1163,7 @@ class core_search_test extends core_base
 					'TIME'	=> null,
 					'TEXT'	=> 'This is test comment 3!!!!!',
 					'UC_IMAGE_NAME'	=> '<a href="phpbbgallery_core_image">TestImage3</a>',
-					'UC_THUMBNAIL'	=> null,
+					'UC_THUMBNAIL'	=> '<a href="phpbbgallery_core_image" title="TestImage3"><img src="http://gallery/image/3/mini" alt="TestImage3" title="TestImage3" /></a>',
 					'IMAGE_AUTHOR'	=> 52,
 					'IMAGE_TIME'	=> null,
 				)),
@@ -1122,7 +1177,7 @@ class core_search_test extends core_base
 					'TIME'	=> null,
 					'TEXT'	=> 'This is test comment 2!!!!!',
 					'UC_IMAGE_NAME'	=> '<a href="phpbbgallery_core_image">TestImage2</a>',
-					'UC_THUMBNAIL'	=> null,
+					'UC_THUMBNAIL'	=> '<a href="phpbbgallery_core_image" title="TestImage2"><img src="http://gallery/image/2/mini" alt="TestImage2" title="TestImage2" /></a>',
 					'IMAGE_AUTHOR'	=> 2,
 					'IMAGE_TIME'	=> null,
 				))
@@ -1164,7 +1219,7 @@ class core_search_test extends core_base
 					'TIME'	=> null,
 					'TEXT'	=> 'This is test comment 3!!!!!',
 					'UC_IMAGE_NAME'	=> '<a href="phpbbgallery_core_image">TestImage3</a>',
-					'UC_THUMBNAIL'	=> null,
+					'UC_THUMBNAIL'	=> '<a href="phpbbgallery_core_image" title="TestImage3"><img src="http://gallery/image/3/mini" alt="TestImage3" title="TestImage3" /></a>',
 					'IMAGE_AUTHOR'	=> 52,
 					'IMAGE_TIME'	=> null,
 				)),
@@ -1178,7 +1233,7 @@ class core_search_test extends core_base
 					'TIME'	=> null,
 					'TEXT'	=> 'This is test comment 2!!!!!',
 					'UC_IMAGE_NAME'	=> '<a href="phpbbgallery_core_image">TestImage2</a>',
-					'UC_THUMBNAIL'	=> null,
+					'UC_THUMBNAIL'	=> '<a href="phpbbgallery_core_image" title="TestImage2"><img src="http://gallery/image/2/mini" alt="TestImage2" title="TestImage2" /></a>',
 					'IMAGE_AUTHOR'	=> 2,
 					'IMAGE_TIME'	=> null,
 				)),
@@ -1192,7 +1247,7 @@ class core_search_test extends core_base
 					'TIME'	=> null,
 					'TEXT'	=> 'This is test comment 1!!!!!',
 					'UC_IMAGE_NAME'	=> '<a href="phpbbgallery_core_image">TestImage1</a>',
-					'UC_THUMBNAIL'	=> null,
+					'UC_THUMBNAIL'	=> '<a href="phpbbgallery_core_image" title="TestImage1"><img src="http://gallery/image/1/mini" alt="TestImage1" title="TestImage1" /></a>',
 					'IMAGE_AUTHOR'	=> 2,
 					'IMAGE_TIME'	=> null,
 				))
@@ -1221,7 +1276,7 @@ class core_search_test extends core_base
 					'TIME'	=> null,
 					'TEXT'	=> 'This is test comment 3!!!!!',
 					'UC_IMAGE_NAME'	=> '<a href="phpbbgallery_core_image">TestImage3</a>',
-					'UC_THUMBNAIL'	=> null,
+					'UC_THUMBNAIL'	=> '<a href="phpbbgallery_core_image" title="TestImage3"><img src="http://gallery/image/3/mini" alt="TestImage3" title="TestImage3" /></a>',
 					'IMAGE_AUTHOR'	=> 52,
 					'IMAGE_TIME'	=> null,
 				))
@@ -1250,7 +1305,7 @@ class core_search_test extends core_base
 					'TIME'	=> null,
 					'TEXT'	=> 'This is test comment 2!!!!!',
 					'UC_IMAGE_NAME'	=> '<a href="phpbbgallery_core_image">TestImage2</a>',
-					'UC_THUMBNAIL'	=> null,
+					'UC_THUMBNAIL'	=> '<a href="phpbbgallery_core_image" title="TestImage2"><img src="http://gallery/image/2/mini" alt="TestImage2" title="TestImage2" /></a>',
 					'IMAGE_AUTHOR'	=> 2,
 					'IMAGE_TIME'	=> null,
 				)),
@@ -1264,7 +1319,7 @@ class core_search_test extends core_base
 					'TIME'	=> null,
 					'TEXT'	=> 'This is test comment 1!!!!!',
 					'UC_IMAGE_NAME'	=> '<a href="phpbbgallery_core_image">TestImage1</a>',
-					'UC_THUMBNAIL'	=> null,
+					'UC_THUMBNAIL'	=> '<a href="phpbbgallery_core_image" title="TestImage1"><img src="http://gallery/image/1/mini" alt="TestImage1" title="TestImage1" /></a>',
 					'IMAGE_AUTHOR'	=> 2,
 					'IMAGE_TIME'	=> null,
 				))

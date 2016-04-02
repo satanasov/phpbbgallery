@@ -13,7 +13,9 @@ namespace phpbbgallery\core;
 class moderate
 {
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\controller\helper $helper, \phpbb\user $user,
-	\phpbb\user_loader $user_loader, \phpbbgallery\core\album\album $album, \phpbbgallery\core\auth\auth $gallery_auth, \phpbb\pagination $pagination, \phpbbgallery\core\config $gallery_config,
+	\phpbb\user_loader $user_loader, \phpbbgallery\core\album\album $album, \phpbbgallery\core\auth\auth $gallery_auth, \phpbb\pagination $pagination,
+	\phpbbgallery\core\comment $comment, \phpbbgallery\core\report $report,
+	\phpbbgallery\core\image\image $image, \phpbbgallery\core\config $gallery_config,
 	$images_table)
 	{
 		$this->db = $db;
@@ -24,6 +26,9 @@ class moderate
 		$this->album = $album;
 		$this->gallery_auth = $gallery_auth;
 		$this->pagination = $pagination;
+		$this->comment = $comment;
+		$this->report = $report;
+		$this->image = $image;
 		$this->gallery_config = $gallery_config;
 		$this->images_table = $images_table;
 	}
@@ -287,5 +292,17 @@ class moderate
 			'S_GALLERY_MODERATE_OVERVIEW_ACTION'	=> $this->helper->route('phpbbgallery_core_moderate_view', array('album_id' => $album_id)),
 			'U_ACTION_SELECT' => $select,
 		));
+	}
+	
+	public function delete_images($images, $files = array())
+	{
+		$image_rating = new \phpbbgallery\core\rating(0);
+		$notification = new \phpbbgallery\core\notification();
+		// We are going to do some cleanup
+		$image_rating->delete_ratings($images);
+		$this->comment->delete_images($images);
+		$notification->delete_images($images);
+		$this->report->delete_images($images);
+		$this->image->delete_images($images, $files);
 	}
 }

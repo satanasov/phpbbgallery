@@ -13,7 +13,7 @@ namespace phpbbgallery\acpcleanup;
 class cleanup
 {
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbbgallery\core\file\file $tool, \phpbbgallery\core\image\image $image, \phpbbgallery\core\comment $comment,
-	\phpbbgallery\core\config $gallery_config, \phpbbgallery\core\log $log,
+	\phpbbgallery\core\config $gallery_config, \phpbbgallery\core\log $log, \phpbbgallery\core\moderate $moderate,
 	$albums_table, $images_table)
 	{
 		$this->db = $db;
@@ -22,6 +22,7 @@ class cleanup
 		$this->comment = $comment;
 		$this->gallery_config = $gallery_config;
 		$this->log = $log;
+		$this->moderate = $moderate;
 		$this->albums_table = $albums_table;
 		$this->images_table = $images_table;
 	}
@@ -51,7 +52,7 @@ class cleanup
 	public function delete_images($image_ids)
 	{
 		$this->log->add_log('admin', 'clean_deleteentries', 0, 0, array('LOG_CLEANUP_DELETE_ENTRIES', count($image_ids)));
-		$this->image->delete_images($image_ids, false, true, true);
+		$this->moderate->delete_images($image_ids, false, true, true);
 
 		return 'CLEAN_SOURCES_DONE';
 	}
@@ -65,7 +66,7 @@ class cleanup
 	public function delete_author_images($image_ids)
 	{
 		$this->log->add_log('admin', 'clean_deletenoauthors', 0, 0, array('LOG_CLEANUP_DELETE_NO_AUTHOR', count($image_ids)));
-		$this->image->delete_images($image_ids);
+		$this->moderate->delete_images($image_ids);
 
 		return 'CLEAN_AUTHORS_DONE';
 	}
@@ -143,7 +144,7 @@ class cleanup
 
 		if (!empty($delete_images))
 		{
-			$this->image->delete_images($delete_images, $filenames);
+			$this->moderate->delete_images($delete_images, $filenames);
 		}
 
 		$sql = 'DELETE FROM ' . $this->albums_table . '
@@ -261,7 +262,7 @@ class cleanup
 
 		if ($image_ids)
 		{
-			$this->image->delete_images($image_ids, $filenames);
+			$this->moderate->delete_images($image_ids, $filenames);
 		}
 
 		return 'CLEAN_PRUNE_DONE';

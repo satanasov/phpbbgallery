@@ -90,6 +90,7 @@ services:
             - @dbal.conn
             - @user
             - @template
+            - @dispatcher
             - @phpbbgallery.core.auth
             - @phpbbgallery.core.album
             - @phpbbgallery.core.config
@@ -155,6 +156,9 @@ services:
             - @phpbbgallery.core.album
             - @phpbbgallery.core.auth
             - @pagination
+            - @phpbbgallery.core.comment
+            - @phpbbgallery.core.report
+            - @phpbbgallery.core.image
             - @phpbbgallery.core.config
             - %tables.phpbbgallery.images%
     phpbbgallery.core.search:
@@ -316,6 +320,7 @@ services:
             - @phpbbgallery.core.report
             - @phpbbgallery.core.notification.helper
             - @phpbbgallery.core.log
+            - @phpbbgallery.core.moderate
             - %tables.phpbbgallery.albums%
             - %tables.phpbbgallery.images%
             - %tables.phpbbgallery.users%

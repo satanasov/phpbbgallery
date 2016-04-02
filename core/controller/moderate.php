@@ -200,7 +200,7 @@ class moderate
 						{
 							$this->gallery_log->add_log('moderator', 'disapprove', $album_id, 0, array('LOG_GALLERY_DISAPPROVED', $name));
 						}
-						$this->image->delete_images($delete_array);
+						$this->moderate->delete_images($delete_array);
 						$count = $count + count($delete_array);
 					}
 					$message = $this->user->lang('WAITING_DISPPROVED_IMAGE', $count);
@@ -394,7 +394,7 @@ class moderate
 						trigger_error($message);
 					break;
 					case 'delete':
-						$this->image->delete_images($actions_array);
+						$this->moderate->delete_images($actions_array);
 						$this->album->update_info($album_id);
 
 						$message = $this->user->lang('DELETED_IMAGES', count($actions_array));

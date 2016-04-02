@@ -42,7 +42,7 @@ class core_base extends \phpbb_database_test_case
 	*/
 	public function setUp()
 	{
-		global $config, $phpbb_dispatcher, $user, $cache;
+		global $config, $phpbb_dispatcher, $user, $cache, $request;
 
 		
 	
@@ -108,7 +108,7 @@ class core_base extends \phpbb_database_test_case
 		$this->user_loader->method('get_username')
 			->will($this->returnArgument(0));
 		
-		$this->request = $this->getMock('\phpbb\request\request');
+		$request = $this->request = $this->getMock('\phpbb\request\request');
 	}
 
 	protected function tearDown()

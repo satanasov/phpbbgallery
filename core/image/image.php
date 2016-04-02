@@ -47,6 +47,7 @@ class image
 	 * @param \phpbb\db\driver\driver_interface $db
 	 * @param \phpbb\user $user
 	 * @param \phpbb\template\template $template
+	 * @param \phpbb\event\dispatcher_interface $phpbb_dispatcher
 	 * @param \phpbbgallery\core\auth\auth $gallery_auth
 	 * @param \phpbbgallery\core\album\album $album
 	 * @param \phpbbgallery\core\config $gallery_config
@@ -60,7 +61,7 @@ class image
 	 * @param \phpbbgallery\core\file\file $file
 	 * @param $table_images
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\template\template $template, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\album\album $album,
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\template\template $template, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\album\album $album,
 								\phpbbgallery\core\config $gallery_config, \phpbb\controller\helper $helper, \phpbbgallery\core\url $url, \phpbbgallery\core\log $gallery_log,
 								\phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\report $report, \phpbbgallery\core\cache $gallery_cache,
 								\phpbbgallery\core\user $gallery_user, \phpbbgallery\core\file\file $file,
@@ -69,6 +70,7 @@ class image
 		$this->db = $db;
 		$this->user = $user;
 		$this->template = $template;
+		$this->phpbb_dispatcher = $phpbb_dispatcher;
 		$this->gallery_auth = $gallery_auth;
 		$this->album = $album;
 		$this->gallery_config = $gallery_config;
@@ -147,19 +149,17 @@ class image
 	}
 
 	/**
-	* Delete an image completly.
-	*
-	* @param	array		$images		Array with the image_id(s)
-	* @param	array		$filenames	Array with filenames for the image_ids. If a filename is missing it's queried from the database.
-	*									Format: $image_id => $filename
-	* @param	bool		$skip_files	If set to true, we won't try to delete the source files.
-	*/
+	 * Delete an image completly.
+	 *
+	 * @param    array $images Array with the image_id(s)
+	 * @param    array $filenames Array with filenames for the image_ids. If a filename is missing it's queried from the database.
+	 *                                    Format: $image_id => $filename
+	 * @param bool $resync_albums
+	 * @param    bool $skip_files If set to true, we won't try to delete the source files.
+	 * @return bool
+	 */
 	public function delete_images($images, $filenames = array(), $resync_albums = true, $skip_files = false)
 	{
-		global $phpbb_container, $phpbb_dispatcher;
-		$phpbb_gallery_image_rating = new \phpbbgallery\core\rating($images);
-		$phpbb_gallery_comment = $phpbb_container->get('phpbbgallery.core.comment');
-		$phpbb_gallery_notification = new \phpbbgallery\core\notification();
 		$phpbb_gallery_contest = new \phpbbgallery\core\contest();
 		if (empty($images))
 		{
@@ -182,10 +182,10 @@ class image
 		}
 
 		// Delete the ratings...
-		$phpbb_gallery_image_rating->delete_ratings($images);
-		$phpbb_gallery_comment->delete_images($images);
-		$phpbb_gallery_notification->delete_images($images);
-		$this->gallery_report->delete_images($images);
+		//$phpbb_gallery_image_rating->delete_ratings($images);
+		//$phpbb_gallery_comment->delete_images($images);
+		//$phpbb_gallery_notification->delete_images($images);
+		//$this->gallery_report->delete_images($images);
 
 		/**
 		* Event delete images
@@ -196,7 +196,7 @@ class image
 		* @since 1.2.0
 		*/
 		$vars = array('images', 'filenames');
-		extract($phpbb_dispatcher->trigger_event('phpbbgallery.core.image.delete_images', compact($vars)));
+		extract($this->phpbb_dispatcher->trigger_event('phpbbgallery.core.image.delete_images', compact($vars)));
 
 		$sql = 'SELECT image_album_id, image_contest_rank
 			FROM ' . $this->table_images . '
@@ -261,17 +261,19 @@ class image
 	}
 
 	/**
-	* Generate link to image
-	*
-	* @param	string	$content	what's in the link: image_name, thumbnail, fake_thumbnail, medium or lastimage_icon
-	* @param	string	$mode		where does the link leed to: highslide, lytebox, lytebox_slide_show, image_page, image, none
-	* @param	int		$image_id
-	* @param	string	$image_name
-	* @param	int		$album_id
-	* @param	bool	$is_gif		we need to know whether we display a gif, so we can use a better medium-image
-	* @param	bool	$count		shall the image-link be counted as view? (Set to false from image_page.php to deny double increment)
-	* @param	string	$additional_parameters		additional parameters for the url, (starting with &amp;)
-	*/
+	 * Generate link to image
+	 *
+	 * @param    string $content what's in the link: image_name, thumbnail, fake_thumbnail, medium or lastimage_icon
+	 * @param    string $mode where does the link leed to: highslide, lytebox, lytebox_slide_show, image_page, image, none
+	 * @param    int $image_id
+	 * @param    string $image_name
+	 * @param    int $album_id
+	 * @param    bool $is_gif we need to know whether we display a gif, so we can use a better medium-image
+	 * @param    bool $count shall the image-link be counted as view? (Set to false from image_page.php to deny double increment)
+	 * @param    string $additional_parameters additional parameters for the url, (starting with &amp;)
+	 * @param int $next_image
+	 * @return
+	 */
 	public function generate_link($content, $mode, $image_id, $image_name, $album_id, $is_gif = false, $count = true, $additional_parameters = '', $next_image = 0)
 	{
 		$image_page_url = $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_id));
@@ -347,7 +349,6 @@ class image
 			break;
 			default:
 				$url = $image_url;
-				global $phpbb_dispatcher;
 
 				$tpl = '{CONTENT}';
 
@@ -360,7 +361,7 @@ class image
 				* @since 1.2.0
 				*/
 				$vars = array('mode', 'tpl');
-				extract($phpbb_dispatcher->trigger_event('phpbbgallery.core.image.generate_link', compact($vars)));//@todo: Correctly identify the event
+				extract($this->phpbb_dispatcher->trigger_event('phpbbgallery.core.image.generate_link', compact($vars)));//@todo: Correctly identify the event
 			break;
 		}
 
@@ -451,7 +452,6 @@ class image
 	*/
 	public function approve_images($image_id_ary, $album_id)
 	{
-		$image_names = array();
 		$sql = 'SELECT image_id, image_name, image_user_id
 			FROM ' . $this->table_images . ' 
 			WHERE image_status = 0
@@ -510,11 +510,14 @@ class image
 		}
 		$this->db->sql_freeresult($result);
 	}
+
 	/**
-	* Move image
-	* @oaram (int)	$image_id	The image that we want to move_uploaded_file
-	* @param (int)	$album_id	The album we want to move image to
-	*/
+	 * Move image
+	 * @oaram (int)    $image_id    The image that we want to move_uploaded_file
+	 * @param $image_id_ary
+	 * @param $album_id
+	 * @internal param $ (int)    $album_id    The album we want to move image to
+	 */
 	public function move_image($image_id_ary, $album_id)
 	{
 		$target_data = $this->album->get_info($album_id);
@@ -523,7 +526,7 @@ class image
 		$image_cache = $this->gallery_cache->get_images($image_id_ary);
 		//TO DO - Contests
 		$sql = 'UPDATE ' . $this->table_images . '
-			SET image_album_id = ' . $album_id . '
+			SET image_album_id = ' . (int) $album_id . '
 			WHERE ' . $this->db->sql_in_set('image_id', $image_id_ary);
 		$this->db->sql_query($sql);
 
