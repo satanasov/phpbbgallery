@@ -42,7 +42,7 @@ class core_base extends \phpbb_database_test_case
 	*/
 	public function setUp()
 	{
-		global $config, $phpbb_dispatcher, $user, $cache, $request;
+		global $config, $phpbb_dispatcher, $user, $cache, $request, $db;
 
 		
 	
@@ -62,7 +62,7 @@ class core_base extends \phpbb_database_test_case
 	
 		parent::setUp();
 		
-		$this->db = $this->new_dbal();
+		$db = $this->db = $this->new_dbal();
 
 		$config = $this->config = new \phpbb\config\config(array());
 		$phpbb_dispatcher = $this->dispatcher = new \phpbb_mock_event_dispatcher();

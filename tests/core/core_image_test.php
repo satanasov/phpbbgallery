@@ -61,7 +61,7 @@ class core_image_test extends core_base
 			$this->template,
 			$this->request,
 			$this->config,
-			'/',
+			'phpBB/',
 			'php'
 		);
 		
@@ -114,7 +114,7 @@ class core_image_test extends core_base
 			$this->gallery_cache,
 			$this->gallery_user,
 			$this->file,
-			'phpbb_gallery_image'
+			'phpbb_gallery_images'
 		);
 	}
 	
@@ -144,6 +144,117 @@ class core_image_test extends core_base
 	}
 
 	/*
-	 * TODO: Add tests for the other functions in this class
+	 * Provide data for get user_info
+	 */
+	public function data_get_new_author_info()
+	{
+		return array(
+			'admin' => array(
+				'admin', //request
+				array(
+					'username'	=> 'admin',
+					'user_colour'	=> '',
+					'user_id'		=> 2
+				)
+			),
+			'none' => array(
+				'blabla', //request
+				false
+			),
+		);
+	}
+
+	/**
+	 * Test get_new_author_info
+	 * @dataProvider data_get_new_author_info
+	 **/
+	public function test_get_new_author_info($request, $expected)
+	{
+		$this->assertEquals($expected, $this->image->get_new_author_info($request));
+	}
+
+	
+	/**
+	 * TODO: Add tests for delete_images()
+	 **/
+	/**
+	 * This is data for test_get_filenames
+	 */
+	public function data_get_filenames()
+	{
+		return array(
+			'all_array' => array(
+				array(1, 2, 3, 4, 5, 6), //Request
+				array( // Response
+					1	=> 'md5hashednamefor1.jpg',
+					2	=> 'md5hashednamefor2.jpg',
+					3	=> 'md5hashednamefor3.jpg',
+					4	=> 'md5hashednamefor4.jpg',
+					5	=> 'md5hashednamefor5.jpg',
+					6	=> 'md5hashednamefor6.jpg'
+				)
+			),
+			'single_array'	=> array(
+				array(1), //Request
+				array( // Response
+					1	=> 'md5hashednamefor1.jpg'
+				)
+			),
+			'single_int'	=> array(
+				1, //Request
+				array( // Response
+					1	=> 'md5hashednamefor1.jpg'
+				)
+			),
+			'invalid'	=> array(
+				array(11), //Request
+				array() // Respons
+			)
+		);
+	}
+
+	/**
+	 * This tests the get_filenames
+	 * @dataProvider data_get_filenames
+	 */
+	public function test_get_filenames($request, $expected)
+	{
+		$this->assertEquals($expected, $this->image->get_filenames($request));
+	}
+
+	/**
+	 * TODO: Add test for generate_link
+	 */
+
+	/**
+	 * TODO: Add test for handle_counter
+	 */
+
+	/**
+	 * TODO: Add test for get_image_data
+	 */
+
+	/**
+	 * TODO: Add test for approve_images
+	 */
+
+	/**
+	 * TODO: Add test for unapprove_images
+	 */
+
+	/**
+	 * TODO: Add test for move_image
+	 */
+
+	/**
+	 * TODO: Add test for lock_image
+	 */
+
+	/**
+	 * TODO: Add test for get_last_image
+	 */
+	
+	/**
+	 * Test for assign_block is done in tests\core\core_search_test
 	 */
 }

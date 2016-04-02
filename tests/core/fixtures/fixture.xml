@@ -563,6 +563,39 @@
 			<value>0</value>
 			<value>0</value>
 		</row>
+		<row>
+			<value>10</value>
+			<value>md5hashednamefor10.jpg</value>
+			<value>TestImage10</value>
+			<value>testimage10</value>
+			<value></value>
+			<value>10fu4clu</value>
+			<value></value>
+			<value>52</value>
+			<value>testuser</value>
+			<value>testuser</value>
+			<value></value>
+			<value>127.0.0.1</value>
+			<value>0</value>
+			<value>4</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+		</row>
 	</table>
 	<table name="phpbb_gallery_permissions">
 		<column>perm_id</column>
@@ -744,6 +777,21 @@
 			<value>REGISTERED</value>
 			<value>REGISTERED</value>
 			<value>0</value>
+		</row>
+	</table>
+	<table name='phpbb_users'>
+		<column>user_id</column>
+		<column>username</column>
+		<column>username_clean</column>
+		<row>
+			<value>2</value>
+			<value>admin</value>
+			<value>admin</value>
+		</row>
+		<row>
+			<value>52</value>
+			<value>testuser1</value>
+			<value>testuser1</value>
 		</row>
 	</table>
 	<table name="phpbb_user_group">
