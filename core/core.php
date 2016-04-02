@@ -54,7 +54,7 @@ class core
 		$this->phpbb_root_path = $phpbb_root_path;
 
 		$this->url = $phpbb_container->get('phpbbgallery.core.url');
-		$this->cache = new \phpbbgallery\core\cache($this->phpbb_cache, $this->phpbb_db);
+		$this->cache = $phpbb_container->get('phpbbgallery.core.cache');
 	}
 
 	/**

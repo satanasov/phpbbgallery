@@ -150,7 +150,7 @@ class album
 		global $phpbb_container;
 
 		// Inint auth
-		$gallery_cache = new \phpbbgallery\core\cache($cache, $db);
+		$gallery_cache = $phpbb_container->get('phpbbgallery.core.cache');
 		$gallery_user = $phpbb_container->get('phpbbgallery.core.user');
 		$phpbb_ext_gallery_core_auth = $phpbb_container->get('phpbbgallery.core.auth');
 

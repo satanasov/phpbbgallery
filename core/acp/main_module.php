@@ -19,12 +19,10 @@ class main_module
 
 	function main($id, $mode)
 	{
-		global $auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path, $phpbb_ext_gallery, $table_prefix, $phpbb_dispatcher;
-		global $request;
+		global $user;
+		global $request, $phpbb_container, $gallery_url;
 
-		$phpbb_ext_gallery = new \phpbbgallery\core\core($auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path);
-		$phpbb_ext_gallery->init();
-		$phpbb_ext_gallery->url->_include('functions_display', 'phpbb');
+		$gallery_url = $phpbb_container->get('phpbbgallery.core.url');
 
 		$user->add_lang_ext('phpbbgallery/core', array('gallery_acp', 'gallery'));
 		$this->tpl_name = 'gallery_main';
@@ -48,8 +46,8 @@ class main_module
 
 	function overview()
 	{
-		global $auth, $config, $db, $template, $user, $phpbb_ext_gallery, $table_prefix, $phpbb_dispatcher, $phpbb_root_path;
-		global $phpbb_container, $request;
+		global $auth, $config, $db, $template, $user, $table_prefix, $phpbb_root_path;
+		global $phpbb_container, $request, $gallery_url;
 
 		$phpbbgallery_core_file = $phpbb_root_path . 'files/phpbbgallery/core';
 		$phpbbgallery_core_file_medium = $phpbb_root_path . 'files/phpbbgallery/core/medium';
@@ -80,7 +78,6 @@ class main_module
 		$mode = 'overview';
 
 		// before we start let's check if directory structure is OK
-
 		if (!is_writable($phpbb_root_path . 'files'))
 		{
 			$template->assign_vars(array(
@@ -236,7 +233,7 @@ class main_module
 					{
 						if (!function_exists('user_get_id_name'))
 						{
-							$phpbb_ext_gallery->url->_include('functions_user', 'phpbb');
+							$gallery_url->_include('functions_user', 'phpbb');
 						}
 						user_get_id_name($user_id, $username);
 					}
@@ -387,9 +384,9 @@ class main_module
 					while ($row = $db->sql_fetchrow($result))
 					{
 						$sql_ary = array(
-							'filesize_upload'		=> @filesize($phpbb_ext_gallery->url->path('upload') . $row['image_filename']),
-							'filesize_medium'		=> @filesize($phpbb_ext_gallery->url->path('medium') . $row['image_filename']),
-							'filesize_cache'		=> @filesize($phpbb_ext_gallery->url->path('thumbnail') . $row['image_filename']),
+							'filesize_upload'		=> @filesize($gallery_url->path('upload') . $row['image_filename']),
+							'filesize_medium'		=> @filesize($gallery_url->path('medium') . $row['image_filename']),
+							'filesize_cache'		=> @filesize($gallery_url->path('thumbnail') . $row['image_filename']),
 						);
 						$sql = 'UPDATE ' . $images_table . '
 							SET ' . $db->sql_build_array('UPDATE', $sql_ary) . '
@@ -442,44 +439,44 @@ class main_module
 						trigger_error($user->lang['NO_AUTH_OPERATION'] . adm_back_link($this->u_action), E_USER_WARNING);
 					}
 
-					$cache_dir = @opendir($phpbb_ext_gallery->url->path('thumbnail'));
+					$cache_dir = @opendir($gallery_url->path('thumbnail'));
 					while ($cache_file = @readdir($cache_dir))
 					{
 						if (preg_match('/(\.gif$|\.png$|\.jpg|\.jpeg)$/is', $cache_file))
 						{
-							@unlink($phpbb_ext_gallery->url->path('thumbnail') . $cache_file);
+							@unlink($gallery_url->path('thumbnail') . $cache_file);
 						}
 					}
 					@closedir($cache_dir);
 
-					$medium_dir = @opendir($phpbb_ext_gallery->url->path('medium'));
+					$medium_dir = @opendir($gallery_url->path('medium'));
 					while ($medium_file = @readdir($medium_dir))
 					{
 						if (preg_match('/(\.gif$|\.png$|\.jpg|\.jpeg)$/is', $medium_file))
 						{
-							@unlink($phpbb_ext_gallery->url->path('medium') . $medium_file);
+							@unlink($gallery_url->path('medium') . $medium_file);
 						}
 					}
 					@closedir($medium_dir);
 
 					for ($i = 1; $i <= $phpbb_ext_gallery_config->get('current_upload_dir'); $i++)
 					{
-						$cache_dir = @opendir($phpbb_ext_gallery->url->path('thumbnail') . $i . '/');
+						$cache_dir = @opendir($gallery_url->path('thumbnail') . $i . '/');
 						while ($cache_file = @readdir($cache_dir))
 						{
 							if (preg_match('/(\.gif$|\.png$|\.jpg|\.jpeg)$/is', $cache_file))
 							{
-								@unlink($phpbb_ext_gallery->url->path('thumbnail') . $i . '/' . $cache_file);
+								@unlink($gallery_url->path('thumbnail') . $i . '/' . $cache_file);
 							}
 						}
 						@closedir($cache_dir);
 
-						$medium_dir = @opendir($phpbb_ext_gallery->url->path('medium') . $i . '/');
+						$medium_dir = @opendir($gallery_url->path('medium') . $i . '/');
 						while ($medium_file = @readdir($medium_dir))
 						{
 							if (preg_match('/(\.gif$|\.png$|\.jpg|\.jpeg)$/is', $medium_file))
 							{
-								@unlink($phpbb_ext_gallery->url->path('medium') . $i . '/' . $medium_file);
+								@unlink($gallery_url->path('medium') . $i . '/' . $medium_file);
 							}
 						}
 						@closedir($medium_dir);
@@ -529,7 +526,7 @@ class main_module
 			'MEDIUM_DIR_SIZE'		=> get_formatted_filesize($dir_sizes['stat_medium']),
 			'CACHE_DIR_SIZE'		=> get_formatted_filesize($dir_sizes['stat_cache']),
 			'GALLERY_VERSION'		=> $config['phpbb_gallery_version'],
-			'U_FIND_USERNAME'		=> $phpbb_ext_gallery->url->append_sid('phpbb', 'memberlist', 'mode=searchuser&amp;form=action_create_pega_form&amp;field=username&amp;select_single=true'),
+			'U_FIND_USERNAME'		=> $gallery_url->append_sid('phpbb', 'memberlist', 'mode=searchuser&amp;form=action_create_pega_form&amp;field=username&amp;select_single=true'),
 			'S_SELECT_ALBUM'		=> $phpbb_ext_gallery_core_album->get_albumbox(false, 'reset_album_id', false, false, false, $phpbb_ext_gallery_core_album::PUBLIC_ALBUM, $phpbb_ext_gallery_core_album::TYPE_UPLOAD),
 
 			'S_FOUNDER'				=> ($user->data['user_type'] == USER_FOUNDER) ? true : false,
