@@ -56,7 +56,7 @@ class albums_module
 		$phpbb_ext_gallery_core_album_display = $phpbb_container->get('phpbbgallery.core.album.display');
 
 		// Init contest
-		$phpbb_gallery_contest = $phpbb_container->get('phpbbgallery.core.album.contest');
+		$phpbb_gallery_contest = $phpbb_container->get('phpbbgallery.core.contest');
 
 		$this->tpl_name = 'gallery_albums';
 		$this->page_title = 'ACP_GALLERY_MANAGE_ALBUMS';
