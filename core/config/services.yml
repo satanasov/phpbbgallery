@@ -210,6 +210,14 @@ services:
             - %tables.phpbbgallery.log%
     phpbbgallery.core.block:
         class: phpbbgallery\core\block
+    phpbbgallery.core.contest:
+        class: phpbbgallery\core\contest
+        arguments:
+            - @dbal.conn
+            - @phpbbgallery.core.image
+            - @phpbbgallery.core.config
+            - %tables.phpbbgallery.images%
+            - %tables.phpbbgallery.contests%
 
 #######################
 #### Define event #####
