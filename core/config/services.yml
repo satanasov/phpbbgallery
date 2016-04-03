@@ -138,7 +138,7 @@ services:
             - @phpbbgallery.core.auth
             - @phpbbgallery.core.image
             - @phpbbgallery.core.album
-            - %tables.phpbbgallery.coments%
+            - %tables.phpbbgallery.comments%
             - %tables.phpbbgallery.images%
     phpbbgallery.core.url:
         class: phpbbgallery\core\url
