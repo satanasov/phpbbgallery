@@ -133,10 +133,13 @@ services:
         class: phpbbgallery\core\comment
         arguments:
             - @user
+            - @dbal.conn
             - @phpbbgallery.core.config
             - @phpbbgallery.core.auth
             - @phpbbgallery.core.image
             - @phpbbgallery.core.album
+            - %tables.phpbbgallery.coments%
+            - %tables.phpbbgallery.images%
     phpbbgallery.core.url:
         class: phpbbgallery\core\url
         arguments:
@@ -207,17 +210,7 @@ services:
             - %tables.phpbbgallery.log%
     phpbbgallery.core.block:
         class: phpbbgallery\core\block
-        arguments:
-            - @user
-            - @dbal.conn
-            - @template
-            - @controller.helper
-            - @phpbbgallery.core.auth
-            - @phpbbgallery.core.config
-            - @phpbbgallery.core.image
-            - %tables.phpbbgallery.images%
-            - %tables.phpbbgallery.albums%
-            - %tables.phpbbgallery.contests%
+
 #######################
 #### Define event #####
 #######################

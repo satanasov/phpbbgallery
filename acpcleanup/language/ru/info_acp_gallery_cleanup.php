@@ -67,10 +67,10 @@ $lang = array_merge($lang, array(
 	'PRUNE_USERNAME_EXP'			=> 'Только изображения следующих пользователей очистить. Чтобы очистить изображения "гостей", установите флажок над полем имени пользователя',
 
 	//Log
-    'LOG_CLEANUP_DELETE_FILES'	    => '%s Изображения без БД записей были удалены',
-    'LOG_CLEANUP_DELETE_ENTRIES'	=> '%s Изображения без файлов были удалены',
-    'LOG_CLEANUP_DELETE_NO_AUTHOR'	=> '%s Изображения без действительных авторов были удалены',
-    'LOG_CLEANUP_COMMENT_DELETE_NO_AUTHOR'	=> '%s Комментарии без действительных авторов были удалены',
+	'LOG_CLEANUP_DELETE_FILES'	    => '%s Изображения без БД записей были удалены',
+	'LOG_CLEANUP_DELETE_ENTRIES'	=> '%s Изображения без файлов были удалены',
+	'LOG_CLEANUP_DELETE_NO_AUTHOR'	=> '%s Изображения без действительных авторов были удалены',
+	'LOG_CLEANUP_COMMENT_DELETE_NO_AUTHOR'	=> '%s Комментарии без действительных авторов были удалены',
 
 	'MOVE_TO_IMPORT'	=> 'Move images to Import directory',
 	'MOVE_TO_USER'		=> 'Move to user',

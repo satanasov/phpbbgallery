@@ -28,20 +28,20 @@ class core_image_test extends core_base
 			'phpbb_gallery_watch',
 			'phpbb_gallery_contests'
 		);
-		
+
 		$this->gallery_cache = new \phpbbgallery\core\cache(
 			$this->cache,
 			$this->db,
 			'phpbb_gallery_albums',
 			'phpbb_gallery_images'
 		);
-		
+
 		$this->gallery_user = new \phpbbgallery\core\user(
 			$this->db,
 			$this->dispatcher,
 			'phpbb_gallery_users'
 		);
-		
+
 		$this->gallery_auth = new \phpbbgallery\core\auth\auth(
 			$this->gallery_cache,
 			$this->db,
@@ -56,7 +56,7 @@ class core_image_test extends core_base
 		$this->gallery_config = new \phpbbgallery\core\config(
 			$this->config
 		);
-		
+
 		$this->url = new \phpbbgallery\core\url(
 			$this->template,
 			$this->request,
@@ -64,7 +64,7 @@ class core_image_test extends core_base
 			'phpBB/',
 			'php'
 		);
-		
+
 		$this->log = new \phpbbgallery\core\log(
 			$this->db,
 			$this->user,
@@ -79,7 +79,7 @@ class core_image_test extends core_base
 		$this->notification_helper = $this->getMockBuilder('\phpbbgallery\core\notification\helper')
 			->disableOriginalConstructor()
 			->getMock();
-		
+
 		$this->report = new \phpbbgallery\core\report(
 			$this->log,
 			$this->gallery_auth,
@@ -117,18 +117,18 @@ class core_image_test extends core_base
 			'phpbb_gallery_images'
 		);
 	}
-	
+
 	public function test_get_status_orphan()
 	{
 		$this->assertEquals($this->image->get_status_orphan(), 3);
 	}
 	public function test_get_status_unaproved()
 	{
-		$this->assertEquals($this->image->get_status_unaproved(), 0);
+		$this->assertEquals($this->image->get_status_unapproved(), 0);
 	}
 	public function test_get_status_aproved()
 	{
-		$this->assertEquals($this->image->get_status_aproved(), 1);
+		$this->assertEquals($this->image->get_status_approved(), 1);
 	}
 	public function test_get_status_locked()
 	{
@@ -173,7 +173,7 @@ class core_image_test extends core_base
 		$this->assertEquals($expected, $this->image->get_new_author_info($request));
 	}
 
-	
+
 	/**
 	 * TODO: Add tests for delete_images()
 	 **/
@@ -253,7 +253,7 @@ class core_image_test extends core_base
 	/**
 	 * TODO: Add test for get_last_image
 	 */
-	
+
 	/**
 	 * Test for assign_block is done in tests\core\core_search_test
 	 */

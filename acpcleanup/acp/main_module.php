@@ -17,7 +17,6 @@ class main_module
 	{
 		global $auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path, $phpbb_ext_gallery;
 
-
 		$phpbb_ext_gallery = new \phpbbgallery\core\core($auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path);
 		$phpbb_ext_gallery->init();
 
@@ -164,7 +163,7 @@ class main_module
 			{
 				if ($acp_import_installed && $move_to_import)
 				{
-					foreach($missing_entries as $entrie)
+					foreach ($missing_entries as $entrie)
 					{
 						copy($phpbb_ext_gallery->url->path('upload') . '/' . $entrie, $phpbb_ext_gallery->url->path('import') . '/' . $entrie);
 					}
@@ -284,7 +283,7 @@ class main_module
 				{
 					trigger_error($user->lang['CLEAN_PRUNE_NO_PATTERN'] . adm_back_link($this->u_action), E_USER_WARNING);
 				}
-				elseif ($prune && $prune_pattern)
+				else if ($prune && $prune_pattern)
 				{
 					$user->lang['CLEAN_GALLERY_CONFIRM'] = $user->lang('CONFIRM_PRUNE', $core_cleanup->lang_prune_pattern($prune_pattern)) . '<br />' . $user->lang['CLEAN_GALLERY_CONFIRM'];
 				}
@@ -380,7 +379,6 @@ class main_module
 			}
 			closedir($handle);
 		}
-
 
 		$sql_array = array(
 			'SELECT'		=> 'c.comment_id, c.comment_image_id, c.comment_username, u.user_id',

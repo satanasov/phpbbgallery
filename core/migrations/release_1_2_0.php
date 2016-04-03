@@ -229,8 +229,6 @@ class release_1_2_0 extends \phpbb\db\migration\migration
 		//'thumbnail_infoline'	=> false,
 		'thumbnail_quality'		=> 50,
 		'thumbnail_width'		=> 240,
-
-		'version'				=> '',
 		//'viewtopic_icon'		=> true,
 		//'viewtopic_images'		=> true,
 		//'viewtopic_link'		=> false,

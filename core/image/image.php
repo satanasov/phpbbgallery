@@ -92,12 +92,12 @@ class image
 		return self::STATUS_ORPHAN;
 	}
 
-	public function get_status_unaproved()
+	public function get_status_unapproved()
 	{
 		return self::STATUS_UNAPPROVED;
 	}
 
-	public function get_status_aproved()
+	public function get_status_approved()
 	{
 		return self::STATUS_APPROVED;
 	}
