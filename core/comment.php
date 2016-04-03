@@ -37,7 +37,7 @@ class comment
 		$this->image = $image;
 		$this->album = $album;
 		$this->comments_table = $comments_table;
-        $this->images_table = $images_table;
+		$this->images_table = $images_table;
 	}
 
 	/**
