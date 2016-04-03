@@ -40,17 +40,17 @@ class comment
         $this->images_table = $images_table;
 	}
 
-    /**
-     * Is the user allowed to comment?
-     * Following statements must be true:
-     *    - User must have permissions.
-     *    - User is neither owner of the image nor guest.
-     *    - Album and image are not locked.
-     *
-     * @param $album_data
-     * @param $image_data
-     * @return bool
-     */
+	/**
+	 * Is the user allowed to comment?
+	 * Following statements must be true:
+	 *    - User must have permissions.
+	 *    - User is neither owner of the image nor guest.
+	 *    - Album and image are not locked.
+	 *
+	 * @param $album_data
+	 * @param $image_data
+	 * @return bool
+	 */
 	public function is_allowed($album_data, $image_data)
 	{
 		return $this->config->get('allow_comments') && (!$this->config->get('comment_user_control') || $image_data['image_allow_comments']) &&
@@ -101,7 +101,7 @@ class comment
 
 		$sql = 'UPDATE ' . $this->comments_table . ' 
 			SET image_comments = image_comments + 1,
-				image_last_comment = $newest_comment_id
+				image_last_comment = ' . (int) $newest_comment_id . '
 			WHERE image_id = ' . (int) $data['comment_image_id'];
 		$this->db->sql_query($sql);
 
