@@ -35,9 +35,9 @@ class moderate
 
 	/**
 	* Helper function building queues
-	* @param	(int)		$album	album we build queue for
-	* @param	(int)		$page	This queue builder should return objects for MCP queues, so page?
-	* @param	(int)		$per_page	We need how many elements per page
+	* @param	int		$album	album we build queue for
+	* @param	int		$page	This queue builder should return objects for MCP queues, so page?
+	* @param	int		$per_page	We need how many elements per page
 	*/
 	public function build_list($album, $page = 1, $per_page = 0)
 	{

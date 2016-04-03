@@ -64,7 +64,7 @@ class image
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\template\template $template, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\album\album $album,
 								\phpbbgallery\core\config $gallery_config, \phpbb\controller\helper $helper, \phpbbgallery\core\url $url, \phpbbgallery\core\log $gallery_log,
 								\phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\report $report, \phpbbgallery\core\cache $gallery_cache,
-								\phpbbgallery\core\user $gallery_user, \phpbbgallery\core\file\file $file,
+								\phpbbgallery\core\user $gallery_user, \phpbbgallery\core\contest $contest,\phpbbgallery\core\file\file $file,
 								$table_images)
 	{
 		$this->db = $db;
@@ -81,6 +81,7 @@ class image
 		$this->gallery_cache = $gallery_cache;
 		$this->gallery_report = $report;
 		$this->gallery_user = $gallery_user;
+		$this->contest = $contest;
 		$this->file = $file;
 		$this->table_images = $table_images;
 	}
@@ -160,7 +161,7 @@ class image
 	 */
 	public function delete_images($images, $filenames = array(), $resync_albums = true, $skip_files = false)
 	{
-		$phpbb_gallery_contest = new \phpbbgallery\core\contest();
+		$phpbb_gallery_contest = $this->contest;
 		if (empty($images))
 		{
 			return;
