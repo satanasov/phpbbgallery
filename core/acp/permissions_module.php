@@ -23,16 +23,14 @@ class permissions_module
 
 	function main($id, $mode)
 	{
-		global $auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path, $permissions, $phpbb_ext_gallery, $phpbb_container;
-		global $phpbb_dispatcher, $table_name, $permissions_table, $roles_table, $users_table, $request;
-
-		$phpbb_ext_gallery = new \phpbbgallery\core\core($auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path);
-		$phpbb_ext_gallery->init();
+		global $user, $permissions, $phpbb_container, $gallery_url, $gallery_auth, $gallery_cache, $gallery_user;
+		global $request;
 
 		// Init auth
-		$gallery_cache = new \phpbbgallery\core\cache($cache, $db);
-		$gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $table_name);
-		$phpbb_ext_gallery_core_auth = $phpbb_container->get('phpbbgallery.core.auth');
+		$gallery_cache = $phpbb_container->get('phpbbgallery.core.cache');
+		$gallery_user = $phpbb_container->get('phpbbgallery.core.user');
+		$gallery_auth = $phpbb_container->get('phpbbgallery.core.auth');
+		$gallery_url = $phpbb_container->get('phpbbgallery.core.url');
 
 		$user->add_lang_ext('phpbbgallery/core', array('gallery_acp', 'gallery'));
 		$this->tpl_name = 'gallery_permissions';
@@ -53,36 +51,36 @@ class permissions_module
 		$permissions->p_masks['full'] = array_merge($permissions->cats['full']['i'], $permissions->cats['full']['c'], $permissions->cats['full']['m'], $permissions->cats['full']['misc']);
 
 		// Permissions for the normal albums
-		$permissions->cats[$phpbb_ext_gallery_core_auth::PUBLIC_ALBUM] = array(
+		$permissions->cats[$gallery_auth::PUBLIC_ALBUM] = array(
 			'i'		=> array('i_view', 'i_watermark', 'i_upload', 'i_approve', 'i_edit', 'i_delete', 'i_report', 'i_rate'),
 			'c'		=> array('c_read', 'c_post', 'c_edit', 'c_delete'),
 			'm'		=> array('m_comments', 'm_delete', 'm_edit', 'm_move', 'm_report', 'm_status'),
 			'misc'	=> array('a_list', 'i_count', 'i_unlimited'/*, 'a_count', 'a_unlimited', 'a_restrict'*/),
 		);
-		$permissions->p_masks[$phpbb_ext_gallery_core_auth::PUBLIC_ALBUM] = array_merge($permissions->cats[$phpbb_ext_gallery_core_auth::PUBLIC_ALBUM]['i'], $permissions->cats[$phpbb_ext_gallery_core_auth::PUBLIC_ALBUM]['c'], $permissions->cats[$phpbb_ext_gallery_core_auth::PUBLIC_ALBUM]['m'], $permissions->cats[$phpbb_ext_gallery_core_auth::PUBLIC_ALBUM]['misc']);
-		$permissions->p_masks_anti[$phpbb_ext_gallery_core_auth::PUBLIC_ALBUM] = array('a_count', 'a_unlimited', 'a_restrict');
+		$permissions->p_masks[$gallery_auth::PUBLIC_ALBUM] = array_merge($permissions->cats[$gallery_auth::PUBLIC_ALBUM]['i'], $permissions->cats[$gallery_auth::PUBLIC_ALBUM]['c'], $permissions->cats[$gallery_auth::PUBLIC_ALBUM]['m'], $permissions->cats[$gallery_auth::PUBLIC_ALBUM]['misc']);
+		$permissions->p_masks_anti[$gallery_auth::PUBLIC_ALBUM] = array('a_count', 'a_unlimited', 'a_restrict');
 
 		// Permissions for own personal albums
 		// Note: we set i_view to 1 as default on storing the permissions
-		$permissions->cats[$phpbb_ext_gallery_core_auth::OWN_ALBUM] = array(
+		$permissions->cats[$gallery_auth::OWN_ALBUM] = array(
 			'i'		=> array(/*'i_view', */'i_watermark', 'i_upload', 'i_approve', 'i_edit', 'i_delete', 'i_report', 'i_rate'),
 			'c'		=> array('c_read', 'c_post', 'c_edit', 'c_delete'),
 			'm'		=> array('m_comments', 'm_delete', 'm_edit', 'm_move', 'm_report', 'm_status'),
 			'misc'	=> array('a_list', 'i_count', 'i_unlimited', 'a_count', 'a_unlimited', 'a_restrict'),
 		);
-		$permissions->p_masks[$phpbb_ext_gallery_core_auth::OWN_ALBUM] = array_merge($permissions->cats[$phpbb_ext_gallery_core_auth::OWN_ALBUM]['i'], $permissions->cats[$phpbb_ext_gallery_core_auth::OWN_ALBUM]['c'], $permissions->cats[$phpbb_ext_gallery_core_auth::OWN_ALBUM]['m'], $permissions->cats[$phpbb_ext_gallery_core_auth::OWN_ALBUM]['misc']);
-		$permissions->p_masks_anti[$phpbb_ext_gallery_core_auth::OWN_ALBUM] = array();// Note: we set i_view to 1 as default, so it's not needed on anti array('i_view');
+		$permissions->p_masks[$gallery_auth::OWN_ALBUM] = array_merge($permissions->cats[$gallery_auth::OWN_ALBUM]['i'], $permissions->cats[$gallery_auth::OWN_ALBUM]['c'], $permissions->cats[$gallery_auth::OWN_ALBUM]['m'], $permissions->cats[$gallery_auth::OWN_ALBUM]['misc']);
+		$permissions->p_masks_anti[$gallery_auth::OWN_ALBUM] = array();// Note: we set i_view to 1 as default, so it's not needed on anti array('i_view');
 
 		// Permissions for personal albums of other users
 		// Note: Do !NOT! hide the i_upload. It's used for the moving-permissions
-		$permissions->cats[$phpbb_ext_gallery_core_auth::PERSONAL_ALBUM] = array(
+		$permissions->cats[$gallery_auth::PERSONAL_ALBUM] = array(
 			'i'		=> array('i_view', 'i_watermark', 'i_upload', /*'i_approve', 'i_edit', 'i_delete', */'i_report', 'i_rate'),
 			'c'		=> array('c_read', 'c_post', 'c_edit', 'c_delete'),
 			'm'		=> array('m_comments', 'm_delete', 'm_edit', 'm_move', 'm_report', 'm_status'),
 			'misc'	=> array('a_list'/*, 'i_count', 'i_unlimited', 'a_count', 'a_unlimited', 'a_restrict'*/),
 		);
-		$permissions->p_masks[$phpbb_ext_gallery_core_auth::PERSONAL_ALBUM] = array_merge($permissions->cats[$phpbb_ext_gallery_core_auth::PERSONAL_ALBUM]['i'], $permissions->cats[$phpbb_ext_gallery_core_auth::PERSONAL_ALBUM]['c'], $permissions->cats[$phpbb_ext_gallery_core_auth::PERSONAL_ALBUM]['m'], $permissions->cats[$phpbb_ext_gallery_core_auth::PERSONAL_ALBUM]['misc']);
-		$permissions->p_masks_anti[$phpbb_ext_gallery_core_auth::PERSONAL_ALBUM] = array('i_approve', 'i_edit', 'i_delete', 'i_count', 'i_unlimited', 'a_count', 'a_unlimited', 'a_restrict');
+		$permissions->p_masks[$gallery_auth::PERSONAL_ALBUM] = array_merge($permissions->cats[$gallery_auth::PERSONAL_ALBUM]['i'], $permissions->cats[$gallery_auth::PERSONAL_ALBUM]['c'], $permissions->cats[$gallery_auth::PERSONAL_ALBUM]['m'], $permissions->cats[$gallery_auth::PERSONAL_ALBUM]['misc']);
+		$permissions->p_masks_anti[$gallery_auth::PERSONAL_ALBUM] = array('i_approve', 'i_edit', 'i_delete', 'i_count', 'i_unlimited', 'a_count', 'a_unlimited', 'a_restrict');
 
 		switch ($mode)
 		{
@@ -122,20 +120,16 @@ class permissions_module
 
 	function permissions_c_mask()
 	{
-		global $cache, $template, $db, $table_name, $permissions_table, $roles_table, $users_table, $phpbb_dispatcher, $phpbb_container;
+		global $cache, $template, $phpbb_container, $gallery_auth;
 
-		// Init auth
-		$gallery_cache = new \phpbbgallery\core\cache($cache, $db);
-		$gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $table_name);
-		$phpbb_ext_gallery_core_auth = $phpbb_container->get('phpbbgallery.core.auth');
 
 		// Init album
-		$phpbb_ext_gallery_core_album = $phpbb_container->get('phpbbgallery.core.album');
+		$gallery_album = $phpbb_container->get('phpbbgallery.core.album');
 
 		// Send contants to the template
 		$template->assign_vars(array(
-			'C_OWN_PERSONAL_ALBUMS'	=> $phpbb_ext_gallery_core_auth::OWN_ALBUM,
-			'C_PERSONAL_ALBUMS'		=> $phpbb_ext_gallery_core_auth::PERSONAL_ALBUM,
+			'C_OWN_PERSONAL_ALBUMS'	=> $gallery_auth::OWN_ALBUM,
+			'C_PERSONAL_ALBUMS'		=> $gallery_auth::PERSONAL_ALBUM,
 		));
 
 		$submit = (isset($_POST['submit'])) ? true : false;
@@ -144,22 +138,16 @@ class permissions_module
 		$template->assign_vars(array(
 			'U_ACTION'					=> $this->u_action . '&amp;action=v_mask',
 			'S_PERMISSION_C_MASK'		=> true,
-			'ALBUM_LIST'				=> $phpbb_ext_gallery_core_album->get_albumbox(true, '', $phpbb_ext_gallery_core_auth::SETTING_PERMISSIONS),
+			'ALBUM_LIST'				=> $gallery_album->get_albumbox(true, '', $gallery_auth::SETTING_PERMISSIONS),
 		));
 	}
 
 	function permissions_v_mask()
 	{
-		global $cache, $db, $template, $user, $phpbb_ext_gallery, $table_prefix, $phpbb_dispatcher, $phpbb_container;
-		global $request;
+		global $cache, $db, $template, $user, $phpbb_ext_gallery, $table_prefix, $phpbb_container;
+		global $request, $gallery_auth;
 
-		$roles_table = $table_prefix . 'gallery_roles';
-		$permissions_table = $table_prefix . 'gallery_permissions';
-		$users_table = $table_prefix . 'gallery_users';
 		// Init auth
-		$gallery_cache = new \phpbbgallery\core\cache($cache, $db);
-		$gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $users_table);
-		$phpbb_ext_gallery_core_auth = $phpbb_ext_gallery_core_auth = $phpbb_container->get('phpbbgallery.core.auth');
 
 		$user->add_lang('acp/permissions');
 
@@ -286,7 +274,7 @@ class permissions_module
 				$cache->destroy('sql', $table_prefix . 'gallery_permissions');
 				$cache->destroy('sql', $table_prefix . 'gallery_roles');
 				$cache->destroy('sql', $table_prefix . 'gallery_modscache');
-				$phpbb_ext_gallery_core_auth->set_user_permissions('all', '');
+				$gallery_auth->set_user_permissions('all', '');
 			}
 		}
 
@@ -385,7 +373,7 @@ class permissions_module
 			'U_ACTION'					=> $this->u_action . '&amp;action=v_mask',
 			'S_PERMISSION_V_MASK'		=> true,
 
-			'C_MASKS_NAMES'				=> (!$p_system) ? implode(', ', $a_names) : (($p_system == $phpbb_ext_gallery_core_auth::OWN_ALBUM) ? $user->lang['OWN_PERSONAL_ALBUMS'] : $user->lang['PERSONAL_ALBUMS']),
+			'C_MASKS_NAMES'				=> (!$p_system) ? implode(', ', $a_names) : (($p_system == $gallery_auth::OWN_ALBUM) ? $user->lang['OWN_PERSONAL_ALBUMS'] : $user->lang['PERSONAL_ALBUMS']),
 			'L_C_MASKS'					=> $user->lang['ALBUMS'],
 
 			'S_CAN_SELECT_GROUP'		=> true,

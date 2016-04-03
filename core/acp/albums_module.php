@@ -36,16 +36,11 @@ class albums_module
 		$contests_table = $table_prefix . 'gallery_contests';
 		$tracking_table = $table_prefix . 'gallery_albums_tracking';
 		// Init ext gallery
-		$phpbb_ext_gallery = new \phpbbgallery\core\core($auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path);
-		$phpbb_ext_gallery->init();
 		$user->add_lang_ext('phpbbgallery/core', array('gallery_acp', 'gallery'));
 
-		// Init auth
-		//$gallery_cache = new \phpbbgallery\core\cache($cache, $db);
-		//$gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $table_name);
 		$gallery_user = $phpbb_container->get('phpbbgallery.core.user');
-		//$phpbb_ext_gallery_core_auth = new \phpbbgallery\core\auth\auth($gallery_cache, $db, $gallery_user, $permissions_table, $roles_table, $users_table);
 		$phpbb_ext_gallery_core_auth = $phpbb_container->get('phpbbgallery.core.auth');
+		$phpbb_ext_gallery_core_url = $phpbb_container->get('phpbbgallery.core.url');
 
 		// Init manage albums
 		$manage_albums = new \phpbbgallery\core\album\manage($request->variable('user_id', 0), $request->variable('parent_id', 0), $this->u_action);
@@ -227,17 +222,17 @@ class albums_module
 						$cache->destroy('sql', $table_prefix . 'gallery_modscache');
 						$cache->destroy('sql', $table_prefix . 'gallery_permissions');
 						$cache->destroy('_albums');
-						$phpbb_ext_gallery->auth->set_user_permissions('all', '');
+						$phpbb_ext_gallery_core_auth->set_user_permissions('all', '');
 
 						$acl_url = '&amp;mode=manage&amp;action=v_mask&amp;album_id[]=' . $album_data['album_id'];
 
 						$message = ($action == 'add') ? $user->lang['ALBUM_CREATED'] : $user->lang['ALBUM_UPDATED'];
-						$message .= '<br /><br />' . sprintf($user->lang['REDIRECT_ACL'], '<a href="' . $phpbb_ext_gallery->url->append_sid('admin' , 'index', 'i=-phpbbgallery-core-acp-permissions_module' . $acl_url) . '">', '</a>');
+						$message .= '<br /><br />' . sprintf($user->lang['REDIRECT_ACL'], '<a href="' . $phpbb_ext_gallery_core_url->append_sid('admin' , 'index', 'i=-phpbbgallery-core-acp-permissions_module' . $acl_url) . '">', '</a>');
 
 						// Redirect directly to permission settings screen
 						if ($action == 'add' && !$album_perm_from)
 						{
-							meta_refresh(5, $phpbb_ext_gallery->url->append_sid('admin' , 'index', 'i=-phpbbgallery-core-acp-permissions_module' . $acl_url));
+							meta_refresh(5, $phpbb_ext_gallery_core_url->append_sid('admin' , 'index', 'i=-phpbbgallery-core-acp-permissions_module' . $acl_url));
 						}
 
 						trigger_error($message . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id));
@@ -522,7 +517,7 @@ class albums_module
 
 					'ALBUM_NAME'				=> $album_data['album_name'],
 					'ALBUM_IMAGE'				=> $album_data['album_image'],
-					'ALBUM_IMAGE_SRC'			=> ($album_data['album_image']) ? $phpbb_ext_gallery->url->path('phpbb') . $album_data['album_image'] : '',
+					'ALBUM_IMAGE_SRC'			=> ($album_data['album_image']) ? $phpbb_ext_gallery_core_url->path('phpbb') . $album_data['album_image'] : '',
 					/*
 					'S_ALBUM_PASSWORD_SET'		=> (empty($album_data['album_password'])) ? false : true,
 					*/
@@ -685,8 +680,8 @@ class albums_module
 
 				$template->assign_block_vars('albums', array(
 					'FOLDER_IMAGE'		=> $folder_image,
-					'ALBUM_IMAGE'		=> ($row['album_image']) ? '<img src="' . $phpbb_ext_gallery->url->path('phpbb') . $row['album_image'] . '" alt="" />' : '',
-					'ALBUM_IMAGE_SRC'	=> ($row['album_image']) ? $phpbb_ext_gallery->url->path('phpbb') . $row['album_image'] : '',
+					'ALBUM_IMAGE'		=> ($row['album_image']) ? '<img src="' . $phpbb_ext_gallery_core_url->path('phpbb') . $row['album_image'] . '" alt="" />' : '',
+					'ALBUM_IMAGE_SRC'	=> ($row['album_image']) ? $phpbb_ext_gallery_core_url->path('phpbb') . $row['album_image'] : '',
 					'ALBUM_NAME'		=> $row['album_name'],
 					'ALBUM_DESCRIPTION'	=> generate_text_for_display($row['album_desc'], $row['album_desc_uid'], $row['album_desc_bitfield'], $row['album_desc_options']),
 					'ALBUM_IMAGES'		=> $row['album_images'],
