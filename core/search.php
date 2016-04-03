@@ -328,13 +328,6 @@ class search
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 		$sql_order = 'image_id DESC';
 		$sql_limit = $limit;
-		$sql = 'SELECT COUNT(image_id) as count
-			FROM ' . $this->images_table . '
-			WHERE image_status <> ' . \phpbbgallery\core\image\image::STATUS_ORPHAN;
-		if ($user > 0)
-		{
-			$sql .= ' and image_user_id = ' . (int) $user;
-		}
 		$exclude_albums = array();
 		if (!$this->gallery_config->get('rrc_gindex_pegas'))
 		{
@@ -347,24 +340,28 @@ class search
 			$this->db->sql_freeresult($result);
 		}
 		$exclude_albums = array_merge($exclude_albums, $this->gallery_auth->get_exclude_zebra());
-		$sql .= ' AND ((' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
+		$sql_ary = array(
+			'FROM'	=>	array(
+				$this->images_table	=> 'i'
+			),
+			'WHERE'	=> 'image_status <> ' . \phpbbgallery\core\image\image::STATUS_ORPHAN
+		);
+		if ($user > 0)
+		{
+			$sql_ary['WHERE'] .= ' and image_user_id = ' . (int) $user;
+		}
+		$sql_ary['WHERE'] .= ' AND ((' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
 					OR ' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('m_status'), $exclude_albums), false, true) . ')';
 
+		$sql_ary['SELECT'] = 'COUNT(image_id) as count';
+		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 		$count = $row['count'];
-		$sql = 'SELECT image_id
-			FROM ' . $this->images_table . '
-			WHERE image_status <> ' . \phpbbgallery\core\image\image::STATUS_ORPHAN;
-		if ($user > 0)
-		{
-			$sql .= ' and image_user_id = ' . (int) $user;
-		}
-		$sql .= ' AND ((' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
-					OR ' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('m_status'), $exclude_albums), false, true) . ')
-			ORDER BY ' . $sql_order;
 
+		$sql_ary['SELECT'] = 'image_id';
+		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 		$result = $this->db->sql_query_limit($sql, $sql_limit, $start);
 		$id_ary = array();
 		while ($row = $this->db->sql_fetchrow($result))
