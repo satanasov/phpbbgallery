@@ -98,6 +98,12 @@ class core_image_test extends core_base
 		$this->file = $this->getMockBuilder('\phpbbgallery\core\file\file')
 			->disableOriginalConstructor()
 			->getMock();
+		$this->contest = new \phpbbgallery\core\contest(
+			$this->db,
+			$this->gallery_config,
+			'phpbb_gallery_images',
+			'phpbb_gallery_contests'
+		);
 		$this->image = new \phpbbgallery\core\image\image(
 			$this->db,
 			$this->user,
@@ -113,6 +119,7 @@ class core_image_test extends core_base
 			$this->report,
 			$this->gallery_cache,
 			$this->gallery_user,
+			$this->contest,
 			$this->file,
 			'phpbb_gallery_images'
 		);

@@ -16,6 +16,21 @@ namespace phpbbgallery\core;
 
 class contest
 {
+	/**
+	 * I will have to see where is contest used except here and make it work
+	 * but for the time being - redefine contest constants here as private
+	 */
+	/**
+	 * Constants regarding the image contest relation
+	 */
+	private $NO_CONTEST = 0;
+
+	/**
+	 * The image is element of an open contest. Only moderators can see the user_name of the user.
+	 */
+	private $IN_CONTEST = 1;
+
+
 	const NUM_IMAGES = 3;
 
 	/**
@@ -34,11 +49,10 @@ class contest
 	const MODE_SUM = 2;
 
 	public function __construct(\phpbb\db\driver\driver_interface $db,
-								\phpbbgallery\core\image\image $image, \phpbbgallery\core\config $gallery_config,
+								\phpbbgallery\core\config $gallery_config,
 								$images_table, $contests_table)
 	{
 		$this->db = $db;
-		$this->image = $image;
 		$this->gallery_config = $gallery_config;
 		$this->images_table = $images_table;
 		$this->contest_table = $contests_table;
@@ -99,7 +113,7 @@ class contest
 	public function end($album_id, $contest_id, $end_time)
 	{
 		$sql = 'UPDATE ' . $this->images_table . '
-			SET image_contest = ' . $this->image->get_no_contest() . '
+			SET image_contest = ' . $this->NO_CONTEST . '
 			WHERE image_album_id = ' . (int) $album_id;
 		$this->db->sql_query($sql);
 
@@ -114,7 +128,7 @@ class contest
 		$this->db->sql_freeresult($result);
 
 		$sql = 'UPDATE ' . $this->contest_table . '
-			SET contest_marked = ' . $this->image->get_no_contest() . ",
+			SET contest_marked = ' . $this->NO_CONTEST . ",
 				contest_first = $first,
 				contest_second = $second,
 				contest_third = $third
@@ -161,7 +175,7 @@ class contest
 	public function resync($album_id)
 	{
 		$sql = 'UPDATE ' . $this->images_table . '
-			SET image_contest = ' . $this->image->get_no_contest() . '
+			SET image_contest = ' . $this->NO_CONTEST . '
 			WHERE image_album_id = ' . (int) $album_id;
 		$this->db->sql_query($sql);
 

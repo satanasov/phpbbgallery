@@ -101,7 +101,7 @@ services:
             - @phpbbgallery.core.report
             - @phpbbgallery.core.cache
             - @phpbbgallery.core.user
-            - @phpbbgallert.core.contest
+            - @phpbbgallery.core.contest
             - @phpbbgallery.core.file.tool
             - %tables.phpbbgallery.images%
     phpbbgallery.core.user:
@@ -215,7 +215,6 @@ services:
         class: phpbbgallery\core\contest
         arguments:
             - @dbal.conn
-            - @phpbbgallery.core.image
             - @phpbbgallery.core.config
             - %tables.phpbbgallery.images%
             - %tables.phpbbgallery.contests%

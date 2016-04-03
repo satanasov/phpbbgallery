@@ -38,7 +38,7 @@ class core_search_test extends core_base
 			$this->dispatcher,
 			'phpbb_gallery_users'
 		);
-		
+
 		// Let's build auth class
 		$this->gallery_auth = new \phpbbgallery\core\auth\auth(
 			$this->gallery_cache,
@@ -101,7 +101,12 @@ class core_search_test extends core_base
 		$this->file = $this->getMockBuilder('\phpbbgallery\core\file\file')
 			->disableOriginalConstructor()
 			->getMock();
-
+		$this->contest = new \phpbbgallery\core\contest(
+			$this->db,
+			$this->gallery_config,
+			'phpbb_gallery_images',
+			'phpbb_gallery_contests'
+		);
 		$this->gallery_image = new \phpbbgallery\core\image\image(
 			$this->db,
 			$this->user,
@@ -117,6 +122,7 @@ class core_search_test extends core_base
 			$this->report,
 			$this->gallery_cache,
 			$this->gallery_user,
+			$this->contest,
 			$this->file,
 			'phpbb_gallery_image'
 		);
@@ -138,11 +144,11 @@ class core_search_test extends core_base
 			'phpbb_gallery_comments'
 		);
 	}
-	
+
 	// TEST RRC GENERATION!
 	/**
 	* Test data for Random image
-	* 
+	*
 	* @return array Test DATA!
 	*/
 	public function random_test_data()
@@ -233,7 +239,7 @@ class core_search_test extends core_base
 			->method('assign_block_vars');
 		$this->gallery_search->recent($limit, 0, $search_user, 'rrc_gindex_display', 'recent');
 	}
-	
+
 	/**
 	* TEST RRC POLAROID FOR PROFILE AND GALLERY INDEX
 	* Tested
@@ -245,7 +251,7 @@ class core_search_test extends core_base
 
 	/**
 	* Test data for rrc_gindex_display
-	* 
+	*
 	* @return array Test DATA!
 	*/
 	public function rrc_gindex_display_test_data()
@@ -966,7 +972,7 @@ class core_search_test extends core_base
 	// Test recent_count
 	/**
 	* Test data for Random image
-	* 
+	*
 	* @return array Test DATA!
 	*/
 	public function recent_count_data()
@@ -994,7 +1000,7 @@ class core_search_test extends core_base
 		$this->user->data['group_id'] = $group_id;
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 		$this->assertEquals($this->gallery_search->recent_count(), $expected);
-	}	
+	}
 	// Recent comments testing
 	/**
 	* Test recent comments
