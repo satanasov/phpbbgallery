@@ -51,6 +51,7 @@ class file
 	public $watermark_size = array();
 	public $watermark_source = '';
 	public $watermarked = false;
+	// This is only to push a change
 
 	/**
 	* Constructor - init some basic stuff
