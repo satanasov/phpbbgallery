@@ -46,7 +46,15 @@
 		</whitelist>
 	</filter>
 
-	<logging>
-		<log type="coverage-clover" target="logs/clover.xml"/>
-	</logging>
+	<php>
+		<server name="PHPBB_TEST_DBMS" value="phpbb\db\driver\sqlite3" />
+		<server name="PHPBB_TEST_DBHOST" value="../phpbb_unit_tests.sqlite3" />
+		<!--server name="PHPBB_TEST_DBPORT" value="" /-->
+		<!--server name="PHPBB_TEST_DBNAME" value="" /-->
+		<!--server name="PHPBB_TEST_DBUSER" value="" /-->
+		<!--server name="PHPBB_TEST_DBPASSWD" value="" /-->
+		<server name="PHPBB_TEST_REDIS_HOST" value="localhost" />
+		<server name="PHPBB_TEST_TABLE_PREFIX" value="phpbb_"/>
+		<server name="PHPBB_FUNCTIONAL_URL" value="http://localhost/" />
+	</php>
 </phpunit>
