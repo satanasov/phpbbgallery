@@ -144,8 +144,8 @@ class permissions_module
 
 	function permissions_v_mask()
 	{
-		global $cache, $db, $template, $user, $phpbb_ext_gallery, $table_prefix, $phpbb_container;
-		global $request, $gallery_auth;
+		global $cache, $db, $template, $user, $table_prefix;
+		global $request, $gallery_auth, $gallery_url;
 
 		// Init auth
 
@@ -382,7 +382,7 @@ class permissions_module
 
 			'S_CAN_SELECT_USER'			=> true,
 			'S_DEFINED_USER_OPTIONS'	=> $s_defined_user_options,
-			'U_FIND_USERNAME'			=> $phpbb_ext_gallery->url->append_sid('phpbb', 'memberlist', 'mode=searchuser&amp;form=add_user&amp;field=username&amp;select_single=true'),
+			'U_FIND_USERNAME'			=> $gallery_url->append_sid('phpbb', 'memberlist', 'mode=searchuser&amp;form=add_user&amp;field=username&amp;select_single=true'),
 			'ANONYMOUS_USER_ID'			=> ANONYMOUS,
 		));
 	}

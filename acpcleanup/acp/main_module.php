@@ -17,9 +17,6 @@ class main_module
 	{
 		global $auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path, $phpbb_ext_gallery;
 
-		$phpbb_ext_gallery = new \phpbbgallery\core\core($auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path);
-		$phpbb_ext_gallery->init();
-
 		$user->add_lang_ext('phpbbgallery/core', array('gallery_acp', 'gallery'));
 		//$user->add_lang_ext('phpbbgallery/acpcleanup', 'cleanup');
 		$this->tpl_name = 'gallery_cleanup';
@@ -52,10 +49,11 @@ class main_module
 		$core_cleanup = $phpbb_container->get('phpbbgallery.acpcleanup.cleanup');
 		$gallery_auth = $phpbb_container->get('phpbbgallery.core.auth');
 		$gallery_config = $phpbb_container->get('phpbbgallery.core.config');
+		$gallery_url = $phpbb_container->get('phpbbgallery.core.url');
 
 		// Lets detect if ACP Import exists (find if directory is with RW access)
 		$acp_import_installed = false;
-		$acp_import_dir = $phpbb_ext_gallery->url->path('import');
+		$acp_import_dir = $gallery_url->path('import');
 		if (file_exists($acp_import_dir) && is_writable($acp_import_dir))
 		{
 			$acp_import_installed = true;
@@ -72,7 +70,7 @@ class main_module
 				{
 					if (!function_exists('user_get_id_name'))
 					{
-						$phpbb_ext_gallery->url->_include('functions_user', 'phpbb');
+						$gallery_url->_include('functions_user', 'phpbb');
 					}
 					user_get_id_name($user_ids, $usernames);
 					$prune_pattern['image_user_id'] = $user_ids;
@@ -125,7 +123,7 @@ class main_module
 				$user_id = 0;
 				if (!function_exists('user_get_id_name'))
 				{
-					$phpbb_ext_gallery->url->_include('functions_user', 'phpbb');
+					$gallery_url->_include('functions_user', 'phpbb');
 				}
 				user_get_id_name($user_id, $new_author);
 				if (is_array($user_id) && !empty($user_id))
@@ -165,7 +163,7 @@ class main_module
 				{
 					foreach ($missing_entries as $entrie)
 					{
-						copy($phpbb_ext_gallery->url->path('upload') . '/' . $entrie, $phpbb_ext_gallery->url->path('import') . '/' . $entrie);
+						copy($gallery_url->path('upload') . '/' . $entrie, $gallery_url->path('import') . '/' . $entrie);
 					}
 				}
 				$message[] = $core_cleanup->delete_files($missing_entries);
@@ -340,7 +338,7 @@ class main_module
 			$result = $db->sql_query($sql);
 			while ($row = $db->sql_fetchrow($result))
 			{
-				if (!file_exists($phpbb_ext_gallery->url->path('upload') . $row['image_filename']))
+				if (!file_exists($gallery_url->path('upload') . $row['image_filename']))
 				{
 					$source_missing[] = $row['image_id'];
 				}
@@ -358,7 +356,7 @@ class main_module
 
 		if ($check_mode == 'entry')
 		{
-			$directory = $phpbb_ext_gallery->url->path('upload');
+			$directory = $gallery_url->path('upload');
 			$handle = opendir($directory);
 			while ($file = readdir($handle))
 			{
@@ -479,7 +477,7 @@ class main_module
 			'CHECK_SOURCE'			=> $this->u_action . '&amp;check_mode=source',
 			'CHECK_ENTRY'			=> $this->u_action . '&amp;check_mode=entry',
 
-			'U_FIND_USERNAME'		=> $phpbb_ext_gallery->url->append_sid('phpbb', 'memberlist', 'mode=searchuser&amp;form=acp_gallery&amp;field=prune_usernames'),
+			'U_FIND_USERNAME'		=> $gallery_url->append_sid('phpbb', 'memberlist', 'mode=searchuser&amp;form=acp_gallery&amp;field=prune_usernames'),
 			'S_SELECT_ALBUM'		=> $gallery_album->get_albumbox(false, '', false, false, false, $gallery_album->get_public(), $gallery_album->get_type_upload()),
 
 			'S_FOUNDER'				=> ($user->data['user_type'] == USER_FOUNDER) ? true : false,
