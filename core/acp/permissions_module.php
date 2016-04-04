@@ -389,13 +389,12 @@ class permissions_module
 
 	function permissions_p_mask()
 	{
-		global $cache, $db, $permissions, $template, $user, $phpbb_ext_gallery, $phpbb_dispatcher, $table_prefix, $table_name, $users_table, $phpbb_container;
-		global $request;
+		global $db, $permissions, $template, $user, $phpbb_ext_gallery, $phpbb_dispatcher, $table_prefix, $table_name, $users_table, $phpbb_container;
+		global $request, $gallery_cache, $gallery_url;
 
 		$permissions_table = $table_prefix . 'gallery_permissions';
 		$roles_table = $table_prefix . 'gallery_roles';
 		// Init auth
-		$gallery_cache = new \phpbbgallery\core\cache($cache, $db);
 		$gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $table_name);
 		$phpbb_ext_gallery_core_auth = $phpbb_container->get('phpbbgallery.core.auth');
 
@@ -426,7 +425,7 @@ class permissions_module
 		{
 			if (!function_exists('user_get_id_name'))
 			{
-				$phpbb_ext_gallery->url->_include('functions_user', 'phpbb');
+				$gallery_url->_include('functions_user', 'phpbb');
 			}
 			user_get_id_name($user_id, $username);
 
@@ -534,7 +533,7 @@ class permissions_module
 		// Album permissions
 		if (!$p_system)
 		{
-			$album_list = $phpbb_ext_gallery->cache->get('albums');
+			$album_list = $gallery_cache->get('albums');
 			foreach ($album_id as $album)
 			{
 				$album_row = $album_list[$album];
