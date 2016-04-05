@@ -19,14 +19,13 @@ class main_module
 
 	function main($id, $mode)
 	{
-		global $auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path, $phpbb_ext_gallery, $phpbb_container, $table_prefix;
+		global $user, $phpbb_container, $table_prefix, $phpbb_gallery_url;
 		global $phpbb_ext_gallery_core_album, $albums_table, $phpbb_ext_gallery_core_auth, $phpbb_ext_gallery_core_album_display, $images_table;
 		global $phpbb_gallery_image, $users_table, $phpbb_ext_gallery_config, $comments_table, $rates_table, $reports_table, $watch_table, $contests_table;
 		global $phpbb_ext_gallery_user, $request;
 
-		$phpbb_ext_gallery = new \phpbbgallery\core\core($auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path);
-		$phpbb_ext_gallery->init();
-		$phpbb_ext_gallery->url->_include('functions_display', 'phpbb');
+		$phpbb_gallery_url = $phpbb_container->get('phpbbgallery.core.url');
+		$phpbb_gallery_url->_include('functions_display', 'phpbb');
 
 		$phpbb_ext_gallery_core_album =$phpbb_container->get('phpbbgallery.core.album');
 
@@ -125,7 +124,7 @@ class main_module
 
 	function info()
 	{
-		global $template, $user, $phpbb_ext_gallery, $phpbb_ext_gallery_user;
+		global $template, $user, $phpbb_ext_gallery_user, $phpbb_gallery_url;
 
 		//We need to set user_ID so we can test for any other thing
 		$phpbb_ext_gallery_user->set_user_id($user->data['user_id']);
@@ -142,13 +141,13 @@ class main_module
 		}
 		else
 		{
-			$phpbb_ext_gallery->url->redirect('phpbb', 'ucp', 'i=-phpbbgallery-core-ucp-main_module&mode=manage_albums&action=manage');
+			$phpbb_gallery_url->redirect('phpbb', 'ucp', 'i=-phpbbgallery-core-ucp-main_module&mode=manage_albums&action=manage');
 		}
 	}
 
 	function initialise_album()
 	{
-		global $cache, $db, $template, $user, $phpbb_ext_gallery, $phpbb_ext_gallery_core_auth, $phpbb_ext_gallery_core_album, $phpbb_ext_gallery_config, $albums_table, $phpbb_ext_gallery_user;
+		global $cache, $db, $phpbb_gallery_url, $user, $phpbb_ext_gallery_core_auth, $phpbb_ext_gallery_core_album, $phpbb_ext_gallery_config, $albums_table, $phpbb_ext_gallery_user;
 		global $request;
 
 		// we will have to initialse $phpbb_ext_gallery_user
@@ -156,7 +155,7 @@ class main_module
 		if (!$phpbb_ext_gallery_user->get_data('personal_album_id'))
 		{
 			// Check if the user is allowed to have one
-			if (!$phpbb_ext_gallery->auth->acl_check('i_upload', $phpbb_ext_gallery_core_auth::OWN_ALBUM))
+			if (!$phpbb_ext_gallery_core_auth->acl_check('i_upload', $phpbb_ext_gallery_core_auth::OWN_ALBUM))
 			{
 				trigger_error('NO_PERSALBUM_ALLOWED');
 			}
@@ -200,7 +199,7 @@ class main_module
 	function manage_albums()
 	{
 		global $cache, $db, $template, $user, $phpbb_ext_gallery, $phpbb_ext_gallery_core_album, $albums_table, $phpbb_ext_gallery_core_auth, $phpbb_ext_gallery_core_album_display;
-		global $phpbb_container, $request;
+		global $phpbb_container, $request, $phpbb_gallery_url;
 
 		$parent_id = $request->variable('parent_id', $phpbb_ext_gallery->user->get_data('personal_album_id'));
 		$phpbb_ext_gallery_core_album->check_user($parent_id);
@@ -213,7 +212,7 @@ class main_module
 		$albums = (int) $db->sql_fetchfield('albums');
 		$db->sql_freeresult($result);
 
-		$s_allowed_create = ($phpbb_ext_gallery->auth->acl_check('a_unlimited', $phpbb_ext_gallery_core_auth::OWN_ALBUM) || ($phpbb_ext_gallery->auth->acl_check('a_count', $phpbb_ext_gallery_core_auth::OWN_ALBUM) > $albums)) ? true : false;
+		$s_allowed_create = ($phpbb_ext_gallery_core_auth->acl_check('a_unlimited', $phpbb_ext_gallery_core_auth::OWN_ALBUM) || ($phpbb_ext_gallery_core_auth->acl_check('a_count', $phpbb_ext_gallery_core_auth::OWN_ALBUM) > $albums)) ? true : false;
 		$template->assign_vars(array(
 			'S_MANAGE_SUBALBUMS'			=> true,
 			'U_CREATE_SUBALBUM'				=> ($s_allowed_create) ? ($this->u_action . '&amp;action=create' . (($parent_id) ? '&amp;parent_id=' . $parent_id : '')) : '',
@@ -280,23 +279,23 @@ class main_module
 			'U_EDIT'			=> $this->u_action . '&amp;action=edit&amp;album_id=' . $parent_id,
 			'U_DELETE'			=> $this->u_action . '&amp;action=delete&amp;album_id=' . $parent_id,
 			'U_UPLOAD'			=> $helper->route('phpbbgallery_core_album_upload', array('album_id' => $parent_id)),
-			'ICON_MOVE_DOWN'			=> '<img src="' . $phpbb_ext_gallery->url->path('images') . 'icon_down.gif" alt="" />',
-			'ICON_MOVE_DOWN_DISABLED'	=> '<img src="' . $phpbb_ext_gallery->url->path('images') . 'icon_down_disabled.gif" alt="" />',
-			'ICON_MOVE_UP'				=> '<img src="' . $phpbb_ext_gallery->url->path('images') . 'icon_up.gif" alt="" />',
-			'ICON_MOVE_UP_DISABLED'		=> '<img src="' . $phpbb_ext_gallery->url->path('images') . 'icon_up_disabled.gif" alt="" />',
-			'ICON_EDIT'					=> '<img src="' . $phpbb_ext_gallery->url->path('images') . 'icon_edit.gif" alt="" />',
-			'ICON_DELETE'				=> '<img src="' . $phpbb_ext_gallery->url->path('images') . 'icon_delete.gif" alt="" />',
+			'ICON_MOVE_DOWN'			=> '<img src="' . $phpbb_gallery_url->path('images') . 'icon_down.gif" alt="" />',
+			'ICON_MOVE_DOWN_DISABLED'	=> '<img src="' . $phpbb_gallery_url->path('images') . 'icon_down_disabled.gif" alt="" />',
+			'ICON_MOVE_UP'				=> '<img src="' . $phpbb_gallery_url->path('images') . 'icon_up.gif" alt="" />',
+			'ICON_MOVE_UP_DISABLED'		=> '<img src="' . $phpbb_gallery_url->path('images') . 'icon_up_disabled.gif" alt="" />',
+			'ICON_EDIT'					=> '<img src="' . $phpbb_gallery_url->path('images') . 'icon_edit.gif" alt="" />',
+			'ICON_DELETE'				=> '<img src="' . $phpbb_gallery_url->path('images') . 'icon_delete.gif" alt="" />',
 		));
 	}
 
 	function create_album()
 	{
-		global $cache, $db, $template, $user, $phpbb_ext_gallery, $phpbb_ext_gallery_core_auth, $albums_table, $phpbb_ext_gallery_core_album, $request;
-
-		$phpbb_ext_gallery->url->_include(array('bbcode', 'message_parser'), 'phpbb');
+		global $cache, $db, $template, $user, $phpbb_gallery_url, $phpbb_ext_gallery_core_auth, $albums_table, $phpbb_ext_gallery_core_album, $request;
+		global $phpbb_ext_gallery_user;
+		$phpbb_gallery_url->_include(array('bbcode', 'message_parser'), 'phpbb');
 
 		// Check if the user has already reached his limit
-		if (!$phpbb_ext_gallery->auth->acl_check('i_upload', $phpbb_ext_gallery_core_auth::OWN_ALBUM))
+		if (!$phpbb_ext_gallery_core_auth->acl_check('i_upload', $phpbb_ext_gallery_core_auth::OWN_ALBUM))
 		{
 			trigger_error('NO_PERSALBUM_ALLOWED');
 		}
@@ -308,7 +307,7 @@ class main_module
 		$albums = $db->sql_fetchfield('albums');
 		$db->sql_freeresult($result);
 
-		if (!$phpbb_ext_gallery->auth->acl_check('a_unlimited', $phpbb_ext_gallery_core_auth::OWN_ALBUM) && ($phpbb_ext_gallery->auth->acl_check('a_count', $phpbb_ext_gallery_core_auth::OWN_ALBUM) <= $albums))
+		if (!$phpbb_ext_gallery_core_auth->acl_check('a_unlimited', $phpbb_ext_gallery_core_auth::OWN_ALBUM) && ($phpbb_ext_gallery_core_auth->acl_check('a_count', $phpbb_ext_gallery_core_auth::OWN_ALBUM) <= $albums))
 		{
 			trigger_error('NO_MORE_SUBALBUMS_ALLOWED');
 		}
@@ -323,7 +322,7 @@ class main_module
 			$parents_list = $phpbb_ext_gallery_core_album->get_albumbox(false, '', $parent_id, false, false, $user->data['user_id']);
 
 			$s_access_options = '';
-			if ($phpbb_ext_gallery->auth->acl_check('a_restrict', $phpbb_ext_gallery_core_auth::OWN_ALBUM))
+			if ($phpbb_ext_gallery_core_auth->acl_check('a_restrict', $phpbb_ext_gallery_core_auth::OWN_ALBUM))
 			{
 				$access_options = array(
 					$phpbb_ext_gallery_core_auth::ACCESS_ALL			=> 'ALL',
@@ -349,7 +348,7 @@ class main_module
 				'S_PARENT_OPTIONS'			=> '<option value="' . $phpbb_ext_gallery->user->get_data('personal_album_id') . '">' . $user->lang['NO_PARENT_ALBUM'] . '</option>' . $parents_list,
 
 				'S_AUTH_ACCESS_OPTIONS'		=> $s_access_options,
-				'L_ALBUM_ACCESS_EXPLAIN'	=> $user->lang('ALBUM_ACCESS_EXPLAIN', '<a href="' . $phpbb_ext_gallery->url->append_sid('phpbb', 'faq') . '#f6r0">', '</a>'),
+				'L_ALBUM_ACCESS_EXPLAIN'	=> $user->lang('ALBUM_ACCESS_EXPLAIN', '<a href="' . $phpbb_gallery_url->append_sid('phpbb', 'faq') . '#f6r0">', '</a>'),
 			));
 		}
 		else
@@ -370,7 +369,7 @@ class main_module
 				'album_desc'					=> utf8_normalize_nfc($request->variable('album_desc', '', true)),
 				'album_user_id'					=> $user->data['user_id'],
 				'album_last_username'			=> '',
-				'album_auth_access'				=> ($phpbb_ext_gallery->auth->acl_check('a_restrict', $phpbb_ext_gallery_core_auth::OWN_ALBUM)) ? $request->variable('album_auth_access', 0) : 0,
+				'album_auth_access'				=> ($phpbb_ext_gallery_core_auth->acl_check('a_restrict', $phpbb_ext_gallery_core_auth::OWN_ALBUM)) ? $request->variable('album_auth_access', 0) : 0,
 			);
 
 			$album_data['album_auth_access'] = min(3, max(0, $album_data['album_auth_access']));
@@ -379,7 +378,7 @@ class main_module
 			{
 				trigger_error('MISSING_ALBUM_NAME');
 			}
-			$album_data['parent_id'] = ($album_data['parent_id']) ? $album_data['parent_id'] : $phpbb_ext_gallery->user->get_data('personal_album_id');
+			$album_data['parent_id'] = ($album_data['parent_id']) ? $album_data['parent_id'] : $phpbb_ext_gallery_user->get_data('personal_album_id');
 			generate_text_for_storage($album_data['album_desc'], $album_data['album_desc_uid'], $album_data['album_desc_bitfield'], $album_data['album_desc_options'], $request->variable('desc_parse_bbcode', false), $request->variable('desc_parse_urls', false), $request->variable('desc_parse_smilies', false));
 
 			/**
@@ -424,19 +423,19 @@ class main_module
 
 			$cache->destroy('_albums');
 			$cache->destroy('sql', $albums_table);
-			$phpbb_ext_gallery->auth->set_user_permissions('all', '');
+			$phpbb_ext_gallery_core_auth->set_user_permissions('all', '');
 
 			trigger_error($user->lang['CREATED_SUBALBUM'] . '<br /><br />
-				<a href="' . (($redirect) ? $phpbb_ext_gallery->url->append_sid('album', "album_id=$redirect_album_id") : $phpbb_ext_gallery->url->append_sid('phpbb', 'ucp', 'i=-phpbbgallery-core-ucp-main_module&amp;mode=manage_albums&amp;action=manage&amp;parent_id=' . (($album_data['parent_id']) ? $album_data['parent_id'] : $phpbb_ext_gallery->user->get_data('personal_album_id')))) . '">' . $user->lang['BACK_TO_PREV'] . '</a>');
+				<a href="' . (($redirect) ? $phpbb_gallery_url->append_sid('album', "album_id=$redirect_album_id") : $phpbb_gallery_url->append_sid('phpbb', 'ucp', 'i=-phpbbgallery-core-ucp-main_module&amp;mode=manage_albums&amp;action=manage&amp;parent_id=' . (($album_data['parent_id']) ? $album_data['parent_id'] : $phpbb_ext_gallery_user->get_data('personal_album_id')))) . '">' . $user->lang['BACK_TO_PREV'] . '</a>');
 		}
 	}
 
 	function edit_album()
 	{
-		global $config, $cache, $db, $template, $user, $phpbb_ext_gallery, $phpbb_ext_gallery_core_album, $phpbb_ext_gallery_core_auth, $albums_table, $phpbb_ext_gallery_core_album_display;
-		global $request;
+		global $config, $cache, $db, $template, $user, $phpbb_gallery_url, $phpbb_ext_gallery_core_album, $phpbb_ext_gallery_core_auth, $albums_table, $phpbb_ext_gallery_core_album_display;
+		global $request, $phpbb_ext_gallery_user;
 
-		$phpbb_ext_gallery->url->_include(array('bbcode','message_parser'), 'phpbb');
+		$phpbb_gallery_url->_include(array('bbcode','message_parser'), 'phpbb');
 
 		$album_id = $request->variable('album_id', 0);
 		$phpbb_ext_gallery_core_album->check_user($album_id);
@@ -458,7 +457,7 @@ class main_module
 			$parents_list = $phpbb_ext_gallery_core_album->get_albumbox(false, '', $album_data['parent_id'], false, $exclude_albums, $user->data['user_id']);
 
 			$s_access_options = '';
-			if ($phpbb_ext_gallery->auth->acl_check('a_restrict', $phpbb_ext_gallery_core_auth::OWN_ALBUM) && $album_data['parent_id'])
+			if ($phpbb_ext_gallery_core_auth->acl_check('a_restrict', $phpbb_ext_gallery_core_auth::OWN_ALBUM) && $album_data['parent_id'])
 			{
 				$access_options = array(
 					$phpbb_ext_gallery_core_auth::ACCESS_ALL			=> 'ALL',
@@ -478,15 +477,15 @@ class main_module
 
 			$template->assign_vars(array(
 				'S_EDIT_SUBALBUM'			=> true,
-				'S_PERSONAL_ALBUM'			=> ($album_id == $phpbb_ext_gallery->user->get_data('personal_album_id')) ? true : false,
+				'S_PERSONAL_ALBUM'			=> ($album_id == $phpbb_ext_gallery_user->get_data('personal_album_id')) ? true : false,
 				'S_AUTH_ACCESS_OPTIONS'		=> $s_access_options,
-				'L_ALBUM_ACCESS_EXPLAIN'	=> $user->lang('ALBUM_ACCESS_EXPLAIN', '<a href="' . $phpbb_ext_gallery->url->append_sid('phpbb', 'faq') . '#f6r0">', '</a>'),
+				'L_ALBUM_ACCESS_EXPLAIN'	=> $user->lang('ALBUM_ACCESS_EXPLAIN', '<a href="' . $phpbb_gallery_url->append_sid('phpbb', 'faq') . '#f6r0">', '</a>'),
 
 				'L_TITLE'					=> $user->lang['EDIT_SUBALBUM'],
 				'L_TITLE_EXPLAIN'			=> $user->lang['EDIT_SUBALBUM_EXP'],
 
 				'S_ALBUM_ACTION' 			=> $this->u_action . '&amp;action=edit&amp;album_id=' . $album_id . (($redirect != '') ? '&amp;redirect=album' : ''),
-				'S_PARENT_OPTIONS'			=> '<option value="' . $phpbb_ext_gallery->user->get_data('personal_album_id') . '">' . $user->lang['NO_PARENT_ALBUM'] . '</option>' . $parents_list,
+				'S_PARENT_OPTIONS'			=> '<option value="' . $phpbb_ext_gallery_user->get_data('personal_album_id') . '">' . $user->lang['NO_PARENT_ALBUM'] . '</option>' . $parents_list,
 
 				'ALBUM_NAME' 				=> $album_data['album_name'],
 				'ALBUM_DESC'				=> $album_desc_data['text'],
@@ -507,8 +506,8 @@ class main_module
 			}
 
 			$album_data = array(
-				'album_name'					=> ($album_id == $phpbb_ext_gallery->user->get_data('personal_album_id')) ? $user->data['username'] : $request->variable('album_name', '', true),
-				'parent_id'						=> $request->variable('parent_id', (($album_id == $phpbb_ext_gallery->user->get_data('personal_album_id')) ? 0 : $phpbb_ext_gallery->user->get_data('personal_album_id'))),
+				'album_name'					=> ($album_id == $phpbb_ext_gallery_user->get_data('personal_album_id')) ? $user->data['username'] : $request->variable('album_name', '', true),
+				'parent_id'						=> $request->variable('parent_id', (($album_id == $phpbb_ext_gallery_user->get_data('personal_album_id')) ? 0 : $phpbb_ext_gallery_user->get_data('personal_album_id'))),
 				//left_id and right_id are created some lines later
 				'album_parents'					=> '',
 				'album_type'					=> $phpbb_ext_gallery_core_album::TYPE_UPLOAD,
@@ -666,9 +665,9 @@ class main_module
 
 	function delete_album()
 	{
-		global $cache, $db, $template, $user, $phpbb_ext_gallery, $phpbb_ext_gallery_core_album, $albums_table;
+		global $cache, $db, $template, $user, $phpbb_gallery_url, $phpbb_ext_gallery_core_album, $albums_table;
 		global $images_table, $phpbb_gallery_image, $phpbb_ext_gallery_config, $phpbb_dispatcher, $request;
-		global $comments_table, $images_table, $rates_table, $reports_table, $watch_table, $phpbb_ext_gallery_core_auth;
+		global $comments_table, $images_table, $rates_table, $reports_table, $watch_table, $phpbb_ext_gallery_core_auth, $phpbb_ext_gallery_user;
 
 		$s_hidden_fields = build_hidden_fields(array(
 			'album_id'		=> $request->variable('album_id', 0),
@@ -752,19 +751,19 @@ class main_module
 			{
 				// TODO
 				//$phpbb_gallery_hookup->add_image($user->data['user_id'], 0 - $num_images);
-				$phpbb_ext_gallery->user->update_images((0 - $num_images));
+				$phpbb_ext_gallery_user->update_images((0 - $num_images));
 			}
 
 			// Maybe we deleted all, so we have to empty phpbb_gallery::$user->get_data('personal_album_id')
-			if (in_array($phpbb_ext_gallery->user->get_data('personal_album_id'), $deleted_albums))
+			if (in_array($phpbb_ext_gallery_user->get_data('personal_album_id'), $deleted_albums))
 			{
-				$phpbb_ext_gallery->user->update_data(array(
+				$phpbb_ext_gallery_user->update_data(array(
 					'personal_album_id'		=> 0,
 				));
 
 				$phpbb_ext_gallery_config->dec('num_pegas', 1);
 
-				if ($phpbb_ext_gallery_config->get('newest_pega_album_id') == $phpbb_ext_gallery->user->get_data('personal_album_id'))
+				if ($phpbb_ext_gallery_config->get('newest_pega_album_id') == $phpbb_ext_gallery_user->get_data('personal_album_id'))
 				{
 					// Update the config for the statistic on the index
 					if ($phpbb_ext_gallery_config->get('num_pegas') > 0)
@@ -841,7 +840,7 @@ class main_module
 			$phpbb_ext_gallery_core_auth->set_user_permissions('all', '');
 
 			trigger_error($user->lang['DELETED_ALBUMS'] . '<br /><br />
-				<a href="' . (($parent_id) ? $phpbb_ext_gallery->url->append_sid('phpbb', 'ucp', 'i=-phpbbgallery-core-ucp-main_module&amp;mode=manage_albums&amp;action=manage&amp;parent_id=' . $parent_id) : $phpbb_ext_gallery->url->append_sid('phpbb', 'ucp', 'i=-phpbbgallery-core-ucp-main_module&amp;mode=manage_albums')) . '">' . $user->lang['BACK_TO_PREV'] . '</a>');
+				<a href="' . (($parent_id) ? $phpbb_gallery_url->append_sid('phpbb', 'ucp', 'i=-phpbbgallery-core-ucp-main_module&amp;mode=manage_albums&amp;action=manage&amp;parent_id=' . $parent_id) : $phpbb_gallery_url->append_sid('phpbb', 'ucp', 'i=-phpbbgallery-core-ucp-main_module&amp;mode=manage_albums')) . '">' . $user->lang['BACK_TO_PREV'] . '</a>');
 		}
 		else
 		{
@@ -853,7 +852,7 @@ class main_module
 
 	function move_album()
 	{
-		global $cache, $db, $user, $phpbb_ext_gallery, $phpbb_ext_gallery_core_album, $albums_table, $request;
+		global $cache, $db, $user, $phpbb_ext_gallery_core_album, $albums_table, $request, $phpbb_gallery_url;
 
 		$album_id = $request->variable('album_id', 0);
 		$phpbb_ext_gallery_core_album->check_user($album_id);
@@ -918,13 +917,13 @@ class main_module
 
 		$cache->destroy('sql', $albums_table);
 		$cache->destroy('_albums');
-		$phpbb_ext_gallery->url->redirect('phpbb', 'ucp', 'i=-phpbbgallery-core-ucp-main_module&amp;mode=manage_albums&amp;action=manage&amp;parent_id=' . $moving['parent_id']);
+		$phpbb_gallery_url->redirect('phpbb', 'ucp', 'i=-phpbbgallery-core-ucp-main_module&amp;mode=manage_albums&amp;action=manage&amp;parent_id=' . $moving['parent_id']);
 	}
 
 	function manage_subscriptions()
 	{
-		global $db, $template, $user, $phpbb_container, $phpbb_ext_gallery, $phpbb_ext_gallery_core_album, $phpbb_gallery_notification, $watch_table, $albums_table, $contests_table;
-		global $images_table, $comments_table, $request;
+		global $db, $template, $user, $phpbb_container, $phpbb_ext_gallery_core_album, $phpbb_gallery_notification, $watch_table, $albums_table, $contests_table;
+		global $images_table, $comments_table, $request, $phpbb_gallery_url, $phpbb_ext_gallery_core_auth;
 
 		$phpbb_ext_gallery_core_image = $phpbb_container->get('phpbbgallery.core.image');
 		$phpbb_ext_gallery_config = $phpbb_container->get('phpbbgallery.core.config');
@@ -983,15 +982,15 @@ class main_module
 			$template->assign_block_vars('album_row', array(
 				'ALBUM_ID'			=> $row['album_id'],
 				'ALBUM_NAME'		=> $row['album_name'],
-				'U_VIEW_ALBUM'		=> $phpbb_ext_gallery->url->show_album($row['album_id']),
+				'U_VIEW_ALBUM'		=> $phpbb_gallery_url->show_album($row['album_id']),
 				'ALBUM_DESC'		=> generate_text_for_display($row['album_desc'], $row['album_desc_uid'], $row['album_desc_bitfield'], $row['album_desc_options']),
 
 				'UC_IMAGE_NAME'		=> $phpbb_ext_gallery_core_image->generate_link('image_name', $phpbb_ext_gallery_config->get('link_image_name'), $row['album_last_image_id'], $row['album_last_image_name'], $row['album_id']),
 				'UC_FAKE_THUMBNAIL'	=> $phpbb_ext_gallery_core_image->generate_link('fake_thumbnail', $phpbb_ext_gallery_config->get('link_thumbnail'), $row['album_last_image_id'], $row['album_last_image_name'], $row['album_id']),
-				'UPLOADER'			=> (($row['album_type'] == $phpbb_ext_gallery_core_album::TYPE_CONTEST) && ($row['contest_marked'] && !$phpbb_ext_gallery->auth->acl_check('m_status', $row['album_id'], $row['album_user_id']))) ? $user->lang['CONTEST_USERNAME'] : get_username_string('full', $row['album_last_user_id'], $row['album_last_username'], $row['album_last_user_colour']),
+				'UPLOADER'			=> (($row['album_type'] == $phpbb_ext_gallery_core_album::TYPE_CONTEST) && ($row['contest_marked'] && !$phpbb_ext_gallery_core_auth->acl_check('m_status', $row['album_id'], $row['album_user_id']))) ? $user->lang['CONTEST_USERNAME'] : get_username_string('full', $row['album_last_user_id'], $row['album_last_username'], $row['album_last_user_colour']),
 				'LAST_IMAGE_TIME'	=> $user->format_date($row['album_last_image_time']),
 				'LAST_IMAGE'		=> $row['album_last_image_id'],
-				'U_IMAGE'			=> $phpbb_ext_gallery->url->show_image($row['image_id']),
+				'U_IMAGE'			=> $phpbb_gallery_url->show_image($row['image_id']),
 			));
 		}
 		$db->sql_freeresult($result);
@@ -1035,7 +1034,7 @@ class main_module
 		while ($row = $db->sql_fetchrow($result))
 		{
 			$template->assign_block_vars('image_row', array(
-				'UPLOADER'			=> ($row['image_contest'] && !$phpbb_ext_gallery->auth->acl_check('m_status', $row['image_album_id'])) ? $user->lang['CONTEST_USERNAME'] : get_username_string('full', $row['image_user_id'], $row['image_username'], $row['image_user_colour']),
+				'UPLOADER'			=> ($row['image_contest'] && !$phpbb_ext_gallery_core_auth->acl_check('m_status', $row['image_album_id'])) ? $user->lang['CONTEST_USERNAME'] : get_username_string('full', $row['image_user_id'], $row['image_username'], $row['image_user_colour']),
 				'LAST_COMMENT_BY'	=> get_username_string('full', $row['comment_user_id'], $row['comment_username'], $row['comment_user_colour']),
 				'COMMENT'			=> $row['image_comments'],
 				//'LAST_COMMENT_TIME'	=> $user->format_date($row['comment_time']),
@@ -1044,8 +1043,8 @@ class main_module
 				'UC_FAKE_THUMBNAIL'	=> $phpbb_ext_gallery_core_image->generate_link('fake_thumbnail', $phpbb_ext_gallery_config->get('link_thumbnail'), $row['image_id'], $row['image_name'], $row['album_id']),
 				'ALBUM_NAME'		=> $row['album_name'],
 				'IMAGE_ID'			=> $row['image_id'],
-				'U_VIEW_ALBUM'		=> $phpbb_ext_gallery->url->show_album($row['image_album_id']),
-				'U_IMAGE'			=> $phpbb_ext_gallery->url->show_image($row['image_id']),
+				'U_VIEW_ALBUM'		=> $phpbb_gallery_url->show_album($row['image_album_id']),
+				'U_IMAGE'			=> $phpbb_gallery_url->show_image($row['image_id']),
 			));
 		}
 		$db->sql_freeresult($result);
