@@ -346,7 +346,7 @@ class main_module
 				'S_DESC_BBCODE_CHECKED'		=> true,
 				'S_DESC_SMILIES_CHECKED'	=> true,
 				'S_DESC_URLS_CHECKED'		=> true,
-				'S_PARENT_OPTIONS'			=> '<option value="' . $phpbb_ext_gallery->user->get_data('personal_album_id') . '">' . $user->lang['NO_PARENT_ALBUM'] . '</option>' . $parents_list,
+				'S_PARENT_OPTIONS'			=> '<option value="' . $phpbb_ext_gallery_user->get_data('personal_album_id') . '">' . $user->lang['NO_PARENT_ALBUM'] . '</option>' . $parents_list,
 
 				'S_AUTH_ACCESS_OPTIONS'		=> $s_access_options,
 				'L_ALBUM_ACCESS_EXPLAIN'	=> $user->lang('ALBUM_ACCESS_EXPLAIN', '<a href="' . $phpbb_gallery_url->append_sid('phpbb', 'faq') . '#f6r0">', '</a>'),
