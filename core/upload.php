@@ -38,6 +38,7 @@ class upload
 	public $image_data = array();
 	public $array_id2row = array();
 	public $error_prefix = '';
+	public $max_filesize = 0;
 	private $file_limit = 0;
 	private $album_id = 0;
 	private $file_count = 0;
@@ -350,7 +351,7 @@ class upload
 		$vars = array('additional_sql_data', 'file');
 		extract($this->phpbb_dispatcher->trigger_event('phpbbgallery.core.upload.prepare_file_before', compact($vars)));
 
-		$this->tools->set_image_options($this->gallery_config->get('max_filesize'), $this->gallery_config->get('max_height'), $this->gallery_config->get('max_width'));
+		$this->tools->set_image_options($this->max_filesize, $this->gallery_config->get('max_height'), $this->gallery_config->get('max_width'));
 		$this->tools->set_image_data($this->file->destination_file, '', $this->file->filesize, true);
 
 		// Rotate the image
@@ -386,7 +387,7 @@ class upload
 			}
 		}
 
-		if ($this->file->filesize > (1.2 * $this->gallery_config->get('max_filesize')))
+		if ($this->file->filesize > (1.2 * $this->max_filesize))
 		{
 			global $user;
 
@@ -411,7 +412,7 @@ class upload
 	*/
 	public function prepare_file_update($image_id)
 	{
-		$this->tools->set_image_options($this->gallery_config->get('max_filesize'), $this->gallery_config->get('max_height'), $this->gallery_config->get('max_width'));
+		$this->tools->set_image_options($this->max_filesize, $this->gallery_config->get('max_height'), $this->gallery_config->get('max_width'));
 		$this->tools->set_image_data($this->gallery_url->path('upload') . $this->image_data[$image_id]['image_filename'], '', 0, true);
 
 		// Rotate the image
@@ -788,7 +789,7 @@ class upload
 				$files[$ID] = $file;
 				continue;
 			}
-			//$this->common_checks($file);
+			$this->common_checks($file);
 			$files[$ID] = $file;
 			continue;
 		}
@@ -817,12 +818,34 @@ class upload
 			$file->error[] = sprintf($this->user->lang['FILE_DISALLOWED_EXTENSION'], $file->get('extension'));
 		}
 		// MIME Sniffing
-		if (!$this->valid_content($file))
-		{
-			$file->error[] = sprintf($this->user->lang['FILE_DISALLOWED_CONTENT']);
-		}
+		//if (!$this->valid_content($file))
+		//{
+		//	$file->error[] = sprintf($this->user->lang['FILE_DISALLOWED_CONTENT']);
+		//}
 	}
 
+	function valid_extension($file)
+	{
+		$allowed = array();
+		if ($this->gallery_config->get('allow_jpg'))
+		{
+			$allowed[] = 'jpg';
+			$allowed[] = 'jpeg';
+		}
+		if ($this->gallery_config->get('allow_gif'))
+		{
+			$allowed[] = 'gif';
+		}
+		if ($this->gallery_config->get('allow_png'))
+		{
+			$allowed[] = 'png';
+		}
+		if ($this->gallery_config->get('allow_zip'))
+		{
+			$allowed[] = 'zip';
+		}
+		return in_array($file->get('extension'), $allowed);
+	}
 	/**
 	 * Check for allowed dimension
 	 */
