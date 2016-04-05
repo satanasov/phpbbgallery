@@ -58,6 +58,7 @@ class main_module
 		$mode = $request->variable('mode', 'manage_albums');
 		$action = $request->variable('action', '');
 		$cancel = (isset($_POST['cancel'])) ? true : false;
+		$phpbb_ext_gallery_core_auth->load_user_premissions($user->data['user_id']);
 		if ($cancel)
 		{
 			$action = '';
@@ -147,14 +148,14 @@ class main_module
 
 	function initialise_album()
 	{
-		global $cache, $db, $phpbb_gallery_url, $user, $phpbb_ext_gallery_core_auth, $phpbb_ext_gallery_core_album, $phpbb_ext_gallery_config, $albums_table, $phpbb_ext_gallery_user;
+		global $cache, $db,  $user, $phpbb_ext_gallery_core_auth, $phpbb_ext_gallery_core_album, $phpbb_ext_gallery_config, $albums_table, $phpbb_ext_gallery_user;
 		global $request;
 
 		// we will have to initialse $phpbb_ext_gallery_user
 		$phpbb_ext_gallery_user->set_user_id($user->data['user_id']);
 		if (!$phpbb_ext_gallery_user->get_data('personal_album_id'))
 		{
-			// Check if the user is allowed to have one
+			// Check if the user is allowed to have on
 			if (!$phpbb_ext_gallery_core_auth->acl_check('i_upload', $phpbb_ext_gallery_core_auth::OWN_ALBUM))
 			{
 				trigger_error('NO_PERSALBUM_ALLOWED');
@@ -198,10 +199,10 @@ class main_module
 
 	function manage_albums()
 	{
-		global $cache, $db, $template, $user, $phpbb_ext_gallery, $phpbb_ext_gallery_core_album, $albums_table, $phpbb_ext_gallery_core_auth, $phpbb_ext_gallery_core_album_display;
-		global $phpbb_container, $request, $phpbb_gallery_url;
+		global $cache, $db, $template, $user, $phpbb_ext_gallery_core_album, $albums_table, $phpbb_ext_gallery_core_auth, $phpbb_ext_gallery_core_album_display;
+		global $phpbb_container, $request, $phpbb_gallery_url, $phpbb_ext_gallery_user;
 
-		$parent_id = $request->variable('parent_id', $phpbb_ext_gallery->user->get_data('personal_album_id'));
+		$parent_id = $request->variable('parent_id', $phpbb_ext_gallery_user->get_data('personal_album_id'));
 		$phpbb_ext_gallery_core_album->check_user($parent_id);
 		$helper = $phpbb_container->get('controller.helper');
 
