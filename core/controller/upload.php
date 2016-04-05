@@ -10,6 +10,8 @@
 
 namespace phpbbgallery\core\controller;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 class upload
 {
 	/* @var \phpbb\user */
@@ -31,6 +33,8 @@ class upload
 	 * @param \phpbb\db\driver\driver_interface      $db
 	 * @param \phpbb\user                            $user    User object
 	 * @param \phpbb\template\template               $template
+	 * @param \phpbb\config\config                   $config
+	 * @param Container                              $phpbb_container
 	 * @param \phpbbgallery\core\album\album         $album   Album class
 	 * @param \phpbbgallery\core\misc                $misc    Misc class
 	 * @param \phpbbgallery\core\auth\auth           $auth
@@ -46,6 +50,7 @@ class upload
 	 */
 
 	public function __construct(\phpbb\request\request $request, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\template\template $template,
+	\phpbb\config\config $config, ContainerInterface $phpbb_container,
 	\phpbbgallery\core\album\album $album, \phpbbgallery\core\misc $misc, \phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\album\display $display,
 	\phpbb\controller\helper $helper, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\image\image $image,
 	\phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\url $url, \phpbbgallery\core\upload $gallery_upload,
@@ -55,6 +60,8 @@ class upload
 		$this->db = $db;
 		$this->user = $user;
 		$this->template = $template;
+		$this->config = $config;
+		$this->phpbb_container = $phpbb_container;
 		$this->album = $album;
 		$this->misc = $misc;
 		$this->auth = $auth;
@@ -93,6 +100,116 @@ class upload
 		}
 		$submit = $this->request->variable('submit', false);
 		$mode = $this->request->variable('mode', 'upload');
+		// So let's see if we have AJAX and use jQuery shit.
+		// We are going to use ajax uplaod only for registered users.
+		// Anons should suffer.
+		if ($this->request->is_ajax() && $this->user->data['is_registered'])
+		{
+			// So we use ajax request to upload (so we are going to copy some functions from other upload
+			// Upload Quota Check
+			// 1. Check album-configuration Quota
+			if (($this->gallery_config->get('album_images') >= 0) && ($album_data['album_images'] >= $this->gallery_config->get('album_images')))
+			{
+				//@todo: Add return link
+				trigger_error('ALBUM_REACHED_QUOTA');
+			}
+
+			// 2. Check user-limit, if he is not allowed to go unlimited
+			if (!$this->auth->acl_check('i_unlimited', $album_id, $album_data['album_user_id']))
+			{
+				$sql = 'SELECT COUNT(image_id) count
+					FROM ' . $this->images_table . '
+					WHERE image_user_id = ' . $this->user->data['user_id'] . '
+						AND image_status <> ' . $this->image->get_status_orphan() . '
+						AND image_album_id = ' . $album_id;
+				$result = $this->db->sql_query($sql);
+				$own_images = (int) $this->db->sql_fetchfield('count');
+				$this->db->sql_freeresult($result);
+				if ($own_images >= $this->auth->acl_check('i_count', $album_id, $album_data['album_user_id']))
+				{
+					//@todo: Add return link
+					trigger_error($this->user->lang('USER_REACHED_QUOTA', $this->auth->acl_check('i_count', $album_id, $album_data['album_user_id'])));
+				}
+			}
+			$upload_files_limit = ($this->auth->acl_check('i_unlimited', $album_id, $album_data['album_user_id'])) ? $this->gallery_config->get('num_uploads') : min(($this->auth->acl_check('i_count', $album_id, $album_data['album_user_id']) - $own_images), $this->gallery_config->get('num_uploads'));
+			$process = $this->gallery_upload;
+			$process->set_up($album_id, $upload_files_limit);
+			$process->set_username($this->user->data['username']);
+			$process->set_allow_comments(1);
+			$process->upload_file(1);
+			if (!empty($process->errors))
+			{
+				return new \Symfony\Component\HttpFoundation\JsonResponse(array(
+					'files'	=> array(
+						array(
+							'error'	=> implode(',', $process->errors)
+						)
+					)
+				));
+			}
+			$checks = $process->generate_hidden_fields();
+			$process->get_images($checks);
+			$image_names = array();
+			foreach ($process->images as $ID)
+			{
+				$image_names[] = $process->image_data[$ID]['image_name'];
+			}
+			$process->set_names($image_names);
+
+			$success = true;
+			$phpbb_gallery_notification = new \phpbbgallery\core\notification();
+			foreach ($process->images as $image_id)
+			{
+				$success = $success && $process->update_image($image_id, !$this->auth->acl_check('i_approve', $album_id, $album_data['album_user_id']), $album_data['album_contest']);
+				if ($this->gallery_user->get_data('watch_own'))
+				{
+					$phpbb_gallery_notification->add($image_id);
+				}
+			}
+
+			if ($this->auth->acl_check('i_approve', $album_id, $album_data['album_user_id']))
+			{
+				//$this->notification_helper->notify_album($album_id, $this->user->data['user_id']);
+				$data = array(
+					'targets'	=> array($this->user->data['user_id']),
+					'album_id'	=> $album_id,
+					'last_image'	=> end($process->images),
+				);
+				$this->notification_helper->new_image($data);
+			}
+			else
+			{
+				$target = array(
+					'album_id'	=>	$album_id,
+					'last_image'	=> end($process->images),
+					'uploader'		=> $this->user->data['user_id'],
+				);
+				$this->notification_helper->notify('approval', $target);
+			}
+			// ToDo - notifications!!!
+			//$phpbb_gallery_notification->send_notification('album', $album_id, $image_names[0]);
+			$this->image->handle_counter($process->images, true);
+			$this->album->update_info($album_id);
+
+			// So if all is fine let's prepare response
+			$response = array();
+			foreach($process->images as $ID)
+			{
+				$response[] = array(
+					'url' => $this->helper->route('phpbbgallery_core_image', array('image_id' => $ID)),
+					'thumbnail'	=> $this->helper->route('phpbbgallery_core_image_file_mini', array('image_id' => $ID)),
+					'name'	=> $process->image_data[$ID]['image_name'],
+					//	'type'	=> $process->image_data[$process->images[0]]['image_name'],
+					'size'	=> $process->image_data[$ID]['filesize_upload'],
+					//	'delete_url'	=> '',
+					//	'delete_type'	=> ''
+				);
+			}
+			return new \Symfony\Component\HttpFoundation\JsonResponse(array(
+				'files'	=> $response
+			));
+
+		}
 		if ($mode == 'upload')
 		{
 			// Upload Quota Check
@@ -123,10 +240,14 @@ class upload
 
 			if ($this->misc->display_captcha('upload'))
 			{
-				phpbb_gallery_url::_include('captcha/captcha_factory', 'phpbb');
-				$captcha =& phpbb_captcha_factory::get_instance($config['captcha_plugin']);
+				$captcha = $this->phpbb_container->get('captcha.factory')->get_instance($this->config['captcha_plugin']);
 				$captcha->init(CONFIRM_POST);
 				$s_captcha_hidden_fields = '';
+				$this->template->assign_vars(array(
+					'S_CONFIRM_CODE'		=> true,
+					'CAPTCHA_TEMPLATE'		=> $captcha->get_template(),
+				));
+
 			}
 
 			$upload_files_limit = ($this->auth->acl_check('i_unlimited', $album_id, $album_data['album_user_id'])) ? $this->gallery_config->get('num_uploads') : min(($this->auth->acl_check('i_count', $album_id, $album_data['album_user_id']) - $own_images), $this->gallery_config->get('num_uploads'));
@@ -138,10 +259,10 @@ class upload
 				{
 					trigger_error('FORM_INVALID');
 				}
-				$process->set_rotating($this->request->variable('rotate', array(0)));
+				//$process->set_rotating($this->request->variable('rotate', array(0)));
 				$process->set_allow_comments($this->request->variable('allow_comments', false));
 
-				/*if ($this->misc->display_captcha('upload'))
+				if ($this->misc->display_captcha('upload'))
 				{
 					$captcha_error = $captcha->validate();
 					if ($captcha_error !== false)
@@ -149,10 +270,14 @@ class upload
 						$process->new_error($captcha_error);
 					}
 				}
-				*/
+
 				if (!$this->user->data['is_registered'])
 				{
 					$username = $this->request->variable('username', $this->user->data['username']);
+					if (!function_exists('validate_username'))
+					{
+						$this->url->_include(array('functions_user'), 'phpbb');
+					}
 					if ($result = validate_username($username))
 					{
 						$this->user->add_lang('ucp');
@@ -166,22 +291,11 @@ class upload
 
 				if (empty($process->errors))
 				{
-
-					for ($file_count = 0; $file_count < $upload_files_limit; $file_count++)
+					$files = $this->request->variable('files', array('name'=> array('' => ''), 'type' => array('' => ''), 'tmp_name' => array('' => ''), 'error' =>  array('' => ''), 'size' => array('' => '')), true, \phpbb\request\request_interface::FILES);
+					$count = count($files['name']);
+					if ($count <= $upload_files_limit)
 					{
-						/**
-						* Upload an image from the FILES-array,
-						* call some functions (rotate, resize, ...)
-						* and store the image to the database
-						*/
-						$file = $this->request->file('image_file_' . $file_count, '');
-						if (isset($file['size']))
-						{
-							if ($file['size'] > 0)
-							{
-								$process->upload_file($file_count);
-							}
-						}
+						$process->upload_file($count);
 					}
 				}
 
@@ -208,7 +322,7 @@ class upload
 			{
 				for ($i = 0; $i < $upload_files_limit; $i++)
 				{
-					$this->template->assign_block_vars('upload_image', array());
+					//$this->template->assign_block_vars('upload_image', array());
 				}
 			}
 			if ($mode == 'upload')
@@ -228,6 +342,32 @@ class upload
 					'L_ALLOW_COMMENTS'		=> $this->user->lang('ALLOW_COMMENTS_ARY', $upload_files_limit),
 				));
 
+				// The quick upload will work only for registered users!
+				// So fuck you bots and anons
+				if ($this->user->data['is_registered'])
+				{
+					$filetypes = array();
+					foreach($process->get_allowed_types(true) as $VAR)
+					{
+						if ($VAR == 'jpg')
+						{
+							$filetypes[] = 'jpe?g';
+						}
+						if ($VAR == 'zip')
+						{
+							continue;
+						}
+						else
+						{
+							$filetypes[] = $VAR;
+						}
+					}
+					$this->template->assign_vars(array(
+						'S_GALLERY_QUICK_UPLOAD'	=> true,
+						'S_QUICK_MAX_FILESIZE'	=> $this->gallery_config->get('max_filesize'),
+						'S_QUICK_FILE_TYPES' => '/(\.|\/)(' . implode('|', $filetypes) . ')$/i',
+					));
+				}
 				/*if (phpbb_gallery_misc::display_captcha('upload'))
 				{
 					if (!$submit || !$captcha->is_solved())

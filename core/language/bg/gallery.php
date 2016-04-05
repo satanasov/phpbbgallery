@@ -362,4 +362,7 @@ $lang = array_merge($lang, array(
 
 	'QUICK_MOD'	=> 'Изберете модераторско действие',
 	'WRONG_FILESIZE'	=> 'Изображението е по-голямо от лимита!',
+
+	// Versions 1.2.1 addiotions
+	'GALLERY_DROP'		=> 'Пуснете изображенията си тук',
 ));

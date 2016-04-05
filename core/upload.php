@@ -37,6 +37,7 @@ class upload
 	public $images = array();
 	public $image_data = array();
 	public $array_id2row = array();
+	public $error_prefix = '';
 	private $file_limit = 0;
 	private $album_id = 0;
 	private $file_count = 0;
@@ -47,6 +48,11 @@ class upload
 	private $file_descriptions = array();
 	private $file_names = array();
 	private $file_rotating = array();
+
+	var $min_width = 0;
+	var $min_height = 0;
+	var $max_width = 0;
+	var $max_height = 0;
 
 	/**
 	 * Constructor
@@ -59,7 +65,7 @@ class upload
 	 * @param                                   $root_path
 	 * @param                                   $php_ext
 	 */
-	public function __construct(\phpbb\user $user, \phpbb\db\driver\driver_interface $db, \phpbb\event\dispatcher_interface $phpbb_dispatcher,
+	public function __construct(\phpbb\user $user, \phpbb\db\driver\driver_interface $db, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbb\request\request $request,
 								\phpbbgallery\core\image\image $gallery_image, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\url $gallery_url,
 								$images_table,
 								$root_path, $php_ext)
@@ -67,6 +73,7 @@ class upload
 		$this->user = $user;
 		$this->db = $db;
 		$this->phpbb_dispatcher = $phpbb_dispatcher;
+		$this->request = $request;
 		$this->gallery_image = $gallery_image;
 		$this->gallery_config = $gallery_config;
 		$this->gallery_url	= $gallery_url;
@@ -93,6 +100,7 @@ class upload
 		$this->file_limit = (int) $num_files;
 		$this->username = $this->user->data['username'];
 
+		$this->max_filesize = 4 * $this->gallery_config->get('max_filesize');
 	}
 
 	/**
@@ -107,26 +115,23 @@ class upload
 		}
 		$this->file_count = (int) $file_count;
 
-		$this->file = $this->upload->form_upload('image_file_' . $this->file_count);
+		$this->files = $this->form_upload('files');
+		foreach($this->files as $VAR) {
+			$this->file = $VAR;
+			if (!$this->file->uploadname) {
+				return false;
+			}
 
-		if (!$this->file->uploadname)
-		{
-			return false;
-		}
+			if ($this->file->extension == 'zip') {
+				$this->zip_file = $this->file;
+				$this->upload_zip();
+			} else {
+				$image_id = $this->prepare_file();
 
-		if ($this->file->extension == 'zip')
-		{
-			$this->zip_file = $this->file;
-			$this->upload_zip();
-		}
-		else
-		{
-			$image_id = $this->prepare_file();
-
-			if ($image_id)
-			{
-				$this->uploaded_files++;
-				$this->images[] = (int) $image_id;
+				if ($image_id) {
+					$this->uploaded_files++;
+					$this->images[] = (int)$image_id;
+				}
 			}
 		}
 	}
@@ -693,5 +698,147 @@ class upload
 			$checks[] = $image_id . '$' . substr($this->image_data[$image_id]['image_filename'], 0, 8);
 		}
 		return $checks;
+	}
+
+	/**
+	 * Here we do a lot of hacking and slashing ... don't ask why ... I will have to change it to plupload usage once I know how!
+	 */
+
+	/**
+	 * Form upload method
+	 * Upload file from users harddisk
+	 *
+	 * @param string $form_name Form name assigned to the file input field (if it is an array, the key has to be specified)
+	 * @param \phpbb\mimetype\guesser $mimetype_guesser Mimetype guesser
+	 * @param \phpbb\plupload\plupload $plupload The plupload object
+	 *
+	 * @return object $file Object "filespec" is returned, all further operations can be done with this object
+	 * @access public
+	 */
+	private function form_upload($form_name, \phpbb\mimetype\guesser $mimetype_guesser = null)
+	{
+		$upload_unstr = $this->request->variable('files', array('name'=> array('' => ''), 'type' => array('' => ''), 'tmp_name' => array('' => ''), 'error' =>  array('' => ''), 'size' => array('' => '')), true, \phpbb\request\request_interface::FILES);
+
+		$upload_redy = array();
+		for ($i = 0; $i < count($upload_unstr['name']); $i++)
+		{
+			$upload_redy[$i] = array(
+				'name' => $upload_unstr['name'][$i],
+				'type' => $upload_unstr['type'][$i],
+				'tmp_name' => $upload_unstr['tmp_name'][$i],
+				'error'	=> ($upload_unstr['error'][$i] ? $upload_unstr['error'][$i] : null),
+				'size'	=> $upload_unstr['size'][$i]
+			);
+		}
+
+		foreach ($upload_redy as $ID => $VAR)
+		{
+			$upload = array(
+				'name' => $VAR['name'],
+				'type' => $VAR['type'],
+				'tmp_name' => $VAR['tmp_name'],
+				'error'	=> $VAR['error'],
+				'size'	=> $VAR['size']
+			);
+			$file = new \filespec($upload, $this, $mimetype_guesser, null);
+			if ($file->init_error)
+			{
+				$file->error[] = '';
+				$files[$ID] = $file;
+				continue;
+			}
+			// Error array filled?
+			if (isset($upload['error']))
+			{
+				$error = $upload['error'];
+				if ($error !== false)
+				{
+					$file->error[] = $error;
+					$files[$ID] = $file;
+					continue;
+				}
+			}
+			// Check if empty file got uploaded (not catched by is_uploaded_file)
+			if (isset($upload['size']) && $upload['size'] == 0)
+			{
+				$file->error[] = $this->user->lang['FILE_EMPTY_FILEUPLOAD'];
+				$files[$ID] = $file;
+				continue;
+			}
+			// PHP Upload filesize exceeded
+			if ($file->get('filename') == 'none')
+			{
+				$max_filesize = @ini_get('upload_max_filesize');
+				$unit = 'MB';
+				if (!empty($max_filesize))
+				{
+					$unit = strtolower(substr($max_filesize, -1, 1));
+					$max_filesize = (int) $max_filesize;
+					$unit = ($unit == 'k') ? 'KB' : (($unit == 'g') ? 'GB' : 'MB');
+				}
+				$file->error[] = (empty($max_filesize)) ? $this->user->lang['FILE_PHP_SIZE_NA'] : sprintf($this->user->lang['FILE_PHP_SIZE_OVERRUN'], $max_filesize, $this->user->lang[$unit]);
+				$files[$ID] = $file;
+				continue;
+			}
+
+			// Not correctly uploaded
+			if (!$file->is_uploaded())
+			{
+				$file->error[] = $this->user->lang['FILE_NOT_UPLOADED'];
+				$files[$ID] = $file;
+				continue;
+			}
+			//$this->common_checks($file);
+			$files[$ID] = $file;
+			continue;
+		}
+		return $files;
+	}
+
+	/**
+	 * Perform common checks
+	 */
+	function common_checks(&$file)
+	{
+		// Filesize is too big or it's 0 if it was larger than the maxsize in the upload form
+		if ($this->max_filesize && ($file->get('filesize') > $this->max_filesize || $file->get('filesize') == 0))
+		{
+			$max_filesize = get_formatted_filesize($this->max_filesize, false);
+			$file->error[] = sprintf($this->user->lang['FILE_WRONG_FILESIZE'], $max_filesize['value'], $max_filesize['unit']);
+		}
+		// check Filename
+		if (preg_match("#[\\/:*?\"<>|]#i", $file->get('realname')))
+		{
+			$file->error[] = sprintf($this->user->lang['FILE_INVALID_FILENAME'], $file->get('realname'));
+		}
+		// Invalid Extension
+		if (!$this->valid_extension($file))
+		{
+			$file->error[] = sprintf($this->user->lang['FILE_DISALLOWED_EXTENSION'], $file->get('extension'));
+		}
+		// MIME Sniffing
+		if (!$this->valid_content($file))
+		{
+			$file->error[] = sprintf($this->user->lang['FILE_DISALLOWED_CONTENT']);
+		}
+	}
+
+	/**
+	 * Check for allowed dimension
+	 */
+	function valid_dimensions(&$file)
+	{
+		if (!$this->max_width && !$this->max_height && !$this->min_width && !$this->min_height)
+		{
+			return true;
+		}
+		if (($file->get('width') > $this->max_width && $this->max_width) ||
+			($file->get('height') > $this->max_height && $this->max_height) ||
+			($file->get('width') < $this->min_width && $this->min_width) ||
+			($file->get('height') < $this->min_height && $this->min_height))
+		{
+			return false;
+		}
+		return true;
 	}
 }

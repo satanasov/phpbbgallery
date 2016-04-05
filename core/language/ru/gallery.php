@@ -330,4 +330,7 @@ $lang = array_merge($lang, array(
 		2	=> 	'%s фото перемещено',
 	),
 	'WRONG_FILESIZE'	=> 'Image is bigger then the limit!',
+
+	// Versions 1.2.1 addiotions
+	'GALLERY_DROP'		=> 'Drop your images here',
 ));

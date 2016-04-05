@@ -362,4 +362,7 @@ $lang = array_merge($lang, array(
 
 	'QUICK_MOD'	=> 'Select moderator action',
 	'WRONG_FILESIZE'	=> 'Image is bigger then the limit!',
+
+	// Versions 1.2.1 addiotions
+	'GALLERY_DROP'		=> 'Drop your images here',
 ));

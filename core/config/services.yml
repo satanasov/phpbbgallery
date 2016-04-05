@@ -224,6 +224,7 @@ services:
             - @user
             - @dbal.conn
             - @dispatcher
+            - @request
             - @phpbbgallery.core.image
             - @phpbbgallery.core.config
             - @phpbbgallery.core.url
@@ -260,6 +261,8 @@ services:
             - @dbal.conn
             - @user
             - @template
+            - @config
+            - @service_container
             - @phpbbgallery.core.album
             - @phpbbgallery.core.misc
             - @phpbbgallery.core.auth

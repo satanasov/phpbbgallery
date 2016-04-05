@@ -1314,7 +1314,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		
 		$crawler = self::request('GET', $upload_url);
 		
-		$this->assertEquals(0, $crawler->filter('input#image_file_1')->count());
+		$this->assertEquals(1, $crawler->filter('input#files')->count());
 		
 		// Change option
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
@@ -1330,7 +1330,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$upload_url = substr($crawler->filter('a:contains("' . $this->lang('UPLOAD_IMAGE') . '")')->attr('href'), 1);	
 		
 		$crawler = self::request('GET', $upload_url);
-		$this->assertEquals(1, $crawler->filter('input#image_file_1')->count());
+		$this->assertEquals(1, $crawler->filter('input#files')->count());
 		$this->logout();
 		$this->logout();
 	}
@@ -1358,7 +1358,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		
 		$crawler = self::request('GET', $upload_url);
 		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
-		$form['image_file_0'] =  __DIR__ . '/images/valid.jpg';;
+		$form['files'] = array(__DIR__ . '/images/valid.jpg');
 		$crawler = self::submit($form);
 		
 		$this->assertContains($this->lang('WRONG_FILESIZE'), $crawler->filter('p.error')->text());
@@ -1400,7 +1400,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		
 		$crawler = self::request('GET', $upload_url);
 		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
-		$form['image_file_0'] =  __DIR__ . '/images/valid.jpg';
+		$form['files'] = array(__DIR__ . '/images/valid.jpg');
 		$crawler = self::submit($form);
 		$form = $crawler->selectButton($this->lang['SUBMIT'])->form();
 		$form['image_name'] = array(
@@ -1452,7 +1452,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		
 		$crawler = self::request('GET', $upload_url);
 		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
-		$form['image_file_0'] =  __DIR__ . '/images/valid.jpg';;
+		$form['files'] = array(__DIR__ . '/images/valid.jpg');
 		$crawler = self::submit($form);
 		$this->assertContains($this->lang('UPLOAD_IMAGE_SIZE_TOO_BIG'), $crawler->filter('p.error')->text());
 		
@@ -1496,19 +1496,19 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$upload_url = substr($crawler->filter('a:contains("' . $this->lang('UPLOAD_IMAGE') . '")')->attr('href'), 1);
 		$crawler = self::request('GET', $upload_url);
 		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
-		$form['image_file_0'] =  __DIR__ . '/images/valid.jpg';
-		if ($option == 1)
-		{
-			$form['rotate'] = array(
-				0 => '270',
-			);
-		}
+		$form['files'] = array(__DIR__ . '/images/valid.jpg');
 		$crawler = self::submit($form);
 
 		$form = $crawler->selectButton($this->lang['SUBMIT'])->form();
 		$form['image_name'] = array(
 			0 => 'Rotate test',
 		);
+		if ($option == 1)
+		{
+			$form['rotate'] = array(
+				0 => '270',
+			);
+		}
 		$crawler = self::submit($form);
 		
 		$this->assertContainsLang('ALBUM_UPLOAD_SUCCESSFUL', $crawler->text());
@@ -1561,7 +1561,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		
 		$crawler = self::request('GET', $upload_url);
 		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
-		$form['image_file_0'] =  __DIR__ . '/images/valid.jpg';
+		$form['files'] = array(__DIR__ . '/images/valid.jpg');
 		$crawler = self::submit($form);
 		$form = $crawler->selectButton($this->lang['SUBMIT'])->form();
 		$form['image_name'] = array(
@@ -1626,7 +1626,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$upload_url = substr($crawler->filter('a:contains("' . $this->lang('UPLOAD_IMAGE') . '")')->attr('href'), 1);
 		$crawler = self::request('GET', $upload_url);
 		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
-		$form['image_file_0'] =  __DIR__ . '/images/valid.gif';
+		$form['files'] = array(__DIR__ . '/images/valid.gif');
 		$crawler = self::submit($form);
 		if ($option == 1)
 		{
@@ -1671,7 +1671,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$upload_url = substr($crawler->filter('a:contains("' . $this->lang('UPLOAD_IMAGE') . '")')->attr('href'), 1);
 		$crawler = self::request('GET', $upload_url);
 		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
-		$form['image_file_0'] =  __DIR__ . '/images/valid.jpg';
+		$form['files'] = array(__DIR__ . '/images/valid.jpg');
 		$crawler = self::submit($form);
 		if ($option == 1)
 		{
@@ -1716,7 +1716,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$upload_url = substr($crawler->filter('a:contains("' . $this->lang('UPLOAD_IMAGE') . '")')->attr('href'), 1);
 		$crawler = self::request('GET', $upload_url);
 		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
-		$form['image_file_0'] =  __DIR__ . '/images/valid.png';
+		$form['files'] = array(__DIR__ . '/images/valid.png');
 		$crawler = self::submit($form);
 		if ($option == 1)
 		{
@@ -1801,7 +1801,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		
 		$crawler = self::request('GET', $upload_url);
 		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
-		$form['image_file_0'] =  __DIR__ . '/images/valid.jpg';
+		$form['files'] = array(__DIR__ . '/images/valid.jpg');
 		$crawler = self::submit($form);
 		$form = $crawler->selectButton($this->lang['SUBMIT'])->form();
 		$form['message'] = array(
@@ -1834,7 +1834,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		
 		$crawler = self::request('GET', $upload_url);
 		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
-		$form['image_file_0'] =  __DIR__ . '/images/valid.jpg';
+		$form['files'] = array(__DIR__ . '/images/valid.jpg');
 		$crawler = self::submit($form);
 		$form = $crawler->selectButton($this->lang['SUBMIT'])->form();
 		$form['message'] = array(
@@ -1948,7 +1948,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		
 		$crawler = self::request('GET', $upload_url);
 		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
-		$form['image_file_0'] =  __DIR__ . '/images/valid.jpg';
+		$form['files'] = array(__DIR__ . '/images/valid.jpg');
 		$crawler = self::submit($form);
 		$form = $crawler->selectButton($this->lang['SUBMIT'])->form();
 		$form['image_name'] = array(
@@ -2181,7 +2181,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		
 		$crawler = self::request('GET', $upload_url);
 		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
-		$form['image_file_0'] =  __DIR__ . '/images/valid.jpg';
+		$form['files'] = array(__DIR__ . '/images/valid.jpg');
 		$crawler = self::submit($form);
 		$form = $crawler->selectButton($this->lang['SUBMIT'])->form();
 		$form['image_name'] = array(

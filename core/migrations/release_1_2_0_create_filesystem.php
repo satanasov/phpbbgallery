@@ -39,6 +39,7 @@ class release_1_2_0_create_filesystem extends \phpbb\db\migration\migration
 		$phpbbgallery_core_file_medium = $phpbb_root_path . 'files/phpbbgallery/core/medium';
 		$phpbbgallery_core_file_mini = $phpbb_root_path . 'files/phpbbgallery/core/mini';
 		$phpbbgallery_core_file_source = $phpbb_root_path . 'files/phpbbgallery/core/source';
+		$phpbbgallery_import_file = $phpbb_root_path . 'files/phpbbgallery/import';
 
 		if (is_writable($phpbb_root_path . 'files'))
 		{
@@ -46,6 +47,7 @@ class release_1_2_0_create_filesystem extends \phpbb\db\migration\migration
 			@mkdir($phpbbgallery_core_file_medium, 0755, true);
 			@mkdir($phpbbgallery_core_file_mini, 0755, true);
 			@mkdir($phpbbgallery_core_file_source, 0755, true);
+			@mkdir($phpbbgallery_import_file, 0755, true);
 		}
 	}
 
@@ -57,6 +59,7 @@ class release_1_2_0_create_filesystem extends \phpbb\db\migration\migration
 		$phpbbgallery_core_file_medium = $phpbb_root_path . 'files/phpbbgallery/core/medium';
 		$phpbbgallery_core_file_mini = $phpbb_root_path . 'files/phpbbgallery/core/mini';
 		$phpbbgallery_core_file_source = $phpbb_root_path . 'files/phpbbgallery/core/source';
+		$phpbbgallery_import_file = $phpbb_root_path . 'files/phpbbgallery/import';
 
 		// Clean dirs
 		$this->recursiveRemoveDirectory($phpbbgallery_core_file_mini);
@@ -64,6 +67,7 @@ class release_1_2_0_create_filesystem extends \phpbb\db\migration\migration
 		$this->recursiveRemoveDirectory($phpbbgallery_core_file_source);
 		$this->recursiveRemoveDirectory($phpbbgallery_core_file);
 		$this->recursiveRemoveDirectory($phpbb_root_path . 'files/phpbbgallery');
+		$this->recursiveRemoveDirectory($phpbbgallery_import_file);
 	}
 
 	public function copy_images()

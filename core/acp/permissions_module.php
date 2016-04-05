@@ -121,8 +121,6 @@ class permissions_module
 	function permissions_c_mask()
 	{
 		global $cache, $template, $phpbb_container, $gallery_auth;
-
-
 		// Init album
 		$gallery_album = $phpbb_container->get('phpbbgallery.core.album');
 

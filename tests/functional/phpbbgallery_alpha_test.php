@@ -415,7 +415,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		
 		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
 		
-		$form['image_file_0'] =  __DIR__ . '/images/valid.jpg';;
+		$form['files'] = array(__DIR__ . '/images/valid.jpg');
 		$crawler = self::submit($form);
 		
 		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
@@ -452,7 +452,8 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
 		
 		$upload_url = substr($crawler->filter('a:contains("' . $this->lang('UPLOAD_IMAGE') . '")')->attr('href'), 1);
-		
+		/*
+		// This is going to take some time to figure out how to do it as normal single test.
 		$crawler = self::request('GET', $upload_url);
 		
 		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
@@ -460,8 +461,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		
 		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
 		
-		$form['image_file_0'] =  __DIR__ . '/images/valid.jpg';;
-		$form['image_file_1'] =  __DIR__ . '/images/valid.jpg';;
+		$form['files'] =  array(__DIR__ . '/images/valid.jpg', __DIR__ . '/images/valid.jpg');
 		$crawler = self::submit($form);
 		
 		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
@@ -476,7 +476,50 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$crawler = self::submit($form);
 		
 		$this->assertContains('But your image must be approved by a administrator or a moderator before they are public visible.', $crawler->text());
+		*/
+		$crawler = self::request('GET', $upload_url);
 		
+		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
+		$this->assertContains('First test album!', $crawler->text());
+		
+		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
+		
+		$form['files'] =  array(__DIR__ . '/images/valid.jpg');
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
+		$this->assertContains('First test album!', $crawler->text());
+		
+		//$this->assertContains('zazazazazaza', $crawler->text());
+		$form = $crawler->selectButton($this->lang['SUBMIT'])->form();
+		$form['image_name'] = array(
+			0 => 'Valid but needs approve',
+		);
+		$crawler = self::submit($form);
+		
+		$this->assertContains('But your image must be approved by a administrator or a moderator before they are public visible.', $crawler->text());
+		//Second image ???
+		$crawler = self::request('GET', $upload_url);
+		
+		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
+		$this->assertContains('First test album!', $crawler->text());
+		
+		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
+		
+		$form['files'] =  array(__DIR__ . '/images/valid.jpg');
+		$crawler = self::submit($form);
+		
+		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
+		$this->assertContains('First test album!', $crawler->text());
+		
+		//$this->assertContains('zazazazazaza', $crawler->text());
+		$form = $crawler->selectButton($this->lang['SUBMIT'])->form();
+		$form['image_name'] = array(
+			0 => 'Valid but needs delete',
+		);
+		$crawler = self::submit($form);
+		
+		$this->assertContains('But your image must be approved by a administrator or a moderator before they are public visible.', $crawler->text());
 		//$crawler = self::request('GET', 'app.php/gallery/album/1');
 		$meta = $crawler->filter('meta[http-equiv="refresh"]')->attr('content');
 		$this->assertContains('app.php/gallery/album/1', $meta);
@@ -942,7 +985,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		
 		$this->assertContainsLang('UPLOAD_IMAGE', $crawler->text());
 		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
-		$form['image_file_0'] =  __DIR__ . '/images/valid.jpg';
+		$form['files'] = array(__DIR__ . '/images/valid.jpg');
 		$crawler = self::submit($form);
 		
 		$form = $crawler->selectButton('submit')->form();
