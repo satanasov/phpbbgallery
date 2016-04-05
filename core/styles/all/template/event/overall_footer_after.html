@@ -1,0 +1,147 @@
+<!-- IF S_GALLERY_QUICK_UPLOAD -->
+<script>
+(function($) {  // Avoid conflicts with other libraries
+	"use strict"
+	$(function () {
+		var fileNumber = 0;
+		$('#covverall').fileupload({
+			replaceFileInput: false,
+			url: "{S_ALBUM_ACTION}",
+			dropZone: $('#covverall'),
+			//acceptFileTypes: '{S_QUICK_FILE_TYPES}', // User side filetype test does not work!
+			maxFileSize: '{S_QUICK_MAX_FILESIZE}', // And it appears that user side size is ignored too.
+			dataType: 'json',
+			paramName: 'files[]',
+			uploadTemplateId: null,
+			downloadTemplateId: null,
+			uploadTemplate: function (o) {
+				var rows = $();
+				$.each(o.files, function (index, file) {
+					var row = $('<tr class="template-upload fade">' +
+						'<td><span class="preview"></span></td>' +
+						'<td><p class="name"></p>' +
+						'<div class="error"></div>' +
+						'</td>' +
+						'<td><p class="size"></p>' +
+						'<div class="progress"></div>' +
+						'</td>' +
+						'<td>' +
+						(!index && !o.options.autoUpload ?
+							'<button class="start" disabled>Start</button>' : '') +
+						(!index ? '<button class="cancel">Cancel</button>' : '') +
+						'</td>' +
+						'</tr>');
+					row.find('.name').text(file.name);
+					row.find('.size').text(o.formatFileSize(file.size));
+					if (file.error) {
+						row.find('.error').text(file.error);
+					}
+					rows = rows.add(row);
+				});
+				return rows;
+			},
+			downloadTemplate: function (o) {
+				var rows = $();
+				$.each(o.files, function (index, file) {
+					var row = $('<div class="uploadImage">' +
+							'<div class="preview"></div>' +
+							'<div class="info">' +
+								(!file.error ? '<label>{L_IMAGE_NAME}{L_COLON}</label><span class="name"></span>' : '') +
+							(file.error ? '<div class="error"></div>' : '') +
+							'</div>' +
+							'</div>'
+					);
+					row.find('.size').text(o.formatFileSize(file.size));
+					if (file.error) {
+						row.find('.name').text(file.name);
+						row.find('.error').html(file.error);
+					} else {
+						row.find('.name').append($('<a></a>').text(file.name));
+						if (file.thumbnail) {
+							row.find('.preview').append(
+								$('<a></a>').append(
+									$('<img>').prop('src', file.thumbnail)
+								)
+							);
+						}
+						row.find('a')
+							.attr('data-gallery', '')
+							.prop('href', file.url);
+						row.find('button.delete')
+							.attr('data-type', file.delete_type)
+							.attr('data-url', file.delete_url);
+					}
+					rows = rows.add(row);
+				});
+				return rows;
+			}
+		});
+		$('#covverall').bind('fileuploadadd', function (e, data) {
+			//var build = '<div>Uploading ' + data.files[0].name + '</div>';
+			var build = '<div class="uploadImage">' +
+							'<div class="preview"><img src="#"></div>' +
+							'<div class="info">' +
+								'<label>{L_IMAGE_NAME}{L_COLON}</label> <span class="name">'+data.files[0].name+'</span>' +
+							'</div>' +
+							'</div>';
+			data.context = $(build).appendTo('#outputTarget .inner .containUploads');
+            data.submit();
+			fileNumber++;
+		});
+		$('#covverall').bind('fileuploadstart', function (e, data) {
+			//console.log(data);
+			$('#outputTarget').removeClass('hidden');
+		});
+		$('#covverall').bind('fileuploaddone', function (e, data) {
+			//console.log(data);
+		});
+		$('#covverall').bind('fileuploadfail', function (e, data) {
+			console.log('Fail!');
+			$('#outputTarget .inner .meter span p').text('{L_ERROR}');
+		});
+		$('#covverall').bind('fileuploadprogressall', function (e, data) {
+			console.log(data);
+			var progress = parseInt(data.loaded / data.total * 100, 10);
+			var percent = progress + '%'
+			$('#outputTarget .inner .meter span').css('width', percent);
+			$('#outputTarget .inner .meter span p').text(percent);
+		});
+		$(document).bind('dragover', function (e) {
+			var dropZone = $('#covverall'),
+				timeout = window.dropZoneTimeout;
+			if (!timeout) {
+				dropZone.addClass('in');
+			} else {
+				clearTimeout(timeout);
+			}
+			var found = false,
+				node = e.target;
+			do {
+				if (node === dropZone[0]) {
+					found = true;
+					break;
+				}
+				node = node.parentNode;
+			} while (node != null);
+			if (found) {
+				dropZone.addClass('hover');
+			} else {
+				dropZone.removeClass('hover');
+			}
+			window.dropZoneTimeout = setTimeout(function () {
+				window.dropZoneTimeout = null;
+				dropZone.removeClass('in hover');
+			}, 100);
+		});
+	});
+})(jQuery); // Avoid conflicts with other libraries
+</script>
+<!-- INCLUDEJS @phpbbgallery_core/js/load-image.all.min.js -->
+<!-- INCLUDEJS @phpbbgallery_core/js/jquery.ui.widget.js -->
+<!-- INCLUDEJS @phpbbgallery_core/js/jquery.iframe-transport.js -->
+<!-- INCLUDEJS @phpbbgallery_core/js/jquery.fileupload.js -->
+<!-- INCLUDEJS @phpbbgallery_core/js/jquery.fileupload-process.js -->
+<!-- INCLUDEJS @phpbbgallery_core/js/jquery.fileupload-image.js -->
+<!-- INCLUDEJS @phpbbgallery_core/js/jquery.fileupload-validate.js -->
+<!-- INCLUDEJS @phpbbgallery_core/js/jquery.fileupload-ui.js -->
+<!-- ENDIF -->

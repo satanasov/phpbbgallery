@@ -1,0 +1,104 @@
+#covverall {
+	display: none;
+}
+#covverall .dropzone {
+	border: 5px dashed #536482;
+	height: 95%;
+	vertical-align: middle;
+	font-size: 35pt;
+}
+
+#covverall.in {
+	position: absolute;
+	background-color: #f7f7f7;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	z-index: 100;
+	width: 100%;
+	height: 99%;
+	display: block;
+	opacity: 0.8;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 15pt;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	padding: 5px;
+}
+
+#covverall.fade {
+	-webkit-transition: all 0.3s ease-out;
+	-moz-transition: all 0.3s ease-out;
+	-ms-transition: all 0.3s ease-out;
+	-o-transition: all 0.3s ease-out;
+	transition: all 0.3s ease-out;
+	opacity: 1;
+}
+
+.uploadImage {
+	padding: 4px;
+	background-color: #ECF1F3;
+	margin-right: 8px;
+	margin-bottom: 8px;
+	width: 19%;
+	float: left;
+}
+.uploadImage .preview {
+	padding-left: 3%;
+}
+
+.uploadImage .preview img {
+	margin: auto;
+	max-height: 200px;
+	max-width: 200px;
+}
+
+.uploadImage .info {
+	padding-left: 3%;
+}
+.uploadImage .info .name{
+	font-size: 8pt;
+	color: #105289;
+	overflow: hidden;
+}
+
+.meter {
+	height: 20px;  /* Can be anything */
+	position: relative;
+	/*background: #12A3EB;*/
+	-moz-border-radius: 25px;
+	-webkit-border-radius: 25px;
+	border-radius: 25px;
+	padding: 10px;
+	box-shadow: inset 0 -1px 1px rgba(255,255,255,0.3);
+}
+
+.meter > span {
+  display: block;
+  height: 100%;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  background-color: rgb(43,194,83);
+  background-image: linear-gradient(
+    center bottom,
+    rgb(43,194,83) 37%,
+    rgb(84,240,84) 69%
+  );
+  box-shadow:
+    inset 0 2px 9px  rgba(255,255,255,0.3),
+    inset 0 -2px 6px rgba(0,0,0,0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.meter > span > p {
+	margin-top: 2px;
+	text-align: center;
+	color: #115098;
+	font-weight: bold;
+}
