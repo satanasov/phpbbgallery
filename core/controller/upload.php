@@ -193,7 +193,7 @@ class upload
 
 			// So if all is fine let's prepare response
 			$response = array();
-			foreach($process->images as $ID)
+			foreach ($process->images as $ID)
 			{
 				$response[] = array(
 					'url' => $this->helper->route('phpbbgallery_core_image', array('image_id' => $ID)),
@@ -347,7 +347,7 @@ class upload
 				if ($this->user->data['is_registered'])
 				{
 					$filetypes = array();
-					foreach($process->get_allowed_types(true) as $VAR)
+					foreach ($process->get_allowed_types(true) as $VAR)
 					{
 						if ($VAR == 'jpg')
 						{

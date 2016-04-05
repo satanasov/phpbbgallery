@@ -123,21 +123,27 @@ class upload
 		$this->file_count = (int) $file_count;
 
 		$this->files = $this->form_upload('files');
-		foreach($this->files as $VAR) {
+		foreach ($this->files as $VAR)
+		{
 			$this->file = $VAR;
-			if (!$this->file->uploadname) {
+			if (!$this->file->uploadname)
+			{
 				return false;
 			}
 
-			if ($this->file->extension == 'zip') {
+			if ($this->file->extension == 'zip')
+			{
 				$this->zip_file = $this->file;
 				$this->upload_zip();
-			} else {
+			}
+			else
+			{
 				$image_id = $this->prepare_file();
 
-				if ($image_id) {
+				if ($image_id)
+				{
 					$this->uploaded_files++;
-					$this->images[] = (int)$image_id;
+					$this->images[] = (int) $image_id;
 				}
 			}
 		}
