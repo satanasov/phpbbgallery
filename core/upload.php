@@ -59,10 +59,13 @@ class upload
 	 * Constructor
 	 *
 	 * @param \phpbb\user                       $user           phpBB User class
+	 * @param \phpbb\db\driver\driver_interface $db
 	 * @param \phpbb\event\dispatcher_interface $phpbb_dispatcher
+	 * @param \phpbb\request\request            $request
 	 * @param \phpbbgallery\core\image\image    $gallery_image
 	 * @param \phpbbgallery\core\config         $gallery_config Gallery Config
 	 * @param \phpbbgallery\core\url            $gallery_url    Gallery url
+	 * @param                                   $images_table
 	 * @param                                   $root_path
 	 * @param                                   $php_ext
 	 */
@@ -105,8 +108,11 @@ class upload
 	}
 
 	/**
-	* Upload a file and then call the function for reading the zip or preparing the image
-	*/
+	 * Upload a file and then call the function for reading the zip or preparing the image
+	 *
+	 * @param $file_count
+	 * @return bool
+	 */
 	public function upload_file($file_count)
 	{
 		if ($this->file_limit && ($this->uploaded_files >= $this->file_limit))
@@ -149,7 +155,7 @@ class upload
 
 		$tmp_dir = $this->gallery_url->path('import') . 'tmp_' . md5(unique_id()) . '/';
 
-		$this->zip_file->clean_filename('unique_ext'/*, $user->data['user_id'] . '_'*/);
+		$this->zip_file->clean_filename('unique_ext');
 		$this->zip_file->move_file(substr($this->gallery_url->path('import_noroot'), 0, -1), false, false, CHMOD_ALL);
 		if (!empty($this->zip_file->error))
 		{
@@ -174,8 +180,10 @@ class upload
 	}
 
 	/**
-	* Read a folder from the zip, "upload" the images and remove the rest.
-	*/
+	 * Read a folder from the zip, "upload" the images and remove the rest.
+	 *
+	 * @param $current_dir
+	 */
 	public function read_zip_folder($current_dir)
 	{
 		$handle = opendir($current_dir);
@@ -230,8 +238,13 @@ class upload
 	}
 
 	/**
-	* Update image information in the database: name, description, status, contest, ...
-	*/
+	 * Update image information in the database: name, description, status, contest, ...
+	 *
+	 * @param      $image_id
+	 * @param bool $needs_approval
+	 * @param bool $is_in_contest
+	 * @return bool
+	 */
 	public function update_image($image_id, $needs_approval = false, $is_in_contest = false)
 	{
 		if ($this->file_limit && ($this->uploaded_files >= $this->file_limit))
@@ -407,9 +420,12 @@ class upload
 	}
 
 	/**
-	* Prepare file on second upload step.
-	* You can still rotate the image there.
-	*/
+	 * Prepare file on second upload step.
+	 * You can still rotate the image there.
+	 *
+	 * @param $image_id
+	 * @return mixed
+	 */
 	public function prepare_file_update($image_id)
 	{
 		$this->tools->set_image_options($this->max_filesize, $this->gallery_config->get('max_height'), $this->gallery_config->get('max_width'));
@@ -430,8 +446,11 @@ class upload
 	}
 
 	/**
-	* Insert the file into the database
-	*/
+	 * Insert the file into the database
+	 *
+	 * @param $additional_sql_ary
+	 * @return int
+	 */
 	public function file_to_database($additional_sql_ary)
 	{
 		$image_name = str_replace("_", "_", utf8_substr($this->file->uploadname, 0, utf8_strrpos($this->file->uploadname, '.')));
@@ -468,8 +487,10 @@ class upload
 	}
 
 	/**
-	* Delete orphan uploaded files, which are older than half an hour...
-	*/
+	 * Delete orphan uploaded files, which are older than half an hour...
+	 *
+	 * @param int $time
+	 */
 	public function prune_orphan($time = 0)
 	{
 		$prunetime = (int) (($time) ? $time : (time() - 1800));
