@@ -25,18 +25,30 @@ class upload
 	protected $display;
 
 	/**
-	* Constructor
-	*
-	* @param \phpbb\user				$user		User object
-	* @param \phpbbgallery\core\misc	$misc		Misc class
-	* @param \phpbbgallery\core\album\album	$album	Album class
-	* @param \phpbbgallery\core\album\display	$display	Display class
-	*/
+	 * Constructor
+	 *
+	 * @param \phpbb\request\request                 $request
+	 * @param \phpbb\db\driver\driver_interface      $db
+	 * @param \phpbb\user                            $user    User object
+	 * @param \phpbb\template\template               $template
+	 * @param \phpbbgallery\core\album\album         $album   Album class
+	 * @param \phpbbgallery\core\misc                $misc    Misc class
+	 * @param \phpbbgallery\core\auth\auth           $auth
+	 * @param \phpbbgallery\core\album\display       $display Display class
+	 * @param \phpbb\controller\helper               $helper
+	 * @param \phpbbgallery\core\config              $gallery_config
+	 * @param \phpbbgallery\core\user                $gallery_user
+	 * @param \phpbbgallery\core\image\image         $image
+	 * @param \phpbbgallery\core\notification\helper $notification_helper
+	 * @param \phpbbgallery\core\url                 $url
+	 * @param \phpbbgallery\core\upload              $gallery_upload
+	 * @param                                        $images_table
+	 */
 
 	public function __construct(\phpbb\request\request $request, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\template\template $template,
 	\phpbbgallery\core\album\album $album, \phpbbgallery\core\misc $misc, \phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\album\display $display,
 	\phpbb\controller\helper $helper, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\image\image $image,
-	\phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\url $url,
+	\phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\url $url, \phpbbgallery\core\upload $gallery_upload,
 	$images_table)
 	{
 		$this->request = $request;
@@ -52,6 +64,7 @@ class upload
 		$this->gallery_user = $gallery_user;
 		$this->image = $image;
 		$this->url = $url;
+		$this->gallery_upload = $gallery_upload;
 		$this->notification_helper = $notification_helper;
 		$this->images_table = $images_table;
 	}
@@ -117,15 +130,14 @@ class upload
 			}
 
 			$upload_files_limit = ($this->auth->acl_check('i_unlimited', $album_id, $album_data['album_user_id'])) ? $this->gallery_config->get('num_uploads') : min(($this->auth->acl_check('i_count', $album_id, $album_data['album_user_id']) - $own_images), $this->gallery_config->get('num_uploads'));
-			$process = new \phpbbgallery\core\upload($album_id, $upload_files_limit);
+			$process = $this->gallery_upload;
+			$process->set_up($album_id, $upload_files_limit);
 			if ($submit)
 			{
 				if (!check_form_key('gallery'))
 				{
 					trigger_error('FORM_INVALID');
 				}
-
-				//$process = new \phpbbgallery\core\upload($album_id, $upload_files_limit);
 				$process->set_rotating($this->request->variable('rotate', array(0)));
 				$process->set_allow_comments($this->request->variable('allow_comments', false));
 
@@ -140,7 +152,7 @@ class upload
 				*/
 				if (!$this->user->data['is_registered'])
 				{
-					$username = $this->request->variable('username', $user->data['username']);
+					$username = $this->request->variable('username', $this->user->data['username']);
 					if ($result = validate_username($username))
 					{
 						$this->user->add_lang('ucp');
@@ -272,7 +284,8 @@ class upload
 
 				$upload_ids = $this->request->variable('upload_ids', array(''));
 
-				$process = new \phpbbgallery\core\upload($album_id, $upload_files_limit);
+				$process = $this->gallery_upload;
+				$process->set_up($album_id, $upload_files_limit);
 				$process->set_rotating($this->request->variable('rotate', array(0)));
 				$process->get_images($upload_ids);
 				$image_names = $this->request->variable('image_name', array(''), true);

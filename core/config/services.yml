@@ -218,7 +218,18 @@ services:
             - @phpbbgallery.core.config
             - %tables.phpbbgallery.images%
             - %tables.phpbbgallery.contests%
-
+    phpbbgallery.core.upload:
+        class: phpbbgallery\core\upload
+        arguments:
+            - @user
+            - @dbal.conn
+            - @dispatcher
+            - @phpbbgallery.core.image
+            - @phpbbgallery.core.config
+            - @phpbbgallery.core.url
+            - %tables.phpbbgallery.images%
+            - %core.root_path%
+            - %core.php_ext%
 #######################
 #### Define event #####
 #######################
@@ -259,6 +270,7 @@ services:
             - @phpbbgallery.core.image
             - @phpbbgallery.core.notification.helper
             - @phpbbgallery.core.url
+            - @phpbbgallery.core.upload
             - %tables.phpbbgallery.images%
     phpbbgallery.core.controller.album:
         class: phpbbgallery\core\controller\album
