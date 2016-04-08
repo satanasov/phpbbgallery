@@ -28,37 +28,37 @@ class log
 	}
 
 	/**
-	* Add item to log
-	*
-	* @param	(string)	$log_type		type of action (user/mod/admin/system) max 16 chars
-	* @param	(string)	$log_action		action we are loging (add/remove/approve/unaprove/delete) max 32 chars
-	* @param	(int)		$album			Album we are loging for (can be 0)
-	* @param	(int)		$image			Image we are loging for (can be 0)
-	* @param	(string)	$description	Description sting
-	*/
+	 * Add item to log
+	 *
+	 * @param   string			$log_type    type of action (user/mod/admin/system) max 16 chars
+	 * @param   string			$log_action  action we are loging (add/remove/approve/unaprove/delete) max 32 chars
+	 * @param 	int				$album
+	 * @param   int				$image       Image we are loging for (can be 0)
+	 * @param	array|string 	$description Description string
+	 */
 
 	public function add_log($log_type, $log_action, $album = 0, $image = 0, $description = array())
 	{
 		$user = (int) $this->user->data['user_id'];
 		$time = (int) time();
 
-		$sql = 'INSERT INTO ' . $this->log_table . ' (log_time, log_type, log_action, log_user, log_ip, album, image, description)
-		VALUES (
-			' . (int) $time . ',
-			\'' . $this->db->sql_escape($log_type) . '\',
-			\'' . $this->db->sql_escape($log_action) . '\',
-			' . (int) $user . ',
-			\'' . $this->db->sql_escape($this->user->ip) . '\',
-			' . (int) $album . ',
-			' . (int) $image . ',
-			\'' . $this->db->sql_escape(json_encode($description)) . '\'
-		)';
+		$sql_array = array(
+			'log_time'		=> (int) $time,
+			'log_type'		=> $this->db->sql_escape($log_type),
+			'log_action'	=> $this->db->sql_escape($log_action),
+			'log_user'		=> (int) $user,
+			'log_ip'		=> $this->db->sql_escape($this->user->ip),
+			'album'			=> (int) $album,
+			'image'			=> (int) $image,
+			'description'	=> $this->db->sql_escape(json_encode($description))
+		);
+		$sql = 'INSERT INTO ' . $this->log_table . ' ' . $this->db->sql_build_array('INSERT', $sql_array);
 		$this->db->sql_query($sql);
 	}
 
 	/**
 	* Delete logs
-	* @param	(array)	$mark	Logs selected for deletion
+	* @param	array	$mark	Logs selected for deletion
 	**/
 	public function delete_logs($mark)
 	{
@@ -66,13 +66,18 @@ class log
 		$this->db->sql_query($sql);
 		$this->add_log('admin', 'log', 0, 0, array('LOG_CLEAR_GALLERY'));
 	}
+
 	/**
-	* Build log list
-	*
-	* @param	(string)	$type	Type of queue to build user/mod/admin/system
-	* @param	(int)		$limit	How many items to show
-	* @param	(int)		$start	start count used to build paging
-	*/
+	 * Build log list
+	 *
+	 * @param   	string		$type  Type of queue to build user/mod/admin/system
+	 * @param		int			$limit How many items to show
+	 * @param		int			$page
+	 * @param		int			$album
+	 * @param		int			$image
+	 * @param		array		$additional
+	 * @internal	param int	$start start count used to build paging
+	 */
 	public function build_list($type, $limit = 0, $page = 1, $album = 0, $image = 0, $additional = array())
 	{
 		if ($limit == 0)
@@ -160,7 +165,7 @@ class log
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query_limit($sql, $limit, ($page - 1) * $limit);
 
-		$logouput = $users_array = array();
+		$logoutput = $users_array = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$logoutput[] = array(
