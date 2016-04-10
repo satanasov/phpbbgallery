@@ -6,34 +6,34 @@ matrix:
       env:
         - DB=mysqli
     - php: 5.3
-      env: 
+      env:
         - DB=mysqli # MyISAM
     - php: 5.4
-      env: 
+      env:
         - DB=mysqli
     - php: 5.4
-      env: 
+      env:
         - DB=mysql
     - php: 5.4
-      env: 
+      env:
         - DB=mariadb
     - php: 5.4
-      env: 
+      env:
         - DB=postgres
     - php: 5.4
-      env: 
+      env:
         - DB=sqlite3
     - php: 5.5
-      env: 
+      env:
         - DB=mysqli
     - php: 5.6
-      env: 
+      env:
         - DB=mysqli
     - php: hhvm
-      env: 
-        - DB=mysqli 
+      env:
+        - DB=mysqli
     - php: 7
-      env: 
+      env:
         - DB=mysqli
   allow_failures:
     - php: hhvm
@@ -57,7 +57,7 @@ branches:
 
 install:
   - cd core
-  - composer install --dev --no-interaction --prefer-source
+  - composer install --no-interaction --prefer-source
   - cd ..
   - travis/prepare-phpbb.sh $EXTNAME $PHPBB_BRANCH
   - cd ../phpBB3
