@@ -24,19 +24,19 @@ class gallery_index_test extends controller_base
 	*/
 	public function setUp()
 	{
-		
+
 		parent::setUp();
-		
+
 		global $phpbb_dispatcher, $auth, $user, $cache, $db;
-		
+
 		$phpbb_dispatcher = $this->dispatcher;
-		
+
 		$auth = $this->auth;
-		
+
 		$user = $this->user;
-		
+
 		$cache = $this->cache;
-		
+
 		$db = $this->db;
 
 	}
@@ -47,7 +47,7 @@ class gallery_index_test extends controller_base
 		$timezone = $timezone ?: $this->user->timezone;
 		return new \phpbb\datetime($this->user, $time, $timezone);
 	}
-	
+
 	public function test_install()
 	{
 		$db_tools = new \phpbb\db\tools($this->db);
@@ -66,8 +66,8 @@ class gallery_index_test extends controller_base
 		$this->assertTrue($db_tools->sql_table_exists('phpbb_gallery_watch'));
 		$this->assertTrue($db_tools->sql_table_exists('phpbb_gallery_log'));
 	}
-	
-	public function get_controller($user_id, $grpup, $is_registered)
+
+	public function get_controller($user_id, $group, $is_registered)
 	{
 		$this->user->data['user_id'] = $user_id;
 		$this->user->data['group'] = $group;
@@ -90,7 +90,7 @@ class gallery_index_test extends controller_base
 			'./',
 			'php'
 		);
-		
+
 		return $controller;
 	}
 
@@ -99,8 +99,8 @@ class gallery_index_test extends controller_base
 	* function base()
 	* As I can't pass parameters to ->withConsecutive but I want to
 	* will have to make diferent test for each case
-	* 
-	*/	
+	*
+	*/
 	public function test_controller_base_case_1()
 	{
 		$this->template->expects($this->exactly(3))
@@ -768,7 +768,7 @@ class gallery_index_test extends controller_base
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
 		$this->assertEquals('200', $response->getStatusCode());
 	}
-	
+
 	/**
 	* Case 2 -> test pagination!
 	*/

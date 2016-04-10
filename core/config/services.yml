@@ -28,6 +28,14 @@ services:
             - %tables.phpbbgallery.contests%
     phpbbgallery.core.misc:
         class: phpbbgallery\core\misc
+        arguments:
+            - @dbal.conn
+            - @user
+            - @config
+            - @phpbbgallery.core.config
+            - @phpbbgallery.core.user
+            - @phpbbgallery.core.url
+            - %tables.phpbbgallery.tracking%
     phpbbgallery.core.album.display:
         class: phpbbgallery\core\album\display
         arguments:
