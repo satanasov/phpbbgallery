@@ -63,7 +63,7 @@ class moderate
 		{
 			$mod_array = array($album);
 		}
-		// Let's get count of unaproved
+		// Let's get count of unapproved
 		$sql = 'SELECT COUNT(DISTINCT image_id) as count 
 			FROM ' . $this->images_table . ' 
 			WHERE image_status = ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ' and ' . $this->db->sql_in_set('image_album_id', $mod_array);
@@ -153,12 +153,15 @@ class moderate
 			));
 		}
 	}
+
 	/**
-	* Build album overview
-	* @param	(int)		$album	album we build queue for
-	* @param	(int)		$page	This queue builder should return objects for MCP queues, so page?
-	* @param	(int)		$per_page	We need how many elements per page
-	*/
+	 * Build album overview
+	 *
+	 * @param    $album_id
+	 * @param    int $page     This queue builder should return objects for MCP queues, so page?
+	 * @param    int $per_page We need how many elements per page
+	 * @internal param int $album album we build queue for
+	 */
 	public function album_overview($album_id, $page = 1, $per_page = 0)
 	{
 		// So if we are not forcing par page get it from config
@@ -200,15 +203,16 @@ class moderate
 		{
 			$actions['report']	= 'REPORT_A_CLOSE';
 		}
-		$sql = 'SELECT COUNT(DISTINCT image_id) as count FROM ' . $this->images_table . ' WHERE ' . $this->db->sql_in_set('image_status', $status) . ' AND image_album_id = ' . $album_id;
+		$sql = 'SELECT COUNT(DISTINCT image_id) as count FROM ' . $this->images_table . ' WHERE ' . $this->db->sql_in_set('image_status', $status) . ' AND image_album_id = ' . (int) $album_id;
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 		$count = $row['count'];
-		$sql = 'SELECT * FROM ' . $this->images_table . ' WHERE ' . $this->db->sql_in_set('image_status', $status) . ' AND image_album_id = ' . $album_id . ' ORDER BY image_id DESC';
+		$sql = 'SELECT * FROM ' . $this->images_table . ' WHERE ' . $this->db->sql_in_set('image_status', $status) . ' AND image_album_id = ' . (int) $album_id . ' ORDER BY image_id DESC';
 
 		$result = $this->db->sql_query_limit($sql, $per_page, ($page - 1) * $per_page);
 		$users_array = array();
+		$images = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$images[] = array(

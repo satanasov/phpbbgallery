@@ -7,16 +7,18 @@
 	"time": "2014-03-15",
 	"license": "GPL-2.0",
 	"authors": [
-		{
-			"name": "Joas Schilling",
-			"email": "nickvergessen@gmx.de",
-			"homepage": "http://github.com/nickvergessen",
-			"role": "Main Author",
-			"name": "Stanislav Atanasov",
-			"email": "lucifer@anavaro.com",
-			"homepage": "http://www.anavaro.com",
-			"role": "Developer"
-		}
+      {
+        "name": "Joas Schilling",
+        "email": "nickvergessen@gmx.de",
+        "homepage": "http://github.com/nickvergessen",
+        "role": "Main Author"
+      },
+      {
+		"name": "Stanislav Atanasov",
+		"email": "lucifer@anavaro.com",
+		"homepage": "http://www.anavaro.com",
+		"role": "Developer"
+      }
 	],
 	"require": {
 		"php": ">=5.3"
