@@ -285,6 +285,7 @@ services:
             - @phpbbgallery.core.config
             - @phpbbgallery.core.user
             - @phpbbgallery.core.image
+            - @phpbbgallery.core.notification
             - @phpbbgallery.core.notification.helper
             - @phpbbgallery.core.url
             - @phpbbgallery.core.upload

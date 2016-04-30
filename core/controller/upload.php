@@ -34,7 +34,7 @@ class upload
 	 * @param \phpbb\user                            $user    User object
 	 * @param \phpbb\template\template               $template
 	 * @param \phpbb\config\config                   $config
-	 * @param Container                              $phpbb_container
+	 * @param Container|ContainerInterface           $phpbb_container
 	 * @param \phpbbgallery\core\album\album         $album   Album class
 	 * @param \phpbbgallery\core\misc                $misc    Misc class
 	 * @param \phpbbgallery\core\auth\auth           $auth
@@ -43,6 +43,7 @@ class upload
 	 * @param \phpbbgallery\core\config              $gallery_config
 	 * @param \phpbbgallery\core\user                $gallery_user
 	 * @param \phpbbgallery\core\image\image         $image
+	 * @param \phpbbgallery\core\notification        $gallery_notification
 	 * @param \phpbbgallery\core\notification\helper $notification_helper
 	 * @param \phpbbgallery\core\url                 $url
 	 * @param \phpbbgallery\core\upload              $gallery_upload
@@ -53,7 +54,7 @@ class upload
 	\phpbb\config\config $config, ContainerInterface $phpbb_container,
 	\phpbbgallery\core\album\album $album, \phpbbgallery\core\misc $misc, \phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\album\display $display,
 	\phpbb\controller\helper $helper, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\image\image $image,
-	\phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\url $url, \phpbbgallery\core\upload $gallery_upload,
+	\phpbbgallery\core\notification $gallery_notification, \phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\url $url, \phpbbgallery\core\upload $gallery_upload,
 	$images_table)
 	{
 		$this->request = $request;
@@ -72,6 +73,7 @@ class upload
 		$this->image = $image;
 		$this->url = $url;
 		$this->gallery_upload = $gallery_upload;
+		$this->gallery_notification = $gallery_notification;
 		$this->notification_helper = $notification_helper;
 		$this->images_table = $images_table;
 	}
@@ -157,13 +159,12 @@ class upload
 			$process->set_names($image_names);
 
 			$success = true;
-			$phpbb_gallery_notification = new \phpbbgallery\core\notification();
 			foreach ($process->images as $image_id)
 			{
 				$success = $success && $process->update_image($image_id, !$this->auth->acl_check('i_approve', $album_id, $album_data['album_user_id']), $album_data['album_contest']);
 				if ($this->gallery_user->get_data('watch_own'))
 				{
-					$phpbb_gallery_notification->add($image_id);
+					$this->gallery_notification->add($image_id);
 				}
 			}
 
@@ -435,13 +436,12 @@ class upload
 				$process->use_same_name($this->request->variable('same_name', false));
 
 				$success = true;
-				$phpbb_gallery_notification = new \phpbbgallery\core\notification();
 				foreach ($process->images as $image_id)
 				{
 					$success = $success && $process->update_image($image_id, !$this->auth->acl_check('i_approve', $album_id, $album_data['album_user_id']), $album_data['album_contest']);
 					if ($this->gallery_user->get_data('watch_own'))
 					{
-						$phpbb_gallery_notification->add($image_id);
+						$this->gallery_notification->add($image_id);
 					}
 				}
 
