@@ -189,6 +189,12 @@ services:
             - %tables.phpbbgallery.images%
             - %tables.phpbbgallery.albums%
             - %tables.phpbbgallery.comments%
+    phpbbgallery.core.notification:
+        class: phpbbgallery\core\notification
+        arguments:
+            - @dbal.conn
+            - @user
+            - %tables.phpbbgallery.watch%
     phpbbgallery.core.notification.helper:
         class: phpbbgallery\core\notification\helper
         arguments:
