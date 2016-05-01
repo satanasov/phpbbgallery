@@ -828,7 +828,7 @@ class manage
 	{
 		global $cache, $db, $phpbb_dispatcher, $table_prefix, $config, $phpbb_container;
 		$phpbb_ext_gallery_core_image = $phpbb_container->get('phpbbgallery.core.image');
-		$phpbb_gallery_notification = new \phpbbgallery\core\notification();
+		$phpbb_gallery_notification = $phpbb_container->get('phpbbgallery.core.notification');
 		$phpbb_gallery_user = $phpbb_container->get('phpbbgallery.core.user');
 		$phpbb_gallery_config = $phpbb_container->get('phpbbgallery.core.config');
 		$album_id = (int) $album_id;
