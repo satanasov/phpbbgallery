@@ -14,7 +14,7 @@ class moderate
 {
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\controller\helper $helper, \phpbb\user $user,
 	\phpbb\user_loader $user_loader, \phpbbgallery\core\album\album $album, \phpbbgallery\core\auth\auth $gallery_auth, \phpbb\pagination $pagination,
-	\phpbbgallery\core\comment $comment, \phpbbgallery\core\report $report, \phpbbgallery\core\notification $gallery_notification, \phpbbgallery\core\image\image $image,
+	\phpbbgallery\core\comment $comment, \phpbbgallery\core\report $report, \phpbbgallery\core\image\image $image,
 	\phpbbgallery\core\config $gallery_config, \phpbbgallery\core\notification $gallery_notification,
 	$images_table)
 	{
