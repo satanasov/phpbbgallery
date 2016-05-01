@@ -754,7 +754,7 @@ class manage
 		global $cache, $db, $phpbb_dispatcher, $table_prefix, $config, $phpbb_container;
 
 		$phpbb_ext_gallery_core_image = $phpbb_container->get('phpbbgallery.core.image');
-		$phpbb_gallery_notification = new \phpbbgallery\core\notification();
+		$phpbb_gallery_notification = $phpbb_container->get('phpbbgallery.core.notification');
 		$phpbb_gallery_config = $phpbb_container->get('phpbbgallery.core.config');
 		$phpbb_gallery_report = $phpbb_container->get('phpbbgallery.core.report');
 		$phpbb_ext_gallery_core_album = $phpbb_container->get('phpbbgallery.core.album');

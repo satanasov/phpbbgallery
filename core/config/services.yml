@@ -172,6 +172,7 @@ services:
             - @phpbbgallery.core.report
             - @phpbbgallery.core.image
             - @phpbbgallery.core.config
+            - @phpbbgallery.core.notification
             - %tables.phpbbgallery.images%
     phpbbgallery.core.search:
         class: phpbbgallery\core\search
@@ -422,6 +423,7 @@ services:
             - @phpbbgallery.core.user
             - @phpbbgallery.core.log
             - @phpbbgallery.core.notification.helper
+            - @phpbbgallery.core.notification
             - %tables.phpbbgallery.comments%
             - %core.root_path%
             - %core.php_ext%

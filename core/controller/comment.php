@@ -34,20 +34,37 @@ class comment
 	protected $url;
 
 	/**
-	* Constructor
-	*
-	* @param \phpbb\request\request					$request 	phpBB request class
-	* @param \phpbb\controller\helper				$helper		Controller helper object
-	* @param \phpbbgallery\core\image\image			$image		phpBB Gallery Core image object
-	* @param \phpbbgallery\core\album\loader		$loader		phpBB Gallery Core album loader
-	* @param \phpbbgallery\core\album\album			$album		phpBB Gallery Core album object
-	* @param \phpbbgallery\core\album\display		$display	phpBB Gallery Core album display
-	* @param \phpbbgallery\core\url					$url		phpBB Gallery Core url object
-	*/
+	 * Constructor
+	 *
+	 * @param \phpbb\db\driver\driver_interface      $db
+	 * @param \phpbb\user                            $user
+	 * @param \phpbb\auth\auth                       $auth
+	 * @param \phpbb\config\config                   $config
+	 * @param \phpbb\template\template               $template
+	 * @param \phpbb\request\request                 $request phpBB request class
+	 * @param \phpbb\controller\helper               $helper  Controller helper object
+	 * @param \phpbbgallery\core\image\image         $image   phpBB Gallery Core image object
+	 * @param \phpbbgallery\core\album\loader        $loader  phpBB Gallery Core album loader
+	 * @param \phpbbgallery\core\album\album         $album   phpBB Gallery Core album object
+	 * @param \phpbbgallery\core\album\display       $display phpBB Gallery Core album display
+	 * @param \phpbbgallery\core\url                 $url     phpBB Gallery Core url object
+	 * @param \phpbbgallery\core\auth\auth           $gallery_auth
+	 * @param \phpbbgallery\core\config              $gallery_config
+	 * @param \phpbbgallery\core\misc                $misc
+	 * @param \phpbbgallery\core\comment             $comment
+	 * @param \phpbbgallery\core\user                $gallery_user
+	 * @param \phpbbgallery\core\log                 $gallery_log
+	 * @param \phpbbgallery\core\notification\helper $notification_helper
+	 * @param \phpbbgallery\core\notification        $gallery_notification
+	 * @param                                        $table_comments
+	 * @param                                        $phpbb_root_path
+	 * @param                                        $php_ext
+	 */
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\template\template $template,
 \phpbb\request\request $request, \phpbb\controller\helper $helper, \phpbbgallery\core\image\image $image, \phpbbgallery\core\album\loader $loader, \phpbbgallery\core\album\album $album,
 \phpbbgallery\core\album\display $display, \phpbbgallery\core\url $url, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\misc $misc,
 \phpbbgallery\core\comment $comment, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\log $gallery_log, \phpbbgallery\core\notification\helper $notification_helper,
+	\phpbbgallery\core\notification $gallery_notification,
 $table_comments, $phpbb_root_path, $php_ext)
 	{
 		$this->db = $db;
@@ -69,6 +86,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 		$this->gallery_user = $gallery_user;
 		$this->gallery_log = $gallery_log;
 		$this->notification_helper = $notification_helper;
+		$this->gallery_notification = $gallery_notification;
 		$this->table_comments = $table_comments;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
@@ -237,10 +255,9 @@ $table_comments, $phpbb_root_path, $php_ext)
 				}
 
 				$comment_post_id = $this->comment->add($sql_ary, $comment_username);
-				$phpbb_gallery_notification = new \phpbbgallery\core\notification();
 				if ($this->gallery_user->get_data('watch_com'))
 				{
-					$phpbb_gallery_notification->add($image_id);
+					$this->gallery_notification->add($image_id);
 				}
 				$data = array(
 					'image_id'	=> $image_id,
