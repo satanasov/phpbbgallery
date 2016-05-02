@@ -102,77 +102,20 @@ class report
 		$sql = 'UPDATE ' . $this->images_table . ' SET image_reported = 0 WHERE ' . $this->db->sql_in_set('image_id', $report_ids);
 		$this->db->sql_query($sql);
 	}
-	/**
-	* Change status of a report
-	*
-	* @param	mixed	$report_ids		Array or integer with report_id.
-	* @param	int		$user_id		If not set, it uses the currents user_id
-	*/
-	/*static public function change_status($new_status, $report_ids, $user_id = false)
-	{
-		global $db, $user, $table_prefix, $phpbb_container;
-
-		$sql_ary = array(
-			'report_manager'		=> (int) (($user_id) ? $user_id : $user->data['user_id']),
-			'report_status'			=> $new_status,
-		);
-		$report_ids = self::cast_mixed_int2array($report_ids);
-
-		$sql = 'UPDATE ' . $table_prefix . 'gallery_reports SET ' . $db->sql_build_array('UPDATE', $sql_ary) . '
-			WHERE ' . $db->sql_in_set('report_id', $report_ids);
-		var_dump($sql);
-		//$db->sql_query($sql);
-
-		if ($new_status == self::LOCKED)
-		{
-			$sql = 'UPDATE ' . $table_prefix . 'gallery_images
-				SET image_reported = ' . self::UNREPORTED . '
-				WHERE ' . $db->sql_in_set('image_reported', $report_ids);
-			$db->sql_query($sql);
-			// Cool, but we have log it!
-			$sql = 'SELECT image_id, album_id FROM ' . $table_prefix . 'gallery_images WHERE ' . $db->sql_in_set('image_reported', $report_ids);
-			$result = $db->sql_query($sql);
-			while ($row = $db->sql_fetchrow($result))
-			{
-				$log = $phpbb_container->get('phpbbgallery.core.log');
-				$log->add_log('moderator', 'reportclosed', (int) $row['album_id'], (int) $row['image_id'], array('LOG_GALLERY_REPORT_OPENED', 'Closed'));
-			}
-		}
-		else
-		{
-			$sql = 'SELECT report_image_id, report_id
-				FROM ' . $table_prefix . 'gallery_reports
-				WHERE report_status = ' . self::OPEN . '
-					AND ' . $db->sql_in_set('report_id', $report_ids);
-			$result = $db->sql_query($sql);
-			while ($row = $db->sql_fetchrow($result))
-			{
-				$sql = 'UPDATE ' . $table_prefix . 'gallery_images
-					SET image_reported = ' . (int) $row['report_id'] . '
-					WHERE image_id = ' . (int) $row['report_image_id'];
-				$db->sql_query($sql);
-				$log = $phpbb_container->get('phpbbgallery.core.log');
-				$log->add_log('moderator', 'reportopen', 0, (int) $row['report_image_id'], array('LOG_GALLERY_REPORT_OPENED', 'Reopened'));
-			}
-			$db->sql_freeresult($result);
-		}
-	}*/
 
 	/**
 	* Move an image from one album to another
 	*
 	* @param	mixed	$image_ids		Array or integer with image_id.
 	*/
-	static public function move_images($image_ids, $move_to)
+	public function move_images($image_ids, $move_to)
 	{
-		global $db, $table_prefix;
-
 		$image_ids = self::cast_mixed_int2array($image_ids);
 
-		$sql = 'UPDATE ' . $table_prefix . 'gallery_reports
+		$sql = 'UPDATE ' . $this->reports_table . '
 			SET report_album_id = ' . (int) $move_to . '
-			WHERE ' . $db->sql_in_set('report_image_id', $image_ids);
-		$db->sql_query($sql);
+			WHERE ' . $this->db->sql_in_set('report_image_id', $image_ids);
+		$this->db->sql_query($sql);
 	}
 
 	/**
@@ -180,14 +123,12 @@ class report
 	*
 	* @param	mixed	$image_ids		Array or integer with image_id.
 	*/
-	static public function move_album_content($move_from, $move_to)
+	public function move_album_content($move_from, $move_to)
 	{
-		global $db, $table_prefix;
-
-		$sql = 'UPDATE ' . $table_prefix . 'gallery_reports
+		$sql = 'UPDATE ' . $this->reports_table . '
 			SET report_album_id = ' . (int) $move_to . '
 			WHERE report_album_id = ' . (int) $move_from;
-		$db->sql_query($sql);
+		$this->db->sql_query($sql);
 	}
 
 	/**
@@ -197,18 +138,16 @@ class report
 	*/
 	public function delete($report_ids)
 	{
-		global $db, $table_prefix;
-
 		$report_ids = self::cast_mixed_int2array($report_ids);
 
-		$sql = 'DELETE FROM ' . $table_prefix . 'gallery_reports
-			WHERE ' . $db->sql_in_set('report_id', $report_ids);
-		$result = $db->sql_query($sql);
+		$sql = 'DELETE FROM ' . $this->reports_table . '
+			WHERE ' . $this->db->sql_in_set('report_id', $report_ids);
+		$this->db->sql_query($sql);
 
-		$sql = 'UPDATE ' . $table_prefix . 'gallery_images
+		$sql = 'UPDATE ' . $this->images_table . '
 			SET image_reported = ' . self::UNREPORTED . '
-			WHERE ' . $db->sql_in_set('image_reported', $report_ids);
-		$db->sql_query($sql);
+			WHERE ' . $this->db->sql_in_set('image_reported', $report_ids);
+		$this->db->sql_query($sql);
 
 		// Let's delete notifications
 		$this->notification_helper->delete_notifications('report', $report_ids);
@@ -222,29 +161,27 @@ class report
 	*/
 	public function delete_images($image_ids)
 	{
-		global $db, $table_prefix;
-
 		$image_ids = self::cast_mixed_int2array($image_ids);
 
 		// Let's build array for report notifications for images we are deleting
-		$sql = 'SELECT report_id FROM ' . $table_prefix . 'gallery_reports
-			WHERE ' . $db->sql_in_set('report_image_id', $image_ids);
-		$result = $db->sql_query($sql);
+		$sql = 'SELECT report_id FROM ' . $this->reports_table . '
+			WHERE ' . $this->db->sql_in_set('report_image_id', $image_ids);
+		$result = $this->db->sql_query($sql);
 		$reports = array();
-		while ($row = $db->sql_fetchrow($result))
+		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$reports[] = $row['report_id'];
 		}
-		$db->sql_freeresult($result);
+		$this->db->sql_freeresult($result);
 		if (!empty($reports))
 		{
 			$reports = self::cast_mixed_int2array($reports);
 			$this->notification_helper->delete_notifications('report', $reports);
 		}
 
-		$sql = 'DELETE FROM ' . $table_prefix . 'gallery_reports
-			WHERE ' . $db->sql_in_set('report_image_id', $image_ids);
-		$result = $db->sql_query($sql);
+		$sql = 'DELETE FROM ' . $this->reports_table . '
+			WHERE ' . $this->db->sql_in_set('report_image_id', $image_ids);
+		$this->db->sql_query($sql);
 	}
 
 
@@ -255,29 +192,27 @@ class report
 	*/
 	public function delete_albums($album_ids)
 	{
-		global $db, $table_prefix;
-
 		$album_ids = self::cast_mixed_int2array($album_ids);
 
 		// Let's build array for report notifications for albums we are deleting
-		$sql = 'SELECT report_id FROM ' . $table_prefix . 'gallery_reports
-			WHERE ' . $db->sql_in_set('report_album_id', $album_ids);
-		$result = $db->sql_query($sql);
+		$sql = 'SELECT report_id FROM ' . $this->reports_table . '
+			WHERE ' . $this->db->sql_in_set('report_album_id', $album_ids);
+		$result = $this->db->sql_query($sql);
 		$reports = array();
-		while ($row = $db->sql_fetchrow($result))
+		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$reports[] = $row['report_id'];
 		}
-		$db->sql_freeresult($result);
+		$this->db->sql_freeresult($result);
 		if (!empty($reports))
 		{
 			$reports = self::cast_mixed_int2array($repors);
 			$this->notification_helper->delete_notifications('report', $reports);
 		}
 
-		$sql = 'DELETE FROM ' . $table_prefix . 'gallery_reports
-			WHERE ' . $db->sql_in_set('report_album_id', $album_ids);
-		$result = $db->sql_query($sql);
+		$sql = 'DELETE FROM ' . $this->reports_table . '
+			WHERE ' . $this->db->sql_in_set('report_album_id', $album_ids);
+		$this->db->sql_query($sql);
 	}
 	/**
 	* Helper function building queues
