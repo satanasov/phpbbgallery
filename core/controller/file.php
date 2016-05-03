@@ -107,7 +107,7 @@ class file
 		{
 			$sql = 'UPDATE ' . $this->table_images . '
 				SET image_filemissing = 1
-				WHERE image_id = ' . $image_id;
+				WHERE image_id = ' . (int) $image_id;
 			$this->db->sql_query($sql);
 
 			// trigger_error('IMAGE_NOT_EXIST');
@@ -139,7 +139,7 @@ class file
 		{
 			$sql = 'UPDATE ' . $this->table_images . '
 				SET image_view_count = image_view_count + 1
-				WHERE image_id = ' . $image_id;
+				WHERE image_id = ' . (int) $image_id;
 			$this->db->sql_query($sql);
 		}
 
@@ -314,7 +314,7 @@ class file
 		{
 			$sql = 'UPDATE ' . $this->table_images . '
 				SET image_filemissing = 1
-				WHERE image_id = ' . $this->data['image_id'];
+				WHERE image_id = ' . (int) $this->data['image_id'];
 			$this->db->sql_query($sql);
 
 			// trigger_error('IMAGE_NOT_EXIST');

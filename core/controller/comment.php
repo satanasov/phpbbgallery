@@ -125,7 +125,6 @@ $table_comments, $phpbb_root_path, $php_ext)
 
 		$image_backlink = $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_id));
 		$album_backlink = $this->helper->route('phpbbgallery_core_album', array('album_id' => $album_id));
-		$image_loginlink = $this->url->append_sid('relative', 'image_page', "album_id=$album_id&amp;image_id=$image_id");
 
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 		if (!$this->gallery_auth->acl_check('c_post', $album_id, $album_data['album_user_id']))
@@ -136,7 +135,14 @@ $table_comments, $phpbb_root_path, $php_ext)
 		add_form_key('gallery');
 		$this->user->add_lang('posting');
 
-		include_once($this->phpbb_root_path . 'includes/functions_posting.' . $this->php_ext);
+		if (!function_exists('generate_smilies'))
+		{
+			include_once($this->phpbb_root_path . 'includes/functions_posting.' . $this->php_ext);
+		}
+		if (!function_exists('display_custom_bbcodes'))
+		{
+			include_once($this->phpbb_root_path . 'includes/functions_display.' . $this->php_ext);
+		}
 
 		$bbcode_status	= ($this->config['allow_bbcode']) ? true : false;
 		$smilies_status	= ($this->config['allow_smilies']) ? true : false;
@@ -145,7 +151,6 @@ $table_comments, $phpbb_root_path, $php_ext)
 		$flash_status	= false;
 		$quote_status	= true;
 
-		include_once($this->phpbb_root_path . 'includes/functions_display.' . $this->php_ext);
 		// Build custom bbcodes array
 		display_custom_bbcodes();
 
@@ -207,11 +212,14 @@ $table_comments, $phpbb_root_path, $php_ext)
 			if ($comment_username_req)
 			{
 				global $phpbb_root_path, $phpEx;
-				include($phpbb_root_path . 'includes/functions_user.' . $phpEx);
+				if (!function_exists('validate_username'))
+				{
+					include_once($phpbb_root_path . 'includes/functions_user.' . $phpEx);
+				}
 
 				if ($comment_username == '')
 				{
-					$error .= (($error) ? '<br />' : '') . $user->lang['MISSING_USERNAME'];
+					$error .= (($error) ? '<br />' : '') . $this->user->lang['MISSING_USERNAME'];
 				}
 				if ($result = validate_username($comment_username))
 				{
@@ -222,7 +230,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 			}
 			if (($comment_plain == '') && !$s_user_rated)
 			{
-				$error .= (($error) ? '<br />' : '') . $user->lang['MISSING_COMMENT'];
+				$error .= (($error) ? '<br />' : '') . $this->user->lang['MISSING_COMMENT'];
 			}
 			if (utf8_strlen($comment_plain) > $this->gallery_config->get('comment_length'))
 			{
