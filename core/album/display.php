@@ -84,9 +84,9 @@ class display
 
 		$sql = 'SELECT a2.*
 			FROM ' . $this->table_albums . ' a1
-			LEFT JOIN ' . $this->table_albums . " a2 ON ($condition) AND a2.album_user_id = $branch_user_id
-			WHERE a1.album_id = $album_id
-				AND a1.album_user_id = $branch_user_id
+			LEFT JOIN ' . $this->table_albums . " a2 ON ($condition) AND a2.album_user_id = (int) $branch_user_id
+			WHERE a1.album_id = (int) $album_id
+				AND a1.album_user_id = (int) $branch_user_id
 			ORDER BY a2.left_id " . (($order == 'descending') ? 'ASC' : 'DESC');
 		$result = $this->db->sql_query($sql);
 
@@ -191,9 +191,9 @@ class display
 			{
 				$sql = 'SELECT album_id, album_name, album_type
 					FROM ' . $this->table_albums . '
-					WHERE left_id < ' . $album_data['left_id'] . '
-						AND right_id > ' . $album_data['right_id'] . '
-						AND album_user_id = ' . $album_data['album_user_id'] . '
+					WHERE left_id < ' . (int) $album_data['left_id'] . '
+						AND right_id > ' . (int) $album_data['right_id'] . '
+						AND album_user_id = ' . (int) $album_data['album_user_id'] . '
 					ORDER BY left_id ASC';
 				$result = $this->db->sql_query($sql);
 
@@ -207,7 +207,7 @@ class display
 
 				$sql = 'UPDATE ' . $this->table_albums . "
 					SET album_parents = '" . $this->db->sql_escape($album_data['album_parents']) . "'
-					WHERE parent_id = " . $album_data['parent_id'];
+					WHERE parent_id = " . (int) $album_data['parent_id'];
 				$this->db->sql_query($sql);
 			}
 			else

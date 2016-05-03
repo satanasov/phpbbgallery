@@ -19,7 +19,7 @@ class gallery_logs_module
 
 	function main($id, $mode)
 	{
-		global $auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path, $phpbb_ext_gallery, $table_prefix, $phpbb_dispatcher, $request;
+		global $auth, $template, $user, $request;
 		global $phpbb_container;
 
 		$user->add_lang_ext('phpbbgallery/core', array('info_acp_gallery_logs'));

@@ -392,6 +392,10 @@ class album
 		));
 	}
 
+	/**
+	 * @param $album_id
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
 	public function watch($album_id)
 	{
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
@@ -405,16 +409,20 @@ class album
 			if ($this->notifications_helper->get_watched_album($album_id) == 1)
 			{
 				$this->notifications_helper->remove_albums($album_id);
-				$lang = $this->user->lang['UNWATCH_ALBUM'];
+				$this->template->assign_vars(array(
+					'INFORMATION'	=> $this->user->lang['UNWATCH_ALBUM']
+				));
 				$this->url->meta_refresh(3, $back_link);
-				trigger_error($lang);
+				return $this->helper->render('gallery/message.html', $this->user->lang('GALLERY'));
 			}
 			else
 			{
 				$this->notifications_helper->add_albums($album_id);
-				$lang = $this->user->lang['WATCH_ALBUM'];
+				$this->template->assign_vars(array(
+					'INFORMATION'	=> $this->user->lang['WATCH_ALBUM']
+				));
 				$this->url->meta_refresh(3, $back_link);
-				trigger_error($lang);
+				return $this->helper->render('gallery/message.html', $this->user->lang('GALLERY'));
 			}
 		}
 		else
@@ -430,7 +438,7 @@ class album
 			$s_hidden_fields = '';
 			confirm_box(false, $lang, $s_hidden_fields);
 		}
-		return $this->helper->render('gallery/moderate_approve.html', $this->user->lang('GALLERY'));
+		//return $this->helper->render('gallery/moderate_approve.html', $this->user->lang('GALLERY'));
 	}
 	/**
 	 * @param	int		$album_id
