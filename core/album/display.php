@@ -84,10 +84,10 @@ class display
 
 		$sql = 'SELECT a2.*
 			FROM ' . $this->table_albums . ' a1
-			LEFT JOIN ' . $this->table_albums . " a2 ON ($condition) AND a2.album_user_id = (int) $branch_user_id
-			WHERE a1.album_id = (int) $album_id
-				AND a1.album_user_id = (int) $branch_user_id
-			ORDER BY a2.left_id " . (($order == 'descending') ? 'ASC' : 'DESC');
+			LEFT JOIN ' . $this->table_albums . ' a2 ON (' . $condition .') AND a2.album_user_id = ' . (int) $branch_user_id .'
+			WHERE a1.album_id = ' . (int) $album_id . '
+				AND a1.album_user_id = ' . (int) $branch_user_id . '
+			ORDER BY a2.left_id ' . (($order == 'descending') ? 'ASC' : 'DESC');
 		$result = $this->db->sql_query($sql);
 
 		while ($row = $this->db->sql_fetchrow($result))
