@@ -231,7 +231,7 @@ class file
 	{
 		$this->last_modified = max($timestamp, $this->last_modified);
 	}
-	
+
 	static public function is_ie_greater7($browser)
 	{
 		return (bool) preg_match('/msie (\d{2,3}|[89]+).[0-9.]*;/', strtolower($browser));
