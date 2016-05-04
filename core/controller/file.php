@@ -94,7 +94,7 @@ class file
 	*	Route: gallery/image/{image_id}/source
 	*
 	* @param	int		$image_id
-	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	* @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
 	*/
 	public function source($image_id)
 	{
@@ -151,7 +151,7 @@ class file
 	*	Route: gallery/image/{image_id}/medium
 	*
 	* @param	int		$image_id
-	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	* @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
 	*/
 	public function medium($image_id)
 	{
@@ -186,7 +186,7 @@ class file
 	*	Route: gallery/image/{image_id}/mini
 	*
 	* @param	int		$image_id
-	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	* @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
 	*/
 	public function mini($image_id)
 	{
@@ -349,7 +349,7 @@ class file
 	* Image File Controller
 	*	Route: gallery/image/{image_id}/x
 	*
-	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	* @return \Symfony\Component\HttpFoundation\BinaryFileResponseResponse A Symfony Response object
 	*/
 	public function display()
 	{
@@ -365,7 +365,44 @@ class file
 			$this->tool->watermark_image($this->config['phpbb_gallery_watermark_source'], $this->config['phpbb_gallery_watermark_position'], $this->config['phpbb_gallery_watermark_height'], $this->config['phpbb_gallery_watermark_width']);
 		}
 
-		$this->tool->send_image_to_browser();
+		// Let's check image is loaded
+		if (!$this->tool->image_content_type)
+		{
+			$this->tool->image_content_type = $this->tool->mimetype_by_filename($this->tool->image_source);
+			if (!$this->tool->image_content_type)
+			{
+				trigger_error('NO_MIMETYPE_MATCHED');
+			}
+		}
+
+		$response = new \Symfony\Component\HttpFoundation\BinaryFileResponse($this->tool->image_source);
+
+		$response->headers->set('Pragma', 'public');
+		$response->headers->set('Content-Type', $this->tool->image_content_type);
+		if ($this->tool->is_ie_greater7($this->user->browser))
+		{
+			$response->headers->set('X-Content-Type-Options', 'nosniff');
+		}
+		if (empty($this->user->browser) || (!$this->tool->is_ie_greater7($this->user->browser) && (strpos(strtolower($this->user->browser), 'msie') !== false)))
+		{
+			$response->headers->set('Content-Disposition', 'attachment; ' . $this->tool->header_filename(htmlspecialchars_decode($this->tool->image_name)));
+			if (empty($this->user->browser) || (strpos(strtolower($this->user->browser), 'msie 6.0') !== false))
+			{
+				$response->headers->set('expires', '-1');
+			}
+		}
+		else
+		{
+			$response->headers->set('Content-Disposition', 'inline; ' . $this->tool->header_filename(htmlspecialchars_decode($this->tool->image_name)));
+			if ($this->tool->is_ie_greater7($this->user->browser))
+			{
+				$response->headers->set('X-Download-Options', 'noopen');
+			}
+		}
+
+		return $response;
+		//return $response;
+
 	}
 
 	protected function resize($image_id, $resize_width, $resize_height, $store_filesize = '', $put_details = false)
