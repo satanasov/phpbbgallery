@@ -404,7 +404,7 @@ class image
 		// Add ratings
 		if ($this->gallery_config->get('allow_rates'))
 		{
-			$rating $this->gallery_rating;
+			$rating = $this->gallery_rating;
 			$rating->loader($image_id, $image_data, $album_data);
 
 			$user_rating = $rating->get_user_rating($this->user->data['user_id']);
