@@ -52,11 +52,30 @@ class rating
 	/**
 	* Constructor
 	*
+	*/
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\user $user, \phpbb\request\request $request,
+	\phpbbgallery\core\config $gallery_config, \phpbbgallery\core\auth\auth $gallery_auth,
+	$images_table, $albums_table, $rates_table)
+	{
+		$this->db = $db;
+		$this->template = $template;
+		$this->user = $user;
+		$this->request = $request;
+		$this->gallery_config = $gallery_config;
+		$this->gallery_auth = $gallery_auth;
+		$this->images_table = $images_table;
+		$this->albums_table = $albums_table;
+		$this->rates_table = $rates_table;
+	}
+
+	/**
+	* Load data for the class to work with
+	*
 	* @param	int		$image_id
 	* @param	array	$image_data		Array with values from the image-table of the image
 	* @param	array	$album_data		Array with values from the album-table of the image's album
 	*/
-	public function __construct($image_id, $image_data = false, $album_data = false)
+	public function loader($image_id, $image_data = false, $album_data = false)
 	{
 		$this->image_id = (int) $image_id;
 		if ($image_data)
@@ -68,7 +87,6 @@ class rating
 			$this->album_data = $album_data;
 		}
 	}
-
 	/**
 	* Returns the value of image_data key.
 	* If the value is missing, it is queried from the database.
@@ -77,14 +95,12 @@ class rating
 	{
 		if ($this->image_data == null)
 		{
-			global $db, $table_prefix;
-
 			$sql = 'SELECT *
-				FROM ' . $table_prefix . 'gallery_images
+				FROM ' . $this->images_table . '
 				WHERE image_id = ' . $this->image_id;
-			$result = $db->sql_query($sql);
-			$this->image_data = $db->sql_fetchrow($result);
-			$db->sql_freeresult($result);
+			$result = $this->db->sql_query($sql);
+			$this->image_data = $this->db->sql_fetchrow($result);
+			$this->db->sql_freeresult($result);
 
 			if ($this->image_data == false)
 			{
@@ -105,14 +121,12 @@ class rating
 	{
 		if ($this->album_data == null)
 		{
-			global $db, $table_prefix;
-
 			$sql = 'SELECT *
-				FROM ' . $table_prefix . 'gallery_albums
+				FROM ' . $this->albums_table . '
 				WHERE album_id = ' . (int) $this->image_data('album_id');
-			$result = $db->sql_query($sql);
-			$this->album_data = $db->sql_fetchrow($result);
-			$db->sql_freeresult($result);
+			$result = $this->db->sql_query($sql);
+			$this->album_data = $this->db->sql_fetchrow($result);
+			$this->db->sql_freeresult($result);
 
 			if ($this->album_data == false)
 			{
@@ -128,9 +142,7 @@ class rating
 	*/
 	public function display_box()
 	{
-		global $template, $user, $config;
-		$gallery_config = new \phpbbgallery\core\config($config);
-		$template->assign_var('GALLERY_RATING', self::MODE_SELECT);//@todo: phpbb_ext_gallery_core_config::get('rating_mode'));
+		$this->template->assign_var('GALLERY_RATING', self::MODE_SELECT);//@todo: phpbb_ext_gallery_core_config::get('rating_mode'));
 
 		switch (self::MODE_SELECT)//@todo: phpbb_ext_gallery_core_config::get('rating_mode'))
 		{
@@ -152,9 +164,9 @@ class rating
 						return;
 					}
 				}*/
-				for ($i = 1; $i <= $gallery_config->get('max_rating'); $i++)
+				for ($i = 1; $i <= $this->gallery_config->get('max_rating'); $i++)
 				{
-					$template->assign_block_vars('rate_scale', array(
+					$this->template->assign_block_vars('rate_scale', array(
 						'RATE_POINT'	=> $i,
 					));
 				}
@@ -173,8 +185,7 @@ class rating
 	*/
 	public function get_image_rating($user_rating = false, $display_contest_end = true)
 	{
-		global $template;
-		$template->assign_var('GALLERY_RATING', self::MODE_SELECT);//@todo: phpbb_ext_gallery_core_config::get('rating_mode'));
+		$this->template->assign_var('GALLERY_RATING', self::MODE_SELECT);//@todo: phpbb_ext_gallery_core_config::get('rating_mode'));
 
 		switch (self::MODE_SELECT)//@todo: phpbb_ext_gallery_core_config::get('rating_mode'))
 		{
@@ -182,22 +193,21 @@ class rating
 			//@todo: self::MODE_STARS:
 			case self::MODE_SELECT:
 			default:
-				global $user;
 				if ($this->image_data('image_contest'))
 				{
 					if (!$display_contest_end)
 					{
-						return $user->lang['CONTEST_RATING_HIDDEN'];
+						return $this->user->lang['CONTEST_RATING_HIDDEN'];
 					}
-					return $user->lang('CONTEST_RESULT_HIDDEN', $user->format_date(($this->album_data('contest_start') + $this->album_data('contest_end')), false, true));
+					return $this->user->lang('CONTEST_RESULT_HIDDEN', $this->user->format_date(($this->album_data('contest_start') + $this->album_data('contest_end')), false, true));
 				}
 				else
 				{
 					if ($user_rating)
 					{
-						return $user->lang('RATING_STRINGS_USER', (int) $this->image_data('image_rates'), $this->get_image_rating_value(), $user_rating);
+						return $this->user->lang('RATING_STRINGS_USER', (int) $this->image_data('image_rates'), $this->get_image_rating_value(), $user_rating);
 					}
-					return $user->lang('RATING_STRINGS', (int) $this->image_data('image_rates'), $this->get_image_rating_value());
+					return $this->user->lang('RATING_STRINGS', (int) $this->image_data('image_rates'), $this->get_image_rating_value());
 				}
 			break;
 		}
@@ -229,10 +239,8 @@ class rating
 	*/
 	public function is_allowed()
 	{
-		global $user, $phpbb_ext_gallery, $phpbb_container;
-		$gallery_auth = $phpbb_container->get('phpbbgallery.core.auth');
-		return $gallery_auth->acl_check('i_rate', $this->album_data('album_id'), $this->album_data('album_user_id')) &&
-			($user->data['user_id'] != $this->image_data('image_user_id')) && ($user->data['user_id'] != ANONYMOUS) &&
+		return $this->gallery_auth->acl_check('i_rate', $this->album_data('album_id'), $this->album_data('album_user_id')) &&
+			($this->user->data['user_id'] != $this->image_data('image_user_id')) && ($this->user->data['user_id'] != ANONYMOUS) &&
 			($this->album_data('album_status') != \phpbbgallery\core\album\album::STATUS_LOCKED) && ($this->image_data('image_status') == \phpbbgallery\core\image\image::STATUS_APPROVED);
 	}
 
@@ -246,7 +254,6 @@ class rating
 	*/
 	public function is_able()
 	{
-		global $user;
 		return $this->is_allowed(); //&& phpbb_ext_gallery_core_contest::is_step('rate', $this->album_data(true));
 	}
 
@@ -259,8 +266,6 @@ class rating
 	*/
 	public function get_user_rating($user_id)
 	{
-		global $table_prefix;
-
 		$user_id = (int) $user_id;
 		if (isset($this->user_rating[$user_id]))
 		{
@@ -271,15 +276,13 @@ class rating
 			return false;
 		}
 
-		global $db;
-
 		$sql = 'SELECT rate_point
-			FROM ' . $table_prefix . 'gallery_rates
-			WHERE rate_image_id = ' . $this->image_id . '
+			FROM ' . $this->rates_table . '
+			WHERE rate_image_id = ' . (int) $this->image_id . '
 				AND rate_user_id = ' . $user_id;
-		$result = $db->sql_query($sql);
-		$rating = $db->sql_fetchfield('rate_point');
-		$db->sql_freeresult($result);
+		$result = $this->db->sql_query($sql);
+		$rating = $this->db->sql_fetchfield('rate_point');
+		$this->db->sql_freeresult($result);
 
 		$this->user_rating[$user_id] = (is_bool($rating)) ? $rating : (int) $rating;
 		return $this->user_rating[$user_id];
@@ -294,20 +297,15 @@ class rating
 	*/
 	public function submit_rating($user_id = false, $points = false, $user_ip = false)
 	{
-		global $phpbb_container, $request;
-		$config = $phpbb_container->get('phpbbgallery.core.config');
-
 		switch (self::MODE_SELECT)//@todo: phpbb_ext_gallery_core_config::get('rating_mode'))
 		{
 			//@todo: self::MODE_THUMB:
 			//@todo: self::MODE_STARS:
 			case self::MODE_SELECT:
 			default:
-				global $user;
-
-				$user_id = ($user_id) ? $user_id : $user->data['user_id'];
-				$points = ($points) ? $points : $request->variable('rating', 0);
-				$points = max(1, min($points, $config->get('max_rating')));
+				$user_id = ($user_id) ? $user_id : $this->user->data['user_id'];
+				$points = ($points) ? $points : $this->request->variable('rating', 0);
+				$points = max(1, min($points, $this->gallery_config->get('max_rating')));
 			break;
 		}
 
@@ -331,15 +329,13 @@ class rating
 	*/
 	private function insert_rating($user_id, $points, $user_ip = false)
 	{
-		global $db, $user, $table_prefix;
-
 		$sql_ary = array(
 			'rate_image_id'	=> $this->image_id,
 			'rate_user_id'	=> $user_id,
-			'rate_user_ip'	=> ($user_ip) ? $user_ip : $user->ip,
+			'rate_user_ip'	=> ($user_ip) ? $user_ip : $this->user->ip,
 			'rate_point'	=> $points,
 		);
-		$db->sql_query('INSERT INTO ' . $table_prefix . 'gallery_rates ' . $db->sql_build_array('INSERT', $sql_ary));
+		$this->db->sql_query('INSERT INTO ' . $this->rates_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary));
 	}
 
 	/**
@@ -349,8 +345,6 @@ class rating
 	*/
 	static public function recalc_image_rating($image_ids)
 	{
-		global $db, $table_prefix;
-
 		if (is_array($image_ids))
 		{
 			$image_ids = array_map('intval', $image_ids);
@@ -361,21 +355,21 @@ class rating
 		}
 
 		$sql = 'SELECT rate_image_id, COUNT(rate_user_ip) image_rates, AVG(rate_point) image_rate_avg, SUM(rate_point) image_rate_points
-			FROM ' . $table_prefix . 'gallery_rates
+			FROM ' . $this->rates_table . '
 			WHERE ' . $db->sql_in_set('rate_image_id', $image_ids, false, true) . '
 			GROUP BY rate_image_id';
-		$result = $db->sql_query($sql);
+		$result = $this->db->sql_query($sql);
 
-		while ($row = $db->sql_fetchrow($result))
+		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$sql = 'UPDATE ' . $table_prefix . 'gallery_images
+			$sql = 'UPDATE ' . $this->images_table . '
 				SET image_rates = ' . $row['image_rates'] . ',
 					image_rate_points = ' . $row['image_rate_points'] . ',
 					image_rate_avg = ' . round($row['image_rate_avg'], 2) * 100 . '
 				WHERE image_id = ' . $row['rate_image_id'];
-			$db->sql_query($sql);
+			$this->db->sql_query($sql);
 		}
-		$db->sql_freeresult($result);
+		$this->db->sql_freeresult($result);
 	}
 
 	/**
@@ -386,8 +380,6 @@ class rating
 	*/
 	static public function delete_ratings($image_ids, $reset_average = false)
 	{
-		global $db, $table_prefix;
-
 		if (is_array($image_ids))
 		{
 			$image_ids = array_map('intval', $image_ids);
@@ -397,18 +389,18 @@ class rating
 			$image_ids = (int) $image_ids;
 		}
 
-		$sql = 'DELETE FROM ' . $table_prefix . 'gallery_rates
-			WHERE ' . $db->sql_in_set('rate_image_id', $image_ids, false, true);
-		$result = $db->sql_query($sql);
+		$sql = 'DELETE FROM ' . $this->rates_table . '
+			WHERE ' . $this->db->sql_in_set('rate_image_id', $image_ids, false, true);
+		$result = $this->db->sql_query($sql);
 
 		if ($reset_average)
 		{
-			$sql = 'UPDATE ' . $table_prefix . 'gallery_images
+			$sql = 'UPDATE ' . $this->images_table . '
 				SET image_rates = 0,
 					image_rate_points = 0,
 					image_rate_avg = 0
-				WHERE ' . $db->sql_in_set('image_id', $image_ids);
-			$db->sql_query($sql);
+				WHERE ' . $this->db->sql_in_set('image_id', $image_ids);
+			$this->db->sql_query($sql);
 		}
 	}
 }
