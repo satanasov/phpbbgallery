@@ -343,7 +343,7 @@ class rating
 	*
 	* @param	mixed	$image_ids	Array or integer with image_id where we recalculate the rating.
 	*/
-	static public function recalc_image_rating($image_ids)
+	public function recalc_image_rating($image_ids)
 	{
 		if (is_array($image_ids))
 		{
@@ -356,7 +356,7 @@ class rating
 
 		$sql = 'SELECT rate_image_id, COUNT(rate_user_ip) image_rates, AVG(rate_point) image_rate_avg, SUM(rate_point) image_rate_points
 			FROM ' . $this->rates_table . '
-			WHERE ' . $db->sql_in_set('rate_image_id', $image_ids, false, true) . '
+			WHERE ' . $this->db->sql_in_set('rate_image_id', $image_ids, false, true) . '
 			GROUP BY rate_image_id';
 		$result = $this->db->sql_query($sql);
 
@@ -378,7 +378,7 @@ class rating
 	* @param	mixed	$image_ids		Array or integer with image_id where we delete the rating.
 	* @param	bool	$reset_average	Shall we also reset the average? We can save that query, when the images are deleted anyway.
 	*/
-	static public function delete_ratings($image_ids, $reset_average = false)
+	public function delete_ratings($image_ids, $reset_average = false)
 	{
 		if (is_array($image_ids))
 		{
