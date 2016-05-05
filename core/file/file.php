@@ -11,10 +11,13 @@
 namespace phpbbgallery\core\file;
 
 /**
-* A little class for all the actions that the gallery does on images.
+ * A little class for all the actions that the gallery does on images.
 *
 * resize, rotate, watermark, create thumbnail, write to hdd, send to browser
-*/
+ *
+ * @property \phpbbgallery\core\url url
+ * @property \phpbb\request\request request
+ */
 class file
 {
 	const THUMBNAIL_INFO_HEIGHT = 16;
@@ -53,16 +56,17 @@ class file
 	public $watermarked = false;
 
 	/**
-	* Constructor - init some basic stuff
-	*/
-	public function __constructor(\phpbb\request\request $request, \phpbbgallery\core\url $url, $gd_version = 0)
+	 * Constructor - init some basic stuff
+	 *
+	 * @param \phpbb\request\request $request
+	 * @param \phpbbgallery\core\url $url
+	 * @param int                    $gd_version
+	 */
+	public function __construct(\phpbb\request\request $request, \phpbbgallery\core\url $url, $gd_version)
 	{
 		$this->request = $request;
 		$this->url = $url;
-		if ($gd_version)
-		{
-			$this->gd_version = $gd_version;
-		}
+		$this->gd_version = $gd_version;
 	}
 
 	public function set_image_options($max_file_size, $max_height, $max_width)
@@ -192,11 +196,15 @@ class file
 	}
 
 	/**
-	* Get a browser friendly UTF-8 encoded filename
-	*/
+	 * Get a browser friendly UTF-8 encoded filename
+	 *
+	 * @param $file
+	 * @return string
+	 */
 	public function header_filename($file)
 	{
-		$user_agent = htmlspecialchars($this->request->server('HTTP_USER_AGENT'));
+		$raw = $this->request->server('HTTP_USER_AGENT');
+		$user_agent = htmlspecialchars($raw);
 
 		// There be dragons here.
 		// Not many follows the RFC...
@@ -304,9 +312,12 @@ class file
 	}
 
 	/**
-	* Rotate the image
-	* Usage optimized for 0�, 90�, 180� and 270� because of the height and width
-	*/
+	 * Rotate the image
+	 * Usage optimized for 0�, 90�, 180� and 270� because of the height and width
+	 *
+	 * @param $angle
+	 * @param $ignore_dimensions
+	 */
 	public function rotate_image($angle, $ignore_dimensions)
 	{
 		if (!function_exists('imagerotate'))
