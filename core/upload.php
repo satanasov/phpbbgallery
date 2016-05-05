@@ -398,20 +398,16 @@ class upload
 			}
 			else
 			{
-				global $user;
-
 				$this->file->remove();
-				$this->new_error($user->lang('UPLOAD_ERROR', $this->file->uploadname, $user->lang['UPLOAD_IMAGE_SIZE_TOO_BIG']));
+				$this->new_error($this->user->lang('UPLOAD_ERROR', $this->file->uploadname, $this->user->lang['UPLOAD_IMAGE_SIZE_TOO_BIG']));
 				return false;
 			}
 		}
 
 		if ($this->file->filesize > (1.2 * $this->max_filesize))
 		{
-			global $user;
-
 			$this->file->remove();
-			$this->new_error($user->lang('UPLOAD_ERROR', $this->file->uploadname, $user->lang['BAD_UPLOAD_FILE_SIZE']));
+			$this->new_error($this->user->lang('UPLOAD_ERROR', $this->file->uploadname, $this->user->lang['BAD_UPLOAD_FILE_SIZE']));
 			return false;
 		}
 
