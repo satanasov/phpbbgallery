@@ -251,7 +251,7 @@ services:
             - %core.root_path%
             - %core.php_ext%
     phpbbgallery.core.rating:
-        class: ppbbgallery\core\rating
+        class: phpbbgallery\core\rating
         arguments:
             - @dbal.conn
             - @template
