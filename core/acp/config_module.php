@@ -424,7 +424,8 @@ class config_module
 	*/
 	function gd_radio($value, $key)
 	{
-		$phpbb_ext_gallery_core_file = new \phpbbgallery\core\file\file();
+		global $phpbb_container;
+		$phpbb_ext_gallery_core_file = $phpbb_container->get('phpbbgallery.core.file.tool');
 		$key_gd1	= ($value == $phpbb_ext_gallery_core_file::GDLIB1) ? ' checked="checked"' : '';
 		$key_gd2	= ($value == $phpbb_ext_gallery_core_file::GDLIB2) ? ' checked="checked"' : '';
 

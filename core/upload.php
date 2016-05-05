@@ -98,7 +98,7 @@ class upload
 		$this->upload = new \fileupload();
 		$this->upload->fileupload('', $this->get_allowed_types(), (4 * $this->gallery_config->get('max_filesize')));
 
-		$this->tools = new \phpbbgallery\core\file\file($this->gallery_config->get('gdlib_version'));
+		$this->tools = new \phpbbgallery\core\file\file($this->request, $this->gallery_url, $this->gallery_config->get('gdlib_version'));
 
 		$this->album_id = (int) $album_id;
 		$this->file_limit = (int) $num_files;
