@@ -302,6 +302,7 @@ class moderate
 	public function delete_images($images, $files = array())
 	{
 		// We are going to do some cleanup
+		$this->gallery_rating->loader(0);
 		$this->gallery_rating->delete_ratings($images);
 		$this->comment->delete_images($images);
 		$this->gallery_notification->delete_images($images);

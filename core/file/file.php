@@ -427,7 +427,7 @@ class file
 	*									Array-Format: $image_id => $filename
 	* @param	array		$locations	Array of valid url::path()s where the image should be deleted from
 	*/
-	static public function delete($files, $locations = array('thumbnail', 'medium', 'upload'))
+	public function delete($files, $locations = array('thumbnail', 'medium', 'upload'))
 	{
 		if (!is_array($files))
 		{
@@ -442,7 +442,7 @@ class file
 			}
 		}
 	}
-	static public function delete_cache($files, $locations = array('thumbnail', 'medium'))
+	public function delete_cache($files, $locations = array('thumbnail', 'medium'))
 	{
 		if (!is_array($files))
 		{
