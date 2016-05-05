@@ -14,6 +14,7 @@ parameters:
     tables.phpbbgallery.users: %core.table_prefix%gallery_users
     tables.phpbbgallery.comments: %core.table_prefix%gallery_comments
     tables.phpbbgallery.reports: %core.table_prefix%gallery_reports
+    tables.phpbbgallery.rates: %core.table_prefix%gallery_rates
     tables.phpbbgallery.log: %core.table_prefix%gallery_log
     tables.phpbbgallery.watch: %core.table_prefix%gallery_watch
 
@@ -91,6 +92,8 @@ services:
     phpbbgallery.core.file.tool:
         class: phpbbgallery\core\file\file
         arguments:
+            - @request
+            - @phpbbgallery.core.url
             - 2
     phpbbgallery.core.image:
         class: phpbbgallery\core\image\image
@@ -173,6 +176,7 @@ services:
             - @phpbbgallery.core.image
             - @phpbbgallery.core.config
             - @phpbbgallery.core.notification
+            - @phpbbgallery.core.rating
             - %tables.phpbbgallery.images%
     phpbbgallery.core.search:
         class: phpbbgallery\core\search
@@ -246,6 +250,18 @@ services:
             - %tables.phpbbgallery.images%
             - %core.root_path%
             - %core.php_ext%
+    phpbbgallery.core.rating:
+        class: ppbbgallery\core\rating
+        arguments:
+            - @dbal.conn
+            - @template
+            - @user
+            - @request
+            - @phpbbgallery.core.config
+            - @phpbbgallery.core.auth
+            - %tables.phpbbgallery.images%
+            - %tables.phpbbgallery.albums%
+            - %tables.phpbbgallery.rates%
 #######################
 #### Define event #####
 #######################
@@ -353,6 +369,7 @@ services:
             - @phpbbgallery.core.notification.helper
             - @phpbbgallery.core.log
             - @phpbbgallery.core.moderate
+            - @phpbbgallery.core.rating
             - %tables.phpbbgallery.albums%
             - %tables.phpbbgallery.images%
             - %tables.phpbbgallery.users%
@@ -424,6 +441,7 @@ services:
             - @phpbbgallery.core.log
             - @phpbbgallery.core.notification.helper
             - @phpbbgallery.core.notification
+            - @phpbbgallery.core.rating
             - %tables.phpbbgallery.comments%
             - %core.root_path%
             - %core.php_ext%

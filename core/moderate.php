@@ -15,7 +15,7 @@ class moderate
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\controller\helper $helper, \phpbb\user $user,
 	\phpbb\user_loader $user_loader, \phpbbgallery\core\album\album $album, \phpbbgallery\core\auth\auth $gallery_auth, \phpbb\pagination $pagination,
 	\phpbbgallery\core\comment $comment, \phpbbgallery\core\report $report, \phpbbgallery\core\image\image $image,
-	\phpbbgallery\core\config $gallery_config, \phpbbgallery\core\notification $gallery_notification,
+	\phpbbgallery\core\config $gallery_config, \phpbbgallery\core\notification $gallery_notification, \phpbbgallery\core\rating $gallery_rating,
 	$images_table)
 	{
 		$this->db = $db;
@@ -31,6 +31,7 @@ class moderate
 		$this->image = $image;
 		$this->gallery_config = $gallery_config;
 		$this->gallery_notification = $gallery_notification;
+		$this->gallery_rating = $gallery_rating;
 		$this->images_table = $images_table;
 	}
 
@@ -300,9 +301,8 @@ class moderate
 	}
 	public function delete_images($images, $files = array())
 	{
-		$image_rating = new \phpbbgallery\core\rating(0);
 		// We are going to do some cleanup
-		$image_rating->delete_ratings($images);
+		$this->gallery_rating->delete_ratings($images);
 		$this->comment->delete_images($images);
 		$this->gallery_notification->delete_images($images);
 		$this->report->delete_images($images);

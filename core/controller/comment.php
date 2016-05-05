@@ -64,7 +64,7 @@ class comment
 \phpbb\request\request $request, \phpbb\controller\helper $helper, \phpbbgallery\core\image\image $image, \phpbbgallery\core\album\loader $loader, \phpbbgallery\core\album\album $album,
 \phpbbgallery\core\album\display $display, \phpbbgallery\core\url $url, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\misc $misc,
 \phpbbgallery\core\comment $comment, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\log $gallery_log, \phpbbgallery\core\notification\helper $notification_helper,
-	\phpbbgallery\core\notification $gallery_notification,
+	\phpbbgallery\core\notification $gallery_notification, \phpbbgallery\core\rating $gallery_rating,
 $table_comments, $phpbb_root_path, $php_ext)
 	{
 		$this->db = $db;
@@ -87,6 +87,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 		$this->gallery_log = $gallery_log;
 		$this->notification_helper = $notification_helper;
 		$this->gallery_notification = $gallery_notification;
+		$this->gallery_rating = $gallery_rating;
 		$this->table_comments = $table_comments;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
@@ -704,7 +705,8 @@ $table_comments, $phpbb_root_path, $php_ext)
 		$image_loginlink = $this->url->append_sid('relative', 'image_page', "album_id=$album_id&amp;image_id=$image_id");
 
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
-		$rating = new \phpbbgallery\core\rating($image_id, $image_data, $album_data);
+		$rating = $this->gallery_rating;
+		$rating->loader($image_id, $image_data, $album_data);
 		if (!($this->gallery_config->get('allow_rates') && $rating->is_able()))
 		{
 			// The user is unable to rate.

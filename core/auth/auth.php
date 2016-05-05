@@ -531,7 +531,6 @@ class auth
 	*/
 	public function acl_check($acl, $a_id, $u_id = -1)
 	{
-		global $user;
 		$bit = self::$_permissions_flipped[$acl];
 
 		if ($bit < 0)
@@ -569,7 +568,7 @@ class auth
 		$p_id = $a_id;
 		if ($u_id)
 		{
-			$this->user->set_user_id($user->data['user_id']);
+			$this->user->set_user_id($this->phpbb_user->data['user_id']);
 			if ($this->user->is_user($u_id))
 			{
 				$p_id = self::OWN_ALBUM;

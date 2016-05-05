@@ -55,8 +55,10 @@ class file
 	/**
 	* Constructor - init some basic stuff
 	*/
-	public function __constructor($gd_version = 0)
+	public function __constructor(\phpbb\request\request $request, \phpbbgallery\core\url $url, $gd_version = 0)
 	{
+		$this->request = $request;
+		$this->url = $url;
 		if ($gd_version)
 		{
 			$this->gd_version = $gd_version;
@@ -194,9 +196,7 @@ class file
 	*/
 	public function header_filename($file)
 	{
-		global $request;
-
-		$user_agent = htmlspecialchars($request->server('HTTP_USER_AGENT'));
+		$user_agent = htmlspecialchars($this->request->server('HTTP_USER_AGENT'));
 
 		// There be dragons here.
 		// Not many follows the RFC...
@@ -429,8 +429,6 @@ class file
 	*/
 	static public function delete($files, $locations = array('thumbnail', 'medium', 'upload'))
 	{
-		global $phpbb_container;
-		$phpbb_gallery_url = $phpbb_container->get('phpbbgallery.core.url');
 		if (!is_array($files))
 		{
 			$files = array(1 => $files);
@@ -440,14 +438,12 @@ class file
 		{
 			foreach ($locations as $location)
 			{
-				@unlink($phpbb_gallery_url->path($location) . $file);
+				@unlink($this->url->path($location) . $file);
 			}
 		}
 	}
 	static public function delete_cache($files, $locations = array('thumbnail', 'medium'))
 	{
-		global $phpbb_container;
-		$phpbb_gallery_url = $phpbb_container->get('phpbbgallery.core.url');
 		if (!is_array($files))
 		{
 			$files = array(1 => $files);
@@ -457,7 +453,7 @@ class file
 		{
 			foreach ($locations as $location)
 			{
-				unlink($phpbb_gallery_url->path($location) . $file);
+				unlink($this->url->path($location) . $file);
 			}
 		}
 	}

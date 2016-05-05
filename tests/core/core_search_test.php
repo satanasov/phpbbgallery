@@ -98,9 +98,11 @@ class core_search_test extends core_base
 			'phpbb_gallery_reports'
 		);
 
-		$this->file = $this->getMockBuilder('\phpbbgallery\core\file\file')
-			->disableOriginalConstructor()
-			->getMock();
+		$this->file = new \phpbbgallery\core\file\file(
+			$this->request,
+			$this->url,
+			2
+		);
 		$this->contest = new \phpbbgallery\core\contest(
 			$this->db,
 			$this->gallery_config,

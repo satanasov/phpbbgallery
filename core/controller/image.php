@@ -85,7 +85,7 @@ class image
 	\phpbb\template\template $template, \phpbb\user $user, \phpbbgallery\core\album\display $display, \phpbbgallery\core\album\loader $loader, \phpbbgallery\core\album\album $album,
 	\phpbbgallery\core\image\image $image, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\config $gallery_config,
 	\phpbbgallery\core\auth\level $auth_level, \phpbbgallery\core\url $url, \phpbbgallery\core\misc $misc, \phpbbgallery\core\comment $comment, \phpbbgallery\core\report $report,
-	\phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\log $gallery_log, \phpbbgallery\core\moderate $moderate,
+	\phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\log $gallery_log, \phpbbgallery\core\moderate $moderate, \phpbbgallery\core\rating $gallery_rating,
 	$albums_table, $images_table, $users_table, $table_comments, $phpbb_root_path, $php_ext)
 	{
 		$this->request = $request;
@@ -112,6 +112,7 @@ class image
 		$this->notification_helper = $notification_helper;
 		$this->gallery_log = $gallery_log;
 		$this->moderate = $moderate;
+		$this->gallery_rating = $gallery_rating;
 		$this->table_albums = $albums_table;
 		$this->table_images = $images_table;
 		$this->table_users = $users_table;
@@ -403,7 +404,8 @@ class image
 		// Add ratings
 		if ($this->gallery_config->get('allow_rates'))
 		{
-			$rating = new \phpbbgallery\core\rating($image_id, $image_data, $album_data);
+			$rating $this->gallery_rating;
+			$rating->loader($image_id, $image_data, $album_data);
 
 			$user_rating = $rating->get_user_rating($this->user->data['user_id']);
 
