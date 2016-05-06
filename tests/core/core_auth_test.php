@@ -22,20 +22,25 @@ class core_auth_test extends core_base
 		parent::setUp();
 		global $table_prefix;
 		$table_prefix = 'phpbb_';
-		
+
 		$this->gallery_cache = new \phpbbgallery\core\cache(
 			$this->cache,
 			$this->db,
 			'phpbb_gallery_albums',
 			'phpbb_gallery_images'
 		);
-		
+
 		$this->gallery_user = new \phpbbgallery\core\user(
 			$this->db,
 			$this->dispatcher,
-			'phpbb_gallery_users'
+			$this->user,
+			$this->config,
+			$this->auth,
+			'phpbb_gallery_users',
+			'/',
+			'php'
 		);
-		
+
 		// Let's build auth class
 		$this->gallery_auth = new \phpbbgallery\core\auth\auth(
 			$this->gallery_cache,
@@ -181,7 +186,7 @@ class core_auth_test extends core_base
 		else
 		{
 			$this->assertFalse($this->gallery_auth->acl_check($permission, $album_id, 0));
-		}		
+		}
 	}
 	/**
 	* Test data for the set_user_permissions test
@@ -231,7 +236,7 @@ class core_auth_test extends core_base
 			$this->assertContains($expected2, $row['user_permissions']);
 		}
 	}
-	
+
 	/**
 	* Test data for the acl_check_global test
 	*
@@ -291,7 +296,7 @@ class core_auth_test extends core_base
 			$this->assertFalse($this->gallery_auth->acl_check_global($acl));
 		}
 	}
-	
+
 	/**
 	* Test data for the acl_album_ids test
 	*
@@ -386,7 +391,7 @@ class core_auth_test extends core_base
 			$this->assertEquals($expected, $this->gallery_auth->acl_album_ids($acl, $return_type, $rrc));
 		}
 	}
-	
+
 	/**
 	* Test data for the acl_user_ids test
 	*
@@ -427,7 +432,7 @@ class core_auth_test extends core_base
 	* get_own_album -> test_get_own_album
 	* load_user_premissions -> test_acl_check
 	* get_user_zebra -> test_get_user_zebra
-	* get_zebra_state 
+	* get_zebra_state
 	* get_usergroups-> test_acl_check
 	* set_user_permissions -> test_set_user_permissions
 	* acl_check -> test_acl_check

@@ -39,7 +39,12 @@ class core_image_test extends core_base
 		$this->gallery_user = new \phpbbgallery\core\user(
 			$this->db,
 			$this->dispatcher,
-			'phpbb_gallery_users'
+			$this->user,
+			$this->config,
+			$this->auth,
+			'phpbb_gallery_users',
+			'/',
+			'php'
 		);
 
 		$this->gallery_auth = new \phpbbgallery\core\auth\auth(

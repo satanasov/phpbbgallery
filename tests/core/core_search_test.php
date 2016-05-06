@@ -36,7 +36,12 @@ class core_search_test extends core_base
 		$this->gallery_user = new \phpbbgallery\core\user(
 			$this->db,
 			$this->dispatcher,
-			'phpbb_gallery_users'
+			$this->user,
+			$this->config,
+			$this->auth,
+			'phpbb_gallery_users',
+			'/',
+			'php'
 		);
 
 		// Let's build auth class
@@ -207,7 +212,7 @@ class core_search_test extends core_base
 			),
 		);
 	}
-		/**
+	/**
 	* Test random images function
 	* @dataProvider random_test_data
 	*/

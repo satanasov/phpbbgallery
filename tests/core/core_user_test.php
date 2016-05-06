@@ -23,7 +23,12 @@ class core_user_test extends core_base
 		$this->gallery_user = new \phpbbgallery\core\user(
 			$this->db,
 			$this->dispatcher,
-			'phpbb_gallery_users'
+			$this->user,
+			$this->config,
+			$this->auth,
+			'phpbb_gallery_users',
+			'/',
+			'php'
 		);
 	}
 
@@ -209,13 +214,13 @@ class core_user_test extends core_base
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->assertEquals(1, $row['count']);
-		
+
 		$this->gallery_user->update_users(array(52,53), $data);
 		$sql = 'SELECT COUNT(user_id) as count FROM phpbb_gallery_users WHERE user_images > 0';
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->assertEquals(3, $row['count']);
-		
+
 		$this->gallery_user->update_users('all', $data);
 		$sql = 'SELECT COUNT(user_id) as count FROM phpbb_gallery_users WHERE user_images > 0';
 		$result = $this->db->sql_query($sql);
@@ -256,7 +261,7 @@ class core_user_test extends core_base
 			$this->assertContains($expected, $this->gallery_user->sql_build_where($input));
 		}
 	}
-	
+
 	public function test_get_own_root_album()
 	{
 		$this->gallery_user->set_user_id(2);

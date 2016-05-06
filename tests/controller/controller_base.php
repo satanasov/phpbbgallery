@@ -118,7 +118,12 @@ class controller_base extends \phpbb_database_test_case
 		$this->gallery_user = new \phpbbgallery\core\user(
 			$this->db,
 			$this->dispatcher,
-			'phpbb_gallery_users'
+			$this->user,
+			$this->config,
+			$this->auth,
+			'phpbb_gallery_users',
+			'/',
+			'php'
 		);
 		
 		// Let's build auth class

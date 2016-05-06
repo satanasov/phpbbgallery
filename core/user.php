@@ -53,11 +53,18 @@ class user
 	 * @param	\phpbb\event\dispatcher	$dispatcher	Event dispatcher object
 	 * @param	string					$table_name	Gallery users table
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\event\dispatcher $dispatcher, $table_name)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\event\dispatcher $dispatcher, \phpbb\user $user, \phpbb\config\config $config,
+	\phpbb\auth\auth $auth,
+								$table_name, $root_path, $php_ext)
 	{
 		$this->db			= $db;
 		$this->dispatcher	= $dispatcher;
+		$this->user = $user;
+		$this->config = $config;
+		$this->auth = $auth;
 		$this->table_name	= $table_name;
+		$this->root_path = $root_path;
+		$this->php_ext = $php_ext;
 	}
 
 	/**
@@ -472,15 +479,12 @@ class user
 	/**
 	*
 	*/
-	static public function add_user_to_cache(&$user_cache, $row)
+	public function add_user_to_cache(&$user_cache, $row)
 	{
-		global $auth, $config, $user;
-		global $phpbb_root_path, $phpEx;
-
 		$user_id = $row['user_id'];
 		if (!function_exists('phpbb_get_user_avatar'))
 		{
-			include($phpbb_root_path . 'includes/functions_display.' . $phpEx);
+			include($this->root_path . 'includes/functions_display.' . $this->php_ext);
 		}
 
 		if ($user_id == ANONYMOUS)
@@ -498,7 +502,7 @@ class user
 				'sig_bbcode_bitfield'	=> '',
 
 				'online'			=> false,
-				'avatar'			=> ($user->optionget('viewavatars')) ? phpbb_get_user_avatar($row) : '',
+				'avatar'			=> ($this->user->optionget('viewavatars')) ? phpbb_get_user_avatar($row) : '',
 				'rank_title'		=> '',
 				'rank_image'		=> '',
 				'rank_image_src'	=> '',
@@ -520,7 +524,7 @@ class user
 		else
 		{
 			$user_sig = '';
-			if ($row['user_sig'] && $config['allow_sig'] && $user->optionget('viewsigs'))
+			if ($row['user_sig'] && $this->config['allow_sig'] && $this->user->optionget('viewsigs'))
 			{
 				$user_sig = $row['user_sig'];
 			}
@@ -528,7 +532,7 @@ class user
 			$id_cache[] = $user_id;
 
 			$user_cache[$user_id] = array(
-				'joined'		=> $user->format_date($row['user_regdate']),
+				'joined'		=> $this->user->format_date($row['user_regdate']),
 				'posts'			=> $row['user_posts'],
 				'warnings'		=> (isset($row['user_warnings'])) ? $row['user_warnings'] : 0,
 				'viewonline'	=> $row['user_allow_viewonline'],
@@ -538,7 +542,7 @@ class user
 				'sig_bbcode_uid'		=> (!empty($row['user_sig_bbcode_uid'])) ? $row['user_sig_bbcode_uid'] : '',
 				'sig_bbcode_bitfield'	=> (!empty($row['user_sig_bbcode_bitfield'])) ? $row['user_sig_bbcode_bitfield'] : '',
 
-				'avatar'		=> ($user->optionget('viewavatars')) ? phpbb_get_user_avatar($row) : '',
+				'avatar'		=> ($this->user->optionget('viewavatars')) ? phpbb_get_user_avatar($row) : '',
 				'age'			=> '',
 
 				'rank_title'		=> '',
@@ -550,33 +554,33 @@ class user
 				'user_colour'		=> $row['user_colour'],
 
 				'online'		=> false,
-				'profile'		=> append_sid($phpbb_root_path . 'memberlist.' . $phpEx, "mode=viewprofile&amp;u=$user_id"),
-				'jabber'		=> ($row['user_jabber'] && $auth->acl_get('u_sendim')) ? append_sid($phpbb_root_path . 'memberlist.' . $phpEx, "mode=contact&amp;action=jabber&amp;u=$user_id") : '',
-				'search'		=> ($auth->acl_get('u_search')) ? append_sid($phpbb_root_path . 'search.' . $phpEx, "author_id=$user_id&amp;sr=posts") : '',
+				'profile'		=> append_sid($this->root_path . 'memberlist.' . $this->php_ext, "mode=viewprofile&amp;u=$user_id"),
+				'jabber'		=> ($row['user_jabber'] && $this->auth->acl_get('u_sendim')) ? append_sid($this->root_path . 'memberlist.' . $this->php_ext, "mode=contact&amp;action=jabber&amp;u=$user_id") : '',
+				'search'		=> ($this->auth->acl_get('u_search')) ? append_sid($this->root_path . 'search.' . $this->php_ext, "author_id=$user_id&amp;sr=posts") : '',
 
 				'gallery_album'		=> '',//($row['personal_album_id'] && $config['phpbb_gallery_viewtopic_icon']) ? $phpbb_ext_gallery->url->append_sid('album', "album_id=" . $row['personal_album_id']) : '',
-				'gallery_images'	=> ($config['phpbb_gallery_viewtopic_images']) ? $row['user_images'] : 0,
+				'gallery_images'	=> ($this->config['phpbb_gallery_viewtopic_images']) ? $row['user_images'] : 0,
 				'gallery_search'	=> '',//($config['phpbb_gallery_viewtopic_images'] && $config['phpbb_gallery_viewtopic_images'] && $row['user_images']) ? $phpbb_ext_gallery->url->append_sid('search', "user_id=$user_id") : '',
 			);
 
 			get_user_rank($row['user_rank'], $row['user_posts'], $user_cache[$user_id]['rank_title'], $user_cache[$user_id]['rank_image'], $user_cache[$user_id]['rank_image_src']);
 
-			if (!empty($row['user_allow_viewemail']) || $auth->acl_get('a_email'))
+			if (!empty($row['user_allow_viewemail']) || $this->auth->acl_get('a_email'))
 			{
-				$user_cache[$user_id]['email'] = ($config['board_email_form'] && $config['email_enable']) ? append_sid($phpbb_root_path . 'memberlist.' . $phpEx, "mode=email&amp;u=$user_id") : (($config['board_hide_emails'] && !$auth->acl_get('a_email')) ? '' : 'mailto:' . $row['user_email']);
+				$user_cache[$user_id]['email'] = ($this->config['board_email_form'] && $this->config['email_enable']) ? append_sid($this->root_path . 'memberlist.' . $this->php_ext, "mode=email&amp;u=$user_id") : (($this->config['board_hide_emails'] && !$this->auth->acl_get('a_email')) ? '' : 'mailto:' . $row['user_email']);
 			}
 			else
 			{
 				$user_cache[$user_id]['email'] = '';
 			}
 
-			if ($config['allow_birthdays'] && !empty($row['user_birthday']))
+			if ($this->config['allow_birthdays'] && !empty($row['user_birthday']))
 			{
 				list($bday_day, $bday_month, $bday_year) = array_map('intval', explode('-', $row['user_birthday']));
 				$age = 0;
 				if ($bday_year)
 				{
-					$now = $user->create_datetime();
+					$now = $this->user->create_datetime();
 					$now = phpbb_gmgetdate($now->getTimestamp() + $now->getOffset());
 
 					$diff = $now['mon'] - $bday_month;

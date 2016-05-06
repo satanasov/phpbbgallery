@@ -120,7 +120,12 @@ services:
         arguments:
             - @dbal.conn
             - @dispatcher
+            - @user
+            - @config
+            - @auth
             - %tables.phpbbgallery.users%
+            - %core.root_path%
+            - %core.php_ext%
     phpbbgallery.core.config:
         class: phpbbgallery\core\config
         arguments:
