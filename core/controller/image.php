@@ -776,7 +776,8 @@ class image
 				$personal_album_id = 0;
 				if ($this->user->data['user_id'] != $image_data['image_user_id'])
 				{
-					$image_user = new \phpbbgallery\core\user($db, $image_data['image_user_id']);
+					$image_user = $this->gallery_user;
+					$image_user->set_user_id($image_data['image_user_id']);
 					$personal_album_id = $image_user->get_data('personal_album_id');
 
 					// The User has no personal album, moderators can created that without the need of permissions
@@ -835,10 +836,10 @@ class image
 
 				if ($change_image_count)
 				{
-					$new_user = new \phpbbgallery\core\user($this->db, $this->dispatcher, $this->table_users);
+					$new_user = new \phpbbgallery\core\user($this->db, $this->dispatcher, $this->user, $this->config, $this->auth, $this->table_users, $this->phpbb_root_path, $this->php_ext);
 					$new_user->set_user_id($user_data['user_id']);
 					$new_user->update_images(1);
-					$old_user = new \phpbbgallery\core\user($this->db, $this->dispatcher, $this->table_users);
+					$old_user = new \phpbbgallery\core\user($this->db, $this->dispatcher, $this->user, $this->config, $this->auth, $this->table_users, $this->phpbb_root_path, $this->php_ext);
 					$old_user->set_user_id($image_data['image_user_id']);
 					$old_user->update_images(-1);
 				}

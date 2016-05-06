@@ -544,7 +544,7 @@ class manage
 		$album_data = $phpbb_ext_gallery_core_album->get_info($album_id);
 
 		$gallery_cache = new \phpbbgallery\core\cache($cache, $db);
-		$gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $table_name);
+		$gallery_user = $phpbb_container->get('phpbbgallery.core.user');
 		$users_table = $table_prefix . 'gallery_users';
 		$phpbb_gallery_auth = $phpbb_container->get('phpbbgallery.core.auth');
 		$phpbb_ext_gallery_core_album_display = $phpbb_container->get('phpbbgallery.core.album.display');

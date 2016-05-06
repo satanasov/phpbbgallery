@@ -393,7 +393,7 @@ class permissions_module
 		$permissions_table = $table_prefix . 'gallery_permissions';
 		$roles_table = $table_prefix . 'gallery_roles';
 		// Init auth
-		$gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $table_name);
+		$gallery_user = $phpbb_container->get('phpbbgallery.core.user');
 		$phpbb_ext_gallery_core_auth = $phpbb_container->get('phpbbgallery.core.auth');
 
 		$user->add_lang('acp/permissions');
@@ -992,8 +992,8 @@ class permissions_module
 		$roles_table = $table_prefix . 'gallery_roles';
 		$permissions_table = $table_prefix . 'gallery_permissions';
 		$modscache_table = $table_prefix . 'gallery_modscache';
-		$gallery_cache = new \phpbbgallery\core\cache($cache, $db);
-		$gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $table_name);
+		$gallery_cache = $phpbb_container->get('phpbbgallery.core.cache');
+		$gallery_user = $phpbb_container->get('phpbbgallery.core.user');
 		$phpbb_ext_gallery_core_auth = $phpbb_container->get('phpbbgallery.core.auth');
 
 		// Init album
@@ -1226,7 +1226,7 @@ class permissions_module
 		$modscache_table = $table_prefix . 'gallery_modscache';
 		$users_table = $table_prefix . 'gallery_users';
 		$gallery_cache = new \phpbbgallery\core\cache($cache, $db);
-		$gallery_user = new \phpbbgallery\core\user($db, $phpbb_dispatcher, $table_name);
+		$gallery_user = $phpbb_container->get('phpbbgallery.core.user');
 		$phpbb_ext_gallery_core_auth =  $phpbb_container->get('phpbbgallery.core.auth');
 
 		$disabled = false;
