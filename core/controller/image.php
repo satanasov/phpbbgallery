@@ -12,54 +12,6 @@ namespace phpbbgallery\core\controller;
 
 class image
 {
-	/* @var \phpbb\config\config */
-	protected $config;
-
-	/* @var \phpbb\auth\auth */
-	protected $auth;
-
-	/* @var \phpbb\controller\helper */
-	protected $helper;
-
-	/* @var \phpbb\db\driver\driver */
-	protected $db;
-
-	/* @var \phpbb\event\dispatcher */
-	protected $dispatcher;
-
-	/* @var \phpbb\pagination */
-	protected $pagination;
-
-	/* @var \phpbb\template\template */
-	protected $template;
-
-	/* @var \phpbb\user */
-	protected $user;
-
-	/* @var \phpbbgallery\core\album\display */
-	protected $display;
-
-	/* @var \phpbbgallery\core\album\loader */
-	protected $loader;
-
-	/* @var \phpbbgallery\core\auth\auth */
-	protected $gallery_auth;
-
-	/* @var \phpbbgallery\core\auth\level */
-	protected $auth_level;
-
-	/* @var array */
-	protected $data;
-
-	/* @var string */
-	protected $table_albums;
-
-	/* @var string */
-	protected $table_images;
-
-	/* @var string */
-	protected $table_users;
-
 	/**
 	* Constructor
 	*
