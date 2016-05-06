@@ -20,10 +20,55 @@ class core_album_test extends core_base
 	public function setUp()
 	{
 		parent::setUp();
+
+		$this->gallery_cache = new \phpbbgallery\core\cache(
+			$this->cache,
+			$this->db,
+			'phpbb_gallery_albums',
+			'phpbb_gallery_images'
+		);
+
+		$this->gallery_user = new \phpbbgallery\core\user(
+			$this->db,
+			$this->dispatcher,
+			$this->user,
+			$this->config,
+			$this->auth,
+			'phpbb_gallery_users',
+			'/',
+			'php'
+		);
+
+		// Let's build auth class
+		$this->gallery_auth = new \phpbbgallery\core\auth\auth(
+			$this->gallery_cache,
+			$this->db,
+			$this->gallery_user,
+			$this->user,
+			$this->auth,
+			'phpbb_gallery_permissions',
+			'phpbb_gallery_roles',
+			'phpbb_gallery_users',
+			'phpbb_gallery_albums'
+		);
+		$this->gallery_image = $this->getMockBuilder('\phpbbgallery\core\image\image')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->gallery_image->method('get_status_orphan')
+			->willReturn(3);
+
+		$this->gallery_config = new \phpbbgallery\core\config(
+			$this->config
+		);
 		$this->album = new \phpbbgallery\core\album\album(
 			$this->db,
 			$this->user,
+			$this->gallery_auth,
+			$this->gallery_cache,
+			$this->gallery_image,
+			$this->gallery_config,
 			'phpbb_gallery_albums',
+			'phpbb_gallery_images',
 			'phpbb_gallery_watch',
 			'phpbb_gallery_contests'
 		);
@@ -57,7 +102,7 @@ class core_album_test extends core_base
 	* Test get_info
 	* Here we test only exception.
 	* Normal get info is tested in core_search_test where it is called!
-	
+
 	public function test_get_info_fail()
 	{
 		try
@@ -119,5 +164,5 @@ class core_album_test extends core_base
 			$this->assertEquals(403, $exception->getStatusCode());
 			$this->assertEquals('NO_ALBUM_STEALING', $exception->getMessage());
 		}
-	}	
+	}
 }

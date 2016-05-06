@@ -105,9 +105,19 @@ class auth
 		self::$_permissions_flipped['a_count'] = 'a_count';
 	}
 
+	public function get_setting_permissions()
+	{
+		return self::SETTING_PERMISSIONS;
+	}
+
+	public function get_personal_album()
+	{
+		return self::PERSONAL_ALBUM;
+	}
+
 	public function get_own_album()
 	{
-		return -2;
+		return self::OWN_ALBUM;
 	}
 
 	public function load_user_premissions($user_id, $album_id = false)

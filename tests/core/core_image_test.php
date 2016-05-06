@@ -21,14 +21,6 @@ class core_image_test extends core_base
 	{
 		parent::setUp();
 
-		$this->album = new \phpbbgallery\core\album\album(
-			$this->db,
-			$this->user,
-			'phpbb_gallery_albums',
-			'phpbb_gallery_watch',
-			'phpbb_gallery_contests'
-		);
-
 		$this->gallery_cache = new \phpbbgallery\core\cache(
 			$this->cache,
 			$this->db,
@@ -47,6 +39,7 @@ class core_image_test extends core_base
 			'php'
 		);
 
+		// Let's build auth class
 		$this->gallery_auth = new \phpbbgallery\core\auth\auth(
 			$this->gallery_cache,
 			$this->db,
@@ -58,8 +51,27 @@ class core_image_test extends core_base
 			'phpbb_gallery_users',
 			'phpbb_gallery_albums'
 		);
+		$this->gallery_image = $this->getMockBuilder('\phpbbgallery\core\image\image')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->gallery_image->method('get_status_orphan')
+			->willReturn(3);
+
 		$this->gallery_config = new \phpbbgallery\core\config(
 			$this->config
+		);
+		
+		$this->album = new \phpbbgallery\core\album\album(
+			$this->db,
+			$this->user,
+			$this->gallery_auth,
+			$this->gallery_cache,
+			$this->gallery_image,
+			$this->gallery_config,
+			'phpbb_gallery_albums',
+			'phpbb_gallery_images',
+			'phpbb_gallery_watch',
+			'phpbb_gallery_contests'
 		);
 
 		$this->url = new \phpbbgallery\core\url(

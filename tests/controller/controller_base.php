@@ -44,19 +44,19 @@ class controller_base extends \phpbb_database_test_case
 		parent::setUp();
 		//Let's build some deps
 		$this->auth = $this->getMock('\phpbb\auth\auth');
-		
+
 		$auth = $this->auth;
-		
+
 		$config = $this->config = new \phpbb\config\config(array());
-		
+
 		$this->db = $this->new_dbal();
 		$db = $this->db;
-		
+
 		$request = $this->request = $this->getMock('\phpbb\request\request');
-		
+
 		$this->template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
-			
+
 		$this->user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
 		$this->user
 			->method('lang')
@@ -69,9 +69,9 @@ class controller_base extends \phpbb_database_test_case
 			'datetime' => array(),
 			'DATE_FORMAT' => 'm/d/Y',
 		);
-		
+
 		$user = $this->user;
-		
+
 		$this->controller_helper = $this->getMockBuilder('\phpbb\controller\helper')
 			->disableOriginalConstructor()
 			->getMock();
@@ -83,7 +83,7 @@ class controller_base extends \phpbb_database_test_case
 		$this->controller_helper
 			->method('route')
 			->will($this->returnArgument(0));
-		
+
 		$cache = $this->cache = new \phpbb\cache\service(
 			new \phpbb\cache\driver\null(),
 			$this->config,
@@ -93,28 +93,28 @@ class controller_base extends \phpbb_database_test_case
 		);
 
 		$this->cache->purge();
-		
+
 		$this->pagination = $this->getMockBuilder('\phpbb\pagination')
 			->disableOriginalConstructor()
 			->getMock();
-		
+
 		$phpbb_dispatcher = $this->dispatcher = new \phpbb_mock_event_dispatcher();
-		
+
 		$this->user_loader = $this->getMockBuilder('\phpbb\user_loader')
 			->disableOriginalConstructor()
 			->getMock();
-			
+
 		$this->gallery_notification_helper = $this->getMockBuilder('\phpbbgallery\core\notification\helper')
 			->disableOriginalConstructor()
 			->getMock();
-		
+
 		$this->gallery_cache = new \phpbbgallery\core\cache(
 			$this->cache,
 			$this->db,
 			'phpbb_gallery_albums',
 			'phpbb_gallery_images'
 		);
-		
+
 		$this->gallery_user = new \phpbbgallery\core\user(
 			$this->db,
 			$this->dispatcher,
@@ -125,7 +125,7 @@ class controller_base extends \phpbb_database_test_case
 			'/',
 			'php'
 		);
-		
+
 		// Let's build auth class
 		$this->gallery_auth = new \phpbbgallery\core\auth\auth(
 			$this->gallery_cache,
@@ -138,18 +138,18 @@ class controller_base extends \phpbb_database_test_case
 			'phpbb_gallery_users',
 			'phpbb_gallery_albums'
 		);
-		
+
 		$this->gallery_auth_level = new \phpbbgallery\core\auth\level(
 			$this->gallery_auth,
 			$this->config,
 			$this->template,
 			$this->user
 		);
-		
+
 		$this->misc = $this->getMockBuilder('\phpbbgallery\core\misc')
 			->disableOriginalConstructor()
 			->getMock();
-		
+
 		$this->display = new \phpbbgallery\core\album\display(
 			$this->auth,
 			$this->config,
@@ -169,30 +169,37 @@ class controller_base extends \phpbb_database_test_case
 			'phpbb_gallery_albums_track',
 			'phpbb_gallery_modscache'
 		);
-		
+
 		$this->gallery_loader = new \phpbbgallery\core\album\loader(
 			$this->db,
 			$this->user,
 			'phpbb_gallery_albums'
 		);
-
-		$this->gallery_album = new \phpbbgallery\core\album\album(
-			$this->db,
-			$this->user,
-			'phpbb_gallery_albums',
-			'phpbb_gallery_watch',
-			'phpbb_gallery_contests'
-		);
-
-		$this->gallery_config = new \phpbbgallery\core\config(
-			$this->config
-		);
-		
 		$this->gallery_image = $this->getMockBuilder('\phpbbgallery\core\image\image')
 			->disableOriginalConstructor()
 			->getMock();
 		$this->gallery_image->method('get_status_orphan')
 			->willReturn(3);
+
+		$this->gallery_config = new \phpbbgallery\core\config(
+			$this->config
+		);
+
+		$this->gallery_album = new \phpbbgallery\core\album\album(
+			$this->db,
+			$this->user,
+			$this->gallery_auth,
+			$this->gallery_cache,
+			$this->gallery_image,
+			$this->gallery_config,
+			'phpbb_gallery_albums',
+			'phpbb_gallery_images',
+			'phpbb_gallery_watch',
+			'phpbb_gallery_contests'
+		);
+
+
+
 
 		// Let's build Search
 		$this->gallery_search = new \phpbbgallery\core\search(
@@ -210,7 +217,7 @@ class controller_base extends \phpbb_database_test_case
 			'phpbb_gallery_albums',
 			'phpbb_gallery_comments'
 		);
-		
+
 		$this->gallery_url = new \phpbbgallery\core\url(
 			$this->template,
 			$this->request,

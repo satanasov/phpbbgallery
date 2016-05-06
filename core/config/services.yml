@@ -24,7 +24,12 @@ services:
         arguments:
             - @dbal.conn
             - @user
+            - @phpbbgallery.core.auth
+            - @phpbbgallery.core.cache
+            - @phpbbgallery.core.image
+            - @phpbbgallery.core.config
             - %tables.phpbbgallery.albums%
+            - %tables.phpbbgallery.images%
             - %tables.phpbbgallery.watch%
             - %tables.phpbbgallery.contests%
     phpbbgallery.core.misc:
