@@ -322,7 +322,7 @@ class albums_module
 						$album_data['left_id'] = $row['left_id'];
 						$album_data['right_id'] = $row['right_id'];
 					}
-					if ($row['album_type'] == $phpbb_ext_gallery_core_album::TYPE_CONTEST)
+					if ($row['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST)
 					{
 						$contest_data = $phpbb_gallery_contest->get_contest($album_id, 'album');
 					}
@@ -478,7 +478,7 @@ class albums_module
 					if ($uploadable_album_exists)
 					{
 						$template->assign_vars(array(
-							'S_MOVE_ALBUM_OPTIONS'		=> $phpbb_ext_gallery_core_album->get_albumbox(true, '', $album_data['parent_id'], false, $subalbums_id, \phpbbgallery\core\block::PUBLIC_ALBUM, $phpbb_ext_gallery_core_album::TYPE_UPLOAD),
+							'S_MOVE_ALBUM_OPTIONS'		=> $phpbb_ext_gallery_core_album->get_albumbox(true, '', $album_data['parent_id'], false, $subalbums_id, \phpbbgallery\core\block::PUBLIC_ALBUM, \phpbbgallery\core\block::TYPE_UPLOAD),
 						));
 					}
 
@@ -490,7 +490,7 @@ class albums_module
 				else if ($uploadable_album_exists)
 				{
 					$template->assign_vars(array(
-						'S_MOVE_ALBUM_OPTIONS'		=> $phpbb_ext_gallery_core_album->get_albumbox(true, '', $album_data['parent_id'], false, $album_id, 0, $phpbb_ext_gallery_core_album::TYPE_UPLOAD),
+						'S_MOVE_ALBUM_OPTIONS'		=> $phpbb_ext_gallery_core_album->get_albumbox(true, '', $album_data['parent_id'], false, $album_id, 0, \phpbbgallery\core\block::TYPE_UPLOAD),
 					));
 				}
 
