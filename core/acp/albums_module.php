@@ -361,8 +361,8 @@ class albums_module
 					{
 						$album_data = array(
 							'parent_id'				=> $this->parent_id,
-							'album_type'			=> $phpbb_ext_gallery_core_album::TYPE_UPLOAD,
-							'album_status'			=> $phpbb_ext_gallery_core_album::STATUS_OPEN,
+							'album_type'			=> \phpbbgallery\core\block::TYPE_UPLOAD,
+							'album_status'			=> \phpbbgallery\core\block::ALBUM_OPEN,
 							'album_name'			=> utf8_normalize_nfc($request->variable('album_name', '', true)),
 							'album_desc'			=> '',
 							'album_image'			=> '',
@@ -423,7 +423,7 @@ class albums_module
 				}
 
 				$album_type_options = '';
-				$album_type_ary = array($phpbb_ext_gallery_core_album::TYPE_CAT => 'CAT', $phpbb_ext_gallery_core_album::TYPE_UPLOAD => 'UPLOAD');//, $phpbb_ext_gallery_core_album::TYPE_CONTEST => 'CONTEST');
+				$album_type_ary = array(\phpbbgallery\core\block::TYPE_CAT => 'CAT', \phpbbgallery\core\block::TYPE_UPLOAD => 'UPLOAD');//, $phpbb_ext_gallery_core_album::TYPE_CONTEST => 'CONTEST');
 
 				foreach ($album_type_ary as $value => $lang)
 				{

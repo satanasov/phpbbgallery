@@ -415,7 +415,7 @@ class main_module
 				),
 			),
 
-			'WHERE'			=> 'a.album_user_id <> ' . $gallery_album->get_public() . ' AND a.parent_id = 0',
+			'WHERE'			=> 'a.album_user_id <> ' . \phpbbgallery\core\block::PUBLIC_ALBUM . ' AND a.parent_id = 0',
 		);
 		$sql = $db->sql_build_query('SELECT', $sql_array);
 		$result = $db->sql_query($sql);
@@ -438,7 +438,7 @@ class main_module
 
 		$sql = 'SELECT ga.album_user_id, ga.album_images_real
 			FROM ' . $table_prefix . 'gallery_albums ga
-			WHERE ga.album_user_id <> ' . $gallery_album->get_public() . '
+			WHERE ga.album_user_id <> ' . \phpbbgallery\core\block::PUBLIC_ALBUM . '
 				AND ga.parent_id <> 0';
 		$result = $db->sql_query($sql);
 		while ($row = $db->sql_fetchrow($result))
@@ -478,7 +478,7 @@ class main_module
 			'CHECK_ENTRY'			=> $this->u_action . '&amp;check_mode=entry',
 
 			'U_FIND_USERNAME'		=> $gallery_url->append_sid('phpbb', 'memberlist', 'mode=searchuser&amp;form=acp_gallery&amp;field=prune_usernames'),
-			'S_SELECT_ALBUM'		=> $gallery_album->get_albumbox(false, '', false, false, false, $gallery_album->get_public(), $gallery_album->get_type_upload()),
+			'S_SELECT_ALBUM'		=> $gallery_album->get_albumbox(false, '', false, false, false, \phpbbgallery\core\block::PUBLIC_ALBUM, \phpbbgallery\core\block::TYPE_UPLOAD),
 
 			'S_FOUNDER'				=> ($user->data['user_type'] == USER_FOUNDER) ? true : false,
 		));
