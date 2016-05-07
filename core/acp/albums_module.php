@@ -106,9 +106,9 @@ class albums_module
 
 					$album_data += array(
 						'parent_id'				=> $request->variable('album_parent_id', $this->parent_id),
-						'album_type'			=> $request->variable('album_type', $phpbb_ext_gallery_core_album::TYPE_UPLOAD),
+						'album_type'			=> $request->variable('album_type', \phpbbgallery\core\block::TYPE_UPLOAD),
 						'type_action'			=> $request->variable('type_action', ''),
-						'album_status'			=> $request->variable('album_status', $phpbb_ext_gallery_core_album::STATUS_OPEN),
+						'album_status'			=> $request->variable('album_status', \phpbbgallery\core\block::ALBUM_OPEN),
 						'album_parents'			=> '',
 						'album_name'			=> utf8_normalize_nfc($request->variable('album_name', '', true)),
 						'album_desc'			=> utf8_normalize_nfc($request->variable('album_desc', '', true)),
@@ -141,9 +141,9 @@ class albums_module
 					extract($phpbb_dispatcher->trigger_event('phpbbgallery.core.acp.albums.request_data', compact($vars)));
 
 					// Categories are not able to be locked...
-					if ($album_data['album_type'] == $phpbb_ext_gallery_core_album::TYPE_CAT)
+					if ($album_data['album_type'] == \phpbbgallery\core\block::TYPE_CAT)
 					{
-						$album_data['album_status'] = $phpbb_ext_gallery_core_album::STATUS_OPEN;
+						$album_data['album_status'] = \phpbbgallery\core\block::ALBUM_OPEN;
 					}
 
 					// Contests need contest_data, freaky... :-O
