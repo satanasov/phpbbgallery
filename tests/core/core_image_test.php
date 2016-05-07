@@ -51,22 +51,19 @@ class core_image_test extends core_base
 			'phpbb_gallery_users',
 			'phpbb_gallery_albums'
 		);
-		$this->gallery_image = $this->getMockBuilder('\phpbbgallery\core\image\image')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->gallery_image->method('get_status_orphan')
-			->willReturn(3);
 
 		$this->gallery_config = new \phpbbgallery\core\config(
 			$this->config
 		);
-		
+
+		$this->block = new \phpbbgallery\core\block();
+
 		$this->album = new \phpbbgallery\core\album\album(
 			$this->db,
 			$this->user,
 			$this->gallery_auth,
 			$this->gallery_cache,
-			$this->gallery_image,
+			$this->block,
 			$this->gallery_config,
 			'phpbb_gallery_albums',
 			'phpbb_gallery_images',
@@ -142,31 +139,6 @@ class core_image_test extends core_base
 			$this->file,
 			'phpbb_gallery_images'
 		);
-	}
-
-	public function test_get_status_orphan()
-	{
-		$this->assertEquals($this->image->get_status_orphan(), 3);
-	}
-	public function test_get_status_unaproved()
-	{
-		$this->assertEquals($this->image->get_status_unapproved(), 0);
-	}
-	public function test_get_status_aproved()
-	{
-		$this->assertEquals($this->image->get_status_approved(), 1);
-	}
-	public function test_get_status_locked()
-	{
-		$this->assertEquals($this->image->get_status_locked(), 2);
-	}
-	public function test_get_no_contest()
-	{
-		$this->assertEquals($this->image->get_no_contest(), 0);
-	}
-	public function test_get_in_contest()
-	{
-		$this->assertEquals($this->image->get_in_contest(), 1);
 	}
 
 	/*

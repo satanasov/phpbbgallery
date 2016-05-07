@@ -26,7 +26,7 @@ services:
             - @user
             - @phpbbgallery.core.auth
             - @phpbbgallery.core.cache
-            - @phpbbgallery.core.image
+            - @phpbbgallery.core.block
             - @phpbbgallery.core.config
             - %tables.phpbbgallery.albums%
             - %tables.phpbbgallery.images%
@@ -158,8 +158,7 @@ services:
             - @dbal.conn
             - @phpbbgallery.core.config
             - @phpbbgallery.core.auth
-            - @phpbbgallery.core.image
-            - @phpbbgallery.core.album
+            - @phpbbgallery.core.block
             - %tables.phpbbgallery.comments%
             - %tables.phpbbgallery.images%
     phpbbgallery.core.url:
@@ -257,6 +256,7 @@ services:
             - @phpbbgallery.core.image
             - @phpbbgallery.core.config
             - @phpbbgallery.core.url
+            - @phpbbgallery.core.block
             - %tables.phpbbgallery.images%
             - %core.root_path%
             - %core.php_ext%
@@ -316,6 +316,7 @@ services:
             - @phpbbgallery.core.notification.helper
             - @phpbbgallery.core.url
             - @phpbbgallery.core.upload
+            - @phpbbgallery.core.block
             - %tables.phpbbgallery.images%
     phpbbgallery.core.controller.album:
         class: phpbbgallery\core\controller\album
@@ -380,6 +381,7 @@ services:
             - @phpbbgallery.core.log
             - @phpbbgallery.core.moderate
             - @phpbbgallery.core.rating
+            - @phpbbgallery.core.block
             - %tables.phpbbgallery.albums%
             - %tables.phpbbgallery.images%
             - %tables.phpbbgallery.users%

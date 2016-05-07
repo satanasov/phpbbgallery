@@ -55,6 +55,7 @@ class upload
 	\phpbbgallery\core\album\album $album, \phpbbgallery\core\misc $misc, \phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\album\display $display,
 	\phpbb\controller\helper $helper, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\image\image $image,
 	\phpbbgallery\core\notification $gallery_notification, \phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\url $url, \phpbbgallery\core\upload $gallery_upload,
+	\phpbbgallery\core\block $block,
 	$images_table)
 	{
 		$this->request = $request;
@@ -75,6 +76,7 @@ class upload
 		$this->gallery_upload = $gallery_upload;
 		$this->gallery_notification = $gallery_notification;
 		$this->notification_helper = $notification_helper;
+		$this->block = $block;
 		$this->images_table = $images_table;
 	}
 
@@ -89,7 +91,7 @@ class upload
 		$error = '';
 		//Let's get authorization
 		$this->auth->load_user_premissions($this->user->data['user_id']);
-		if (!$this->auth->acl_check('i_upload', $album_id, $album_data['album_user_id']) || ($album_data['album_status'] == $this->album->get_status_locked()))
+		if (!$this->auth->acl_check('i_upload', $album_id, $album_data['album_user_id']) || ($album_data['album_status'] == $this->block->get_album_status_locked()))
 		{
 			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 		}
@@ -122,7 +124,7 @@ class upload
 				$sql = 'SELECT COUNT(image_id) count
 					FROM ' . $this->images_table . '
 					WHERE image_user_id = ' . $this->user->data['user_id'] . '
-						AND image_status <> ' . $this->image->get_status_orphan() . '
+						AND image_status <> ' . $this->block->get_image_status_orphan() . '
 						AND image_album_id = ' . $album_id;
 				$result = $this->db->sql_query($sql);
 				$own_images = (int) $this->db->sql_fetchfield('count');
@@ -227,7 +229,7 @@ class upload
 				$sql = 'SELECT COUNT(image_id) count
 					FROM ' . $this->images_table . '
 					WHERE image_user_id = ' . $this->user->data['user_id'] . '
-						AND image_status <> ' . $this->image->get_status_orphan() . '
+						AND image_status <> ' . $this->block->get_image_status_orphan() . '
 						AND image_album_id = ' . $album_id;
 				$result = $this->db->sql_query($sql);
 				$own_images = (int) $this->db->sql_fetchfield('count');
@@ -402,7 +404,7 @@ class upload
 					$sql = 'SELECT COUNT(image_id) count
 						FROM ' . $this->images_table . '
 						WHERE image_user_id = ' . $this->user->data['user_id'] . '
-							AND image_status <> ' . $this->image->get_status_orphan() . '
+							AND image_status <> ' . $this->block->get_image_status_orphan() . '
 							AND image_album_id = ' . $album_id;
 					$result = $this->db->sql_query($sql);
 					$own_images = (int) $this->db->sql_fetchfield('count');

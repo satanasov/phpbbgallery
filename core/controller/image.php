@@ -13,31 +13,49 @@ namespace phpbbgallery\core\controller;
 class image
 {
 	/**
-	* Constructor
-	*
-	* @param \phpbb\auth\auth			$auth		Auth object
-	* @param \phpbb\config\config		$config		Config object
-	* @param \phpbb\controller\helper	$helper		Controller helper object
-	* @param \phpbb\db\driver\driver	$db			Database object
-	* @param \phpbb\event\dispatcher	$dispatcher	Event dispatcher object
-	* @param \phpbb\pagination			$pagination	Pagination object
-	* @param \phpbb\template\template	$template	Template object
-	* @param \phpbb\user				$user		User object
-	* @param \phpbbgallery\core\album\display	$display	Albums display object
-	* @param \phpbbgallery\core\album\loader	$loader	Albums display object
-	* @param \phpbbgallery\core\auth\auth	$auth	Gallery auth object
-	* @param \phpbbgallery\core\auth\level	$auth_level	Gallery auth level object
-	* @param \phpbbgallery\core\comment	$gallery_comment Gallery comment class
-	* @param string						$images_table	Gallery images table
-	* @param string						$albums_table	Gallery albums table
-	* @param string						$users_table	Gallery users table
-	*/
+	 * Constructor
+	 *
+	 * @param \phpbb\request\request                                    $request
+	 * @param \phpbb\auth\auth                                          $auth         Gallery auth object
+	 * @param \phpbb\config\config                                      $config       Config object
+	 * @param \phpbb\controller\helper                                  $helper       Controller helper object
+	 * @param \phpbb\db\driver\driver|\phpbb\db\driver\driver_interface $db           Database object
+	 * @param \phpbb\event\dispatcher                                   $dispatcher   Event dispatcher object
+	 * @param \phpbb\pagination                                         $pagination   Pagination object
+	 * @param \phpbb\template\template                                  $template     Template object
+	 * @param \phpbb\user                                               $user         User object
+	 * @param \phpbbgallery\core\album\display                          $display      Albums display object
+	 * @param \phpbbgallery\core\album\loader                           $loader       Albums display object
+	 * @param \phpbbgallery\core\album\album                            $album
+	 * @param \phpbbgallery\core\image\image                            $image
+	 * @param \phpbbgallery\core\auth\auth                              $gallery_auth
+	 * @param \phpbbgallery\core\user                                   $gallery_user
+	 * @param \phpbbgallery\core\config                                 $gallery_config
+	 * @param \phpbbgallery\core\auth\level                             $auth_level   Gallery auth level object
+	 * @param \phpbbgallery\core\url                                    $url
+	 * @param \phpbbgallery\core\misc                                   $misc
+	 * @param \phpbbgallery\core\comment                                $comment
+	 * @param \phpbbgallery\core\report                                 $report
+	 * @param \phpbbgallery\core\notification\helper                    $notification_helper
+	 * @param \phpbbgallery\core\log                                    $gallery_log
+	 * @param \phpbbgallery\core\moderate                               $moderate
+	 * @param \phpbbgallery\core\rating                                 $gallery_rating
+	 * @param \phpbbgallery\core\block                                  $block
+	 * @param string                                                    $albums_table Gallery albums table
+	 * @param string                                                    $images_table Gallery images table
+	 * @param string                                                    $users_table  Gallery users table
+	 * @param                                                           $table_comments
+	 * @param                                                           $phpbb_root_path
+	 * @param                                                           $php_ext
+	 * @internal param \phpbbgallery\core\comment $gallery_comment Gallery comment class
+	 */
 	public function __construct(\phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\controller\helper $helper,
 	\phpbb\db\driver\driver_interface $db, \phpbb\event\dispatcher $dispatcher, \phpbb\pagination $pagination,
 	\phpbb\template\template $template, \phpbb\user $user, \phpbbgallery\core\album\display $display, \phpbbgallery\core\album\loader $loader, \phpbbgallery\core\album\album $album,
 	\phpbbgallery\core\image\image $image, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\config $gallery_config,
 	\phpbbgallery\core\auth\level $auth_level, \phpbbgallery\core\url $url, \phpbbgallery\core\misc $misc, \phpbbgallery\core\comment $comment, \phpbbgallery\core\report $report,
 	\phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\log $gallery_log, \phpbbgallery\core\moderate $moderate, \phpbbgallery\core\rating $gallery_rating,
+	\phpbbgallery\core\block $block,
 	$albums_table, $images_table, $users_table, $table_comments, $phpbb_root_path, $php_ext)
 	{
 		$this->request = $request;
@@ -65,6 +83,7 @@ class image
 		$this->gallery_log = $gallery_log;
 		$this->moderate = $moderate;
 		$this->gallery_rating = $gallery_rating;
+		$this->block = $block;
 		$this->table_albums = $albums_table;
 		$this->table_images = $images_table;
 		$this->table_users = $users_table;
@@ -148,9 +167,9 @@ class image
 
 				'S_IMAGE_REPORTED'		=> $this->data['image_reported'] ? true : false,
 				'U_IMAGE_REPORTED'		=> ($this->data['image_reported']) ? $this->helper->route('phpbbgallery_core_moderate_image', array('image_id' => $image_id)) : '',
-				'S_STATUS_APPROVED'		=> ($this->data['image_status'] == \phpbbgallery\core\image\image::STATUS_APPROVED),
-				'S_STATUS_UNAPPROVED'	=> ($this->data['image_status'] == \phpbbgallery\core\image\image::STATUS_UNAPPROVED),
-				'S_STATUS_LOCKED'		=> ($this->data['image_status'] == \phpbbgallery\core\image\image::STATUS_LOCKED),
+				'S_STATUS_APPROVED'		=> ($this->data['image_status'] == \phpbbgallery\core\block::STATUS_APPROVED),
+				'S_STATUS_UNAPPROVED'	=> ($this->data['image_status'] == \phpbbgallery\core\block::STATUS_UNAPPROVED),
+				'S_STATUS_LOCKED'		=> ($this->data['image_status'] == \phpbbgallery\core\block::STATUS_LOCKED),
 			));
 		}
 		$image_desc = generate_text_for_display($this->data['image_desc'], $this->data['image_desc_uid'], $this->data['image_desc_bitfield'], 7);
@@ -647,7 +666,7 @@ class image
 		$owner_id = $image_data['image_user_id'];
 		$album_loginlink = './ucp.php?mode=login';
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
-		if (!$this->gallery_auth->acl_check('i_edit', $album_id, $album_data['album_user_id']) || ($image_data['image_status'] == \phpbbgallery\core\image\image::STATUS_ORPHAN))
+		if (!$this->gallery_auth->acl_check('i_edit', $album_id, $album_data['album_user_id']) || ($image_data['image_status'] == \phpbbgallery\core\block::STATUS_ORPHAN))
 		{
 			if (!$this->gallery_auth->acl_check('m_edit', $album_id, $album_data['album_user_id']))
 			{
@@ -861,7 +880,7 @@ class image
 		$image_backlink = $this->helper->route('phpbbgallery_core_image', array('image_id'	=> $image_id));
 		$album_backlink = $this->helper->route('phpbbgallery_core_album', array('album_id'	=> $image_data['image_album_id']));
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
-		if (!$this->gallery_auth->acl_check('i_delete', $album_id, $album_data['album_user_id']) || ($image_data['image_status'] == \phpbbgallery\core\image\image::STATUS_ORPHAN))
+		if (!$this->gallery_auth->acl_check('i_delete', $album_id, $album_data['album_user_id']) || ($image_data['image_status'] == \phpbbgallery\core\block::STATUS_ORPHAN))
 		{
 			if (!$this->gallery_auth->acl_check('m_delete', $album_id, $album_data['album_user_id']))
 			{
@@ -988,7 +1007,7 @@ class image
 	{
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 		$zebra_array = $this->gallery_auth->get_user_zebra($this->user->data['user_id']);
-		if (!$this->gallery_auth->acl_check('i_view', $album_id, $owner_id) || ($image_status == \phpbbgallery\core\image\image::STATUS_ORPHAN) || $this->gallery_auth->get_zebra_state($zebra_array, (int) $owner_id, (int) $album_id) < (int) $album_auth_level)
+		if (!$this->gallery_auth->acl_check('i_view', $album_id, $owner_id) || ($image_status == \phpbbgallery\core\block::STATUS_ORPHAN) || $this->gallery_auth->get_zebra_state($zebra_array, (int) $owner_id, (int) $album_id) < (int) $album_auth_level)
 		{
 			if ($this->user->data['is_bot'])
 			{
@@ -1008,7 +1027,7 @@ class image
 				redirect('/gallery/album/' . $album_id);
 			}
 		}
-		if (!$this->gallery_auth->acl_check('m_status', $album_id, $owner_id) && ($image_status == \phpbbgallery\core\image\image::STATUS_UNAPPROVED))
+		if (!$this->gallery_auth->acl_check('m_status', $album_id, $owner_id) && ($image_status == \phpbbgallery\core\block::STATUS_UNAPPROVED))
 		{
 			//return $this->error('NOT_AUTHORISED', 403);
 			redirect('/gallery/album/' . $album_id);

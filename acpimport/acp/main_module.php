@@ -139,7 +139,7 @@ class main_module
 							'image_user_ip'			=> $user->ip,
 							'image_time'			=> $start_time + $done_images,
 							'image_album_id'		=> $album_id,
-							'image_status'			=> \phpbbgallery\core\image\image::STATUS_APPROVED,
+							'image_status'			=> \phpbbgallery\core\block::STATUS_APPROVED,
 							//'image_exif_data'		=> '',
 						);
 
@@ -378,7 +378,7 @@ class main_module
 			'ACP_GALLERY_TITLE_EXPLAIN'		=> $user->lang['ACP_IMPORT_ALBUMS_EXPLAIN'],
 			'L_IMPORT_DIR_EMPTY'			=> sprintf($user->lang['IMPORT_DIR_EMPTY'], $gallery_url->path('import')),
 			'S_ALBUM_IMPORT_ACTION'			=> $this->u_action,
-			'S_SELECT_IMPORT' 				=> $gallery_album->get_albumbox(false, 'album_id', false, false, false, \phpbbgallery\core\album\album::PUBLIC_ALBUM, \phpbbgallery\core\album\album::TYPE_UPLOAD),
+			'S_SELECT_IMPORT' 				=> $gallery_album->get_albumbox(false, 'album_id', false, false, false, \phpbbgallery\core\block::PUBLIC_ALBUM, \phpbbgallery\core\block::TYPE_UPLOAD),
 			'U_FIND_USERNAME'				=> $gallery_url->append_sid('phpbb', 'memberlist', 'mode=searchuser&amp;form=acp_gallery&amp;field=username&amp;select_single=true'),
 		));
 	}

@@ -241,7 +241,7 @@ class rating
 	{
 		return $this->gallery_auth->acl_check('i_rate', $this->album_data('album_id'), $this->album_data('album_user_id')) &&
 			($this->user->data['user_id'] != $this->image_data('image_user_id')) && ($this->user->data['user_id'] != ANONYMOUS) &&
-			($this->album_data('album_status') != \phpbbgallery\core\album\album::STATUS_LOCKED) && ($this->image_data('image_status') == \phpbbgallery\core\image\image::STATUS_APPROVED);
+			($this->album_data('album_status') != \phpbbgallery\core\block::ALBUM_LOCKED) && ($this->image_data('image_status') == \phpbbgallery\core\block::STATUS_APPROVED);
 	}
 
 	/**

@@ -201,7 +201,7 @@ class main_module
 			// Make sure the overall image & comment count is correct...
 			$sql = 'SELECT COUNT(image_id) AS num_images, SUM(image_comments) AS num_comments
 				FROM ' . $table_prefix . 'gallery_images
-				WHERE image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED;
+				WHERE image_status <> ' . \phpbbgallery\core\block::STATUS_UNAPPROVED;
 			$result = $db->sql_query($sql);
 			$row = $db->sql_fetchrow($result);
 			$db->sql_freeresult($result);

@@ -26,16 +26,14 @@ class comment
 	*/
 
 	public function __construct(\phpbb\user $user, \phpbb\db\driver\driver_interface $db,
-								\phpbbgallery\core\config $config, \phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\image\image $image,
-								\phpbbgallery\core\album\album $album,
+								\phpbbgallery\core\config $config, \phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\block $block,
 								$comments_table, $images_table)
 	{
 		$this->user = $user;
 		$this->db = $db;
 		$this->config = $config;
 		$this->auth = $auth;
-		$this->image = $image;
-		$this->album = $album;
+		$this->block = $block;
 		$this->comments_table = $comments_table;
 		$this->images_table = $images_table;
 	}
@@ -55,7 +53,7 @@ class comment
 	{
 		return $this->config->get('allow_comments') && (!$this->config->get('comment_user_control') || $image_data['image_allow_comments']) &&
 			($this->auth->acl_check('m_status', $album_data['album_id'], $album_data['album_user_id']) ||
-			(($image_data['image_status'] == $this->image->get_status_approved()) && ($album_data['album_status'] != $this->album->get_status_locked())));
+			(($image_data['image_status'] == $this->block->get_image_status_approved()) && ($album_data['album_status'] != $this->block->get_album_status_locked())));
 	}
 
 	/**

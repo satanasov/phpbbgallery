@@ -109,7 +109,7 @@ class search
 		$sql_limit = $images_per_page;
 		$sql = 'SELECT image_id
 			FROM ' . $this->images_table . '
-			WHERE image_status <> ' . \phpbbgallery\core\image\image::STATUS_ORPHAN;
+			WHERE image_status <> ' . \phpbbgallery\core\block::STATUS_ORPHAN;
 		if ($user > 0)
 		{
 			$sql .= ' and image_user_id = ' . (int) $user;
@@ -126,8 +126,8 @@ class search
 			$this->db->sql_freeresult($result);
 		}
 		$exclude_albums = array_merge($exclude_albums, $this->gallery_auth->get_exclude_zebra());
-		$sql .= ' AND ((' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
-					OR (' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('a_list'), $exclude_albums), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
+		$sql .= ' AND ((' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums), false, true) . ' AND image_status <> ' . \phpbbgallery\core\block::STATUS_UNAPPROVED . ')
+					OR (' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('a_list'), $exclude_albums), false, true) . ' AND image_status <> ' . \phpbbgallery\core\block::STATUS_UNAPPROVED . ')
 					OR ' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('m_status'), $exclude_albums), false, true) . ')
 			ORDER BY ' . $sql_order;
 
@@ -177,7 +177,7 @@ class search
 				),
 			),
 
-			'WHERE'			=> 'i.image_status <> ' . \phpbbgallery\core\image\image::STATUS_ORPHAN . ' AND ' . $sql_where,
+			'WHERE'			=> 'i.image_status <> ' . \phpbbgallery\core\block::STATUS_ORPHAN . ' AND ' . $sql_where,
 			'GROUP_BY'	=> 'i.image_id, a.album_name, a.album_status, a.album_user_id, a.album_id',
 			'ORDER_BY'		=> $sql_order,
 		);
@@ -208,7 +208,7 @@ class search
 
 		$sql = 'SELECT COUNT(image_id) as count
 			FROM ' . $this->images_table . '
-			WHERE image_status <> ' . \phpbbgallery\core\image\image::STATUS_ORPHAN;
+			WHERE image_status <> ' . \phpbbgallery\core\block::STATUS_ORPHAN;
 		$exclude_albums = array();
 		if (!$this->gallery_config->get('rrc_gindex_pegas'))
 		{
@@ -221,7 +221,7 @@ class search
 			$this->db->sql_freeresult($result);
 		}
 		$exclude_albums = array_merge($exclude_albums, $this->gallery_auth->get_exclude_zebra());
-		$sql .= '	AND ((' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
+		$sql .= '	AND ((' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums), false, true) . ' AND image_status <> ' . \phpbbgallery\core\block::STATUS_UNAPPROVED . ')
 					OR ' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('m_status'), $exclude_albums), false, true) . ')';
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
@@ -344,13 +344,13 @@ class search
 			'FROM'	=>	array(
 				$this->images_table	=> 'i'
 			),
-			'WHERE'	=> 'image_status <> ' . \phpbbgallery\core\image\image::STATUS_ORPHAN
+			'WHERE'	=> 'image_status <> ' . \phpbbgallery\core\block::STATUS_ORPHAN
 		);
 		if ($user > 0)
 		{
 			$sql_ary['WHERE'] .= ' and image_user_id = ' . (int) $user;
 		}
-		$sql_ary['WHERE'] .= ' AND ((' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums), false, true) . ' AND image_status <> ' . \phpbbgallery\core\image\image::STATUS_UNAPPROVED . ')
+		$sql_ary['WHERE'] .= ' AND ((' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums), false, true) . ' AND image_status <> ' . \phpbbgallery\core\block::STATUS_UNAPPROVED . ')
 					OR ' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('m_status'), $exclude_albums), false, true) . ')';
 
 		$sql_ary['SELECT'] = 'COUNT(image_id) as count';
@@ -412,7 +412,7 @@ class search
 				),
 			),
 
-			'WHERE'			=> 'i.image_status <> ' . \phpbbgallery\core\image\image::STATUS_ORPHAN . ' AND ' . $sql_where,
+			'WHERE'			=> 'i.image_status <> ' . \phpbbgallery\core\block::STATUS_ORPHAN . ' AND ' . $sql_where,
 			'ORDER_BY'		=> $sql_order,
 		);
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);

@@ -61,12 +61,13 @@ class core_search_test extends core_base
 		$this->gallery_config = new \phpbbgallery\core\config(
 			$this->config
 		);
+		$this->block = new \phpbbgallery\core\block();
 		$this->gallery_album = new \phpbbgallery\core\album\album(
 			$this->db,
 			$this->user,
 			$this->gallery_auth,
 			$this->gallery_cache,
-			$this->gallery_image,
+			$this->block,
 			$this->gallery_config,
 			'phpbb_gallery_albums',
 			'phpbb_gallery_images',

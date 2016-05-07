@@ -70,7 +70,7 @@ class upload
 	 * @param                                   $php_ext
 	 */
 	public function __construct(\phpbb\user $user, \phpbb\db\driver\driver_interface $db, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbb\request\request $request,
-								\phpbbgallery\core\image\image $gallery_image, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\url $gallery_url,
+								\phpbbgallery\core\image\image $gallery_image, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\url $gallery_url, \phpbbgallery\core\block $block,
 								$images_table,
 								$root_path, $php_ext)
 	{
@@ -81,6 +81,7 @@ class upload
 		$this->gallery_image = $gallery_image;
 		$this->gallery_config = $gallery_config;
 		$this->gallery_url	= $gallery_url;
+		$this->block = $block;
 		$this->images_table = $images_table;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
@@ -270,8 +271,8 @@ class upload
 		}
 
 		$sql_ary = array(
-			'image_status'				=> ($needs_approval) ? $this->gallery_image->get_status_unapproved() : $this->gallery_image->get_status_approved(),
-			'image_contest'				=> ($is_in_contest) ? $this->gallery_image->get_in_contest() : $this->gallery_image->get_no_contest(),
+			'image_status'				=> ($needs_approval) ? $this->block->get_image_status_unapproved() : $this->block->get_image_status_approved(),
+			'image_contest'				=> ($is_in_contest) ? $this->block->get_in_contest() : $this->block->get_no_contest(),
 			'image_desc'				=> $message_parser->message,
 			'image_desc_uid'			=> $message_parser->bbcode_uid,
 			'image_desc_bitfield'		=> $message_parser->bbcode_bitfield,
@@ -471,8 +472,8 @@ class upload
 			'image_user_ip'			=> $this->user->ip,
 
 			'image_album_id'		=> $this->album_id,
-			'image_status'			=> $this->gallery_image->get_status_orphan(),
-			'image_contest'			=> $this->gallery_image->get_no_contest(),
+			'image_status'			=> $this->block->get_image_status_orphan(),
+			'image_contest'			=> $this->block->get_no_contest(),
 			'image_allow_comments'	=> $this->allow_comments,
 			'image_desc'			=> '',
 			'image_desc_uid'		=> '',
@@ -499,7 +500,7 @@ class upload
 
 		$sql = 'SELECT image_id, image_filename
 			FROM ' . $this->images_table . '
-			WHERE image_status = ' . $this->gallery_image->get_status_orphan() . '
+			WHERE image_status = ' . $this->block->get_image_status_orphan() . '
 				AND image_time < ' . $prunetime;
 		$result = $this->db->sql_query($sql);
 		$images = $filenames = array();
@@ -660,7 +661,7 @@ class upload
 
 		$sql = 'SELECT *
 			FROM ' . $this->images_table . '
-			WHERE image_status = ' . $this->gallery_image->get_status_orphan() . '
+			WHERE image_status = ' . $this->block->get_image_status_orphan() . '
 				AND ' . $this->db->sql_in_set('image_id', $image_ids);
 		$result = $this->db->sql_query($sql);
 

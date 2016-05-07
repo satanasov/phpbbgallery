@@ -12,18 +12,9 @@ namespace phpbbgallery\core\album;
 
 class album
 {
-	const PUBLIC_ALBUM		= 0;
-
-	const TYPE_CAT			= 0;
-	const TYPE_UPLOAD		= 1;
-	const TYPE_CONTEST		= 2;
-
-	const STATUS_OPEN		= 0;
-	const STATUS_LOCKED		= 1;
-
 	protected $albums_table;
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user,
-	\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\cache $gallery_cache, \phpbbgallery\core\image\image $image,
+	\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\cache $gallery_cache, \phpbbgallery\core\block $block,
 	\phpbbgallery\core\config $gallery_config,
 	$albums_table, $images_table, $watch_table, $contest_table)
 	{
@@ -31,30 +22,14 @@ class album
 		$this->user = $user;
 		$this->gallery_auth = $gallery_auth;
 		$this->gallery_cache = $gallery_cache;
-		$this->image = $image;
+		$this->block = $block;
 		$this->gallery_config = $gallery_config;
 		$this->albums_table = $albums_table;
 		$this->images_table = $images_table;
 		$this->watch_table = $watch_table;
 		$this->contests_table = $contest_table;
 	}
-	/**
-	* Get locked
-	*/
-	public function get_status_locked()
-	{
-		return 1;
-	}
-
-	static public function get_public()
-	{
-		return 0;
-	}
-
-	static public function get_type_upload()
-	{
-		return 1;
-	}
+	
 	/**
 	* Get album information
 	*/
@@ -155,7 +130,7 @@ class album
 	*
 	* comparable to make_forum_select (includes/functions_admin.php)
 	*/
-	public function get_albumbox($ignore_personals, $select_name, $select_id = false, $requested_permission = false, $ignore_id = false, $album_user_id = self::PUBLIC_ALBUM, $requested_album_type = -1)
+	public function get_albumbox($ignore_personals, $select_name, $select_id = false, $requested_permission = false, $ignore_id = false, $album_user_id = \phpbbgallery\core\block::PUBLIC_ALBUM, $requested_album_type = -1)
 	{
 		// Instead of the query we use the cache
 		$album_data = $this->gallery_cache->get('albums');
@@ -203,7 +178,7 @@ class album
 			((is_array($ignore_id) && in_array($row['album_id'], $ignore_id)) || $row['album_id'] == $ignore_id)
 			||
 			// Need upload permissions (for moving)
-			(($requested_permission == 'm_move') && (($row['album_type'] == self::TYPE_CAT) || (!$this->gallery_auth->acl_check('i_upload', $row['album_id'], $row['album_user_id']) && !$this->gallery_auth->acl_check('m_move', $row['album_id'], $row['album_user_id']))))
+			(($requested_permission == 'm_move') && (($row['album_type'] == \phpbbgallery\core\block::TYPE_CAT) || (!$this->gallery_auth->acl_check('i_upload', $row['album_id'], $row['album_user_id']) && !$this->gallery_auth->acl_check('m_move', $row['album_id'], $row['album_user_id']))))
 			||
 			// album_type does not fit
 			($check_album_type && ($row['album_type'] != $requested_album_type))
@@ -262,11 +237,11 @@ class album
 					$disabled = (!$disabled) ? $requested_personal : $disabled;
 				}
 			}
-			if (($album_user_id != self::PUBLIC_ALBUM) && ($album_user_id != $row['album_user_id']))
+			if (($album_user_id != \phpbbgallery\core\block::PUBLIC_ALBUM) && ($album_user_id != $row['album_user_id']))
 			{
 				$list = false;
 			}
-			else if (($album_user_id != self::PUBLIC_ALBUM) && ($row['parent_id'] == 0))
+			else if (($album_user_id != \phpbbgallery\core\block::PUBLIC_ALBUM) && ($row['parent_id'] == 0))
 			{
 				$disabled = true;
 			}
@@ -315,8 +290,8 @@ class album
 		// Number of not unapproved images
 		$sql = 'SELECT COUNT(image_id) images
 			FROM ' . $this->images_table .' 
-			WHERE image_status <> ' . $this->image->get_status_unapproved() . '
-				AND image_status <> ' . $this->image->get_status_orphan() . '
+			WHERE image_status <> ' . $this->block->get_image_status_unapproved() . '
+				AND image_status <> ' . $this->block->get_image_status_orphan() . '
 				AND image_album_id = ' . (int) $album_id;
 		$result = $this->db->sql_query($sql);
 		$images = $this->db->sql_fetchfield('images');
@@ -325,7 +300,7 @@ class album
 		// Number of total images
 		$sql = 'SELECT COUNT(image_id) images_real
 			FROM ' . $this->images_table .'gallery_images
-			WHERE image_status <> ' . $this->image->get_status_orphan() . '
+			WHERE image_status <> ' . $this->block->get_image_status_orphan() . '
 				AND image_album_id = ' . (int) $album_id;
 		$result = $this->db->sql_query($sql);
 		$images_real = $this->db->sql_fetchfield('images_real');
@@ -334,8 +309,8 @@ class album
 		// Data of the last not unapproved image
 		$sql = 'SELECT image_id, image_time, image_name, image_username, image_user_colour, image_user_id
 			FROM ' . $this->images_table .'
-			WHERE image_status <> ' . $this->image->get_status_unapproved() . '
-				AND image_status <> ' . $this->image->get_status_orphan() . '
+			WHERE image_status <> ' . $this->block->get_image_status_unapproved() . '
+				AND image_status <> ' . $this->block->get_image_status_orphan() . '
 				AND image_album_id = ' . (int) $album_id . '
 			ORDER BY image_time DESC';
 		$result = $this->db->sql_query($sql);
@@ -391,8 +366,8 @@ class album
 			'album_desc_options'			=> 7,
 			'album_desc'					=> '',
 			'album_parents'					=> '',
-			'album_type'					=> self::TYPE_UPLOAD,
-			'album_status'					=> self::STATUS_OPEN,
+			'album_type'					=> \phpbbgallery\core\block::TYPE_UPLOAD,
+			'album_status'					=> \phpbbgallery\core\block::ALBUM_OPEN,
 			'album_user_id'					=> $user_id,
 			'album_last_username'			=> '',
 			'album_last_user_colour'		=> $user_colour,
@@ -425,7 +400,7 @@ class album
 	{
 		$sql = 'SELECT album_id
 				FROM ' . $this->albums_table . '
-				WHERE album_user_id = ' . self::PUBLIC_ALBUM;
+				WHERE album_user_id = ' . \phpbbgallery\core\block::PUBLIC_ALBUM;
 		$result = $this->db->sql_query($sql);
 		$id_ary = array();
 		while ($row = $this->db->sql_fetchrow($result))

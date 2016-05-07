@@ -12,13 +12,13 @@ namespace phpbbgallery\acpcleanup;
 
 class cleanup
 {
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbbgallery\core\file\file $tool, \phpbbgallery\core\image\image $image, \phpbbgallery\core\comment $comment,
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbbgallery\core\file\file $tool, \phpbbgallery\core\block $block, \phpbbgallery\core\comment $comment,
 	\phpbbgallery\core\config $gallery_config, \phpbbgallery\core\log $log, \phpbbgallery\core\moderate $moderate,
 	$albums_table, $images_table)
 	{
 		$this->db = $db;
 		$this->tool = $tool;
-		$this->image = $image;
+		$this->block = $block;
 		$this->comment = $comment;
 		$this->gallery_config = $gallery_config;
 		$this->log = $log;
@@ -125,8 +125,8 @@ class cleanup
 			$delete_images[] = (int) $row['image_id'];
 			$filenames[(int) $row['image_id']] = $row['image_filename'];
 
-			if (($row['image_status'] == $this->image->get_status_unaproved()) ||
-			($row['image_status'] == $this->image->get_status_orphan()))
+			if (($row['image_status'] == $this->block->get_status_unaproved()) ||
+			($row['image_status'] == $this->block->get_image_status_orphan()))
 			{
 				continue;
 			}

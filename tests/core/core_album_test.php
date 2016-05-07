@@ -51,11 +51,7 @@ class core_album_test extends core_base
 			'phpbb_gallery_users',
 			'phpbb_gallery_albums'
 		);
-		$this->gallery_image = $this->getMockBuilder('\phpbbgallery\core\image\image')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->gallery_image->method('get_status_orphan')
-			->willReturn(3);
+		$this->block = new \phpbbgallery\core\block();
 
 		$this->gallery_config = new \phpbbgallery\core\config(
 			$this->config
@@ -65,7 +61,7 @@ class core_album_test extends core_base
 			$this->user,
 			$this->gallery_auth,
 			$this->gallery_cache,
-			$this->gallery_image,
+			$this->block,
 			$this->gallery_config,
 			'phpbb_gallery_albums',
 			'phpbb_gallery_images',
@@ -73,31 +69,7 @@ class core_album_test extends core_base
 			'phpbb_gallery_contests'
 		);
 	}
-
-	/**
-	* Test get_status_locked
-	*/
-	public function test_status_status_locked()
-	{
-		$this->assertEquals($this->album->get_status_locked(), 1);
-	}
-
-	/**
-	* Test get_public
-	*/
-	public function test_get_public()
-	{
-		$this->assertEquals($this->album->get_public(), 0);
-	}
-
-	/**
-	* Test get_type_upload
-	*/
-	public function test_get_type_upload()
-	{
-		$this->assertEquals($this->album->get_type_upload(), 1);
-	}
-
+	
 	/**
 	* Test get_info
 	* Here we test only exception.

@@ -185,12 +185,14 @@ class controller_base extends \phpbb_database_test_case
 			$this->config
 		);
 
+		$this->block = new \phpbbgallery\core\block();
+
 		$this->gallery_album = new \phpbbgallery\core\album\album(
 			$this->db,
 			$this->user,
 			$this->gallery_auth,
 			$this->gallery_cache,
-			$this->gallery_image,
+			$this->block,
 			$this->gallery_config,
 			'phpbb_gallery_albums',
 			'phpbb_gallery_images',
