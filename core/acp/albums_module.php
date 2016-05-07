@@ -611,7 +611,7 @@ class albums_module
 					'U_BACK'				=> $this->u_action . '&amp;parent_id=' . $this->parent_id,
 
 					'ALBUM_NAME'			=> $album_data['album_name'],
-					'S_ALBUM_POST'			=> (in_array($album_data['album_type'], array($phpbb_ext_gallery_core_album::TYPE_UPLOAD, $phpbb_ext_gallery_core_album::TYPE_CONTEST))) ? true : false,
+					'S_ALBUM_POST'			=> (in_array($album_data['album_type'], array(\phpbbgallery\core\block::TYPE_UPLOAD, \phpbbgallery\core\block::TYPE_CONTEST))) ? true : false,
 					'S_HAS_SUBALBUMS'		=> ($album_data['right_id'] - $album_data['left_id'] > 1) ? true : false,
 					'S_ALBUMS_LIST'			=> $albums_list,
 
@@ -686,7 +686,7 @@ class albums_module
 					'ALBUM_DESCRIPTION'	=> generate_text_for_display($row['album_desc'], $row['album_desc_uid'], $row['album_desc_bitfield'], $row['album_desc_options']),
 					'ALBUM_IMAGES'		=> $row['album_images'],
 
-					'S_ALBUM_POST'		=> ($album_type != $phpbb_ext_gallery_core_album::TYPE_CAT) ? true : false,
+					'S_ALBUM_POST'		=> ($album_type != \phpbbgallery\core\block::TYPE_CAT) ? true : false,
 
 					'U_ALBUM'			=> $this->u_action . '&amp;parent_id=' . $row['album_id'],
 					'U_MOVE_UP'			=> $url . '&amp;action=move_up',
