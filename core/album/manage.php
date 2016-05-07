@@ -90,7 +90,7 @@ class manage
 			}
 		}*/
 		// Validate the contest timestamps:
-		if ($album_data['album_type'] == $phpbb_ext_gallery_core_album::TYPE_CONTEST)
+		if ($album_data['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST)
 		{
 			$start_date_error = $date_error = false;
 			if (!preg_match('#(\\d{4})-(\\d{1,2})-(\\d{1,2}) (\\d{1,2}):(\\d{2})#', $contest_data['contest_start'], $m))
@@ -254,11 +254,11 @@ class manage
 			$album_data['album_id'] = (int) $db->sql_nextid();
 
 			// Type is contest, so create it...
-			if ($album_data['album_type'] == $phpbb_ext_gallery_core_album::TYPE_CONTEST)
+			if ($album_data['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST)
 			{
 				$contest_data_sql = $contest_data;
 				$contest_data_sql['contest_album_id'] = $album_data['album_id'];
-				$contest_data_sql['contest_marked'] = $phpbb_ext_gallery_core_image::IN_CONTEST;
+				$contest_data_sql['contest_marked'] = \phpbbgallery\core\block::IN_CONTEST;
 
 				$sql = 'INSERT INTO ' . $table_prefix . 'gallery_contests ' . $db->sql_build_array('INSERT', $contest_data_sql);
 				$db->sql_query($sql);
@@ -278,28 +278,28 @@ class manage
 			$row = $phpbb_ext_gallery_core_album->get_info($album_data_sql['album_id']);
 			$reset_marked_images = false;
 
-			if ($row['album_type'] == $phpbb_ext_gallery_core_album::TYPE_CONTEST && $album_data_sql['album_type'] != $phpbb_ext_gallery_core_album::TYPE_CONTEST)
+			if ($row['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST && $album_data_sql['album_type'] != \phpbbgallery\core\block::TYPE_CONTEST)
 			{
 				// Changing a contest to album? No!
 				// Changing a contest to category? No!
 				$errors[] = $user->lang['ALBUM_WITH_CONTEST_NO_TYPE_CHANGE'];
 				return $errors;
 			}
-			else if ($row['album_type'] != $phpbb_ext_gallery_core_album::TYPE_CONTEST && $album_data_sql['album_type'] == $phpbb_ext_gallery_core_album::TYPE_CONTEST)
+			else if ($row['album_type'] != \phpbbgallery\core\block::TYPE_CONTEST && $album_data_sql['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST)
 			{
 				// Changing a album to contest? No!
 				// Changing a category to contest? No!
 				$errors[] = $user->lang['ALBUM_NO_TYPE_CHANGE_TO_CONTEST'];
 				return $errors;
 			}
-			else if ($row['album_type'] == $phpbb_ext_gallery_core_album::TYPE_CAT && $album_data_sql['album_type'] == $phpbb_ext_gallery_core_album::TYPE_UPLOAD)
+			else if ($row['album_type'] == \phpbbgallery\core\block::TYPE_CAT && $album_data_sql['album_type'] == \phpbbgallery\core\block::TYPE_UPLOAD)
 			{
 				// Changing a category to a album? Yes!
 				// Reset the data (you couldn't upload directly in a cat, you must use a album)
 				$album_data_sql['album_images'] = $album_data_sql['album_images_real'] = $album_data_sql['album_last_image_id'] = $album_data_sql['album_last_user_id'] = $album_data_sql['album_last_image_time'] = $album_data_sql['album_contest'] = 0;
 				$album_data_sql['album_last_username'] = $album_data_sql['album_last_user_colour'] = $album_data_sql['album_last_image_name'] = '';
 			}
-			else if ($row['album_type'] == $phpbb_ext_gallery_core_album::TYPE_UPLOAD && $album_data_sql['album_type'] == $phpbb_ext_gallery_core_album::TYPE_CAT)
+			else if ($row['album_type'] == \phpbbgallery\core\block::TYPE_UPLOAD && $album_data_sql['album_type'] == \phpbbgallery\core\block::TYPE_CAT)
 			{
 				// Changing a album to a category? Yes!
 				// we're turning a uploadable album into a non-uploadable album
@@ -325,19 +325,19 @@ class manage
 					return array($user->lang['NO_ALBUM_ACTION']);
 				}
 			}
-			else if ($row['album_type'] == $phpbb_ext_gallery_core_album::TYPE_CONTEST && $album_data_sql['album_type'] == $phpbb_ext_gallery_core_album::TYPE_CONTEST)
+			else if ($row['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST && $album_data_sql['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST)
 			{
 				// Changing a contest to contest? Yes!
 				// We need to check for the contest_data
 				$row_contest = $phpbb_gallery_contest::get_contest($album_data['album_id'], 'album');
 				$contest_data['contest_id'] = $row_contest['contest_id'];
-				if ($row_contest['contest_marked'] == phpbb_ext_gallery_core_image::NO_CONTEST)
+				if ($row_contest['contest_marked'] == \phpbbgallery\core\block::NO_CONTEST)
 				{
 					// If the old contest is finished, but the new one isn't, we need to remark the images!
 					// If we change it the other way round, the album.php will do the end on the first visit!
 					if (($row_contest['contest_start'] + $row_contest['contest_end']) > time())
 					{
-						$contest_data['contest_marked'] = phpbb_ext_gallery_core_image::IN_CONTEST;
+						$contest_data['contest_marked'] = \phpbbgallery\core\block::IN_CONTEST;
 						$reset_marked_images = true;
 					}
 				}
@@ -770,7 +770,7 @@ class manage
 			SET image_album_id = ' . $to_id . ',
 				image_contest_rank = 0,
 				image_contest_end = 0,
-				image_contest = ' . $phpbb_ext_gallery_core_image::NO_CONTEST . '
+				image_contest = ' . \phpbbgallery\core\block::NO_CONTEST . '
 			WHERE image_album_id = ' . $from_id;
 		$db->sql_query($sql);
 
@@ -837,8 +837,8 @@ class manage
 		$sql = 'SELECT image_user_id
 			FROM ' . $table_prefix . 'gallery_images
 			WHERE image_album_id = ' . $album_id . '
-				AND image_status <> ' . $phpbb_ext_gallery_core_image::STATUS_UNAPPROVED . '
-				AND image_status <> ' . $phpbb_ext_gallery_core_image::STATUS_ORPHAN;
+				AND image_status <> ' . \phpbbgallery\core\block::STATUS_UNAPPROVED . '
+				AND image_status <> ' . \phpbbgallery\core\block::STATUS_ORPHAN;
 		$result = $db->sql_query($sql);
 
 		$image_counts = array();
@@ -899,8 +899,8 @@ class manage
 		// Make sure the overall image & comment count is correct...
 		$sql = 'SELECT COUNT(image_id) AS num_images, SUM(image_comments) AS num_comments
 			FROM ' . $table_prefix . 'gallery_images 
-			WHERE image_status <> ' . $phpbb_ext_gallery_core_image::STATUS_UNAPPROVED . '
-				AND image_status <> ' . $phpbb_ext_gallery_core_image::STATUS_ORPHAN;
+			WHERE image_status <> ' . \phpbbgallery\core\block::STATUS_UNAPPROVED . '
+				AND image_status <> ' . \phpbbgallery\core\block::STATUS_ORPHAN;
 		$result = $db->sql_query($sql);
 		$row = $db->sql_fetchrow($result);
 		$db->sql_freeresult($result);

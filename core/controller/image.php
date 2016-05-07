@@ -12,6 +12,7 @@ namespace phpbbgallery\core\controller;
 
 class image
 {
+	protected $data;
 	/**
 	 * Constructor
 	 *
@@ -97,7 +98,7 @@ class image
 	*	Route: gallery/image_id/{image_id}
 	*
 	* @param int	$image_id	Image ID
-	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	* @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
 	*/
 	public function base($image_id, $page = 0)
 	{
@@ -397,7 +398,7 @@ class image
 		* Posting comment
 		*/
 		$comments_disabled = (!$this->gallery_config->get('allow_comments') || ($this->gallery_config->get('comment_user_control') && !$image_data['image_allow_comments']));
-		if (!$comments_disabled && $this->gallery_auth->acl_check('c_post', $album_id, $album_data['album_user_id']) && ($album_data['album_status'] != $this->album->get_status_locked()) && (($image_data['image_status'] != $this->image->get_status_locked()) || $this->gallery_auth->acl_check('m_status', $album_id, $album_data['album_user_id'])))
+		if (!$comments_disabled && $this->gallery_auth->acl_check('c_post', $album_id, $album_data['album_user_id']) && ($album_data['album_status'] != $this->block->get_album_status_locked()) && (($image_data['image_status'] != $this->block->get_album_status_locked()) || $this->gallery_auth->acl_check('m_status', $album_id, $album_data['album_user_id'])))
 		{
 			add_form_key('gallery');
 			$this->user->add_lang('posting');

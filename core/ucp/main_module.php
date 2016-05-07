@@ -168,8 +168,8 @@ class main_module
 				'album_desc_options'			=> 7,
 				'album_desc'					=> utf8_normalize_nfc($request->variable('album_desc', '', true)),
 				'album_parents'					=> '',
-				'album_type'					=> $phpbb_ext_gallery_core_album::TYPE_UPLOAD,
-				'album_status'					=> $phpbb_ext_gallery_core_album::STATUS_OPEN,
+				'album_type'					=> \phpbbgallery\core\block::TYPE_UPLOAD,
+				'album_status'					=> \phpbbgallery\core\block::ALBUM_OPEN,
 				'album_user_id'					=> $user->data['user_id'],
 				'album_last_username'			=> '',
 				'album_last_user_colour'		=> $user->data['user_colour'],
@@ -364,8 +364,8 @@ class main_module
 				'album_name'					=> $request->variable('album_name', '', true),
 				'parent_id'						=> $request->variable('parent_id', 0),
 				'album_parents'					=> '',
-				'album_type'					=> $phpbb_ext_gallery_core_album::TYPE_UPLOAD,
-				'album_status'					=> $phpbb_ext_gallery_core_album::STATUS_OPEN,
+				'album_type'					=> \phpbbgallery\core\block::TYPE_UPLOAD,
+				'album_status'					=> \phpbbgallery\core\block::ALBUM_OPEN,
 				'album_desc_options'			=> 7,
 				'album_desc'					=> utf8_normalize_nfc($request->variable('album_desc', '', true)),
 				'album_user_id'					=> $user->data['user_id'],
@@ -511,7 +511,7 @@ class main_module
 				'parent_id'						=> $request->variable('parent_id', (($album_id == $phpbb_ext_gallery_user->get_data('personal_album_id')) ? 0 : $phpbb_ext_gallery_user->get_data('personal_album_id'))),
 				//left_id and right_id are created some lines later
 				'album_parents'					=> '',
-				'album_type'					=> $phpbb_ext_gallery_core_album::TYPE_UPLOAD,
+				'album_type'					=> \phpbbgallery\core\block::TYPE_UPLOAD,
 				'album_desc_options'			=> 7,
 				'album_desc'					=> utf8_normalize_nfc($request->variable('album_desc', '', true)),
 				'album_auth_access'				=> ($phpbb_ext_gallery->auth->acl_check('a_restrict', $phpbb_ext_gallery_core_auth::OWN_ALBUM)) ? $request->variable('album_auth_access', 0) : 0,
@@ -738,8 +738,8 @@ class main_module
 			// Make sure the overall image & comment count is correct...
 			$sql = 'SELECT COUNT(image_id) AS num_images, SUM(image_comments) AS num_comments
 				FROM ' . $images_table . '
-				WHERE image_status <> ' . $phpbb_gallery_image::STATUS_UNAPPROVED . '
-					AND image_status <> ' . $phpbb_gallery_image::STATUS_ORPHAN;
+				WHERE image_status <> ' . \phpbbgallery\core\block::STATUS_UNAPPROVED . '
+					AND image_status <> ' . \phpbbgallery\core\block::STATUS_ORPHAN;
 			$result = $db->sql_query($sql);
 			$row = $db->sql_fetchrow($result);
 			$db->sql_freeresult($result);
@@ -780,7 +780,7 @@ class main_module
 								),
 							),
 
-							'WHERE'			=> 'a.album_user_id <> ' . $phpbb_ext_gallery_core_album::PUBLIC_ALBUM . ' AND a.parent_id = 0',
+							'WHERE'			=> 'a.album_user_id <> ' . \phpbbgallery\core\block::PUBLIC_ALBUM . ' AND a.parent_id = 0',
 							'ORDER_BY'		=> 'a.album_id DESC',
 						);
 						$sql = $db->sql_build_query('SELECT', $sql_array);
@@ -988,7 +988,7 @@ class main_module
 
 				'UC_IMAGE_NAME'		=> $phpbb_ext_gallery_core_image->generate_link('image_name', $phpbb_ext_gallery_config->get('link_image_name'), $row['album_last_image_id'], $row['album_last_image_name'], $row['album_id']),
 				'UC_FAKE_THUMBNAIL'	=> $phpbb_ext_gallery_core_image->generate_link('fake_thumbnail', $phpbb_ext_gallery_config->get('link_thumbnail'), $row['album_last_image_id'], $row['album_last_image_name'], $row['album_id']),
-				'UPLOADER'			=> (($row['album_type'] == $phpbb_ext_gallery_core_album::TYPE_CONTEST) && ($row['contest_marked'] && !$phpbb_ext_gallery_core_auth->acl_check('m_status', $row['album_id'], $row['album_user_id']))) ? $user->lang['CONTEST_USERNAME'] : get_username_string('full', $row['album_last_user_id'], $row['album_last_username'], $row['album_last_user_colour']),
+				'UPLOADER'			=> (($row['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST) && ($row['contest_marked'] && !$phpbb_ext_gallery_core_auth->acl_check('m_status', $row['album_id'], $row['album_user_id']))) ? $user->lang['CONTEST_USERNAME'] : get_username_string('full', $row['album_last_user_id'], $row['album_last_username'], $row['album_last_user_colour']),
 				'LAST_IMAGE_TIME'	=> $user->format_date($row['album_last_image_time']),
 				'LAST_IMAGE'		=> $row['album_last_image_id'],
 				'U_IMAGE'			=> $phpbb_gallery_url->show_image($row['image_id']),

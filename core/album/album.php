@@ -29,7 +29,7 @@ class album
 		$this->watch_table = $watch_table;
 		$this->contests_table = $contest_table;
 	}
-	
+
 	/**
 	* Get album information
 	*/
@@ -299,7 +299,7 @@ class album
 
 		// Number of total images
 		$sql = 'SELECT COUNT(image_id) images_real
-			FROM ' . $this->images_table .'gallery_images
+			FROM ' . $this->images_table .'
 			WHERE image_status <> ' . $this->block->get_image_status_orphan() . '
 				AND image_album_id = ' . (int) $album_id;
 		$result = $this->db->sql_query($sql);
