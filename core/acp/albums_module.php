@@ -599,7 +599,7 @@ class albums_module
 				if ($db->sql_fetchrow($result))
 				{
 					$template->assign_vars(array(
-						'S_MOVE_ALBUM_OPTIONS'		=> $phpbb_ext_gallery_core_album->get_albumbox(true, '', $album_data['parent_id'], false, $subalbums_id, \phpbbgallery\core\block::PUBLIC_ALBUM, $phpbb_ext_gallery_core_album::TYPE_UPLOAD),
+						'S_MOVE_ALBUM_OPTIONS'		=> $phpbb_ext_gallery_core_album->get_albumbox(true, '', $album_data['parent_id'], false, $subalbums_id, \phpbbgallery\core\block::PUBLIC_ALBUM, \phpbbgallery\core\block::TYPE_UPLOAD),
 					));
 				}
 				$db->sql_freeresult($result);
