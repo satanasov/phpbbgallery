@@ -254,11 +254,11 @@ class manage
 			$album_data['album_id'] = (int) $db->sql_nextid();
 
 			// Type is contest, so create it...
-			if ($album_data['album_type'] == $phpbb_ext_gallery_core_album::TYPE_CONTEST)
+			if ($album_data['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST)
 			{
 				$contest_data_sql = $contest_data;
 				$contest_data_sql['contest_album_id'] = $album_data['album_id'];
-				$contest_data_sql['contest_marked'] = $phpbb_ext_gallery_core_image::IN_CONTEST;
+				$contest_data_sql['contest_marked'] = \phpbbgallery\core\block::IN_CONTEST;
 
 				$sql = 'INSERT INTO ' . $table_prefix . 'gallery_contests ' . $db->sql_build_array('INSERT', $contest_data_sql);
 				$db->sql_query($sql);
