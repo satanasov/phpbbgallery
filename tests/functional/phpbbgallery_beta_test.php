@@ -192,12 +192,19 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 	{
 		$this->login();
 		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_ucp');
+		$this->add_lang('common');
 		// Change option
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
 		$form = $crawler->selectButton('submit')->form();
 		$form->setValues(array(
 			'config[allow_comments]'	=> 1,
 		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 		$this->logout();
 		$this->logout();
 
@@ -215,12 +222,19 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 	{
 		$this->login();
 		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_ucp');
+		$this->add_lang('common');
 		// Change option
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
 		$form = $crawler->selectButton('submit')->form();
 		$form->setValues(array(
 			'config[allow_comments]'	=> 1,
 		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 		$this->logout();
 		$this->logout();
 
@@ -244,12 +258,19 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 	{
 		$this->login();
 		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_ucp');
+		$this->add_lang('common');
 		// Change option
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
 		$form = $crawler->selectButton('submit')->form();
 		$form->setValues(array(
 			'config[allow_comments]'	=> 1,
 		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 		$this->logout();
 		$this->logout();
 
@@ -277,12 +298,19 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 	{
 		$this->login();
 		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_ucp');
+		$this->add_lang('common');
 		// Change option
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
 		$form = $crawler->selectButton('submit')->form();
 		$form->setValues(array(
 			'config[allow_comments]'	=> 1,
 		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 		$this->logout();
 		$this->logout();
 
@@ -301,12 +329,19 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 	{
 		$this->login();
 		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_ucp');
+		$this->add_lang('common');
 		// Change option
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
 		$form = $crawler->selectButton('submit')->form();
 		$form->setValues(array(
 			'config[allow_comments]'	=> 1,
 		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 		$this->logout();
 		$this->logout();
 
@@ -335,12 +370,19 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 	{
 		$this->login();
 		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_ucp');
+		$this->add_lang('common');
 		// Change option
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
 		$form = $crawler->selectButton('submit')->form();
 		$form->setValues(array(
 			'config[allow_comments]'	=> 1,
 		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 		$this->logout();
 		$this->logout();
 
@@ -369,15 +411,22 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 	{
 		$this->login();
 		$this->admin_login();
+		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
+		$this->add_lang_ext('phpbbgallery/core', 'gallery_ucp');
+		$this->add_lang('common');
 		// Change option
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
 		$form = $crawler->selectButton('submit')->form();
 		$form->setValues(array(
 			'config[allow_comments]'	=> 1,
 		));
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 		$this->logout();
 		$this->logout();
-		
+
 		$this->login();
 		$this->admin_login();
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
