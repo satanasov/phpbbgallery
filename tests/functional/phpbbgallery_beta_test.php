@@ -190,11 +190,22 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 	}
 	public function test_anon_comment()
 	{
+		// Change option
+		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
+		$form = $crawler->selectButton('submit')->form();
+		$form->setValues(array(
+			'config[allow_comments]'	=> 1,
+		));
+
+		$crawler = self::submit($form);
+		// Should be updated
+		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
 		$crawler = self::request('GET', 'app.php/gallery/image/1');
 		$this->assertContains($this->lang('CONFIRM_CODE'), $crawler->filter('html')->text());
 
 		$crawler = self::request('GET', 'app.php/gallery/comment/1/add/0');
+		$this->assertContains($this->lang('CONFIRM_CODE'), $crawler->filter('html')->text());
 	}
 	public function test_comment_user()
 	{
