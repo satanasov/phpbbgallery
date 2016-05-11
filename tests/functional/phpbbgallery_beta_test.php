@@ -1226,7 +1226,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				'Valid but needs approve',
 				'Image in sublabum to move',
 			),
-			'comment_asc'	=> array(
+			/*'comment_asc'	=> array(
 				'c',
 				'a',
 				'Valid but needs approve',
@@ -1253,7 +1253,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				'Valid',
 				'Image in sublabum to move',
 				'Valid but needs approve',
-			),
+			),*/
 			'reset'	=> array(
 				't',
 				'd',
@@ -2269,7 +2269,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 	/**
 	* @dataProvider yes_no_data
 	*/
-	public function test_rrc_gindex_comments($option)
+/*	public function test_rrc_gindex_comments($option)
 	{
 		$this->login();
 		$this->admin_login();
@@ -2297,7 +2297,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		{
 			$this->assertContains('display: none;', $crawler->filter('div#recent-comments')->attr('style'));
 		}
-	}
+	}*/
 	public function test_prepare_rrc_gindex_pegas()
 	{
 		$this->login();

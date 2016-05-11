@@ -55,7 +55,7 @@ class image
 		$this->file = $file;
 		$this->table_images = $table_images;
 	}
-	
+
 	public function get_new_author_info($username)
 	{
 		// Who is the new uploader?
