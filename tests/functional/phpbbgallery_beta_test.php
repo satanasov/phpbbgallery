@@ -209,6 +209,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
+		$this->add_lang('common');
 		$crawler = self::request('GET', 'app.php/gallery/image/1');
 		$this->assertContains($this->lang('CONFIRM_CODE'), $crawler->filter('html')->text());
 
@@ -236,6 +237,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 
 		$this->login('testuser1');
+		$this->add_lang('common');
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
 		$crawler = self::request('GET', 'app.php/gallery/image/1');
 
@@ -272,6 +274,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 
 		$this->login('testuser1');
+		$this->add_lang('common');
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
 		$crawler = self::request('GET', 'app.php/gallery/image/1');
 
