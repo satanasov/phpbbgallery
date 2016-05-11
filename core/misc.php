@@ -45,7 +45,7 @@ class misc
 			return $gallery_display_captcha[$mode];
 		}
 
-		$gallery_display_captcha[$mode] = ($this->user->data['user_id'] == ANONYMOUS) && $this->gallery_config->get('captcha_' . $mode) && (version_compare($this->config['version'], '3.1.1', '>'));
+		$gallery_display_captcha[$mode] = ($this->user->data['user_id'] == ANONYMOUS) && $this->gallery_config->get('captcha_' . $mode);
 
 		return $gallery_display_captcha[$mode];
 	}
