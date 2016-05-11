@@ -208,9 +208,6 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 
-		$crawler = self::submit($form);
-		// Should be updated
-		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
 		$crawler = self::request('GET', 'app.php/gallery/image/1');
 		$this->assertContains($this->lang('CONFIRM_CODE'), $crawler->filter('html')->text());
