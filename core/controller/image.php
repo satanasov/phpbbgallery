@@ -403,7 +403,7 @@ class image
 			add_form_key('gallery');
 			$this->user->add_lang('posting');
 			$this->url->_include('functions_posting', 'phpbb');
-var_dump('Here are comments');
+
 			$bbcode_status	= ($this->config['allow_bbcode']) ? true : false;
 			$smilies_status	= ($this->config['allow_smilies']) ? true : false;
 			$img_status		= ($bbcode_status) ? true : false;
@@ -446,7 +446,6 @@ var_dump('Here are comments');
 			if ($this->misc->display_captcha('comment'))
 			{
 				global $phpbb_container;
-				var_dump('Here are is captcha');
 				$captcha = $phpbb_container->get('captcha.factory')->get_instance($this->config['captcha_plugin']);
 				$captcha->init(CONFIRM_POST);
 
