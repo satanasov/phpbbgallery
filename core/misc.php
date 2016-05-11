@@ -44,7 +44,7 @@ class misc
 		{
 			return $gallery_display_captcha[$mode];
 		}
-var_dump('Dragons');
+
 		$gallery_display_captcha[$mode] = ($this->user->data['user_id'] == ANONYMOUS) && $this->gallery_config->get('captcha_' . $mode);
 
 		return $gallery_display_captcha[$mode];
