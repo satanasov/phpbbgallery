@@ -32,16 +32,6 @@ services:
             - %tables.phpbbgallery.images%
             - %tables.phpbbgallery.watch%
             - %tables.phpbbgallery.contests%
-    phpbbgallery.core.misc:
-        class: phpbbgallery\core\misc
-        arguments:
-            - @dbal.conn
-            - @user
-            - @config
-            - @phpbbgallery.core.config
-            - @phpbbgallery.core.user
-            - @phpbbgallery.core.url
-            - %tables.phpbbgallery.tracking%
     phpbbgallery.core.album.display:
         class: phpbbgallery\core\album\display
         arguments:
@@ -68,6 +58,36 @@ services:
             - @dbal.conn
             - @user
             - %tables.phpbbgallery.albums%
+    phpbbgallery.core.album.manage:
+        class: phpbbgallery\core\album\manage
+        arguments:
+            - @user
+            - @request
+            - @dbal.conn
+            - @dispatcher
+            - @cache
+            - @phpbbgallery.core.auth
+            - @phpbbgallery.core.album
+            - @phpbbgallery.core.album.display
+            - @phpbbgallery.core.contest
+            - @phpbbgallery.core.report
+            - @phpbbgallery.core.log
+            - %tables.phpbbgallery.albums%
+            - %tables.phpbbgallery.images%
+            - %tables.phpbbgallery.comments%
+            - %tables.phpbbgallery.permissions%
+            - %tables.phpbbgallery.moderators%
+            - %tables.phpbbgallery.contests%
+    phpbbgallery.core.misc:
+        class: phpbbgallery\core\misc
+        arguments:
+            - @dbal.conn
+            - @user
+            - @config
+            - @phpbbgallery.core.config
+            - @phpbbgallery.core.user
+            - @phpbbgallery.core.url
+            - %tables.phpbbgallery.tracking%
     phpbbgallery.core.auth:
         class: phpbbgallery\core\auth\auth
         arguments:
