@@ -20,11 +20,6 @@
 
 namespace phpbbgallery\core\album;
 
-use phpbbgallery\core\cache;
-use phpbbgallery\core\config;
-use phpbbgallery\core\image\image;
-use phpbbgallery\core\user;
-
 class manage
 {
 	public $user_id = 0;
@@ -462,7 +457,7 @@ class manage
 		}
 
 		$moved_albums = $this->gallery_display->get_branch($this->user_id, $from_id, 'children', 'descending');
-		var_dump($moved_albums);
+	//	var_dump($moved_albums);
 		$from_data = $moved_albums[0];
 
 		$diff = sizeof($moved_albums) * 2;
