@@ -455,7 +455,7 @@ class manage
 		{
 			$to_data = $this->gallery_album->get_info($to_id);
 		}
-
+var_dump(gettype($from_id));
 		$moved_albums = $this->gallery_display->get_branch($this->user_id, $from_id, 'children', 'descending');
 	//	var_dump($moved_albums);
 		$from_data = $moved_albums[0];
