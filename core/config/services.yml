@@ -65,7 +65,6 @@ services:
             - @request
             - @dbal.conn
             - @dispatcher
-            - @cache
             - @phpbbgallery.core.auth
             - @phpbbgallery.core.album
             - @phpbbgallery.core.album.display
