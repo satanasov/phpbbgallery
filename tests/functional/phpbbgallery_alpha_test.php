@@ -1156,11 +1156,11 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->add_lang('acp/permissions');
 
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-albums_module&mode=manage&sid=' . $this->sid);
-		$this->assertContains('zazzazaa', $crawler->text());
+
 		// Step 1 - see subalbums
 		$url = $crawler->filter('a:contains("First test album!")')->attr('href');
 		$crawler = self::request('GET', substr($url, 5));
-
+		$this->assertContains('zazzazaa', $crawler->text());
 		$url = $crawler->filter('a:contains("First sub test album!")')->parents()->parents()->filter('td')->eq(2)->filter('a')->eq(3)->attr('href');
 		$crawler = self::request('GET', substr($url, 5));
 
