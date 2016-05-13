@@ -552,6 +552,7 @@ class manage
 	*/
 	public function delete_album($album_id, $action_images = 'delete', $action_subalbums = 'delete', $images_to_id = 0, $subalbums_to_id = 0)
 	{
+		$album_data = $this->gallery_album->get_info($album_id);
 		$errors = array();
 		$log_action_images = $log_action_albums = $images_to_name = $subalbums_to_name = '';
 		$album_ids = array($album_id);
@@ -846,7 +847,7 @@ class manage
 
 		if (!empty($deleted_images))
 		{
-			$this->gallery_imagel->delete_images($deleted_images, $filenames);
+			$this->gallery_image->delete_images($deleted_images, $filenames);
 		}
 
 		// Lucifer TODO: Log Gallery deletion from log
