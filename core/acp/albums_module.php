@@ -44,7 +44,7 @@ class albums_module
 
 		// Init manage albums
 		$manage_albums = $phpbb_container->get('phpbbgallery.core.album.manage');
-		$manage_albums->set_user($request->variable('parent_id', 0));
+		$manage_albums->set_user($request->variable('user_id', 0));
 		$manage_albums->set_parent($request->variable('parent_id', 0));
 		$manage_albums->set_u_action($this->u_action);
 

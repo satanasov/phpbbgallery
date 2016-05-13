@@ -1165,12 +1165,11 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$crawler = self::request('GET', substr($url, 5));
 
 		$album = $crawler->filter('select#images_to_id')->filter('option:contains("Second subalbum!")')->attr('value');
-
 		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
 		$form['action_images'] = 'move';
-		$form['images_to_id'] = 5;
+		$form['images_to_id'] = $album;
 		$form['action_subalbums'] = 'move';
-		$form['subalbums_to_id'] = 5;
+		$form['subalbums_to_id'] = $album;
 		$crawler = self::submit($form);
 
 		$this->assertContainsLang('ALBUM_DELETED', $crawler->text());
