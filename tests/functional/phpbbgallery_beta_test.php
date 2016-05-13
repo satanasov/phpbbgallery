@@ -9,7 +9,7 @@
 */
 namespace phpbbgallery\tests\functional;
 /**
-* @group functional
+* @group functional1
 */
 class phpbbgallery_beta_test extends phpbbgallery_base
 {
