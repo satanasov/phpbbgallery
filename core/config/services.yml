@@ -65,16 +65,17 @@ services:
             - @request
             - @dbal.conn
             - @dispatcher
-            - @cache
             - @phpbbgallery.core.auth
             - @phpbbgallery.core.album
             - @phpbbgallery.core.album.display
             - @phpbbgallery.core.image
             - @phpbbgallery.core.cache
             - @phpbbgallery.core.user
+            - @phpbbgallery.core.config
             - @phpbbgallery.core.contest
             - @phpbbgallery.core.report
             - @phpbbgallery.core.log
+            - @phpbbgallery.core.notification
             - %tables.phpbbgallery.albums%
             - %tables.phpbbgallery.images%
             - %tables.phpbbgallery.comments%
