@@ -21,6 +21,9 @@
 namespace phpbbgallery\core\album;
 
 use phpbbgallery\core\cache;
+use phpbbgallery\core\config;
+use phpbbgallery\core\image\image;
+use phpbbgallery\core\user;
 
 class manage
 {
@@ -33,7 +36,9 @@ class manage
 	public function __construct(\phpbb\user $user, \phpbb\request\request $request, \phpbb\db\driver\driver_interface $db,
 								\phpbb\event\dispatcher $dispatcher,
 								\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\album\album $gallery_album,
-								\phpbbgallery\core\album\display $gallery_display, \phpbbgallery\core\cache $gallery_cache,
+								\phpbbgallery\core\album\display $gallery_display, \phpbbgallery\core\image\image $gallery_image,
+								\phpbbgallery\core\cache $gallery_cache, \phpbbgallery\core\user $gallery_user,
+								\phpbbgallery\core\config $gallery_config,
 								\phpbbgallery\core\contest $gallery_contest, \phpbbgallery\core\report $gallery_report,
 								\phpbbgallery\core\log $gallery_log, \phpbbgallery\core\notification $gallery_notification,
 								$albums_table, $images_table, $comments_table, $permissions_table, $moderators_table, $contests_table)
@@ -41,11 +46,14 @@ class manage
 		$this->user = $user;
 		$this->request = $request;
 		$this->db = $db;
-		$this->displatcher = $dispatcher;
+		$this->dispatcher = $dispatcher;
 		$this->gallery_auth = $gallery_auth;
 		$this->gallery_album = $gallery_album;
 		$this->gallery_display = $gallery_display;
+		$this->gallery_image = $gallery_image;
 		$this->gallery_cache = $gallery_cache;
+		$this->gallery_user = $gallery_user;
+		$this->gallery_config = $gallery_config;
 		$this->gallery_contest = $gallery_contest;
 		$this->gallery_report = $gallery_report;
 		$this->gallery_log = $gallery_log;
@@ -68,6 +76,10 @@ class manage
 		$this->parent_id = (int) $parent_id;
 	}
 
+	public function set_u_action($action)
+	{
+		$this->u_action = $action;
+	}
 	/**
 	* Generate back link for acp pages
 	*/
@@ -785,7 +797,7 @@ class manage
 		* @since 1.2.0
 		*/
 		$vars = array('from_id', 'to_id', 'sync');
-		extract($this->displatcher->trigger_event('phpbbgallery.core.album.manage.move_album_content', compact($vars)));
+		extract($this->dispatcher->trigger_event('phpbbgallery.core.album.manage.move_album_content', compact($vars)));
 
 		$this->gallery_cache->destroy_albums();
 
@@ -805,44 +817,39 @@ class manage
 	*/
 	public function delete_album_content($album_id)
 	{
-		global $cache, $db, $phpbb_dispatcher, $table_prefix, $config, $phpbb_container;
-		$phpbb_ext_gallery_core_image = $phpbb_container->get('phpbbgallery.core.image');
-		$phpbb_gallery_notification = $phpbb_container->get('phpbbgallery.core.notification');
-		$phpbb_gallery_user = $phpbb_container->get('phpbbgallery.core.user');
-		$phpbb_gallery_config = $phpbb_container->get('phpbbgallery.core.config');
 		$album_id = (int) $album_id;
 
 		// Before we remove anything we make sure we are able to adjust the image counts later. ;)
 		$sql = 'SELECT image_user_id
-			FROM ' . $table_prefix . 'gallery_images
+			FROM ' . $this->images_table . ' 
 			WHERE image_album_id = ' . $album_id . '
 				AND image_status <> ' . \phpbbgallery\core\block::STATUS_UNAPPROVED . '
 				AND image_status <> ' . \phpbbgallery\core\block::STATUS_ORPHAN;
-		$result = $db->sql_query($sql);
+		$result = $this->db->sql_query($sql);
 
 		$image_counts = array();
-		while ($row = $db->sql_fetchrow($result))
+		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$image_counts[$row['image_user_id']] = (!empty($image_counts[$row['image_user_id']])) ? $image_counts[$row['image_user_id']] + 1 : 1;
 		}
-		$db->sql_freeresult($result);
+		$this->db->sql_freeresult($result);
 
 		$sql = 'SELECT image_id, image_filename, image_album_id
-			FROM ' . $table_prefix . 'gallery_images
+			FROM ' . $this->images_table . ' 
 			WHERE image_album_id = ' . $album_id;
-		$result = $db->sql_query($sql);
+		$result = $this->db->sql_query($sql);
 
 		$filenames = $deleted_images = array();
-		while ($row = $db->sql_fetchrow($result))
+		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$deleted_images[] = $row['image_id'];
 			$filenames[(int) $row['image_id']] = $row['image_filename'];
 		}
-		$db->sql_freeresult($result);
+		$this->db->sql_freeresult($result);
 
 		if (!empty($deleted_images))
 		{
-			$phpbb_ext_gallery_core_image->delete_images($deleted_images, $filenames);
+			$this->gallery_imagel->delete_images($deleted_images, $filenames);
 		}
 
 		// Lucifer TODO: Log Gallery deletion from log
@@ -852,40 +859,40 @@ class manage
 		//$db->sql_query($sql);
 
 		//@todo: merge queries into loop
-		$sql = 'DELETE FROM ' . $table_prefix . 'gallery_permissions
+		$sql = 'DELETE FROM ' . $this->permissions_table . ' 
 			WHERE perm_album_id = ' . $album_id;
-		$db->sql_query($sql);
-		$sql = 'DELETE FROM ' . $table_prefix . 'gallery_contests
+		$this->db->sql_query($sql);
+		$sql = 'DELETE FROM ' . $this->contests_table . ' 
 			WHERE contest_album_id = ' . $album_id;
-		$db->sql_query($sql);
+		$this->db->sql_query($sql);
 
-		$sql = 'DELETE FROM ' . $table_prefix . 'gallery_modscache
+		$sql = 'DELETE FROM ' . $this->moderators_table . ' 
 			WHERE album_id = ' . $album_id;
-		$db->sql_query($sql);
+		$this->db->sql_query($sql);
 
-		$phpbb_gallery_notification->delete_albums($album_id);
+		$this->gallery_notification->delete_albums($album_id);
 
 		// Adjust users image counts
 		if (!empty($image_counts))
 		{
 			foreach ($image_counts as $image_user_id => $substract)
 			{
-				$phpbb_gallery_user->set_user_id($image_user_id);
-				$phpbb_gallery_user->update_images((0 - $substract));
+				$this->gallery_user->set_user_id($image_user_id);
+				$this->gallery_user->update_images((0 - $substract));
 			}
 		}
 
 		// Make sure the overall image & comment count is correct...
 		$sql = 'SELECT COUNT(image_id) AS num_images, SUM(image_comments) AS num_comments
-			FROM ' . $table_prefix . 'gallery_images 
+			FROM ' . $this->images_table . '  
 			WHERE image_status <> ' . \phpbbgallery\core\block::STATUS_UNAPPROVED . '
 				AND image_status <> ' . \phpbbgallery\core\block::STATUS_ORPHAN;
-		$result = $db->sql_query($sql);
-		$row = $db->sql_fetchrow($result);
-		$db->sql_freeresult($result);
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
 
-		$phpbb_gallery_config->set('num_images', $row['num_images']);
-		$phpbb_gallery_config->set('num_comments', $row['num_comments']);
+		$this->gallery_config->set('num_images', $row['num_images']);
+		$this->gallery_config->set('num_comments', $row['num_comments']);
 
 		/**
 		* Event delete album content
@@ -895,15 +902,9 @@ class manage
 		* @since 1.2.0
 		*/
 		$vars = array('album_id');
-		extract($phpbb_dispatcher->trigger_event('phpbbgallery.core.album.manage.delete_album_content', compact($vars)));
+		extract($this->dispatcher->trigger_event('phpbbgallery.core.album.manage.delete_album_content', compact($vars)));
 
-		$cache->destroy('sql', $table_prefix . 'gallery_albums');
-		$cache->destroy('sql', $table_prefix . 'gallery_comments');
-		$cache->destroy('sql', $table_prefix . 'gallery_images');
-		$cache->destroy('sql', $table_prefix . 'gallery_rates');
-		$cache->destroy('sql', $table_prefix . 'gallery_reports');
-		$cache->destroy('sql', $table_prefix . 'gallery_watch');
-		$cache->destroy('_albums');
+		$this->gallery_cache->destroy_albums();
 
 		return array();
 	}
@@ -917,8 +918,6 @@ class manage
 	*/
 	public function move_album_by($album_row, $action = 'move_up', $steps = 1)
 	{
-		global $db, $table_prefix;
-
 		/**
 		* Fetch all the siblings between the module's current spot
 		* and where we want to move it to. If there are less than $steps
@@ -926,18 +925,18 @@ class manage
 		* module will move as far as possible
 		*/
 		$sql = 'SELECT album_id, album_name, left_id, right_id
-			FROM ' . $table_prefix . "gallery_albums
-			WHERE parent_id = {$album_row['parent_id']}
-				AND album_user_id = " . $this->user_id . '
-				AND ' . (($action == 'move_up') ? "right_id < {$album_row['right_id']} ORDER BY right_id DESC" : "left_id > {$album_row['left_id']} ORDER BY left_id ASC");
-		$result = $db->sql_query_limit($sql, $steps);
+			FROM ' . $this->albums_table . ' 
+			WHERE parent_id = ' . $album_row['parent_id'] . '
+				AND album_user_id = ' . $this->user_id . '
+				AND ' . (($action == 'move_up') ? 'ight_id < ' . $album_row['right_id'] . ' ORDER BY right_id DESC' : 'left_id > ' . $album_row['left_id'] . ' ORDER BY left_id ASC');
+		$result = $this->db->sql_query_limit($sql, $steps);
 
 		$target = array();
-		while ($row = $db->sql_fetchrow($result))
+		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$target = $row;
 		}
-		$db->sql_freeresult($result);
+		$this->db->sql_freeresult($result);
 
 		if (!sizeof($target))
 		{
@@ -976,7 +975,7 @@ class manage
 		}
 
 		// Now do the dirty job
-		$sql = 'UPDATE ' . $table_prefix . "gallery_albums
+		$sql = 'UPDATE ' . $this->albums_table . " 
 			SET left_id = left_id + CASE
 				WHEN left_id BETWEEN {$move_up_left} AND {$move_up_right} THEN -{$diff_up}
 				ELSE {$diff_down}
@@ -990,7 +989,7 @@ class manage
 				left_id BETWEEN {$left_id} AND {$right_id}
 				AND right_id BETWEEN {$left_id} AND {$right_id}
 				AND album_user_id = " . $this->user_id;
-		$db->sql_query($sql);
+		$this->db->sql_query($sql);
 
 		return $target['album_name'];
 	}

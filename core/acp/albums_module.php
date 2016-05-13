@@ -43,8 +43,11 @@ class albums_module
 		$phpbb_ext_gallery_core_url = $phpbb_container->get('phpbbgallery.core.url');
 
 		// Init manage albums
-		$manage_albums = new \phpbbgallery\core\album\manage($request->variable('user_id', 0), $request->variable('parent_id', 0), $this->u_action);
-
+		$manage_albums = $phpbb_container->get('phpbbgallery.core.album.manage');
+		$manage_albums->set_user($request->variable('parent_id', 0));
+		$manage_albums->set_parrent($request->variable('parent_id', 0));
+		$manage_albums->set_u_action = $this->u_action;
+		
 		// Init album
 		$phpbb_ext_gallery_core_album = $phpbb_container->get('phpbbgallery.core.album');
 

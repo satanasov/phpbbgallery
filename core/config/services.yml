@@ -69,6 +69,9 @@ services:
             - @phpbbgallery.core.auth
             - @phpbbgallery.core.album
             - @phpbbgallery.core.album.display
+            - @phpbbgallery.core.image
+            - @phpbbgallery.core.cache
+            - @phpbbgallery.core.user
             - @phpbbgallery.core.contest
             - @phpbbgallery.core.report
             - @phpbbgallery.core.log
