@@ -457,9 +457,6 @@ class manage
 		}
 
 		$moved_albums = $this->gallery_display->get_branch($this->user_id, $from_id, 'children', 'descending');
-		echo '<pre>';
-		var_dump($moved_albums);
-		echo '</pre>';
 	//	var_dump($moved_albums);
 		$from_data = $moved_albums[0];
 
