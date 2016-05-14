@@ -926,7 +926,7 @@ class manage
 			FROM ' . $this->albums_table . ' 
 			WHERE parent_id = ' . $album_row['parent_id'] . '
 				AND album_user_id = ' . $this->user_id . '
-				AND ' . (($action == 'move_up') ? 'ight_id < ' . $album_row['right_id'] . ' ORDER BY right_id DESC' : 'left_id > ' . $album_row['left_id'] . ' ORDER BY left_id ASC');
+				AND ' . (($action == 'move_up') ? 'right_id < ' . $album_row['right_id'] . ' ORDER BY right_id DESC' : 'left_id > ' . $album_row['left_id'] . ' ORDER BY left_id ASC');
 		$result = $this->db->sql_query_limit($sql, $steps);
 
 		$target = array();
