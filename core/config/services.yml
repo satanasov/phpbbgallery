@@ -406,6 +406,7 @@ services:
             - @phpbbgallery.core.moderate
             - @phpbbgallery.core.rating
             - @phpbbgallery.core.block
+            - @service_container
             - %tables.phpbbgallery.albums%
             - %tables.phpbbgallery.images%
             - %tables.phpbbgallery.users%

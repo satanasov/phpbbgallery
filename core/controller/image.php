@@ -56,7 +56,7 @@ class image
 	\phpbbgallery\core\image\image $image, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\config $gallery_config,
 	\phpbbgallery\core\auth\level $auth_level, \phpbbgallery\core\url $url, \phpbbgallery\core\misc $misc, \phpbbgallery\core\comment $comment, \phpbbgallery\core\report $report,
 	\phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\log $gallery_log, \phpbbgallery\core\moderate $moderate, \phpbbgallery\core\rating $gallery_rating,
-	\phpbbgallery\core\block $block,
+	\phpbbgallery\core\block $block, ContainerInterface $phpbb_container,
 	$albums_table, $images_table, $users_table, $table_comments, $phpbb_root_path, $php_ext)
 	{
 		$this->request = $request;
@@ -85,6 +85,7 @@ class image
 		$this->moderate = $moderate;
 		$this->gallery_rating = $gallery_rating;
 		$this->block = $block;
+		$this->phpbb_container = $phpbb_container;
 		$this->table_albums = $albums_table;
 		$this->table_images = $images_table;
 		$this->table_users = $users_table;
@@ -445,14 +446,14 @@ class image
 
 			if ($this->misc->display_captcha('comment'))
 			{
-				global $phpbb_container;
-				$captcha = $phpbb_container->get('captcha.factory')->get_instance($this->config['captcha_plugin']);
+				$captcha = $this->phpbb_container->get('captcha.factory')->get_instance($this->config['captcha_plugin']);
 				$captcha->init(CONFIRM_POST);
-
+				$s_captcha_hidden_fields = '';
 				$this->template->assign_vars(array(
 					'S_CONFIRM_CODE'		=> true,
 					'CAPTCHA_TEMPLATE'		=> $captcha->get_template(),
 				));
+
 			}
 
 			// Different link, when we rate and dont comment
@@ -652,8 +653,6 @@ class image
 	public function edit($image_id)
 	{
 		//we cheat a little but we will make good later
-		global $phpbb_root_path, $phpEx;
-
 		$image_data = $this->image->get_image_data($image_id);
 		$album_id = $image_data['image_album_id'];
 		$album_data = $this->album->get_info($album_id);
@@ -690,7 +689,7 @@ class image
 				trigger_error($this->user->lang('DESC_TOO_LONG'));
 			}
 			// Create message parser instance
-			include_once($phpbb_root_path . 'includes/message_parser.' . $phpEx);
+			include_once($this->phpbb_root_path . 'includes/message_parser.' . $this->php_ext);
 			$message_parser = new \parse_message();
 			$message_parser->message	= utf8_normalize_nfc($image_desc);
 			if ($message_parser->message)
@@ -731,7 +730,7 @@ class image
 						'image_user_colour'		=> $user_data['user_colour'],
 					));
 
-					if ($image_data['image_status'] != $this->image->get_status_unaproved())
+					if ($image_data['image_status'] != $this->block->get_image_status_unapproved())
 					{
 						$change_image_count = true;
 					}
@@ -760,7 +759,7 @@ class image
 				}
 				else
 				{
-					$personal_album_id = $this->user->get_data('personal_album_id');
+					$personal_album_id = $this->gallery_user->get_data('personal_album_id');
 					if (!$personal_album_id && $this->gallery_auth->acl_check('i_upload', $this->gallery_auth->get_own_album()))
 					{
 						$personal_album_id = $this->album->generate_personal_album($image_data['image_username'], $image_data['image_user_id'], $image_data['image_user_colour'], phpbb_gallery::$user);
