@@ -326,7 +326,36 @@ class search
 			$pagination = false;
 		}
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
-		$sql_order = 'image_id DESC';
+		//$sql_order = 'image_id DESC';
+		$sql_order = '';
+		switch ($this->gallery_config->get('default_sort_key'))
+		{
+			case 't':
+				$sql_order = 'image_time';
+				break;
+			case 'n':
+				$sql_order = 'image_name_clean';
+				break;
+			case 'vc':
+				$sql_order = 'image_view_count';
+				break;
+			case 'u':
+				$sql_order = 'image_username_clean';
+				break;
+			case 'ra':
+				$sql_order = 'image_rate_avg';
+				break;
+			case 'r':
+				$sql_order = 'image_rates';
+				break;
+			case 'c':
+				$sql_order = 'image_comments';
+				break;
+			case 'lc':
+				$sql_order = 'image_last_comment';
+				break;
+		}
+		$sql_order = $sql_order . ($this->gallery_config->get('default_sort_dir') == 'd' ? ' DESC' : ' ASC');
 		$sql_limit = $limit;
 		$exclude_albums = array();
 		if (!$this->gallery_config->get('rrc_gindex_pegas'))
