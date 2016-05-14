@@ -479,6 +479,7 @@ services:
             - @phpbbgallery.core.notification.helper
             - @phpbbgallery.core.notification
             - @phpbbgallery.core.rating
+            - @service_container
             - %tables.phpbbgallery.comments%
             - %core.root_path%
             - %core.php_ext%

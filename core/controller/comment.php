@@ -10,6 +10,8 @@
 
 namespace phpbbgallery\core\controller;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 class comment
 {
 	/* @var \phpbb\request\request */
@@ -64,7 +66,7 @@ class comment
 \phpbb\request\request $request, \phpbb\controller\helper $helper, \phpbbgallery\core\image\image $image, \phpbbgallery\core\album\loader $loader, \phpbbgallery\core\album\album $album,
 \phpbbgallery\core\album\display $display, \phpbbgallery\core\url $url, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\misc $misc,
 \phpbbgallery\core\comment $comment, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\log $gallery_log, \phpbbgallery\core\notification\helper $notification_helper,
-	\phpbbgallery\core\notification $gallery_notification, \phpbbgallery\core\rating $gallery_rating,
+	\phpbbgallery\core\notification $gallery_notification, \phpbbgallery\core\rating $gallery_rating, ContainerInterface $phpbb_container,
 $table_comments, $phpbb_root_path, $php_ext)
 	{
 		$this->db = $db;
@@ -88,6 +90,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 		$this->notification_helper = $notification_helper;
 		$this->gallery_notification = $gallery_notification;
 		$this->gallery_rating = $gallery_rating;
+		$this->phpbb_container = $phpbb_container;
 		$this->table_comments = $table_comments;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
@@ -179,14 +182,14 @@ $table_comments, $phpbb_root_path, $php_ext)
 
 		if ($this->misc->display_captcha('comment'))
 		{
-			global $phpbb_container;
-			$captcha = $phpbb_container->get('captcha.factory')->get_instance($this->config['captcha_plugin']);
+			$captcha = $this->phpbb_container->get('captcha.factory')->get_instance($this->config['captcha_plugin']);
 			$captcha->init(CONFIRM_POST);
-
+			$s_captcha_hidden_fields = '';
 			$this->template->assign_vars(array(
 				'S_CONFIRM_CODE'		=> true,
 				'CAPTCHA_TEMPLATE'		=> $captcha->get_template(),
 			));
+
 		}
 
 		$s_captcha_hidden_fields = '';
@@ -212,10 +215,9 @@ $table_comments, $phpbb_root_path, $php_ext)
 
 			if ($comment_username_req)
 			{
-				global $phpbb_root_path, $phpEx;
 				if (!function_exists('validate_username'))
 				{
-					include_once($phpbb_root_path . 'includes/functions_user.' . $phpEx);
+					include_once($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
 				}
 
 				if ($comment_username == '')
