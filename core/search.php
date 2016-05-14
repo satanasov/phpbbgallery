@@ -331,28 +331,28 @@ class search
 		switch ($this->gallery_config->get('default_sort_key'))
 		{
 			case 't':
-				$sql_order = 'image_time';
+				$sql_order = 'i.image_time';
 				break;
 			case 'n':
-				$sql_order = 'image_name_clean';
+				$sql_order = 'i.image_name_clean';
 				break;
 			case 'vc':
-				$sql_order = 'image_view_count';
+				$sql_order = 'i.image_view_count';
 				break;
 			case 'u':
-				$sql_order = 'image_username_clean';
+				$sql_order = 'i.image_username_clean';
 				break;
 			case 'ra':
-				$sql_order = 'image_rate_avg';
+				$sql_order = 'i.image_rate_avg';
 				break;
 			case 'r':
-				$sql_order = 'image_rates';
+				$sql_order = 'i.image_rates';
 				break;
 			case 'c':
-				$sql_order = 'image_comments';
+				$sql_order = 'i.image_comments';
 				break;
 			case 'lc':
-				$sql_order = 'image_last_comment';
+				$sql_order = 'i.image_last_comment';
 				break;
 		}
 		$sql_order = $sql_order . ($this->gallery_config->get('default_sort_dir') == 'd' ? ' DESC' : ' ASC');
@@ -428,7 +428,7 @@ class search
 			return;
 		}
 
-		$sql_where = $this->db->sql_in_set('i.image_id', $id_ary);
+		$sql_where = $this->db->sql_in_set('i.image_album_id', $id_ary);
 
 		$sql_array = array(
 			'SELECT'		=> 'i.*, a.album_name, a.album_status, a.album_user_id, a.album_id',
