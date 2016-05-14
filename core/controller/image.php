@@ -10,6 +10,8 @@
 
 namespace phpbbgallery\core\controller;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 class image
 {
 	protected $data;
