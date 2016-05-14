@@ -250,6 +250,8 @@ class core_search_test extends core_base
 		$auth = $this->auth;
 		$this->user->data['user_id'] = $user_id;
 		$this->user->data['group_id'] = $group_id;
+		$this->gallery_config->set('default_sort_dir', 'a');
+		$this->gallery_config->set('default_sort_key', 't');
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 		$this->template->expects($this->exactly($expected))
 			->method('assign_block_vars');
