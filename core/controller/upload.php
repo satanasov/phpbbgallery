@@ -56,7 +56,7 @@ class upload
 	\phpbb\controller\helper $helper, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\image\image $image,
 	\phpbbgallery\core\notification $gallery_notification, \phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\url $url, \phpbbgallery\core\upload $gallery_upload,
 	\phpbbgallery\core\block $block,
-	$images_table)
+	$images_table, $phpbb_root_path)
 	{
 		$this->request = $request;
 		$this->db = $db;
@@ -78,6 +78,7 @@ class upload
 		$this->notification_helper = $notification_helper;
 		$this->block = $block;
 		$this->images_table = $images_table;
+		$this->phpbb_root_path = $phpbb_root_path;
 	}
 
 	public function main($album_id)
@@ -519,13 +520,13 @@ class upload
 
 	private function check_fs()
 	{
-		global $phpbb_root_path;
-		$phpbbgallery_core_file = $phpbb_root_path . 'files/phpbbgallery/core';
-		$phpbbgallery_core_file_medium = $phpbb_root_path . 'files/phpbbgallery/core/medium';
-		$phpbbgallery_core_file_mini = $phpbb_root_path . 'files/phpbbgallery/core/mini';
-		$phpbbgallery_core_file_source = $phpbb_root_path . 'files/phpbbgallery/core/source';
 
-		if (file_exists($phpbbgallery_core_file) && is_writable($phpbbgallery_core_file) && file_exists($phpbbgallery_core_file_source) && is_writable($phpbbgallery_core_file_source))
+		$phpbbgallery_core_file = $this->phpbb_root_path . 'files/phpbbgallery/core';
+		$phpbbgallery_core_file_medium = $this->phpbb_root_path . 'files/phpbbgallery/core/medium';
+		$phpbbgallery_core_file_mini = $this->phpbb_root_path . 'files/phpbbgallery/core/mini';
+		$phpbbgallery_core_file_source = $this->phpbb_root_path . 'files/phpbbgallery/core/source';
+
+		if (file_exists($phpbbgallery_core_file) && is_writable($phpbbgallery_core_file) && file_exists($phpbbgallery_core_file_source) && is_writable($phpbbgallery_core_file_source) && file_exists($phpbbgallery_core_file_medium) && is_writable($phpbbgallery_core_file_medium) && file_exists($phpbbgallery_core_file_mini) && is_writable($phpbbgallery_core_file_mini))
 		{
 			return true;
 		}
