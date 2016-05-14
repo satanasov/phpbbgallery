@@ -928,7 +928,7 @@ class main_module
 
 		$phpbb_ext_gallery_core_image = $phpbb_container->get('phpbbgallery.core.image');
 		$phpbb_ext_gallery_config = $phpbb_container->get('phpbbgallery.core.config');
-		$phpbb_gallery_notification = new \phpbbgallery\core\notification();
+		$phpbb_gallery_notification = $phpbb_container->get('phpbbgallery.core.notification');
 
 		$action = $request->variable('action', '');
 		$image_id_ary = $request->variable('image_id_ary', array(0));
