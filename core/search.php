@@ -445,7 +445,7 @@ class search
 			'ORDER_BY'		=> $sql_order,
 		);
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
-		$result = $this->db->sql_query($sql);
+		$result = $this->db->sql_query_limit($sql, $sql_limit, $start);
 
 		$show_options = $this->gallery_config->get($fields);
 		$thumbnail_link = $this->gallery_config->get('link_thumbnail');
