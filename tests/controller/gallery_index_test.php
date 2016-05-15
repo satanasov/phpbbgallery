@@ -385,7 +385,7 @@ class gallery_index_test extends controller_base
 	*/
 	public function test_controller_base_case_3()
 	{
-		$this->template->expects($this->exactly(5))
+		$this->template->expects($this->exactly(3))
 			->method('assign_block_vars')
 			->withConsecutive(
 				array('albumrow', array(
@@ -421,14 +421,6 @@ class gallery_index_test extends controller_base
 					'U_SUBALBUM' => 'phpbbgallery_core_album',
 					'SUBALBUM_NAME' => 'TestPublicAlbumSubAlbum1',
 					'S_UNREAD' => false,
-				)),
-				array('birthdays', array(
-					'USERNAME' => '<span class="username">BdayUser1</span>',
-					'AGE' => 17
-				)),
-				array('birthdays', array(
-					'USERNAME' => '<span class="username">BdayUser2</span>',
-					'AGE' => 17
 				)),
 				array('navlinks', array(
 					'FORUM_NAME' => 'GALLERY',
@@ -508,12 +500,6 @@ class gallery_index_test extends controller_base
 		$this->config->set('allow_birthdays', 1);
 		$this->auth->method('acl_gets')
 			->willReturn(true);
-		// Set buthday to today
-		$now = getdate();
-		$sql = 'UPDATE phpbb_users SET user_birthday = \'' . $this->db->sql_escape(sprintf('%2d-%2d-', $now['mday'], $now['mon'])) . '1999\' WHERE user_id = 56';
-		$this->db->sql_query($sql);
-		$sql = 'UPDATE phpbb_users SET user_birthday = \'' . $this->db->sql_escape(sprintf('%2d-%2d-', $now['mday'], $now['mon'])) . '1999\' WHERE user_id = 57';
-		$this->db->sql_query($sql);
 		$controller = $this->get_controller(2, 5, true);
 		$response = $controller->base();
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);

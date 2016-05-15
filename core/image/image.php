@@ -12,6 +12,14 @@ namespace phpbbgallery\core\image;
 
 class image
 {
+	const IMAGE_SHOW_IP = 128;
+	const IMAGE_SHOW_RATINGS = 64;
+	const IMAGE_SHOW_USERNAME = 32;
+	const IMAGE_SHOW_VIEWS = 16;
+	const IMAGE_SHOW_TIME = 8;
+	const IMAGE_SHOW_IMAGENAME = 4;
+	const IMAGE_SHOW_COMMENTS = 2;
+	const IMAGE_SHOW_ALBUM = 1;
 	/**
 	 * construct
 	 * @param \phpbb\db\driver\driver_interface $db
@@ -535,42 +543,42 @@ class image
 	{
 		// Now let's get display options
 		$show_ip = $show_ratings = $show_username = $show_views = $show_time = $show_imagename = $show_comments = $show_album = false;
-		if ($display_option >= 128)
+		if ($display_option >= self::IMAGE_SHOW_IP)
 		{
 			$show_ip = true;
-			$display_option = $display_option - 128;
+			$display_option = $display_option - self::IMAGE_SHOW_IP;
 		}
-		if ($display_option >= 64)
+		if ($display_option >= self::IMAGE_SHOW_RATINGS)
 		{
 			$show_ratings = true;
-			$display_option = $display_option - 64;
+			$display_option = $display_option - self::IMAGE_SHOW_RATINGS;
 		}
-		if ($display_option >= 32)
+		if ($display_option >= self::IMAGE_SHOW_USERNAME)
 		{
 			$show_username = true;
-			$display_option = $display_option - 32;
+			$display_option = $display_option - self::IMAGE_SHOW_USERNAME;
 		}
-		if ($display_option >= 16)
+		if ($display_option >= self::IMAGE_SHOW_VIEWS)
 		{
 			$show_views = true;
-			$display_option = $display_option - 16;
+			$display_option = $display_option - self::IMAGE_SHOW_VIEWS;
 		}
-		if ($display_option >= 8)
+		if ($display_option >= self::IMAGE_SHOW_TIME)
 		{
 			$show_time = true;
-			$display_option = $display_option - 8;
+			$display_option = $display_option - self::IMAGE_SHOW_TIME;
 		}
-		if ($display_option >= 4)
+		if ($display_option >= self::IMAGE_SHOW_IMAGENAME)
 		{
 			$show_imagename = true;
-			$display_option = $display_option - 4;
+			$display_option = $display_option - self::IMAGE_SHOW_IMAGENAME;
 		}
-		if ($display_option >= 2)
+		if ($display_option >= self::IMAGE_SHOW_COMMENTS)
 		{
 			$show_comments = true;
-			$display_option = $display_option - 2;
+			$display_option = $display_option - self::IMAGE_SHOW_COMMENTS;
 		}
-		if ($display_option == 1)
+		if ($display_option == self::IMAGE_SHOW_ALBUM)
 		{
 			$show_album = true;
 		}
