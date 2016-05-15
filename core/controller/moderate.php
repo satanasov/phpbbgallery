@@ -105,7 +105,7 @@ class moderate
 	{
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 		$album_backlink = $album_id === 0 ? $this->helper->route('phpbbgallery_core_moderate') : $this->helper->route('phpbbgallery_core_moderate_album', array('album_id'	=> $album_id));
-		$album_loginlink = append_sid('/ucp.php?mode=login');
+		$album_loginlink = append_sid('./ucp.php?mode=login');
 		if ($album_id === 0)
 		{
 			if (!$this->gallery_auth->acl_check_global('m_'))
@@ -701,8 +701,8 @@ class moderate
 		$image_data = $this->image->get_image_data($image_id);
 		$album_data = $this->album->get_info($image_data['image_album_id']);
 
-		$album_backlink = append_sid('/gallery');
-		$image_backlink = append_sid('/gallery/image/' . $image_id);
+		$album_backlink = $this->helper->route('phpbbgallery_core_index');
+		$image_backlink = $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_id));
 		$album_loginlink = append_sid('/ucp.php?mode=login');
 		$meta_refresh_time = 2;
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
@@ -742,8 +742,8 @@ class moderate
 		$album_id = $image_data['image_album_id'];
 		$user_id = $image_data['image_user_id'];
 		$album_data =  $this->album->get_info($album_id);
-		$album_backlink = append_sid('/gallery/album/' . $album_id);
-		$image_backlink = append_sid('/gallery/image/' . $image_id);
+		$album_backlink = $this->helper->route('phpbbgallery_core_album', array('album_id' => $album_id));
+		$image_backlink = $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_id));
 		$album_loginlink = append_sid('/ucp.php?mode=login');
 		$meta_refresh_time = 2;
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery_mcp'));
@@ -790,8 +790,8 @@ class moderate
 		$album_id = $image_data['image_album_id'];
 		$user_id = $image_data['image_user_id'];
 		$album_data =  $this->album->get_info($album_id);
-		$album_backlink = append_sid('/gallery/album/' . $album_id);
-		$image_backlink = append_sid('/gallery/image/' . $image_id);
+		$album_backlink = $this->helper->route('phpbbgallery_core_album', array('album_id' => $album_id));
+		$image_backlink = $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_id));
 		$album_loginlink = append_sid('/ucp.php?mode=login');
 		$meta_refresh_time = 2;
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery_mcp'));
