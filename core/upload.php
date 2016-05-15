@@ -538,15 +538,15 @@ class upload
 		{
 			$this->gallery_config->set('current_upload_dir_size', 0, true);
 			$this->gallery_config->inc('current_upload_dir', 1);
-			mkdir($this->gallery_url->path('upload') . $this->gallery_config->get('current_upload_dir'));
-			mkdir($this->gallery_url->path('medium') . $this->gallery_config->get('current_upload_dir'));
-			mkdir($this->gallery_url->path('thumbnail') . $this->gallery_config->get('current_upload_dir'));
-			copy($this->gallery_url->path('upload') . 'index.htm', $this->gallery_url->path('upload') . $this->gallery_config->get('current_upload_dir') . '/index.htm');
-			copy($this->gallery_url->path('upload') . 'index.htm', $this->gallery_url->path('medium') . $this->gallery_config->get('current_upload_dir') . '/index.htm');
-			copy($this->gallery_url->path('upload') . 'index.htm', $this->gallery_url->path('thumbnail') . $this->gallery_config->get('current_upload_dir') . '/index.htm');
-			copy($this->gallery_url->path('upload') . '.htaccess', $this->gallery_url->path('upload') . $this->gallery_config->get('current_upload_dir') . '/.htaccess');
-			copy($this->gallery_url->path('upload') . '.htaccess', $this->gallery_url->path('medium') . $this->gallery_config->get('current_upload_dir') . '/.htaccess');
-			copy($this->gallery_url->path('upload') . '.htaccess', $this->gallery_url->path('thumbnail') . $this->gallery_config->get('current_upload_dir') . '/.htaccess');
+			@mkdir($this->gallery_url->path('upload') . $this->gallery_config->get('current_upload_dir'));
+			@mkdir($this->gallery_url->path('medium') . $this->gallery_config->get('current_upload_dir'));
+			@mkdir($this->gallery_url->path('thumbnail') . $this->gallery_config->get('current_upload_dir'));
+			@copy($this->gallery_url->path('upload') . 'index.htm', $this->gallery_url->path('upload') . $this->gallery_config->get('current_upload_dir') . '/index.htm');
+			@copy($this->gallery_url->path('upload') . 'index.htm', $this->gallery_url->path('medium') . $this->gallery_config->get('current_upload_dir') . '/index.htm');
+			@copy($this->gallery_url->path('upload') . 'index.htm', $this->gallery_url->path('thumbnail') . $this->gallery_config->get('current_upload_dir') . '/index.htm');
+			@copy($this->gallery_url->path('upload') . '.htaccess', $this->gallery_url->path('upload') . $this->gallery_config->get('current_upload_dir') . '/.htaccess');
+			@copy($this->gallery_url->path('upload') . '.htaccess', $this->gallery_url->path('medium') . $this->gallery_config->get('current_upload_dir') . '/.htaccess');
+			@copy($this->gallery_url->path('upload') . '.htaccess', $this->gallery_url->path('thumbnail') . $this->gallery_config->get('current_upload_dir') . '/.htaccess');
 		}
 		return $this->gallery_config->get('current_upload_dir');
 	}
