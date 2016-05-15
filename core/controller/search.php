@@ -221,7 +221,7 @@ class search
 				foreach ($matches as $match)
 				{
 					$match_search_query .= (($match_search_query) ? ' OR ' : '') . 'LOWER('. $match . ') ';
-					$match_search_query .= $this->db->sql_like_expression(str_replace('*', $this->db->get_any_char(), $this->db->get_any_char() . strtolower($word) . $this->db->get_any_char()));
+					$match_search_query .= $this->db->sql_like_expression(str_replace('*', $this->db->get_any_char(), $this->db->get_any_char() . mb_strtolower($word) . $this->db->get_any_char()));
 				}
 				$search_query .= ((!$search_query) ? '' : (($search_terms == 'all') ? ' AND ' : ' OR ')) . '(' . $match_search_query . ')';
 			}
