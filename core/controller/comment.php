@@ -380,7 +380,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 			$result = $this->db->sql_query($sql);
 			$comment_data = $this->db->sql_fetchrow($result);
 			$this->db->sql_freeresult($result);
-			$image_id = (int)$comment_data['comment_image_id'];
+			$image_id = (int) $comment_data['comment_image_id'];
 		}
 		else
 		{
