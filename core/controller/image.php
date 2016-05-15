@@ -682,8 +682,10 @@ class image
 				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 			}
 		}
-		if ($submit) {
-			if (!check_form_key('gallery')) {
+		if ($submit)
+		{
+			if (!check_form_key('gallery'))
+			{
 				trigger_error('FORM_INVALID');
 			}
 
@@ -691,7 +693,8 @@ class image
 			$image_desc = $image_desc[0];
 			$image_name = $this->request->variable('image_name', array(''), true);
 			$image_name = $image_name[0];
-			if (strlen($image_desc) > $this->gallery_config->get('description_length')) {
+			if (strlen($image_desc) > $this->gallery_config->get('description_length'))
+			{
 				trigger_error($this->user->lang('DESC_TOO_LONG'));
 			}
 			// Create message parser instance

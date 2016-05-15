@@ -257,11 +257,12 @@ class upload
 	 */
 	public function update_image($image_id, $needs_approval = false, $is_in_contest = false)
 	{
-		if ($this->file_limit && ($this->uploaded_files >= $this->file_limit)) {
+		if ($this->file_limit && ($this->uploaded_files >= $this->file_limit))
+		{
 			$this->new_error($this->user->lang('UPLOAD_ERROR', $this->image_data[$image_id]['image_name'], $this->user->lang['QUOTA_REACHED']));
 			return false;
 		}
-		$this->file_count = (int)$this->array_id2row[$image_id];
+		$this->file_count = (int) $this->array_id2row[$image_id];
 
 		// Create message parser instance
 		if (!class_exists('parse_message'))
