@@ -414,7 +414,14 @@ class image
 			$flash_status	= false;
 			$quote_status	= true;
 
-			include_once($this->phpbb_root_path . 'includes/functions_display.' . $this->php_ext);
+			if (!function_exists('generate_smilies'))
+			{
+				include_once($this->phpbb_root_path . 'includes/functions_posting.' . $this->php_ext);
+			}
+			if (!function_exists('display_custom_bbcodes'))
+			{
+				include_once($this->phpbb_root_path . 'includes/functions_display.' . $this->php_ext);
+			}
 			// Build custom bbcodes array
 			display_custom_bbcodes();
 
@@ -675,10 +682,8 @@ class image
 				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 			}
 		}
-		if ($submit)
-		{
-			if (!check_form_key('gallery'))
-			{
+		if ($submit) {
+			if (!check_form_key('gallery')) {
 				trigger_error('FORM_INVALID');
 			}
 
@@ -686,12 +691,14 @@ class image
 			$image_desc = $image_desc[0];
 			$image_name = $this->request->variable('image_name', array(''), true);
 			$image_name = $image_name[0];
-			if (strlen($image_desc) > $this->gallery_config->get('description_length'))
-			{
+			if (strlen($image_desc) > $this->gallery_config->get('description_length')) {
 				trigger_error($this->user->lang('DESC_TOO_LONG'));
 			}
 			// Create message parser instance
-			include_once($this->phpbb_root_path . 'includes/message_parser.' . $this->php_ext);
+			if (!class_exists('parse_message'))
+			{
+				include_once($this->phpbb_root_path . 'includes/message_parser.' . $this->php_ext);
+			}
 			$message_parser = new \parse_message();
 			$message_parser->message	= utf8_normalize_nfc($image_desc);
 			if ($message_parser->message)
@@ -835,7 +842,10 @@ class image
 		{
 			include($this->phpbb_root_path . 'includes/bbcode.' . $this->php_ext);
 		}
-		include_once($this->phpbb_root_path . 'includes/message_parser.' . $this->php_ext);
+		if (!class_exists('parse_message'))
+		{
+			include_once($this->phpbb_root_path . 'includes/message_parser.' . $this->php_ext);
+		}
 		$message_parser				= new \parse_message();
 		$message_parser->message	= $disp_image_data['image_desc'];
 		$message_parser->decode_message($disp_image_data['image_desc_uid']);

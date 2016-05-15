@@ -244,7 +244,11 @@ $table_comments, $phpbb_root_path, $php_ext)
 			{
 				include($this->phpbb_root_path . 'includes/bbcode.' . $this->php_ext);
 			}
-			include_once($this->phpbb_root_path . 'includes/message_parser.' . $this->php_ext);
+			if (!class_exists('parse_message'))
+			{
+				include_once($this->phpbb_root_path . 'includes/message_parser.' . $this->php_ext);
+			}
+
 			$message_parser = new \parse_message();
 			$message_parser->message	= utf8_normalize_nfc($comment_plain);
 			if ($message_parser->message)
@@ -360,7 +364,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 		$error = $message = '';
 		// load Image Data
 		$image_data = $this->image->get_image_data($image_id);
-		$album_id = (int) $image_data['image_album_id'];
+		$album_id = (int)$image_data['image_album_id'];
 		$album_data = $this->loader->get($album_id);
 		$this->display->generate_navigation($album_data);
 		$page_title = $image_data['image_name'];
@@ -368,36 +372,32 @@ $table_comments, $phpbb_root_path, $php_ext)
 		$image_backlink = $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_id));
 		$album_backlink = $this->helper->route('phpbbgallery_core_album', array('album_id' => $album_id));
 		$image_loginlink = $this->url->append_sid('relative', 'image_page', "album_id=$album_id&amp;image_id=$image_id");
-		if ($comment_id != 0)
-		{
+		if ($comment_id != 0) {
 			$sql = 'SELECT *
 				FROM ' . $this->table_comments . '
 				WHERE comment_id = ' . $comment_id;
 			$result = $this->db->sql_query($sql);
 			$comment_data = $this->db->sql_fetchrow($result);
 			$this->db->sql_freeresult($result);
-			$image_id = (int) $comment_data['comment_image_id'];
-		}
-		else
-		{
+			$image_id = (int)$comment_data['comment_image_id'];
+		} else {
 			$this->misc->not_authorised($image_backlink, $image_loginlink);
 		}
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
-		if (!$this->gallery_auth->acl_check('c_edit', $album_id, $album_data['album_user_id']) && $mode == 'add')
-		{
-			if (!$this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']))
-			{
+		if (!$this->gallery_auth->acl_check('c_edit', $album_id, $album_data['album_user_id']) && $mode == 'add') {
+			if (!$this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id'])) {
 				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 			}
-		}
-		else if (($comment_data['comment_user_id'] != $this->user->data['user_id']) && !$this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']))
-		{
+		} else if (($comment_data['comment_user_id'] != $this->user->data['user_id']) && !$this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id'])) {
 			$this->misc->not_authorised($image_backlink, $image_loginlink);
 		}
 
 		$this->user->add_lang('posting');
 
-		include_once($this->phpbb_root_path . 'includes/functions_posting.' . $this->php_ext);
+		if (!function_exists('generate_smilies'))
+		{
+			include_once($this->phpbb_root_path . 'includes/functions_posting.' . $this->php_ext);
+		}
 
 		$bbcode_status	= ($this->config['allow_bbcode']) ? true : false;
 		$smilies_status	= ($this->config['allow_smilies']) ? true : false;
@@ -406,7 +406,11 @@ $table_comments, $phpbb_root_path, $php_ext)
 		$flash_status	= false;
 		$quote_status	= true;
 
-		include_once($this->phpbb_root_path . 'includes/functions_display.' . $this->php_ext);
+		if (!function_exists('display_custom_bbcodes'))
+		{
+			include_once($this->phpbb_root_path . 'includes/functions_display.' . $this->php_ext);
+		}
+
 		// Build custom bbcodes array
 		display_custom_bbcodes();
 
@@ -475,7 +479,10 @@ $table_comments, $phpbb_root_path, $php_ext)
 			{
 				include($this->phpbb_root_path . 'includes/bbcode.' . $this->php_ext);
 			}
-			include_once($this->phpbb_root_path . 'includes/message_parser.' . $this->php_ext);
+			if (!class_exists('parse_message'))
+			{
+				include_once($this->phpbb_root_path . 'includes/message_parser.' . $this->php_ext);
+			}
 			$message_parser = new \parse_message();
 			$message_parser->message = utf8_normalize_nfc($comment_plain);
 			if ($message_parser->message)
@@ -593,7 +600,10 @@ $table_comments, $phpbb_root_path, $php_ext)
 
 		$this->user->add_lang('posting');
 
-		include_once($this->phpbb_root_path . 'includes/functions_posting.' . $this->php_ext);
+		if (!function_exists('generate_smilies'))
+		{
+			include_once($this->phpbb_root_path . 'includes/functions_posting.' . $this->php_ext);
+		}
 
 		$bbcode_status	= ($this->config['allow_bbcode']) ? true : false;
 		$smilies_status	= ($this->config['allow_smilies']) ? true : false;
@@ -602,7 +612,11 @@ $table_comments, $phpbb_root_path, $php_ext)
 		$flash_status	= false;
 		$quote_status	= true;
 
-		include_once($this->phpbb_root_path . 'includes/functions_display.' . $this->php_ext);
+		if (!function_exists('display_custom_bbcodes'))
+		{
+			include_once($this->phpbb_root_path . 'includes/functions_display.' . $this->php_ext);
+		}
+
 		// Build custom bbcodes array
 		display_custom_bbcodes();
 
@@ -717,7 +731,10 @@ $table_comments, $phpbb_root_path, $php_ext)
 
 		$this->user->add_lang('posting');
 
-		include_once($this->phpbb_root_path . 'includes/functions_posting.' . $this->php_ext);
+		if (!function_exists('generate_smilies'))
+		{
+			include_once($this->phpbb_root_path . 'includes/functions_posting.' . $this->php_ext);
+		}
 
 		$bbcode_status	= ($this->config['allow_bbcode']) ? true : false;
 		$smilies_status	= ($this->config['allow_smilies']) ? true : false;
@@ -726,8 +743,10 @@ $table_comments, $phpbb_root_path, $php_ext)
 		$flash_status	= false;
 		$quote_status	= true;
 
-		include_once($this->phpbb_root_path . 'includes/functions_display.' . $this->php_ext);
-		// Build custom bbcodes array
+		if (!function_exists('display_custom_bbcodes'))
+		{
+			include_once($this->phpbb_root_path . 'includes/functions_display.' . $this->php_ext);
+		}// Build custom bbcodes array
 		display_custom_bbcodes();
 
 		// Build smilies array

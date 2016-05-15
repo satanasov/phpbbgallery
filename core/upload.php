@@ -95,7 +95,10 @@ class upload
 	 */
 	public function set_up($album_id, $num_files = 0)
 	{
-		include_once($this->root_path . 'includes/functions_upload.' . $this->php_ext);
+		if (!class_exists('fileupload'))
+		{
+			include_once($this->root_path . 'includes/functions_upload.' . $this->php_ext);
+		}
 		$this->upload = new \fileupload();
 		$this->upload->fileupload('', $this->get_allowed_types(), (4 * $this->gallery_config->get('max_filesize')));
 
@@ -254,15 +257,17 @@ class upload
 	 */
 	public function update_image($image_id, $needs_approval = false, $is_in_contest = false)
 	{
-		if ($this->file_limit && ($this->uploaded_files >= $this->file_limit))
-		{
+		if ($this->file_limit && ($this->uploaded_files >= $this->file_limit)) {
 			$this->new_error($this->user->lang('UPLOAD_ERROR', $this->image_data[$image_id]['image_name'], $this->user->lang['QUOTA_REACHED']));
 			return false;
 		}
-		$this->file_count = (int) $this->array_id2row[$image_id];
+		$this->file_count = (int)$this->array_id2row[$image_id];
 
 		// Create message parser instance
-		include_once($this->root_path . 'includes/message_parser.' . $this->php_ext);
+		if (!class_exists('parse_message'))
+		{
+			include_once($this->root_path . 'includes/message_parser.' . $this->php_ext);
+		}
 		$message_parser = new \parse_message();
 		$message_parser->message	= utf8_normalize_nfc($this->get_description());
 		if ($message_parser->message)
