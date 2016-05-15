@@ -536,7 +536,7 @@ class upload
 		$this->gallery_config->inc('current_upload_dir_size', 1);
 		if ($this->gallery_config->get('current_upload_dir_size') >= self::NUM_FILES_PER_DIR)
 		{
-			$this->gallery_config->set('current_upload_dir_size', 0, true);
+			$this->gallery_config->set('current_upload_dir_size', 0);
 			$this->gallery_config->inc('current_upload_dir', 1);
 			@mkdir($this->gallery_url->path('upload') . $this->gallery_config->get('current_upload_dir'));
 			@mkdir($this->gallery_url->path('medium') . $this->gallery_config->get('current_upload_dir'));

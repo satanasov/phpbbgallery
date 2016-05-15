@@ -112,11 +112,12 @@ class rating
 	}
 
 	/**
-	* Returns the value of album_data key.
-	* If the value is missing, it is queried from the database.
-	*
-	* @param	$key	string	The value of the album data, if true it returns the hole array.
-	*/
+	 * Returns the value of album_data key.
+	 * If the value is missing, it is queried from the database.
+	 *
+	 * @param    $key    string    The value of the album data, if true it returns the hole array.
+	 * @return mixed|null
+	 */
 	private function album_data($key)
 	{
 		if ($this->album_data == null)
@@ -289,12 +290,13 @@ class rating
 	}
 
 	/**
-	* Submit rating for an image.
-	*
-	* @param	int		$user_id
-	* @param	int		$points
-	* @param	string	$user_ip	Can be empty, function falls back to $user->ip
-	*/
+	 * Submit rating for an image.
+	 *
+	 * @param    int    $user_id
+	 * @param    int    $points
+	 * @param    string $user_ip Can be empty, function falls back to $user->ip
+	 * @return bool
+	 */
 	public function submit_rating($user_id = false, $points = false, $user_ip = false)
 	{
 		switch (self::MODE_SELECT)//@todo: phpbb_ext_gallery_core_config::get('rating_mode'))

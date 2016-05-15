@@ -293,7 +293,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 		{
 			if ($comment_id != 0)
 			{
-				$comment_ary = generate_text_for_edit($comment_data['comment'], $comment_data['comment_uid'], $comment_data['comment_bitfield'], 7);
+				$comment_ary = generate_text_for_edit($comment_data['comment'], $comment_data['comment_uid'], $comment_data['comment_bitfield']);
 				$comment_plain = '[quote="' . $comment_data['comment_username'] . '"]' . $comment_ary['text'] . '[/quote]';
 			}
 			$sig_checked = $this->user->optionget('attachsig');
@@ -512,7 +512,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 		{
 			$sig_checked = (bool) $comment_data['comment_signature'];
 
-			$comment_ary = generate_text_for_edit($comment_data['comment'], $comment_data['comment_uid'], $comment_data['comment_bitfield'], 7);
+			$comment_ary = generate_text_for_edit($comment_data['comment'], $comment_data['comment_uid'], $comment_data['comment_bitfield']);
 			$comment_plain = $comment_ary['text'];
 			$comment_username = $comment_data['comment_username'];
 		}

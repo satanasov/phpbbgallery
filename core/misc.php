@@ -118,7 +118,7 @@ class misc
 			$sql = 'SELECT album_id
 				FROM ' . $this->track_table . '
 				WHERE user_id = ' .$this->user->data['user_id'] .'
-					AND ' . $this->db->sql_in_set('album_id', (int) $album_id);
+					AND ' . $this->db->sql_in_set('album_id', $album_id);
 			$result = $this->db->sql_query($sql);
 
 			$sql_update = array();

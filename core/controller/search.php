@@ -43,19 +43,29 @@ class search
 	protected $php_ext;
 
 	/**
-	* Constructor
-	*
-	* @param \phpbb\auth\auth			$auth		Auth object
-	* @param \phpbb\config\config		$config		Config object
-	* @param \phpbb\db\driver\driver	$db			Database object
-	* @param \phpbb\request\request		$request	Request object
-	* @param \phpbb\template\template	$template	Template object
-	* @param \phpbb\user				$user		User object
-	* @param \phpbb\controller\helper	$helper		Controller helper object
-	* @param \phpbbgallery\core\album\display	$display	Albums display object
-	* @param string						$root_path	Root path
-	* @param string						$php_ext	php file extension
-	*/
+	 * Constructor
+	 *
+	 * @param \phpbb\auth\auth                                          $auth      Auth object
+	 * @param \phpbb\config\config                                      $config    Config object
+	 * @param \phpbb\db\driver\driver|\phpbb\db\driver\driver_interface $db        Database object
+	 * @param \phpbb\pagination                                         $pagination
+	 * @param \phpbb\request\request                                    $request   Request object
+	 * @param \phpbb\template\template                                  $template  Template object
+	 * @param \phpbb\user                                               $user      User object
+	 * @param \phpbb\controller\helper                                  $helper    Controller helper object
+	 * @param \phpbbgallery\core\album\display                          $display   Albums display object
+	 * @param \phpbbgallery\core\config                                 $gallery_config
+	 * @param \phpbbgallery\core\auth\auth                              $gallery_auth
+	 * @param \phpbbgallery\core\album\album                            $album
+	 * @param \phpbbgallery\core\image\image                            $image
+	 * @param \phpbbgallery\core\url                                    $url
+	 * @param \phpbbgallery\core\search                                 $gallery_search
+	 * @param                                                           $images_table
+	 * @param                                                           $albums_table
+	 * @param                                                           $comments_table
+	 * @param string                                                    $root_path Root path
+	 * @param string                                                    $php_ext   php file extension
+	 */
 	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\pagination $pagination, \phpbb\request\request $request,
 	\phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbbgallery\core\album\display $display, \phpbbgallery\core\config $gallery_config,
 	\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\album\album $album, \phpbbgallery\core\image\image $image, \phpbbgallery\core\url $url, \phpbbgallery\core\search $gallery_search,

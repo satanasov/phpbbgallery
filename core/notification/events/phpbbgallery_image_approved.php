@@ -56,20 +56,24 @@ class phpbbgallery_image_approved extends \phpbb\notification\type\base
 	{
 		return true;
 	}
+
 	/**
-	* Get the id of the rule
-	*
-	* @param array $data The data for the updated rules
-	*/
+	 * Get the id of the rule
+	 *
+	 * @param array $data The data for the updated rules
+	 * @return mixed
+	 */
 	public static function get_item_id($data)
 	{
 		return $data['last_image_id'];
 	}
+
 	/**
-	* Get the id of the parent
-	*
-	* @param array $data The data for the updated rules
-	*/
+	 * Get the id of the parent
+	 *
+	 * @param array $data The data for the updated rules
+	 * @return mixed
+	 */
 	public static function get_item_parent_id($data)
 	{
 		// No parent

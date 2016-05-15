@@ -42,8 +42,15 @@ class url
 	private $phpbb_gallery_full_path = '';
 
 	/**
-	* Constructor
-	*/
+	 * Constructor
+	 *
+	 * @param \phpbb\template\template $template
+	 * @param \phpbb\request\request   $request
+	 * @param \phpbb\config\config     $config
+	 * @param                          $phpbb_root_path
+	 * @param                          $phpEx
+	 * @param string                   $phpbb_admin_path
+	 */
 	public function __construct(\phpbb\template\template $template, \phpbb\request\request $request, \phpbb\config\config $config, $phpbb_root_path, $phpEx, $phpbb_admin_path = 'adm/')
 	{
 		$this->template = $template;

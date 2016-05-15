@@ -13,17 +13,18 @@ namespace phpbbgallery\core;
 class comment
 {
 	/**
-	* Constructor
-	*
-	* @param \phpbb\user $user
-	* @param \phpbb\db\driver\driver_interface $db
-	* @param \phpbbgallery\core\config $config
-	* @param \phpbbgallery\core\auth\auth $auth
-	* @param \phpbbgallery\core\image\image $image
-	* @param \phpbbgallery\core\album\album $album
-	* @param $comments_table
-	* @param $images_table
-	*/
+	 * Constructor
+	 *
+	 * @param \phpbb\user                       $user
+	 * @param \phpbb\db\driver\driver_interface $db
+	 * @param \phpbbgallery\core\config         $config
+	 * @param \phpbbgallery\core\auth\auth      $auth
+	 * @param block                             $block
+	 * @param                                   $comments_table
+	 * @param                                   $images_table
+	 * @internal param image\image $image
+	 * @internal param album\album $album
+	 */
 
 	public function __construct(\phpbb\user $user, \phpbb\db\driver\driver_interface $db,
 								\phpbbgallery\core\config $config, \phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\block $block,

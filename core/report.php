@@ -40,9 +40,12 @@ class report
 		$this->images_table = $images_table;
 		$this->reports_table = $reports_table;
 	}
+
 	/**
-	* Report an image
-	*/
+	 * Report an image
+	 *
+	 * @param $data
+	 */
 	public function add($data)
 	{
 		if (!isset($data['report_album_id']) || !isset($data['report_image_id']) || !isset($data['report_note']))
@@ -350,10 +353,12 @@ class report
 	}
 
 	/**
-	* Get report data by image id
-	* @param	(int)	$image_id	Image id for which we will get info about
-	* return	array	$report_data	array with all report info\
-	*/
+	 * Get report data by image id
+	 *
+	 * @param    (int)    $image_id    Image id for which we will get info about
+	 * return    array    $report_data    array with all report info\
+	 * @return array|void
+	 */
 	public function get_data_by_image($image_id)
 	{
 		if (empty($image_id))

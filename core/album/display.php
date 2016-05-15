@@ -540,7 +540,7 @@ class display
 		// Handle marking albums
 		if ($mark_read == 'albums' || $mark_read == 'all')
 		{
-			$redirect = build_url('mark', 'hash');
+			$redirect = build_url('mark');
 			$token = $this->request->variable('hash', '');
 			if (check_link_hash($token, 'global'))
 			{
@@ -572,7 +572,7 @@ class display
 			{
 				$album_ids_moderator[] = $root_data['album_id'];
 			}
-			$this->get_moderators($album_moderators, $album_ids_moderator);
+			$this->get_moderators($album_moderators);
 		}
 
 		// Used to tell whatever we have to create a dummy category or not.

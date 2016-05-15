@@ -20,24 +20,27 @@ class image
 	const IMAGE_SHOW_IMAGENAME = 4;
 	const IMAGE_SHOW_COMMENTS = 2;
 	const IMAGE_SHOW_ALBUM = 1;
+
 	/**
 	 * construct
-	 * @param \phpbb\db\driver\driver_interface $db
-	 * @param \phpbb\user $user
-	 * @param \phpbb\template\template $template
-	 * @param \phpbb\event\dispatcher_interface $phpbb_dispatcher
-	 * @param \phpbbgallery\core\auth\auth $gallery_auth
-	 * @param \phpbbgallery\core\album\album $album
-	 * @param \phpbbgallery\core\config $gallery_config
-	 * @param \phpbb\controller\helper $helper
-	 * @param \phpbbgallery\core\url $url
-	 * @param \phpbbgallery\core\log $gallery_log
+	 *
+	 * @param \phpbb\db\driver\driver_interface      $db
+	 * @param \phpbb\user                            $user
+	 * @param \phpbb\template\template               $template
+	 * @param \phpbb\event\dispatcher_interface      $phpbb_dispatcher
+	 * @param \phpbbgallery\core\auth\auth           $gallery_auth
+	 * @param \phpbbgallery\core\album\album         $album
+	 * @param \phpbbgallery\core\config              $gallery_config
+	 * @param \phpbb\controller\helper               $helper
+	 * @param \phpbbgallery\core\url                 $url
+	 * @param \phpbbgallery\core\log                 $gallery_log
 	 * @param \phpbbgallery\core\notification\helper $notification_helper
-	 * @param \phpbbgallery\core\report $report
-	 * @param \phpbbgallery\core\cache $gallery_cache
-	 * @param \phpbbgallery\core\user $gallery_user
-	 * @param \phpbbgallery\core\file\file $file
-	 * @param $table_images
+	 * @param \phpbbgallery\core\report              $report
+	 * @param \phpbbgallery\core\cache               $gallery_cache
+	 * @param \phpbbgallery\core\user                $gallery_user
+	 * @param \phpbbgallery\core\contest             $contest
+	 * @param \phpbbgallery\core\file\file           $file
+	 * @param                                        $table_images
 	 */
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\template\template $template, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\album\album $album,
 								\phpbbgallery\core\config $gallery_config, \phpbb\controller\helper $helper, \phpbbgallery\core\url $url, \phpbbgallery\core\log $gallery_log,

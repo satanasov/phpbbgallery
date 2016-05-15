@@ -232,10 +232,12 @@ class helper
 	}
 
 	/**
-	*
-	* Cast int or array to array
-	* @param (mixed) $ids
-	*/
+	 *
+	 * Cast int or array to array
+	 *
+	 * @param (mixed) $ids
+	 * @return array
+	 */
 	static public function cast_mixed_int2array($ids)
 	{
 		if (is_array($ids))

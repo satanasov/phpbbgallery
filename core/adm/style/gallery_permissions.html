@@ -45,7 +45,7 @@ function gallery_set_colours(id, quick)
 {
 	var tab = document.getElementById('tab' + id);
 
-	if (typeof(quick) != 'undefined') 
+	if (typeof(quick) != 'undefined')
 	{
 		if (tab.className.indexOf("activetab") > 0)
 		{
@@ -55,7 +55,6 @@ function gallery_set_colours(id, quick)
 		{
 			tab.className = 'permissions-preset-' + quick;
 		}
-		return;
 	}
 }
 
@@ -219,7 +218,7 @@ function gallery_init_colours(block_id, quick)
 				<!-- ELSE -->
 					<li class="permissions-preset-custom<!-- IF c_mask.v_mask.category.S_FIRST_ROW --> activetab<!-- ENDIF -->" id="tab{c_mask.S_ROW_COUNT}{c_mask.v_mask.S_ROW_COUNT}{c_mask.v_mask.category.S_ROW_COUNT}">
 				<!-- ENDIF -->
-				<a href="#" onclick="javascript: toggle_permissions_panel({c_mask.S_ROW_COUNT}, {c_mask.v_mask.S_ROW_COUNT}, {c_mask.v_mask.category.S_ROW_COUNT}); return false;"><span class="tabbg"><span class="colour"></span>{c_mask.v_mask.category.CAT_NAME}</span></a></li>
+				<a href="#" onclick="toggle_permissions_panel({c_mask.S_ROW_COUNT}, {c_mask.v_mask.S_ROW_COUNT}, {c_mask.v_mask.category.S_ROW_COUNT}); return false;"><span class="tabbg"><span class="colour"></span>{c_mask.v_mask.category.CAT_NAME}</span></a></li>
 			<!-- END category -->
 			</ul>
 		</div>

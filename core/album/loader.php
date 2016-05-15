@@ -25,12 +25,12 @@ class loader
 	protected $data;
 
 	/**
-	* Constructor
-	*
-	* @param \phpbb\db\driver\driver	$db			Database object
-	* @param \phpbb\user				$user		User object
-	* @param string					$albums_table	Gallery albums table
-	*/
+	 * Constructor
+	 *
+	 * @param \phpbb\db\driver\driver|\phpbb\db\driver\driver_interface $db           Database object
+	 * @param \phpbb\user                                               $user         User object
+	 * @param string                                                    $albums_table Gallery albums table
+	 */
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, $albums_table)
 	{
 		$this->db = $db;
@@ -71,14 +71,15 @@ class loader
 	}
 
 	/**
-	* Get the value of an album
-	*
-	* @param	int		$album_id
-	* @param	mixed	$column_name	Name of the column,
-	*						if null an array with all columns will be returned
-	* @throws	\OutOfBoundsException	if the album does not exist
-	* @throws	\OutOfRangeException	if $column_name does not exist
-	*/
+	 * Get the value of an album
+	 *
+	 * @param    int   $album_id
+	 * @param    mixed $column_name Name of the column,
+	 *                              if null an array with all columns will be returned
+	 * @return mixed
+	 * @throws    \OutOfBoundsException    if the album does not exist
+	 * @throws    \OutOfRangeException    if $column_name does not exist
+	 */
 	public function get($album_id, $column_name = null)
 	{
 		$album_id = (int) $album_id;

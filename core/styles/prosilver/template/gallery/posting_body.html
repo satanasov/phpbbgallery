@@ -85,7 +85,7 @@
 			<!-- BEGIN upload_image -->
 				<dl id="upload_field_{upload_image.S_ROW_COUNT}">
 					<dt><label for="image_file_{upload_image.S_ROW_COUNT}">{L_FILE}:</label></dt>
-					<dd><input class="inputbox autowidth" type="file" onchange="javascript: add_field();" tabindex="1{upload_image.S_ROW_COUNT}" id="image_file_{upload_image.S_ROW_COUNT}" name="image_file_{upload_image.S_ROW_COUNT}" size="52" /></dd>
+					<dd><input class="inputbox autowidth" type="file" onchange="add_field();" tabindex="1{upload_image.S_ROW_COUNT}" id="image_file_{upload_image.S_ROW_COUNT}" name="image_file_{upload_image.S_ROW_COUNT}" size="52" /></dd>
 					<!-- IF S_ALLOW_ROTATE -->
 						<dd><input type="radio" name="rotate[{upload_image.S_ROW_COUNT}]" id="rotate_{upload_image.S_ROW_COUNT}_0" value="0" checked="checked" /> <label for="rotate_{upload_image.S_ROW_COUNT}_0">{L_ROTATE_NONE}</label> &nbsp;
 							<input type="radio" name="rotate[{upload_image.S_ROW_COUNT}]" id="rotate_{upload_image.S_ROW_COUNT}_270" value="270" /> <label for="rotate_{upload_image.S_ROW_COUNT}_270">{L_ROTATE_RIGHT}</label> &nbsp;

@@ -31,8 +31,12 @@ class album
 	}
 
 	/**
-	* Get album information
-	*/
+	 * Get album information
+	 *
+	 * @param      $album_id
+	 * @param bool $extended_info
+	 * @return mixed
+	 */
 	public function get_info($album_id, $extended_info = true)
 	{
 		$sql_array = array(

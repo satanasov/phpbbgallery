@@ -143,7 +143,7 @@ class file
 			$this->db->sql_query($sql);
 		}
 
-		return $this->display(false);
+		return $this->display();
 	}
 
 	/**
@@ -178,7 +178,7 @@ class file
 
 		$this->resize($image_id, $this->config['phpbb_gallery_medium_width'], $this->config['phpbb_gallery_medium_height'], 'filesize_medium');
 
-		return $this->display(false);
+		return $this->display();
 	}
 
 	/**
@@ -209,7 +209,7 @@ class file
 
 		$this->resize($image_id, $this->config['phpbb_gallery_thumbnail_width'], $this->config['phpbb_gallery_thumbnail_height'], 'filesize_cache');
 
-		return $this->display(false);
+		return $this->display();
 	}
 
 	public function load_data($image_id)
