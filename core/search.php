@@ -331,7 +331,7 @@ class search
 		switch ($this->gallery_config->get('default_sort_key'))
 		{
 			case 't':
-				$sql_order = 'image_id';
+				$sql_order = 'image_time';
 				break;
 			case 'n':
 				$sql_order = 'image_name_clean';
