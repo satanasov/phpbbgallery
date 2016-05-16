@@ -132,7 +132,7 @@ $lang = array_merge($lang, array(
 	'FILETYPES_JPG'					=> 'jpg',
 	'FILETYPES_PNG'					=> 'png',
 	'FILETYPES_ZIP'					=> 'zip',
-	
+
 	'FULL_EDITOR'					=> 'Volledige bewerker',
 
 	'GALLERY_IMAGE'					=> 'Afbeelding',
@@ -198,7 +198,7 @@ $lang = array_merge($lang, array(
 	'NOT_RATED'						=> 'Niet beoordeeld',
 
 	'NO_WRITE_ACCESS'				=> 'De upload map ontbreekt of phpBB heeft geen schrijfrechten.<br>Neem alstublieft contact op met de forumbeheerder!',
-	
+
 	'ORDER'							=> 'Volgorde',
 	'ORIG_FILENAME'					=> 'Gebruik bestandsnaam als afbeeldingsnaam (het invoerveld heeft geen functie)',
 	'OUT_OF_RANGE_VALUE'			=> 'Waarde is buiten bereik',
@@ -362,7 +362,7 @@ $lang = array_merge($lang, array(
 		1	=>	'Afbeelding verplaatst',
 		2	=> 	'%s afbeeldingen verplaatst',
 	),
-	
+
 	'QUICK_MOD'	=> 'Selecteer moderator actie',
 	'WRONG_FILESIZE'	=> 'De afbeeldingsgrootte is groter dan toegestaan!',
 ));
