@@ -335,6 +335,8 @@ $lang = array_merge($lang, array(
 	),
 	'WRONG_FILESIZE'	=> 'Размер файла превышает лимит!',
 	'QUICK_MOD'		=> 'Выбрать действие',
+	'UNREAD_IMAGES'		=> 'Непросмотренные фото',
+	'NO_UNREAD_IMAGES'	=> 'Нет непросмотренных фото',
 
 	// Versions 1.2.1 addiotions
 	'GALLERY_DROP'		=> 'Перетащите сюда ваши фото',
