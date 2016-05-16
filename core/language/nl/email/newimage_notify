@@ -1,0 +1,11 @@
+Subject: Nieuwe afbeelding in - "{ALBUM_NAME}"
+
+Hallo {USERNAME},
+
+Je ontvangt dit bericht omdat je bent geabonneerd op het album, "{ALBUM_NAME}" op "{SITENAME}". Dit album heeft een nieuwe afbeelding sinds je laatste bezoek, "{IMAGE_NAME}". Je kan onderstaande link gebruiken om het album te bekijken.
+
+{U_ALBUM}
+
+Als je niet langer meer geabonneerd wilt zijn op dit album, klik dan op de "Uitschrijven afbeelding" link, die je kan vinden in de link hierboven.
+
+{EMAIL_SIG}
