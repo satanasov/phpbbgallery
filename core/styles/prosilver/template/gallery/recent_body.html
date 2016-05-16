@@ -1,7 +1,7 @@
 <!-- INCLUDE gallery/imageblock_body.html -->
 
 <!-- IF .commentrow -->
-	<h4><!-- IF not COLLAPSE_COMMENTS --><!-- IF U_G_SEARCH_COMMENTED --><a href="{U_G_SEARCH_COMMENTED}">{L_RECENT_COMMENTS}</a><!-- ELSE -->{L_RECENT_COMMENTS}<!-- ENDIF --><!-- ELSE --><a href="javascript: dE('recent-comments');">{L_RECENT_COMMENTS}</a><!-- ENDIF --></h4>
+	<h4><!-- IF not COLLAPSE_COMMENTS --><!-- IF U_G_SEARCH_COMMENTED --><a href="{U_G_SEARCH_COMMENTED}">{L_RECENT_COMMENTS}</a><!-- ELSE -->{L_RECENT_COMMENTS}<!-- ENDIF --><!-- ELSE -->{L_RECENT_COMMENTS}<!-- ENDIF --></h4>
 	<div id="recent-comments"<!-- IF COLLAPSE_COMMENTS --> style="display: none;"<!-- ENDIF -->>
 	<!-- BEGIN commentrow -->
 	<a id="comment_{commentrow.COMMENT_ID}"></a>
@@ -38,17 +38,17 @@
 
 <!-- IF (.recent or .random or .contest or .commentrow) and not S_IN_GALLERY -->
 <!--
-	I request you retain the full copyright notice below including the link to www.flying-bits.org.
+	I request you retain the full copyright notice below including the link to www.anavaro.com.
 	This not only gives respect to the large amount of time given freely by the developer
 	but also helps build interest, traffic and use of phpBB Gallery. If you (honestly) cannot retain
 	the full copyright I ask you at least leave in place the "Powered by phpBB Gallery" line, with
-	"phpBB Gallery" linked to www.flying-bits.org. If you refuse to include even this then support on my
+	"phpBB Gallery" linked to www.anavaro.com. If you refuse to include even this then support on my
 	forums may be affected.
 
-	phpBB Gallery, nickvergessen : 2009
+	phpBB Gallery, Lucifer : 2016
 //-->
 <div class="copyright">
-	Powered by <a href="http://www.flying-bits.org/">phpBB Gallery</a> &copy; 2007, 2009 <a href="http://www.flying-bits.org/">nickvergessen</a>
+	Powered by <a href="http://www.flying-bits.org/">phpBB Gallery</a> &copy; 2016 <a href="http://www.anavaro.com/">Lucifer</a>
 	<!-- IF GALLERY_TRANSLATION_INFO --><br />{GALLERY_TRANSLATION_INFO}<!-- ENDIF -->
 </div>
 <br />
