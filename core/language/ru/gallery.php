@@ -300,6 +300,7 @@ $lang = array_merge($lang, array(
 	),
 	'USERNAME_BEGINS_WITH'			=> 'Имя пользователя начинается с',
 	'USERS_PERSONAL_ALBUMS'			=> 'Личные альбомы',
+	'VISIT_GALLERY'					=> 'Личный альбом',
 	'VIEW_ALBUM'					=> 'Просмотр альбома',
 	'VIEW_ALBUM_IMAGES'				=> array(
 		1	=> '1 фото',
