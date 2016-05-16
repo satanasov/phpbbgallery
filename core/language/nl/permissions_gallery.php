@@ -26,6 +26,6 @@ if (empty($lang) || !is_array($lang))
 
 // Adding the permissions
 $lang = array_merge($lang, array(
-	'acl_a_gallery_manage'		=> array('lang' => 'Kan de phpBB Galerij instellingen beheren',	'cat' => 'gallery'),
-    'acl_a_gallery_albums'		=> array('lang' => 'Kan albums en permissies toevoegen/wijzigen', 'cat' => 'gallery'),
+	'ACL_A_GALLERY_MANAGE'		=> 'Kan de phpBB Galerij instellingen beheren',
+	'ACL_A_GALLERY_ALBUMS'		=> 'Kan albums en permissies toevoegen/wijzigen',
 ));
