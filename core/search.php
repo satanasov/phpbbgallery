@@ -390,6 +390,7 @@ class search
 		$count = $row['count'];
 
 		$sql_ary['SELECT'] = 'image_id';
+		$sql_ary['ORDER_BY'] = $sql_order;
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 		$result = $this->db->sql_query_limit($sql, $sql_limit, $start);
 		$id_ary = array();
