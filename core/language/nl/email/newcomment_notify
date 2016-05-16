@@ -1,0 +1,11 @@
+Subject: Nieuwe reactie op afbeelding - "{IMAGE_NAME}"
+
+Hallo {USERNAME},
+
+Je ontvangt dit bericht omdat je op een afbeelding bent geabonneerd, "{IMAGE_NAME}" op "{SITENAME}". Deze afbeelding heeft een nieuwe reactie sinds je laatste bezoek. Je kan onderstaande link gebruiken om de reactie te lezen.
+
+{U_IMAGE}
+
+Als je niet langer meer geabonneerd wilt zijn op deze afbeelding en/of dit album, klik dan op de "Uitschrijven afbeelding" link, die je kan vinden in de link hierboven.
+
+{EMAIL_SIG}
