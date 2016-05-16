@@ -120,7 +120,7 @@ $lang = array_merge($lang, array(
 		0			=> 'Geen afgekeurde afbeeldingen.',
 		1			=> 'In totaal is er <span style="font-weight: bold;">1</span> afbeelding afgekleurd.',
 		2			=> 'In totaal zijn er <span style="font-weight: bold;">%s</span> afbeeldingen afgekeurd.',
-	),	
+	),
 	'WAITING_LOCKED_IMAGE'			=> array(
 		0			=> 'Geen gesloten afbeeldingen.',
 		1			=> 'In totaal is er <span style="font-weight: bold;">1</span> afbeelding gesloten.',
