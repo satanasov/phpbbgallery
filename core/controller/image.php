@@ -618,6 +618,7 @@ class image
 					'POSTER_WARNINGS'	=> $user_deleted ? '' : $user_cache[$user_id]['warnings'],
 					'POSTER_AGE'		=> $user_deleted ? '' : $user_cache[$user_id]['age'],
 
+					'MINI_POST_IMG'		=> $this->user->img('icon_post_target', 'POST'),
 					'ICQ_STATUS_IMG'	=> isset($user_cache[$user_id]['icq_status_img']) ? $user_cache[$user_id]['icq_status_img'] : '',
 					'ONLINE_IMG'		=> ($user_id == ANONYMOUS || !$this->config['load_onlinetrack']) ? '' : ($user_deleted ? '' : (($user_cache[$user_id]['online']) ? $this->user->img('icon_user_online', 'ONLINE') : $this->user->img('icon_user_offline', 'OFFLINE'))),
 					'S_ONLINE'			=> ($user_id == ANONYMOUS || !$this->config['load_onlinetrack']) ? false : ($user_deleted ? '' : (($user_cache[$user_id]['online']) ? true : false)),
