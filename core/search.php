@@ -499,14 +499,20 @@ class search
 			$this->images_table	=> 'i'
 		);
 		$sql_array['WHERE'] = $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('i_view'), false, true) . ' and image_rate_avg <> 0';
-		$sql_array['ORDER_BY'] = 'image_rate_avg DESC, image_rates DESC';
-		$sql_array['SELECT'] = 'COUNT(i.image_id) as count';
+		$sql_array['SELECT'] = 'COUNT(image_id) as count';
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 		$count = $row['count'];
-		$sql_array['SELECT'] = '*';
+		$sql_array['SELECT'] = '* , a.album_name, a.album_status, a.album_user_id, a.album_id';
+		$sql_array['LEFT_JOIN']	= array(
+			array(
+				'FROM'		=> array($this->albums_table => 'a'),
+				'ON'		=> 'a.album_id = i.image_album_id',
+			)
+		);
+		$sql_array['ORDER_BY'] = 'image_rate_avg DESC, image_rates DESC';
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query_limit($sql, $limit, $start);
 		$rowset = array();
