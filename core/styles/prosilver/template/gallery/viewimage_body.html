@@ -245,10 +245,10 @@
 	<!-- ENDIF -->
 <br><br>
 	<!-- BEGIN commentrow -->
-	<div class="post <!-- IF commentrow.S_ROW_COUNT is odd -->bg1<!-- ELSE -->bg2<!-- ENDIF --><!-- IF commentrow.S_ONLINE --> online<!-- ENDIF -->">
+	<div class="post has-profile <!-- IF commentrow.S_ROW_COUNT is odd -->bg1<!-- ELSE -->bg2<!-- ENDIF --><!-- IF commentrow.S_ONLINE --> online<!-- ENDIF -->">
 	<a id="comment_{commentrow.COMMENT_ID}"></a>
 		<div class="inner"><span class="corners-top"><span></span></span>
-			<div class="postbody">
+			<div class="postbody" id="post_content{commentrow.COMMENT_ID}">
 				<!-- IF commentrow.U_DELETE or commentrow.U_EDIT or commentrow.U_INFO or commentrow.U_QUOTE -->
 					<ul class="post-buttons">
 						<!-- IF commentrow.U_EDIT --><li><a href="{commentrow.U_EDIT}" title="{L_EDIT_COMMENT}" class="button icon-button edit-icon"><span>{L_EDIT_COMMENT}</span></a></li><!-- ENDIF -->
@@ -257,7 +257,7 @@
 						<!-- IF commentrow.U_QUOTE --><li><a href="{commentrow.U_QUOTE}" title="{L_QUOTE_COMMENT}" class="button icon-button quote-icon"><span>{L_QUOTE_COMMENT}</span></a></li><!-- ENDIF -->
 					</ul>
 				<!-- ENDIF -->
-				<p class="author"><a href="{commentrow.U_COMMENT}">{MINI_POST_IMG}</a>&nbsp;{L_POST_BY_AUTHOR} <strong>{commentrow.POST_AUTHOR_FULL}</strong> &raquo; {commentrow.TIME} </p>
+				<p class="author"><a href="{commentrow.U_COMMENT}">{commentrow.MINI_POST_IMG}</a>{L_POST_BY_AUTHOR} <strong>{commentrow.POST_AUTHOR_FULL}</strong> &raquo; {commentrow.TIME} </p>
 				<div class="content">{commentrow.TEXT}</div>
 				<!-- IF commentrow.EDIT_INFO --><div class="notice">{commentrow.EDIT_INFO}</div><!-- ENDIF -->
 				<!-- IF commentrow.SIGNATURE --><div id="sig{commentrow.COMMENT_ID}" class="signature">{commentrow.SIGNATURE}</div><!-- ENDIF -->
