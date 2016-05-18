@@ -514,7 +514,7 @@ class main_module
 				'album_type'					=> \phpbbgallery\core\block::TYPE_UPLOAD,
 				'album_desc_options'			=> 7,
 				'album_desc'					=> utf8_normalize_nfc($request->variable('album_desc', '', true)),
-				'album_auth_access'				=> ($phpbb_ext_gallery->auth->acl_check('a_restrict', $phpbb_ext_gallery_core_auth::OWN_ALBUM)) ? $request->variable('album_auth_access', 0) : 0,
+				'album_auth_access'				=> ($phpbb_ext_gallery_core_auth->acl_check('a_restrict', $phpbb_ext_gallery_core_auth::OWN_ALBUM)) ? $request->variable('album_auth_access', 0) : 0,
 			);
 
 			generate_text_for_storage($album_data['album_desc'], $album_data['album_desc_uid'], $album_data['album_desc_bitfield'], $album_data['album_desc_options'], $request->variable('desc_parse_bbcode', false), $request->variable('desc_parse_urls', false), $request->variable('desc_parse_smilies', false));
@@ -660,7 +660,7 @@ class main_module
 			$cache->destroy('_albums');
 
 			trigger_error($user->lang['EDITED_SUBALBUM'] . '<br /><br />
-				<a href="' . (($redirect) ? $phpbb_ext_gallery->url->append_sid('album', "album_id=$album_id") : $phpbb_ext_gallery->url->append_sid('phpbb', 'ucp', 'i=-phpbbgallery-core-ucp-main_module&amp;mode=manage_albums&amp;action=manage&amp;parent_id=' . (($album_data['parent_id']) ? $album_data['parent_id'] : $phpbb_ext_gallery->user->get_data('personal_album_id')))) . '">' . $user->lang['BACK_TO_PREV'] . '</a>');
+				<a href="' . (($redirect) ? $phpbb_gallery_url->append_sid('album', "album_id=$album_id") : $phpbb_gallery_url->append_sid('phpbb', 'ucp', 'i=-phpbbgallery-core-ucp-main_module&amp;mode=manage_albums&amp;action=manage&amp;parent_id=' . (($album_data['parent_id']) ? $album_data['parent_id'] : $phpbb_ext_gallery_user->get_data('personal_album_id')))) . '">' . $user->lang['BACK_TO_PREV'] . '</a>');
 		}
 	}
 
