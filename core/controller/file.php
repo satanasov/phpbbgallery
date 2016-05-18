@@ -400,8 +400,14 @@ class file
 			}
 		}
 
+		// Watermark here
+		if ($this->tool->image)
+		{
+			$image_function = 'image' . $this->tool->image_type;
+			$image_function($this->tool->image, NULL, $this->config['phpbb_gallery_jpg_quality']);
+		}
+
 		return $response;
-		//return $response;
 
 	}
 
