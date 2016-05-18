@@ -126,21 +126,21 @@ class search
 		*/
 		$limit_days = array(0 => $this->user->lang['ALL_IMAGES'], 1 => $this->user->lang['1_DAY'], 7 => $this->user->lang['7_DAYS'], 14 => $this->user->lang['2_WEEKS'], 30 => $this->user->lang['1_MONTH'], 90 => $this->user->lang['3_MONTHS'], 180 => $this->user->lang['6_MONTHS'], 365 => $this->user->lang['1_YEAR']);
 		$sort_by_text = array('t' => $this->user->lang['TIME'], 'n' => $this->user->lang['IMAGE_NAME'], 'u' => $this->user->lang['SORT_USERNAME'], 'vc' => $this->user->lang['GALLERY_VIEWS']);
-		$sort_by_sql = array('t' => 'image_time', 'n' => 'image_name_clean', 'u' => 'image_username_clean', 'vc' => 'image_view_count');
+		$sort_by_sql = array('t' => 'i.image_time', 'n' => 'i.image_name_clean', 'u' => 'i.image_username_clean', 'vc' => 'i.image_view_count');
 
 		if ($this->gallery_config->get('allow_rates'))
 		{
 			$sort_by_text['ra'] = $this->user->lang['RATING'];
-			$sort_by_sql['ra'] = 'image_rate_points';//@todo: (phpbb_gallery_contest::$mode == phpbb_gallery_contest::MODE_SUM) ? 'image_rate_points' : 'image_rate_avg';
+			$sort_by_sql['ra'] = 'i.image_rate_points';//@todo: (phpbb_gallery_contest::$mode == phpbb_gallery_contest::MODE_SUM) ? 'image_rate_points' : 'image_rate_avg';
 			$sort_by_text['r'] = $this->user->lang['RATES_COUNT'];
-			$sort_by_sql['r'] = 'image_rates';
+			$sort_by_sql['r'] = 'i.image_rates';
 		}
 		if ($this->gallery_config->get('allow_comments'))
 		{
 			$sort_by_text['c'] = $this->user->lang['COMMENTS'];
-			$sort_by_sql['c'] = 'image_comments';
+			$sort_by_sql['c'] = 'i.image_comments';
 			$sort_by_text['lc'] = $this->user->lang['NEW_COMMENT'];
-			$sort_by_sql['lc'] = 'image_last_comment';
+			$sort_by_sql['lc'] = 'i.image_last_comment';
 		}
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 
@@ -153,8 +153,6 @@ class search
 		$sql_array['FROM'] = array(
 			$this->images_table => 'i',
 		);
-		$sql_array['ORDER_BY'] = $sql_order;
-		$sql_array['GROUP_BY'] = $sort_by_sql[$sort_key];
 		if ($keywords || $username || $user_id || $search_id || $submit)
 		{
 			// Let's resolve username to user id ... or array of them.
@@ -247,8 +245,10 @@ class search
 			{
 				trigger_error('NO_SEARCH_RESULTS');
 			}
-			$sql_array['SELECT'] = '*';
-			$sql_array['GROUP_BY']	= 'image_id';
+			$sql_array['SELECT'] = 'i.*';
+			$sql_array['ORDER_BY'] = $sql_order;
+			$sql_array['GROUP_BY'] = $sort_by_sql[$sort_key];
+//			$sql_array['GROUP_BY']	= 'i.image_id';
 			$sql = $this->db->sql_build_query('SELECT', $sql_array);
 			$result = $this->db->sql_query_limit($sql, $this->gallery_config->get('items_per_page'), $start);
 			while ($row = $this->db->sql_fetchrow($result))
@@ -367,7 +367,7 @@ class search
 				));
 			}
 			$this->template->assign_vars(array(
-				'SEARCH_MATCHES'	=> $this->user->lang('SEARCH'),
+				'SEARCH_MATCHES'	=> $this->user->lang('FOUND_SEARCH_MATCHES', $search_count),
 			));
 			$url = '';
 			if ($keywords != '')
