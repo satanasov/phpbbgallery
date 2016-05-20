@@ -66,7 +66,6 @@ function toggleElement(oElement)
 	<a id="{commentrow.COMMENT_ID}"></a>
 	<div class="post <!-- IF commentrow.S_ROW_COUNT is odd -->bg1<!-- ELSE -->bg2<!-- ENDIF -->">
 		<div class="inner">
-			<span class="corners-top"><span></span></span>
 			<div class="postbody">
 					<ul class="post-buttons">
 						<!-- IF commentrow.U_EDIT --><li><a href="{commentrow.U_EDIT}" title="{L_EDIT_COMMENT}" class="button icon-button edit-icon"><span>{L_EDIT_COMMENT}</span></a></li><!-- ENDIF -->
@@ -84,7 +83,6 @@ function toggleElement(oElement)
 				<dd>{L_UPLOADED_BY_USER} {commentrow.IMAGE_AUTHOR}</dd>
 				<dd>{commentrow.IMAGE_TIME}</dd>
 			</dl>
-			<span class="corners-bottom"><span></span></span>
 		</div>
 	</div>
 	<!-- END commentrow -->
