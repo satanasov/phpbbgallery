@@ -384,49 +384,62 @@ class file
 			return;
 			//$this->errors[] = array('WATERMARK_IMAGE_DIMENSION');
 		}
+		$get_dot = strrpos($this->image_source, '.');
+		$get_wm_name = substr_replace($this->image_source, '_wm', $get_dot, 0);
+		if (file_exists($get_wm_name))
+		{
+			$this->image_source = $get_wm_name;
+			$this->read_image();
+		}
+		else
+		{
+			$this->watermark_size = getimagesize($this->watermark_source);
+			switch ($this->watermark_size['mime'])
+			{
+				case 'image/png':
+					$imagecreate = 'imagecreatefrompng';
+					break;
+				case 'image/gif':
+					$imagecreate = 'imagecreatefromgif';
+					break;
+				default:
+					$imagecreate = 'imagecreatefromjpeg';
+					break;
+			}
 
-		$this->watermark_size = getimagesize($this->watermark_source);
-		switch ($this->watermark_size['mime'])
-		{
-			case 'image/png':
-				$imagecreate = 'imagecreatefrompng';
-			break;
-			case 'image/gif':
-				$imagecreate = 'imagecreatefromgif';
-			break;
-			default:
-				$imagecreate = 'imagecreatefromjpeg';
-			break;
+			// Get the watermark as resource.
+			if (($this->watermark = $imagecreate($this->watermark_source)) === false)
+			{
+				$this->errors[] = array('WATERMARK_IMAGE_IMAGECREATE');
+			}
+
+			$phpbb_gallery_constants = new \phpbbgallery\core\constants();
+			// Where do we display the watermark? up-left, down-right, ...?
+			$dst_x = (($this->image_size['width'] * 0.5) - ($this->watermark_size[0] * 0.5));
+			$dst_y = ($this->image_size['height'] - $this->watermark_size[1] - 5);
+			if ($watermark_position & $phpbb_gallery_constants::WATERMARK_LEFT)
+			{
+				$dst_x = 5;
+			}
+			else if ($watermark_position & $phpbb_gallery_constants::WATERMARK_RIGHT)
+			{
+				$dst_x = ($this->image_size['width'] - $this->watermark_size[0] - 5);
+			}
+			if ($watermark_position & $phpbb_gallery_constants::WATERMARK_TOP)
+			{
+				$dst_y = 5;
+			}
+			else if ($watermark_position & $phpbb_gallery_constants::WATERMARK_MIDDLE)
+			{
+				$dst_y = (($this->image_size['height'] * 0.5) - ($this->watermark_size[1] * 0.5));
+			}
+			imagecopy($this->image, $this->watermark, $dst_x, $dst_y, 0, 0, $this->watermark_size[0], $this->watermark_size[1]);
+			imagedestroy($this->watermark);
+			$this->write_image($get_wm_name);
+			$this->image_source = $get_wm_name;
+			$this->read_image();
 		}
 
-		// Get the watermark as resource.
-		if (($this->watermark = $imagecreate($this->watermark_source)) === false)
-		{
-			$this->errors[] = array('WATERMARK_IMAGE_IMAGECREATE');
-		}
-
-		$phpbb_gallery_constants = new \phpbbgallery\core\constants();
-		// Where do we display the watermark? up-left, down-right, ...?
-		$dst_x = (($this->image_size['width'] * 0.5) - ($this->watermark_size[0] * 0.5));
-		$dst_y = ($this->image_size['height'] - $this->watermark_size[1] - 5);
-		if ($watermark_position & $phpbb_gallery_constants::WATERMARK_LEFT)
-		{
-			$dst_x = 5;
-		}
-		else if ($watermark_position & $phpbb_gallery_constants::WATERMARK_RIGHT)
-		{
-			$dst_x = ($this->image_size['width'] - $this->watermark_size[0] - 5);
-		}
-		if ($watermark_position & $phpbb_gallery_constants::WATERMARK_TOP)
-		{
-			$dst_y = 5;
-		}
-		else if ($watermark_position & $phpbb_gallery_constants::WATERMARK_MIDDLE)
-		{
-			$dst_y = (($this->image_size['height'] * 0.5) - ($this->watermark_size[1] * 0.5));
-		}
-		imagecopy($this->image, $this->watermark, $dst_x, $dst_y, 0, 0, $this->watermark_size[0], $this->watermark_size[1]);
-		imagedestroy($this->watermark);
 
 		$this->watermarked = true;
 	}
@@ -444,7 +457,8 @@ class file
 		{
 			$files = array(1 => $files);
 		}
-
+		// Let's delete watermarked
+		$this->delete_wm($files);
 		foreach ($files as $image_id => $file)
 		{
 			foreach ($locations as $location)
@@ -453,18 +467,38 @@ class file
 			}
 		}
 	}
+
 	public function delete_cache($files, $locations = array('thumbnail', 'medium'))
 	{
 		if (!is_array($files))
 		{
 			$files = array(1 => $files);
 		}
-
+		$this->delete_wm($files);
 		foreach ($files as $image_id => $file)
 		{
 			foreach ($locations as $location)
 			{
 				unlink($this->url->path($location) . $file);
+			}
+		}
+	}
+	public function delete_wm($files)
+	{
+		var_dump($files);
+		die();
+		$locations = array('upload', 'medium');
+		if (!is_array($files))
+		{
+			$files = array(1 => $files);
+		}
+		foreach ($files as $image_id => $file)
+		{
+			$get_dot = strrpos($file, '.');
+			$get_wm_name = substr_replace($file, '_wm', $get_dot, 0);
+			foreach ($locations as $location)
+			{
+				@unlink($this->url->path($location) . $get_wm_name);
 			}
 		}
 	}

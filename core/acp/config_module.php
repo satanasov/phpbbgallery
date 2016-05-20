@@ -121,6 +121,67 @@ class config_module
 				if ((strpos($config_name, 'watermark') !== false) && ($phpbb_gallery_configs->get($config_name) != $config_value))
 				{
 					$phpbb_gallery_configs->set('watermark_changed', time());
+					// OK .. let's try and destroy wotermarked images
+					$cache_dir = @opendir($phpbb_gallery_url->path('thumbnail'));
+					while ($cache_file = @readdir($cache_dir))
+					{
+						if (preg_match('/(\_wm.gif$|\_wm.png$|\_wm.jpg|\_wm.jpeg)$/is', $cache_file))
+						{
+							@unlink($phpbb_gallery_url->path('thumbnail') . $cache_file);
+						}
+					}
+					@closedir($cache_dir);
+
+					$medium_dir = @opendir($phpbb_gallery_url->path('medium'));
+					while ($medium_file = @readdir($medium_dir))
+					{
+						if (preg_match('/(\_wm.gif$|\_wm.png$|\_wm.jpg|\_wm.jpeg)$/is', $medium_file))
+						{
+							@unlink($phpbb_gallery_url->path('medium') . $medium_file);
+						}
+					}
+					@closedir($medium_dir);
+					$upload_dir = @opendir($phpbb_gallery_url->path('upload'));
+					while ($upload_file = @readdir($upload_dir))
+					{
+						if (preg_match('/(\_wm.gif$|\_wm.png$|\_wm.jpg|\_wm.jpeg)$/is', $upload_file))
+						{
+							@unlink($phpbb_gallery_url->path('upload') . $upload_file);
+						}
+					}
+					@closedir($upload_dir);
+
+					for ($i = 1; $i <= $phpbb_gallery_configs->get('current_upload_dir'); $i++)
+					{
+						$cache_dir = @opendir($phpbb_gallery_url->path('thumbnail') . $i . '/');
+						while ($cache_file = @readdir($cache_dir))
+						{
+							if (preg_match('/(\_wm.gif$|\_wm.png$|\_wm.jpg|\_wm.jpeg)$/is', $cache_file))
+							{
+								@unlink($phpbb_gallery_url->path('thumbnail') . $i . '/' . $cache_file);
+							}
+						}
+						@closedir($cache_dir);
+
+						$medium_dir = @opendir($phpbb_gallery_url->path('medium') . $i . '/');
+						while ($medium_file = @readdir($medium_dir))
+						{
+							if (preg_match('/(\_wm.gif$|\_wm.png$|\_wm.jpg|\_wm.jpeg)$/is', $medium_file))
+							{
+								@unlink($phpbb_gallery_url->path('medium') . $i . '/' . $medium_file);
+							}
+						}
+						@closedir($medium_dir);
+						$upload_dir = @opendir($phpbb_gallery_url->path('upload') . $i . '/');
+						while ($upload_file = @readdir($upload_dir))
+						{
+							if (preg_match('/(\_wm.gif$|\_wm.png$|\_wm.jpg|\_wm.jpeg)$/is', $upload_file))
+							{
+								@unlink($phpbb_gallery_url->path('upload') . $upload_file);
+							}
+						}
+						@closedir($upload_dir);
+					}
 				}
 				$phpbb_gallery_configs->set($config_name, $config_value);
 			}

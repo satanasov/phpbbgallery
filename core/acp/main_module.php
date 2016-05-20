@@ -458,6 +458,15 @@ class main_module
 						}
 					}
 					@closedir($medium_dir);
+					$upload_dir = @opendir($gallery_url->path('upload'));
+					while ($upload_file = @readdir($upload_dir))
+					{
+						if (preg_match('/(\_wm.gif$|\_wm.png$|\_wm.jpg|\_wm.jpeg)$/is', $upload_file))
+						{
+							@unlink($gallery_url->path('upload') . $upload_file);
+						}
+					}
+					@closedir($upload_dir);
 
 					for ($i = 1; $i <= $phpbb_ext_gallery_config->get('current_upload_dir'); $i++)
 					{
@@ -480,6 +489,15 @@ class main_module
 							}
 						}
 						@closedir($medium_dir);
+						$upload_dir = @opendir($gallery_url->path('upload') . $i . '/');
+						while ($upload_file = @readdir($upload_dir))
+						{
+							if (preg_match('/(\_wm.gif$|\_wm.png$|\_wm.jpg|\_wm.jpeg)$/is', $upload_file))
+							{
+								@unlink($gallery_url->path('upload') . $upload_file);
+							}
+						}
+						@closedir($upload_dir);
 					}
 
 					$sql_ary = array(
