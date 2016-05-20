@@ -439,8 +439,6 @@ class file
 			$this->image_source = $get_wm_name;
 			$this->read_image();
 		}
-
-
 		$this->watermarked = true;
 	}
 
