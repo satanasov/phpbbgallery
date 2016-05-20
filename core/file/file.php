@@ -485,8 +485,6 @@ class file
 	}
 	public function delete_wm($files)
 	{
-		var_dump($files);
-		die();
 		$locations = array('upload', 'medium');
 		if (!is_array($files))
 		{
