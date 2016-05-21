@@ -188,7 +188,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 	}
-/*	public function test_anon_comment()
+	public function test_anon_comment()
 	{
 		$this->login();
 		$this->admin_login();
@@ -479,7 +479,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 
-	}*/
+	}
 	/**
 	* @dataProvider yes_no_data
 	*/
