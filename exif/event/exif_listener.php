@@ -219,7 +219,7 @@ class exif_listener implements EventSubscriberInterface
 		$this->user->add_lang_ext('phpbbgallery/exif', 'exif');
 
 		// To do (test contests)
-		if ($this->gallery_config->get('disp_exifdata') && ($event['image_data']['image_has_exif'] != \phpbbgallery\exif\exif::UNAVAILABLE) && (substr($event['image_data']['image_filename'], -4) == '.jpg') && function_exists('exif_read_data') && ($this->gallery_auth->acl_check('m_status', $event['image_data']['image_album_id'], $event['album_data']['album_user_id']) /*|| ($event['image_data']['image_contest'] != phpbb_ext_gallery_core_image::IN_CONTEST)*/))
+		if ($this->gallery_config->get('disp_exifdata') && ($event['image_data']['image_has_exif'] != \phpbbgallery\exif\exif::UNAVAILABLE) && (substr($event['image_data']['image_filename'], -4) == '.jpg') && function_exists('exif_read_data') /*&& ($this->gallery_auth->acl_check('m_status', $event['image_data']['image_album_id'], $event['album_data']['album_user_id']) || ($event['image_data']['image_contest'] != phpbb_ext_gallery_core_image::IN_CONTEST))*/)
 		{
 			$exif = new \phpbbgallery\exif\exif($this->gallery_url->path('upload') . $event['image_data']['image_filename'], $event['image_id']);
 			$exif->interpret($event['image_data']['image_has_exif'], $event['image_data']['image_exif_data']);
