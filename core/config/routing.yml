@@ -164,9 +164,6 @@ phpbbgallery_core_moderate_image_lock:
 ########################
 #### Search routes #####
 ########################
-phpbbgallery_core_search:
-    pattern: /gallery/search
-    defaults: { _controller: phpbbgallery.core.controller.search:base }
 phpbbgallery_core_search_random:
     pattern: /gallery/search/random
     defaults: { _controller: phpbbgallery.core.controller.search:random }
@@ -194,3 +191,9 @@ phpbbgallery_core_search_toprated:
 phpbbgallery_core_search_toprated_page:
     pattern: /gallery/search/toprated/{page}
     defaults: { _controller: phpbbgallery.core.controller.search:toprated }
+phpbbgallery_core_search:
+    pattern: /gallery/search
+    defaults: { _controller: phpbbgallery.core.controller.search:base, page: 1 }
+phpbbgallery_core_search_page:
+    pattern: /gallery/search/{page}
+    defaults: { _controller: phpbbgallery.core.controller.search:base }
