@@ -166,6 +166,9 @@ phpbbgallery_core_moderate_image_lock:
 ########################
 phpbbgallery_core_search:
     pattern: /gallery/search
+    defaults: { _controller: phpbbgallery.core.controller.search:base, page: 1 }
+phpbbgallery_core_search_page:
+    pattern: /gallery/search/{page}
     defaults: { _controller: phpbbgallery.core.controller.search:base }
 phpbbgallery_core_search_random:
     pattern: /gallery/search/random
