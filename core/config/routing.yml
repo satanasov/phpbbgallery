@@ -37,8 +37,9 @@ phpbbgallery_core_image:
     pattern: /gallery/image/{image_id}
     defaults: { _controller: phpbbgallery.core.controller.image:base, page: 1 }
 phpbbgallery_core_image_page:
-    pattern: /gallery/image/{image_id}/page/{page}
+    pattern: /gallery/image/{image_id}/{page}
     defaults: { _controller: phpbbgallery.core.controller.image:base }
+    requirements: { page: \d+ }
 phpbbgallery_core_image_delete:
     pattern: /gallery/image/{image_id}/delete
     defaults: { _controller: phpbbgallery.core.controller.image:delete }
