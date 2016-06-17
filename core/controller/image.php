@@ -592,7 +592,7 @@ class image
 				}
 
 				$this->template->assign_block_vars('commentrow', array(
-					'U_COMMENT'		=> $this->helper->route('phpbbgallery_core_image', array('image_id'	=> $image_id)),
+					'U_COMMENT'		=> $this->helper->route('phpbbgallery_core_image', array('image_id'	=> $image_id)) . '#comment_' . $row['comment_id'],
 					'COMMENT_ID'	=> $row['comment_id'],
 					'TIME'			=> $this->user->format_date($row['comment_time']),
 					'TEXT'			=> generate_text_for_display($row['comment'], $row['comment_uid'], $row['comment_bitfield'], 7),
