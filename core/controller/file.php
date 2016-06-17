@@ -385,7 +385,7 @@ class file
 		}
 		if (empty($this->user->browser) || (!$this->tool->is_ie_greater7($this->user->browser) && (strpos(strtolower($this->user->browser), 'msie') !== false)))
 		{
-			$response->headers->set('Content-Disposition', 'attachment; ' . $this->tool->header_filename(htmlspecialchars_decode($this->tool->image_name)));
+			$response->headers->set('Content-Disposition', 'attachment; ' . $this->tool->header_filename(htmlspecialchars_decode($this->tool->image_name) . '.' . ($this->tool->image_type == 'jpeg' ? 'jpg' : $this->tool->image_type)));
 			if (empty($this->user->browser) || (strpos(strtolower($this->user->browser), 'msie 6.0') !== false))
 			{
 				$response->headers->set('expires', '-1');
@@ -393,7 +393,7 @@ class file
 		}
 		else
 		{
-			$response->headers->set('Content-Disposition', 'inline; ' . $this->tool->header_filename(htmlspecialchars_decode($this->tool->image_name)));
+			$response->headers->set('Content-Disposition', 'inline; ' . $this->tool->header_filename(htmlspecialchars_decode($this->tool->image_name)) . '.' . ($this->tool->image_type == 'jpeg' ? 'jpg' : $this->tool->image_type));
 			if ($this->tool->is_ie_greater7($this->user->browser))
 			{
 				$response->headers->set('X-Download-Options', 'noopen');
