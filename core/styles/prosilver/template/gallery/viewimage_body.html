@@ -8,7 +8,7 @@
 			<!-- IF S_IMAGE_REPORTED --><br /><br /><a href="{U_IMAGE_REPORTED}"><span class="error">{L_IMAGE_REPORTED}</span></a><!-- ENDIF -->
 			<br /><span class="image-description">{IMAGE_DESC}</span>
 		</div>
-	<span class="corners-bottom"><span></span></span></div>
+	</div>
 </div>
 <!-- IF UC_PREV_IMAGE or UC_NEXT_IMAGE -->
 <div class="post bg2">
@@ -161,7 +161,7 @@
 
 			<!-- EVENT gallery_viewimage_details -->
 		</div>
-	<span class="corners-bottom"><span></span></span></div>
+	</div>
 	<!-- IF S_QUICK_MOD -->
 	<form method="post" action="{S_MOD_ACTION}">
 	<fieldset class="quickmod" style="float: none; width: 100%;">
@@ -226,7 +226,7 @@
 	<div id="comments" class="panel">
 		<div class="inner">
 			<strong><!-- IF S_COMMENTS_DISABLED -->{L_IMAGE_COMMENTS_DISABLED}<!-- ELSE -->{L_NO_COMMENTS}<!-- ENDIF --></strong>
-		<span class="corners-bottom"><span></span></span></div>
+		</div>
 	</div>
 <!-- ENDIF -->
 <!-- IF .commentrow -->
@@ -245,7 +245,7 @@
 <br><br>
 	<!-- BEGIN commentrow -->
 	<div class="post has-profile <!-- IF commentrow.S_ROW_COUNT is odd -->bg1<!-- ELSE -->bg2<!-- ENDIF --><!-- IF commentrow.S_ONLINE --> online<!-- ENDIF -->">
-	<a id="comment_{commentrow.COMMENT_ID}"></a>
+	<a id="comment_{commentrow.COMMENT_ID}" class="anchor"></a>
 		<div class="inner">
 			<dl class="postprofile" id="profile{commentrow.COMMENT_ID}">
 				<dt class="<!-- IF commentrow.POSTER_AVATAR -->has-avatar<!-- ELSE -->no-avatar<!-- ENDIF -->">
@@ -324,12 +324,12 @@
 						<!-- IF commentrow.U_QUOTE --><li><a href="{commentrow.U_QUOTE}" title="{L_QUOTE_COMMENT}" class="button icon-button quote-icon"><span>{L_QUOTE_COMMENT}</span></a></li><!-- ENDIF -->
 					</ul>
 				<!-- ENDIF -->
-				<p class="author"><a href="{commentrow.U_COMMENT}">{commentrow.MINI_POST_IMG}</a>{L_POST_BY_AUTHOR} <strong>{commentrow.POST_AUTHOR_FULL}</strong> &raquo; {commentrow.TIME} </p>
+				<p class="author"><!-- IF S_IS_BOT -->{commentrow.MINI_POST_IMG}<!-- ELSE --><a href="{commentrow.U_COMMENT}">{commentrow.MINI_POST_IMG}</a><!-- ENDIF --><span class="responsive-hide">{L_POST_BY_AUTHOR} <strong>{commentrow.POST_AUTHOR_FULL}</strong> &raquo; </span>{commentrow.TIME} </p>
 				<div class="content">{commentrow.TEXT}</div>
 				<!-- IF commentrow.EDIT_INFO --><div class="notice">{commentrow.EDIT_INFO}</div><!-- ENDIF -->
 				<!-- IF commentrow.SIGNATURE --><div id="sig{commentrow.COMMENT_ID}" class="signature">{commentrow.SIGNATURE}</div><!-- ENDIF -->
 			</div>
-		<span class="corners-bottom"><span></span></span></div>
+		</div>
 	</div>
 	<!-- END commentrow -->
 
