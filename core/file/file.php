@@ -24,7 +24,7 @@ class file
 	const GDLIB1 = 1;
 	const GDLIB2 = 2;
 
-	public $chmod = 0777;
+	public $chmod = 0644;
 
 	public $errors = array();
 	private $browser_cache = true;
