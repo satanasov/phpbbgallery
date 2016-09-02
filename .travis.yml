@@ -53,7 +53,7 @@ env:
 branches:
   only:
     - master
-    - /^(3\.[1-9]|[4-9]\.\d)\.x$/
+    - /^(1\.[1-9]|[4-9]\.\d)\.x$/
 
 install:
   - cd core
