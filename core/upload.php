@@ -99,7 +99,7 @@ class upload
 	{
 		//$this->upload = new \fileupload();
 		//$this->upload->fileupload('', $this->get_allowed_types(), (4 * $this->gallery_config->get('max_filesize')));
-		$this->upload = $this->file_upload;
+		$this->file_upload->set_allowed_extensions($this->get_allowed_types());
 
 		$this->tools = new \phpbbgallery\core\file\file($this->request, $this->gallery_url, $this->gallery_config->get('gdlib_version'));
 
@@ -125,10 +125,13 @@ class upload
 		}
 		$this->file_count = (int) $file_count;
 
-		$this->files = $this->form_upload('files');
-		foreach ($this->files as $VAR)
+		//$this->files = $this->form_upload('files');
+		$files = $this->file_upload->handle_upload('phpbbgallery.core.files.type.multiformtest', 'files');
+
+		foreach ($files as $VAR)
 		{
 			$this->file = $VAR;
+
 			if (!$this->file->get('uploadname'))
 			{
 				return false;
@@ -142,7 +145,6 @@ class upload
 			else
 			{
 				$image_id = $this->prepare_file();
-
 				if ($image_id)
 				{
 					$this->uploaded_files++;
@@ -361,7 +363,7 @@ class upload
 			$this->new_error($this->user->lang('UPLOAD_ERROR', $this->file->get('uploadname'), implode('<br />&raquo; ', $this->file->error)));
 			return false;
 		}
-		@chmod($this->file->destination_file, 0777);
+		@chmod($this->file->get('destination_file'), 0655);
 		$additional_sql_data = array();
 		$file = $this->file;
 
@@ -377,7 +379,7 @@ class upload
 		extract($this->phpbb_dispatcher->trigger_event('phpbbgallery.core.upload.prepare_file_before', compact($vars)));
 
 		$this->tools->set_image_options($this->max_filesize, $this->gallery_config->get('max_height'), $this->gallery_config->get('max_width'));
-		$this->tools->set_image_data($this->file->destination_file, '', $this->file->filesize, true);
+		$this->tools->set_image_data($this->file->get('destination_file'), '', $this->file->get('filesize'), true);
 
 		// Rotate the image
 		if ($this->gallery_config->get('allow_rotate') && $this->get_rotating())
@@ -391,29 +393,29 @@ class upload
 		}
 
 		// Resize oversized images
-		if (($this->file->width > $this->gallery_config->get('max_width')) || ($this->file->height > $this->gallery_config->get('max_height')))
+		if (($this->file->get('width') > $this->gallery_config->get('max_width')) || ($this->file->get('height') > $this->gallery_config->get('max_height')))
 		{
 			if ($this->gallery_config->get('allow_resize'))
 			{
 				$this->tools->resize_image($this->gallery_config->get('max_width'), $this->gallery_config->get('max_height'));
 				if ($this->tools->resized)
 				{
-					$this->file->height = $this->tools->image_size['height'];
-					$this->file->width = $this->tools->image_size['width'];
+					//$this->file->height = $this->tools->image_size['height'];
+					//$this->file->width = $this->tools->image_size['width'];
 				}
 			}
 			else
 			{
 				$this->file->remove();
-				$this->new_error($this->user->lang('UPLOAD_ERROR', $this->file->uploadname, $this->user->lang['UPLOAD_IMAGE_SIZE_TOO_BIG']));
+				$this->new_error($this->user->lang('UPLOAD_ERROR', $this->file->get('uploadname'), $this->user->lang['UPLOAD_IMAGE_SIZE_TOO_BIG']));
 				return false;
 			}
 		}
 
-		if ($this->file->filesize > (1.2 * $this->max_filesize))
+		if ($this->file->get('filesize') > (1.2 * $this->max_filesize))
 		{
 			$this->file->remove();
-			$this->new_error($this->user->lang('UPLOAD_ERROR', $this->file->uploadname, $this->user->lang['BAD_UPLOAD_FILE_SIZE']));
+			$this->new_error($this->user->lang('UPLOAD_ERROR', $this->file->get('uploadname'), $this->user->lang['BAD_UPLOAD_FILE_SIZE']));
 			return false;
 		}
 
@@ -461,13 +463,13 @@ class upload
 	 */
 	public function file_to_database($additional_sql_ary)
 	{
-		$image_name = str_replace("_", "_", utf8_substr($this->file->uploadname, 0, utf8_strrpos($this->file->uploadname, '.')));
+		$image_name = str_replace("_", "_", utf8_substr($this->file->get('uploadname'), 0, utf8_strrpos($this->file->get('uploadname'), '.')));
 
 		$sql_ary = array_merge(array(
 			'image_name'			=> $image_name,
 			'image_name_clean'		=> utf8_clean_string($image_name),
-			'image_filename' 		=> $this->file->realname,
-			'filesize_upload'		=> $this->file->filesize,
+			'image_filename' 		=> $this->file->get('realname'),
+			'filesize_upload'		=> $this->file->get('filesize'),
 			'image_time'			=> time() + $this->file_count,
 
 			'image_user_id'			=> $this->user->data['user_id'],
@@ -771,7 +773,7 @@ class upload
 				'size'	=> $VAR['size']
 			);
 			//$file = new \filespec($upload, $this, $mimetype_guesser, null);
-			$file = $this->file_upload->handle_upload('files.types.multiform', 'files');
+			$files = $this->file_upload->handle_upload('files.types.multiformtest', 'files');
 			$file->set_upload_ary($upload);
 			if ($file->init_error())
 			{
