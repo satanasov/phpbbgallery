@@ -278,6 +278,7 @@ services:
             - @dbal.conn
             - @dispatcher
             - @request
+            - @files.upload
             - @phpbbgallery.core.image
             - @phpbbgallery.core.config
             - @phpbbgallery.core.url
@@ -604,3 +605,15 @@ services:
             - %tables.user_notifications%
         tags:
             - { name: notification.type }
+########################################
+#### Define file Types             #####
+########################################
+    phpbbgallery.core.files.types.multiform:
+        class: phpbbgallery\file\types\multiform
+        shared: false
+        arguments:
+            - '@files.factory'
+            - '@language'
+            - '@php_ini'
+            - '@upload'
+            - '@request'

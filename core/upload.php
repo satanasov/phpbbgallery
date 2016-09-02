@@ -72,6 +72,7 @@ class upload
 	 * @param                                   $php_ext
 	 */
 	public function __construct(\phpbb\user $user, \phpbb\db\driver\driver_interface $db, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbb\request\request $request,
+								\phpbb\files\upload $file_upload,
 								\phpbbgallery\core\image\image $gallery_image, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\url $gallery_url, \phpbbgallery\core\block $block,
 								\phpbbgallery\core\file\file $gallery_file,
 								$images_table,
@@ -81,6 +82,7 @@ class upload
 		$this->db = $db;
 		$this->phpbb_dispatcher = $phpbb_dispatcher;
 		$this->request = $request;
+		$this->file_upload = $file_upload;
 		$this->gallery_image = $gallery_image;
 		$this->gallery_config = $gallery_config;
 		$this->gallery_url	= $gallery_url;
@@ -99,12 +101,9 @@ class upload
 	 */
 	public function set_up($album_id, $num_files = 0)
 	{
-		if (!class_exists('fileupload'))
-		{
-			include_once($this->root_path . 'includes/functions_upload.' . $this->php_ext);
-		}
-		$this->upload = new \fileupload();
-		$this->upload->fileupload('', $this->get_allowed_types(), (4 * $this->gallery_config->get('max_filesize')));
+		//$this->upload = new \fileupload();
+		//$this->upload->fileupload('', $this->get_allowed_types(), (4 * $this->gallery_config->get('max_filesize')));
+		$this->upload = $this->file_upload;
 
 		$this->album_id = (int) $album_id;
 		$this->file_limit = (int) $num_files;
@@ -132,12 +131,12 @@ class upload
 		foreach ($this->files as $var)
 		{
 			$this->file = $var;
-			if (!$this->file->uploadname)
+			if (!$this->file->get('uploadname'))
 			{
 				return false;
 			}
 
-			if ($this->file->extension == 'zip')
+			if ($this->file->get('extension') == 'zip')
 			{
 				$this->zip_file = $this->file;
 				$this->upload_zip();
@@ -361,7 +360,7 @@ class upload
 		if (!empty($this->file->error))
 		{
 			$this->file->remove();
-			$this->new_error($this->user->lang('UPLOAD_ERROR', $this->file->uploadname, implode('<br />&raquo; ', $this->file->error)));
+			$this->new_error($this->user->lang('UPLOAD_ERROR', $this->file->get('uploadname'), implode('<br />&raquo; ', $this->file->error)));
 			return false;
 		}
 		@chmod($this->file->destination_file, 0777);
@@ -774,8 +773,10 @@ class upload
 				'error'	=> $var['error'],
 				'size'	=> $var['size']
 			);
-			$file = new \filespec($upload, $this, $mimetype_guesser, null);
-			if ($file->init_error)
+			//$file = new \filespec($upload, $this, $mimetype_guesser, null);
+			$file = $this->file_upload->handle_upload('files.types.multiform', 'files');
+			$file->set_upload_ary($upload);
+			if ($file->init_error())
 			{
 				$file->error[] = '';
 				$files[$ID] = $file;
