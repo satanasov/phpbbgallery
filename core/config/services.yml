@@ -187,6 +187,7 @@ services:
             - @template
             - @controller.helper
             - @user
+            - @language
             - @user_loader
             - @phpbbgallery.core.album
             - @phpbbgallery.core.auth

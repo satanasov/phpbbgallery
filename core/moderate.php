@@ -10,6 +10,8 @@
 
 namespace phpbbgallery\core;
 
+use phpbb\language\language;
+
 class moderate
 {
 	/**
@@ -18,6 +20,7 @@ class moderate
 	 * @param \phpbb\template\template $template
 	 * @param \phpbb\controller\helper $helper
 	 * @param \phpbb\user $user
+	 * @param language $lang
 	 * @param \phpbb\user_loader $user_loader
 	 * @param album\album $album
 	 * @param auth\auth $gallery_auth
@@ -31,6 +34,7 @@ class moderate
 	 * @param $images_table
 	 */
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\controller\helper $helper, \phpbb\user $user,
+								\phpbb\language\language $lang,
 								\phpbb\user_loader $user_loader, \phpbbgallery\core\album\album $album, \phpbbgallery\core\auth\auth $gallery_auth, \phpbb\pagination $pagination,
 								\phpbbgallery\core\comment $comment, \phpbbgallery\core\report $report, \phpbbgallery\core\image\image $image,
 								\phpbbgallery\core\config $gallery_config, \phpbbgallery\core\notification $gallery_notification, \phpbbgallery\core\rating $gallery_rating,
@@ -40,6 +44,7 @@ class moderate
 		$this->template = $template;
 		$this->helper = $helper;
 		$this->user = $user;
+		$this->lang = $lang;
 		$this->user_loader = $user_loader;
 		$this->album = $album;
 		$this->gallery_auth = $gallery_auth;
@@ -140,7 +145,7 @@ class moderate
 			$waiting_images ++;
 		}
 		$this->template->assign_vars(array(
-			'TOTAL_IMAGES_WAITING' => $this->user->lang('WAITING_UNAPPROVED_IMAGE', (int) $count),
+			'TOTAL_IMAGES_WAITING' => $this->lang->lang('WAITING_UNAPPROVED_IMAGE', (int) $count),
 			'S_GALLERY_APPROVE_ACTION'	=> $album > 0 ? $this->helper->route('phpbbgallery_core_moderate_queue_approve_album', array('album_id' => $album)) : $this->helper->route('phpbbgallery_core_moderate_queue_approve'),
 		));
 		if ($album === 0)
@@ -154,7 +159,7 @@ class moderate
 				),
 			), 'pagination', 'page', $count, $per_page, $page * $per_page);
 			$this->template->assign_vars(array(
-				'TOTAL_PAGES'				=> $this->user->lang('PAGE_TITLE_NUMBER', $page + 1),
+				'TOTAL_PAGES'				=> $this->lang->lang('PAGE_TITLE_NUMBER', $page + 1),
 			));
 		}
 		else
@@ -169,7 +174,7 @@ class moderate
 				),
 			), 'pagination', 'page', $count, $per_page, $page * $per_page);
 			$this->template->assign_vars(array(
-				'TOTAL_PAGES'				=> $this->user->lang('PAGE_TITLE_NUMBER', $page + 1),
+				'TOTAL_PAGES'				=> $this->lang->lang('PAGE_TITLE_NUMBER', $page + 1),
 			));
 		}
 	}
@@ -308,11 +313,11 @@ class moderate
 		$select = '<select name="select_action">';
 		foreach ($actions as $id => $var)
 		{
-			$select .= '<option value="' . $id . '">' . $this->user->lang($var) . '</option>';
+			$select .= '<option value="' . $id . '">' . $this->lang->lang($var) . '</option>';
 		}
 		$select .= '</select>';
 		$this->template->assign_vars(array(
-			'TOTAL_PAGES'				=> $this->user->lang('PAGE_TITLE_NUMBER', $page),
+			'TOTAL_PAGES'				=> $this->lang->lang('PAGE_TITLE_NUMBER', $page),
 			'S_GALLERY_MODERATE_OVERVIEW_ACTION'	=> $this->helper->route('phpbbgallery_core_moderate_view', array('album_id' => $album_id)),
 			'U_ACTION_SELECT' => $select,
 		));
