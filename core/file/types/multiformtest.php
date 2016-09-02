@@ -1,25 +1,27 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: lucifer
- * Date: 9/2/16
- * Time: 6:11 PM
+ *
+ * This file is part of the phpBB Forum Software package.
+ *
+ * @copyright (c) phpBB Limited <https://www.phpbb.com>
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ * For full copyright and license information, please see
+ * the docs/CREDITS.txt file.
+ *
  */
 
 namespace phpbbgallery\core\file\types;
 
-
-use phpbb\files\types\type_interface;
-use phpbb\files\factory;
-use phpbb\language\language;
 use bantu\IniGetWrapper\IniGetWrapper;
-use phpbb\files\upload;
-use phpbb\request\request_interface;
+use phpbb\files\factory;
 use phpbb\files\filespec;
+use phpbb\language\language;
+use phpbb\plupload\plupload;
+use phpbb\request\request_interface;
 
-class multiform implements type_interface
+class multiformtest extends \phpbb\files\types\base
 {
-
 	/** @var factory Files factory */
 	protected $factory;
 	/** @var language */
@@ -41,46 +43,34 @@ class multiform implements type_interface
 	 * @param plupload			$plupload	Plupload
 	 * @param request_interface	$request	Request object
 	 */
-	public function __construct(factory $factory, language $language, IniGetWrapper $php_ini, \phpbb\plupload\plupload $plupload, request_interface $request, \phpbb\files\upload $upload)
+	public function __construct(factory $factory, language $language, IniGetWrapper $php_ini, plupload $plupload, request_interface $request)
 	{
 		$this->factory = $factory;
 		$this->language = $language;
 		$this->php_ini = $php_ini;
 		$this->plupload = $plupload;
 		$this->request = $request;
-		$this->upload = $upload;
-		$files = $this->upload('files');
-
-		return $files;
 	}
 	/**
-	 * Handle upload for upload types. Arguments passed to this method will be
-	 * handled by the upload type classes themselves.
-	 *
-	 * @return \phpbb\files\filespec|bool Filespec instance if upload is
-	 *                                    successful or false if not
+	 * {@inheritdoc}
 	 */
 	public function upload()
 	{
 		$args = func_get_args();
-		return $this->multiform_upload($args[0]);
+		return $this->form_upload($args[0]);
 	}
-
 	/**
-	 * Set upload instance
-	 * Needs to be executed before every upload.
+	 * Form upload method
+	 * Upload file from users harddisk
 	 *
-	 * @param upload $upload Upload instance
+	 * @param string $form_name Form name assigned to the file input field (if it is an array, the key has to be specified)
 	 *
-	 * @return type_interface Returns itself
+	 * @return filespec $file Object "filespec" is returned, all further operations can be done with this object
+	 * @access public
 	 */
-	public function set_upload(upload $upload)
+	protected function form_upload($form_name)
 	{
-		// TODO: Implement set_upload() method.
-	}
 
-	public function multiform_upload($form_name)
-	{
 		$uploads = ($this->request->variable($form_name, array('name'=> array('' => ''), 'type' => array('' => ''), 'tmp_name' => array('' => ''), 'error' =>  array('' => ''), 'size' => array('' => '')), true, \phpbb\request\request_interface::FILES));
 		$upload_redy = array();
 		for ($i = 0; $i < count($uploads['name']); $i++)
@@ -156,30 +146,5 @@ class multiform implements type_interface
 		}
 
 		return $files;
-	}
-
-	/**
-	 * Check if upload exceeds maximum file size
-	 *
-	 * @param \phpbb\files\filespec $file Filespec object
-	 *
-	 * @return \phpbb\files\filespec Returns same filespec instance
-	 */
-	public function check_upload_size($file)
-	{
-		// PHP Upload filesize exceeded
-		if ($file->get('filename') == 'none')
-		{
-			$max_filesize = $this->php_ini->getString('upload_max_filesize');
-			$unit = 'MB';
-			if (!empty($max_filesize))
-			{
-				$unit = strtolower(substr($max_filesize, -1, 1));
-				$max_filesize = (int) $max_filesize;
-				$unit = ($unit == 'k') ? 'KB' : (($unit == 'g') ? 'GB' : 'MB');
-			}
-			$file->error[] = (empty($max_filesize)) ? $this->language->lang($this->upload->error_prefix . 'PHP_SIZE_NA') : $this->language->lang($this->upload->error_prefix . 'PHP_SIZE_OVERRUN', $max_filesize, $this->language->lang($unit));
-		}
-		return $file;
 	}
 }

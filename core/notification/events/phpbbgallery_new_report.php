@@ -11,6 +11,11 @@ namespace phpbbgallery\core\notification\events;
 class phpbbgallery_new_report extends \phpbb\notification\type\base
 {
 	protected $helper;
+	protected $user_loader;
+	protected $cache;
+	protected $config;
+	protected $notification_types_table;
+	protected $notifications_table;
 
 	public function __construct(\phpbb\user_loader $user_loader, \phpbb\db\driver\driver_interface $db, \phpbb\cache\driver\driver_interface $cache,
 	\phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\controller\helper $helper,

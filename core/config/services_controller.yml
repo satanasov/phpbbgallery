@@ -1,0 +1,192 @@
+#############################
+#### Define controllers #####
+#############################
+services:
+    phpbbgallery.core.controller.upload:
+        class: phpbbgallery\core\controller\upload
+        arguments:
+            - '@request'
+            - '@dbal.conn'
+            - '@user'
+            - '@template'
+            - '@config'
+            - '@service_container'
+            - '@phpbbgallery.core.album'
+            - '@phpbbgallery.core.misc'
+            - '@phpbbgallery.core.auth'
+            - '@phpbbgallery.core.album.display'
+            - '@controller.helper'
+            - '@phpbbgallery.core.config'
+            - '@phpbbgallery.core.user'
+            - '@phpbbgallery.core.image'
+            - '@phpbbgallery.core.notification'
+            - '@phpbbgallery.core.notification.helper'
+            - '@phpbbgallery.core.url'
+            - '@phpbbgallery.core.upload'
+            - '@phpbbgallery.core.block'
+            - '%tables.phpbbgallery.images%'
+            - '%core.root_path%'
+    phpbbgallery.core.controller.album:
+        class: phpbbgallery\core\controller\album
+        arguments:
+            - @config
+            - @controller.helper
+            - @dbal.conn
+            - @pagination
+            - @template
+            - @user
+            - @phpbbgallery.core.album.display
+            - @phpbbgallery.core.album.loader
+            - @phpbbgallery.core.auth
+            - @phpbbgallery.core.auth.level
+            - @phpbbgallery.core.config
+            - @phpbbgallery.core.notification.helper
+            - @phpbbgallery.core.url
+            - @phpbbgallery.core.image
+            - @request
+            - %tables.phpbbgallery.images%
+    phpbbgallery.core.controller.file:
+        class: phpbbgallery\core\controller\file
+        arguments:
+            - @config
+            - @dbal.conn
+            - @user
+            - @phpbbgallery.core.auth
+            - @phpbbgallery.core.user
+            - @phpbbgallery.core.file.tool
+            - @request
+            - %phpbbgallery.core.file.source%
+            - %phpbbgallery.core.file.medium%
+            - %phpbbgallery.core.file.mini%
+            - %phpbbgallery.core.file.watermark%
+            - %tables.phpbbgallery.albums%
+            - %tables.phpbbgallery.images%
+    phpbbgallery.core.controller.image:
+        class: phpbbgallery\core\controller\image
+        arguments:
+            - @request
+            - @auth
+            - @config
+            - @controller.helper
+            - @dbal.conn
+            - @dispatcher
+            - @pagination
+            - @template
+            - @user
+            - @phpbbgallery.core.album.display
+            - @phpbbgallery.core.album.loader
+            - @phpbbgallery.core.album
+            - @phpbbgallery.core.image
+            - @phpbbgallery.core.auth
+            - @phpbbgallery.core.user
+            - @phpbbgallery.core.config
+            - @phpbbgallery.core.auth.level
+            - @phpbbgallery.core.url
+            - @phpbbgallery.core.misc
+            - @phpbbgallery.core.comment
+            - @phpbbgallery.core.report
+            - @phpbbgallery.core.notification.helper
+            - @phpbbgallery.core.log
+            - @phpbbgallery.core.moderate
+            - @phpbbgallery.core.rating
+            - @phpbbgallery.core.block
+            - @service_container
+            - %tables.phpbbgallery.albums%
+            - %tables.phpbbgallery.images%
+            - %tables.phpbbgallery.users%
+            - %tables.phpbbgallery.comments%
+            - %core.root_path%
+            - %core.php_ext%
+    phpbbgallery.core.controller.index:
+        class: phpbbgallery\core\controller\index
+        arguments:
+            - '@auth'
+            - '@config'
+            - '@dbal.conn'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '@phpbbgallery.core.album.display'
+            - '@phpbbgallery.core.config'
+            - '@phpbbgallery.core.auth'
+            - '@phpbbgallery.core.search'
+            - '@pagination'
+            - '@phpbbgallery.core.user'
+            - '@phpbbgallery.core.image'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+    phpbbgallery.core.controller.search:
+        class: phpbbgallery\core\controller\search
+        arguments:
+            - @auth
+            - @config
+            - @dbal.conn
+            - @pagination
+            - @request
+            - @template
+            - @user
+            - @controller.helper
+            - @phpbbgallery.core.album.display
+            - @phpbbgallery.core.config
+            - @phpbbgallery.core.auth
+            - @phpbbgallery.core.album
+            - @phpbbgallery.core.image
+            - @phpbbgallery.core.url
+            - @phpbbgallery.core.search
+            - %tables.phpbbgallery.images%
+            - %tables.phpbbgallery.albums%
+            - %tables.phpbbgallery.comments%
+            - %core.root_path%
+            - %core.php_ext%
+    phpbbgallery.core.controller.comment:
+        class: phpbbgallery\core\controller\comment
+        arguments:
+            - @dbal.conn
+            - @user
+            - @auth
+            - @config
+            - @template
+            - @request
+            - @controller.helper
+            - @phpbbgallery.core.image
+            - @phpbbgallery.core.album.loader
+            - @phpbbgallery.core.album
+            - @phpbbgallery.core.album.display
+            - @phpbbgallery.core.url
+            - @phpbbgallery.core.auth
+            - @phpbbgallery.core.config
+            - @phpbbgallery.core.misc
+            - @phpbbgallery.core.comment
+            - @phpbbgallery.core.user
+            - @phpbbgallery.core.log
+            - @phpbbgallery.core.notification.helper
+            - @phpbbgallery.core.notification
+            - @phpbbgallery.core.rating
+            - @service_container
+            - %tables.phpbbgallery.comments%
+            - %core.root_path%
+            - %core.php_ext%
+    phpbbgallery.core.controller.moderate:
+        class: phpbbgallery\core\controller\moderate
+        arguments:
+            - @auth
+            - @config
+            - @dbal.conn
+            - @request
+            - @template
+            - @user
+            - @controller.helper
+            - @phpbbgallery.core.album.display
+            - @phpbbgallery.core.moderate
+            - @phpbbgallery.core.auth
+            - @phpbbgallery.core.misc
+            - @phpbbgallery.core.album
+            - @phpbbgallery.core.image
+            - @phpbbgallery.core.notification.helper
+            - @phpbbgallery.core.url
+            - @phpbbgallery.core.log
+            - @phpbbgallery.core.report
+            - @user_loader
+            - %core.root_path%
+            - %core.php_ext%

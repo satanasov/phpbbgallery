@@ -135,11 +135,11 @@ class exif_listener implements EventSubscriberInterface
 
 	public function upload_prepare_file_before($event)
 	{
-		if (in_array($event['file']->extension, array('jpg', 'jpeg')))
+		if (in_array($event['file']->get('extension'), array('jpg', 'jpeg')))
 		{
 			$additional_sql_data = $event['additional_sql_data'];
 
-			$exif = new \phpbbgallery\exif\exif($event['file']->destination_file);
+			$exif = new \phpbbgallery\exif\exif($event['file']->get('destination_file'));
 			$exif->read();
 			$additional_sql_data['image_exif_data'] = $exif->serialized;
 			$additional_sql_data['image_has_exif'] = $exif->status;

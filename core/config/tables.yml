@@ -1,0 +1,19 @@
+parameters:
+    phpbbgallery.core.file.source: %core.root_path%files/phpbbgallery/core/source/
+    phpbbgallery.core.file.medium: %core.root_path%files/phpbbgallery/core/medium/
+    phpbbgallery.core.file.mini: %core.root_path%files/phpbbgallery/core/mini/
+    phpbbgallery.core.file.watermark: %core.root_path%ext/phpbbgallery/core/images/watermark.png
+
+    tables.phpbbgallery.albums: %core.table_prefix%gallery_albums
+    tables.phpbbgallery.contests: %core.table_prefix%gallery_contests
+    tables.phpbbgallery.images: %core.table_prefix%gallery_images
+    tables.phpbbgallery.moderators: %core.table_prefix%gallery_modscache
+    tables.phpbbgallery.permissions: %core.table_prefix%gallery_permissions
+    tables.phpbbgallery.roles: %core.table_prefix%gallery_roles
+    tables.phpbbgallery.tracking: %core.table_prefix%gallery_albums_track
+    tables.phpbbgallery.users: %core.table_prefix%gallery_users
+    tables.phpbbgallery.comments: %core.table_prefix%gallery_comments
+    tables.phpbbgallery.reports: %core.table_prefix%gallery_reports
+    tables.phpbbgallery.rates: %core.table_prefix%gallery_rates
+    tables.phpbbgallery.log: %core.table_prefix%gallery_log
+    tables.phpbbgallery.watch: %core.table_prefix%gallery_watch

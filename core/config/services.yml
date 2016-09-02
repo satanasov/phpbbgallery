@@ -1,22 +1,8 @@
-parameters:
-    phpbbgallery.core.file.source: %core.root_path%files/phpbbgallery/core/source/
-    phpbbgallery.core.file.medium: %core.root_path%files/phpbbgallery/core/medium/
-    phpbbgallery.core.file.mini: %core.root_path%files/phpbbgallery/core/mini/
-    phpbbgallery.core.file.watermark: %core.root_path%ext/phpbbgallery/core/images/watermark.png
+imports:
+    - { resource: tables.yml }
+    - { resource: services_controller.yml }
+    - { resource: services_files.yml }
 
-    tables.phpbbgallery.albums: %core.table_prefix%gallery_albums
-    tables.phpbbgallery.contests: %core.table_prefix%gallery_contests
-    tables.phpbbgallery.images: %core.table_prefix%gallery_images
-    tables.phpbbgallery.moderators: %core.table_prefix%gallery_modscache
-    tables.phpbbgallery.permissions: %core.table_prefix%gallery_permissions
-    tables.phpbbgallery.roles: %core.table_prefix%gallery_roles
-    tables.phpbbgallery.tracking: %core.table_prefix%gallery_albums_track
-    tables.phpbbgallery.users: %core.table_prefix%gallery_users
-    tables.phpbbgallery.comments: %core.table_prefix%gallery_comments
-    tables.phpbbgallery.reports: %core.table_prefix%gallery_reports
-    tables.phpbbgallery.rates: %core.table_prefix%gallery_rates
-    tables.phpbbgallery.log: %core.table_prefix%gallery_log
-    tables.phpbbgallery.watch: %core.table_prefix%gallery_watch
 
 services:
     phpbbgallery.core.album:
@@ -318,198 +304,6 @@ services:
         tags:
             - { name: event.listener }
 
-#############################
-#### Define controllers #####
-#############################
-
-    phpbbgallery.core.controller.upload:
-        class: phpbbgallery\core\controller\upload
-        arguments:
-            - @request
-            - @dbal.conn
-            - @user
-            - @template
-            - @config
-            - @service_container
-            - @phpbbgallery.core.album
-            - @phpbbgallery.core.misc
-            - @phpbbgallery.core.auth
-            - @phpbbgallery.core.album.display
-            - @controller.helper
-            - @phpbbgallery.core.config
-            - @phpbbgallery.core.user
-            - @phpbbgallery.core.image
-            - @phpbbgallery.core.notification
-            - @phpbbgallery.core.notification.helper
-            - @phpbbgallery.core.url
-            - @phpbbgallery.core.upload
-            - @phpbbgallery.core.block
-            - %tables.phpbbgallery.images%
-            - %core.root_path%
-    phpbbgallery.core.controller.album:
-        class: phpbbgallery\core\controller\album
-        arguments:
-            - @config
-            - @controller.helper
-            - @dbal.conn
-            - @pagination
-            - @template
-            - @user
-            - @phpbbgallery.core.album.display
-            - @phpbbgallery.core.album.loader
-            - @phpbbgallery.core.auth
-            - @phpbbgallery.core.auth.level
-            - @phpbbgallery.core.config
-            - @phpbbgallery.core.notification.helper
-            - @phpbbgallery.core.url
-            - @phpbbgallery.core.image
-            - @request
-            - %tables.phpbbgallery.images%
-    phpbbgallery.core.controller.file:
-        class: phpbbgallery\core\controller\file
-        arguments:
-            - @config
-            - @dbal.conn
-            - @user
-            - @phpbbgallery.core.auth
-            - @phpbbgallery.core.user
-            - @phpbbgallery.core.file.tool
-            - @request
-            - %phpbbgallery.core.file.source%
-            - %phpbbgallery.core.file.medium%
-            - %phpbbgallery.core.file.mini%
-            - %phpbbgallery.core.file.watermark%
-            - %tables.phpbbgallery.albums%
-            - %tables.phpbbgallery.images%
-    phpbbgallery.core.controller.image:
-        class: phpbbgallery\core\controller\image
-        arguments:
-            - @request
-            - @auth
-            - @config
-            - @controller.helper
-            - @dbal.conn
-            - @dispatcher
-            - @pagination
-            - @template
-            - @user
-            - @phpbbgallery.core.album.display
-            - @phpbbgallery.core.album.loader
-            - @phpbbgallery.core.album
-            - @phpbbgallery.core.image
-            - @phpbbgallery.core.auth
-            - @phpbbgallery.core.user
-            - @phpbbgallery.core.config
-            - @phpbbgallery.core.auth.level
-            - @phpbbgallery.core.url
-            - @phpbbgallery.core.misc
-            - @phpbbgallery.core.comment
-            - @phpbbgallery.core.report
-            - @phpbbgallery.core.notification.helper
-            - @phpbbgallery.core.log
-            - @phpbbgallery.core.moderate
-            - @phpbbgallery.core.rating
-            - @phpbbgallery.core.block
-            - @service_container
-            - %tables.phpbbgallery.albums%
-            - %tables.phpbbgallery.images%
-            - %tables.phpbbgallery.users%
-            - %tables.phpbbgallery.comments%
-            - %core.root_path%
-            - %core.php_ext%
-    phpbbgallery.core.controller.index:
-        class: phpbbgallery\core\controller\index
-        arguments:
-            - @auth
-            - @config
-            - @dbal.conn
-            - @request
-            - @template
-            - @user
-            - @controller.helper
-            - @phpbbgallery.core.album.display
-            - @phpbbgallery.core.config
-            - @phpbbgallery.core.auth
-            - @phpbbgallery.core.search
-            - @pagination
-            - @phpbbgallery.core.user
-            - @phpbbgallery.core.image
-            - %core.root_path%
-            - %core.php_ext%
-    phpbbgallery.core.controller.search:
-        class: phpbbgallery\core\controller\search
-        arguments:
-            - @auth
-            - @config
-            - @dbal.conn
-            - @pagination
-            - @request
-            - @template
-            - @user
-            - @controller.helper
-            - @phpbbgallery.core.album.display
-            - @phpbbgallery.core.config
-            - @phpbbgallery.core.auth
-            - @phpbbgallery.core.album
-            - @phpbbgallery.core.image
-            - @phpbbgallery.core.url
-            - @phpbbgallery.core.search
-            - %tables.phpbbgallery.images%
-            - %tables.phpbbgallery.albums%
-            - %tables.phpbbgallery.comments%
-            - %core.root_path%
-            - %core.php_ext%
-    phpbbgallery.core.controller.comment:
-        class: phpbbgallery\core\controller\comment
-        arguments:
-            - @dbal.conn
-            - @user
-            - @auth
-            - @config
-            - @template
-            - @request
-            - @controller.helper
-            - @phpbbgallery.core.image
-            - @phpbbgallery.core.album.loader
-            - @phpbbgallery.core.album
-            - @phpbbgallery.core.album.display
-            - @phpbbgallery.core.url
-            - @phpbbgallery.core.auth
-            - @phpbbgallery.core.config
-            - @phpbbgallery.core.misc
-            - @phpbbgallery.core.comment
-            - @phpbbgallery.core.user
-            - @phpbbgallery.core.log
-            - @phpbbgallery.core.notification.helper
-            - @phpbbgallery.core.notification
-            - @phpbbgallery.core.rating
-            - @service_container
-            - %tables.phpbbgallery.comments%
-            - %core.root_path%
-            - %core.php_ext%
-    phpbbgallery.core.controller.moderate:
-        class: phpbbgallery\core\controller\moderate
-        arguments:
-            - @auth
-            - @config
-            - @dbal.conn
-            - @request
-            - @template
-            - @user
-            - @controller.helper
-            - @phpbbgallery.core.album.display
-            - @phpbbgallery.core.moderate
-            - @phpbbgallery.core.auth
-            - @phpbbgallery.core.misc
-            - @phpbbgallery.core.album
-            - @phpbbgallery.core.image
-            - @phpbbgallery.core.notification.helper
-            - @phpbbgallery.core.url
-            - @phpbbgallery.core.log
-            - @phpbbgallery.core.report
-            - @user_loader
-            - %core.root_path%
-            - %core.php_ext%
 
 ####################################
 #### Define notification types #####
@@ -517,7 +311,7 @@ services:
 
     phpbbgallery.core.notification.image_for_approval:
         class: phpbbgallery\core\notification\events\phpbbgallery_image_for_approval
-        scope: prototype # scope MUST be prototype for this to work!
+        shared: false # scope MUST be prototype for this to work!
         arguments:
             - @user_loader
             - @dbal.conn
@@ -535,7 +329,7 @@ services:
             - { name: notification.type }
     phpbbgallery.core.notification.image_approved:
         class: phpbbgallery\core\notification\events\phpbbgallery_image_approved
-        scope: prototype # scope MUST be prototype for this to work!
+        shared: false # scope MUST be prototype for this to work!
         arguments:
             - @user_loader
             - @dbal.conn
@@ -553,7 +347,7 @@ services:
             - { name: notification.type }
     phpbbgallery.core.notification.new_image:
         class: phpbbgallery\core\notification\events\phpbbgallery_new_image
-        scope: prototype # scope MUST be prototype for this to work!
+        shared: false # scope MUST be prototype for this to work!
         arguments:
             - @user_loader
             - @dbal.conn
@@ -571,7 +365,7 @@ services:
             - { name: notification.type }
     phpbbgallery.core.notification.new_comment:
         class: phpbbgallery\core\notification\events\phpbbgallery_new_comment
-        scope: prototype # scope MUST be prototype for this to work!
+        shared: false # scope MUST be prototype for this to work!
         arguments:
             - @user_loader
             - @dbal.conn
@@ -589,7 +383,7 @@ services:
             - { name: notification.type }
     phpbbgallery.core.notification.new_report:
         class: phpbbgallery\core\notification\events\phpbbgallery_new_report
-        scope: prototype # scope MUST be prototype for this to work!
+        shared: false # scope MUST be prototype for this to work!
         arguments:
             - @user_loader
             - @dbal.conn
@@ -605,15 +399,3 @@ services:
             - %tables.user_notifications%
         tags:
             - { name: notification.type }
-########################################
-#### Define file Types             #####
-########################################
-    phpbbgallery.core.files.types.multiform:
-        class: phpbbgallery\file\types\multiform
-        shared: false
-        arguments:
-            - '@files.factory'
-            - '@language'
-            - '@php_ini'
-            - '@upload'
-            - '@request'
