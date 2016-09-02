@@ -2,18 +2,8 @@
 #### Define file Types             #####
 ########################################
 services:
-    phpbbgallery.core.files.type.multiform:
-        class: phpbbgallery\core\file\types\multiform
-        arguments:
-            - '@files.factory'
-            - '@language'
-            - '@php_ini'
-            - '@plupload'
-            - '@request'
-            - '@files.upload'
-
     phpbbgallery.core.files.type.multiformtest:
-        class: phpbbgallery\core\file\types\multiformtest
+        class: phpbbgallery\core\file\types\multiform
         shared: false
         arguments:
             - '@files.factory'
