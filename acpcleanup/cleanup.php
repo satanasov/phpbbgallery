@@ -314,7 +314,7 @@ class cleanup
 					$value = '';
 					while ($row = $db->sql_fetchrow($result))
 					{
-						$value .= (($value) ? ', ' : '') . get_username_string('full', $row['user_id'], (($row['user_id'] != ANONYMOUS) ? $row['username'] : $user->lang['GUEST']), $row['user_colour']);
+						$value .= (($value) ? ', ' : '') . get_username_string('full', $row['user_id'], (($row['user_id'] != ANONYMOUS) ? $row['username'] : $user->lang('GUEST')), $row['user_colour']);
 					}
 					$db->sql_freeresult($result);
 				break;
