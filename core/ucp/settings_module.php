@@ -59,8 +59,9 @@ class settings_module
 
 		$this->gallery_user = $phpbb_container->get('phpbbgallery.core.user');
 		$this->gallery_user->set_user_id($this->user->data['user_id']);
-
-		$user->add_lang_ext('phpbbgallery/core', array('gallery', 'gallery_acp', 'gallery_mcp', 'gallery_ucp'));
+		$language = $phpbb_container->get('language');
+		$language->add_lang('posting');
+		$language->add_lang('phpbbgallery/core', array('gallery', 'gallery_acp', 'gallery_mcp', 'gallery_ucp'));
 		$this->tpl_name = 'gallery/ucp_gallery';
 		add_form_key('ucp_gallery');
 
