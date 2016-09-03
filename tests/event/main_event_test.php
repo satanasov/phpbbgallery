@@ -26,7 +26,7 @@ class main_event_test extends \phpbb_database_test_case
 	{
 		return array('phpbbgallery/core');
 	}
-	
+
 	protected $db;
 	/**
 	* Get data set fixtures
@@ -50,19 +50,28 @@ class main_event_test extends \phpbb_database_test_case
 
 		$this->template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
-		
-		$this->user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
+
+		$this->language = $this->getMockBuilder('\phpbb\language\language')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->language->method('lang')
+			->will($this->returnArgument(0));
+
+		$this->user = $this->getMock('\phpbb\user', array(), array(
+			new \phpbb\language\language(new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx)),
+			'\phpbb\datetime'
+		));
 		$this->user->optionset('viewcensors', false);
 		$this->user->style['style_path'] = 'prosilver';
 
 		$this->gallery_search = $this->getMockBuilder('\phpbbgallery\core\search')
 			->disableOriginalConstructor()
 			->getMock();
-		
+
 		$this->config = new \phpbb\config\config(array());
-		
+
 		$this->gallery_config = new \phpbbgallery\core\config($this->config);
-		
+
 		$this->db = $this->new_dbal();
 	}
 
@@ -149,7 +158,7 @@ class main_event_test extends \phpbb_database_test_case
 		$dispatcher->addListener('core.user_setup', array($this->listener, 'load_language_on_setup'));
 		$dispatcher->dispatch('core.user_setup');
 	}
-	
+
 	/**
 	* Test add_page_header_link
 	*/
@@ -288,7 +297,7 @@ class main_event_test extends \phpbb_database_test_case
 		$dispatcher->addListener('core.generate_profile_fields_template_data_before', array($this->listener, 'profile_fileds'));
 		$dispatcher->dispatch('core.grab_profile_fields_data', $event_one);
 		$dispatcher->dispatch('core.generate_profile_fields_template_data_before', $event_two);
-		
+
 		$ouput = $event_two->get_data_filtered($event_two_data);
 		$expacted = array(
 			'phpbb_gallery'	=> array(

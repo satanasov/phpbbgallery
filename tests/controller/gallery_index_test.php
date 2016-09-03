@@ -50,7 +50,7 @@ class gallery_index_test extends controller_base
 
 	public function test_install()
 	{
-		$db_tools = new \phpbb\db\tools($this->db);
+		$db_tools = new \phpbb\db\tools\tools($this->db);
 		$this->assertTrue($db_tools->sql_table_exists('phpbb_gallery_albums'));
 		$this->assertTrue($db_tools->sql_table_exists('phpbb_gallery_albums_track'));
 		$this->assertTrue($db_tools->sql_table_exists('phpbb_gallery_comments'));

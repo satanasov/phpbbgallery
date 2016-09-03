@@ -59,6 +59,7 @@ class core_album_test extends core_base
 		$this->album = new \phpbbgallery\core\album\album(
 			$this->db,
 			$this->user,
+			$this->language,
 			$this->gallery_auth,
 			$this->gallery_cache,
 			$this->block,
@@ -69,7 +70,7 @@ class core_album_test extends core_base
 			'phpbb_gallery_contests'
 		);
 	}
-	
+
 	/**
 	* Test get_info
 	* Here we test only exception.

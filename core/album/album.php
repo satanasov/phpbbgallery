@@ -10,16 +10,34 @@
 
 namespace phpbbgallery\core\album;
 
+use phpbb\language\language;
+
 class album
 {
 	protected $albums_table;
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user,
-	\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\cache $gallery_cache, \phpbbgallery\core\block $block,
-	\phpbbgallery\core\config $gallery_config,
-	$albums_table, $images_table, $watch_table, $contest_table)
+
+	/**
+	 * album constructor.
+	 * @param \phpbb\db\driver\driver_interface $db
+	 * @param \phpbb\user $user
+	 * @param language $language
+	 * @param \phpbbgallery\core\auth\auth $gallery_auth
+	 * @param \phpbbgallery\core\cache $gallery_cache
+	 * @param \phpbbgallery\core\block $block
+	 * @param \phpbbgallery\core\config $gallery_config
+	 * @param $albums_table
+	 * @param $images_table
+	 * @param $watch_table
+	 * @param $contest_table
+	 */
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\language\language $language,
+								\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\cache $gallery_cache, \phpbbgallery\core\block $block,
+								\phpbbgallery\core\config $gallery_config,
+								$albums_table, $images_table, $watch_table, $contest_table)
 	{
 		$this->db = $db;
 		$this->user = $user;
+		$this->language = $language;
 		$this->gallery_auth = $gallery_auth;
 		$this->gallery_cache = $gallery_cache;
 		$this->block = $block;
@@ -159,7 +177,7 @@ class album
 			{
 				if (!$last_a_u_id && $this->gallery_auth->acl_check('a_list', $this->gallery_auth->get_personal_album()) && !$ignore_personals)
 				{
-					$album_list .= '<option disabled="disabled" class="disabled-option">' . $this->user->lang['PERSONAL_ALBUMS'] . '</option>';
+					$album_list .= '<option disabled="disabled" class="disabled-option">' . $this->language->lang('PERSONAL_ALBUMS') . '</option>';
 				}
 				$padding = '';
 				$padding_store[$row['parent_id']] = '';

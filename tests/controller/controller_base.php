@@ -40,7 +40,7 @@ class controller_base extends \phpbb_database_test_case
 	*/
 	public function setUp()
 	{
-		global $request;
+		global $request, $phpbb_root_path, $phpEx;
 		parent::setUp();
 		//Let's build some deps
 		$this->auth = $this->getMock('\phpbb\auth\auth');
@@ -57,7 +57,16 @@ class controller_base extends \phpbb_database_test_case
 		$this->template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
 
-		$this->user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
+		$this->language = $this->getMockBuilder('\phpbb\language\language')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->language->method('lang')
+			->will($this->returnArgument(0));
+
+		$this->user = $this->getMock('\phpbb\user', array(), array(
+			new \phpbb\language\language(new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx)),
+			'\phpbb\datetime'
+		));
 		$this->user
 			->method('lang')
 			->will($this->returnArgument(0));
@@ -85,7 +94,7 @@ class controller_base extends \phpbb_database_test_case
 			->will($this->returnArgument(0));
 
 		$cache = $this->cache = new \phpbb\cache\service(
-			new \phpbb\cache\driver\null(),
+			new \phpbb\cache\driver\dummy(),
 			$this->config,
 			$this->db,
 			$phpbb_root_path,
@@ -190,6 +199,7 @@ class controller_base extends \phpbb_database_test_case
 		$this->gallery_album = new \phpbbgallery\core\album\album(
 			$this->db,
 			$this->user,
+			$this->language,
 			$this->gallery_auth,
 			$this->gallery_cache,
 			$this->block,
