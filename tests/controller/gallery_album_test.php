@@ -24,25 +24,25 @@ class gallery_album_test extends controller_base
 	*/
 	public function setUp()
 	{
-		
+
 		parent::setUp();
-		
+
 		global $phpbb_dispatcher, $auth, $user, $cache, $db, $request;
-		
+
 		$phpbb_dispatcher = $this->dispatcher;
-		
+
 		$auth = $this->auth;
-		
+
 		$user = $this->user;
-		
+
 		$cache = $this->cache;
-		
+
 		$db = $this->db;
-		
+
 		$request = $this->request;
 
 	}
-	
+
 	public function get_controller($user_id, $grpup, $is_registered)
 	{
 		$this->user->data['user_id'] = $user_id;
@@ -66,7 +66,7 @@ class gallery_album_test extends controller_base
 			$this->request,
 			'phpbb_gallery_images'
 		);
-		
+
 		return $controller;
 	}
 
@@ -266,7 +266,7 @@ class gallery_album_test extends controller_base
 		$this->assertEquals('200', $response->getStatusCode());
 	}
 
-	/** 
+	/**
 	* Let's test for base with some options
 	* so we can get some more coveralls to go cover
 	*/
@@ -489,7 +489,7 @@ class gallery_album_test extends controller_base
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
 		$this->assertEquals('200', $response->getStatusCode());
 	}
-	
+
 	/**
 	* We will test try to load wrong album
 	*/

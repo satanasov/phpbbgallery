@@ -8,16 +8,17 @@ services:
     phpbbgallery.core.album:
         class: phpbbgallery\core\album\album
         arguments:
-            - @dbal.conn
-            - @user
-            - @phpbbgallery.core.auth
-            - @phpbbgallery.core.cache
-            - @phpbbgallery.core.block
-            - @phpbbgallery.core.config
-            - %tables.phpbbgallery.albums%
-            - %tables.phpbbgallery.images%
-            - %tables.phpbbgallery.watch%
-            - %tables.phpbbgallery.contests%
+            - '@dbal.conn'
+            - '@user'
+            - '@language'
+            - '@phpbbgallery.core.auth'
+            - '@phpbbgallery.core.cache'
+            - '@phpbbgallery.core.block'
+            - '@phpbbgallery.core.config'
+            - '%tables.phpbbgallery.albums%'
+            - '%tables.phpbbgallery.images%'
+            - '%tables.phpbbgallery.watch%'
+            - '%tables.phpbbgallery.contests%'
     phpbbgallery.core.album.display:
         class: phpbbgallery\core\album\display
         arguments:

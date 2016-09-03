@@ -61,6 +61,7 @@ class core_image_test extends core_base
 		$this->album = new \phpbbgallery\core\album\album(
 			$this->db,
 			$this->user,
+			$this->language,
 			$this->gallery_auth,
 			$this->gallery_cache,
 			$this->block,
