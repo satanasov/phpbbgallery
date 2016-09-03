@@ -69,7 +69,7 @@ class misc
 		{
 			if ($login_explain && isset($this->user->lang[$login_explain]))
 			{
-				$login_explain = $this->user->lang[$login_explain];
+				$login_explain = $this->user->lang($login_explain);
 			}
 			else
 			{

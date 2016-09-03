@@ -22,7 +22,7 @@ class main_module
 		global $user, $phpbb_container, $table_prefix, $phpbb_gallery_url;
 		global $phpbb_ext_gallery_core_album, $albums_table, $phpbb_ext_gallery_core_auth, $phpbb_ext_gallery_core_album_display, $images_table;
 		global $phpbb_gallery_image, $users_table, $phpbb_ext_gallery_config, $comments_table, $rates_table, $reports_table, $watch_table, $contests_table;
-		global $phpbb_ext_gallery_user, $request;
+		global $phpbb_ext_gallery_user, $request, $language;
 
 		$phpbb_gallery_url = $phpbb_container->get('phpbbgallery.core.url');
 		$phpbb_gallery_url->_include('functions_display', 'phpbb');
@@ -38,6 +38,7 @@ class main_module
 		$phpbb_gallery_image = $phpbb_container->get('phpbbgallery.core.image');
 
 		$phpbb_ext_gallery_user = $phpbb_container->get('phpbbgallery.core.user');
+		$language = $phpbb_container->get('language');
 
 		$albums_table = $table_prefix . 'gallery_albums';
 		$roles_table = $table_prefix . 'gallery_roles';
@@ -51,7 +52,7 @@ class main_module
 		$reports_table = $table_prefix . 'gallery_reports';
 		$watch_table = $table_prefix . 'gallery_watch';
 
-		$user->add_lang_ext('phpbbgallery/core', array('gallery', 'gallery_acp', 'gallery_mcp', 'gallery_ucp'));
+		$language->add_lang(array('gallery', 'gallery_acp', 'gallery_mcp', 'gallery_ucp'), 'phpbbgallery/core');
 		$this->tpl_name = 'gallery/ucp_gallery';
 		add_form_key('ucp_gallery');
 
@@ -70,25 +71,25 @@ class main_module
 				{
 					case 'manage':
 						$title = 'MANAGE_SUBALBUMS';
-						$this->page_title = $user->lang[$title];
+						$this->page_title = $user->lang($title);
 						$this->manage_albums();
 					break;
 
 					case 'create':
 						$title = 'CREATE_SUBALBUM';
-						$this->page_title = $user->lang[$title];
+						$this->page_title = $user->lang($title);
 						$this->create_album();
 					break;
 
 					case 'edit':
 						$title = 'EDIT_SUBALBUM';
-						$this->page_title = $user->lang[$title];
+						$this->page_title = $user->lang($title);
 						$this->edit_album();
 					break;
 
 					case 'delete':
 						$title = 'DELETE_ALBUM';
-						$this->page_title = $user->lang[$title];
+						$this->page_title = $user->lang($title);
 						$this->delete_album();
 					break;
 
@@ -102,7 +103,7 @@ class main_module
 
 					default:
 						$title = 'UCP_GALLERY_PERSONAL_ALBUMS';
-						$this->page_title = $user->lang[$title];
+						$this->page_title = $user->lang($title);
 						if (!$phpbb_ext_gallery_user->get_data('personal_album_id'))
 						{
 							$this->info();
@@ -117,7 +118,7 @@ class main_module
 
 			case 'manage_subscriptions':
 				$title = 'UCP_GALLERY_WATCH';
-				$this->page_title = $user->lang[$title];
+				$this->page_title = $user->lang($title);
 				$this->manage_subscriptions();
 			break;
 		}
@@ -136,8 +137,8 @@ class main_module
 				'S_INFO_CREATE'				=> true,
 				'S_UCP_ACTION'		=> $this->u_action . '&amp;action=initialise',
 
-				'L_TITLE'			=> $user->lang['UCP_GALLERY_PERSONAL_ALBUMS'],
-				'L_TITLE_EXPLAIN'	=> $user->lang['NO_PERSONAL_ALBUM'],
+				'L_TITLE'			=> $user->lang('UCP_GALLERY_PERSONAL_ALBUMS'),
+				'L_TITLE_EXPLAIN'	=> $user->lang('NO_PERSONAL_ALBUM'),
 			));
 		}
 		else
@@ -219,17 +220,17 @@ class main_module
 			'S_MANAGE_SUBALBUMS'			=> true,
 			'U_CREATE_SUBALBUM'				=> ($s_allowed_create) ? ($this->u_action . '&amp;action=create' . (($parent_id) ? '&amp;parent_id=' . $parent_id : '')) : '',
 
-			'L_TITLE'			=> $user->lang['MANAGE_SUBALBUMS'],
+			'L_TITLE'			=> $user->lang('MANAGE_SUBALBUMS'),
 			//'ACP_GALLERY_TITLE_EXPLAIN'	=> $user->lang['ALBUM'],
 		));
 
 		if (!$parent_id)
 		{
-			$navigation = $user->lang['PERSONAL_ALBUM'];
+			$navigation = $user->lang('PERSONAL_ALBUM');
 		}
 		else
 		{
-			$navigation = $user->lang['PERSONAL_ALBUM'];
+			$navigation = $user->lang('PERSONAL_ALBUM');
 
 			$albums_nav = $phpbb_ext_gallery_core_album_display->get_branch($user->data['user_id'], $parent_id, 'parents', 'descending');
 			foreach ($albums_nav as $row)
@@ -334,20 +335,20 @@ class main_module
 				);
 				foreach ($access_options as $value => $lang_key)
 				{
-					$s_access_options .= '<option value="' . $value . '">' . $user->lang['ACCESS_CONTROL_' . $lang_key] . '</option>';
+					$s_access_options .= '<option value="' . $value . '">' . $user->lang('ACCESS_CONTROL_' . $lang_key) . '</option>';
 				}
 			}
 
 			$template->assign_vars(array(
 				'S_CREATE_SUBALBUM'		=> true,
 				'S_UCP_ACTION'			=> $this->u_action . '&amp;action=create' . (($redirect != '') ? '&amp;redirect=album' : ''),
-				'L_TITLE'				=> $user->lang['CREATE_SUBALBUM'],
-				'L_TITLE_EXPLAIN'		=> $user->lang['CREATE_SUBALBUM_EXP'],
+				'L_TITLE'				=> $user->lang('CREATE_SUBALBUM'),
+				'L_TITLE_EXPLAIN'		=> $user->lang('CREATE_SUBALBUM_EXP'),
 
 				'S_DESC_BBCODE_CHECKED'		=> true,
 				'S_DESC_SMILIES_CHECKED'	=> true,
 				'S_DESC_URLS_CHECKED'		=> true,
-				'S_PARENT_OPTIONS'			=> '<option value="' . $phpbb_ext_gallery_user->get_data('personal_album_id') . '">' . $user->lang['NO_PARENT_ALBUM'] . '</option>' . $parents_list,
+				'S_PARENT_OPTIONS'			=> '<option value="' . $phpbb_ext_gallery_user->get_data('personal_album_id') . '">' . $user->lang('NO_PARENT_ALBUM') . '</option>' . $parents_list,
 
 				'S_AUTH_ACCESS_OPTIONS'		=> $s_access_options,
 				'L_ALBUM_ACCESS_EXPLAIN'	=> $user->lang('ALBUM_ACCESS_EXPLAIN', '<a href="' . $phpbb_gallery_url->append_sid('phpbb', 'faq') . '#f6r0">', '</a>'),
@@ -428,8 +429,8 @@ class main_module
 			$cache->destroy('sql', $users_table);
 			$phpbb_ext_gallery_core_auth->set_user_permissions('all', '');
 
-			trigger_error($user->lang['CREATED_SUBALBUM'] . '<br /><br />
-				<a href="' . (($redirect) ? $phpbb_gallery_url->append_sid('album', "album_id=$redirect_album_id") : $phpbb_gallery_url->append_sid('phpbb', 'ucp', 'i=-phpbbgallery-core-ucp-main_module&amp;mode=manage_albums&amp;action=manage&amp;parent_id=' . (($album_data['parent_id']) ? $album_data['parent_id'] : $phpbb_ext_gallery_user->get_data('personal_album_id')))) . '">' . $user->lang['BACK_TO_PREV'] . '</a>');
+			trigger_error($user->lang('CREATED_SUBALBUM') . '<br /><br />
+				<a href="' . (($redirect) ? $phpbb_gallery_url->append_sid('album', "album_id=$redirect_album_id") : $phpbb_gallery_url->append_sid('phpbb', 'ucp', 'i=-phpbbgallery-core-ucp-main_module&amp;mode=manage_albums&amp;action=manage&amp;parent_id=' . (($album_data['parent_id']) ? $album_data['parent_id'] : $phpbb_ext_gallery_user->get_data('personal_album_id')))) . '">' . $user->lang('BACK_TO_PREV') . '</a>');
 		}
 	}
 
@@ -474,7 +475,7 @@ class main_module
 				}
 				foreach ($access_options as $value => $lang_key)
 				{
-					$s_access_options .= '<option value="' . $value . (($value == $album_data['album_auth_access']) ? '" selected="selected' : '') . '">' . $user->lang['ACCESS_CONTROL_' . $lang_key] . '</option>';
+					$s_access_options .= '<option value="' . $value . (($value == $album_data['album_auth_access']) ? '" selected="selected' : '') . '">' . $user->lang('ACCESS_CONTROL_' . $lang_key) . '</option>';
 				}
 			}
 
@@ -484,11 +485,11 @@ class main_module
 				'S_AUTH_ACCESS_OPTIONS'		=> $s_access_options,
 				'L_ALBUM_ACCESS_EXPLAIN'	=> $user->lang('ALBUM_ACCESS_EXPLAIN', '<a href="' . $phpbb_gallery_url->append_sid('phpbb', 'faq') . '#f6r0">', '</a>'),
 
-				'L_TITLE'					=> $user->lang['EDIT_SUBALBUM'],
-				'L_TITLE_EXPLAIN'			=> $user->lang['EDIT_SUBALBUM_EXP'],
+				'L_TITLE'					=> $user->lang('EDIT_SUBALBUM'),
+				'L_TITLE_EXPLAIN'			=> $user->lang('EDIT_SUBALBUM_EXP'),
 
 				'S_ALBUM_ACTION' 			=> $this->u_action . '&amp;action=edit&amp;album_id=' . $album_id . (($redirect != '') ? '&amp;redirect=album' : ''),
-				'S_PARENT_OPTIONS'			=> '<option value="' . $phpbb_ext_gallery_user->get_data('personal_album_id') . '">' . $user->lang['NO_PARENT_ALBUM'] . '</option>' . $parents_list,
+				'S_PARENT_OPTIONS'			=> '<option value="' . $phpbb_ext_gallery_user->get_data('personal_album_id') . '">' . $user->lang('NO_PARENT_ALBUM') . '</option>' . $parents_list,
 
 				'ALBUM_NAME' 				=> $album_data['album_name'],
 				'ALBUM_DESC'				=> $album_desc_data['text'],
@@ -662,8 +663,8 @@ class main_module
 			$cache->destroy('sql', $users_table);
 			$cache->destroy('_albums');
 
-			trigger_error($user->lang['EDITED_SUBALBUM'] . '<br /><br />
-				<a href="' . (($redirect) ? $phpbb_gallery_url->append_sid('album', "album_id=$album_id") : $phpbb_gallery_url->append_sid('phpbb', 'ucp', 'i=-phpbbgallery-core-ucp-main_module&amp;mode=manage_albums&amp;action=manage&amp;parent_id=' . (($album_data['parent_id']) ? $album_data['parent_id'] : $phpbb_ext_gallery_user->get_data('personal_album_id')))) . '">' . $user->lang['BACK_TO_PREV'] . '</a>');
+			trigger_error($user->lang('EDITED_SUBALBUM') . '<br /><br />
+				<a href="' . (($redirect) ? $phpbb_gallery_url->append_sid('album', "album_id=$album_id") : $phpbb_gallery_url->append_sid('phpbb', 'ucp', 'i=-phpbbgallery-core-ucp-main_module&amp;mode=manage_albums&amp;action=manage&amp;parent_id=' . (($album_data['parent_id']) ? $album_data['parent_id'] : $phpbb_ext_gallery_user->get_data('personal_album_id')))) . '">' . $user->lang('BACK_TO_PREV') . '</a>');
 		}
 	}
 
@@ -844,8 +845,8 @@ class main_module
 			$cache->destroy('_albums');
 			$phpbb_ext_gallery_core_auth->set_user_permissions('all', '');
 
-			trigger_error($user->lang['DELETED_ALBUMS'] . '<br /><br />
-				<a href="' . (($parent_id) ? $phpbb_gallery_url->append_sid('phpbb', 'ucp', 'i=-phpbbgallery-core-ucp-main_module&amp;mode=manage_albums&amp;action=manage&amp;parent_id=' . $parent_id) : $phpbb_gallery_url->append_sid('phpbb', 'ucp', 'i=-phpbbgallery-core-ucp-main_module&amp;mode=manage_albums')) . '">' . $user->lang['BACK_TO_PREV'] . '</a>');
+			trigger_error($user->lang('DELETED_ALBUMS') . '<br /><br />
+				<a href="' . (($parent_id) ? $phpbb_gallery_url->append_sid('phpbb', 'ucp', 'i=-phpbbgallery-core-ucp-main_module&amp;mode=manage_albums&amp;action=manage&amp;parent_id=' . $parent_id) : $phpbb_gallery_url->append_sid('phpbb', 'ucp', 'i=-phpbbgallery-core-ucp-main_module&amp;mode=manage_albums')) . '">' . $user->lang('BACK_TO_PREV') . '</a>');
 		}
 		else
 		{
@@ -953,13 +954,13 @@ class main_module
 			$message = '';
 			if ($album_id_ary)
 			{
-				$message .= $user->lang['UNWATCHED_ALBUMS'] . '<br />';
+				$message .= $user->lang('UNWATCHED_ALBUMS') . '<br />';
 			}
 			if ($image_id_ary)
 			{
-				$message .= $user->lang['UNWATCHED_IMAGES'] . '<br />';
+				$message .= $user->lang('UNWATCHED_IMAGES') . '<br />';
 			}
-			$message .= '<br />' . sprintf($user->lang['RETURN_UCP'], '<a href="' . $this->u_action . '">', '</a>');
+			$message .= '<br />' . sprintf($user->lang('RETURN_UCP'), '<a href="' . $this->u_action . '">', '</a>');
 			trigger_error($message);
 		}
 
@@ -993,7 +994,7 @@ class main_module
 
 				'UC_IMAGE_NAME'		=> $phpbb_ext_gallery_core_image->generate_link('image_name', $phpbb_ext_gallery_config->get('link_image_name'), $row['album_last_image_id'], $row['album_last_image_name'], $row['album_id']),
 				'UC_FAKE_THUMBNAIL'	=> $phpbb_ext_gallery_core_image->generate_link('fake_thumbnail', $phpbb_ext_gallery_config->get('link_thumbnail'), $row['album_last_image_id'], $row['album_last_image_name'], $row['album_id']),
-				'UPLOADER'			=> (($row['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST) && ($row['contest_marked'] && !$phpbb_ext_gallery_core_auth->acl_check('m_status', $row['album_id'], $row['album_user_id']))) ? $user->lang['CONTEST_USERNAME'] : get_username_string('full', $row['album_last_user_id'], $row['album_last_username'], $row['album_last_user_colour']),
+				'UPLOADER'			=> (($row['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST) && ($row['contest_marked'] && !$phpbb_ext_gallery_core_auth->acl_check('m_status', $row['album_id'], $row['album_user_id']))) ? $user->lang('CONTEST_USERNAME') : get_username_string('full', $row['album_last_user_id'], $row['album_last_username'], $row['album_last_user_colour']),
 				'LAST_IMAGE_TIME'	=> $user->format_date($row['album_last_image_time']),
 				'LAST_IMAGE'		=> $row['album_last_image_id'],
 				'U_IMAGE'			=> $phpbb_gallery_url->show_image($row['image_id']),
@@ -1040,7 +1041,7 @@ class main_module
 		while ($row = $db->sql_fetchrow($result))
 		{
 			$template->assign_block_vars('image_row', array(
-				'UPLOADER'			=> ($row['image_contest'] && !$phpbb_ext_gallery_core_auth->acl_check('m_status', $row['image_album_id'])) ? $user->lang['CONTEST_USERNAME'] : get_username_string('full', $row['image_user_id'], $row['image_username'], $row['image_user_colour']),
+				'UPLOADER'			=> ($row['image_contest'] && !$phpbb_ext_gallery_core_auth->acl_check('m_status', $row['image_album_id'])) ? $user->lang('CONTEST_USERNAME') : get_username_string('full', $row['image_user_id'], $row['image_username'], $row['image_user_colour']),
 				'LAST_COMMENT_BY'	=> get_username_string('full', $row['comment_user_id'], $row['comment_username'], $row['comment_user_colour']),
 				'COMMENT'			=> $row['image_comments'],
 				//'LAST_COMMENT_TIME'	=> $user->format_date($row['comment_time']),
@@ -1059,8 +1060,8 @@ class main_module
 			'S_MANAGE_SUBSCRIPTIONS'	=> true,
 			'S_UCP_ACTION'				=> $this->u_action,
 
-			'L_TITLE'					=> $user->lang['UCP_GALLERY_WATCH'],
-			'L_TITLE_EXPLAIN'			=> $user->lang['YOUR_SUBSCRIPTIONS'],
+			'L_TITLE'					=> $user->lang('UCP_GALLERY_WATCH'),
+			'L_TITLE_EXPLAIN'			=> $user->lang('YOUR_SUBSCRIPTIONS'),
 
 			//'PAGINATION'				=> generate_pagination($phpbb_ext_gallery->url->append_sid('phpbb', 'ucp', 'i=-phpbbgallery-core-ucp-main_module&amp;mode=manage_subscriptions'), $total_images, $images_per_page, $start),
 			//'PAGE_NUMBER'				=> on_page($total_images, $images_per_page, $start),

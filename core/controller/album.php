@@ -214,10 +214,10 @@ class album
 
 		$limit_days = array();
 		$sort_by_text = array(
-			't'		=> $this->user->lang['TIME'],
-			'n'		=> $this->user->lang['IMAGE_NAME'],
-			'vc'	=> $this->user->lang['GALLERY_VIEWS'],
-			'u'		=> $this->user->lang['SORT_USERNAME'],
+			't'		=> $this->user->lang('TIME'),
+			'n'		=> $this->user->lang('IMAGE_NAME'),
+			'vc'	=> $this->user->lang('GALLERY_VIEWS'),
+			'u'		=> $this->user->lang('SORT_USERNAME'),
 		);
 		$sort_by_sql = array(
 			't'		=> 'image_time',
@@ -228,16 +228,16 @@ class album
 
 		if ($this->config['phpbb_gallery_allow_rates'])
 		{
-			$sort_by_text['ra'] = $this->user->lang['RATING'];
+			$sort_by_text['ra'] = $this->user->lang('RATING');
 			$sort_by_sql['ra'] = 'image_rate_points';
-			$sort_by_text['r'] = $this->user->lang['RATES_COUNT'];
+			$sort_by_text['r'] = $this->user->lang('RATES_COUNT');
 			$sort_by_sql['r'] = 'image_rates';
 		}
 		if ($this->config['phpbb_gallery_allow_comments'])
 		{
-			$sort_by_text['c'] = $this->user->lang['COMMENTS'];
+			$sort_by_text['c'] = $this->user->lang('COMMENTS');
 			$sort_by_sql['c'] = 'image_comments';
-			$sort_by_text['lc'] = $this->user->lang['NEW_COMMENT'];
+			$sort_by_text['lc'] = $this->user->lang('NEW_COMMENT');
 			$sort_by_sql['lc'] = 'image_last_comment';
 		}
 		gen_sort_selects($limit_days, $sort_by_text, $sort_days, $sort_key, $sort_dir, $s_limit_days, $s_sort_key, $s_sort_dir, $u_sort_param);
@@ -354,13 +354,13 @@ class album
 				'S_UNAPPROVED'	=> ($this->auth->acl_check('m_status', $image_data['image_album_id'], $album_user_id) && ($image_data['image_status'] == \phpbbgallery\core\block::STATUS_UNAPPROVED)) ? true : false,
 				'S_LOCKED'		=> ($image_data['image_status'] == \phpbbgallery\core\block::STATUS_LOCKED) ? true : false,
 				'S_REPORTED'	=> ($this->auth->acl_check('m_report', $image_data['image_album_id'], $album_user_id) && $image_data['image_reported']) ? true : false,
-				'POSTER'		=> ($show_username) ? (($s_username_hidden) ? $this->user->lang['CONTEST_USERNAME'] : get_username_string('full', $image_data['image_user_id'], $image_data['image_username'], $image_data['image_user_colour'])) : false,
+				'POSTER'		=> ($show_username) ? (($s_username_hidden) ? $this->user->lang('CONTEST_USERNAME') : get_username_string('full', $image_data['image_user_id'], $image_data['image_username'], $image_data['image_user_colour'])) : false,
 				'TIME'			=> $show_time ? $this->user->format_date($image_data['image_time']) : false,
 
 				'S_RATINGS'		=> ($this->config['phpbb_gallery_allow_rates'] == 1 && $show_ratings) ? ($image_data['image_rates'] > 0 ? $image_data['image_rate_avg'] / 100 : $this->user->lang('NOT_RATED')) : false,
 				'U_RATINGS'		=> $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_data['image_id'])) . '#rating',
-				'L_COMMENTS'	=> ($image_data['image_comments'] == 1) ? $this->user->lang['COMMENT'] : $this->user->lang['COMMENTS'],
-				'S_COMMENTS'	=> ($this->config['phpbb_gallery_allow_comments'] && $this->auth->acl_check('c_read', $image_data['image_album_id'], $album_user_id) && $show_comments) ? (($image_data['image_comments']) ? $image_data['image_comments'] : $this->user->lang['NO_COMMENTS']) : '',
+				'L_COMMENTS'	=> ($image_data['image_comments'] == 1) ? $this->user->lang('COMMENT') : $this->user->lang('COMMENTS'),
+				'S_COMMENTS'	=> ($this->config['phpbb_gallery_allow_comments'] && $this->auth->acl_check('c_read', $image_data['image_album_id'], $album_user_id) && $show_comments) ? (($image_data['image_comments']) ? $image_data['image_comments'] : $this->user->lang('NO_COMMENTS')) : '',
 				'U_COMMENTS'	=> $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_data['image_id'])) . '#comments',
 
 				'U_USER_IP'		=> $show_ip && $this->auth->acl_check('m_status', $image_data['image_album_id'], $album_user_id) ? $image_data['image_user_ip'] : false,
@@ -373,7 +373,7 @@ class album
 
 				'U_REPORT'	=> ($this->auth->acl_check('m_report', $image_data['image_album_id'], $album_user_id) && $image_data['image_reported']) ? '123'/*$this->url->append_sid('mcp', "mode=report_details&amp;album_id={$image_data['image_album_id']}&amp;option_id=" . $image_data['image_reported'])*/ : '',
 				'U_STATUS'	=> '',//($this->auth->acl_check('m_status', $image_data['image_album_id'], $album_user_id)) ? $phpbb_ext_gallery->url->append_sid('mcp', "mode=queue_details&amp;album_id={$image_data['image_album_id']}&amp;option_id=" . $image_data['image_id']) : '',
-				'L_STATUS'	=> ($image_data['image_status'] == \phpbbgallery\core\block::STATUS_UNAPPROVED) ? $this->user->lang['APPROVE_IMAGE'] : (($image_data['image_status'] == \phpbbgallery\core\block::STATUS_APPROVED) ? $this->user->lang['CHANGE_IMAGE_STATUS'] : $this->user->lang['UNLOCK_IMAGE']),
+				'L_STATUS'	=> ($image_data['image_status'] == \phpbbgallery\core\block::STATUS_UNAPPROVED) ? $this->user->lang('APPROVE_IMAGE') : (($image_data['image_status'] == \phpbbgallery\core\block::STATUS_APPROVED) ? $this->user->lang('CHANGE_IMAGE_STATUS') : $this->user->lang('UNLOCK_IMAGE')),
 			));
 		}
 		$this->db->sql_freeresult($result);
@@ -416,7 +416,7 @@ class album
 			{
 				$this->notifications_helper->remove_albums($album_id);
 				$this->template->assign_vars(array(
-					'INFORMATION'	=> $this->user->lang['UNWATCH_ALBUM']
+					'INFORMATION'	=> $this->user->lang('UNWATCH_ALBUM')
 				));
 				$this->url->meta_refresh(3, $back_link);
 				return $this->helper->render('gallery/message.html', $this->user->lang('GALLERY'));
@@ -425,7 +425,7 @@ class album
 			{
 				$this->notifications_helper->add_albums($album_id);
 				$this->template->assign_vars(array(
-					'INFORMATION'	=> $this->user->lang['WATCH_ALBUM']
+					'INFORMATION'	=> $this->user->lang('WATCH_ALBUM')
 				));
 				$this->url->meta_refresh(3, $back_link);
 				return $this->helper->render('gallery/message.html', $this->user->lang('GALLERY'));
@@ -435,11 +435,11 @@ class album
 		{
 			if ($this->notifications_helper->get_watched_album($album_id) == 1)
 			{
-				$lang = $this->user->lang['UNWATCH_ALBUM'];
+				$lang = $this->user->lang('UNWATCH_ALBUM');
 			}
 			else
 			{
-				$lang = $this->user->lang['WATCH_ALBUM'];
+				$lang = $this->user->lang('WATCH_ALBUM');
 			}
 			$s_hidden_fields = '';
 			confirm_box(false, $lang, $s_hidden_fields);

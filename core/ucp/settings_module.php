@@ -68,7 +68,7 @@ class settings_module
 		{
 			case 'manage':
 				$title = 'UCP_GALLERY_SETTINGS';
-				$this->page_title = $user->lang[$title];
+				$this->page_title = $user->lang($title);
 				$this->set_personal_settings();
 			break;
 		}
@@ -105,7 +105,7 @@ class settings_module
 			$this->gallery_user->update_data($gallery_settings);
 
 			meta_refresh(3, $this->u_action);
-			trigger_error($this->user->lang['WATCH_CHANGED'] . '<br /><br />' . sprintf($this->user->lang['RETURN_UCP'], '<a href="' . $this->u_action . '">', '</a>'));
+			trigger_error($this->user->lang('WATCH_CHANGED') . '<br /><br />' . sprintf($this->user->lang('RETURN_UCP'), '<a href="' . $this->u_action . '">', '</a>'));
 		}
 
 		/**
@@ -120,8 +120,8 @@ class settings_module
 			'S_PERSONAL_SETTINGS'	=> true,
 			'S_UCP_ACTION'			=> $this->u_action,
 
-			'L_TITLE'			=> $this->user->lang['UCP_GALLERY_SETTINGS'],
-			'L_TITLE_EXPLAIN'	=> $this->user->lang['WATCH_NOTE'],
+			'L_TITLE'			=> $this->user->lang('UCP_GALLERY_SETTINGS'),
+			'L_TITLE_EXPLAIN'	=> $this->user->lang('WATCH_NOTE'),
 
 			'S_WATCH_OWN'		=> $this->gallery_user->get_data('watch_own'),
 			'S_WATCH_COM'		=> $this->gallery_user->get_data('watch_com'),
