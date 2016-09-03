@@ -53,6 +53,7 @@ class main_module
 		$watch_table = $table_prefix . 'gallery_watch';
 
 		$language->add_lang(array('gallery', 'gallery_acp', 'gallery_mcp', 'gallery_ucp'), 'phpbbgallery/core');
+		$language->add_lang('posting');
 		$this->tpl_name = 'gallery/ucp_gallery';
 		add_form_key('ucp_gallery');
 
