@@ -1491,7 +1491,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$form['files'] = array(__DIR__ . '/images/valid.jpg');
 		$crawler = self::submit($form);
 
-		$this->assertContains($this->lang('FILE_WRONG_FILESIZE'), $crawler->filter('p.error')->text());
+		$this->assertContains($this->lang('BAD_UPLOAD_FILE_SIZE'), $crawler->filter('p.error')->text());
 
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
 		$form = $crawler->selectButton('submit')->form();
@@ -1770,7 +1770,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		}
 		else
 		{
-			$this->assertContains($this->lang('FILE_DISALLOWED_EXTENSION'), $crawler->filter('p.error')->text());
+			$this->assertContains($this->lang('DISALLOWED_EXTENSION'), $crawler->filter('p.error')->text());
 		}
 		$this->logout();
 		$this->logout();
@@ -1815,7 +1815,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		}
 		else
 		{
-			$this->assertContains($this->lang('FILE_DISALLOWED_EXTENSION'), $crawler->filter('p.error')->text());
+			$this->assertContains($this->lang('DISALLOWED_EXTENSION'), $crawler->filter('p.error')->text());
 		}
 		$this->logout();
 		$this->logout();
@@ -1860,7 +1860,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		}
 		else
 		{
-			$this->assertContains($this->lang('FILE_DISALLOWED_EXTENSION'), $crawler->filter('p.error')->text());
+			$this->assertContains($this->lang('DISALLOWED_EXTENSION'), $crawler->filter('p.error')->text());
 		}
 		$this->logout();
 		$this->logout();
