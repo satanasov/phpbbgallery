@@ -563,7 +563,7 @@ class image
 				{
 					$user_cache[$row['session_user_id']]['online'] = (time() - $update_time < $row['online_time'] && (($row['viewonline']) || $this->auth->acl_get('u_viewonline'))) ? true : false;
 				}
-				$this->db->sql_freeresult($result);
+				//$this->db->sql_freeresult($result);
 			}
 
 			foreach ($comments as $row)
