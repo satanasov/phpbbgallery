@@ -1865,7 +1865,10 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 	}
-	/*public function test_allow_zip($option)
+	/**
+	 * @dataProvider yes_no_data
+	 */
+	public function test_allow_zip($option)
 	{
 		$this->login();
 		$this->admin_login();
@@ -1906,7 +1909,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		}
 		$this->logout();
 		$this->logout();
-	}*/
+	}
 	public function test_description_length()
 	{
 		$this->login();
