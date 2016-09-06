@@ -172,23 +172,23 @@ class upload
 		if (!empty($this->zip_file->error))
 		{
 			$this->zip_file->remove();
-			$this->new_error($this->user->lang('UPLOAD_ERROR', $this->zip_file->uploadname, implode('<br />&raquo; ', $this->zip_file->error)));
+			$this->new_error($this->user->lang('UPLOAD_ERROR', $this->zip_file->get('uploadname'), implode('<br />&raquo; ', $this->zip_file->error)));
 			return false;
 		}
 
-		$compress = new \compress_zip('r', $this->zip_file->destination_file);
+		$compress = new \compress_zip('r', $this->zip_file->get('destination_file'));
 		$compress->extract($tmp_dir);
 		$compress->close();
 
 		$this->zip_file->remove();
 
 		// Remove zip from allowed extensions
-		$this->upload->set_allowed_extensions($this->get_allowed_types(false, true));
+		$this->file_upload->set_allowed_extensions($this->get_allowed_types(false, true));
 
 		$this->read_zip_folder($tmp_dir);
 
 		// Read zip from allowed extensions
-		$this->upload->set_allowed_extensions($this->get_allowed_types());
+		$this->file_upload->set_allowed_extensions($this->get_allowed_types());
 	}
 
 	/**
@@ -213,10 +213,15 @@ class upload
 			{
 				if (!$this->file_limit || ($this->uploaded_files < $this->file_limit))
 				{
-					$this->file = $this->upload->local_upload($current_dir . $file);
+					$file_info = array(
+						'type'	=> $this->tools->mimetype_by_filename($file),
+						'size'	=> filesize($current_dir . $file),
+						'realname' => $file
+					);
+					$this->file = $this->file_upload->handle_upload('files.types.local', $current_dir . $file, $file_info);
 					if ($this->file->error)
 					{
-						$this->new_error($this->user->lang('UPLOAD_ERROR', $this->file->uploadname, implode('<br />&raquo; ', $this->file->error)));
+						$this->new_error($this->user->lang('UPLOAD_ERROR', $this->file->get('uploadname'), implode('<br />&raquo; ', $this->file->error)));
 					}
 					$image_id = $this->prepare_file();
 
@@ -229,7 +234,7 @@ class upload
 					{
 						if ($this->file->error)
 						{
-							$this->new_error($this->user->lang('UPLOAD_ERROR', $this->file->uploadname, implode('<br />&raquo; ', $this->file->error)));
+							$this->new_error($this->user->lang('UPLOAD_ERROR', $this->file->get('uploadname'), implode('<br />&raquo; ', $this->file->error)));
 						}
 					}
 				}
@@ -422,7 +427,7 @@ class upload
 
 		if ($this->tools->rotated || $this->tools->resized)
 		{
-			$this->tools->write_image($this->file->destination_file, $this->gallery_config->get('jpg_quality'), true);
+			$this->tools->write_image($this->file->get('destination_file'), $this->gallery_config->get('jpg_quality'), true);
 		}
 
 		// Everything okay, now add the file to the database and return the image_id
