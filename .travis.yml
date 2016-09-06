@@ -5,9 +5,9 @@ matrix:
 #    - php: 5.3.3
 #      env:
 #        - DB=mysqli
-    - php: 5.3
-      env:
-        - DB=mysqli # MyISAM
+#    - php: 5.3
+#      env:
+#        - DB=mysqli # MyISAM
     - php: 5.4
       env:
         - DB=mysqli
@@ -37,7 +37,6 @@ matrix:
         - DB=mysqli
   allow_failures:
     - php: hhvm
-    - php: 7
   fast_finish: true
 
 env:
