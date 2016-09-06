@@ -1891,7 +1891,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$upload_url = substr($crawler->filter('a:contains("' . $this->lang('UPLOAD_IMAGE') . '")')->attr('href'), 1);
 		$crawler = self::request('GET', $upload_url);
 		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
-		$form['files'] =  __DIR__ . '/images/valid.zip';
+		$form['files'] =  array(__DIR__ . '/images/valid.zip');
 		$crawler = self::submit($form);
 		if ($option == 1)
 		{
