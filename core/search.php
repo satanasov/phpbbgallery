@@ -237,7 +237,18 @@ class search
 	public function recent_comments($limit, $start = 0)
 	{
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
-		$sql_limit = $limit;
+		$sql_limit = $limit;$exclude_albums = array();
+		if (!$this->gallery_config->get('rrc_gindex_pegas'))
+		{
+			$sql_no_user = 'SELECT album_id FROM ' . $this->albums_table . ' WHERE album_user_id > 0';
+			$result = $this->db->sql_query($sql_no_user);
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$exclude_albums[] = (int) $row['album_id'];
+			}
+			$this->db->sql_freeresult($result);
+		}
+		$exclude_albums = array_merge($exclude_albums, $this->gallery_auth->get_exclude_zebra());
 		$sql_array = array(
 			'FROM' => array(
 				$this->images_table => 'i',
@@ -247,6 +258,9 @@ class search
 			'GROUP_BY'	=> 'c.comment_id, i.image_id',
 			'ORDER_BY'	=> 'comment_time DESC'
 		);
+		$sql_array['WHERE'] .= ' AND ((' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums), false, true) . ' AND image_status <> ' . \phpbbgallery\core\block::STATUS_UNAPPROVED . ')
+					OR ' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('m_status'), $exclude_albums), false, true) . ')';
+
 		$sql_array['SELECT'] = 'COUNT(c.comment_id) as count';
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query($sql);
