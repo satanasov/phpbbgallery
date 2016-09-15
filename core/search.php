@@ -238,6 +238,7 @@ class search
 	{
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 		$sql_limit = $limit;$exclude_albums = array();
+		$exclude_albums = array();
 		if (!$this->gallery_config->get('rrc_gindex_pegas'))
 		{
 			$sql_no_user = 'SELECT album_id FROM ' . $this->albums_table . ' WHERE album_user_id > 0';
