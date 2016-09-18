@@ -237,7 +237,7 @@ class search
 	public function recent_comments($limit, $start = 0)
 	{
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
-		$sql_limit = $limit;$exclude_albums = array();
+		$sql_limit = $limit;
 		$exclude_albums = array();
 		if (!$this->gallery_config->get('rrc_gindex_pegas'))
 		{
