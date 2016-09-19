@@ -102,7 +102,7 @@ class user
 		$sql = 'SELECT *
 			FROM ' . $this->table_name . '
 			WHERE user_id = ' . $this->user_id;
-		$result = $this->db->sql_query($sql);
+		$result = $this->db->sql_query($sql, 30);
 		if ($row = $this->db->sql_fetchrow($result))
 		{
 			$this->data			= $this->validate_data($row);
