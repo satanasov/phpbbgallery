@@ -367,5 +367,5 @@ $lang = array_merge($lang, array(
 	'WRONG_FILESIZE'	=> 'De afbeeldingsgrootte is groter dan toegestaan!',
 	
 	// Versions 1.2.1 addiotions
-	'GALLERY_DROP'		=> 'Plaats je afbeeldingen hier,
-));
+	'GALLERY_DROP'		=> 'Plaats je afbeeldingen hier',
+	));
