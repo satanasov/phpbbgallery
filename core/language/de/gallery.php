@@ -117,7 +117,7 @@ $lang = array_merge($lang, array(
 	'DESC_TOO_LONG'					=> 'Deine Beschreibung ist zu lang',
 	'DESCRIPTION_LENGTH'			=> 'Gib deine Beschreibung hier ein. Sie darf nicht mehr als <strong>%d</strong> Zeichen enthalten.',
 	'DETAILS'						=> 'Details',
-	'DISALLOWED_EXTENSION'			=> 'This image extension is not allowed',
+	'DISALLOWED_EXTENSION'			=> 'Diese Bild-Erweiterung ist nicht erlaubt',
 	'DONT_RATE_IMAGE'				=> 'Bild nicht bewerten',
 
 	'EDIT_COMMENT'					=> 'Kommentar ändern',
@@ -133,7 +133,7 @@ $lang = array_merge($lang, array(
 	'FILETYPES_PNG'					=> 'png',
 	'FILETYPES_ZIP'					=> 'zip',
 
-	'FULL_EDITOR'					=> 'Full editor',
+	'FULL_EDITOR'					=> 'Voll-Editor',
 
 	'GALLERY_IMAGE'					=> 'Bild',
 	'GALLERY_IMAGES'					=> 'Bilder',
@@ -159,9 +159,9 @@ $lang = array_merge($lang, array(
 	'IMAGES_UPDATED_SUCCESSFULLY'	=> 'Deine Bilderinformationen wurden erfolgreich aktualisiert',
 	'INSERT_IMAGE_POST'				=> 'Bild in Beitrag einfügen',
 	'INVALID_USERNAME'				=> 'Der Benutzername ist ungültig',
-	'INVALID_IMAGE'					=> 'Invalid Image',
-	'FILE_DISALLOWED_EXTENSION'		=> 'File extension is not allowed',
-	'FILE_WRONG_FILESIZE'			=> 'Wrong file size',
+	'INVALID_IMAGE'					=> 'Ungültiges Bild',
+	'FILE_DISALLOWED_EXTENSION'		=> 'Datei-Endung ist nicht zulässig.',
+	'FILE_WRONG_FILESIZE'			=> 'Falsche Dateigröße',
 
 	'LAST_COMMENT'					=> 'Letzter Kommentar',
 	'LAST_IMAGE'					=> 'Letztes Bild',
@@ -198,7 +198,7 @@ $lang = array_merge($lang, array(
 	'NOT_RATED'						=> 'Nicht bewertet',
 	'NO_SEARCH_RESULTS'				=> 'Keine Alben gefunden',
 
-	'NO_WRITE_ACCESS'				=> 'The upload directory is missing or phpBB has no write access to it.<br>Please contact the board admin!',
+	'NO_WRITE_ACCESS'				=> 'Das Uploadverzeichnis fehlt oder PhpBB verfügt über keinen Schreibzugriff darauf.<br>Bitte kontaktiere den Board-Admin!',
 
 	'ORDER'							=> 'Reihenfolge',
 	'ORIG_FILENAME'					=> 'Dateinamen als Bildname verwenden (das Eingabefeld ist ohne Funktion)',
@@ -256,7 +256,7 @@ $lang = array_merge($lang, array(
 	'SEARCH_RECENT'					=> 'Neueste Bilder',
 	'NO_SEARCH_RESULTS_RECENT'		=> 'Es gibt keine Bilder oder Du hast nicht die Berechtigung sie zu sehen!',
 	'SEARCH_RECENT_COMMENTS'		=> 'Neueste Kommentare',
-	'NO_SEARCH_RESULTS_RECENT_COMMENTS'	=> 'There are no recent comments or you do not have access!',
+	'NO_SEARCH_RESULTS_RECENT_COMMENTS'	=> 'Es gibt keine aktuellen Kommentare, oder Du hast keinen Zugriff!',
 	'SEARCH_SUBALBUMS'				=> 'Subalben durchsuchen',
 	'SEARCH_TOPRATED'				=> 'Beste Bewertungen',
 	'SEARCH_USER_IMAGES'			=> 'Bilder des Mitglieds anzeigen',
@@ -364,8 +364,8 @@ $lang = array_merge($lang, array(
 		1	=>	'Bild verschoben',
 		2	=> 	'%s Bilder verschoben',
 	),
-	'WRONG_FILESIZE'	=> 'Image is bigger then the limit!',
+	'WRONG_FILESIZE'	=> 'Das Bild hat die max. eingestellte Größe überschritten!',
 
 	// Versions 1.2.1 addiotions
-	'GALLERY_DROP'		=> 'Drop your images here',
+	'GALLERY_DROP'		=> 'Lege dein Bilder hierher',
 ));
