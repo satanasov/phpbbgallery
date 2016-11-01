@@ -37,3 +37,4 @@ $lang = array_merge($lang, array(
 	'NOTIFICATION_TYPE_PHPBBGALLERY_NEW_REPORT'	=> 'Nouvelle image rapportée',
 	'NOTIFICATION_PHPBBGALLERY_NEW_REPORT'			=> '<strong>%1$s</strong> image rapportée',
 ));
+?>
