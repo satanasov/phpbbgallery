@@ -27,3 +27,4 @@ $lang = array_merge($lang, array(
 	'UCP_GALLERY_SETTINGS'				=> 'Paramètres personnels',
 	'UCP_GALLERY_WATCH'					=> 'Gérer les abonnements',
 ));
+?>
