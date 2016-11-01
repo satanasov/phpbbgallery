@@ -77,3 +77,4 @@ $lang = array_merge($lang, array(
 	'MOVE_TO_USER_EXP'	=> 'Les images et les commentaires seront attribués à l’utilisateur que vous avez défini. Si aucun n’est sélectionné - “Anonyme“ sera utilisé.',
 	'CLEAN_USER_NOT_FOUND'	=> 'L’utilisateur sélectionné n’existe pas!',
 ));
+?>
