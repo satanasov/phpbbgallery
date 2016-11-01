@@ -26,3 +26,4 @@ $lang = array_merge($lang, array(
 	'ACL_A_GALLERY_MANAGE'		=> 'Peut gérer les paramètres de la Galerie phpBB',
 	'ACL_A_GALLERY_ALBUMS'		=> 'Peut ajouter/éditer les albums et les permissions',
 ));
+?>
