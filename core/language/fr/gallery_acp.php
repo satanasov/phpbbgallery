@@ -406,3 +406,4 @@ $lang = array_merge($lang, array(
 	'UP_TO_DATE'			=> '%s est à jour.',
 	'VERSION_CHECK'			=> 'Vérification de la version de l’extension',
 ));
+?>
