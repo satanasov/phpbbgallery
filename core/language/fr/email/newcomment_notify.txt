@@ -1,0 +1,13 @@
+Subject: Notification de nouveau commentaire - "{IMAGE_NAME}"
+
+Bonjour {USERNAME},
+
+Vous recevez cette notification car vous surveillez cette image, "{IMAGE_NAME}" sur "{SITENAME}". Cette image a reçu un nouveau commentaire depuis votre dernière visite.
+
+Vous pouvez utiliser le lien suivant pour lire le commentaire :
+
+{U_IMAGE}
+
+Si vous ne souhaitez plus surveiller cet album, vous pouvez cliquer sur le lien « Désabonner » qui se trouve en-dessous de l’album.
+
+{EMAIL_SIG}
