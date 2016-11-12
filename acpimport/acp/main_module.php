@@ -36,6 +36,7 @@ class main_module
 
 		$import_schema = $request->variable('import_schema', '');
 		$images = $request->variable('images', array(''), true);
+
 		$submit = (isset($_POST['submit'])) ? true : ((empty($images)) ? false : true);
 
 		if ($import_schema)
@@ -227,7 +228,7 @@ class main_module
 				$gallery_config->inc('num_images', $images_loop);
 				$todo_images = $todo_images - $images_loop;
 			}
-			\phpbbgallery\core\album\album::update_info($album_id);
+			$gallery_album->update_info($album_id);
 
 			if (!$todo_images)
 			{

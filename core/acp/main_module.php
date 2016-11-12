@@ -402,10 +402,11 @@ class main_module
 					$sql = 'SELECT album_id
 						FROM ' . $albums_table;
 					$result = $db->sql_query($sql);
+
 					while ($row = $db->sql_fetchrow($result))
 					{
 						// 5 sql's per album, but you don't run this daily ;)
-						$phpbb_ext_gallery_core_album::update_info($row['album_id']);
+						$phpbb_ext_gallery_core_album->update_info($row['album_id']);
 					}
 					$db->sql_freeresult($result);
 					trigger_error($user->lang['RESYNCED_LAST_IMAGES'] . adm_back_link($this->u_action));
