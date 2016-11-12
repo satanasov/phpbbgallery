@@ -392,7 +392,7 @@ class album
 		$this->gallery_config->set('newest_pega_album_id', $personal_album_id);
 
 		$this->gallery_cache->destroy('_albums');
-		$this->gallery_cache->destroy('sql', $albums_table);
+		$this->gallery_cache->destroy('sql', $this->albums_table);
 
 		return $personal_album_id;
 	}
