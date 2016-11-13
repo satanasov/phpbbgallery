@@ -365,7 +365,7 @@ $lang = array_merge($lang, array(
 
 	'QUICK_MOD'	=> 'Selecteer moderator actie',
 	'WRONG_FILESIZE'	=> 'De afbeeldingsgrootte is groter dan toegestaan!',
-	
+
 	// Versions 1.2.1 addiotions
 	'GALLERY_DROP'		=> 'Plaats je afbeeldingen hier',
 	));

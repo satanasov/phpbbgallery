@@ -253,7 +253,6 @@ $lang = array_merge($lang, array(
 	'PERMISSIONS_COPY_EXPLAIN'		=> 'Vous pouvez copier ici les permissions d’un album pour un ou plusieurs autres albums.',
 	'PERMISSIONS_EXPLAIN'			=> 'Vous pouvez modifier ici l’accès des albums aux utilisateurs et/ou groupes d’utilisateurs.',
 	'PERMISSIONS_STORED'			=> 'Les permissions ont été enregistrées avec succès.',
-	
 	'PERSONAL_ALBUM_INDEX'			=> 'Afficher les albums personnels sur l’index comme un album',
 	'PERSONAL_ALBUM_INDEX_EXP'		=> 'Si vous mettez « Non », il y aura le lien juste en-dessous.',
 	'PEGA_CREATED'					=> 'Création de la galerie personnelle pour %s.',

@@ -171,18 +171,18 @@ class cache
 	}
 
 	/**
-     * Destroy interface for phpbb_cache destroy
-     *
-     */
+	* Destroy interface for phpbb_cache destroy
+	*
+	*/
 	public function destroy($target, $subtarget = false)
-    {
-        if ($subtarget)
-        {
-            $this->phpbb_cache->destroy($target, $subtarget);
-        }
-        else
-        {
-            $this->phpbb_cache->destroy($target);
-        }
-    }
+	{
+		if ($subtarget)
+		{
+			$this->phpbb_cache->destroy($target, $subtarget);
+		}
+		else
+		{
+			$this->phpbb_cache->destroy($target);
+		}
+ 	}
 }
