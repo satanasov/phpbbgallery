@@ -149,7 +149,7 @@ class main_module
 	function initialise_album()
 	{
 		global $cache, $db,  $user, $phpbb_ext_gallery_core_auth, $phpbb_ext_gallery_core_album, $phpbb_ext_gallery_config, $albums_table, $phpbb_ext_gallery_user;
-		global $request;
+		global $request, $users_table;
 
 		// we will have to initialse $phpbb_ext_gallery_user
 		$phpbb_ext_gallery_user->set_user_id($user->data['user_id']);
@@ -192,6 +192,7 @@ class main_module
 
 			$cache->destroy('_albums');
 			$cache->destroy('sql', $albums_table);
+			$cache->destroy('sql', $users_table);
 			$phpbb_ext_gallery_core_auth->set_user_permissions('all', '');
 		}
 		redirect($this->u_action);
@@ -292,7 +293,7 @@ class main_module
 	function create_album()
 	{
 		global $cache, $db, $template, $user, $phpbb_gallery_url, $phpbb_ext_gallery_core_auth, $albums_table, $phpbb_ext_gallery_core_album, $request;
-		global $phpbb_ext_gallery_user;
+		global $phpbb_ext_gallery_user, $users_table;
 		$phpbb_gallery_url->_include(array('bbcode', 'message_parser'), 'phpbb');
 
 		// Check if the user has already reached his limit
@@ -424,6 +425,7 @@ class main_module
 
 			$cache->destroy('_albums');
 			$cache->destroy('sql', $albums_table);
+			$cache->destroy('sql', $users_table);
 			$phpbb_ext_gallery_core_auth->set_user_permissions('all', '');
 
 			trigger_error($user->lang['CREATED_SUBALBUM'] . '<br /><br />
@@ -434,7 +436,7 @@ class main_module
 	function edit_album()
 	{
 		global $config, $cache, $db, $template, $user, $phpbb_gallery_url, $phpbb_ext_gallery_core_album, $phpbb_ext_gallery_core_auth, $albums_table, $phpbb_ext_gallery_core_album_display;
-		global $request, $phpbb_ext_gallery_user;
+		global $request, $phpbb_ext_gallery_user, $users_table;
 
 		$phpbb_gallery_url->_include(array('bbcode','message_parser'), 'phpbb');
 
@@ -657,6 +659,7 @@ class main_module
 			$db->sql_query($sql);
 
 			$cache->destroy('sql', $albums_table);
+			$cache->destroy('sql', $users_table);
 			$cache->destroy('_albums');
 
 			trigger_error($user->lang['EDITED_SUBALBUM'] . '<br /><br />
@@ -667,7 +670,7 @@ class main_module
 	function delete_album()
 	{
 		global $cache, $db, $template, $user, $phpbb_gallery_url, $phpbb_ext_gallery_core_album, $albums_table;
-		global $images_table, $phpbb_gallery_image, $phpbb_ext_gallery_config, $phpbb_dispatcher, $request;
+		global $images_table, $phpbb_gallery_image, $phpbb_ext_gallery_config, $phpbb_dispatcher, $request, $users_table;
 		global $comments_table, $images_table, $rates_table, $reports_table, $watch_table, $phpbb_ext_gallery_core_auth, $phpbb_ext_gallery_user;
 
 		$s_hidden_fields = build_hidden_fields(array(
@@ -837,6 +840,7 @@ class main_module
 			$cache->destroy('sql', $rates_table);
 			$cache->destroy('sql', $reports_table);
 			$cache->destroy('sql', $watch_table);
+			$cache->destroy('sql', $users_table);
 			$cache->destroy('_albums');
 			$phpbb_ext_gallery_core_auth->set_user_permissions('all', '');
 
@@ -853,7 +857,7 @@ class main_module
 
 	function move_album()
 	{
-		global $cache, $db, $user, $phpbb_ext_gallery_core_album, $albums_table, $request, $phpbb_gallery_url;
+		global $cache, $db, $user, $phpbb_ext_gallery_core_album, $albums_table, $request, $phpbb_gallery_url, $users_table;
 
 		$album_id = $request->variable('album_id', 0);
 		$phpbb_ext_gallery_core_album->check_user($album_id);
@@ -917,6 +921,7 @@ class main_module
 		$db->sql_query($sql);
 
 		$cache->destroy('sql', $albums_table);
+		$cache->destroy('sql', $users_table);
 		$cache->destroy('_albums');
 		$phpbb_gallery_url->redirect('phpbb', 'ucp', 'i=-phpbbgallery-core-ucp-main_module&amp;mode=manage_albums&amp;action=manage&amp;parent_id=' . $moving['parent_id']);
 	}
