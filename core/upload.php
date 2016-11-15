@@ -26,7 +26,7 @@ class upload
 	private $upload = null;
 	private $file = null;
 	private $zip_file = null;
-	private $tools = null;
+	//private $tools = null;
 
 	/**
 	* Basic variables...
@@ -71,6 +71,7 @@ class upload
 	 */
 	public function __construct(\phpbb\user $user, \phpbb\db\driver\driver_interface $db, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbb\request\request $request,
 								\phpbbgallery\core\image\image $gallery_image, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\url $gallery_url, \phpbbgallery\core\block $block,
+								\phpbbgallery\core\file\file $gallery_file,
 								$images_table,
 								$root_path, $php_ext)
 	{
@@ -82,6 +83,7 @@ class upload
 		$this->gallery_config = $gallery_config;
 		$this->gallery_url	= $gallery_url;
 		$this->block = $block;
+		$this->tools = $gallery_file;
 		$this->images_table = $images_table;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
@@ -102,7 +104,7 @@ class upload
 		$this->upload = new \fileupload();
 		$this->upload->fileupload('', $this->get_allowed_types(), (4 * $this->gallery_config->get('max_filesize')));
 
-		$this->tools = new \phpbbgallery\core\file\file($this->request, $this->gallery_url, $this->gallery_config->get('gdlib_version'));
+		//$this->tools = new \phpbbgallery\core\file\file($this->request, $this->gallery_url, $this->gallery_config->get('gdlib_version'));
 
 		$this->album_id = (int) $album_id;
 		$this->file_limit = (int) $num_files;

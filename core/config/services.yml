@@ -282,6 +282,7 @@ services:
             - @phpbbgallery.core.config
             - @phpbbgallery.core.url
             - @phpbbgallery.core.block
+            - @phpbbgallery.core.file.tool
             - %tables.phpbbgallery.images%
             - %core.root_path%
             - %core.php_ext%
