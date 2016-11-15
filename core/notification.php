@@ -16,12 +16,18 @@ namespace phpbbgallery\core;
 
 class notification
 {
+	/**
+	 * notification constructor.
+	 * @param \phpbb\db\driver\driver_interface $db
+	 * @param \phpbb\user $user
+	 * @param $watch_table
+	 */
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user,
-	$watch_table)
+								$watch_table)
 	{
 		$this->db = $db;
 		$this->user = $user;
-		$this->wathch_table = $watch_table;
+		$this->watch_table = $watch_table;
 	}
 
 	/**
@@ -36,7 +42,7 @@ class notification
 		$user_id = (int) (($user_id) ? $user_id : $this->user->data['user_id']);
 
 		// First check if we are not subscribed alredy for some
-		$sql = 'SELECT * FROM ' . $this->wathch_table . '  WHERE user_id = ' . $user_id . ' AND ' . $this->db->sql_in_set('image_id', $image_ids);
+		$sql = 'SELECT * FROM ' . $this->watch_table . '  WHERE user_id = ' . (int) $user_id . ' AND ' . $this->db->sql_in_set('image_id', $image_ids);
 		$result = $this->db->sql_query($sql);
 		$exclude = array();
 		while ($row = $this->db->sql_fetchrow($result))
@@ -48,10 +54,10 @@ class notification
 		foreach ($image_ids as $image_id)
 		{
 			$sql_ary = array(
-				'image_id'		=> $image_id,
-				'user_id'		=> $user_id,
+				'image_id'		=> (int) $image_id,
+				'user_id'		=> (int) $user_id,
 			);
-			$sql = 'INSERT INTO ' . $this->wathch_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
+			$sql = 'INSERT INTO ' . $this->watch_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
 			$this->db->sql_query($sql);
 		}
 	}
@@ -70,10 +76,10 @@ class notification
 		foreach ($album_ids as $album_id)
 		{
 			$sql_ary = array(
-				'album_id'		=> $album_id,
-				'user_id'		=> $user_id,
+				'album_id'		=> (int) $album_id,
+				'user_id'		=> (int) $user_id,
 			);
-			$sql = 'INSERT INTO ' . $this->wathch_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
+			$sql = 'INSERT INTO ' . $this->watch_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
 			$this->db->sql_query($sql);
 		}
 	}
@@ -89,7 +95,7 @@ class notification
 		$image_ids = self::cast_mixed_int2array($image_ids);
 		$user_ids = self::cast_mixed_int2array((($user_ids) ? $user_ids : $this->user->data['user_id']));
 
-		$sql = 'DELETE FROM ' . $this->wathch_table . ' 
+		$sql = 'DELETE FROM ' . $this->watch_table . ' 
 			WHERE ' . $this->db->sql_in_set('user_id', $user_ids) . '
 				AND ' . $this->db->sql_in_set('image_id', $image_ids);
 		$this->db->sql_query($sql);
@@ -106,7 +112,7 @@ class notification
 		$album_ids = self::cast_mixed_int2array($album_ids);
 		$user_ids = self::cast_mixed_int2array((($user_ids) ? $user_ids : $this->user->data['user_id']));
 
-		$sql = 'DELETE FROM ' . $this->wathch_table . ' 
+		$sql = 'DELETE FROM ' . $this->watch_table . ' 
 			WHERE ' . $this->db->sql_in_set('user_id', $user_ids) . '
 				AND ' . $this->db->sql_in_set('album_id', $album_ids);
 		$this->db->sql_query($sql);
@@ -121,7 +127,7 @@ class notification
 	{
 		$image_ids = self::cast_mixed_int2array($image_ids);
 
-		$sql = 'DELETE FROM ' . $this->wathch_table . ' 
+		$sql = 'DELETE FROM ' . $this->watch_table . ' 
 			WHERE ' . $this->db->sql_in_set('image_id', $image_ids);
 		$this->db->sql_query($sql);
 	}
@@ -136,7 +142,7 @@ class notification
 	{
 		$album_ids = self::cast_mixed_int2array($album_ids);
 
-		$sql = 'DELETE FROM ' . $this->wathch_table . ' 
+		$sql = 'DELETE FROM ' . $this->watch_table . ' 
 			WHERE ' . $this->db->sql_in_set('album_id', $album_ids);
 
 		$this->db->sql_query($sql);

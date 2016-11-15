@@ -12,11 +12,29 @@ namespace phpbbgallery\core;
 
 class moderate
 {
+	/**
+	 * moderate constructor.
+	 * @param \phpbb\db\driver\driver_interface $db
+	 * @param \phpbb\template\template $template
+	 * @param \phpbb\controller\helper $helper
+	 * @param \phpbb\user $user
+	 * @param \phpbb\user_loader $user_loader
+	 * @param album\album $album
+	 * @param auth\auth $gallery_auth
+	 * @param \phpbb\pagination $pagination
+	 * @param comment $comment
+	 * @param report $report
+	 * @param image\image $image
+	 * @param config $gallery_config
+	 * @param notification $gallery_notification
+	 * @param rating $gallery_rating
+	 * @param $images_table
+	 */
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\controller\helper $helper, \phpbb\user $user,
-	\phpbb\user_loader $user_loader, \phpbbgallery\core\album\album $album, \phpbbgallery\core\auth\auth $gallery_auth, \phpbb\pagination $pagination,
-	\phpbbgallery\core\comment $comment, \phpbbgallery\core\report $report, \phpbbgallery\core\image\image $image,
-	\phpbbgallery\core\config $gallery_config, \phpbbgallery\core\notification $gallery_notification, \phpbbgallery\core\rating $gallery_rating,
-	$images_table)
+								\phpbb\user_loader $user_loader, \phpbbgallery\core\album\album $album, \phpbbgallery\core\auth\auth $gallery_auth, \phpbb\pagination $pagination,
+								\phpbbgallery\core\comment $comment, \phpbbgallery\core\report $report, \phpbbgallery\core\image\image $image,
+								\phpbbgallery\core\config $gallery_config, \phpbbgallery\core\notification $gallery_notification, \phpbbgallery\core\rating $gallery_rating,
+								$images_table)
 	{
 		$this->db = $db;
 		$this->template = $template;
@@ -68,7 +86,7 @@ class moderate
 		// Let's get count of unapproved
 		$sql = 'SELECT COUNT(DISTINCT image_id) as count 
 			FROM ' . $this->images_table . ' 
-			WHERE image_status = ' . \phpbbgallery\core\block::STATUS_UNAPPROVED . ' and ' . $this->db->sql_in_set('image_album_id', $mod_array);
+			WHERE image_status = ' . \phpbbgallery\core\block::STATUS_UNAPPROVED . ' AND ' . $this->db->sql_in_set('image_album_id', $mod_array);
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
@@ -76,7 +94,7 @@ class moderate
 		// If user has no albums to have e return him
 		$sql = 'SELECT * 
 			FROM ' . $this->images_table . ' 
-			WHERE image_status = ' . \phpbbgallery\core\block::STATUS_UNAPPROVED . ' and ' . $this->db->sql_in_set('image_album_id', $mod_array) . '
+			WHERE image_status = ' . \phpbbgallery\core\block::STATUS_UNAPPROVED . ' AND ' . $this->db->sql_in_set('image_album_id', $mod_array) . '
 			ORDER BY image_id DESC';
 		$page = $page - 1;
 		$result = $this->db->sql_query_limit($sql, $per_page, $page * $per_page);
@@ -159,7 +177,7 @@ class moderate
 	/**
 	 * Build album overview
 	 *
-	 * @param    $album_id
+	 * @param    int $album_id
 	 * @param    int $page     This queue builder should return objects for MCP queues, so page?
 	 * @param    int $per_page We need how many elements per page
 	 * @internal param int $album album we build queue for
@@ -205,7 +223,7 @@ class moderate
 		{
 			$actions['report']	= 'REPORT_A_CLOSE';
 		}
-		$sql = 'SELECT COUNT(DISTINCT image_id) as count FROM ' . $this->images_table . ' WHERE ' . $this->db->sql_in_set('image_status', $status) . ' AND image_album_id = ' . (int) $album_id;
+		$sql = 'SELECT COUNT(DISTINCT image_id) AS count FROM ' . $this->images_table . ' WHERE ' . $this->db->sql_in_set('image_status', $status) . ' AND image_album_id = ' . (int) $album_id;
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);

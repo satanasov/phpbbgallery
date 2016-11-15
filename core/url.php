@@ -48,17 +48,17 @@ class url
 	 * @param \phpbb\request\request   $request
 	 * @param \phpbb\config\config     $config
 	 * @param                          $phpbb_root_path
-	 * @param                          $phpEx
+	 * @param                          $php_ext
 	 * @param string                   $phpbb_admin_path
 	 */
-	public function __construct(\phpbb\template\template $template, \phpbb\request\request $request, \phpbb\config\config $config, $phpbb_root_path, $phpEx, $phpbb_admin_path = 'adm/')
+	public function __construct(\phpbb\template\template $template, \phpbb\request\request $request, \phpbb\config\config $config, $phpbb_root_path, $php_ext, $phpbb_admin_path = 'adm/')
 	{
 		$this->template = $template;
 		$this->request = $request;
 		$this->config = $config;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->phpbb_admin_path = $this->phpbb_root_path . $phpbb_admin_path;
-		$this->phpEx = '.' . $phpEx;
+		$this->php_ext = $php_ext;
 
 		$this->phpbb_gallery_relative = self::beautiful_path($this->phpbb_root_path . $this->phpbb_gallery_path);
 		$this->phpbb_gallery_full_path = self::beautiful_path(generate_board_url() . '/' . $this->phpbb_gallery_path, true);
@@ -183,7 +183,7 @@ class url
 			$file = 'viewimage';
 		}*/
 
-		return $file . $this->phpEx;
+		return $file . $this->php_ext;
 	}
 
 	public function _include($file, $path = 'gallery', $sub_directory = 'includes/')

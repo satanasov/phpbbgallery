@@ -104,8 +104,6 @@ class upload
 		$this->upload = new \fileupload();
 		$this->upload->fileupload('', $this->get_allowed_types(), (4 * $this->gallery_config->get('max_filesize')));
 
-		//$this->tools = new \phpbbgallery\core\file\file($this->request, $this->gallery_url, $this->gallery_config->get('gdlib_version'));
-
 		$this->album_id = (int) $album_id;
 		$this->file_limit = (int) $num_files;
 		$this->username = $this->user->data['username'];
@@ -129,9 +127,9 @@ class upload
 		$this->file_count = (int) $file_count;
 
 		$this->files = $this->form_upload('files');
-		foreach ($this->files as $VAR)
+		foreach ($this->files as $var)
 		{
-			$this->file = $VAR;
+			$this->file = $var;
 			if (!$this->file->uploadname)
 			{
 				return false;
@@ -252,7 +250,7 @@ class upload
 	/**
 	 * Update image information in the database: name, description, status, contest, ...
 	 *
-	 * @param      $image_id
+	 * @param int $image_id
 	 * @param bool $needs_approval
 	 * @param bool $is_in_contest
 	 * @return bool
@@ -764,14 +762,14 @@ class upload
 			);
 		}
 
-		foreach ($upload_redy as $ID => $VAR)
+		foreach ($upload_redy as $ID => $var)
 		{
 			$upload = array(
-				'name' => $VAR['name'],
-				'type' => $VAR['type'],
-				'tmp_name' => $VAR['tmp_name'],
-				'error'	=> $VAR['error'],
-				'size'	=> $VAR['size']
+				'name' => $var['name'],
+				'type' => $var['type'],
+				'tmp_name' => $var['tmp_name'],
+				'error'	=> $var['error'],
+				'size'	=> $var['size']
 			);
 			$file = new \filespec($upload, $this, $mimetype_guesser, null);
 			if ($file->init_error)

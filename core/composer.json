@@ -1,7 +1,7 @@
 {
 	"name": "phpbbgallery/core",
 	"type": "phpbb-extension",
-	"description": "PhpBB Gallery",
+	"description": "phpBB Gallery",
 	"homepage": "https://github.com/satanasov/phpbbgallery",
 	"version": "1.2.0",
 	"time": "2014-03-15",

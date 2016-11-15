@@ -12,9 +12,21 @@ namespace phpbbgallery\core;
 
 class log
 {
+	/**
+	 * log constructor.
+	 * @param \phpbb\db\driver\driver_interface $db
+	 * @param \phpbb\user $user
+	 * @param \phpbb\user_loader $user_loader
+	 * @param \phpbb\template\template $template
+	 * @param \phpbb\controller\helper $helper
+	 * @param \phpbb\pagination $pagination
+	 * @param auth\auth $gallery_auth
+	 * @param config $gallery_config
+	 * @param $log_table
+	 */
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\user_loader $user_loader, \phpbb\template\template $template,
-	\phpbb\controller\helper $helper, \phpbb\pagination $pagination, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\config $gallery_config,
-	$log_table)
+								\phpbb\controller\helper $helper, \phpbb\pagination $pagination, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\config $gallery_config,
+								$log_table)
 	{
 		$this->db = $db;
 		$this->user = $user;
@@ -36,7 +48,6 @@ class log
 	 * @param   int				$image       Image we are loging for (can be 0)
 	 * @param	array|string 	$description Description string
 	 */
-
 	public function add_log($log_type, $log_action, $album = 0, $image = 0, $description = array())
 	{
 		$user = (int) $this->user->data['user_id'];

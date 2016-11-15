@@ -21,7 +21,7 @@ class contest
 	 * but for the time being - redefine contest constants here as private
 	 */
 	/**
-	 * Constants regarding the image contest relation
+	 * Variables regarding the image contest relation
 	 */
 	private $NO_CONTEST = 0;
 

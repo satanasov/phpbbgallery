@@ -48,11 +48,19 @@ class rating
 	* Simple thumbs up or down.
 	//@todo: const MODE_THUMB = 3;
 	*/
-
+	
 	/**
-	* Constructor
-	*
-	*/
+	 * Constructor
+	 * @param \phpbb\db\driver\driver_interface $db
+	 * @param \phpbb\template\template $template
+	 * @param \phpbb\user $user
+	 * @param \phpbb\request\request $request
+	 * @param config $gallery_config
+	 * @param auth\auth $gallery_auth
+	 * @param $images_table
+	 * @param $albums_table
+	 * @param $rates_table
+	 */
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\user $user, \phpbb\request\request $request,
 	\phpbbgallery\core\config $gallery_config, \phpbbgallery\core\auth\auth $gallery_auth,
 	$images_table, $albums_table, $rates_table)
@@ -97,7 +105,7 @@ class rating
 		{
 			$sql = 'SELECT *
 				FROM ' . $this->images_table . '
-				WHERE image_id = ' . $this->image_id;
+				WHERE image_id = ' . (int) $this->image_id;
 			$result = $this->db->sql_query($sql);
 			$this->image_data = $this->db->sql_fetchrow($result);
 			$this->db->sql_freeresult($result);
