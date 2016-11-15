@@ -123,6 +123,7 @@ services:
         arguments:
             - @request
             - @phpbbgallery.core.url
+            - @phpbbgallery.core.config
             - 2
     phpbbgallery.core.image:
         class: phpbbgallery\core\image\image

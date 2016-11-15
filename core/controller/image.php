@@ -58,7 +58,7 @@ class image
 	\phpbbgallery\core\image\image $image, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\config $gallery_config,
 	\phpbbgallery\core\auth\level $auth_level, \phpbbgallery\core\url $url, \phpbbgallery\core\misc $misc, \phpbbgallery\core\comment $comment, \phpbbgallery\core\report $report,
 	\phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\log $gallery_log, \phpbbgallery\core\moderate $moderate, \phpbbgallery\core\rating $gallery_rating,
-	\phpbbgallery\core\block $block, ContainerInterface $phpbb_container,
+	\phpbbgallery\core\block $block, ContainerInterface $phpbb_container, \phpbb\user_loader $user_loader,
 	$albums_table, $images_table, $users_table, $table_comments, $phpbb_root_path, $php_ext)
 	{
 		$this->request = $request;

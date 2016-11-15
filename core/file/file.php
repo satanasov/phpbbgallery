@@ -13,7 +13,7 @@ namespace phpbbgallery\core\file;
 /**
  * A little class for all the actions that the gallery does on images.
 *
-* resize, rotate, watermark, create thumbnail, write to hdd, send to browser
+* resize, rotate, watermark, crete thumbnail, write to hdd, send to browser
  *
  * @property \phpbbgallery\core\url url
  * @property \phpbb\request\request request
@@ -54,18 +54,20 @@ class file
 	public $watermark_size = array();
 	public $watermark_source = '';
 	public $watermarked = false;
-
+	
 	/**
 	 * Constructor - init some basic stuff
 	 *
 	 * @param \phpbb\request\request $request
 	 * @param \phpbbgallery\core\url $url
-	 * @param int                    $gd_version
+	 * @param \phpbbgallery\core\config $gallery_config
+	 * @param int $gd_version
 	 */
-	public function __construct(\phpbb\request\request $request, \phpbbgallery\core\url $url, $gd_version)
+	public function __construct(\phpbb\request\request $request, \phpbbgallery\core\url $url, \phpbbgallery\core\config $gallery_config, $gd_version)
 	{
 		$this->request = $request;
 		$this->url = $url;
+		$this->gallery_config = $gallery_config;
 		$this->gd_version = $gd_version;
 	}
 
@@ -173,8 +175,12 @@ class file
 	/**
 	* Write image to disk
 	*/
-	public function write_image($destination, $quality = 100, $destroy_image = false)
+	public function write_image($destination, $quality = -1, $destroy_image = false)
 	{
+		if ($quality == -1)
+		{
+			$quality = $this->gallery_config->get('jpg_quality');
+		}
 		switch ($this->image_type)
 		{
 			case 'jpeg':

@@ -115,6 +115,7 @@ class core_search_test extends core_base
 		$this->file = new \phpbbgallery\core\file\file(
 			$this->request,
 			$this->url,
+			$this->gallery_config,
 			2
 		);
 		$this->contest = new \phpbbgallery\core\contest(

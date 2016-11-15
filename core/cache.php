@@ -184,5 +184,5 @@ class cache
 		{
 			$this->phpbb_cache->destroy($target);
 		}
- 	}
+	}
 }
