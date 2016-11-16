@@ -132,12 +132,6 @@ class image
 			$this->file->delete($filenames);
 		}
 
-		// Delete the ratings...
-		//$phpbb_gallery_image_rating->delete_ratings($images);
-		//$phpbb_gallery_comment->delete_images($images);
-		//$phpbb_gallery_notification->delete_images($images);
-		//$this->gallery_report->delete_images($images);
-
 		/**
 		* Event delete images
 		*
@@ -384,7 +378,7 @@ class image
 			return;
 		}
 
-		$sql = 'SELECT * FROM ' . $this->table_images .' WHERE image_id = ' . $image_id;
+		$sql = 'SELECT * FROM ' . $this->table_images .' WHERE image_id = ' . (int) $image_id;
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);

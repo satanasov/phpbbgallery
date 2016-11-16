@@ -483,7 +483,7 @@ class file
 		{
 			foreach ($locations as $location)
 			{
-				unlink($this->url->path($location) . $file);
+				@unlink($this->url->path($location) . $file);
 			}
 		}
 	}

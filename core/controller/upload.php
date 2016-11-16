@@ -126,7 +126,7 @@ class upload
 					FROM ' . $this->images_table . '
 					WHERE image_user_id = ' . $this->user->data['user_id'] . '
 						AND image_status <> ' . $this->block->get_image_status_orphan() . '
-						AND image_album_id = ' . $album_id;
+						AND image_album_id = ' . (int) $album_id;
 				$result = $this->db->sql_query($sql);
 				$own_images = (int) $this->db->sql_fetchfield('count');
 				$this->db->sql_freeresult($result);
@@ -231,7 +231,7 @@ class upload
 					FROM ' . $this->images_table . '
 					WHERE image_user_id = ' . $this->user->data['user_id'] . '
 						AND image_status <> ' . $this->block->get_image_status_orphan() . '
-						AND image_album_id = ' . $album_id;
+						AND image_album_id = ' . (int) $album_id;
 				$result = $this->db->sql_query($sql);
 				$own_images = (int) $this->db->sql_fetchfield('count');
 				$this->db->sql_freeresult($result);
@@ -322,13 +322,6 @@ class upload
 				}*/
 			}
 
-			if (!$submit || (isset($process) && !$process->uploaded_files))
-			{
-				for ($i = 0; $i < $upload_files_limit; $i++)
-				{
-					//$this->template->assign_block_vars('upload_image', array());
-				}
-			}
 			if ($mode == 'upload')
 			{
 				$this->template->assign_vars(array(
@@ -406,7 +399,7 @@ class upload
 						FROM ' . $this->images_table . '
 						WHERE image_user_id = ' . $this->user->data['user_id'] . '
 							AND image_status <> ' . $this->block->get_image_status_orphan() . '
-							AND image_album_id = ' . $album_id;
+							AND image_album_id = ' . (int) $album_id;
 					$result = $this->db->sql_query($sql);
 					$own_images = (int) $this->db->sql_fetchfield('count');
 					$this->db->sql_freeresult($result);
@@ -457,7 +450,7 @@ class upload
 					//$this->notification_helper->notify_album($album_id, $this->user->data['user_id']);
 					$data = array(
 						'targets'	=> array($this->user->data['user_id']),
-						'album_id'	=> $album_id,
+						'album_id'	=> (int) $album_id,
 						'last_image'	=> end($process->images),
 					);
 					$this->notification_helper->new_image($data);
@@ -465,7 +458,7 @@ class upload
 				else
 				{
 					$target = array(
-						'album_id'	=>	$album_id,
+						'album_id'	=>	(int) $album_id,
 						'last_image'	=> end($process->images),
 						'uploader'		=> $this->user->data['user_id'],
 					);

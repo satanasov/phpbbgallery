@@ -105,7 +105,7 @@ class moderate
 	{
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 		$album_backlink = $album_id === 0 ? $this->helper->route('phpbbgallery_core_moderate') : $this->helper->route('phpbbgallery_core_moderate_album', array('album_id'	=> $album_id));
-		$album_loginlink = append_sid('./ucp.php?mode=login');
+		$album_loginlink = append_sid($this->root_path . 'ucp.' . $this->php_ext . '?mode=login');
 		if ($album_id === 0)
 		{
 			if (!$this->gallery_auth->acl_check_global('m_'))
@@ -164,7 +164,7 @@ class moderate
 
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 		$album_backlink = $album_id === 0 ? $this->helper->route('phpbbgallery_core_moderate') : $this->helper->route('phpbbgallery_core_moderate_album', array('album_id'	=> $album_id));
-		$album_loginlink = append_sid('/ucp.php?mode=login');
+		$album_loginlink = append_sid($this->root_path . 'ucp.' . $this->php_ext . '?mode=login');
 		if ($album_id === 0)
 		{
 			if (!$this->gallery_auth->acl_check_global('m_status'))
@@ -259,7 +259,7 @@ class moderate
 
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 		$album_backlink = $album_id === 0 ? $this->helper->route('phpbbgallery_core_moderate') : $this->helper->route('phpbbgallery_core_moderate_album', array('album_id'	=> $album_id));
-		$album_loginlink = append_sid('/ucp.php?mode=login');
+		$album_loginlink = append_sid($this->root_path . 'ucp.' . $this->php_ext . '?mode=login');
 		if ($album_id === 0)
 		{
 			if (!$this->gallery_auth->acl_check_global('m_'))
@@ -325,7 +325,7 @@ class moderate
 		}
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 		$album_backlink = $album_id === 0 ? $this->helper->route('phpbbgallery_core_moderate') : $this->helper->route('phpbbgallery_core_moderate_album', array('album_id'	=> $album_id));
-		$album_loginlink = append_sid('/ucp.php?mode=login');
+		$album_loginlink = append_sid($this->root_path . 'ucp.' . $this->php_ext . '?mode=login');
 		if ($album_id === 0)
 		{
 			if (!$this->gallery_auth->acl_check_global('m_report'))
@@ -458,7 +458,7 @@ class moderate
 		}
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 		$album_backlink = $album_id === 0 ? $this->helper->route('phpbbgallery_core_moderate') : $this->helper->route('phpbbgallery_core_moderate_album', array('album_id'	=> $album_id));
-		$album_loginlink = append_sid('/ucp.php?mode=login');
+		$album_loginlink = append_sid($this->root_path . 'ucp.' . $this->php_ext . '?mode=login');
 		if ($album_id === 0)
 		{
 			if (!$this->gallery_auth->acl_check_global('m_'))
@@ -642,7 +642,7 @@ class moderate
 
 		$album_backlink = $this->helper->route('phpbbgallery_core_album', array('album_id' => $image_data['image_album_id']));
 		$image_backlink = $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_id));
-		$album_loginlink = append_sid('/ucp.php?mode=login');
+		$album_loginlink = append_sid($this->root_path . 'ucp.' . $this->php_ext . '?mode=login');
 		$meta_refresh_time = 2;
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 		if (!$this->gallery_auth->acl_check('m_status', $image_data['image_album_id'], $album_data['album_user_id']))
@@ -703,7 +703,7 @@ class moderate
 
 		$album_backlink = $this->helper->route('phpbbgallery_core_index');
 		$image_backlink = $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_id));
-		$album_loginlink = append_sid('/ucp.php?mode=login');
+		$album_loginlink = append_sid($this->root_path . 'ucp.' . $this->php_ext . '?mode=login');
 		$meta_refresh_time = 2;
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 		if (!$this->gallery_auth->acl_check('m_status', $image_data['image_album_id'], $album_data['album_user_id']))
@@ -744,7 +744,7 @@ class moderate
 		$album_data =  $this->album->get_info($album_id);
 		$album_backlink = $this->helper->route('phpbbgallery_core_album', array('album_id' => $album_id));
 		$image_backlink = $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_id));
-		$album_loginlink = append_sid('/ucp.php?mode=login');
+		$album_loginlink = append_sid($this->root_path . 'ucp.' . $this->php_ext . '?mode=login');
 		$meta_refresh_time = 2;
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery_mcp'));
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
@@ -792,7 +792,7 @@ class moderate
 		$album_data =  $this->album->get_info($album_id);
 		$album_backlink = $this->helper->route('phpbbgallery_core_album', array('album_id' => $album_id));
 		$image_backlink = $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_id));
-		$album_loginlink = append_sid('/ucp.php?mode=login');
+		$album_loginlink = append_sid($this->root_path . 'ucp.' . $this->php_ext . '?mode=login');
 		$meta_refresh_time = 2;
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery_mcp'));
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
