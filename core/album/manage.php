@@ -27,7 +27,7 @@ class manage
 	public $parent_id = 0;
 
 	private $u_action = '';
-	
+
 	/**
 	 * manage constructor.
 	 * @param \phpbb\user $user
@@ -99,21 +99,27 @@ class manage
 	{
 		$this->u_action = $action;
 	}
+	
 	/**
-	* Generate back link for acp pages
-	*/
+	 * Generate back link for acp pages
+	 * @param $u_action
+	 * @return string
+	 */
 	public function back_link($u_action)
 	{
 		return '<br /><br /><a href="' . $u_action . '">&laquo; ' . $this->user->lang['BACK_TO_PREV'] . '</a>';
 	}
-
+	
 	/**
-	* Update album data
-	*
-	* borrowed from phpBB3
-	* @author: phpBB Group
-	* @function: update_forum_data
-	*/
+	 * Update album data
+	 *
+	 * borrowed from phpBB3
+	 * @author: phpBB Group
+	 * @function: update_forum_data
+	 * @param $album_data
+	 * @param $contest_data
+	 * @return array
+	 */
 	public function update_album_data(&$album_data, &$contest_data)
 	{
 		$errors = array();
@@ -462,14 +468,17 @@ class manage
 
 		return $errors;
 	}
-
+	
 	/**
-	* Move album
-	*
-	* borrowed from phpBB3
-	* @author: phpBB Group
-	* @function: move_forum
-	*/
+	 * Move album
+	 *
+	 * borrowed from phpBB3
+	 * @author: phpBB Group
+	 * @function: move_forum
+	 * @param $from_id
+	 * @param $to_id
+	 * @return array
+	 */
 	public function move_album($from_id, $to_id)
 	{
 		$to_data = $moved_ids = $errors = array();
@@ -566,14 +575,20 @@ class manage
 
 		return $errors;
 	}
-
+	
 	/**
-	* Remove complete album
-	*
-	* borrowed from phpBB3
-	* @author: phpBB Group
-	* @function: delete_forum
-	*/
+	 * Remove complete album
+	 *
+	 * borrowed from phpBB3
+	 * @author: phpBB Group
+	 * @function: delete_forum
+	 * @param $album_id
+	 * @param string $action_images
+	 * @param string $action_subalbums
+	 * @param int $images_to_id
+	 * @param int $subalbums_to_id
+	 * @return array
+	 */
 	public function delete_album($album_id, $action_images = 'delete', $action_subalbums = 'delete', $images_to_id = 0, $subalbums_to_id = 0)
 	{
 		$album_data = $this->gallery_album->get_info($album_id);
@@ -767,14 +782,18 @@ class manage
 		$this->gallery_auth->set_user_permissions('all', '');
 		return $errors;
 	}
-
+	
 	/**
-	* Move album content from one to another album
-	*
-	* borrowed from phpBB3
-	* @author: phpBB Group
-	* @function: move_forum_content
-	*/
+	 * Move album content from one to another album
+	 *
+	 * borrowed from phpBB3
+	 * @author: phpBB Group
+	 * @function: move_forum_content
+	 * @param $from_id
+	 * @param $to_id
+	 * @param bool $sync
+	 * @return array
+	 */
 	public function move_album_content($from_id, $to_id, $sync = true)
 	{
 		// Lucifer TODO - Log to gallery log
@@ -832,11 +851,13 @@ class manage
 
 		return array();
 	}
-
+	
 	/**
-	* Delete album content:
-	* Deletes all images, comments, rates, image-files, etc.
-	*/
+	 * Delete album content:
+	 * Deletes all images, comments, rates, image-files, etc.
+	 * @param $album_id
+	 * @return array
+	 */
 	public function delete_album_content($album_id)
 	{
 		$album_id = (int) $album_id;
@@ -930,14 +951,18 @@ class manage
 
 		return array();
 	}
-
+	
 	/**
-	* Move album position by $steps up/down
-	*
-	* borrowed from phpBB3
-	* @author: phpBB Group
-	* @function: move_forum_by
-	*/
+	 * Move album position by $steps up/down
+	 *
+	 * borrowed from phpBB3
+	 * @author: phpBB Group
+	 * @function: move_forum_by
+	 * @param $album_row
+	 * @param string $action
+	 * @param int $steps
+	 * @return mixed
+	 */
 	public function move_album_by($album_row, $action = 'move_up', $steps = 1)
 	{
 		/**

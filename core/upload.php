@@ -54,17 +54,19 @@ class upload
 	var $min_height = 0;
 	var $max_width = 0;
 	var $max_height = 0;
-
+	
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\user                       $user           phpBB User class
+	 * @param \phpbb\user $user phpBB User class
 	 * @param \phpbb\db\driver\driver_interface $db
 	 * @param \phpbb\event\dispatcher_interface $phpbb_dispatcher
-	 * @param \phpbb\request\request            $request
-	 * @param \phpbbgallery\core\image\image    $gallery_image
-	 * @param \phpbbgallery\core\config         $gallery_config Gallery Config
-	 * @param \phpbbgallery\core\url            $gallery_url    Gallery url
+	 * @param \phpbb\request\request $request
+	 * @param \phpbbgallery\core\image\image $gallery_image
+	 * @param \phpbbgallery\core\config $gallery_config Gallery Config
+	 * @param \phpbbgallery\core\url $gallery_url Gallery url
+	 * @param block $block
+	 * @param file\file $gallery_file
 	 * @param                                   $images_table
 	 * @param                                   $root_path
 	 * @param                                   $php_ext
@@ -735,16 +737,16 @@ class upload
 	/**
 	 * Here we do a lot of hacking and slashing ... don't ask why ... I will have to change it to plupload usage once I know how!
 	 */
-
+	
 	/**
 	 * Form upload method
 	 * Upload file from users harddisk
 	 *
 	 * @param string $form_name Form name assigned to the file input field (if it is an array, the key has to be specified)
 	 * @param \phpbb\mimetype\guesser $mimetype_guesser Mimetype guesser
-	 * @param \phpbb\plupload\plupload $plupload The plupload object
-	 *
 	 * @return object $file Object "filespec" is returned, all further operations can be done with this object
+	 * @internal param \phpbb\plupload\plupload $plupload The plupload object
+	 *
 	 * @access public
 	 */
 	private function form_upload($form_name, \phpbb\mimetype\guesser $mimetype_guesser = null)
@@ -826,9 +828,10 @@ class upload
 		}
 		return $files;
 	}
-
+	
 	/**
 	 * Perform common checks
+	 * @param $file
 	 */
 	function common_checks(&$file)
 	{
@@ -877,8 +880,11 @@ class upload
 		}
 		return in_array($file->get('extension'), $allowed);
 	}
+	
 	/**
 	 * Check for allowed dimension
+	 * @param $file
+	 * @return bool
 	 */
 	function valid_dimensions(&$file)
 	{

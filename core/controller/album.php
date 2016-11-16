@@ -44,22 +44,27 @@ class album
 
 	/* @var string */
 	protected $table_images;
-
+	
 	/**
-	* Constructor
-	*
-	* @param \phpbb\config\config		$config		Config object
-	* @param \phpbb\controller\helper	$helper		Controller helper object
-	* @param \phpbb\db\driver\driver	$db			Database object
-	* @param \phpbb\pagination			$pagination	Pagination object
-	* @param \phpbb\template\template	$template	Template object
-	* @param \phpbb\user				$user		User object
-	* @param \phpbbgallery\core\album\display	$display	Albums display object
-	* @param \phpbbgallery\core\album\loader	$loader	Albums display object
-	* @param \phpbbgallery\core\auth\auth	$auth	Gallery auth object
-	* @param \phpbbgallery\core\auth\level	$auth_level	Gallery auth level object
-	* @param string						$images_table	Gallery image table
-	*/
+	 * Constructor
+	 *
+	 * @param \phpbb\config\config $config Config object
+	 * @param \phpbb\controller\helper $helper Controller helper object
+	 * @param \phpbb\db\driver\driver|\phpbb\db\driver\driver_interface $db Database object
+	 * @param \phpbb\pagination $pagination Pagination object
+	 * @param \phpbb\template\template $template Template object
+	 * @param \phpbb\user $user User object
+	 * @param \phpbbgallery\core\album\display $display Albums display object
+	 * @param \phpbbgallery\core\album\loader $loader Albums display object
+	 * @param \phpbbgallery\core\auth\auth $auth Gallery auth object
+	 * @param \phpbbgallery\core\auth\level $auth_level Gallery auth level object
+	 * @param \phpbbgallery\core\config $gallery_config
+	 * @param \phpbbgallery\core\notification\helper $notifications_helper
+	 * @param \phpbbgallery\core\url $url
+	 * @param \phpbbgallery\core\image\image $image
+	 * @param \phpbb\request\request $request
+	 * @param string $images_table Gallery image table
+	 */
 	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $db,
 	\phpbb\pagination $pagination, \phpbb\template\template $template, \phpbb\user $user, \phpbbgallery\core\album\display $display,
 	\phpbbgallery\core\album\loader $loader, \phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\auth\level $auth_level,  \phpbbgallery\core\config $gallery_config,
@@ -83,14 +88,15 @@ class album
 		$this->request = $request;
 		$this->table_images = $images_table;
 	}
-
+	
 	/**
-	* Album Controller
-	*	Route: gallery/album/{album_id}
-	*
-	* @param int	$album_id	Root Album ID
-	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
-	*/
+	 * Album Controller
+	 *    Route: gallery/album/{album_id}
+	 *
+	 * @param int $album_id Root Album ID
+	 * @param int $page
+	 * @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	 */
 	public function base($album_id, $page = 0)
 	{
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
@@ -440,9 +446,12 @@ class album
 		}
 		//return $this->helper->render('gallery/moderate_approve.html', $this->user->lang('GALLERY'));
 	}
+	
 	/**
-	 * @param	int		$album_id
-	 * @param	array	$album_data
+	 * @param    int $album_id
+	 * @param $owner_id
+	 * @param $album_auth_level
+	 * @internal param array $album_data
 	 */
 	protected function check_permissions($album_id, $owner_id, $album_auth_level)
 	{

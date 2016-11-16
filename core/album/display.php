@@ -55,14 +55,20 @@ class display
 		$this->table_tracking = $tracking_table;
 		$this->table_moderators = $moderators_table;
 	}
-
+	
 	/**
-	* Get album branch
-	*
-	* borrowed from phpBB3
-	* @author: phpBB Group
-	* @function: get_forum_branch
-	*/
+	 * Get album branch
+	 *
+	 * borrowed from phpBB3
+	 * @author: phpBB Group
+	 * @function: get_forum_branch
+	 * @param $branch_user_id
+	 * @param $album_id
+	 * @param string $type
+	 * @param string $order
+	 * @param bool $include_album
+	 * @return array
+	 */
 	public function get_branch($branch_user_id, $album_id, $type = 'all', $order = 'descending', $include_album = true)
 	{
 		switch ($type)
@@ -103,15 +109,16 @@ class display
 
 		return $rows;
 	}
-
+	
 	/**
-	* Create album navigation links for given album, create parent
-	* list if currently null, assign basic album info to template
-	*
-	* borrowed from phpBB3
-	* @author: phpBB Group
-	* @function: generate_forum_nav
-	*/
+	 * Create album navigation links for given album, create parent
+	 * list if currently null, assign basic album info to template
+	 *
+	 * borrowed from phpBB3
+	 * @author: phpBB Group
+	 * @function: generate_forum_nav
+	 * @param $album_data
+	 */
 	public function generate_navigation($album_data)
 	{
 		// Add gallery menu entry
@@ -174,14 +181,16 @@ class display
 
 		return;
 	}
-
+	
 	/**
-	* Returns album parents as an array. Get them from album_data if available, or update the database otherwise
-	*
-	* borrowed from phpBB3
-	* @author: phpBB Group
-	* @function: get_forum_parents
-	*/
+	 * Returns album parents as an array. Get them from album_data if available, or update the database otherwise
+	 *
+	 * borrowed from phpBB3
+	 * @author: phpBB Group
+	 * @function: get_forum_parents
+	 * @param $album_data
+	 * @return array|mixed
+	 */
 	public function get_parents($album_data)
 	{
 		$album_parents = array();
@@ -218,14 +227,16 @@ class display
 
 		return $album_parents;
 	}
-
+	
 	/**
-	* Obtain list of moderators of each album
-	*
-	* borrowed from phpBB3
-	* @author: phpBB Group
-	* @function: get_forum_moderators
-	*/
+	 * Obtain list of moderators of each album
+	 *
+	 * borrowed from phpBB3
+	 * @author: phpBB Group
+	 * @function: get_forum_moderators
+	 * @param bool $album_id
+	 * @return array
+	 */
 	public function get_moderators($album_id = false)
 	{
 		$album_id_ary = $album_moderators = array();
@@ -295,14 +306,18 @@ class display
 
 		return $album_moderators;
 	}
-
+	
 	/**
-	* Display albums
-	*
-	* borrowed from phpBB3
-	* @author: phpBB Group
-	* @function: display_forums
-	*/
+	 * Display albums
+	 *
+	 * borrowed from phpBB3
+	 * @author: phpBB Group
+	 * @function: display_forums
+	 * @param string $root_data
+	 * @param bool $display_moderators
+	 * @param bool $return_moderators
+	 * @return array
+	 */
 	public function display_albums($root_data = '', $display_moderators = true, $return_moderators = false)
 	{
 		$album_rows = $subalbums = $album_ids = $album_ids_moderator = $album_moderators = $active_album_ary = array();

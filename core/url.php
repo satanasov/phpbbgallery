@@ -151,9 +151,15 @@ class url
 	{
 		return $this->phpbb_gallery_full_path . 'album/' . $album_id;
 	}
+	
 	/**
-	* Removes the sid and replaces &amp; with normal &
-	*/
+	 * Removes the sid and replaces &amp; with normal &
+	 * @param $path
+	 * @param $file
+	 * @param bool $params
+	 * @param bool $is_amp
+	 * @return string
+	 */
 	public function create_link($path, $file, $params = false, $is_amp = true)
 	{
 		if ($is_amp && !is_array($params))

@@ -79,13 +79,15 @@ class phpbbgallery_image_approved extends \phpbb\notification\type\base
 		// No parent
 		return $data['album_id'];
 	}
+	
 	/**
-	* Find the users who will receive notifications
-	*
-	* @param array $data The data for the updated rules
-	*
-	* @return array
-	*/
+	 * Find the users who will receive notifications
+	 *
+	 * @param array $data The data for the updated rules
+	 *
+	 * @param array $options
+	 * @return array
+	 */
 	public function find_users_for_notification($data, $options = array())
 	{
 		$this->user_loader->load_users($data['user_ids']);

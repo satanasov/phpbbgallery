@@ -133,13 +133,14 @@ class helper
 			break;
 		}
 	}
-
+	
 	/**
-	* Get watched for album
-	*
-	* @param (int) $album_id	Album we check
-	* @param (int) $user_id = false	User we check for
-	*/
+	 * Get watched for album
+	 *
+	 * @param (int) $album_id    Album we check
+	 * @param bool $user_id
+	 * @return
+	 */
 	public function get_watched_album($album_id, $user_id = false)
 	{
 		if (!$user_id)
@@ -152,9 +153,12 @@ class helper
 		$this->db->sql_freeresult($result);
 		return $row['count'];
 	}
+	
 	/**
-	* Get album watchers
-	*/
+	 * Get album watchers
+	 * @param $album_id
+	 * @return array
+	 */
 	public function get_album_watchers($album_id)
 	{
 		$sql = 'SELECT user_id FROM ' . $this->watch_table . ' WHERE album_id = ' . (int) $album_id;
@@ -167,9 +171,12 @@ class helper
 
 		return $watchers;
 	}
+	
 	/**
-	* Get album watchers
-	*/
+	 * Get album watchers
+	 * @param $image_id
+	 * @return array
+	 */
 	public function get_image_watchers($image_id)
 	{
 		$sql = 'SELECT user_id FROM ' . $this->watch_table . ' WHERE image_id = ' . (int) $image_id;
@@ -182,13 +189,13 @@ class helper
 
 		return $watchers;
 	}
-
+	
 	/**
-	* Add albums to watch-list
-	*
-	* @param	mixed	$album_ids		Array or integer with album_id where we delete from the watch-list.
-	* @param	int		$user_id		If not set, it uses the currents user_id
-	*/
+	 * Add albums to watch-list
+	 *
+	 * @param    mixed $album_ids Array or integer with album_id where we delete from the watch-list.
+	 * @param bool|int $user_id If not set, it uses the currents user_id
+	 */
 	public function add_albums($album_ids, $user_id = false)
 	{
 		$album_ids = $this->cast_mixed_int2array($album_ids);
@@ -249,11 +256,12 @@ class helper
 			return array((int) $ids);
 		}
 	}
-
+	
 	/**
-	*
-	* New image in album
-	*/
+	 *
+	 * New image in album
+	 * @param $data
+	 */
 	public function new_image($data)
 	{
 		$get_watchers = $this->get_album_watchers($data['album_id']);

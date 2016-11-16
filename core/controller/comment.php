@@ -34,30 +34,32 @@ class comment
 
 	/* @var \phpbbgallery\core\url */
 	protected $url;
-
+	
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\db\driver\driver_interface      $db
-	 * @param \phpbb\user                            $user
-	 * @param \phpbb\auth\auth                       $auth
-	 * @param \phpbb\config\config                   $config
-	 * @param \phpbb\template\template               $template
-	 * @param \phpbb\request\request                 $request phpBB request class
-	 * @param \phpbb\controller\helper               $helper  Controller helper object
-	 * @param \phpbbgallery\core\image\image         $image   phpBB Gallery Core image object
-	 * @param \phpbbgallery\core\album\loader        $loader  phpBB Gallery Core album loader
-	 * @param \phpbbgallery\core\album\album         $album   phpBB Gallery Core album object
-	 * @param \phpbbgallery\core\album\display       $display phpBB Gallery Core album display
-	 * @param \phpbbgallery\core\url                 $url     phpBB Gallery Core url object
-	 * @param \phpbbgallery\core\auth\auth           $gallery_auth
-	 * @param \phpbbgallery\core\config              $gallery_config
-	 * @param \phpbbgallery\core\misc                $misc
-	 * @param \phpbbgallery\core\comment             $comment
-	 * @param \phpbbgallery\core\user                $gallery_user
-	 * @param \phpbbgallery\core\log                 $gallery_log
+	 * @param \phpbb\db\driver\driver_interface $db
+	 * @param \phpbb\user $user
+	 * @param \phpbb\auth\auth $auth
+	 * @param \phpbb\config\config $config
+	 * @param \phpbb\template\template $template
+	 * @param \phpbb\request\request $request phpBB request class
+	 * @param \phpbb\controller\helper $helper Controller helper object
+	 * @param \phpbbgallery\core\image\image $image phpBB Gallery Core image object
+	 * @param \phpbbgallery\core\album\loader $loader phpBB Gallery Core album loader
+	 * @param \phpbbgallery\core\album\album $album phpBB Gallery Core album object
+	 * @param \phpbbgallery\core\album\display $display phpBB Gallery Core album display
+	 * @param \phpbbgallery\core\url $url phpBB Gallery Core url object
+	 * @param \phpbbgallery\core\auth\auth $gallery_auth
+	 * @param \phpbbgallery\core\config $gallery_config
+	 * @param \phpbbgallery\core\misc $misc
+	 * @param \phpbbgallery\core\comment $comment
+	 * @param \phpbbgallery\core\user $gallery_user
+	 * @param \phpbbgallery\core\log $gallery_log
 	 * @param \phpbbgallery\core\notification\helper $notification_helper
-	 * @param \phpbbgallery\core\notification        $gallery_notification
+	 * @param \phpbbgallery\core\notification $gallery_notification
+	 * @param \phpbbgallery\core\rating $gallery_rating
+	 * @param ContainerInterface $phpbb_container
 	 * @param                                        $table_comments
 	 * @param                                        $phpbb_root_path
 	 * @param                                        $php_ext
@@ -95,14 +97,15 @@ $table_comments, $phpbb_root_path, $php_ext)
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 	}
-
+	
 	/**
-	* comment Controller
-	*	Route: gallery/comment/{image_id}/add
-	*
-	* @param int	$image_id	Image ID
-	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
-	*/
+	 * comment Controller
+	 *    Route: gallery/comment/{image_id}/add
+	 *
+	 * @param int $image_id Image ID
+	 * @param $comment_id
+	 * @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	 */
 	public function add($image_id, $comment_id)
 	{
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
@@ -348,14 +351,15 @@ $table_comments, $phpbb_root_path, $php_ext)
 
 		return $this->helper->render('gallery/comment_body.html', $page_title);
 	}
-
+	
 	/**
-	* comment Controller
-	*	Route: gallery/comment/{image_id}/edit/{comment_id}
-	*
-	* @param int	$image_id	Image ID
-	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
-	*/
+	 * comment Controller
+	 *    Route: gallery/comment/{image_id}/edit/{comment_id}
+	 *
+	 * @param int $image_id Image ID
+	 * @param $comment_id
+	 * @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	 */
 	public function edit($image_id, $comment_id)
 	{
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
@@ -555,14 +559,15 @@ $table_comments, $phpbb_root_path, $php_ext)
 
 		return $this->helper->render('gallery/comment_body.html', $page_title);
 	}
-
+	
 	/**
-	* comment Controller
-	*	Route: gallery/comment/{image_id}/delete/{comment_id}
-	*
-	* @param int	$image_id	Image ID
-	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
-	*/
+	 * comment Controller
+	 *    Route: gallery/comment/{image_id}/delete/{comment_id}
+	 *
+	 * @param int $image_id Image ID
+	 * @param $comment_id
+	 * @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	 */
 	public function delete($image_id, $comment_id)
 	{
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));

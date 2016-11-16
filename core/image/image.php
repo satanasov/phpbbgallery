@@ -204,7 +204,7 @@ class image
 
 		return $filenames;
 	}
-
+	
 	/**
 	 * Generate link to image
 	 *
@@ -217,7 +217,7 @@ class image
 	 * @param    bool $count shall the image-link be counted as view? (Set to false from image_page.php to deny double increment)
 	 * @param    string $additional_parameters additional parameters for the url, (starting with &amp;)
 	 * @param int $next_image
-	 * @return
+	 * @return mixed
 	 */
 	public function generate_link($content, $mode, $image_id, $image_name, $album_id, $is_gif = false, $count = true, $additional_parameters = '', $next_image = 0)
 	{

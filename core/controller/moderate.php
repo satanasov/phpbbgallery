@@ -94,13 +94,14 @@ class moderate
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 	}
-
+	
 	/**
-	* Index Controller
-	*	Route: gallery/modarate
-	*
-	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
-	*/
+	 * Index Controller
+	 *    Route: gallery/modarate
+	 *
+	 * @param int $album_id
+	 * @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	 */
 	public function base($album_id = 0)
 	{
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
@@ -144,13 +145,15 @@ class moderate
 
 		return $this->helper->render('gallery/moderate_overview.html', $this->user->lang('GALLERY'));
 	}
-
+	
 	/**
-	* Index Controller
-	*	Route: gallery/modarate/approve
-	*
-	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
-	*/
+	 * Index Controller
+	 *    Route: gallery/modarate/approve
+	 *
+	 * @param $page
+	 * @param $album_id
+	 * @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	 */
 	public function queue_approve($page, $album_id)
 	{
 		$approve_ary = $this->request->variable('approval', array('' => array(0)));
@@ -244,13 +247,15 @@ class moderate
 		$this->moderate->build_list($album_id, $page);
 		return $this->helper->render('gallery/moderate_approve.html', $this->user->lang('GALLERY'));
 	}
-
+	
 	/**
-	* Index Controller
-	*	Route: gallery/modarate/actions
-	*
-	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
-	*/
+	 * Index Controller
+	 *    Route: gallery/modarate/actions
+	 *
+	 * @param $page
+	 * @param $album_id
+	 * @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	 */
 	public function action_log($page, $album_id)
 	{
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery_mcp'));
@@ -286,12 +291,16 @@ class moderate
 		$this->gallery_log->build_list('moderator', 0, $page, $album_id);
 		return $this->helper->render('gallery/moderate_actions.html', $this->user->lang('GALLERY'));
 	}
+	
 	/**
-	* Index Controller
-	*	Route: gallery/modarate/reports
-	*
-	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
-	*/
+	 * Index Controller
+	 *    Route: gallery/modarate/reports
+	 *
+	 * @param $page
+	 * @param $album_id
+	 * @param $status
+	 * @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	 */
 	public function reports($page, $album_id, $status)
 	{
 		$report_ary = $this->request->variable('report', array(0));
@@ -356,13 +365,15 @@ class moderate
 		$this->report->build_list($album_id, $page, $this->config['phpbb_gallery_items_per_page'], $status);
 		return $this->helper->render('gallery/moderate_reports.html', $this->user->lang('GALLERY'));
 	}
-
+	
 	/**
-	* Moderate Controller
-	* 	Route: gallery/moderate/{album_id}/list
-	*
-	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
-	*/
+	 * Moderate Controller
+	 *    Route: gallery/moderate/{album_id}/list
+	 *
+	 * @param $album_id
+	 * @param $page
+	 * @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	 */
 	public function album_overview($album_id, $page)
 	{
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery_mcp'));
@@ -485,12 +496,14 @@ class moderate
 		$this->moderate->album_overview($album_id, $page);
 		return $this->helper->render('gallery/moderate_album_overview.html', $this->user->lang('GALLERY'));
 	}
+	
 	/**
-	* Index Controller
-	*	Route: gallery/modarate/image/{image_id}
-	*
-	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
-	*/
+	 * Index Controller
+	 *    Route: gallery/modarate/image/{image_id}
+	 *
+	 * @param $image_id
+	 * @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	 */
 	public function image($image_id)
 	{
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery_mcp'));
@@ -628,13 +641,14 @@ class moderate
 		}
 		return $this->helper->render('gallery/moderate_image_overview.html', $this->user->lang('GALLERY'));
 	}
-
+	
 	/**
-	* Index Controller
-	*	Route: gallery/modarate/image/{image_id}/approve
-	*
-	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
-	*/
+	 * Index Controller
+	 *    Route: gallery/modarate/image/{image_id}/approve
+	 *
+	 * @param $image_id
+	 * @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	 */
 	public function approve($image_id)
 	{
 		$image_data = $this->image->get_image_data($image_id);
@@ -689,13 +703,14 @@ class moderate
 
 		return $this->helper->render('gallery/moderate_overview.html', $this->user->lang('GALLERY'));
 	}
-
+	
 	/**
-	* Index Controller
-	*	Route: gallery/modarate/image/{image_id}/unapprove
-	*
-	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
-	*/
+	 * Index Controller
+	 *    Route: gallery/modarate/image/{image_id}/unapprove
+	 *
+	 * @param $image_id
+	 * @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	 */
 	public function unapprove($image_id)
 	{
 		$image_data = $this->image->get_image_data($image_id);
@@ -729,13 +744,14 @@ class moderate
 			confirm_box(false, 'QUEUE_A_UNAPPROVE2', $s_hidden_fields);
 		}
 	}
-
+	
 	/**
-	* Index Controller
-	*	Route: gallery/modarate/image/{image_id}/move
-	*
-	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
-	*/
+	 * Index Controller
+	 *    Route: gallery/modarate/image/{image_id}/move
+	 *
+	 * @param $image_id
+	 * @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	 */
 	public function move($image_id)
 	{
 		$image_data = $this->image->get_image_data($image_id);
@@ -777,13 +793,14 @@ class moderate
 
 		return $this->helper->render('gallery/mcp_body.html', $this->user->lang('GALLERY'));
 	}
-
+	
 	/**
-	* Index Controller
-	*	Route: gallery/modarate/image/{image_id}/lock
-	*
-	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
-	*/
+	 * Index Controller
+	 *    Route: gallery/modarate/image/{image_id}/lock
+	 *
+	 * @param $image_id
+	 * @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	 */
 	public function lock($image_id)
 	{
 		$image_data = $this->image->get_image_data($image_id);

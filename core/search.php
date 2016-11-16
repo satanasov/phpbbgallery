@@ -77,11 +77,15 @@ class search
 		$this->albums_table = $albums_table;
 		$this->comments_table = $comments_table;
 	}
-
+	
 	/**
-	* Generate random images and populate template
-	* @param (int)	$limit	how many images to generate_link
-	*/
+	 * Generate random images and populate template
+	 * @param (int)    $limit    how many images to generate_link
+	 * @param int $user
+	 * @param string $fields
+	 * @param bool $block_name
+	 * @param bool $u_block
+	 */
 	public function random($limit, $user = 0, $fields = 'rrc_gindex_display', $block_name = false, $u_block = false)
 	{
 		// Define some vars
@@ -225,12 +229,12 @@ class search
 		$row = $this->db->sql_fetchrow($result);
 		return (int) $row['count'];
 	}
-
+	
 	/**
-	* recent comments
-	* @param (int)	$limit How many imagese to query
-	* @param (int)	$start From which image to start
-	*/
+	 * recent comments
+	 * @param (int)    $limit How many imagese to query
+	 * @param int $start
+	 */
 	public function recent_comments($limit, $start = 0)
 	{
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
@@ -497,10 +501,12 @@ class search
 			}
 		}
 	}
-
+	
 	/**
-	* Get top rated image
-	*/
+	 * Get top rated image
+	 * @param $limit
+	 * @param int $start
+	 */
 	public function rating($limit, $start = 0)
 	{
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);

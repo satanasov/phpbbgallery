@@ -428,10 +428,13 @@ class config_module
 			//'tpl'	=> 'my_custom_templatefile',
 		),
 	);
-
+	
 	/**
-	* Disabled Radio Buttons
-	*/
+	 * Disabled Radio Buttons
+	 * @param $value
+	 * @param $key
+	 * @return string
+	 */
 	function disabled_boolean($value, $key)
 	{
 		global $user;
@@ -443,10 +446,13 @@ class config_module
 
 		return $tpl;
 	}
-
+	
 	/**
-	* Select sort method
-	*/
+	 * Select sort method
+	 * @param $value
+	 * @param $key
+	 * @return string
+	 */
 	function sort_method_select($value, $key)
 	{
 		global $user;
@@ -464,10 +470,13 @@ class config_module
 
 		return "<select name=\"config[$key]\" id=\"$key\">$sort_method_options</select>";
 	}
-
+	
 	/**
-	* Select sort order
-	*/
+	 * Select sort order
+	 * @param $value
+	 * @param $key
+	 * @return string
+	 */
 	function sort_order_select($value, $key)
 	{
 		global $user;
@@ -479,10 +488,13 @@ class config_module
 
 		return "<select name=\"config[$key]\" id=\"$key\">$sort_order_options</select>";
 	}
-
+	
 	/**
-	* Radio Buttons for GD library
-	*/
+	 * Radio Buttons for GD library
+	 * @param $value
+	 * @param $key
+	 * @return string
+	 */
 	function gd_radio($value, $key)
 	{
 		global $phpbb_container;
@@ -497,20 +509,26 @@ class config_module
 
 		return $tpl;
 	}
-
+	
 	/**
-	* Display watermark
-	*/
+	 * Display watermark
+	 * @param $value
+	 * @param $key
+	 * @return string
+	 */
 	function watermark_source($value, $key)
 	{
 		global $user;
 
 		return generate_board_url() . "<br /><input type=\"text\" name=\"config[$key]\" id=\"$key\" value=\"$value\" size =\"40\" maxlength=\"125\" /><br /><img src=\"" . generate_board_url() . "/$value\" alt=\"" . $user->lang['WATERMARK'] . "\" />";
 	}
-
+	
 	/**
-	* Display watermark
-	*/
+	 * Display watermark
+	 * @param $value
+	 * @param $key
+	 * @return string
+	 */
 	function watermark_position($value, $key)
 	{
 		global $user;
@@ -530,10 +548,13 @@ class config_module
 		// Cheating is an evil-thing, but most times it's successful, that's why it is used.
 		return "<input type='hidden' name='config[$key]' value='$value' /><select name='" . $key . "_x' id='" . $key . "_x'>$x_position_options</select><select name='" . $key . "_y' id='" . $key . "_y'>$y_position_options</select>";
 	}
-
+	
 	/**
-	* Select the link destination
-	*/
+	 * Select the link destination
+	 * @param $value
+	 * @param $key
+	 * @return string
+	 */
 	function uc_select($value, $key)
 	{
 		global $user;
@@ -554,10 +575,13 @@ class config_module
 		return "<select name='config[$key]' id='$key'>$sort_order_options</select>"
 			. (($key == 'link_thumbnail') ? '<br /><input class="checkbox" type="checkbox" name="update_bbcode" id="update_bbcode" value="update_bbcode" /><label for="update_bbcode">' .  $user->lang['UPDATE_BBCODE'] . '</label>' : '');
 	}
-
+	
 	/**
-	* Select RRC-Config on gallery/index.php and in the profile
-	*/
+	 * Select RRC-Config on gallery/index.php and in the profile
+	 * @param $value
+	 * @param $key
+	 * @return string
+	 */
 	function rrc_modes($value, $key)
 	{
 		global $user, $phpbb_container;
@@ -577,10 +601,13 @@ class config_module
 		// Cheating is an evil-thing, but most times it's successful, that's why it is used.
 		return "<input type='hidden' name='config[$key]' value='$value' /><select name='" . $key . "[]' multiple='multiple' id='$key'>$rrc_mode_options</select>";
 	}
-
+	
 	/**
-	* Select RRC display options
-	*/
+	 * Select RRC display options
+	 * @param $value
+	 * @param $key
+	 * @return string
+	 */
 	function rrc_display($value, $key)
 	{
 		global $user, $phpbb_container;
@@ -602,10 +629,12 @@ class config_module
 		// Cheating is an evil-thing, but most times it's successful, that's why it is used.
 		return "<input type='hidden' name='config[$key]' value='$value' /><select name='" . $key . "[]' multiple='multiple' id='$key'>$rrc_display_options</select>";
 	}
-
+	
 	/**
-	* BBCode-Template
-	*/
+	 * BBCode-Template
+	 * @param $value
+	 * @return string
+	 */
 	function bbcode_tpl($value)
 	{
 		global $phpbb_gallery_url;

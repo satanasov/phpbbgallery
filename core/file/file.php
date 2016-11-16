@@ -100,12 +100,14 @@ class file
 			$this->resized = false;
 		}
 	}
-
+	
 	/**
-	* Get image mimetype by filename
-	*
-	* Only use this, if the image is secure. As we created all these images, they should be...
-	*/
+	 * Get image mimetype by filename
+	 *
+	 * Only use this, if the image is secure. As we created all these images, they should be...
+	 * @param $filename
+	 * @return string
+	 */
 	static public function mimetype_by_filename($filename)
 	{
 		switch (utf8_substr(strtolower($filename), -4))
@@ -124,10 +126,12 @@ class file
 
 		return '';
 	}
-
+	
 	/**
-	* Read image
-	*/
+	 * Read image
+	 * @param bool $force_filesize
+	 * @return bool
+	 */
 	public function read_image($force_filesize = false)
 	{
 		if (!file_exists($this->image_source))
@@ -171,10 +175,13 @@ class file
 
 		$this->image_content_type = $image_size['mime'];
 	}
-
+	
 	/**
-	* Write image to disk
-	*/
+	 * Write image to disk
+	 * @param $destination
+	 * @param int $quality
+	 * @param bool $destroy_image
+	 */
 	public function write_image($destination, $quality = -1, $destroy_image = false)
 	{
 		if ($quality == -1)
@@ -231,16 +238,17 @@ class file
 	{
 		$this->browser_cache = false;
 	}
-
+	
 	/**
-	* Collect the last timestamp where something changed.
-	* This must contain:
-	*	- Last change of the file
-	*	- Last change of user's permissions
-	*	- Last change of user's groups
-	*	- Last change of watermark config
-	*	- Last change of watermark file
-	*/
+	 * Collect the last timestamp where something changed.
+	 * This must contain:
+	 *    - Last change of the file
+	 *    - Last change of user's permissions
+	 *    - Last change of user's groups
+	 *    - Last change of watermark config
+	 *    - Last change of watermark file
+	 * @param $timestamp
+	 */
 	public function set_last_modified($timestamp)
 	{
 		$this->last_modified = max($timestamp, $this->last_modified);
@@ -365,12 +373,15 @@ class file
 
 		$this->rotated = true;
 	}
-
+	
 	/**
-	* Watermark the image:
-	*
-	* @param int $watermark_position summary of the parameters for vertical and horizontal adjustment
-	*/
+	 * Watermark the image:
+	 *
+	 * @param $watermark_source
+	 * @param int $watermark_position summary of the parameters for vertical and horizontal adjustment
+	 * @param int $min_height
+	 * @param int $min_width
+	 */
 	public function watermark_image($watermark_source, $watermark_position = 20, $min_height = 0, $min_width = 0)
 	{
 		$this->watermark_source = $watermark_source;

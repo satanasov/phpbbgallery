@@ -25,29 +25,31 @@ class upload
 
 	/* @var \phpbbgallery\core\album\album */
 	protected $display;
-
+	
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\request\request                 $request
-	 * @param \phpbb\db\driver\driver_interface      $db
-	 * @param \phpbb\user                            $user    User object
-	 * @param \phpbb\template\template               $template
-	 * @param \phpbb\config\config                   $config
-	 * @param Container|ContainerInterface           $phpbb_container
-	 * @param \phpbbgallery\core\album\album         $album   Album class
-	 * @param \phpbbgallery\core\misc                $misc    Misc class
-	 * @param \phpbbgallery\core\auth\auth           $auth
-	 * @param \phpbbgallery\core\album\display       $display Display class
-	 * @param \phpbb\controller\helper               $helper
-	 * @param \phpbbgallery\core\config              $gallery_config
-	 * @param \phpbbgallery\core\user                $gallery_user
-	 * @param \phpbbgallery\core\image\image         $image
-	 * @param \phpbbgallery\core\notification        $gallery_notification
+	 * @param \phpbb\request\request $request
+	 * @param \phpbb\db\driver\driver_interface $db
+	 * @param \phpbb\user $user User object
+	 * @param \phpbb\template\template $template
+	 * @param \phpbb\config\config $config
+	 * @param Container|ContainerInterface $phpbb_container
+	 * @param \phpbbgallery\core\album\album $album Album class
+	 * @param \phpbbgallery\core\misc $misc Misc class
+	 * @param \phpbbgallery\core\auth\auth $auth
+	 * @param \phpbbgallery\core\album\display $display Display class
+	 * @param \phpbb\controller\helper $helper
+	 * @param \phpbbgallery\core\config $gallery_config
+	 * @param \phpbbgallery\core\user $gallery_user
+	 * @param \phpbbgallery\core\image\image $image
+	 * @param \phpbbgallery\core\notification $gallery_notification
 	 * @param \phpbbgallery\core\notification\helper $notification_helper
-	 * @param \phpbbgallery\core\url                 $url
-	 * @param \phpbbgallery\core\upload              $gallery_upload
+	 * @param \phpbbgallery\core\url $url
+	 * @param \phpbbgallery\core\upload $gallery_upload
+	 * @param \phpbbgallery\core\block $block
 	 * @param                                        $images_table
+	 * @param $phpbb_root_path
 	 */
 
 	public function __construct(\phpbb\request\request $request, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\template\template $template,

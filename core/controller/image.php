@@ -15,38 +15,40 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class image
 {
 	protected $data;
+	
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\request\request                                    $request
-	 * @param \phpbb\auth\auth                                          $auth         Gallery auth object
-	 * @param \phpbb\config\config                                      $config       Config object
-	 * @param \phpbb\controller\helper                                  $helper       Controller helper object
-	 * @param \phpbb\db\driver\driver|\phpbb\db\driver\driver_interface $db           Database object
-	 * @param \phpbb\event\dispatcher                                   $dispatcher   Event dispatcher object
-	 * @param \phpbb\pagination                                         $pagination   Pagination object
-	 * @param \phpbb\template\template                                  $template     Template object
-	 * @param \phpbb\user                                               $user         User object
-	 * @param \phpbbgallery\core\album\display                          $display      Albums display object
-	 * @param \phpbbgallery\core\album\loader                           $loader       Albums display object
-	 * @param \phpbbgallery\core\album\album                            $album
-	 * @param \phpbbgallery\core\image\image                            $image
-	 * @param \phpbbgallery\core\auth\auth                              $gallery_auth
-	 * @param \phpbbgallery\core\user                                   $gallery_user
-	 * @param \phpbbgallery\core\config                                 $gallery_config
-	 * @param \phpbbgallery\core\auth\level                             $auth_level   Gallery auth level object
-	 * @param \phpbbgallery\core\url                                    $url
-	 * @param \phpbbgallery\core\misc                                   $misc
-	 * @param \phpbbgallery\core\comment                                $comment
-	 * @param \phpbbgallery\core\report                                 $report
-	 * @param \phpbbgallery\core\notification\helper                    $notification_helper
-	 * @param \phpbbgallery\core\log                                    $gallery_log
-	 * @param \phpbbgallery\core\moderate                               $moderate
-	 * @param \phpbbgallery\core\rating                                 $gallery_rating
-	 * @param \phpbbgallery\core\block                                  $block
-	 * @param string                                                    $albums_table Gallery albums table
-	 * @param string                                                    $images_table Gallery images table
-	 * @param string                                                    $users_table  Gallery users table
+	 * @param \phpbb\request\request $request
+	 * @param \phpbb\auth\auth $auth Gallery auth object
+	 * @param \phpbb\config\config $config Config object
+	 * @param \phpbb\controller\helper $helper Controller helper object
+	 * @param \phpbb\db\driver\driver|\phpbb\db\driver\driver_interface $db Database object
+	 * @param \phpbb\event\dispatcher $dispatcher Event dispatcher object
+	 * @param \phpbb\pagination $pagination Pagination object
+	 * @param \phpbb\template\template $template Template object
+	 * @param \phpbb\user $user User object
+	 * @param \phpbbgallery\core\album\display $display Albums display object
+	 * @param \phpbbgallery\core\album\loader $loader Albums display object
+	 * @param \phpbbgallery\core\album\album $album
+	 * @param \phpbbgallery\core\image\image $image
+	 * @param \phpbbgallery\core\auth\auth $gallery_auth
+	 * @param \phpbbgallery\core\user $gallery_user
+	 * @param \phpbbgallery\core\config $gallery_config
+	 * @param \phpbbgallery\core\auth\level $auth_level Gallery auth level object
+	 * @param \phpbbgallery\core\url $url
+	 * @param \phpbbgallery\core\misc $misc
+	 * @param \phpbbgallery\core\comment $comment
+	 * @param \phpbbgallery\core\report $report
+	 * @param \phpbbgallery\core\notification\helper $notification_helper
+	 * @param \phpbbgallery\core\log $gallery_log
+	 * @param \phpbbgallery\core\moderate $moderate
+	 * @param \phpbbgallery\core\rating $gallery_rating
+	 * @param \phpbbgallery\core\block $block
+	 * @param ContainerInterface $phpbb_container
+	 * @param string $albums_table Gallery albums table
+	 * @param string $images_table Gallery images table
+	 * @param string $users_table Gallery users table
 	 * @param                                                           $table_comments
 	 * @param                                                           $phpbb_root_path
 	 * @param                                                           $php_ext
@@ -95,14 +97,15 @@ class image
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 	}
-
+	
 	/**
-	* Image Controller
-	*	Route: gallery/image_id/{image_id}
-	*
-	* @param int	$image_id	Image ID
-	* @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
-	*/
+	 * Image Controller
+	 *    Route: gallery/image_id/{image_id}
+	 *
+	 * @param int $image_id Image ID
+	 * @param int $page
+	 * @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
+	 */
 	public function base($image_id, $page = 0)
 	{
 
@@ -1015,9 +1018,13 @@ class image
 
 		return $this->helper->render('gallery/posting_body.html', $page_title);
 	}
+	
 	/**
-	 * @param	int		$album_id
-	 * @param	array	$album_data
+	 * @param    int $album_id
+	 * @param $owner_id
+	 * @param $image_status
+	 * @param $album_auth_level
+	 * @internal param array $album_data
 	 */
 	protected function check_permissions($album_id, $owner_id, $image_status, $album_auth_level)
 	{

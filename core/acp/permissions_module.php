@@ -1100,11 +1100,16 @@ class permissions_module
 			'S_COPY_PERMISSIONS'	=> true,
 		));
 	}
-
+	
 	/**
-	* Create the drop-down-options to inherit the c_masks
-	* or check, whether the choosen option is valid
-	*/
+	 * Create the drop-down-options to inherit the c_masks
+	 * or check, whether the choosen option is valid
+	 * @param $cache_obtain_album_list
+	 * @param $allowed_albums
+	 * @param $album_id
+	 * @param int $check_inherit_album
+	 * @return bool|string
+	 */
 	function inherit_albums($cache_obtain_album_list, $allowed_albums, $album_id, $check_inherit_album = 0)
 	{
 		global $user;
@@ -1146,11 +1151,19 @@ class permissions_module
 		}
 		return $return;
 	}
-
+	
 	/**
-	* Create the drop-down-options to inherit the v_masks
-	* or check, whether the choosen option is valid
-	*/
+	 * Create the drop-down-options to inherit the v_masks
+	 * or check, whether the choosen option is valid
+	 * @param $cache_obtain_album_list
+	 * @param $allowed_albums
+	 * @param $allowed_victims
+	 * @param $album_id
+	 * @param $victim_id
+	 * @param int $check_inherit_album
+	 * @param int $check_inherit_victim
+	 * @return bool|string
+	 */
 	function inherit_victims($cache_obtain_album_list, $allowed_albums, $allowed_victims, $album_id, $victim_id, $check_inherit_album = 0, $check_inherit_victim = 0)
 	{
 		global $user;
@@ -1211,11 +1224,16 @@ class permissions_module
 		}
 		return $return;
 	}
-
+	
 	/**
-	* Create the drop-down-options to inherit the v_masks
-	* or check, whether the choosen option is valid
-	*/
+	 * Create the drop-down-options to inherit the v_masks
+	 * or check, whether the choosen option is valid
+	 * @param $p_system
+	 * @param $allowed_victims
+	 * @param $victim_id
+	 * @param int $check_inherit_victim
+	 * @return bool|string
+	 */
 	function p_system_inherit_victims($p_system, $allowed_victims, $victim_id, $check_inherit_victim = 0)
 	{
 		global $user, $table_prefix, $phpbb_dispatcher, $table_name, $db, $cache, $phpbb_container;

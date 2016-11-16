@@ -97,7 +97,8 @@ class albums_module
 					trigger_error($user->lang['ALBUM_DELETED'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id));
 
 				break;
-
+				
+				/** @noinspection PhpMissingBreakStatementInspection */
 				case 'edit':
 					$album_data = array(
 						'album_id'		=>	$album_id
@@ -727,14 +728,16 @@ class albums_module
 			'U_PROGRESS_BAR'	=> $this->u_action . '&amp;action=progress_bar',
 		));
 	}
-
+	
 	/**
-	* Display progress bar for syncinc albums
-	*
-	* borrowed from phpBB3
-	* @author: phpBB Group
-	* @function: display_progress_bar
-	*/
+	 * Display progress bar for syncinc albums
+	 *
+	 * borrowed from phpBB3
+	 * @author: phpBB Group
+	 * @function: display_progress_bar
+	 * @param $start
+	 * @param $total
+	 */
 	function display_progress_bar($start, $total)
 	{
 		global $template, $user;
