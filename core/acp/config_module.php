@@ -121,7 +121,7 @@ class config_module
 				if ((strpos($config_name, 'watermark') !== false) && ($phpbb_gallery_configs->get($config_name) != $config_value))
 				{
 					$phpbb_gallery_configs->set('watermark_changed', time());
-					// OK .. let's try and destroy wotermarked images
+					// OK .. let's try and destroy watermarked images
 					$cache_dir = @opendir($phpbb_gallery_url->path('thumbnail'));
 					while ($cache_file = @readdir($cache_dir))
 					{

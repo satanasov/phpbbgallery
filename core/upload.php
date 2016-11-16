@@ -534,6 +534,7 @@ class upload
 			return 0;
 		}
 
+		// This code is never invoced. It's left here for future implementation.
 		$this->gallery_config->inc('current_upload_dir_size', 1);
 		if ($this->gallery_config->get('current_upload_dir_size') >= self::NUM_FILES_PER_DIR)
 		{

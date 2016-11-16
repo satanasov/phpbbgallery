@@ -175,11 +175,11 @@ class albums_module
 							if ($action == 'edit')
 							{
 								$sql = 'DELETE FROM ' . $table_prefix . 'gallery_permissions
-									WHERE perm_album_id = ' . $album_data['album_id'];
+									WHERE perm_album_id = ' . (int) $album_data['album_id'];
 								$db->sql_query($sql);
 
 								$sql = 'DELETE FROM ' . $table_prefix . 'gallery_modscache
-									WHERE album_id = ' . $album_data['album_id'];
+									WHERE album_id = ' . (int) $album_data['album_id'];
 								$db->sql_query($sql);
 							}
 
@@ -202,7 +202,7 @@ class albums_module
 
 							$modscache_ary = array();
 							$sql = 'SELECT * FROM ' . $table_prefix . 'gallery_modscache
-								WHERE album_id = ' . $album_perm_from;
+								WHERE album_id = ' . (int) $album_perm_from;
 							$result = $db->sql_query($sql);
 							while ($row = $db->sql_fetchrow($result))
 							{
@@ -256,8 +256,8 @@ class albums_module
 				}
 
 				$sql = 'SELECT *
-					FROM ' . $table_prefix . "gallery_albums
-					WHERE album_id = $album_id";
+					FROM ' . $table_prefix . 'gallery_albums
+					WHERE album_id = ' . (int) $album_id;
 				$result = $db->sql_query($sql);
 				$row = $db->sql_fetchrow($result);
 				$db->sql_freeresult($result);
@@ -286,8 +286,8 @@ class albums_module
 				}
 
 				$sql = 'SELECT album_name, album_type
-					FROM ' . $table_prefix . "gallery_albums
-					WHERE album_id = $album_id";
+					FROM ' . $table_prefix . 'gallery_albums
+					WHERE album_id = ' . (int) $album_id;
 				$result = $db->sql_query($sql);
 				$row = $db->sql_fetchrow($result);
 				$db->sql_freeresult($result);
@@ -454,8 +454,8 @@ class albums_module
 				$sql = 'SELECT album_id
 					FROM ' . $table_prefix . 'gallery_albums
 					WHERE album_type = ' . \phpbbgallery\core\block::TYPE_UPLOAD . '
-						AND album_user_id = ' . \phpbbgallery\core\block::PUBLIC_ALBUM . "
-						AND album_id <> $album_id";
+						AND album_user_id = ' . \phpbbgallery\core\block::PUBLIC_ALBUM . '
+						AND album_id <> ' . (int) $album_id;
 				$result = $db->sql_query_limit($sql, 1);
 
 				$uploadable_album_exists = false;
@@ -594,9 +594,9 @@ class albums_module
 
 				$sql = 'SELECT album_id
 					FROM ' . $table_prefix . 'gallery_albums
-					WHERE album_type = ' . \phpbbgallery\core\block::TYPE_UPLOAD . "
-						AND album_id <> $album_id
-						AND album_user_id = " . \phpbbgallery\core\block::PUBLIC_ALBUM;
+					WHERE album_type = ' . \phpbbgallery\core\block::TYPE_UPLOAD . '
+						AND album_id <> ' . (int) $album_id . '
+						AND album_user_id = ' . \phpbbgallery\core\block::PUBLIC_ALBUM;
 				$result = $db->sql_query_limit($sql, 1);
 
 				if ($db->sql_fetchrow($result))

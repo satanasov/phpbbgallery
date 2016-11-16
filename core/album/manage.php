@@ -27,7 +27,31 @@ class manage
 	public $parent_id = 0;
 
 	private $u_action = '';
-
+	
+	/**
+	 * manage constructor.
+	 * @param \phpbb\user $user
+	 * @param \phpbb\request\request $request
+	 * @param \phpbb\db\driver\driver_interface $db
+	 * @param \phpbb\event\dispatcher $dispatcher
+	 * @param \phpbbgallery\core\auth\auth $gallery_auth
+	 * @param album $gallery_album
+	 * @param display $gallery_display
+	 * @param \phpbbgallery\core\image\image $gallery_image
+	 * @param \phpbbgallery\core\cache $gallery_cache
+	 * @param \phpbbgallery\core\user $gallery_user
+	 * @param \phpbbgallery\core\config $gallery_config
+	 * @param \phpbbgallery\core\contest $gallery_contest
+	 * @param \phpbbgallery\core\report $gallery_report
+	 * @param \phpbbgallery\core\log $gallery_log
+	 * @param \phpbbgallery\core\notification $gallery_notification
+	 * @param $albums_table
+	 * @param $images_table
+	 * @param $comments_table
+	 * @param $permissions_table
+	 * @param $moderators_table
+	 * @param $contests_table
+	 */
 	public function __construct(\phpbb\user $user, \phpbb\request\request $request, \phpbb\db\driver\driver_interface $db,
 								\phpbb\event\dispatcher $dispatcher,
 								\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\album\album $gallery_album,
@@ -201,7 +225,7 @@ class manage
 			{
 				$sql = 'SELECT left_id, right_id, album_type
 					FROM ' . $this->albums_table . '
-					WHERE album_id = ' . $album_data_sql['parent_id'];
+					WHERE album_id = ' . (int) $album_data_sql['parent_id'];
 				$result = $this->db->sql_query($sql);
 				$row = $this->db->sql_fetchrow($result);
 				$this->db->sql_freeresult($result);
@@ -216,13 +240,13 @@ class manage
 					$sql = 'UPDATE ' . $this->albums_table . ' 
 						SET left_id = left_id + 2, right_id = right_id + 2
 						WHERE album_user_id = 0
-							AND left_id > ' . $row['right_id'];
+							AND left_id > ' . (int) $row['right_id'];
 					$this->db->sql_query($sql);
 
 					$sql = 'UPDATE ' . $this->albums_table . ' 
 						SET right_id = right_id + 2
 						WHERE album_user_id = 0
-							AND ' . $row['left_id'] . ' BETWEEN left_id AND right_id';
+							AND ' . (int) $row['left_id'] . ' BETWEEN left_id AND right_id';
 					$this->db->sql_query($sql);
 
 					$album_data_sql['left_id'] = $row['right_id'];
@@ -233,7 +257,7 @@ class manage
 					$sql = 'UPDATE ' . $this->albums_table . ' 
 						SET left_id = left_id + 2, right_id = right_id + 2
 						WHERE album_user_id = 0
-							AND left_id > ' . $row['left_id'];
+							AND left_id > ' . (int) $row['left_id'];
 					$this->db->sql_query($sql);
 
 					$sql = 'UPDATE ' . $this->albums_table . ' 
@@ -289,7 +313,7 @@ class manage
 
 				$sql = 'UPDATE ' . $this->albums_table . ' 
 					SET album_contest = ' . $album_data['album_contest'] . '
-					WHERE album_id = ' . $album_data['album_id'];
+					WHERE album_id = ' . (int) $album_data['album_id'];
 				$this->db->sql_query($sql);
 			}
 			$this->gallery_log->add_log('admin', 'add', $album_data['album_id'], 0, array('LOG_ALBUM_ADD', $album_data['album_name']));
@@ -402,7 +426,7 @@ class manage
 
 			$sql = 'UPDATE ' . $this->albums_table . '  
 				SET ' . $this->db->sql_build_array('UPDATE', $album_data_sql) . '
-				WHERE album_id = ' . $album_id;
+				WHERE album_id = ' . (int) $album_id;
 			$this->db->sql_query($sql);
 
 /*			if ($album_data_sql['album_type'] == $phpbb_ext_gallery_core_album::TYPE_CONTEST)
@@ -574,7 +598,7 @@ class manage
 
 				$sql = 'SELECT album_name
 					FROM ' . $this->albums_table . '
-					WHERE album_id = ' . $images_to_id;
+					WHERE album_id = ' . (int) $images_to_id;
 				$result = $this->db->sql_query($sql);
 				$row = $this->db->sql_fetchrow($result);
 				$this->db->sql_freeresult($result);
@@ -925,7 +949,7 @@ class manage
 		$sql = 'SELECT album_id, album_name, left_id, right_id
 			FROM ' . $this->albums_table . ' 
 			WHERE parent_id = ' . $album_row['parent_id'] . '
-				AND album_user_id = ' . $this->user_id . '
+				AND album_user_id = ' . (int) $this->user_id . '
 				AND ' . (($action == 'move_up') ? 'right_id < ' . $album_row['right_id'] . ' ORDER BY right_id DESC' : 'left_id > ' . $album_row['left_id'] . ' ORDER BY left_id ASC');
 		$result = $this->db->sql_query_limit($sql, $steps);
 

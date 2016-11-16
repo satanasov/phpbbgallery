@@ -352,7 +352,7 @@ class album
 		$this->db->sql_freeresult($result);
 
 		$sql = 'UPDATE ' . $this->albums_table .' SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . '
-			WHERE ' . $this->db->sql_in_set('album_id', $album_id);
+			WHERE album_id = ' . (int) $album_id;
 		$this->db->sql_query($sql);
 
 		return $row;
@@ -411,7 +411,7 @@ class album
 		{
 			$id_ary[] = (int) $row['album_id'];
 		}
-
+		$this->db->sql_freeresult($result);
 		return $id_ary;
 	}
 }
