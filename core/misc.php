@@ -35,7 +35,7 @@ class misc
 		$this->url = $url;
 		$this->track_table = $track_table;
 	}
-	
+
 	/**
 	 * Display captcha when needed
 	 *
@@ -55,7 +55,7 @@ class misc
 
 		return $gallery_display_captcha[$mode];
 	}
-	
+
 	/**
 	 * Create not authorized dialog
 	 *

@@ -48,7 +48,7 @@ class rating
 	* Simple thumbs up or down.
 	//@todo: const MODE_THUMB = 3;
 	*/
-	
+
 	/**
 	 * Constructor
 	 * @param \phpbb\db\driver\driver_interface $db
