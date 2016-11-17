@@ -99,7 +99,7 @@ class manage
 	{
 		$this->u_action = $action;
 	}
-	
+
 	/**
 	 * Generate back link for acp pages
 	 * @param $u_action
@@ -109,7 +109,7 @@ class manage
 	{
 		return '<br /><br /><a href="' . $u_action . '">&laquo; ' . $this->user->lang['BACK_TO_PREV'] . '</a>';
 	}
-	
+
 	/**
 	 * Update album data
 	 *
@@ -468,7 +468,7 @@ class manage
 
 		return $errors;
 	}
-	
+
 	/**
 	 * Move album
 	 *
@@ -575,7 +575,7 @@ class manage
 
 		return $errors;
 	}
-	
+
 	/**
 	 * Remove complete album
 	 *
@@ -782,7 +782,7 @@ class manage
 		$this->gallery_auth->set_user_permissions('all', '');
 		return $errors;
 	}
-	
+
 	/**
 	 * Move album content from one to another album
 	 *
@@ -851,7 +851,7 @@ class manage
 
 		return array();
 	}
-	
+
 	/**
 	 * Delete album content:
 	 * Deletes all images, comments, rates, image-files, etc.
@@ -951,7 +951,7 @@ class manage
 
 		return array();
 	}
-	
+
 	/**
 	 * Move album position by $steps up/down
 	 *

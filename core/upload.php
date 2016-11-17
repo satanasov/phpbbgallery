@@ -54,7 +54,7 @@ class upload
 	var $min_height = 0;
 	var $max_width = 0;
 	var $max_height = 0;
-	
+
 	/**
 	 * Constructor
 	 *
@@ -737,7 +737,7 @@ class upload
 	/**
 	 * Here we do a lot of hacking and slashing ... don't ask why ... I will have to change it to plupload usage once I know how!
 	 */
-	
+
 	/**
 	 * Form upload method
 	 * Upload file from users harddisk
@@ -828,7 +828,7 @@ class upload
 		}
 		return $files;
 	}
-	
+
 	/**
 	 * Perform common checks
 	 * @param $file
@@ -880,7 +880,7 @@ class upload
 		}
 		return in_array($file->get('extension'), $allowed);
 	}
-	
+
 	/**
 	 * Check for allowed dimension
 	 * @param $file

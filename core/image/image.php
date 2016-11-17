@@ -204,7 +204,7 @@ class image
 
 		return $filenames;
 	}
-	
+
 	/**
 	 * Generate link to image
 	 *

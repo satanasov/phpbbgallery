@@ -44,7 +44,7 @@ class album
 
 	/* @var string */
 	protected $table_images;
-	
+
 	/**
 	 * Constructor
 	 *
@@ -88,7 +88,7 @@ class album
 		$this->request = $request;
 		$this->table_images = $images_table;
 	}
-	
+
 	/**
 	 * Album Controller
 	 *    Route: gallery/album/{album_id}
@@ -446,7 +446,7 @@ class album
 		}
 		//return $this->helper->render('gallery/moderate_approve.html', $this->user->lang('GALLERY'));
 	}
-	
+
 	/**
 	 * @param    int $album_id
 	 * @param $owner_id

@@ -75,7 +75,7 @@ class rating
 		$this->albums_table = $albums_table;
 		$this->rates_table = $rates_table;
 	}
-	
+
 	/**
 	 * Load data for the class to work with
 	 *
@@ -95,7 +95,7 @@ class rating
 			$this->album_data = $album_data;
 		}
 	}
-	
+
 	/**
 	 * Returns the value of image_data key.
 	 * If the value is missing, it is queried from the database.
@@ -187,7 +187,7 @@ class rating
 
 		$this->rating_enabled = true;
 	}
-	
+
 	/**
 	 * Get rating for a image
 	 *
@@ -299,7 +299,7 @@ class rating
 		$this->user_rating[$user_id] = (is_bool($rating)) ? $rating : (int) $rating;
 		return $this->user_rating[$user_id];
 	}
-	
+
 	/**
 	 * Submit rating for an image.
 	 *
@@ -332,7 +332,7 @@ class rating
 		$this->recalc_image_rating($this->image_id);
 		$this->user_rating[$user_id] = $points;
 	}
-	
+
 	/**
 	 * Insert the rating into the database.
 	 *

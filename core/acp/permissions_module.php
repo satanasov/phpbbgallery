@@ -1100,7 +1100,7 @@ class permissions_module
 			'S_COPY_PERMISSIONS'	=> true,
 		));
 	}
-	
+
 	/**
 	 * Create the drop-down-options to inherit the c_masks
 	 * or check, whether the choosen option is valid
@@ -1151,7 +1151,7 @@ class permissions_module
 		}
 		return $return;
 	}
-	
+
 	/**
 	 * Create the drop-down-options to inherit the v_masks
 	 * or check, whether the choosen option is valid
@@ -1224,7 +1224,7 @@ class permissions_module
 		}
 		return $return;
 	}
-	
+
 	/**
 	 * Create the drop-down-options to inherit the v_masks
 	 * or check, whether the choosen option is valid

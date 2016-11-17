@@ -75,7 +75,7 @@ class auth
 	* @var string
 	*/
 	protected $table_users;
-	
+
 	/**
 	 * Construct
 	 *
@@ -150,7 +150,7 @@ class auth
 		}*/
 		$this->query_auth_data($user_id);
 	}
-	
+
 	/**
 	 * Query the permissions for a given user and store them in the database.
 	 * @param $user_id
@@ -232,7 +232,7 @@ class auth
 
 		$this->set_user_permissions($user_id, $this->_auth_data);
 	}
-	
+
 	/**
 	 * Serialize the auth-data sop we can store it.
 	 *
@@ -261,7 +261,7 @@ class auth
 
 		return implode("\n", $acl_array);
 	}
-	
+
 	/**
 	 * Unserialize the stored auth-data
 	 * @param $serialized_data
@@ -281,7 +281,7 @@ class auth
 			}
 		}
 	}
-	
+
 	/**
 	 * Stores an acl-row into the _auth_data-array.
 	 * @param $album_id
@@ -340,7 +340,7 @@ class auth
 			}
 		}
 	}
-	
+
 	/**
 	 * Restrict the access to personal galleries, if the user is not a moderator.
 	 * @param $user_id
@@ -409,7 +409,7 @@ class auth
 			}
 		}
 	}
-	
+
 	/**
 	 * Get the users, which added our user as friend and/or foe
 	 * @param $user_id
@@ -451,7 +451,7 @@ class auth
 		$this->db->sql_freeresult($result);
 		return $zebra;
 	}
-	
+
 	/**
 	 * Get zebra state
 	 * @param $zebra_array
@@ -489,7 +489,7 @@ class auth
 		}
 		return $state;
 	}
-	
+
 	/**
 	 * Get groups a user is member from.
 	 * @param $user_id
@@ -516,7 +516,7 @@ class auth
 
 		return $groups_ary;
 	}
-	
+
 	/**
 	 * Sets the permissions-cache in users-table to given array.
 	 * @param $user_ids

@@ -97,7 +97,7 @@ class albums_module
 					trigger_error($user->lang['ALBUM_DELETED'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id));
 
 				break;
-				
+
 				/** @noinspection PhpMissingBreakStatementInspection */
 				case 'edit':
 					$album_data = array(
@@ -728,7 +728,7 @@ class albums_module
 			'U_PROGRESS_BAR'	=> $this->u_action . '&amp;action=progress_bar',
 		));
 	}
-	
+
 	/**
 	 * Display progress bar for syncinc albums
 	 *

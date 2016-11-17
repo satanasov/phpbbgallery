@@ -79,7 +79,7 @@ class report
 			$this->notification_helper->notify('new_report', $data);
 		}
 	}
-	
+
 	/**
 	 * Close report
 	 * @param    array $report_ids array of report_ids to closedir
@@ -105,7 +105,7 @@ class report
 		$sql = 'UPDATE ' . $this->images_table . ' SET image_reported = 0 WHERE ' . $this->db->sql_in_set('image_id', $report_ids);
 		$this->db->sql_query($sql);
 	}
-	
+
 	/**
 	 * Move an image from one album to another
 	 *
@@ -121,7 +121,7 @@ class report
 			WHERE ' . $this->db->sql_in_set('report_image_id', $image_ids);
 		$this->db->sql_query($sql);
 	}
-	
+
 	/**
 	 * Move the content from one album to another
 	 *
@@ -220,7 +220,7 @@ class report
 			WHERE ' . $this->db->sql_in_set('report_album_id', $album_ids);
 		$this->db->sql_query($sql);
 	}
-	
+
 	/**
 	 * Helper function building queues
 	 * @param    (string)    type    What type of queue are we building (short or full)

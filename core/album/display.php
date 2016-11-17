@@ -55,7 +55,7 @@ class display
 		$this->table_tracking = $tracking_table;
 		$this->table_moderators = $moderators_table;
 	}
-	
+
 	/**
 	 * Get album branch
 	 *
@@ -109,7 +109,7 @@ class display
 
 		return $rows;
 	}
-	
+
 	/**
 	 * Create album navigation links for given album, create parent
 	 * list if currently null, assign basic album info to template
@@ -181,7 +181,7 @@ class display
 
 		return;
 	}
-	
+
 	/**
 	 * Returns album parents as an array. Get them from album_data if available, or update the database otherwise
 	 *
@@ -227,7 +227,7 @@ class display
 
 		return $album_parents;
 	}
-	
+
 	/**
 	 * Obtain list of moderators of each album
 	 *
@@ -306,7 +306,7 @@ class display
 
 		return $album_moderators;
 	}
-	
+
 	/**
 	 * Display albums
 	 *

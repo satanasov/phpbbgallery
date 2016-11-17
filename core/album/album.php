@@ -119,7 +119,7 @@ class album
 
 		return true;
 	}
-	
+
 	/**
 	 * Generate gallery-albumbox
 	 * @param    bool $ignore_personals list personal albums
@@ -272,7 +272,7 @@ class album
 
 		return $gallery_albumbox;
 	}
-	
+
 	/**
 	 * Update album information
 	 * Resets the following columns with the correct value:
@@ -360,7 +360,7 @@ class album
 
 		return $row;
 	}
-	
+
 	/**
 	 * Generate personal album for user, when moving image into it
 	 * @param $album_name

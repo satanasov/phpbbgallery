@@ -92,7 +92,7 @@ class search
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 	}
-	
+
 	/**
 	 * Index Controller
 	 *    Route: gallery/search
@@ -336,7 +336,6 @@ class search
 	*
 	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
 	*/
-
 	public function random()
 	{
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
@@ -366,7 +365,7 @@ class search
 
 		return $this->helper->render('gallery/search_random.html', $this->user->lang('GALLERY'));
 	}
-	
+
 	/**
 	 * Index Controller
 	 *    Route: gallery/search/recent/{page}
@@ -408,7 +407,7 @@ class search
 
 		return $this->helper->render('gallery/search_recent.html', $this->user->lang('GALLERY'));
 	}
-	
+
 	/**
 	 * Index Controller
 	 *    Route: gallery/search/recent/{page}
@@ -449,7 +448,7 @@ class search
 
 		return $this->helper->render('gallery/search_results.html', $this->user->lang('GALLERY'));
 	}
-	
+
 	/**
 	 * Index Controller
 	 *    Route: gallery/search/self/{page}
@@ -490,7 +489,7 @@ class search
 
 		return $this->helper->render('gallery/search_results.html', $this->user->lang('GALLERY'));
 	}
-	
+
 	/**
 	 * Index Controller
 	 *    Route: gallery/search/toprated/{page}

@@ -34,7 +34,7 @@ class comment
 
 	/* @var \phpbbgallery\core\url */
 	protected $url;
-	
+
 	/**
 	 * Constructor
 	 *
@@ -97,7 +97,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 	}
-	
+
 	/**
 	 * comment Controller
 	 *    Route: gallery/comment/{image_id}/add
@@ -351,7 +351,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 
 		return $this->helper->render('gallery/comment_body.html', $page_title);
 	}
-	
+
 	/**
 	 * comment Controller
 	 *    Route: gallery/comment/{image_id}/edit/{comment_id}
@@ -559,7 +559,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 
 		return $this->helper->render('gallery/comment_body.html', $page_title);
 	}
-	
+
 	/**
 	 * comment Controller
 	 *    Route: gallery/comment/{image_id}/delete/{comment_id}

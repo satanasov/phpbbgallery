@@ -205,7 +205,7 @@ class index
 
 		return $this->helper->render('gallery/index_body.html', $this->user->lang('GALLERY'));
 	}
-	
+
 	/**
 	 * Personal Index Controller
 	 *    Route: gallery/users

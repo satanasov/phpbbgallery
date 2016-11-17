@@ -79,7 +79,7 @@ class phpbbgallery_new_report extends \phpbb\notification\type\base
 		// No parent
 		return 0;
 	}
-	
+
 	/**
 	 * Find the users who will receive notifications
 	 *

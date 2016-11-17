@@ -127,7 +127,7 @@ class config
 		'watermark_source'		=> 'gallery/images/watermark.png',
 		'watermark_width'		=> 200,
 	);
-	
+
 	/**
 	 * Constructor
 	 * @param \phpbb\config\config $config

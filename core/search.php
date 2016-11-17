@@ -77,7 +77,7 @@ class search
 		$this->albums_table = $albums_table;
 		$this->comments_table = $comments_table;
 	}
-	
+
 	/**
 	 * Generate random images and populate template
 	 * @param (int)    $limit    how many images to generate_link
@@ -229,7 +229,7 @@ class search
 		$row = $this->db->sql_fetchrow($result);
 		return (int) $row['count'];
 	}
-	
+
 	/**
 	 * recent comments
 	 * @param (int)    $limit How many imagese to query
@@ -501,7 +501,7 @@ class search
 			}
 		}
 	}
-	
+
 	/**
 	 * Get top rated image
 	 * @param $limit

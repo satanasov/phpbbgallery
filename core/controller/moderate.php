@@ -94,7 +94,7 @@ class moderate
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 	}
-	
+
 	/**
 	 * Index Controller
 	 *    Route: gallery/modarate
@@ -145,7 +145,7 @@ class moderate
 
 		return $this->helper->render('gallery/moderate_overview.html', $this->user->lang('GALLERY'));
 	}
-	
+
 	/**
 	 * Index Controller
 	 *    Route: gallery/modarate/approve
@@ -247,7 +247,7 @@ class moderate
 		$this->moderate->build_list($album_id, $page);
 		return $this->helper->render('gallery/moderate_approve.html', $this->user->lang('GALLERY'));
 	}
-	
+
 	/**
 	 * Index Controller
 	 *    Route: gallery/modarate/actions
@@ -291,7 +291,7 @@ class moderate
 		$this->gallery_log->build_list('moderator', 0, $page, $album_id);
 		return $this->helper->render('gallery/moderate_actions.html', $this->user->lang('GALLERY'));
 	}
-	
+
 	/**
 	 * Index Controller
 	 *    Route: gallery/modarate/reports
@@ -365,7 +365,7 @@ class moderate
 		$this->report->build_list($album_id, $page, $this->config['phpbb_gallery_items_per_page'], $status);
 		return $this->helper->render('gallery/moderate_reports.html', $this->user->lang('GALLERY'));
 	}
-	
+
 	/**
 	 * Moderate Controller
 	 *    Route: gallery/moderate/{album_id}/list
@@ -496,7 +496,7 @@ class moderate
 		$this->moderate->album_overview($album_id, $page);
 		return $this->helper->render('gallery/moderate_album_overview.html', $this->user->lang('GALLERY'));
 	}
-	
+
 	/**
 	 * Index Controller
 	 *    Route: gallery/modarate/image/{image_id}
@@ -641,7 +641,7 @@ class moderate
 		}
 		return $this->helper->render('gallery/moderate_image_overview.html', $this->user->lang('GALLERY'));
 	}
-	
+
 	/**
 	 * Index Controller
 	 *    Route: gallery/modarate/image/{image_id}/approve
@@ -703,7 +703,7 @@ class moderate
 
 		return $this->helper->render('gallery/moderate_overview.html', $this->user->lang('GALLERY'));
 	}
-	
+
 	/**
 	 * Index Controller
 	 *    Route: gallery/modarate/image/{image_id}/unapprove
@@ -744,7 +744,7 @@ class moderate
 			confirm_box(false, 'QUEUE_A_UNAPPROVE2', $s_hidden_fields);
 		}
 	}
-	
+
 	/**
 	 * Index Controller
 	 *    Route: gallery/modarate/image/{image_id}/move
@@ -793,7 +793,7 @@ class moderate
 
 		return $this->helper->render('gallery/mcp_body.html', $this->user->lang('GALLERY'));
 	}
-	
+
 	/**
 	 * Index Controller
 	 *    Route: gallery/modarate/image/{image_id}/lock

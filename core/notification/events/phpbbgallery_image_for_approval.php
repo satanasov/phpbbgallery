@@ -79,7 +79,7 @@ class phpbbgallery_image_for_approval extends \phpbb\notification\type\base
 		// No parent
 		return $data['album_id'];
 	}
-	
+
 	/**
 	 * Find the users who will receive notifications
 	 *

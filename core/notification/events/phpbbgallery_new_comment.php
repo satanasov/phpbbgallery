@@ -79,7 +79,7 @@ class phpbbgallery_new_comment extends \phpbb\notification\type\base
 		// No parent
 		return $data['image_id'];
 	}
-	
+
 	/**
 	 * Find the users who will receive notifications
 	 *

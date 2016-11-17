@@ -133,7 +133,7 @@ class helper
 			break;
 		}
 	}
-	
+
 	/**
 	 * Get watched for album
 	 *
@@ -153,7 +153,7 @@ class helper
 		$this->db->sql_freeresult($result);
 		return $row['count'];
 	}
-	
+
 	/**
 	 * Get album watchers
 	 * @param $album_id
@@ -171,7 +171,7 @@ class helper
 
 		return $watchers;
 	}
-	
+
 	/**
 	 * Get album watchers
 	 * @param $image_id
@@ -189,7 +189,7 @@ class helper
 
 		return $watchers;
 	}
-	
+
 	/**
 	 * Add albums to watch-list
 	 *
@@ -256,7 +256,7 @@ class helper
 			return array((int) $ids);
 		}
 	}
-	
+
 	/**
 	 *
 	 * New image in album

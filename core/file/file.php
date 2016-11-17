@@ -100,7 +100,7 @@ class file
 			$this->resized = false;
 		}
 	}
-	
+
 	/**
 	 * Get image mimetype by filename
 	 *
@@ -126,7 +126,7 @@ class file
 
 		return '';
 	}
-	
+
 	/**
 	 * Read image
 	 * @param bool $force_filesize
@@ -175,7 +175,7 @@ class file
 
 		$this->image_content_type = $image_size['mime'];
 	}
-	
+
 	/**
 	 * Write image to disk
 	 * @param $destination
@@ -238,7 +238,7 @@ class file
 	{
 		$this->browser_cache = false;
 	}
-	
+
 	/**
 	 * Collect the last timestamp where something changed.
 	 * This must contain:
@@ -373,7 +373,7 @@ class file
 
 		$this->rotated = true;
 	}
-	
+
 	/**
 	 * Watermark the image:
 	 *
@@ -483,6 +483,10 @@ class file
 		}
 	}
 
+	/**
+	 * @param $files
+	 * @param array $locations
+	 */
 	public function delete_cache($files, $locations = array('thumbnail', 'medium'))
 	{
 		if (!is_array($files))
@@ -498,6 +502,10 @@ class file
 			}
 		}
 	}
+
+	/**
+	 * @param $files
+	 */
 	public function delete_wm($files)
 	{
 		$locations = array('upload', 'medium');

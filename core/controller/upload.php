@@ -25,7 +25,7 @@ class upload
 
 	/* @var \phpbbgallery\core\album\album */
 	protected $display;
-	
+
 	/**
 	 * Constructor
 	 *

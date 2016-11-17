@@ -59,7 +59,7 @@ class file
 
 	/* @var boolean */
 	protected $use_watermark = false;
-	
+
 	/**
 	 * Constructor
 	 *

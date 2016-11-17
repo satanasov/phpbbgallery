@@ -151,7 +151,7 @@ class url
 	{
 		return $this->phpbb_gallery_full_path . 'album/' . $album_id;
 	}
-	
+
 	/**
 	 * Removes the sid and replaces &amp; with normal &
 	 * @param $path

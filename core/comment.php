@@ -106,7 +106,7 @@ class comment
 
 		return $newest_comment_id;
 	}
-	
+
 	/**
 	 * Edit comment
 	 * @param $comment_id
@@ -132,7 +132,7 @@ class comment
 
 		return true;
 	}
-	
+
 	/**
 	 * Sync last comment information
 	 * @param bool $image_ids

@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class image
 {
 	protected $data;
-	
+
 	/**
 	 * Constructor
 	 *
@@ -97,7 +97,7 @@ class image
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 	}
-	
+
 	/**
 	 * Image Controller
 	 *    Route: gallery/image_id/{image_id}
@@ -1018,7 +1018,7 @@ class image
 
 		return $this->helper->render('gallery/posting_body.html', $page_title);
 	}
-	
+
 	/**
 	 * @param    int $album_id
 	 * @param $owner_id

@@ -45,7 +45,7 @@ class user
 	 * Users data in the table
 	 */
 	protected $data = array();
-	
+
 	/**
 	 * Constructor
 	 *
@@ -116,7 +116,7 @@ class user
 		$this->db->sql_freeresult($result);
 
 	}
-	
+
 	/**
 	 * Load the users data from the database and cast it...
 	 * @param $time
@@ -161,7 +161,7 @@ class user
 
 		return false;
 	}
-	
+
 	/**
 	 * Updates/Inserts the data, depending on whether the user already exists or not.
 	 *    Example: 'SET key = x'
@@ -185,7 +185,7 @@ class user
 
 		return $suc;
 	}
-	
+
 	/**
 	 * Increase/Inserts the data, depending on whether the user already exists or not.
 	 *    Example: 'SET key = key + x'
@@ -485,7 +485,7 @@ class user
 		// Automatically subscribe user to new personal galleries?
 		'subscribe_pegas'	=> false,
 	);
-	
+
 	/**
 	 * @param $user_cache
 	 * @param $row
