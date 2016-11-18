@@ -3,7 +3,7 @@
 	"type": "phpbb-extension",
 	"description": "phpBB Gallery",
 	"homepage": "https://github.com/satanasov/phpbbgallery",
-	"version": "1.2.0",
+	"version": "1.2.0.02",
 	"time": "2014-03-15",
 	"license": "GPL-2.0",
 	"authors": [
