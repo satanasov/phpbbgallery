@@ -94,3 +94,4 @@ $lang = array_merge($lang, array(
 	'SHOW_EXIF'					=> 'Afficher/Cacher',
 	'VIEWEXIFS_DEFAULT'			=> 'Voir les informations des images par défaut',
 ));
+?>
