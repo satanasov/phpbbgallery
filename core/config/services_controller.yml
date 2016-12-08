@@ -170,23 +170,24 @@ services:
     phpbbgallery.core.controller.moderate:
         class: phpbbgallery\core\controller\moderate
         arguments:
-            - @auth
-            - @config
-            - @dbal.conn
-            - @request
-            - @template
-            - @user
-            - @controller.helper
-            - @phpbbgallery.core.album.display
-            - @phpbbgallery.core.moderate
-            - @phpbbgallery.core.auth
-            - @phpbbgallery.core.misc
-            - @phpbbgallery.core.album
-            - @phpbbgallery.core.image
-            - @phpbbgallery.core.notification.helper
-            - @phpbbgallery.core.url
-            - @phpbbgallery.core.log
-            - @phpbbgallery.core.report
-            - @user_loader
-            - %core.root_path%
-            - %core.php_ext%
+            - '@auth'
+            - '@config'
+            - '@dbal.conn'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@language'
+            - '@controller.helper'
+            - '@phpbbgallery.core.album.display'
+            - '@phpbbgallery.core.moderate'
+            - '@phpbbgallery.core.auth'
+            - '@phpbbgallery.core.misc'
+            - '@phpbbgallery.core.album'
+            - '@phpbbgallery.core.image'
+            - '@phpbbgallery.core.notification.helper'
+            - '@phpbbgallery.core.url'
+            - '@phpbbgallery.core.log'
+            - '@phpbbgallery.core.report'
+            - '@user_loader'
+            - '%core.root_path%'
+            - '%core.php_ext%'
