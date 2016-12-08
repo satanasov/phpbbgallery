@@ -68,7 +68,7 @@ class moderate
 	 * @param string                                                    $root_path Root path
 	 * @param string                                                    $php_ext   php file extension
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request,
+	public function __construct(\phpbb\config\config $config, \phpbb\request\request $request,
 	\phpbb\template\template $template, \phpbb\user $user, \phpbb\language\language $language,
 	\phpbb\controller\helper $helper, \phpbbgallery\core\album\display $display, \phpbbgallery\core\moderate $moderate,
 	\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\misc $misc, \phpbbgallery\core\album\album $album, \phpbbgallery\core\image\image $image,
@@ -76,9 +76,7 @@ class moderate
 	\phpbb\user_loader $user_loader,
 	$root_path, $php_ext)
 	{
-		$this->auth = $auth;
 		$this->config = $config;
-		$this->db = $db;
 		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;

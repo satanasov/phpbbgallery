@@ -170,9 +170,7 @@ services:
     phpbbgallery.core.controller.moderate:
         class: phpbbgallery\core\controller\moderate
         arguments:
-            - '@auth'
             - '@config'
-            - '@dbal.conn'
             - '@request'
             - '@template'
             - '@user'

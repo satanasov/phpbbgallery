@@ -43,7 +43,7 @@ class gallery_album_test extends controller_base
 
 	}
 
-	public function get_controller($user_id, $grpup, $is_registered)
+	public function get_controller($user_id, $group, $is_registered)
 	{
 		$this->user->data['user_id'] = $user_id;
 		$this->user->data['group'] = $group;
