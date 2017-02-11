@@ -14,19 +14,21 @@ class log
 {
 	/**
 	 * log constructor.
+	 *
 	 * @param \phpbb\db\driver\driver_interface $db
-	 * @param \phpbb\user $user
-	 * @param \phpbb\user_loader $user_loader
-	 * @param \phpbb\template\template $template
-	 * @param \phpbb\controller\helper $helper
-	 * @param \phpbb\pagination $pagination
-	 * @param auth\auth $gallery_auth
-	 * @param config $gallery_config
-	 * @param $log_table
+	 * @param \phpbb\user                       $user
+	 * @param \phpbb\user_loader                $user_loader
+	 * @param \phpbb\template\template          $template
+	 * @param \phpbb\controller\helper          $helper
+	 * @param \phpbb\pagination                 $pagination
+	 * @param auth\auth                         $gallery_auth
+	 * @param config                            $gallery_config
+	 * @param                                   $log_table
+	 * @param                                   $images_table
 	 */
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\user_loader $user_loader, \phpbb\template\template $template,
 								\phpbb\controller\helper $helper, \phpbb\pagination $pagination, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\config $gallery_config,
-								$log_table)
+								$log_table, $images_table)
 	{
 		$this->db = $db;
 		$this->user = $user;
@@ -37,6 +39,7 @@ class log
 		$this->gallery_auth = $gallery_auth;
 		$this->gallery_config = $gallery_config;
 		$this->log_table = $log_table;
+		$this->images_table = $images_table;
 	}
 
 	/**
@@ -101,26 +104,29 @@ class log
 		$sql_array = array(
 			'FROM'	=> array(
 				$this->log_table	=> 'l',
+				$this->images_table => 'i'
 			),
 		);
 		$sql_where = array();
+		$sql_where[] = 'l.image = i.image_id';
 		if ($type != 'all')
 		{
 			$sql_where[] = 'log_type = \'' . $this->db->sql_escape($type) . '\'';
 		}
 		// If album is -1 we are calling it from ACP so ... prority!
 		// If album is 0 we are calling it from moderator log, so we need album we can access
+		$mod_array = $this->gallery_auth->acl_album_ids('m_status');
+		// Patch for missing album
+		$mod_array[] = 0;
 		if ($album === 0)
 		{
-			$mod_array = $this->gallery_auth->acl_album_ids('m_status');
-			// Patch for missing album
-			$mod_array[] = 0;
 			// If no albums we can approve - quit building queue
 			if (empty($mod_array))
 			{
 				return;
 			}
-			$sql_where[] = $this->db->sql_in_set('album', $mod_array);
+			$sql_where[] = $this->db->sql_in_set('l.album', $mod_array);
+			$sql_where[] = $this->db->sql_in_set('i.image_album_id', $mod_array);
 		}
 		if ($album > 0)
 		{
@@ -128,44 +134,45 @@ class log
 			{
 				return;
 			}
-			$sql_where[] = 'album = ' . $album;
+			$sql_where[] = 'l.album = ' . $album;
 		}
 		if ($image > 0)
 		{
-			$sql_where[] = 'image = ' . $image;
+			$sql_where[] = 'l.image = ' . $image;
+			$sql_where[] = $this->db->sql_in_set('i.image_album_id', $mod_array);
 		}
 		if (isset($additional['sort_days']))
 		{
-			$sql_where[] = 'log_time > ' . (time() - ($additional['sort_days'] * 86400));
+			$sql_where[] = 'l.log_time > ' . (time() - ($additional['sort_days'] * 86400));
 		}
 		// And additional check for "active" logs (DB admin can review logs in DB)
-		$sql_where[] = 'deleted = 0';
+		$sql_where[] = 'l.deleted = 0';
 		$sql_array['WHERE'] = implode(' and ', $sql_where);
 		if (isset($additional['sort_key']))
 		{
 			switch ($additional['sort_key'])
 			{
 				case 'u':
-					$sql_array['ORDER_BY'] = 'log_user ' . (isset($additional['sort_dir']) ? 'ASC' : 'DESC');
-					$sql_array['GROUP_BY'] = 'log_user, log_id';
+					$sql_array['ORDER_BY'] = 'l.log_user ' . (isset($additional['sort_dir']) ? 'ASC' : 'DESC');
+					$sql_array['GROUP_BY'] = 'l.log_user, l.log_id';
 				break;
 				case 'i':
-					$sql_array['ORDER_BY'] = 'log_ip ' . (isset($additional['sort_dir']) ? 'ASC' : 'DESC');
-					$sql_array['GROUP_BY'] = 'log_ip, log_id';
+					$sql_array['ORDER_BY'] = 'l.log_ip ' . (isset($additional['sort_dir']) ? 'ASC' : 'DESC');
+					$sql_array['GROUP_BY'] = 'l.log_ip, l.log_id';
 				break;
 				case 'o':
-					$sql_array['ORDER_BY'] = 'description ' . (isset($additional['sort_dir']) ? 'ASC' : 'DESC');
-					$sql_array['GROUP_BY'] = 'description, log_id';
+					$sql_array['ORDER_BY'] = 'l.description ' . (isset($additional['sort_dir']) ? 'ASC' : 'DESC');
+					$sql_array['GROUP_BY'] = 'l.description, l.log_id';
 				break;
 			}
 		}
 		else
 		{
-			$sql_array['ORDER_BY'] = 'log_time ' . (isset($additional['sort_dir']) ? 'ASC' : 'DESC');
-			$sql_array['GROUP_BY'] = 'log_time, log_id';
+			$sql_array['ORDER_BY'] = 'l.log_time ' . (isset($additional['sort_dir']) ? 'ASC' : 'DESC');
+			$sql_array['GROUP_BY'] = 'l.log_time, l.log_id';
 		}
 		// So we need count - so define SELECT
-		$sql_array['SELECT'] = 'count(log_id) as count';
+		$sql_array['SELECT'] = 'count(l.log_id) as count';
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);

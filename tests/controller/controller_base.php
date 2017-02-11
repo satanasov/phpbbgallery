@@ -244,7 +244,8 @@ class controller_base extends \phpbb_database_test_case
 			$this->pagination,
 			$this->gallery_auth,
 			$this->gallery_config,
-			'phpbb_gallery_log'
+			'phpbb_gallery_log',
+			'phpbb_gallery_images'
 		);
 		$this->gallery_report = new \phpbbgallery\core\report(
 			$this->log,

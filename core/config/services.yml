@@ -241,15 +241,16 @@ services:
     phpbbgallery.core.log:
         class: phpbbgallery\core\log
         arguments:
-            - @dbal.conn
-            - @user
-            - @user_loader
-            - @template
-            - @controller.helper
-            - @pagination
-            - @phpbbgallery.core.auth
-            - @phpbbgallery.core.config
-            - %tables.phpbbgallery.log%
+            - '@dbal.conn'
+            - '@user'
+            - '@user_loader'
+            - '@template'
+            - '@controller.helper'
+            - '@pagination'
+            - '@phpbbgallery.core.auth'
+            - '@phpbbgallery.core.config'
+            - '%tables.phpbbgallery.log%'
+            - '%tables.phpbbgallery.images%'
     phpbbgallery.core.block:
         class: phpbbgallery\core\block
     phpbbgallery.core.contest:

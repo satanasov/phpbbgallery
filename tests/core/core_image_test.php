@@ -89,7 +89,8 @@ class core_image_test extends core_base
 			$this->pagination,
 			$this->gallery_auth,
 			$this->gallery_config,
-			'phpbb_gallery_log'
+			'phpbb_gallery_log',
+			'phpbb_gallery_images'
 		);
 		$this->notification_helper = $this->getMockBuilder('\phpbbgallery\core\notification\helper')
 			->disableOriginalConstructor()
