@@ -3,8 +3,8 @@
 	"type": "phpbb-extension",
 	"description": "phpBB Gallery",
 	"homepage": "https://github.com/satanasov/phpbbgallery",
-	"version": "1.2.0.02",
-	"time": "2014-03-15",
+	"version": "1.2.1",
+	"time": "2017-02-11",
 	"license": "GPL-2.0",
 	"authors": [
 		{
@@ -21,7 +21,7 @@
 		}
 	],
 	"require": {
-		"php": ">=5.3"
+		"php": ">=5.4"
 	},
 	"require-dev": {
 		"phpbb/epv": "dev-master",
@@ -30,7 +30,7 @@
 	"extra": {
 		"display-name": "phpBB Gallery",
 		"soft-require": {
-			"phpbb/phpbb": ">=3.1.0-RC2,<3.2.0@dev"
+			"phpbb/phpbb": ">=3.2.0@dev"
 		}
 	}
 }
