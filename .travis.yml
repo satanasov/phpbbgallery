@@ -53,6 +53,7 @@ env:
 branches:
   only:
     - master
+    - stable-1.2.0.03
     - /^(3\.[1-9]|[4-9]\.\d)\.x$/
 
 install:

@@ -262,6 +262,7 @@ services:
             - @phpbbgallery.core.auth
             - @phpbbgallery.core.config
             - %tables.phpbbgallery.log%
+            - %tables.phpbbgallery.images%
     phpbbgallery.core.block:
         class: phpbbgallery\core\block
     phpbbgallery.core.contest:
