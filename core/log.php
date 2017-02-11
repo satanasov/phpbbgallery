@@ -127,15 +127,15 @@ class log
 		}
 		if ($album > 0)
 		{
-			if (!$this->gallery_auth->acl_check('i_view', $album))
+			if (!$this->gallery_auth->acl_check('i_view', (int) $album))
 			{
 				return;
 			}
-			$sql_where[] = 'l.album = ' . $album;
+			$sql_where[] = 'l.album = ' . (int) $album;
 		}
 		if ($image > 0)
 		{
-			$sql_where[] = 'l.image = ' . $image;
+			$sql_where[] = 'l.image = ' . (int) $image;
 			$sql_where[] = $this->db->sql_in_set('i.image_album_id', $mod_array);
 		}
 		if (isset($additional['sort_days']))
@@ -264,7 +264,7 @@ class log
 					'phpbbgallery_core_moderate_action_log_album_page',
 				),
 				'params' => array(
-					'album_id'	=> $album,
+					'album_id'	=> (int) $album,
 				),
 			), 'pagination', 'page', $count, $limit, ($page-1) * $limit);
 		}
