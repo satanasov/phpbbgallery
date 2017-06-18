@@ -2,7 +2,7 @@
 ####################################
 #### Define notification types #####
 ####################################
-
+services:
     phpbbgallery.core.notification.image_for_approval:
         class: phpbbgallery\core\notification\events\phpbbgallery_image_for_approval
         shared: false # scope MUST be prototype for this to work!
