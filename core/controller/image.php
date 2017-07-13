@@ -164,7 +164,7 @@ class image
 
 			$this->user->add_lang_ext('phpbbgallery/core', 'gallery_mcp');
 			$this->template->assign_vars(array(
-				'S_MOD_ACTION'		=> $this->helper->route('phpbbgallery_core_moderate_image', array('image_id' => $image_id)),
+				'S_MOD_ACTION'		=> $this->helper->route('phpbbgallery_core_moderate_image', array('image_id' => (int) $image_id)),
 				'S_QUICK_MOD'		=> $s_quick_mod,
 				'S_QM_MOVE'			=> $this->gallery_auth->acl_check('m_move', $album_id, $album_data['album_user_id']),
 				'S_QM_EDIT'			=> $s_allowed_edit,
@@ -173,7 +173,7 @@ class image
 				'S_QM_STATUS'		=> $this->gallery_auth->acl_check('m_status', $album_id, $album_data['album_user_id']),
 
 				'S_IMAGE_REPORTED'		=> $this->data['image_reported'] ? true : false,
-				'U_IMAGE_REPORTED'		=> ($this->data['image_reported']) ? $this->helper->route('phpbbgallery_core_moderate_image', array('image_id' => $image_id)) : '',
+				'U_IMAGE_REPORTED'		=> ($this->data['image_reported']) ? $this->helper->route('phpbbgallery_core_moderate_image', array('image_id' => (int) $image_id)) : '',
 				'S_STATUS_APPROVED'		=> ($this->data['image_status'] == \phpbbgallery\core\block::STATUS_APPROVED),
 				'S_STATUS_UNAPPROVED'	=> ($this->data['image_status'] == \phpbbgallery\core\block::STATUS_UNAPPROVED),
 				'S_STATUS_LOCKED'		=> ($this->data['image_status'] == \phpbbgallery\core\block::STATUS_LOCKED),
@@ -267,7 +267,7 @@ class image
 			'UC_NEXT_IMAGE'		=> ($next ? ($this->gallery_config->get('disp_nextprev_thumbnail') ? '<a href="' . $this->helper->route('phpbbgallery_core_image', array('image_id' => $next['image_id'])) . '"><img style="max-width: 70px; max-height: 70px;" src="' . $this->helper->route('phpbbgallery_core_image_file_mini', array('image_id' => $next['image_id'])) . '" alt="' . $next['image_name'] . '"></a>' : '<a href="' . $this->helper->route('phpbbgallery_core_image', array('image_id' => $next['image_id'])) . '">' . $next['image_name'] . ' &raquo;&raquo; </a>') : ''),
 			'UC_PREV_IMAGE'		=> ($prev ? ($this->gallery_config->get('disp_nextprev_thumbnail') ? '<a href="' . $this->helper->route('phpbbgallery_core_image', array('image_id' => $prev['image_id'])) . '"><img style="max-width: 70px; max-height: 70px;" src="' . $this->helper->route('phpbbgallery_core_image_file_mini', array('image_id' => $prev['image_id'])) . '" alt="' . $prev['image_name'] . '"></a>' : '<a href="' . $this->helper->route('phpbbgallery_core_image', array('image_id' => $prev['image_id'])) . '">&laquo;&laquo; ' . $prev['image_name'] . '</a>') : ''),
 			'U_VIEW_ALBUM'		=> $this->helper->route('phpbbgallery_core_album', array('album_id' => $album_id)),
-			'UC_IMAGE'			=> $this->helper->route('phpbbgallery_core_image_file_medium', array('image_id' => $image_id)),
+			'UC_IMAGE'			=> $this->helper->route('phpbbgallery_core_image_file_medium', array('image_id' => (int) $image_id)),
 			//'UC_IMAGE_ACTION'	=> $this->gallery_config->get('link_imagepage') == 'none' ? '' : $this->gallery_config->get('link_imagepage') == 'image' ? $this->helper->route('phpbbgallery_core_image_file_source', array('image_id' => $image_id)) : $next && $this->gallery_config->get('link_imagepage') == 'next' ? $this->helper->route('phpbbgallery_core_image', array('image_id' => $next['image_id'])) : '',
 
 			'U_DELETE'			=> ($s_allowed_delete) ? $this->helper->route('phpbbgallery_core_image_delete', array('image_id' => $image_id)) : '',
@@ -278,7 +278,7 @@ class image
 			'CONTEST_RANK'		=> ($this->data['image_contest_rank']) ? $this->user->lang('CONTEST_RESULT_' . $this->data['image_contest_rank']) : '',
 			'IMAGE_NAME'		=> $this->data['image_name'],
 			'IMAGE_DESC'		=> $image_desc,
-			'IMAGE_BBCODE'		=> ($this->config['allow_bbcode']) ? '[image]' . $image_id . '[/image]' : '',
+			'IMAGE_BBCODE'		=> ($this->config['allow_bbcode']) ? '[image]' . (int) $image_id . '[/image]' : '',
 			'IMAGE_IMGURL_BBCODE'	=> ($this->config['phpbb_gallery_disp_image_url']) ? '[url=' . $this->url->get_uri($this->helper->route('phpbbgallery_core_image', array('image_id'	=> $image_id))) . '][img]' . $this->url->get_uri($this->helper->route('phpbbgallery_core_image_file_mini', array('image_id'	=> $image_id))) . '[/img][/url]' : '',
 			'IMAGE_URL'			=> ($this->config['phpbb_gallery_disp_image_url']) ? $this->url->get_uri($this->helper->route('phpbbgallery_core_image_file_medium', array('image_id'	=> $image_id))) : '',
 			'IMAGE_TIME'		=> $this->user->format_date($this->data['image_time']),
@@ -512,7 +512,7 @@ class image
 			$users[] = $image_data['image_user_id'];
 			$sql = 'SELECT *
 				FROM ' . $this->table_comments . '
-				WHERE comment_image_id = ' . $image_id . '
+				WHERE comment_image_id = ' . (int) $image_id . '
 				ORDER BY comment_id ' . $sort_order;
 			$result = $this->db->sql_query_limit($sql, $limit, $start);
 
@@ -650,7 +650,7 @@ class image
 					'phpbbgallery_core_image_page',
 				),
 				'params' => array(
-					'image_id' => $image_id,
+					'image_id' => (int) $image_id,
 				),
 			), 'pagination', 'page', $image_data['image_comments'], $limit, $start);
 
@@ -812,7 +812,7 @@ class image
 			{
 				$sql = 'UPDATE ' . $this->table_images . '
 					SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . '
-					WHERE image_id = ' . $image_id;
+					WHERE image_id = ' . (int) $image_id;
 				$this->db->sql_query($sql);
 
 				$this->album->update_info($album_data['album_id']);
@@ -986,8 +986,8 @@ class image
 			if (!$error)
 			{
 				$data = array(
-					'report_album_id'			=> $album_id,
-					'report_image_id'			=> $image_id,
+					'report_album_id'			=> (int) $album_id,
+					'report_image_id'			=> (int) $image_id,
 					'report_note'				=> $report_message,
 				);
 

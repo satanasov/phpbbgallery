@@ -669,7 +669,7 @@ class manage
 
 				$sql = 'SELECT album_name
 					FROM ' . $this->albums_table . ' 
-					WHERE album_id = ' . $subalbums_to_id;
+					WHERE album_id = ' . (int) $subalbums_to_id;
 				$result = $this->db->sql_query($sql);
 				$row = $this->db->sql_fetchrow($result);
 				$this->db->sql_freeresult($result);
@@ -697,7 +697,7 @@ class manage
 					$album_data = $this->gallery_album->get_info($album_id);
 
 					$sql = 'UPDATE ' . $this->albums_table . ' 
-						SET parent_id = ' . $subalbums_to_id .'
+						SET parent_id = ' . (int) $subalbums_to_id .'
 						WHERE parent_id = ' . (int) $album_id . '
 							AND album_user_id = ' . $this->user_id;
 					$this->db->sql_query($sql);
@@ -865,7 +865,7 @@ class manage
 		// Before we remove anything we make sure we are able to adjust the image counts later. ;)
 		$sql = 'SELECT image_user_id
 			FROM ' . $this->images_table . ' 
-			WHERE image_album_id = ' . $album_id . '
+			WHERE image_album_id = ' . (int) $album_id . '
 				AND image_status <> ' . \phpbbgallery\core\block::STATUS_UNAPPROVED . '
 				AND image_status <> ' . \phpbbgallery\core\block::STATUS_ORPHAN;
 		$result = $this->db->sql_query($sql);
@@ -879,7 +879,7 @@ class manage
 
 		$sql = 'SELECT image_id, image_filename, image_album_id
 			FROM ' . $this->images_table . ' 
-			WHERE image_album_id = ' . $album_id;
+			WHERE image_album_id = ' . (int) $album_id;
 		$result = $this->db->sql_query($sql);
 
 		$filenames = $deleted_images = array();
@@ -903,14 +903,14 @@ class manage
 
 		//@todo: merge queries into loop
 		$sql = 'DELETE FROM ' . $this->permissions_table . ' 
-			WHERE perm_album_id = ' . $album_id;
+			WHERE perm_album_id = ' . (int) $album_id;
 		$this->db->sql_query($sql);
 		$sql = 'DELETE FROM ' . $this->contests_table . ' 
-			WHERE contest_album_id = ' . $album_id;
+			WHERE contest_album_id = ' . (int) $album_id;
 		$this->db->sql_query($sql);
 
 		$sql = 'DELETE FROM ' . $this->moderators_table . ' 
-			WHERE album_id = ' . $album_id;
+			WHERE album_id = ' . (int) $album_id;
 		$this->db->sql_query($sql);
 
 		$this->gallery_notification->delete_albums($album_id);
