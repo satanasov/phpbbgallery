@@ -114,7 +114,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 		{
 			$sql = 'SELECT *
 				FROM ' . $this->table_comments . '
-				WHERE comment_id = ' . $comment_id;
+				WHERE comment_id = ' . (int) $comment_id;
 			$result = $this->db->sql_query($sql);
 			$comment_data = $this->db->sql_fetchrow($result);
 			$this->db->sql_freeresult($result);
@@ -331,8 +331,8 @@ $table_comments, $phpbb_root_path, $php_ext)
 
 			'IMAGE_RSZ_WIDTH'		=> $this->gallery_config->get('medium_width'),
 			'IMAGE_RSZ_HEIGHT'		=> $this->gallery_config->get('medium_height'),
-			'U_IMAGE'				=> append_sid($this->url->path('full') . 'image/' . $image_id . '/medium'),
-			'U_VIEW_IMAGE'			=> append_sid($this->url->path('full') . 'image/' . $image_id),
+			'U_IMAGE'				=> append_sid($this->url->path('full') . 'image/' . (int) $image_id . '/medium'),
+			'U_VIEW_IMAGE'			=> append_sid($this->url->path('full') . 'image/' . (int) $image_id),
 			'IMAGE_NAME'			=> $image_data['image_name'],
 
 			'S_SIGNATURE_CHECKED'	=> (isset($sig_checked) && $sig_checked) ? ' checked="checked"' : '',
@@ -382,7 +382,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 		{
 			$sql = 'SELECT *
 				FROM ' . $this->table_comments . '
-				WHERE comment_id = ' . $comment_id;
+				WHERE comment_id = ' . (int) $comment_id;
 			$result = $this->db->sql_query($sql);
 			$comment_data = $this->db->sql_fetchrow($result);
 			$this->db->sql_freeresult($result);
@@ -539,8 +539,8 @@ $table_comments, $phpbb_root_path, $php_ext)
 
 			'IMAGE_RSZ_WIDTH'		=> $this->gallery_config->get('medium_width'),
 			'IMAGE_RSZ_HEIGHT'		=> $this->gallery_config->get('medium_height'),
-			'U_IMAGE'				=> append_sid($this->url->path('full') . 'image/' . $image_id . '/medium'),
-			'U_VIEW_IMAGE'			=> append_sid($this->url->path('full') . 'image/' . $image_id),
+			'U_IMAGE'				=> append_sid($this->url->path('full') . 'image/' . (int) $image_id . '/medium'),
+			'U_VIEW_IMAGE'			=> append_sid($this->url->path('full') . 'image/' . (int) $image_id),
 			'IMAGE_NAME'			=> $image_data['image_name'],
 
 			'S_SIGNATURE_CHECKED'	=> (isset($sig_checked) && $sig_checked) ? ' checked="checked"' : '',
@@ -590,7 +590,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 		{
 			$sql = 'SELECT *
 				FROM ' . $this->table_comments . '
-				WHERE comment_id = ' . $comment_id;
+				WHERE comment_id = ' . (int) $comment_id;
 			$result = $this->db->sql_query($sql);
 			$comment_data = $this->db->sql_fetchrow($result);
 			$this->db->sql_freeresult($result);
@@ -697,12 +697,12 @@ $table_comments, $phpbb_root_path, $php_ext)
 
 			'IMAGE_RSZ_WIDTH'		=> $this->gallery_config->get('medium_width'),
 			'IMAGE_RSZ_HEIGHT'		=> $this->gallery_config->get('medium_height'),
-			'U_IMAGE'				=> append_sid($this->url->path('full') . 'image/' . $image_id . '/medium'),
-			'U_VIEW_IMAGE'			=> append_sid($this->url->path('full') . 'image/' . $image_id),
+			'U_IMAGE'				=> append_sid($this->url->path('full') . 'image/' . (int) $image_id . '/medium'),
+			'U_VIEW_IMAGE'			=> append_sid($this->url->path('full') . 'image/' . (int) $image_id),
 			'IMAGE_NAME'			=> $image_data['image_name'],
 
 			'S_SIGNATURE_CHECKED'	=> (isset($sig_checked) && $sig_checked) ? ' checked="checked"' : '',
-			'S_ALBUM_ACTION'		=> append_sid($this->url->path('full') . 'comment/' . $image_id . '/edit/'. $comment_id),
+			'S_ALBUM_ACTION'		=> append_sid($this->url->path('full') . 'comment/' . (int) $image_id . '/edit/'. (int) $comment_id),
 		));
 
 		if ($submit && !$error)
