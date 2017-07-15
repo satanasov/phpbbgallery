@@ -792,7 +792,7 @@ class image
 			$rotate = (isset($rotate[0])) ? $rotate[0] : 0;
 			if ($this->gallery_config->get('allow_rotate') && ($rotate > 0) && (($rotate % 90) == 0))
 			{
-				$image_tools = new \phpbbgallery\core\file\file($this->request, $this->url, 2);
+				$image_tools = new \phpbbgallery\core\file\file($this->request, $this->url, $this->gallery_config, 2);
 				$image_tools->set_image_options($this->gallery_config->get('max_filesize'), $this->gallery_config->get('max_height'), $this->gallery_config->get('max_width'));
 				$image_tools->set_image_data($this->url->path('upload') . $image_data['image_filename']);
 
