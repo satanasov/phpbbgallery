@@ -1270,7 +1270,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 	/**
 	* @dataProvider log_data
 	*/
-	public function test_log($type, $test)
+	/*public function test_log($type, $test)
 	{
 		$this->login();
 		$this->admin_login();
@@ -1296,5 +1296,5 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		{
 			$this->assertContainsLang('NO_ENTRIES', $crawler->text());
 		}
-	}
+	}*/
 }

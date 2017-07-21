@@ -84,6 +84,7 @@ class main_event_test extends \phpbb_database_test_case
 			$this->controller_helper,
 			$this->template,
 			$this->user,
+			$this->language,
 			$this->gallery_search,
 			$this->gallery_config,
 			$this->db,
