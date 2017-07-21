@@ -32,6 +32,18 @@ class main_listener implements EventSubscriberInterface
 	protected $template;
 	/* @var \phpbb\user */
 	protected $user;
+
+	/** @var \phpbb\language\language  */
+	protected $language;
+
+	/** @var \phpbbgallery\core\search  */
+	protected $gallery_search;
+
+	/** @var \phpbbgallery\core\config  */
+	protected $gallery_config;
+	/** @var \phpbb\db\driver\driver_interface  */
+	protected $db;
+
 	/* @var string phpEx */
 	protected $php_ext;
 
@@ -39,26 +51,29 @@ class main_listener implements EventSubscriberInterface
 	protected $target = 0;
 	protected $albums = array();
 
-	/**
-	 * Constructor
-	 *
-	 * @param \phpbb\controller\helper          $helper   Newspage helper object
-	 * @param \phpbb\template\template          $template Template object
-	 * @param \phpbb\user                       $user     User object
-	 * @param \phpbbgallery\core\search         $gallery_search
-	 * @param \phpbbgallery\core\config         $gallery_config
-	 * @param \phpbb\db\driver\driver_interface $db
-	 * @param                                   $albums_table
-	 * @param                                   $users_table
-	 * @param string                            $php_ext  phpEx
-	 */
-	public function __construct(\phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user, \phpbbgallery\core\search $gallery_search,
-	\phpbbgallery\core\config $gallery_config, \phpbb\db\driver\driver_interface $db,
-	$albums_table, $users_table, $php_ext)
+    /**
+     * Constructor
+     *
+     * @param \phpbb\controller\helper $helper Newspage helper object
+     * @param \phpbb\template\template $template Template object
+     * @param \phpbb\user $user User object
+     * @param \phpbb\language\language $lang
+     * @param \phpbbgallery\core\search $gallery_search
+     * @param \phpbbgallery\core\config $gallery_config
+     * @param \phpbb\db\driver\driver_interface $db
+     * @param $albums_table
+     * @param $users_table
+     * @param string $php_ext phpEx
+     */
+	public function __construct(\phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user,
+                                \phpbb\language\language $lang, \phpbbgallery\core\search $gallery_search,
+	                            \phpbbgallery\core\config $gallery_config, \phpbb\db\driver\driver_interface $db,
+	                            $albums_table, $users_table, $php_ext)
 	{
 		$this->helper = $helper;
 		$this->template = $template;
 		$this->user = $user;
+        $this->language = $lang;
 		$this->gallery_search = $gallery_search;
 		$this->gallery_config = $gallery_config;
 		$this->db = $db;
@@ -68,10 +83,7 @@ class main_listener implements EventSubscriberInterface
 	}
 	public function load_language_on_setup($event)
 	{
-		$this->user->add_lang_ext('phpbbgallery/core', 'info_acp_gallery');
-		$this->user->add_lang_ext('phpbbgallery/core', 'gallery');
-		$this->user->add_lang_ext('phpbbgallery/core', 'gallery_notifications');
-		$this->user->add_lang_ext('phpbbgallery/core', 'permissions_gallery');
+	    $this->language->add_lang(array('info_acp_gallery', 'gallery', 'gallery_notifications', 'permissions_gallery'), 'phpbbgallery/core');
 		if ($this->gallery_config->get('disp_total_images') == 1)
 		{
 			$this->template->assign_vars(array(
@@ -87,8 +99,8 @@ class main_listener implements EventSubscriberInterface
 	}
 	public function user_profile_galleries($event)
 	{
-		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
-		$this->user->add_lang('search');
+	    $this->language->add_lang(array('gallery'), 'phpbbgallery/core');
+		$this->language->add_lang('search');
 		$random = $recent = false;
 		$show_parts = $this->gallery_config->get('rrc_profile_mode');
 		if ($show_parts >= 2)

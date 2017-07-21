@@ -72,7 +72,6 @@ $lang = array_merge($lang, array(
 
 	'CHANGE_AUTHOR'					=> 'Wijzig auteur',
 	'CHANGE_IMAGE_STATUS'			=> 'Verander afbeeldingsstatus',
-	'CHARACTERS'					=> 'karakters',
 	'CLICK_RETURN_ALBUM'			=> 'Klik %shier%s om terug te gaan naar het album',
 	'CLICK_RETURN_IMAGE'			=> 'Klik %shier%s om terug te gaan naar de afbeelding',
 	'CLICK_RETURN_INDEX'			=> 'Klik %shier%s om terug te gaan naar de albumindex',

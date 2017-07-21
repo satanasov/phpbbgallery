@@ -72,7 +72,6 @@ $lang = array_merge($lang, array(
 
 	'CHANGE_AUTHOR'					=> 'Benutzer ändern',
 	'CHANGE_IMAGE_STATUS'			=> 'Bildstatus ändern',
-	'CHARACTERS'					=> 'Buchstaben',
 	'CLICK_RETURN_ALBUM'			=> 'Klicke %shier%s um zum Album zurückzukehren',
 	'CLICK_RETURN_IMAGE'			=> 'Klicke %shier%s um zum Bild zurückzukehren',
 	'CLICK_RETURN_INDEX'			=> 'Klicke %shier%s um zum Index zurückzukehren',

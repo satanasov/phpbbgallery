@@ -65,7 +65,6 @@ $lang = array_merge($lang, array(
 	'BROWSING_ALBUM_GUESTS'			=> 'Сейчас этот альбом просматривают %1$s пользователей и гости: %2$d',
 	'CHANGE_AUTHOR'					=> 'Сменить автора',
 	'CHANGE_IMAGE_STATUS'			=> 'Изменить статус',
-	'CHARACTERS'					=> 'символов',
 	'CLICK_RETURN_ALBUM'			=> '%sВернуться в альбом%s',
 	'CLICK_RETURN_IMAGE'			=> '%sВернуться к фотографии%s',
 	'CLICK_RETURN_INDEX'			=> '%sВернуться на главную страницу галереи%s',

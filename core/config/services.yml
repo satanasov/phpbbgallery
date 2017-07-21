@@ -299,6 +299,7 @@ services:
             - '@controller.helper'
             - '@template'
             - '@user'
+            - '@language'
             - '@phpbbgallery.core.search'
             - '@phpbbgallery.core.config'
             - '@dbal.conn'
