@@ -31,7 +31,8 @@ class config_module
 		global $request, $config;
 
 		$phpbb_gallery_url = $phpbb_container->get('phpbbgallery.core.url');
-		$user->add_lang_ext('phpbbgallery/core', array('gallery', 'gallery_acp'));
+		$this->lang = $phpbb_container->get('language');
+		$this->lang->add_lang(array('gallery', 'gallery_acp'), 'phpbbgallery/core');
 
 		$submit = (isset($_POST['submit'])) ? true : false;
 		$form_key = 'acp_time';
@@ -224,7 +225,14 @@ class config_module
 			}
 			if (isset($vars['append']))
 			{
-				$vars['append'] = (isset($user->lang[$vars['append']])) ? ' ' . $user->lang[$vars['append']] : $vars['append'];
+			    if (is_array($user->lang[$vars['append']]))
+                {
+                    $vars['append'] = (isset($user->lang[$vars['append']])) ? ' ' . substr($this->lang->lang($vars['append'], 0), 1) : $vars['append'];
+                }
+                else
+                {
+                    $vars['append'] = (isset($user->lang[$vars['append']])) ? ' ' . $this->lang->lang($vars['append']) : $vars['append'];
+                }
 			}
 
 			$this->new_config[$config_key] = $phpbb_gallery_configs->get($config_key);
