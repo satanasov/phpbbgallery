@@ -509,7 +509,7 @@ class manage
 		// Resync parents
 		$sql = 'UPDATE ' . $this->albums_table . " 
 			SET right_id = right_id - $diff, album_parents = ''
-			WHERE album_user_id = " . $this->user_id . '
+			WHERE album_user_id = " . (int) $this->user_id . '
 				AND left_id < ' . $from_data['right_id'] . "
 				AND right_id > " . $from_data['right_id'];
 		$this->db->sql_query($sql);
@@ -517,7 +517,7 @@ class manage
 		// Resync righthand side of tree
 		$sql = 'UPDATE ' . $this->albums_table . " 
 			SET left_id = left_id - $diff, right_id = right_id - $diff, album_parents = ''
-			WHERE album_user_id = " . $this->user_id . '
+			WHERE album_user_id = " . (int) $this->user_id . '
 				AND left_id > ' . $from_data['right_id'];
 		$this->db->sql_query($sql);
 
@@ -529,16 +529,16 @@ class manage
 			// Resync new parents
 			$sql = 'UPDATE ' . $this->albums_table . " 
 				SET right_id = right_id + $diff, album_parents = ''
-				WHERE album_user_id = " . $this->user_id . '
+				WHERE album_user_id = " . (int) $this->user_id . '
 					AND ' . $to_data['right_id'] . ' BETWEEN left_id AND right_id
 					AND ' . $this->db->sql_in_set('album_id', $moved_ids, true);
 			$this->db->sql_query($sql);
 
 			// Resync the righthand side of the tree
-			$sql = 'UPDATE ' . $this->albums_table . " 
-				SET left_id = left_id + $diff, right_id = right_id + $diff, album_parents = ''
-				WHERE album_user_id = " . $this->user_id . '
-					AND left_id > ' . $to_data['right_id'] . '
+			$sql = 'UPDATE ' . $this->albums_table . ' 
+				SET left_id = left_id + ' . (int) $diff . ', right_id = right_id + ' . (int) $diff . ', album_parents = \'\'
+				WHERE album_user_id = ' . (int) $this->user_id . '
+					AND left_id > ' . (int) $to_data['right_id'] . '
 					AND ' . $this->db->sql_in_set('album_id', $moved_ids, true);
 			$this->db->sql_query($sql);
 
@@ -558,7 +558,7 @@ class manage
 		{
 			$sql = 'SELECT MAX(right_id) AS right_id
 				FROM ' . $this->albums_table . ' 
-				WHERE album_user_id = ' . $this->user_id . '
+				WHERE album_user_id = ' . (int) $this->user_id . '
 					AND ' . $this->db->sql_in_set('album_id', $moved_ids, true);
 			$result = $this->db->sql_query($sql);
 			$row = $this->db->sql_fetchrow($result);
@@ -569,7 +569,7 @@ class manage
 
 		$sql = 'UPDATE ' . $this->albums_table . " 
 			SET left_id = left_id $diff, right_id = right_id $diff, album_parents = ''
-			WHERE album_user_id = " . $this->user_id . '
+			WHERE album_user_id = " . (int) $this->user_id . '
 				AND ' . $this->db->sql_in_set('album_id', $moved_ids);
 		$this->db->sql_query($sql);
 
@@ -699,7 +699,7 @@ class manage
 					$sql = 'UPDATE ' . $this->albums_table . ' 
 						SET parent_id = ' . (int) $subalbums_to_id .'
 						WHERE parent_id = ' . (int) $album_id . '
-							AND album_user_id = ' . $this->user_id;
+							AND album_user_id = ' . (int) $this->user_id;
 					$this->db->sql_query($sql);
 
 					$diff = 2;
@@ -724,15 +724,15 @@ class manage
 
 		// Resync tree
 		$sql = 'UPDATE ' . $this->albums_table . '  
-			SET right_id = right_id - ' . $diff . '
-			WHERE left_id < ' . $album_data['right_id'] . ' AND right_id > ' . $album_data['right_id']. '
-				AND album_user_id = ' . $this->user_id;
+			SET right_id = right_id - ' . (int) $diff . '
+			WHERE left_id < ' . (int) $album_data['right_id'] . ' AND right_id > ' . (int) $album_data['right_id']. '
+				AND album_user_id = ' . (int) $this->user_id;
 		$this->db->sql_query($sql);
 
 		$sql = 'UPDATE ' . $this->albums_table . ' 
-			SET left_id = left_id - ' . $diff . ', right_id = right_id - ' . $diff . '
-			WHERE left_id > ' . $album_data['right_id']. '
-				AND album_user_id = ' . $this->user_id;
+			SET left_id = left_id - ' . (int) $diff . ', right_id = right_id - ' . (int) $diff . '
+			WHERE left_id > ' . (int) $album_data['right_id']. '
+				AND album_user_id = ' . (int) $this->user_id;
 		$this->db->sql_query($sql);
 
 		$log_action = implode('_', array($log_action_images, $log_action_albums));
@@ -973,7 +973,7 @@ class manage
 		*/
 		$sql = 'SELECT album_id, album_name, left_id, right_id
 			FROM ' . $this->albums_table . ' 
-			WHERE parent_id = ' . $album_row['parent_id'] . '
+			WHERE parent_id = ' . (int) $album_row['parent_id'] . '
 				AND album_user_id = ' . (int) $this->user_id . '
 				AND ' . (($action == 'move_up') ? 'right_id < ' . $album_row['right_id'] . ' ORDER BY right_id DESC' : 'left_id > ' . $album_row['left_id'] . ' ORDER BY left_id ASC');
 		$result = $this->db->sql_query_limit($sql, $steps);
@@ -1022,20 +1022,20 @@ class manage
 		}
 
 		// Now do the dirty job
-		$sql = 'UPDATE ' . $this->albums_table . " 
+		$sql = 'UPDATE ' . $this->albums_table . ' 
 			SET left_id = left_id + CASE
-				WHEN left_id BETWEEN {$move_up_left} AND {$move_up_right} THEN -{$diff_up}
-				ELSE {$diff_down}
+				WHEN left_id BETWEEN ' . (int) $move_up_left . ' AND ' . (int) $move_up_right . ' THEN -' .(int) $diff_up . '
+				ELSE ' .(int) $diff_down . '
 			END,
 			right_id = right_id + CASE
-				WHEN right_id BETWEEN {$move_up_left} AND {$move_up_right} THEN -{$diff_up}
-				ELSE {$diff_down}
+				WHEN right_id BETWEEN ' . (int) $move_up_left . ' AND ' . (int) $move_up_right . ' THEN -' . (int) $diff_up . '
+				ELSE ' . (int) $diff_down . '
 			END,
-			album_parents = ''
+			album_parents = \'\'
 			WHERE
-				left_id BETWEEN {$left_id} AND {$right_id}
-				AND right_id BETWEEN {$left_id} AND {$right_id}
-				AND album_user_id = " . $this->user_id;
+				left_id BETWEEN ' . (int) $left_id . ' AND ' . (int) $right_id . '
+				AND right_id BETWEEN ' . (int) $left_id . ' AND ' . (int) $right_id . '
+				AND album_user_id = ' . (int) $this->user_id;
 		$this->db->sql_query($sql);
 
 		return $target['album_name'];
