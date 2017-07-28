@@ -204,7 +204,6 @@ $lang = array_merge($lang, array(
 
 	'PERCENT'						=> '%',
 	'PERSONAL_ALBUMS'				=> 'Лични албуми',
-	'PIXELS'						=> 'пиксела',
 	'PLUGIN_CLASS_MISSING'			=> 'Gallery Plugin Error: Class “%s“ could not be found!',
 	'POST_COMMENT'					=> 'Публикувай коментар',
 	'POST_COMMENT_RATE_IMAGE'		=> 'Публикувай коментар и оцени изображението',

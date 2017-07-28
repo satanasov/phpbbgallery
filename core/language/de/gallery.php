@@ -206,7 +206,6 @@ $lang = array_merge($lang, array(
 
 	'PERCENT'						=> '%',
 	'PERSONAL_ALBUMS'				=> 'Persönliche Alben',
-	'PIXELS'						=> 'Pixel',
 	'PLUGIN_CLASS_MISSING'			=> 'Gallery Plugin Fehler: Die Klasse „%s“ konnte nicht gefunden werden!',
 	'POST_COMMENT'					=> 'Kommentar schreiben',
 	'POST_COMMENT_RATE_IMAGE'		=> 'Kommentar schreiben und Bild bewerten',

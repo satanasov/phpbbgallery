@@ -186,7 +186,6 @@ $lang = array_merge($lang, array(
 	'OWN_IMAGES'					=> 'Ваши фото',
 	'PERCENT'						=> '%',
 	'PERSONAL_ALBUMS'				=> 'Личные альбомы',
-	'PIXELS'						=> 'пикселей',
 	'PLUGIN_CLASS_MISSING'			=> 'Ошибка плагина: класс «%s» не найден.',
 	'POST_COMMENT'					=> 'Оставить комментарий',
 	'POST_COMMENT_RATE_IMAGE'		=> 'Оставить комментарий и оценить фото',
