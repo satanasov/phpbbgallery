@@ -13,7 +13,7 @@
 		</div>
 	</div>
 <!-- ENDIF -->
-<div id="tabs">
+<div id="tabs" class="tabs">
 	<ul>
 		<li class="tab"><a href="{U_GALLERY_MODERATE_OVERVIEW}">{L_GALLERY_MCP_MAIN}</a></li>
 		<!-- IF U_ALBUM_OVERVIEW --><li class="tab"><a href="{U_ALBUM_OVERVIEW}">{L_GALLERY_MCP_ALBUM_OVERVIEW}</a></li><!-- ENDIF -->
@@ -25,15 +25,15 @@
 <div class="panel bg3">
 	<div class="inner">
 		<div style="width: 100%;">
-			<div id="cp-menu">
-				<div class="responsive-hide" id="navigation" role="navigation">
+			<div id="cp-menu" class="cp-menu">
+				<div class="navigation responsive-hide" id="navigation" role="navigation">
 					<ul>
-						<li<!-- IF U_STATUS --> id="active-subsection"<!-- ENDIF -->><a href="{U_GALLERY_MODERATE_REPORT}"><span>{L_GALLERY_MCP_REPO_OPEN}</span></a></li>
-						<li<!-- IF !U_STATUS --> id="active-subsection"<!-- ENDIF -->><a href="{U_GALLERY_MODERATE_REPORT_CLOSED}"><span>{L_GALLERY_MCP_REPO_DONE}</span></a></li>
+						<li<!-- IF U_STATUS --> id="active-subsection" class="active-subsection"<!-- ENDIF -->><a href="{U_GALLERY_MODERATE_REPORT}"><span>{L_GALLERY_MCP_REPO_OPEN}</span></a></li>
+						<li<!-- IF !U_STATUS --> id="active-subsection" class="active-subsection"<!-- ENDIF -->><a href="{U_GALLERY_MODERATE_REPORT_CLOSED}"><span>{L_GALLERY_MCP_REPO_DONE}</span></a></li>
 					</ul>
 				</div>
 			</div>
-			<div id="cp-main" class="mcp-main panel-container">
+			<div id="cp-main" class="cp-main mcp-main panel-container">
 				<h2><!-- IF U_STATUS -->{L_GALLERY_MCP_REPO_OPEN}<!-- ELSE -->{L_GALLERY_MCP_REPO_DONE}<!-- ENDIF --></h2>
 				<!-- INCLUDE gallery/moderate_report_queue.html -->
 			</div>
