@@ -157,34 +157,42 @@
 					<!-- IF S_SHOW_SMILEY_LINK and S_SMILIES_ALLOWED--><dd><a href="{U_MORE_SMILIES}" onclick="gallery_popup(this.href, 300, 350, '_phpbbsmilies'); return false;">{L_MORE_SMILIES}</a></dd><!-- ENDIF -->
 				</dl>
 			<!-- ENDIF -->
-
+		</fieldset>
+		<fieldset class="fields1">
 			<!-- BEGIN image -->
-				<hr />
 				<dl>
-					<dt class="simulate-dt<!-- IF image.S_FIRST_ROW and (NUM_IMAGES > 1) --> first<!-- ENDIF -->">{image.U_IMAGE}</dt>
-					<dd class="simulate-dt"><label for="image_name_{image.S_ROW_COUNT}">{L_IMAGE_NAME}:</label></dd>
-					<!-- IF image.S_FIRST_ROW and (NUM_IMAGES > 1) -->
-						<dd class="simulate-dd"><input type="checkbox" name="same_name" id="same_name" value="1" onchange="change_read_write();" /> <label for="same_name">{L_USE_SAME_NAME}</label></dd>
-						<dd class="simulate-dd">{L_USE_NUM} <input class="inputbox autowidth" type="text" id="image_num" name="image_num" size="5" onchange="update_all('image_name'); update_all('message');" onkeyup="update_all('image_name'); update_all('message');" value="1" /></dd>
-					<!-- ENDIF -->
-					<dd class="simulate-dd"><input class="inputbox autowidth" type="text" tabindex="1{image.S_ROW_COUNT}" id="image_name_{image.S_ROW_COUNT}" name="image_name[{image.S_ROW_COUNT}]" value="{image.IMAGE_NAME}"<!-- IF image.S_FIRST_ROW --> onchange="update_all('image_name');" onselect="update_all('image_name');" onclick="update_all('image_name');" onkeyup="update_all('image_name');"<!-- ENDIF --> size="60" maxlength="128" /></dd>
-					<dd class="simulate-dt"><label for="message_{image.S_ROW_COUNT}">{L_IMAGE_DESC}:</label></dd>
-					<dd class="simulate-dd" id="desc_length_{image.S_ROW_COUNT}">{L_DESCRIPTION_LENGTH}</dd>
-					<dd class="simulate-dd"><textarea name="message[{image.S_ROW_COUNT}]" id="message_{image.S_ROW_COUNT}" rows="4" cols="76" tabindex="3" onchange="set_text_field({image.S_ROW_COUNT});<!-- IF image.S_FIRST_ROW --> update_all('message');<!-- ENDIF -->" onselect="set_text_field({image.S_ROW_COUNT});<!-- IF image.S_FIRST_ROW --> update_all('message');<!-- ENDIF --> storeCaret(this);" onclick="set_text_field({image.S_ROW_COUNT});<!-- IF image.S_FIRST_ROW --> update_all('message');<!-- ENDIF --> storeCaret(this);" onkeyup="set_text_field({image.S_ROW_COUNT});<!-- IF image.S_FIRST_ROW --> update_all('message');<!-- ENDIF --> storeCaret(this);" class="inputbox">{image.IMAGE_DESC}</textarea></dd>
-					<!-- IF S_ALLOW_ROTATE -->
-					<dd class="simulate-dt"><label for="rotate_{image.S_ROW_COUNT}_0">{L_ROTATE_IMAGE}:</label></dd>
-					<dd class="simulate-dd"><input type="radio" name="rotate[{image.S_ROW_COUNT}]" id="rotate_{image.S_ROW_COUNT}_0" value="0" checked="checked" /> <label for="rotate_{image.S_ROW_COUNT}_0">{L_ROTATE_NONE}</label> &nbsp;
-						<input type="radio" name="rotate[{image.S_ROW_COUNT}]" id="rotate_{image.S_ROW_COUNT}_270" value="270" /> <label for="rotate_{image.S_ROW_COUNT}_270">{L_ROTATE_RIGHT}</label> &nbsp;
-						<input type="radio" name="rotate[{image.S_ROW_COUNT}]" id="rotate_{image.S_ROW_COUNT}_180" value="180" /> <label for="rotate_{image.S_ROW_COUNT}_180">{L_ROTATE_UPSIDEDOWN}</label> &nbsp;
-						<input type="radio" name="rotate[{image.S_ROW_COUNT}]" id="rotate_{image.S_ROW_COUNT}_90" value="90" /> <label for="rotate_{image.S_ROW_COUNT}_90">{L_ROTATE_LEFT}</label></dd>
-					<!-- ENDIF -->
+					<dt<!-- IF image.S_FIRST_ROW and (NUM_IMAGES > 1) --> class="first"<!-- ENDIF -->>{image.U_IMAGE}</dt>
+					<dd>
+						<dl>
+							<dt><label for="image_name_{image.S_ROW_COUNT}">{L_IMAGE_NAME}:</label></dt>
+							<!-- IF image.S_FIRST_ROW and (NUM_IMAGES > 1) -->
+							<dd><input type="checkbox" name="same_name" id="same_name" value="1" onchange="change_read_write();" /> <label for="same_name">{L_USE_SAME_NAME}</label></dd>
+							<dd>{L_USE_NUM} <input class="inputbox autowidth" type="text" id="image_num" name="image_num" size="5" onchange="update_all('image_name'); update_all('message');" onkeyup="update_all('image_name'); update_all('message');" value="1" /></dd>
+							<!-- ENDIF -->
+							<dd><input class="inputbox autowidth" type="text" tabindex="1{image.S_ROW_COUNT}" id="image_name_{image.S_ROW_COUNT}" name="image_name[{image.S_ROW_COUNT}]" value="{image.IMAGE_NAME}"<!-- IF image.S_FIRST_ROW --> onchange="update_all('image_name');" onselect="update_all('image_name');" onclick="update_all('image_name');" onkeyup="update_all('image_name');"<!-- ENDIF --> size="60" maxlength="128" /></dd>
+						</dl>
+						<dl>
+							<dt><label for="message_{image.S_ROW_COUNT}">{L_IMAGE_DESC}:</label></dt>
+							<dd id="desc_length_{image.S_ROW_COUNT}">{L_DESCRIPTION_LENGTH}</dd>
+							<dd><textarea name="message[{image.S_ROW_COUNT}]" id="message_{image.S_ROW_COUNT}" rows="4" cols="76" tabindex="3" onchange="set_text_field({image.S_ROW_COUNT});<!-- IF image.S_FIRST_ROW --> update_all('message');<!-- ENDIF -->" onselect="set_text_field({image.S_ROW_COUNT});<!-- IF image.S_FIRST_ROW --> update_all('message');<!-- ENDIF --> storeCaret(this);" onclick="set_text_field({image.S_ROW_COUNT});<!-- IF image.S_FIRST_ROW --> update_all('message');<!-- ENDIF --> storeCaret(this);" onkeyup="set_text_field({image.S_ROW_COUNT});<!-- IF image.S_FIRST_ROW --> update_all('message');<!-- ENDIF --> storeCaret(this);" class="inputbox">{image.IMAGE_DESC}</textarea></dd>
+						</dl>
+						<dl>
+							<!-- IF S_ALLOW_ROTATE -->
+							<dt><label for="rotate_{image.S_ROW_COUNT}_0">{L_ROTATE_IMAGE}:</label></dt>
+							<dd><input type="radio" name="rotate[{image.S_ROW_COUNT}]" id="rotate_{image.S_ROW_COUNT}_0" value="0" checked="checked" /> <label for="rotate_{image.S_ROW_COUNT}_0">{L_ROTATE_NONE}</label> &nbsp;
+								<input type="radio" name="rotate[{image.S_ROW_COUNT}]" id="rotate_{image.S_ROW_COUNT}_270" value="270" /> <label for="rotate_{image.S_ROW_COUNT}_270">{L_ROTATE_RIGHT}</label> &nbsp;
+								<input type="radio" name="rotate[{image.S_ROW_COUNT}]" id="rotate_{image.S_ROW_COUNT}_180" value="180" /> <label for="rotate_{image.S_ROW_COUNT}_180">{L_ROTATE_UPSIDEDOWN}</label> &nbsp;
+								<input type="radio" name="rotate[{image.S_ROW_COUNT}]" id="rotate_{image.S_ROW_COUNT}_90" value="90" /> <label for="rotate_{image.S_ROW_COUNT}_90">{L_ROTATE_LEFT}</label>
+							</dd>
+							<!-- ENDIF -->
+						</dl>
+					</dd>
 				</dl>
 			<!-- END image -->
-
+		</fieldset>
 			<!-- IF S_REPORT -->
 				<div><textarea name="message" id="message" rows="4" cols="76" tabindex="3" class="inputbox"></textarea></dd></div>
 			<!-- ENDIF -->
-		</fieldset>
 	<span class="corners-bottom"><span></span></span></div>
 </div>
 
