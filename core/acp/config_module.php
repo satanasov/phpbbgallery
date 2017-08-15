@@ -332,6 +332,7 @@ class config_module
 		'main'	=> array(
 			'title'	=> 'GALLERY_CONFIG',
 			'vars'	=> array(
+				'' => array(),
 				'GALLERY_CONFIG'	=> array(
 					'items_per_page'		=> array('lang' => 'ITEMS_PER_PAGE',		'validate' => 'int',	'type' => 'text:7:3',		'explain' => true),
 					'allow_comments'		=> array('lang' => 'COMMENT_SYSTEM',		'validate' => 'bool',	'type' => 'radio:yes_no'),
