@@ -517,7 +517,7 @@ class main_module
 		//@todo: phpbb_gallery_modversioncheck::check();
 
 		$boarddays = (time() - $config['board_startdate']) / 86400;
-		$images_per_day = sprintf('%.2f', $config['num_images'] / $boarddays);
+		$images_per_day = sprintf('%.2f', $config['phpbb_gallery_num_images'] / $boarddays);
 
 		$sql = 'SELECT COUNT(album_user_id) AS num_albums
 			FROM ' . $albums_table . '
