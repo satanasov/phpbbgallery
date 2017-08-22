@@ -1236,15 +1236,8 @@ class permissions_module
 	 */
 	function p_system_inherit_victims($p_system, $allowed_victims, $victim_id, $check_inherit_victim = 0)
 	{
-		global $user, $table_prefix, $phpbb_dispatcher, $table_name, $db, $cache, $phpbb_container;
+		global $user, $phpbb_container;
 
-		$albums_table = $table_prefix . 'gallery_albums';
-		$roles_table = $table_prefix . 'gallery_roles';
-		$permissions_table = $table_prefix . 'gallery_permissions';
-		$modscache_table = $table_prefix . 'gallery_modscache';
-		$users_table = $table_prefix . 'gallery_users';
-		$gallery_cache = new \phpbbgallery\core\cache($cache, $db);
-		$gallery_user = $phpbb_container->get('phpbbgallery.core.user');
 		$phpbb_ext_gallery_core_auth =  $phpbb_container->get('phpbbgallery.core.auth');
 
 		$disabled = false;
