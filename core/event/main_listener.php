@@ -83,23 +83,16 @@ class main_listener implements EventSubscriberInterface
 	}
 	public function load_language_on_setup($event)
 	{
-	   $this->language->add_lang(array('info_acp_gallery', 'gallery', 'gallery_notifications', 'permissions_gallery'), 'phpbbgallery/core');
+	    $this->language->add_lang(array('info_acp_gallery', 'gallery', 'gallery_notifications', 'permissions_gallery'), 'phpbbgallery/core');
 		if ($this->gallery_config->get('disp_total_images') == 1)
 		{
 			$this->template->assign_vars(array(
-				'PHPBBGALLERY_INDEX_STATS' => $this->gallery_config->get('num_images'),
+				'PHPBBGALLERY_INDEX_STATS'	=> $this->gallery_config->get('num_images'),
 			));
 		}
-		/*$data = $event['lang_set_ext'];
-		$data[] = array(
-			'ext_name'	=> 'phpbbgallery/core',
-			'lang_set'	=> array('info_acp_gallery', 'gallery', 'gallery_notifications', 'permissions_gallery'),
-		);
-		$event['lang_set_ext'] = $data;*/
 	}
 	public function add_page_header_link($event)
 	{
-
 		$this->template->assign_vars(array(
 			'U_GALLERY'	=> $this->helper->route('phpbbgallery_core_index'),
 		));
