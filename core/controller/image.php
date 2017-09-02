@@ -583,13 +583,9 @@ class image
 					{
 						$user_cache[$user_id]['sig'] = censor_text($user_cache[$user_id]['sig']);
 
-						if ($user_cache[$user_id]['sig_bbcode_bitfield'])
-						{
-							$bbcode->bbcode_second_pass($user_cache[$user_id]['sig'], $user_cache[$user_id]['sig_bbcode_uid'], $user_cache[$user_id]['sig_bbcode_bitfield']);
-						}
-
 						$user_cache[$user_id]['sig'] = bbcode_nl2br($user_cache[$user_id]['sig']);
-						$user_cache[$user_id]['sig'] = smiley_text($user_cache[$user_id]['sig']);
+						$parse_flags = ($user_cache[$user_id]['sig_bbcode_bitfield'] ? OPTION_FLAG_BBCODE : 0) | OPTION_FLAG_SMILIES;
+						$user_cache[$user_id]['sig'] = generate_text_for_display($user_cache[$user_id]['sig'], $user_cache[$user_id]['sig_bbcode_uid'], $user_cache[$user_id]['sig_bbcode_bitfield'], $parse_flags, true);
 						$user_cache[$user_id]['sig_parsed'] = true;
 					}
 				}
