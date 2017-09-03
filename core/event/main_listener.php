@@ -91,12 +91,12 @@ class main_listener implements EventSubscriberInterface
 		);
 		// TODO: add other files if needed
 		$event['lang_set_ext'] = $lang_set_ext;
-		if ($this->gallery_config->get('disp_total_images') == 1)
+		/*if ($this->gallery_config->get('disp_total_images') == 1)
 		{
 			$this->template->assign_vars(array(
 				'PHPBBGALLERY_INDEX_STATS'	=> $this->gallery_config->get('num_images'),
 			));
-		}
+		}*/
 	}
 	public function add_page_header_link($event)
 	{
