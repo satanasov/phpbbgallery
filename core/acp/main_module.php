@@ -19,12 +19,12 @@ class main_module
 
 	function main($id, $mode)
 	{
-		global $user;
+		global $user, $language;
 		global $request, $phpbb_container, $gallery_url;
 
 		$gallery_url = $phpbb_container->get('phpbbgallery.core.url');
 
-		$user->add_lang_ext('phpbbgallery/core', array('gallery_acp', 'gallery'));
+		$language->add_lang(array('gallery_acp', 'gallery'), 'phpbbgallery/core');
 		$this->tpl_name = 'gallery_main';
 		add_form_key('acp_gallery');
 		$submode = $request->variable('submode', '');

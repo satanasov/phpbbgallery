@@ -83,7 +83,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->login();
 		$this->admin_login();
 
-		//$this->add_lang_ext($ext, $lang);
+		$this->add_lang_ext($ext, $lang);
 		$crawler = self::request('GET', $path . '&sid=' . $this->sid);
 		$this->assertContainsLang($search, $crawler->text());
 
