@@ -50,6 +50,7 @@ services:
         class: phpbbgallery\core\album\manage
         arguments:
             - '@user'
+            - '@language'
             - '@request'
             - '@dbal.conn'
             - '@dispatcher'
