@@ -87,16 +87,15 @@ class main_listener implements EventSubscriberInterface
 		$lang_set_ext = $event['lang_set_ext'];
 		$lang_set_ext[] = array(
 			'ext_name'	=> 'phpbbgallery/core',
-			'lang_set'	=> 'info_acp_gallery'
+			'lang_set'	=> array('info_acp_gallery', 'gallery', 'gallery_notifications', 'permissions_gallery'),
 		);
-		// TODO: add other files if needed
 		$event['lang_set_ext'] = $lang_set_ext;
-		/*if ($this->gallery_config->get('disp_total_images') == 1)
+		if ($this->gallery_config->get('disp_total_images') == 1)
 		{
 			$this->template->assign_vars(array(
 				'PHPBBGALLERY_INDEX_STATS'	=> $this->gallery_config->get('num_images'),
 			));
-		}*/
+		}
 	}
 	public function add_page_header_link($event)
 	{

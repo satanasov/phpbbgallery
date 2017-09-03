@@ -34,7 +34,7 @@ matrix:
     - php: 7
       env:
         - DB=mysqli
-    - php: 7.2
+    - php: 7.1
       env:
         - DB=mysqli
   fast_finish: true
