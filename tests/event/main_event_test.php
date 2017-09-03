@@ -147,6 +147,9 @@ class main_event_test extends \phpbb_database_test_case
 	*/
 	public function test_load_language_on_setup($config, $count, $expected)
 	{
+		$lang_set_ext = array();
+		$event_data = array('lang_set_ext');
+		$event = new \phpbb\event\data(compact($event_data));
 		foreach($config as $id => $state)
 		{
 			$this->config[$id] = $state;
@@ -157,7 +160,7 @@ class main_event_test extends \phpbb_database_test_case
 			->with($expected);
 		$dispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
 		$dispatcher->addListener('core.user_setup', array($this->listener, 'load_language_on_setup'));
-		$dispatcher->dispatch('core.user_setup');
+		$dispatcher->dispatch('core.user_setup', $event);
 	}
 
 	/**
@@ -165,9 +168,6 @@ class main_event_test extends \phpbb_database_test_case
 	*/
 	public function test_add_page_header_link()
 	{
-		$lang_set_ext = array();
-		$event_data = array('lang_set_ext');
-		$event = new \phpbb\event\data(compact($event_data));
 		$this->set_listener();
 		$this->template->expects($this->once())
 			->method('assign_vars')
@@ -176,7 +176,7 @@ class main_event_test extends \phpbb_database_test_case
 			));
 		$dispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
 		$dispatcher->addListener('core.page_header', array($this->listener, 'add_page_header_link'));
-		$dispatcher->dispatch('core.page_header', $event);
+		$dispatcher->dispatch('core.page_header');
 	}
 
 	public function user_profile_galleries_data()
