@@ -264,7 +264,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 				'comment_image_id'		=> (int) $image_id,
 				'comment'				=> $message_parser->message,
 				'comment_uid'			=> $message_parser->bbcode_uid,
-				'comment_bitfield'		=> (int) $message_parser->bbcode_bitfield,
+				'comment_bitfield'		=> $message_parser->bbcode_bitfield,
 				'comment_signature'		=> ($this->auth->acl_get('u_sig') && isset($_POST['attach_sig'])),
 			);
 			if ((!$error) && ($sql_ary['comment'] != ''))
@@ -298,7 +298,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 		{
 			if ($comment_id != 0)
 			{
-				$comment_ary = generate_text_for_edit($comment_data['comment'], $comment_data['comment_uid'], $comment_data['comment_bitfield']);
+				$comment_ary = generate_text_for_edit($comment_data['comment'], $comment_data['comment_uid'], (int) $comment_data['comment_bitfield']);
 				$comment_plain = '[quote="' . $comment_data['comment_username'] . '"]' . $comment_ary['text'] . '[/quote]';
 			}
 			$sig_checked = $this->user->optionget('attachsig');
@@ -507,7 +507,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 			$sql_ary = array_merge($sql_ary, array(
 				'comment'				=> $message_parser->message,
 				'comment_uid'			=> $message_parser->bbcode_uid,
-				'comment_bitfield'		=> (int) $message_parser->bbcode_bitfield,
+				'comment_bitfield'		=> $message_parser->bbcode_bitfield,
 				'comment_edit_count'	=> $comment_data['comment_edit_count'] + 1,
 				'comment_signature'		=> ($this->auth->acl_get('u_sig') && isset($_POST['attach_sig'])),
 			));
