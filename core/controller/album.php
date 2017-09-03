@@ -99,6 +99,7 @@ class album
 	 */
 	public function base($album_id, $page = 0)
 	{
+		$album_id = (int) $album_id;
 		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
 
 		try
@@ -181,7 +182,7 @@ class album
 		if ($album_data['album_type'] != \phpbbgallery\core\block::TYPE_CAT
 			&& $album_data['album_images_real'] > 0)
 		{
-			$this->display_images($album_id, $album_data, ($page - 1) * $this->config['phpbb_gallery_items_per_page'], $this->config['phpbb_gallery_items_per_page']);
+			$this->display_images($album_id, $album_data, ($page - 1) * (int) $this->config['phpbb_gallery_items_per_page'], (int) $this->config['phpbb_gallery_items_per_page']);
 		}
 
 //		phpbb_ext_gallery_core_misc::markread('album', $album_id);
