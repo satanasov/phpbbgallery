@@ -24,7 +24,7 @@ class main_module
 
 		$gallery_url = $phpbb_container->get('phpbbgallery.core.url');
 
-		$language->add_lang(array('gallery_acp', 'gallery'), 'phpbbgallery/core');
+		$user->add_lang_ext('phpbbgallery/core', array('gallery_acp', 'gallery'));
 		$this->tpl_name = 'gallery_main';
 		add_form_key('acp_gallery');
 		$submode = $request->variable('submode', '');
