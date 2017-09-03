@@ -239,7 +239,7 @@ class image
 				$content = $shorten_image_name;
 			break;
 			case 'thumbnail':
-				$content = '<img src="{U_THUMBNAIL}" alt="{IMAGE_NAME}" title="{IMAGE_NAME}" />';
+				$content = '<img src="{U_THUMBNAIL}" alt="{IMAGE_NAME}" title="{IMAGE_NAME}" style="max-width: 100%; max-height: 100%"/>';
 				$content = str_replace(array('{U_THUMBNAIL}', '{IMAGE_NAME}'), array($thumb_url, $image_name), $content);
 			break;
 			case 'fake_thumbnail':
