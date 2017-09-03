@@ -296,7 +296,7 @@ class search
 
 			$album_tmp = $this->album->get_info($var['image_album_id']);
 			$this->template->assign_block_vars('commentrow', array(
-				'COMMENT_ID'	=> $var['comment_id'],
+				'COMMENT_ID'	=> (int) $var['comment_id'],
 				'U_DELETE'	=> ($this->gallery_auth->acl_check('m_comments', $album_tmp['album_id'], $album_tmp['album_user_id']) || ($this->gallery_auth->acl_check('c_delete', $album_tmp['album_id'], $album_tmp['album_user_id']) && ($var['comment_user_id'] == $this->user->data['user_id']) && $this->user->data['is_registered'])) ? $this->helper->route('phpbbgallery_core_comment_delete', array('image_id' => $var['comment_image_id'], 'comment_id' => $var['comment_id'])) : false,
 				'U_EDIT'	=> $this->gallery_auth->acl_check('c_edit', $album_tmp['album_id'], $album_tmp['album_user_id'])? $this->helper->route('phpbbgallery_core_comment_edit', array('image_id'	=> $var['comment_image_id'], 'comment_id'	=> $var['comment_id'])) : false,
 				'U_QUOTE'	=> ($this->gallery_auth->acl_check('c_post', $album_tmp['album_id'], $album_tmp['album_user_id'])) ? $this->helper->route('phpbbgallery_core_comment_add', array('image_id'	=> $var['comment_image_id'], 'comment_id'	=> $var['comment_id'])) : false,
