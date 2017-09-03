@@ -9,13 +9,13 @@
 *
 */
 
-namespace phpbbgallery\tests\core;
+namespace phpbbgallery\tests\core\album;
 /**
 * @group core
 */
-require_once dirname(__FILE__) . '/../../../../includes/functions.php';
+require_once dirname(__FILE__) . '/../../../../../includes/functions.php';
 
-class core_album_test extends core_base
+class core_album_test extends \phpbbgallery\tests\core\core_base
 {
 	public function setUp()
 	{

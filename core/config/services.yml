@@ -31,6 +31,7 @@ services:
             - '@request'
             - '@template'
             - '@user'
+            - '@language'
             - '@phpbbgallery.core.auth'
             - '@phpbbgallery.core.user'
             - '@phpbbgallery.core.misc'

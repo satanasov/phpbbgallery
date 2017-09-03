@@ -13,9 +13,9 @@ namespace phpbbgallery\tests\core;
 /**
 * @group core1
 */
-require_once dirname(__FILE__) . '/../../../../includes/functions.php';
+require_once dirname(__FILE__) . '/../../../../../includes/functions.php';
 
-class core_display_test extends core_base
+class core_display_test extends \phpbbgallery\tests\core\core_base
 {
 	public function setUp()
 	{
@@ -65,6 +65,7 @@ class core_display_test extends core_base
 			$this->request,
 			$this->template,
 			$this->user,
+			$this->language,
 			$this->gallery_auth,
 			$this->gallery_user,
 			$this->misc,
