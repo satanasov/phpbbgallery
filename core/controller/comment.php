@@ -259,6 +259,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 			{
 				$message_parser->parse(true, true, true, true, false, true, true, true);
 			}
+
 			$sql_ary = array(
 				'comment_image_id'		=> (int) $image_id,
 				'comment'				=> $message_parser->message,
@@ -525,7 +526,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 		{
 			$sig_checked = (bool) $comment_data['comment_signature'];
 
-			$comment_ary = generate_text_for_edit($comment_data['comment'], $comment_data['comment_uid'], $comment_data['comment_bitfield']);
+			$comment_ary = generate_text_for_edit($comment_data['comment'], $comment_data['comment_uid'], (int) $comment_data['comment_bitfield']);
 			$comment_plain = $comment_ary['text'];
 			$comment_username = $comment_data['comment_username'];
 		}
