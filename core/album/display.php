@@ -728,10 +728,10 @@ class display
 				'S_LIST_SUBALBUMS'	=> ($row['display_subalbum_list']) ? true : false,
 				'S_SUBALBUMS'		=> (sizeof($subalbums_list)) ? true : false,
 
-				'ALBUM_ID'				=> $row['album_id'],
+				'ALBUM_ID'				=> (int) $row['album_id'],
 				'ALBUM_NAME'			=> $row['album_name'],
 				'ALBUM_DESC'			=> generate_text_for_display($row['album_desc'], $row['album_desc_uid'], $row['album_desc_bitfield'], $row['album_desc_options']),
-				'IMAGES'				=> $row['album_images'],
+				'IMAGES'				=> (int) $row['album_images'],
 				'UNAPPROVED_IMAGES'		=> ($this->gallery_auth->acl_check('m_status', $album_id, $row['album_user_id'])) ? ($row['album_images_real'] - $row['album_images']) : 0,
 				'ALBUM_IMG_STYLE'		=> $folder_image,
 				'ALBUM_FOLDER_IMG'		=> $this->user->img($folder_image, $folder_alt),
