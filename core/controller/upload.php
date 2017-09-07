@@ -14,11 +14,32 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class upload
 {
+	/** @var \phpbb\request\request  */
+	protected $request;
+
+	/** @var \phpbb\db\driver\driver_interface  */
+	protected $db;
+
 	/* @var \phpbb\user */
 	protected $user;
 
+	/** @var \phpbb\language\language  */
+	protected $language;
+
+	/** @var \phpbb\template\template  */
+	protected $template;
+
+	/** @var \phpbb\config\config  */
+	protected $config;
+
+	/** @var \phpbbgallery\core\controller\Container|\Symfony\Component\DependencyInjection\ContainerInterface  */
+	protected $phpbb_container;
+
 	/* @var \phpbbgallery\core\misc */
 	protected $misc;
+
+	/** @var \phpbbgallery\core\auth\auth  */
+	protected $auth;
 
 	/* @var \phpbbgallery\core\album\album */
 	protected $album;
@@ -26,43 +47,79 @@ class upload
 	/* @var \phpbbgallery\core\album\album */
 	protected $display;
 
+	/** @var \phpbb\controller\helper  */
+	protected $helper;
+
+	/** @var \phpbbgallery\core\config  */
+	protected $gallery_config;
+
+	/** @var \phpbbgallery\core\user  */
+	protected $gallery_user;
+
+	/** @var \phpbbgallery\core\image\image  */
+	protected $image;
+
+	/** @var \phpbbgallery\core\url  */
+	protected $url;
+
+	/** @var \phpbbgallery\core\upload  */
+	protected $gallery_upload;
+
+	/** @var \phpbbgallery\core\notification  */
+	protected $gallery_notification;
+
+	/** @var \phpbbgallery\core\notification\helper  */
+	protected $notification_helper;
+
+	/** @var \phpbbgallery\core\block  */
+	protected $block;
+
+	/** @var   */
+	protected $images_table;
+
+	/** @var   */
+	protected $phpbb_root_path;
+
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\request\request $request
-	 * @param \phpbb\db\driver\driver_interface $db
-	 * @param \phpbb\user $user User object
-	 * @param \phpbb\template\template $template
-	 * @param \phpbb\config\config $config
-	 * @param Container|ContainerInterface $phpbb_container
-	 * @param \phpbbgallery\core\album\album $album Album class
-	 * @param \phpbbgallery\core\misc $misc Misc class
-	 * @param \phpbbgallery\core\auth\auth $auth
-	 * @param \phpbbgallery\core\album\display $display Display class
-	 * @param \phpbb\controller\helper $helper
-	 * @param \phpbbgallery\core\config $gallery_config
-	 * @param \phpbbgallery\core\user $gallery_user
-	 * @param \phpbbgallery\core\image\image $image
-	 * @param \phpbbgallery\core\notification $gallery_notification
+	 * @param \phpbb\request\request                 $request
+	 * @param \phpbb\db\driver\driver_interface      $db
+	 * @param \phpbb\user                            $user    User object
+	 * @param \phpbb\language\language               $language
+	 * @param \phpbb\template\template               $template
+	 * @param \phpbb\config\config                   $config
+	 * @param Container|ContainerInterface           $phpbb_container
+	 * @param \phpbbgallery\core\album\album         $album   Album class
+	 * @param \phpbbgallery\core\misc                $misc    Misc class
+	 * @param \phpbbgallery\core\auth\auth           $auth
+	 * @param \phpbbgallery\core\album\display       $display Display class
+	 * @param \phpbb\controller\helper               $helper
+	 * @param \phpbbgallery\core\config              $gallery_config
+	 * @param \phpbbgallery\core\user                $gallery_user
+	 * @param \phpbbgallery\core\image\image         $image
+	 * @param \phpbbgallery\core\notification        $gallery_notification
 	 * @param \phpbbgallery\core\notification\helper $notification_helper
-	 * @param \phpbbgallery\core\url $url
-	 * @param \phpbbgallery\core\upload $gallery_upload
-	 * @param \phpbbgallery\core\block $block
+	 * @param \phpbbgallery\core\url                 $url
+	 * @param \phpbbgallery\core\upload              $gallery_upload
+	 * @param \phpbbgallery\core\block               $block
 	 * @param                                        $images_table
-	 * @param $phpbb_root_path
+	 * @param                                        $phpbb_root_path
 	 */
 
-	public function __construct(\phpbb\request\request $request, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\template\template $template,
-	\phpbb\config\config $config, ContainerInterface $phpbb_container,
-	\phpbbgallery\core\album\album $album, \phpbbgallery\core\misc $misc, \phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\album\display $display,
-	\phpbb\controller\helper $helper, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\image\image $image,
-	\phpbbgallery\core\notification $gallery_notification, \phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\url $url, \phpbbgallery\core\upload $gallery_upload,
-	\phpbbgallery\core\block $block,
-	$images_table, $phpbb_root_path)
+	public function __construct(\phpbb\request\request $request, \phpbb\db\driver\driver_interface $db, \phpbb\user $user,
+		\phpbb\language\language $language, \phpbb\template\template $template, \phpbb\config\config $config, ContainerInterface $phpbb_container,
+		\phpbbgallery\core\album\album $album, \phpbbgallery\core\misc $misc, \phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\album\display $display,
+		\phpbb\controller\helper $helper, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\user $gallery_user,
+		\phpbbgallery\core\image\image $image, \phpbbgallery\core\notification $gallery_notification,
+		\phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\url $url,
+		\phpbbgallery\core\upload $gallery_upload, \phpbbgallery\core\block $block,
+		$images_table, $phpbb_root_path)
 	{
 		$this->request = $request;
 		$this->db = $db;
 		$this->user = $user;
+		$this->language = $language;
 		$this->template = $template;
 		$this->config = $config;
 		$this->phpbb_container = $phpbb_container;
@@ -85,7 +142,7 @@ class upload
 
 	public function main($album_id)
 	{
-		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
+		$this->language->add_lang(array('gallery'), 'phpbbgallery/core');
 		$album_data = $this->album->get_info($album_id);
 		$this->display->generate_navigation($album_data);
 		add_form_key('gallery');
@@ -135,7 +192,7 @@ class upload
 				if ($own_images >= $this->auth->acl_check('i_count', $album_id, $album_data['album_user_id']))
 				{
 					//@todo: Add return link
-					trigger_error($this->user->lang('USER_REACHED_QUOTA', $this->auth->acl_check('i_count', $album_id, $album_data['album_user_id'])));
+					trigger_error($this->language->lang('USER_REACHED_QUOTA', $this->auth->acl_check('i_count', $album_id, $album_data['album_user_id'])));
 				}
 			}
 			$upload_files_limit = ($this->auth->acl_check('i_unlimited', $album_id, $album_data['album_user_id'])) ? $this->gallery_config->get('num_uploads') : min(($this->auth->acl_check('i_count', $album_id, $album_data['album_user_id']) - $own_images), $this->gallery_config->get('num_uploads'));
@@ -240,7 +297,7 @@ class upload
 				if ($own_images >= $this->auth->acl_check('i_count', $album_id, $album_data['album_user_id']))
 				{
 					//@todo: Add return link
-					trigger_error($this->user->lang('USER_REACHED_QUOTA', $this->auth->acl_check('i_count', $album_id, $album_data['album_user_id'])));
+					trigger_error($this->language->lang('USER_REACHED_QUOTA', $this->auth->acl_check('i_count', $album_id, $album_data['album_user_id'])));
 				}
 			}
 
@@ -286,8 +343,8 @@ class upload
 					}
 					if ($result = validate_username($username))
 					{
-						$this->user->add_lang('ucp');
-						$error_array[] = $this->user->lang[$result . '_USERNAME'];
+						$this->language->add_lang('ucp');
+						$error_array[] = $this->language->lang($result . '_USERNAME');
 					}
 					else
 					{
@@ -307,7 +364,7 @@ class upload
 
 				if (!$process->uploaded_files)
 				{
-					$process->new_error($this->user->lang['UPLOAD_NO_FILE']);
+					$process->new_error($this->language->lang('UPLOAD_NO_FILE'));
 				}
 				else
 				{
@@ -338,7 +395,7 @@ class upload
 					'S_UPLOAD_LIMIT'		=> $upload_files_limit,
 					'S_COMMENTS_ENABLED'	=> $this->gallery_config->get('allow_comments') && $this->gallery_config->get('comment_user_control'),
 					'S_ALLOW_COMMENTS'		=> true,
-					'L_ALLOW_COMMENTS'		=> $this->user->lang('ALLOW_COMMENTS_ARY', $upload_files_limit),
+					'L_ALLOW_COMMENTS'		=> $this->language->lang('ALLOW_COMMENTS_ARY', $upload_files_limit),
 				));
 
 				// The quick upload will work only for registered users!
@@ -408,7 +465,7 @@ class upload
 					if ($own_images >= $this->auth->acl_check('i_count', $album_id, $album_data['album_user_id']))
 					{
 						//@todo: Add return link
-						trigger_error($this->user->lang('USER_REACHED_QUOTA', $this->auth->acl_check('i_count', $album_id, $album_data['album_user_id'])));
+						trigger_error($this->language->lang('USER_REACHED_QUOTA', $this->auth->acl_check('i_count', $album_id, $album_data['album_user_id'])));
 					}
 				}
 				$description_array = $this->request->variable('message', array(''), true);
@@ -416,7 +473,7 @@ class upload
 				{
 					if (strlen($var) > $this->gallery_config->get('description_length'))
 					{
-						trigger_error($this->user->lang('DESC_TOO_LONG'));
+						trigger_error($this->language->lang('DESC_TOO_LONG'));
 					}
 				}
 				$upload_files_limit = ($this->auth->acl_check('i_unlimited', $album_id, $album_data['album_user_id'])) ? $this->gallery_config->get('num_uploads') : min(($this->auth->acl_check('i_count', $album_id, $album_data['album_user_id']) - $own_images), $this->gallery_config->get('num_uploads'));
@@ -447,7 +504,7 @@ class upload
 				$error = implode('<br />', $process->errors);
 				if ($this->auth->acl_check('i_approve', $album_id, $album_data['album_user_id']))
 				{
-					$message .= (!$error) ? $this->user->lang['ALBUM_UPLOAD_SUCCESSFUL'] : $this->user->lang('ALBUM_UPLOAD_SUCCESSFUL_ERROR', $error);
+					$message .= (!$error) ? $this->language->lang('ALBUM_UPLOAD_SUCCESSFUL') : $this->language->lang('ALBUM_UPLOAD_SUCCESSFUL_ERROR', $error);
 					$meta_refresh_time = ($success) ? 3 : 20;
 					//$this->notification_helper->notify_album($album_id, $this->user->data['user_id']);
 					$data = array(
@@ -465,10 +522,10 @@ class upload
 						'uploader'		=> $this->user->data['user_id'],
 					);
 					$this->notification_helper->notify('approval', $target);
-					$message .= (!$error) ? $this->user->lang['ALBUM_UPLOAD_NEED_APPROVAL'] : $this->user->lang('ALBUM_UPLOAD_NEED_APPROVAL_ERROR', $error);
+					$message .= (!$error) ? $this->language->lang('ALBUM_UPLOAD_NEED_APPROVAL') : $this->language->lang('ALBUM_UPLOAD_NEED_APPROVAL_ERROR', $error);
 					$meta_refresh_time = 20;
 				}
-				$message .= '<br /><br />' . sprintf($this->user->lang['CLICK_RETURN_ALBUM'], '<a href="' . $album_backlink . '">', '</a>');
+				$message .= '<br /><br />' . sprintf($this->language->lang('CLICK_RETURN_ALBUM'), '<a href="' . $album_backlink . '">', '</a>');
 
 				// ToDo - notifications!!!
 				//$phpbb_gallery_notification->send_notification('album', $album_id, $image_names[0]);
@@ -506,7 +563,7 @@ class upload
 				'NUM_IMAGES'		=> $num_images,
 				'COLOUR_ROWSPAN'	=> ($s_can_rotate) ? $num_images * 3 : $num_images * 2,
 
-				'L_DESCRIPTION_LENGTH'	=> $this->user->lang('DESCRIPTION_LENGTH', $this->gallery_config->get('description_length')),
+				'L_DESCRIPTION_LENGTH'	=> $this->language->lang('DESCRIPTION_LENGTH', $this->gallery_config->get('description_length')),
 				'S_HIDDEN_FIELDS'	=> $s_hidden_fields,
 			));
 		}

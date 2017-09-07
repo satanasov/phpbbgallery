@@ -8,6 +8,7 @@ services:
             - '@request'
             - '@dbal.conn'
             - '@user'
+            - '@language'
             - '@template'
             - '@config'
             - '@service_container'
