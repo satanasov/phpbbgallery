@@ -87,9 +87,8 @@ class index
 	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db,
 		\phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \phpbb\language\language $language,
 		\phpbb\controller\helper $helper, \phpbbgallery\core\album\display $display, \phpbbgallery\core\config $gallery_config,
-		\phpbbgallery\core\auth\auth $gallery_auth, \phpbb\pagination $pagination, \phpbbgallery\core\user $gallery_user,
-		\phpbbgallery\core\search $gallery_search,
-		\phpbbgallery\core\image\image $image,
+		\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\search $gallery_search, \phpbb\pagination $pagination,
+		\phpbbgallery\core\user $gallery_user, \phpbbgallery\core\image\image $image,
 		$root_path, $php_ext)
 	{
 		$this->auth = $auth;
@@ -263,6 +262,7 @@ class index
 		$this->template->assign_vars(array(
 			'TOTAL_ALBUMS'	=> $this->language->lang('TOTAL_PEGAS_SHORT_SPRINTF', $this->display->albums_total),
 		));
+
 		if (!$this->gallery_config->get('pegas_index_album'))
 		{
 			$this->assign_dropdown_links('phpbbgallery_core_personal');

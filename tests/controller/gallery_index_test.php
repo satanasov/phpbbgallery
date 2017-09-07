@@ -79,6 +79,7 @@ class gallery_index_test extends controller_base
 			$this->request,
 			$this->template,
 			$this->user,
+			$this->language,
 			$this->controller_helper,
 			$this->display,
 			$this->gallery_config,
@@ -729,7 +730,7 @@ class gallery_index_test extends controller_base
 				),
 				array(
 					array(
-						'TOTAL_ALBUMS' => 'TOTAL_PEGAS_SHORT_SPRINTF_3'
+						'TOTAL_ALBUMS' => 'TOTAL_PEGAS_SHORT_SPRINTF'
 					)
 				),
 				array(
@@ -815,7 +816,7 @@ class gallery_index_test extends controller_base
 				),
 				array(
 					array(
-						'TOTAL_ALBUMS' => 'TOTAL_PEGAS_SHORT_SPRINTF_3'
+						'TOTAL_ALBUMS' => 'TOTAL_PEGAS_SHORT_SPRINTF'
 					)
 				),
 				array(
@@ -873,7 +874,7 @@ class gallery_index_test extends controller_base
 				),
 				array(
 					array(
-						'TOTAL_ALBUMS' => 'TOTAL_PEGAS_SHORT_SPRINTF_3'
+						'TOTAL_ALBUMS' => 'TOTAL_PEGAS_SHORT_SPRINTF'
 					)
 				),
 				array(
