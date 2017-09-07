@@ -30,11 +30,32 @@ class index
 	/* @var \phpbb\user */
 	protected $user;
 
+	/** @var \phpbb\language\language  */
+	protected $language;
+
 	/* @var \phpbb\controller\helper */
 	protected $helper;
 
 	/* @var \phpbbgallery\core\album\display */
 	protected $display;
+
+	/** @var \phpbbgallery\core\config  */
+	protected $gallery_config;
+
+	/** @var \phpbbgallery\core\auth\auth  */
+	protected $gallery_auth;
+
+	/** @var \phpbbgallery\core\search  */
+	protected $gallery_search;
+
+	/** @var \phpbb\pagination  */
+	protected $pagination;
+
+	/** @var \phpbbgallery\core\user  */
+	protected $gallery_user;
+
+	/** @var \phpbbgallery\core\image\image  */
+	protected $image;
 
 	/* @var string */
 	protected $root_path;
@@ -51,22 +72,25 @@ class index
 	 * @param \phpbb\request\request                                    $request   Request object
 	 * @param \phpbb\template\template                                  $template  Template object
 	 * @param \phpbb\user                                               $user      User object
+	 * @param \phpbb\language\language                                  $language
 	 * @param \phpbb\controller\helper                                  $helper    Controller helper object
 	 * @param \phpbbgallery\core\album\display                          $display   Albums display object
 	 * @param \phpbbgallery\core\config                                 $gallery_config
 	 * @param \phpbbgallery\core\auth\auth                              $gallery_auth
-	 * @param \phpbbgallery\core\search                                 $gallery_search
 	 * @param \phpbb\pagination                                         $pagination
 	 * @param \phpbbgallery\core\user                                   $gallery_user
+	 * @param \phpbbgallery\core\search                                 $gallery_search
 	 * @param \phpbbgallery\core\image\image                            $image
 	 * @param string                                                    $root_path Root path
 	 * @param string                                                    $php_ext   php file extension
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request,
-	\phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbbgallery\core\album\display $display, \phpbbgallery\core\config $gallery_config,
-	\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\search $gallery_search, \phpbb\pagination $pagination, \phpbbgallery\core\user $gallery_user,
-	\phpbbgallery\core\image\image $image,
-	$root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db,
+		\phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \phpbb\language\language $language,
+		\phpbb\controller\helper $helper, \phpbbgallery\core\album\display $display, \phpbbgallery\core\config $gallery_config,
+		\phpbbgallery\core\auth\auth $gallery_auth, \phpbb\pagination $pagination, \phpbbgallery\core\user $gallery_user,
+		\phpbbgallery\core\search $gallery_search,
+		\phpbbgallery\core\image\image $image,
+		$root_path, $php_ext)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
@@ -74,6 +98,7 @@ class index
 		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
+		$this->language = $language;
 		$this->helper = $helper;
 		$this->display = $display;
 		$this->gallery_config = $gallery_config;
@@ -90,7 +115,7 @@ class index
 	* Index Controller
 	*	Route: gallery
 	*
-	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	* @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
 	*/
 	public function base()
 	{
@@ -101,7 +126,7 @@ class index
 		{
 			login_box();
 		}
-		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
+		$this->language->add_lang(array('gallery'), 'phpbbgallery/core');
 		$this->display->display_albums(false, $this->config['load_moderators']);
 
 		if ($this->gallery_config->get('pegas_index_album'))
@@ -199,11 +224,11 @@ class index
 		$this->assign_dropdown_links('phpbbgallery_core_index');
 
 		$this->template->assign_block_vars('navlinks', array(
-			'FORUM_NAME'	=> $this->user->lang('GALLERY'),
+			'FORUM_NAME'	=> $this->language->lang('GALLERY'),
 			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_core_index'),
 		));
 
-		return $this->helper->render('gallery/index_body.html', $this->user->lang('GALLERY'));
+		return $this->helper->render('gallery/index_body.html', $this->language->lang('GALLERY'));
 	}
 
 	/**
@@ -211,7 +236,7 @@ class index
 	 *    Route: gallery/users
 	 *
 	 * @param $page
-	 * @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	 * @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
 	 */
 	public function personal($page)
 	{
@@ -222,7 +247,7 @@ class index
 		{
 			login_box();
 		}
-		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
+		$this->language->add_lang(array('gallery'), 'phpbbgallery/core');
 		$this->display->album_start = ($page - 1) * $this->gallery_config->get('items_per_page');
 		$this->display->album_limit = $this->gallery_config->get('items_per_page');
 		$this->display->album_mode = 'personal';
@@ -236,7 +261,7 @@ class index
 		);
 
 		$this->template->assign_vars(array(
-			'TOTAL_ALBUMS'	=> sprintf($this->user->lang['TOTAL_PEGAS_SHORT_SPRINTF'][2], $this->display->albums_total),
+			'TOTAL_ALBUMS'	=> $this->language->lang('TOTAL_PEGAS_SHORT_SPRINTF', $this->display->albums_total),
 		));
 		if (!$this->gallery_config->get('pegas_index_album'))
 		{
@@ -257,15 +282,15 @@ class index
 		));
 
 		$this->template->assign_block_vars('navlinks', array(
-			'FORUM_NAME'	=> $this->user->lang('GALLERY'),
+			'FORUM_NAME'	=> $this->language->lang('GALLERY'),
 			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_core_index'),
 		));
 		$this->template->assign_block_vars('navlinks', array(
-			'FORUM_NAME'	=> $this->user->lang('PERSONAL_ALBUMS'),
+			'FORUM_NAME'	=> $this->language->lang('PERSONAL_ALBUMS'),
 			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_core_personal'),
 		));
 
-		return $this->helper->render('gallery/index_body.html', $this->user->lang('PERSONAL_ALBUMS'));
+		return $this->helper->render('gallery/index_body.html', $this->language->lang('PERSONAL_ALBUMS'));
 	}
 
 	protected function assign_dropdown_links($base_route)
@@ -290,10 +315,10 @@ class index
 			$show_recent = true;
 		}
 		$this->template->assign_vars(array(
-			'TOTAL_IMAGES'		=> ($this->gallery_config->get('disp_statistic')) ? $this->user->lang('TOTAL_IMAGES_SPRINTF', $this->gallery_config->get('num_images')) : '',
-			'TOTAL_COMMENTS'	=> ($this->gallery_config->get('allow_comments')) ? $this->user->lang('TOTAL_COMMENTS_SPRINTF', $this->gallery_config->get('num_comments')) : '',
-			'TOTAL_PGALLERIES'	=> ($this->gallery_auth->acl_check('a_list', \phpbbgallery\core\auth\auth::PERSONAL_ALBUM)) ? $this->user->lang('TOTAL_PEGAS_SPRINTF', $this->gallery_config->get('num_pegas')) : '',
-			'NEWEST_PGALLERIES'	=> ($this->gallery_config->get('num_pegas')) ? sprintf($this->user->lang['NEWEST_PGALLERY'], '<a href="' . $this->helper->route('phpbbgallery_core_album', array('album_id' => $this->gallery_config->get('newest_pega_album_id'))) . '" '. ($this->gallery_config->get('newest_pega_user_colour') ? 'class="username-coloured" style="color: #' . $this->gallery_config->get('newest_pega_user_colour') . ';"' : 'class="username"') . '>' . $this->gallery_config->get('newest_pega_username') . '</a>') : '',
+			'TOTAL_IMAGES'		=> ($this->gallery_config->get('disp_statistic')) ? $this->language->lang('TOTAL_IMAGES_SPRINTF', $this->gallery_config->get('num_images')) : '',
+			'TOTAL_COMMENTS'	=> ($this->gallery_config->get('allow_comments')) ? $this->language->lang('TOTAL_COMMENTS_SPRINTF', $this->gallery_config->get('num_comments')) : '',
+			'TOTAL_PGALLERIES'	=> ($this->gallery_auth->acl_check('a_list', \phpbbgallery\core\auth\auth::PERSONAL_ALBUM)) ? $this->language->lang('TOTAL_PEGAS_SPRINTF', $this->gallery_config->get('num_pegas')) : '',
+			'NEWEST_PGALLERIES'	=> ($this->gallery_config->get('num_pegas')) ? sprintf($this->language->lang['NEWEST_PGALLERY'], '<a href="' . $this->helper->route('phpbbgallery_core_album', array('album_id' => $this->gallery_config->get('newest_pega_album_id'))) . '" '. ($this->gallery_config->get('newest_pega_user_colour') ? 'class="username-coloured" style="color: #' . $this->gallery_config->get('newest_pega_user_colour') . ';"' : 'class="username"') . '>' . $this->gallery_config->get('newest_pega_username') . '</a>') : '',
 		));
 
 		$this->template->assign_vars(array(
@@ -343,7 +368,7 @@ class index
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$colour_text = ($row['group_colour']) ? ' style="color:#' . $row['group_colour'] . '"' : '';
-			$group_name = ($row['group_type'] == GROUP_SPECIAL) ? $this->user->lang['G_' . $row['group_name']] : $row['group_name'];
+			$group_name = ($row['group_type'] == GROUP_SPECIAL) ? $this->language->lang('G_' . $row['group_name']) : $row['group_name'];
 
 			if ($row['group_name'] == 'BOTS' || ($this->user->data['user_id'] != ANONYMOUS && !$this->auth->acl_get('u_viewprofile')))
 			{
@@ -357,7 +382,7 @@ class index
 		$this->db->sql_freeresult($result);
 
 		$this->template->assign_vars(array(
-			'LEGEND'	=> implode($this->user->lang['COMMA_SEPARATOR'], $legend),
+			'LEGEND'	=> implode($this->language->lang('COMMA_SEPARATOR'), $legend),
 		));
 	}
 
