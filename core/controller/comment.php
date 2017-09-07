@@ -14,6 +14,18 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class comment
 {
+	protected $db;
+
+	protected $user;
+
+	protected $language;
+
+	protected $auth;
+
+	protected $config;
+
+	protected $template;
+
 	/* @var \phpbb\request\request */
 	protected $request;
 
@@ -35,44 +47,76 @@ class comment
 	/* @var \phpbbgallery\core\url */
 	protected $url;
 
+	protected $gallery_auth;
+
+	protected $gallery_config;
+
+	protected $misc;
+
+	protected $comment;
+
+	protected $gallery_user;
+
+	protected $gallery_log;
+
+	protected $notification_helper;
+
+	protected $gallery_notification;
+
+	protected $gallery_rating;
+
+	protected $phpbb_container;
+
+	protected $table_comments;
+
+	protected $phpbb_root_path;
+
+	protected $php_ext;
+
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\db\driver\driver_interface $db
-	 * @param \phpbb\user $user
-	 * @param \phpbb\auth\auth $auth
-	 * @param \phpbb\config\config $config
-	 * @param \phpbb\template\template $template
-	 * @param \phpbb\request\request $request phpBB request class
-	 * @param \phpbb\controller\helper $helper Controller helper object
-	 * @param \phpbbgallery\core\image\image $image phpBB Gallery Core image object
-	 * @param \phpbbgallery\core\album\loader $loader phpBB Gallery Core album loader
-	 * @param \phpbbgallery\core\album\album $album phpBB Gallery Core album object
-	 * @param \phpbbgallery\core\album\display $display phpBB Gallery Core album display
-	 * @param \phpbbgallery\core\url $url phpBB Gallery Core url object
-	 * @param \phpbbgallery\core\auth\auth $gallery_auth
-	 * @param \phpbbgallery\core\config $gallery_config
-	 * @param \phpbbgallery\core\misc $misc
-	 * @param \phpbbgallery\core\comment $comment
-	 * @param \phpbbgallery\core\user $gallery_user
-	 * @param \phpbbgallery\core\log $gallery_log
+	 * @param \phpbb\db\driver\driver_interface      $db
+	 * @param \phpbb\user                            $user
+	 * @param \phpbb\language\language               $language
+	 * @param \phpbb\auth\auth                       $auth
+	 * @param \phpbb\config\config                   $config
+	 * @param \phpbb\template\template               $template
+	 * @param \phpbb\request\request                 $request phpBB request class
+	 * @param \phpbb\controller\helper               $helper  Controller helper object
+	 * @param \phpbbgallery\core\image\image         $image   phpBB Gallery Core image object
+	 * @param \phpbbgallery\core\album\loader        $loader  phpBB Gallery Core album loader
+	 * @param \phpbbgallery\core\album\album         $album   phpBB Gallery Core album object
+	 * @param \phpbbgallery\core\album\display       $display phpBB Gallery Core album display
+	 * @param \phpbbgallery\core\url                 $url     phpBB Gallery Core url object
+	 * @param \phpbbgallery\core\auth\auth           $gallery_auth
+	 * @param \phpbbgallery\core\config              $gallery_config
+	 * @param \phpbbgallery\core\misc                $misc
+	 * @param \phpbbgallery\core\comment             $comment
+	 * @param \phpbbgallery\core\user                $gallery_user
+	 * @param \phpbbgallery\core\log                 $gallery_log
 	 * @param \phpbbgallery\core\notification\helper $notification_helper
-	 * @param \phpbbgallery\core\notification $gallery_notification
-	 * @param \phpbbgallery\core\rating $gallery_rating
-	 * @param ContainerInterface $phpbb_container
+	 * @param \phpbbgallery\core\notification        $gallery_notification
+	 * @param \phpbbgallery\core\rating              $gallery_rating
+	 * @param ContainerInterface                     $phpbb_container
 	 * @param                                        $table_comments
 	 * @param                                        $phpbb_root_path
 	 * @param                                        $php_ext
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\template\template $template,
-\phpbb\request\request $request, \phpbb\controller\helper $helper, \phpbbgallery\core\image\image $image, \phpbbgallery\core\album\loader $loader, \phpbbgallery\core\album\album $album,
-\phpbbgallery\core\album\display $display, \phpbbgallery\core\url $url, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\misc $misc,
-\phpbbgallery\core\comment $comment, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\log $gallery_log, \phpbbgallery\core\notification\helper $notification_helper,
-	\phpbbgallery\core\notification $gallery_notification, \phpbbgallery\core\rating $gallery_rating, ContainerInterface $phpbb_container,
-$table_comments, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\language\language $language,
+								\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\template\template $template,
+								\phpbb\request\request $request, \phpbb\controller\helper $helper, \phpbbgallery\core\image\image $image,
+								\phpbbgallery\core\album\loader $loader, \phpbbgallery\core\album\album $album,
+								\phpbbgallery\core\album\display $display, \phpbbgallery\core\url $url, \phpbbgallery\core\auth\auth $gallery_auth,
+								\phpbbgallery\core\config $gallery_config, \phpbbgallery\core\misc $misc, \phpbbgallery\core\comment $comment,
+								\phpbbgallery\core\user $gallery_user, \phpbbgallery\core\log $gallery_log,
+								\phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\notification $gallery_notification,
+								\phpbbgallery\core\rating $gallery_rating, ContainerInterface $phpbb_container,
+								$table_comments, $phpbb_root_path, $php_ext)
 	{
 		$this->db = $db;
 		$this->user = $user;
+		$this->language = $language;
 		$this->auth = $auth;
 		$this->config = $config;
 		$this->template = $template;
@@ -104,11 +148,11 @@ $table_comments, $phpbb_root_path, $php_ext)
 	 *
 	 * @param int $image_id Image ID
 	 * @param $comment_id
-	 * @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	 * @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
 	 */
 	public function add($image_id, $comment_id)
 	{
-		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
+		$this->language->add_lang(array('gallery'), 'phpbbgallery/core');
 		add_form_key('gallery');
 		if ($comment_id != 0)
 		{
@@ -141,7 +185,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 		}
 
 		add_form_key('gallery');
-		$this->user->add_lang('posting');
+		$this->language->add_lang('posting');
 
 		if (!function_exists('generate_smilies'))
 		{
@@ -169,11 +213,11 @@ $table_comments, $phpbb_root_path, $php_ext)
 		$s_hide_comment_input = false;
 
 		$this->template->assign_vars(array(
-			'BBCODE_STATUS'			=> ($bbcode_status) ? sprintf($this->user->lang('BBCODE_IS_ON'), '<a href="' . $this->url->append_sid('phpbb', 'faq', 'mode=bbcode') . '">', '</a>') : sprintf($this->user->lang['BBCODE_IS_OFF'], '<a href="' . $this->url->append_sid('phpbb', 'faq', 'mode=bbcode') . '">', '</a>'),
-			'IMG_STATUS'			=> ($img_status) ? $this->user->lang['IMAGES_ARE_ON'] : $this->user->lang['IMAGES_ARE_OFF'],
-			'FLASH_STATUS'			=> ($flash_status) ? $this->user->lang['FLASH_IS_ON'] : $this->user->lang['FLASH_IS_OFF'],
-			'SMILIES_STATUS'		=> ($smilies_status) ? $this->user->lang['SMILIES_ARE_ON'] : $this->user->lang['SMILIES_ARE_OFF'],
-			'URL_STATUS'			=> ($bbcode_status && $url_status) ? $this->user->lang['URL_IS_ON'] : $this->user->lang['URL_IS_OFF'],
+			'BBCODE_STATUS'			=> ($bbcode_status) ? sprintf($this->language->lang('BBCODE_IS_ON'), '<a href="' . $this->url->append_sid('phpbb', 'faq', 'mode=bbcode') . '">', '</a>') : sprintf($this->language->lang('BBCODE_IS_OFF'), '<a href="' . $this->url->append_sid('phpbb', 'faq', 'mode=bbcode') . '">', '</a>'),
+			'IMG_STATUS'			=> ($img_status) ? $this->language->lang('IMAGES_ARE_ON') : $this->language->lang('IMAGES_ARE_OFF'),
+			'FLASH_STATUS'			=> ($flash_status) ? $this->language->lang('FLASH_IS_ON') : $this->language->lang('FLASH_IS_OFF'),
+			'SMILIES_STATUS'		=> ($smilies_status) ? $this->language->lang('SMILIES_ARE_ON') : $this->language->lang('SMILIES_ARE_OFF'),
+			'URL_STATUS'			=> ($bbcode_status && $url_status) ? $this->language->lang('URL_IS_ON') : $this->language->lang('URL_IS_OFF'),
 
 			'S_BBCODE_ALLOWED'			=> $bbcode_status,
 			'S_SMILIES_ALLOWED'			=> $smilies_status,
@@ -226,22 +270,22 @@ $table_comments, $phpbb_root_path, $php_ext)
 
 				if ($comment_username == '')
 				{
-					$error .= (($error) ? '<br />' : '') . $this->user->lang['MISSING_USERNAME'];
+					$error .= (($error) ? '<br />' : '') . $this->language->lang('MISSING_USERNAME');
 				}
 				if ($result = validate_username($comment_username))
 				{
-					$this->user->add_lang('ucp');
-					$error .= (($error) ? '<br />' : '') . $this->user->lang[$result . '_USERNAME'];
+					$this->language->add_lang('ucp');
+					$error .= (($error) ? '<br />' : '') . $this->language->lang($result . '_USERNAME');
 					$submit = false;
 				}
 			}
 			if (($comment_plain == '') && !$s_user_rated)
 			{
-				$error .= (($error) ? '<br />' : '') . $this->user->lang['MISSING_COMMENT'];
+				$error .= (($error) ? '<br />' : '') . $this->language->lang('MISSING_COMMENT');
 			}
 			if (utf8_strlen($comment_plain) > $this->gallery_config->get('comment_length'))
 			{
-				$error .= (($error) ? '<br />' : '') . $this->user->lang['COMMENT_TOO_LONG'];
+				$error .= (($error) ? '<br />' : '') . $this->language->lang('COMMENT_TOO_LONG');
 			}
 
 			if (!class_exists('bbcode'))
@@ -286,7 +330,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 				);
 				$this->notification_helper->notify('new_comment', $data);
 				//$phpbb_gallery_notification->send_notification('image', $image_id, $image_data['image_name']);
-				$message .= $this->user->lang['COMMENT_STORED'] . '<br />';
+				$message .= $this->language->lang('COMMENT_STORED') . '<br />';
 			}
 			else if ($this->misc->display_captcha('comment'))
 			{
@@ -328,7 +372,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 			'MESSAGE'				=> (isset($comment_plain)) ? $comment_plain : '',
 			'USERNAME'				=> (isset($comment_username)) ? $comment_username : '',
 			'REQ_USERNAME'			=> (!empty($comment_username_req)) ? true : false,
-			'L_COMMENT_LENGTH'		=> sprintf($this->user->lang['COMMENT_LENGTH'], $this->gallery_config->get('comment_length')),
+			'L_COMMENT_LENGTH'		=> sprintf($this->language->lang('COMMENT_LENGTH'), $this->gallery_config->get('comment_length')),
 
 			'IMAGE_RSZ_WIDTH'		=> $this->gallery_config->get('medium_width'),
 			'IMAGE_RSZ_HEIGHT'		=> $this->gallery_config->get('medium_height'),
@@ -343,8 +387,8 @@ $table_comments, $phpbb_root_path, $php_ext)
 
 		if ($submit && !$error)
 		{
-			$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_IMAGE'], '<a href="' . $image_backlink . '">', '</a>');
-			$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_ALBUM'], '<a href="' . $album_backlink . '">', '</a>');
+			$message .= '<br />' . sprintf($this->language->lang('CLICK_RETURN_IMAGE'), '<a href="' . $image_backlink . '">', '</a>');
+			$message .= '<br />' . sprintf($this->language->lang('CLICK_RETURN_ALBUM'), '<a href="' . $album_backlink . '">', '</a>');
 
 			$this->url->meta_refresh(3, $image_backlink);
 			trigger_error($message);
@@ -359,11 +403,11 @@ $table_comments, $phpbb_root_path, $php_ext)
 	 *
 	 * @param int $image_id Image ID
 	 * @param $comment_id
-	 * @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	 * @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
 	 */
 	public function edit($image_id, $comment_id)
 	{
-		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
+		$this->language->add_lang(array('gallery'), 'phpbbgallery/core');
 		add_form_key('gallery');
 
 		$submit = $this->request->variable('submit', false);
@@ -394,7 +438,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 			$this->misc->not_authorised($image_backlink, $image_loginlink);
 		}
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
-		if (!$this->gallery_auth->acl_check('c_edit', $album_id, $album_data['album_user_id']) && $mode == 'add')
+		if (!$this->gallery_auth->acl_check('c_edit', $album_id, $album_data['album_user_id']) /*&& $mode == 'add'*/)
 		{
 			if (!$this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']))
 			{
@@ -406,7 +450,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 			$this->misc->not_authorised($image_backlink, $image_loginlink);
 		}
 
-		$this->user->add_lang('posting');
+		$this->language->add_lang('posting');
 
 		if (!function_exists('generate_smilies'))
 		{
@@ -435,11 +479,11 @@ $table_comments, $phpbb_root_path, $php_ext)
 		$s_hide_comment_input = false;
 
 		$this->template->assign_vars(array(
-			'BBCODE_STATUS'			=> ($bbcode_status) ? sprintf($this->user->lang['BBCODE_IS_ON'], '<a href="' . $this->url->append_sid('phpbb', 'faq', 'mode=bbcode') . '">', '</a>') : sprintf($this->user->lang['BBCODE_IS_OFF'], '<a href="' . $this->url->append_sid('phpbb', 'faq', 'mode=bbcode') . '">', '</a>'),
-			'IMG_STATUS'			=> ($img_status) ? $this->user->lang['IMAGES_ARE_ON'] : $this->user->lang['IMAGES_ARE_OFF'],
-			'FLASH_STATUS'			=> ($flash_status) ? $this->user->lang['FLASH_IS_ON'] : $this->user->lang['FLASH_IS_OFF'],
-			'SMILIES_STATUS'		=> ($smilies_status) ? $this->user->lang['SMILIES_ARE_ON'] : $this->user->lang['SMILIES_ARE_OFF'],
-			'URL_STATUS'			=> ($bbcode_status && $url_status) ? $this->user->lang['URL_IS_ON'] : $this->user->lang['URL_IS_OFF'],
+			'BBCODE_STATUS'			=> ($bbcode_status) ? sprintf($this->language->lang('BBCODE_IS_ON'), '<a href="' . $this->url->append_sid('phpbb', 'faq', 'mode=bbcode') . '">', '</a>') : sprintf($this->language->lang('BBCODE_IS_OFF'), '<a href="' . $this->url->append_sid('phpbb', 'faq', 'mode=bbcode') . '">', '</a>'),
+			'IMG_STATUS'			=> ($img_status) ? $this->language->lang('IMAGES_ARE_ON') : $this->language->lang('IMAGES_ARE_OFF'),
+			'FLASH_STATUS'			=> ($flash_status) ? $this->language->lang('FLASH_IS_ON') : $this->language->lang('FLASH_IS_OFF'),
+			'SMILIES_STATUS'		=> ($smilies_status) ? $this->language->lang('SMILIES_ARE_ON') : $this->language->lang('SMILIES_ARE_OFF'),
+			'URL_STATUS'			=> ($bbcode_status && $url_status) ? $this->language->lang('URL_IS_ON') : $this->language->lang('URL_IS_OFF'),
 
 			'S_BBCODE_ALLOWED'			=> $bbcode_status,
 			'S_SMILIES_ALLOWED'			=> $smilies_status,
@@ -467,12 +511,12 @@ $table_comments, $phpbb_root_path, $php_ext)
 				$comment_username = $this->request->variable('username', '');
 				if ($comment_username == '')
 				{
-					$error .= (($error) ? '<br />' : '') . $this->this->user->lang['MISSING_USERNAME'];
+					$error .= (($error) ? '<br />' : '') . $this->language->lang('MISSING_USERNAME');
 				}
 
 				if (validate_username($comment_username))
 				{
-					$error .= (($error) ? '<br />' : '') . $this->user->lang['INVALID_USERNAME'];
+					$error .= (($error) ? '<br />' : '') . $this->language->lang('INVALID_USERNAME');
 					$comment_username = '';
 				}
 
@@ -483,11 +527,11 @@ $table_comments, $phpbb_root_path, $php_ext)
 
 			if ($comment_plain == '')
 			{
-				$error .= (($error) ? '<br />' : '') . $this->user->lang['MISSING_COMMENT'];
+				$error .= (($error) ? '<br />' : '') . $this->language->lang('MISSING_COMMENT');
 			}
 			if (utf8_strlen($comment_plain) > $this->gallery_config->get('comment_length'))
 			{
-				$error .= (($error) ? '<br />' : '') . $this->user->lang['COMMENT_TOO_LONG'];
+				$error .= (($error) ? '<br />' : '') . $this->language->lang('COMMENT_TOO_LONG');
 			}
 			if (!class_exists('bbcode'))
 			{
@@ -515,7 +559,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 			if (!$error)
 			{
 				$this->comment->edit($comment_id, $sql_ary);
-				$message .= $this->user->lang['COMMENT_STORED'] . '<br />';
+				$message .= $this->language->lang('COMMENT_STORED') . '<br />';
 				if ($this->user->data['user_id'] != $comment_data['comment_user_id'])
 				{
 					$this->gallery_log->add_log('moderator', 'c_edit', $image_data['image_album_id'], $image_data['image_id'], array('LOG_GALLERY_COMMENT_EDITED', $image_data['image_name']));
@@ -536,7 +580,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 			'MESSAGE'				=> (isset($comment_plain)) ? $comment_plain : '',
 			'USERNAME'				=> (isset($comment_username)) ? $comment_username : '',
 			'REQ_USERNAME'			=> (!empty($comment_username_req)) ? true : false,
-			'L_COMMENT_LENGTH'		=> sprintf($this->user->lang['COMMENT_LENGTH'], $this->gallery_config->get('comment_length')),
+			'L_COMMENT_LENGTH'		=> sprintf($this->language->lang('COMMENT_LENGTH'), $this->gallery_config->get('comment_length')),
 
 			'IMAGE_RSZ_WIDTH'		=> $this->gallery_config->get('medium_width'),
 			'IMAGE_RSZ_HEIGHT'		=> $this->gallery_config->get('medium_height'),
@@ -551,8 +595,8 @@ $table_comments, $phpbb_root_path, $php_ext)
 
 		if ($submit && !$error)
 		{
-			$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_IMAGE'], '<a href="' . $image_backlink . '">', '</a>');
-			$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_ALBUM'], '<a href="' . $album_backlink . '">', '</a>');
+			$message .= '<br />' . sprintf($this->language->lang('CLICK_RETURN_IMAGE'), '<a href="' . $image_backlink . '">', '</a>');
+			$message .= '<br />' . sprintf($this->language->lang('CLICK_RETURN_ALBUM'), '<a href="' . $album_backlink . '">', '</a>');
 
 			$this->url->meta_refresh(3, $image_backlink);
 			trigger_error($message);
@@ -567,11 +611,11 @@ $table_comments, $phpbb_root_path, $php_ext)
 	 *
 	 * @param int $image_id Image ID
 	 * @param $comment_id
-	 * @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	 * @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
 	 */
 	public function delete($image_id, $comment_id)
 	{
-		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
+		$this->language->add_lang(array('gallery'), 'phpbbgallery/core');
 		add_form_key('gallery');
 
 		$submit = $this->request->variable('submit', false);
@@ -602,7 +646,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 			$this->misc->not_authorised($image_backlink, $image_loginlink);
 		}
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
-		if (!$this->gallery_auth->acl_check('c_edit', $album_id, $album_data['album_user_id']) && $mode == 'add')
+		if (!$this->gallery_auth->acl_check('c_edit', $album_id, $album_data['album_user_id']) /*&& $mode == 'add'*/)
 		{
 			if (!$this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']))
 			{
@@ -614,7 +658,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 			$this->misc->not_authorised($image_backlink, $image_loginlink);
 		}
 
-		$this->user->add_lang('posting');
+		$this->language->add_lang('posting');
 
 		if (!function_exists('generate_smilies'))
 		{
@@ -643,11 +687,11 @@ $table_comments, $phpbb_root_path, $php_ext)
 		$s_hide_comment_input = false;
 
 		$this->template->assign_vars(array(
-			'BBCODE_STATUS'			=> ($bbcode_status) ? sprintf($this->user->lang['BBCODE_IS_ON'], '<a href="' . $this->url->append_sid('phpbb', 'faq', 'mode=bbcode') . '">', '</a>') : sprintf($this->user->lang['BBCODE_IS_OFF'], '<a href="' . $this->url->append_sid('phpbb', 'faq', 'mode=bbcode') . '">', '</a>'),
-			'IMG_STATUS'			=> ($img_status) ? $this->user->lang['IMAGES_ARE_ON'] : $this->user->lang['IMAGES_ARE_OFF'],
-			'FLASH_STATUS'			=> ($flash_status) ? $this->user->lang['FLASH_IS_ON'] : $this->user->lang['FLASH_IS_OFF'],
+			'BBCODE_STATUS'			=> ($bbcode_status) ? sprintf($this->language->lang('BBCODE_IS_ON'), '<a href="' . $this->url->append_sid('phpbb', 'faq', 'mode=bbcode') . '">', '</a>') : sprintf($this->language->lang('BBCODE_IS_OFF'), '<a href="' . $this->url->append_sid('phpbb', 'faq', 'mode=bbcode') . '">', '</a>'),
+			'IMG_STATUS'			=> ($img_status) ? $this->language->lang('IMAGES_ARE_ON') : $this->language->lang('IMAGES_ARE_OFF'),
+			'FLASH_STATUS'			=> ($flash_status) ? $this->language->lang('FLASH_IS_ON') : $this->language->lang('FLASH_IS_OFF'),
 			'SMILIES_STATUS'		=> ($smilies_status) ? $this->user->lang['SMILIES_ARE_ON'] : $this->user->lang['SMILIES_ARE_OFF'],
-			'URL_STATUS'			=> ($bbcode_status && $url_status) ? $this->user->lang['URL_IS_ON'] : $this->user->lang['URL_IS_OFF'],
+			'URL_STATUS'			=> ($bbcode_status && $url_status) ? $this->language->lang('URL_IS_ON') : $this->language->lang('URL_IS_OFF'),
 
 			'S_BBCODE_ALLOWED'			=> $bbcode_status,
 			'S_SMILIES_ALLOWED'			=> $smilies_status,
@@ -673,14 +717,14 @@ $table_comments, $phpbb_root_path, $php_ext)
 				$this->gallery_log->add_log('moderator', 'c_delete', $image_data['image_album_id'], $image_data['image_id'], array('LOG_GALLERY_COMMENT_DELETED', $image_data['image_name']));
 			}
 
-			$message = $this->user->lang['DELETED_COMMENT'] . '<br />';
+			$message = $this->language->lang('DELETED_COMMENT') . '<br />';
 			$submit = true;
 		}
 		else
 		{
 			if (isset($_POST['cancel']))
 			{
-				$message = $this->user->lang['DELETED_COMMENT_NOT'] . '<br />';
+				$message = $this->language->lang('DELETED_COMMENT_NOT') . '<br />';
 				$submit = true;
 			}
 			else
@@ -694,7 +738,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 			'MESSAGE'				=> (isset($comment_plain)) ? $comment_plain : '',
 			'USERNAME'				=> (isset($comment_username)) ? $comment_username : '',
 			'REQ_USERNAME'			=> (!empty($comment_username_req)) ? true : false,
-			'L_COMMENT_LENGTH'		=> sprintf($this->user->lang['COMMENT_LENGTH'], $this->gallery_config->get('comment_length')),
+			'L_COMMENT_LENGTH'		=> sprintf($this->language->lang('COMMENT_LENGTH'), $this->gallery_config->get('comment_length')),
 
 			'IMAGE_RSZ_WIDTH'		=> $this->gallery_config->get('medium_width'),
 			'IMAGE_RSZ_HEIGHT'		=> $this->gallery_config->get('medium_height'),
@@ -708,8 +752,8 @@ $table_comments, $phpbb_root_path, $php_ext)
 
 		if ($submit && !$error)
 		{
-			$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_IMAGE'], '<a href="' . $image_backlink . '">', '</a>');
-			$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_ALBUM'], '<a href="' . $album_backlink . '">', '</a>');
+			$message .= '<br />' . sprintf($this->language->lang('CLICK_RETURN_IMAGE'), '<a href="' . $image_backlink . '">', '</a>');
+			$message .= '<br />' . sprintf($this->language->lang('CLICK_RETURN_ALBUM'), '<a href="' . $album_backlink . '">', '</a>');
 
 			$this->url->meta_refresh(3, $image_backlink);
 			trigger_error($message);
@@ -720,7 +764,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 
 	public function rate($image_id)
 	{
-		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
+		$this->language->add_lang(array('gallery'), 'phpbbgallery/core');
 		add_form_key('gallery');
 
 		$submit = $this->request->variable('submit', false);
@@ -745,7 +789,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 			$this->misc->not_authorised($image_backlink, $image_loginlink);
 		}
 
-		$this->user->add_lang('posting');
+		$this->language->add_lang('posting');
 
 		if (!function_exists('generate_smilies'))
 		{
@@ -788,7 +832,7 @@ $table_comments, $phpbb_root_path, $php_ext)
 					$rating->submit_rating();
 					$s_user_rated = true;
 
-					$message .= $this->user->lang['RATING_SUCCESSFUL'] . '<br />';
+					$message .= $this->language->lang('RATING_SUCCESSFUL') . '<br />';
 				}
 				$this->template->assign_vars(array(
 					'S_ALLOWED_TO_RATE'			=> $rating->is_allowed(),
@@ -797,8 +841,8 @@ $table_comments, $phpbb_root_path, $php_ext)
 
 		}
 
-		$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_IMAGE'], '<a href="' . $image_backlink . '">', '</a>');
-		$message .= '<br />' . sprintf($this->user->lang['CLICK_RETURN_ALBUM'], '<a href="' . $album_backlink . '">', '</a>');
+		$message .= '<br />' . sprintf($this->language->lang('CLICK_RETURN_IMAGE'), '<a href="' . $image_backlink . '">', '</a>');
+		$message .= '<br />' . sprintf($this->language->lang('CLICK_RETURN_ALBUM'), '<a href="' . $album_backlink . '">', '</a>');
 
 		$this->url->meta_refresh(3, $image_backlink);
 		trigger_error($message);
