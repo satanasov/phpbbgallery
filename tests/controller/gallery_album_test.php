@@ -278,37 +278,37 @@ class gallery_album_test extends controller_base
 				array(
 					'rules',
 					array(
-						'RULE' => null
+						'RULE' => 'ALBUM_VIEW_CAN'
 					)
 				),
 				array(
 					'rules',
 					array(
-						'RULE' => null
+						'RULE' => 'ALBUM_UPLOAD_CAN'
 					)
 				),
 				array(
 					'rules',
 					array(
-						'RULE' => null
+						'RULE' => 'ALBUM_EDIT_CAN'
 					)
 				),
 				array(
 					'rules',
 					array(
-						'RULE' => null
+						'RULE' => 'ALBUM_DELETE_CAN'
 					)
 				),
 				array(
 					'rules',
 					array(
-						'RULE' => null
+						'RULE' => 'ALBUM_COMMENT_CAN'
 					)
 				),
 				array(
 					'rules',
 					array(
-						'RULE' => null
+						'RULE' => 'ALBUM_RATE_CAN'
 					)
 				),
 				array(
