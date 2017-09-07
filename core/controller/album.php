@@ -10,6 +10,8 @@
 
 namespace phpbbgallery\core\controller;
 
+use phpbb\language\language;
+
 class album
 {
 	/* @var \phpbb\config\config */
@@ -30,6 +32,9 @@ class album
 	/* @var \phpbb\user */
 	protected $user;
 
+	/** @var \phpbb\language\language */
+	protected $language;
+
 	/* @var \phpbbgallery\core\album\display */
 	protected $display;
 
@@ -48,28 +53,32 @@ class album
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\config\config $config Config object
-	 * @param \phpbb\controller\helper $helper Controller helper object
-	 * @param \phpbb\db\driver\driver|\phpbb\db\driver\driver_interface $db Database object
-	 * @param \phpbb\pagination $pagination Pagination object
-	 * @param \phpbb\template\template $template Template object
-	 * @param \phpbb\user $user User object
-	 * @param \phpbbgallery\core\album\display $display Albums display object
-	 * @param \phpbbgallery\core\album\loader $loader Albums display object
-	 * @param \phpbbgallery\core\auth\auth $auth Gallery auth object
-	 * @param \phpbbgallery\core\auth\level $auth_level Gallery auth level object
-	 * @param \phpbbgallery\core\config $gallery_config
-	 * @param \phpbbgallery\core\notification\helper $notifications_helper
-	 * @param \phpbbgallery\core\url $url
-	 * @param \phpbbgallery\core\image\image $image
-	 * @param \phpbb\request\request $request
-	 * @param string $images_table Gallery image table
+	 * @param \phpbb\config\config                                      $config       Config object
+	 * @param \phpbb\controller\helper                                  $helper       Controller helper object
+	 * @param \phpbb\db\driver\driver|\phpbb\db\driver\driver_interface $db           Database object
+	 * @param \phpbb\pagination                                         $pagination   Pagination object
+	 * @param \phpbb\template\template                                  $template     Template object
+	 * @param \phpbb\user                                               $user         User object
+	 * @param \phpbb\language\language                                  $language
+	 * @param \phpbbgallery\core\album\display                          $display      Albums display object
+	 * @param \phpbbgallery\core\album\loader                           $loader       Albums display object
+	 * @param \phpbbgallery\core\auth\auth                              $auth         Gallery auth object
+	 * @param \phpbbgallery\core\auth\level                             $auth_level   Gallery auth level object
+	 * @param \phpbbgallery\core\config                                 $gallery_config
+	 * @param \phpbbgallery\core\notification\helper                    $notifications_helper
+	 * @param \phpbbgallery\core\url                                    $url
+	 * @param \phpbbgallery\core\image\image                            $image
+	 * @param \phpbb\request\request                                    $request
+	 * @param string                                                    $images_table Gallery image table
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $db,
-	\phpbb\pagination $pagination, \phpbb\template\template $template, \phpbb\user $user, \phpbbgallery\core\album\display $display,
-	\phpbbgallery\core\album\loader $loader, \phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\auth\level $auth_level,  \phpbbgallery\core\config $gallery_config,
-	\phpbbgallery\core\notification\helper $notifications_helper, \phpbbgallery\core\url $url, \phpbbgallery\core\image\image $image, \phpbb\request\request $request,
-	$images_table)
+	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper,
+								\phpbb\db\driver\driver_interface $db,	\phpbb\pagination $pagination,
+								\phpbb\template\template $template, \phpbb\user $user, \phpbb\language\language $language,
+								\phpbbgallery\core\album\display $display, \phpbbgallery\core\album\loader $loader,
+								\phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\auth\level $auth_level,
+								\phpbbgallery\core\config $gallery_config,\phpbbgallery\core\notification\helper $notifications_helper,
+								\phpbbgallery\core\url $url, \phpbbgallery\core\image\image $image, \phpbb\request\request $request,
+								$images_table)
 	{
 		$this->config = $config;
 		$this->helper = $helper;
@@ -77,6 +86,7 @@ class album
 		$this->pagination = $pagination;
 		$this->template = $template;
 		$this->user = $user;
+		$this->language = $language;
 		$this->display = $display;
 		$this->loader = $loader;
 		$this->auth = $auth;
@@ -95,12 +105,12 @@ class album
 	 *
 	 * @param int $album_id Root Album ID
 	 * @param int $page
-	 * @return Symfony\Component\HttpFoundation\Response A Symfony Response object
+	 * @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
 	 */
 	public function base($album_id, $page = 0)
 	{
 		$album_id = (int) $album_id;
-		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
+		$this->language->add_lang(array('gallery'), 'phpbbgallery/core');
 
 		try
 		{
@@ -134,7 +144,7 @@ class album
 		$page_title = $album_data['album_name'];
 		if ($page > 1)
 		{
-			$page_title .= ' - ' . $this->user->lang('PAGE_TITLE_NUMBER', $page);
+			$page_title .= ' - ' . $this->language->lang('PAGE_TITLE_NUMBER', $page);
 		}
 
 		if ($this->config['load_moderators'])
@@ -143,10 +153,10 @@ class album
 			if (!empty($moderators[$album_id]))
 			{
 				$moderators = $moderators[$album_id];
-				$l_moderator = (sizeof($moderators) == 1) ? $this->user->lang('MODERATOR') : $this->user->lang('MODERATORS');
+				$l_moderator = (sizeof($moderators) == 1) ? $this->language->lang('MODERATOR') : $this->language->lang('MODERATORS');
 				$this->template->assign_vars(array(
 					'L_MODERATORS'	=> $l_moderator,
-					'MODERATORS'	=> implode($this->user->lang('COMMA_SEPARATOR'), $moderators),
+					'MODERATORS'	=> implode($this->language->lang('COMMA_SEPARATOR'), $moderators),
 				));
 			}
 		}
@@ -173,7 +183,7 @@ class album
 			'S_IS_LOCKED'		=> $album_data['album_status'] == \phpbbgallery\core\block::ALBUM_LOCKED,
 
 			'U_RETURN_LINK'		=> $this->helper->route('phpbbgallery_core_index'),
-			'L_RETURN_LINK'		=> $this->user->lang('RETURN_TO_GALLERY'),
+			'L_RETURN_LINK'		=> $this->language->lang('RETURN_TO_GALLERY'),
 			'S_ALBUM_ACTION'	=> $this->helper->route('phpbbgallery_core_album', array('album_id' => $album_id)),
 			'S_IS_WATCHED'		=> $this->notifications_helper->get_watched_album($album_id) ? true : false,
 			'U_WATCH_TOGLE'		=> $this->helper->route('phpbbgallery_core_album_watch', array('album_id' => $album_id)),
@@ -190,6 +200,12 @@ class album
 		return $this->helper->render('gallery/album_body.html', $page_title);
 	}
 
+	/**
+	 * @param $album_id
+	 * @param $album_data
+	 * @param $start
+	 * @param $limit
+	 */
 	protected function display_images($album_id, $album_data, $start, $limit)
 	{
 		$sort_days	= $this->request->variable('st', 0);
@@ -215,10 +231,10 @@ class album
 
 		$limit_days = array();
 		$sort_by_text = array(
-			't'		=> $this->user->lang('TIME'),
-			'n'		=> $this->user->lang('IMAGE_NAME'),
-			'vc'	=> $this->user->lang('GALLERY_VIEWS'),
-			'u'		=> $this->user->lang('SORT_USERNAME'),
+			't'		=> $this->language->lang('TIME'),
+			'n'		=> $this->language->lang('IMAGE_NAME'),
+			'vc'	=> $this->language->lang('GALLERY_VIEWS'),
+			'u'		=> $this->language->lang('SORT_USERNAME'),
 		);
 		$sort_by_sql = array(
 			't'		=> 'image_time',
@@ -229,16 +245,16 @@ class album
 
 		if ($this->config['phpbb_gallery_allow_rates'])
 		{
-			$sort_by_text['ra'] = $this->user->lang('RATING');
+			$sort_by_text['ra'] = $this->language->lang('RATING');
 			$sort_by_sql['ra'] = 'image_rate_points';
-			$sort_by_text['r'] = $this->user->lang('RATES_COUNT');
+			$sort_by_text['r'] = $this->language->lang('RATES_COUNT');
 			$sort_by_sql['r'] = 'image_rates';
 		}
 		if ($this->config['phpbb_gallery_allow_comments'])
 		{
-			$sort_by_text['c'] = $this->user->lang('COMMENTS');
+			$sort_by_text['c'] = $this->language->lang('COMMENTS');
 			$sort_by_sql['c'] = 'image_comments';
-			$sort_by_text['lc'] = $this->user->lang('NEW_COMMENT');
+			$sort_by_text['lc'] = $this->language->lang('NEW_COMMENT');
 			$sort_by_sql['lc'] = 'image_last_comment';
 		}
 		gen_sort_selects($limit_days, $sort_by_text, $sort_days, $sort_key, $sort_dir, $s_limit_days, $s_sort_key, $s_sort_dir, $u_sort_param);
@@ -355,13 +371,13 @@ class album
 				'S_UNAPPROVED'	=> ($this->auth->acl_check('m_status', $image_data['image_album_id'], $album_user_id) && ($image_data['image_status'] == \phpbbgallery\core\block::STATUS_UNAPPROVED)) ? true : false,
 				'S_LOCKED'		=> ($image_data['image_status'] == \phpbbgallery\core\block::STATUS_LOCKED) ? true : false,
 				'S_REPORTED'	=> ($this->auth->acl_check('m_report', $image_data['image_album_id'], $album_user_id) && $image_data['image_reported']) ? true : false,
-				'POSTER'		=> ($show_username) ? (($s_username_hidden) ? $this->user->lang('CONTEST_USERNAME') : get_username_string('full', $image_data['image_user_id'], $image_data['image_username'], $image_data['image_user_colour'])) : false,
+				'POSTER'		=> ($show_username) ? (($s_username_hidden) ? $this->language->lang('CONTEST_USERNAME') : get_username_string('full', $image_data['image_user_id'], $image_data['image_username'], $image_data['image_user_colour'])) : false,
 				'TIME'			=> $show_time ? $this->user->format_date($image_data['image_time']) : false,
 
-				'S_RATINGS'		=> ($this->config['phpbb_gallery_allow_rates'] == 1 && $show_ratings) ? ($image_data['image_rates'] > 0 ? $image_data['image_rate_avg'] / 100 : $this->user->lang('NOT_RATED')) : false,
+				'S_RATINGS'		=> ($this->config['phpbb_gallery_allow_rates'] == 1 && $show_ratings) ? ($image_data['image_rates'] > 0 ? $image_data['image_rate_avg'] / 100 : $this->language->lang('NOT_RATED')) : false,
 				'U_RATINGS'		=> $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_data['image_id'])) . '#rating',
-				'L_COMMENTS'	=> ($image_data['image_comments'] == 1) ? $this->user->lang('COMMENT') : $this->user->lang('COMMENTS'),
-				'S_COMMENTS'	=> ($this->config['phpbb_gallery_allow_comments'] && $this->auth->acl_check('c_read', $image_data['image_album_id'], $album_user_id) && $show_comments) ? (($image_data['image_comments']) ? $image_data['image_comments'] : $this->user->lang('NO_COMMENTS')) : '',
+				'L_COMMENTS'	=> ($image_data['image_comments'] == 1) ? $this->language->lang('COMMENT') : $this->language->lang('COMMENTS'),
+				'S_COMMENTS'	=> ($this->config['phpbb_gallery_allow_comments'] && $this->auth->acl_check('c_read', $image_data['image_album_id'], $album_user_id) && $show_comments) ? (($image_data['image_comments']) ? $image_data['image_comments'] : $this->language->lang('NO_COMMENTS')) : '',
 				'U_COMMENTS'	=> $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_data['image_id'])) . '#comments',
 
 				'U_USER_IP'		=> $show_ip && $this->auth->acl_check('m_status', $image_data['image_album_id'], $album_user_id) ? $image_data['image_user_ip'] : false,
@@ -374,7 +390,7 @@ class album
 
 				'U_REPORT'	=> ($this->auth->acl_check('m_report', $image_data['image_album_id'], $album_user_id) && $image_data['image_reported']) ? '123'/*$this->url->append_sid('mcp', "mode=report_details&amp;album_id={$image_data['image_album_id']}&amp;option_id=" . $image_data['image_reported'])*/ : '',
 				'U_STATUS'	=> '',//($this->auth->acl_check('m_status', $image_data['image_album_id'], $album_user_id)) ? $phpbb_ext_gallery->url->append_sid('mcp', "mode=queue_details&amp;album_id={$image_data['image_album_id']}&amp;option_id=" . $image_data['image_id']) : '',
-				'L_STATUS'	=> ($image_data['image_status'] == \phpbbgallery\core\block::STATUS_UNAPPROVED) ? $this->user->lang('APPROVE_IMAGE') : (($image_data['image_status'] == \phpbbgallery\core\block::STATUS_APPROVED) ? $this->user->lang('CHANGE_IMAGE_STATUS') : $this->user->lang('UNLOCK_IMAGE')),
+				'L_STATUS'	=> ($image_data['image_status'] == \phpbbgallery\core\block::STATUS_UNAPPROVED) ? $this->language->lang('APPROVE_IMAGE') : (($image_data['image_status'] == \phpbbgallery\core\block::STATUS_APPROVED) ? $this->language->lang('CHANGE_IMAGE_STATUS') : $this->language->lang('UNLOCK_IMAGE')),
 			));
 		}
 		$this->db->sql_freeresult($result);
@@ -393,7 +409,7 @@ class album
 			), 'pagination', 'page', $image_counter, $limit, $start);
 
 		$this->template->assign_vars(array(
-			'TOTAL_IMAGES'				=> $this->user->lang('VIEW_ALBUM_IMAGES', $image_counter),
+			'TOTAL_IMAGES'				=> $this->language->lang('VIEW_ALBUM_IMAGES', $image_counter),
 			'S_SELECT_SORT_DIR'			=> $s_sort_dir,
 			'S_SELECT_SORT_KEY'			=> $s_sort_key,
 		));
@@ -405,7 +421,8 @@ class album
 	 */
 	public function watch($album_id)
 	{
-		$this->user->add_lang_ext('phpbbgallery/core', array('gallery'));
+		$album_id = (int) $album_id;
+		$this->language->add_lang(array('gallery'), 'phpbbgallery/core');
 
 		$album_data = $this->loader->get($album_id);
 
@@ -417,35 +434,35 @@ class album
 			{
 				$this->notifications_helper->remove_albums($album_id);
 				$this->template->assign_vars(array(
-					'INFORMATION'	=> $this->user->lang('UNWATCH_ALBUM')
+					'INFORMATION'	=> $this->language->lang('UNWATCH_ALBUM')
 				));
 				$this->url->meta_refresh(3, $back_link);
-				return $this->helper->render('gallery/message.html', $this->user->lang('GALLERY'));
+				return $this->helper->render('gallery/message.html', $this->language->lang('GALLERY'));
 			}
 			else
 			{
 				$this->notifications_helper->add_albums($album_id);
 				$this->template->assign_vars(array(
-					'INFORMATION'	=> $this->user->lang('WATCH_ALBUM')
+					'INFORMATION'	=> $this->language->lang('WATCH_ALBUM')
 				));
 				$this->url->meta_refresh(3, $back_link);
-				return $this->helper->render('gallery/message.html', $this->user->lang('GALLERY'));
+				return $this->helper->render('gallery/message.html', $this->language->lang('GALLERY'));
 			}
 		}
 		else
 		{
 			if ($this->notifications_helper->get_watched_album($album_id) == 1)
 			{
-				$lang = $this->user->lang('UNWATCH_ALBUM');
+				$lang = $this->language->lang('UNWATCH_ALBUM');
 			}
 			else
 			{
-				$lang = $this->user->lang('WATCH_ALBUM');
+				$lang = $this->language->lang('WATCH_ALBUM');
 			}
 			$s_hidden_fields = '';
 			confirm_box(false, $lang, $s_hidden_fields);
 		}
-		//return $this->helper->render('gallery/moderate_approve.html', $this->user->lang('GALLERY'));
+		//return $this->helper->render('gallery/moderate_approve.html', $this->language->lang('GALLERY'));
 	}
 
 	/**
@@ -474,7 +491,7 @@ class album
 			else
 			{
 				//return $this->error('NOT_AUTHORISED', 403);
-				trigger_error($this->user->lang('NOT_AUTHORISED'));
+				trigger_error($this->language->lang('NOT_AUTHORISED'));
 			}
 		}
 	}

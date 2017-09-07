@@ -35,6 +35,7 @@ services:
             - '@pagination'
             - '@template'
             - '@user'
+            - '@languge'
             - '@phpbbgallery.core.album.display'
             - '@phpbbgallery.core.album.loader'
             - '@phpbbgallery.core.auth'

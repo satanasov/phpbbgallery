@@ -55,6 +55,7 @@ class gallery_album_test extends controller_base
 			$this->pagination,
 			$this->template,
 			$this->user,
+			$this->language,
 			$this->display,
 			$this->gallery_loader,
 			$this->gallery_auth,
