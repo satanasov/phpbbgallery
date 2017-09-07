@@ -129,6 +129,7 @@ services:
             - '@request'
             - '@template'
             - '@user'
+            - '@language'
             - '@controller.helper'
             - '@phpbbgallery.core.album.display'
             - '@phpbbgallery.core.config'
