@@ -152,7 +152,8 @@ class controller_base extends \phpbb_database_test_case
 			$this->gallery_auth,
 			$this->config,
 			$this->template,
-			$this->user
+			$this->user,
+			$this->language
 		);
 
 		$this->misc = $this->getMockBuilder('\phpbbgallery\core\misc')

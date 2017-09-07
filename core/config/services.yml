@@ -101,6 +101,7 @@ services:
             - '@config'
             - '@template'
             - '@user'
+            - '@language'
     phpbbgallery.core.cache:
         class: phpbbgallery\core\cache
         arguments:
