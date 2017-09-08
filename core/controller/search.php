@@ -162,7 +162,7 @@ class search
 		{
 			$submit = true;
 		}
-		$this->language->add_lang_(array('gallery'), 'phpbbgallery/core');
+		$this->language->add_lang(array('gallery'), 'phpbbgallery/core');
 		$this->language->add_lang('search');
 		/**
 		* Build the sort options
