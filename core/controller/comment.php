@@ -14,8 +14,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class comment
 {
+	/** @var \phpbb\db\driver\driver_interface  */
 	protected $db;
 
+
+	/** @var \phpbb\user  */
 	protected $user;
 
 	protected $language;
@@ -153,7 +156,6 @@ class comment
 	public function add($image_id, $comment_id)
 	{
 		$this->language->add_lang(array('gallery'), 'phpbbgallery/core');
-		add_form_key('gallery');
 		if ($comment_id != 0)
 		{
 			$sql = 'SELECT *
@@ -183,7 +185,6 @@ class comment
 		{
 			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 		}
-
 		add_form_key('gallery');
 		$this->language->add_lang('posting');
 

@@ -14,9 +14,6 @@ namespace phpbbgallery\tests\controller;
 * @group controller
 */
 
-require_once dirname(__FILE__) . '/../../../../includes/functions.php';
-require_once dirname(__FILE__) . '/../../../../includes/functions_content.php';
-
 class controller_base extends \phpbb_database_test_case
 {
 	/**
@@ -53,6 +50,8 @@ class controller_base extends \phpbb_database_test_case
 		$db = $this->db;
 
 		$request = $this->request = $this->getMock('\phpbb\request\request');
+
+		$this->phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
 		$this->template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
@@ -108,6 +107,7 @@ class controller_base extends \phpbb_database_test_case
 			->getMock();
 
 		$phpbb_dispatcher = $this->dispatcher = new \phpbb_mock_event_dispatcher();
+		$this->phpbb_container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
 
 		$this->user_loader = $this->getMockBuilder('\phpbb\user_loader')
 			->disableOriginalConstructor()
@@ -186,11 +186,6 @@ class controller_base extends \phpbb_database_test_case
 			$this->user,
 			'phpbb_gallery_albums'
 		);
-		$this->gallery_image = $this->getMockBuilder('\phpbbgallery\core\image\image')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->gallery_image->method('get_status_orphan')
-			->willReturn(3);
 
 		$this->gallery_config = new \phpbbgallery\core\config(
 			$this->config
@@ -212,6 +207,76 @@ class controller_base extends \phpbb_database_test_case
 			'phpbb_gallery_contests'
 		);
 
+		$this->gallery_url = new \phpbbgallery\core\url(
+			$this->template,
+			$this->request,
+			$this->config,
+			'/',
+			'adm'
+		);
+
+		$this->log = new \phpbbgallery\core\log(
+			$this->db,
+			$this->user,
+			$this->user_loader,
+			$this->template,
+			$this->controller_helper,
+			$this->pagination,
+			$this->gallery_auth,
+			$this->gallery_config,
+			'phpbb_gallery_log',
+			'phpbb_gallery_images'
+		);
+
+		$this->gallery_report = new \phpbbgallery\core\report(
+			$this->log,
+			$this->gallery_auth,
+			$this->user,
+			$this->db,
+			$this->user_loader,
+			$this->gallery_album,
+			$this->template,
+			$this->controller_helper,
+			$this->gallery_config,
+			$this->pagination,
+			$this->gallery_notification_helper,
+			'phpbb_gallery_images',
+			'phpbb_gallery_reports'
+		);
+
+		$this->gallery_contest = new \phpbbgallery\core\contest(
+			$this->db,
+			$this->gallery_config,
+			'phpbb_images_table',
+			'phpbb_contests_table'
+		);
+
+		$this->gallery_file = new \phpbbgallery\core\file\file(
+			$this->request,
+			$this->gallery_url,
+			$this->gallery_config,
+			2
+		);
+
+		$this->gallery_image = new \phpbbgallery\core\image\image(
+			$this->db,
+			$this->user,
+			$this->template,
+			$this->phpbb_dispatcher,
+			$this->gallery_auth,
+			$this->gallery_album,
+			$this->gallery_config,
+			$this->controller_helper,
+			$this->gallery_url,
+			$this->log,
+			$this->gallery_notification_helper,
+			$this->gallery_report,
+			$this->gallery_cache,
+			$this->gallery_user,
+			$this->gallery_contest,
+			$this->gallery_file,
+			'phpbb_gallery_images'
+		);
 
 		// Let's build Search
 		$this->gallery_search = new \phpbbgallery\core\search(
@@ -228,41 +293,6 @@ class controller_base extends \phpbb_database_test_case
 			'phpbb_gallery_images',
 			'phpbb_gallery_albums',
 			'phpbb_gallery_comments'
-		);
-
-		$this->gallery_url = new \phpbbgallery\core\url(
-			$this->template,
-			$this->request,
-			$this->config,
-			'/',
-			'adm'
-		);
-		$this->log = new \phpbbgallery\core\log(
-			$this->db,
-			$this->user,
-			$this->user_loader,
-			$this->template,
-			$this->controller_helper,
-			$this->pagination,
-			$this->gallery_auth,
-			$this->gallery_config,
-			'phpbb_gallery_log',
-			'phpbb_gallery_images'
-		);
-		$this->gallery_report = new \phpbbgallery\core\report(
-			$this->log,
-			$this->gallery_auth,
-			$this->user,
-			$this->db,
-			$this->user_loader,
-			$this->gallery_album,
-			$this->template,
-			$this->controller_helper,
-			$this->gallery_config,
-			$this->pagination,
-			$this->gallery_notification_helper,
-			'phpbb_gallery_images',
-			'phpbb_gallery_reports'
 		);
 
 		$this->gallery_comment = new \phpbbgallery\core\comment(
@@ -308,6 +338,19 @@ class controller_base extends \phpbb_database_test_case
 			$this->gallery_config,
 			$this->gallery_notification,
 			$this->gallery_rating,
+			'phpbb_gallery_images'
+		);
+
+		$this->gallery_log = new \phpbbgallery\core\log(
+			$this->db,
+			$this->user,
+			$this->user_loader,
+			$this->template,
+			$this->controller_helper,
+			$this->pagination,
+			$this->gallery_auth,
+			$this->gallery_config,
+			'phpbb_gallery_log',
 			'phpbb_gallery_images'
 		);
 	}
