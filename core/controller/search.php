@@ -377,7 +377,7 @@ class search
 	public function random()
 	{
 		$this->language->add_lang(array('gallery'), 'phpbbgallery/core');
-		$this->language->add_3('search');
+		$this->language->add_lang('search');
 
 		// Is user able to search? Has search been disabled?
 		if (!$this->auth->acl_get('u_search') || !$this->config['load_search'])
