@@ -83,6 +83,7 @@ class core_image_test extends core_base
 		$this->log = new \phpbbgallery\core\log(
 			$this->db,
 			$this->user,
+			$this->language,
 			$this->user_loader,
 			$this->template,
 			$this->controller_helper,

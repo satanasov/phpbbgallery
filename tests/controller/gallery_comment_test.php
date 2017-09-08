@@ -71,7 +71,7 @@ class gallery_comment_test extends controller_base
 			$this->misc,
 			$this->gallery_comment,
 			$this->gallery_user,
-			$this->gallery_log,
+			$this->log,
 			$this->gallery_notification_helper,
 			$this->gallery_notification,
 			$this->gallery_rating,

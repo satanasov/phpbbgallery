@@ -218,6 +218,7 @@ class controller_base extends \phpbb_database_test_case
 		$this->log = new \phpbbgallery\core\log(
 			$this->db,
 			$this->user,
+			$this->language,
 			$this->user_loader,
 			$this->template,
 			$this->controller_helper,
@@ -339,19 +340,6 @@ class controller_base extends \phpbb_database_test_case
 			$this->gallery_config,
 			$this->gallery_notification,
 			$this->gallery_rating,
-			'phpbb_gallery_images'
-		);
-
-		$this->gallery_log = new \phpbbgallery\core\log(
-			$this->db,
-			$this->user,
-			$this->user_loader,
-			$this->template,
-			$this->controller_helper,
-			$this->pagination,
-			$this->gallery_auth,
-			$this->gallery_config,
-			'phpbb_gallery_log',
 			'phpbb_gallery_images'
 		);
 	}

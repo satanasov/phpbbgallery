@@ -12,6 +12,39 @@ namespace phpbbgallery\core;
 
 class log
 {
+	/** @var \phpbb\db\driver\driver_interface  */
+	protected $db;
+
+	/** @var \phpbb\user  */
+	protected $user;
+
+	/** @var \phpbb\language\language  */
+	protected $language;
+
+	/** @var \phpbb\user_loader  */
+	protected $user_loader;
+
+	/** @var \phpbb\template\template  */
+	protected $template;
+
+	/** @var \phpbb\controller\helper  */
+	protected $helper;
+
+	/** @var \phpbb\pagination  */
+	protected $pagination;
+
+	/** @var \phpbbgallery\core\auth\auth  */
+	protected $gallery_auth;
+
+	/** @var \phpbbgallery\core\config  */
+	protected $gallery_config;
+
+	/** @var   */
+	protected $log_table;
+
+	/** @var   */
+	protected $images_table;
+
 	/**
 	 * log constructor.
 	 *
@@ -26,12 +59,14 @@ class log
 	 * @param                                   $log_table
 	 * @param                                   $images_table
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\user_loader $user_loader, \phpbb\template\template $template,
-								\phpbb\controller\helper $helper, \phpbb\pagination $pagination, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\config $gallery_config,
-								$log_table, $images_table)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\language\language $language,
+		\phpbb\user_loader $user_loader, \phpbb\template\template $template, \phpbb\controller\helper $helper, \phpbb\pagination $pagination,
+		\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\config $gallery_config,
+		$log_table, $images_table)
 	{
 		$this->db = $db;
 		$this->user = $user;
+		$this->language = $language;
 		$this->user_loader = $user_loader;
 		$this->template = $template;
 		$this->helper = $helper;
@@ -98,7 +133,7 @@ class log
 		{
 			$limit = $this->gallery_config->get('items_per_page');
 		}
-		$this->user->add_lang_ext('phpbbgallery/core', array('info_acp_gallery_logs'));
+		$this->language->add_lang(array('info_acp_gallery_logs'), 'phpbbgallery/core');
 
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 		$sql_array = array(
@@ -216,14 +251,14 @@ class log
 					'U_ALBUM_LINK'	=> $var['album'] != 0 ? $this->helper->route('phpbbgallery_core_album', array('album_id'	=> $var['album'])) : false,
 					'U_IMAGE_LINK'	=> $var['image'] != 0 ? $this->helper->route('phpbbgallery_core_image', array('image_id'	=> $var['image'])) : false,
 					//'U_LOG_ACTION'	=> $description,
-					'U_LOG_ACTION'	=> $description = $this->user->lang($var['description'][0], isset($var['description'][1]) ? $var['description'][1] : false, isset($var['description'][2]) ? $var['description'][2] : false, isset($var['description'][3]) ? $var['description'][3] : false),
+					'U_LOG_ACTION'	=> $description = $this->language->lang($var['description'][0], isset($var['description'][1]) ? $var['description'][1] : false, isset($var['description'][2]) ? $var['description'][2] : false, isset($var['description'][3]) ? $var['description'][3] : false),
 					'U_TIME'		=> $this->user->format_date($var['time']),
 				));
 			}
 		}
 		$this->template->assign_vars(array(
 			'S_HAS_LOGS' => $count > 0 ? true : false,
-			'TOTAL_PAGES'	=> $this->user->lang('PAGE_TITLE_NUMBER', $page),
+			'TOTAL_PAGES'	=> $this->language->lang('PAGE_TITLE_NUMBER', $page),
 		));
 		// Here we do some routes magic
 		if ($album == 0)

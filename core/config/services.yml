@@ -248,6 +248,7 @@ services:
         arguments:
             - '@dbal.conn'
             - '@user'
+            - '@log'
             - '@user_loader'
             - '@template'
             - '@controller.helper'
