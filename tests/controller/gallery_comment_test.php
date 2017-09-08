@@ -226,7 +226,7 @@ class gallery_comment_test extends controller_base
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
 		$this->assertEquals('200', $response->getStatusCode());
 	}
-	public function test_for_add_do_submit_no_comment()
+	public function inact_test_for_add_do_submit_no_comment()
 	{
 		$this->request->method('variable')
 			->willReturn(true);
@@ -300,22 +300,4 @@ class gallery_comment_test extends controller_base
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
 		$this->assertEquals('200', $response->getStatusCode());
 	}
-}
-/**
- * Mock check_form_key()
- * Note: use the same namespace as the admin_input
- *
- * @return bool
- */
-function check_form_key()
-{
-	//return \phpbb\ads\controller\admin_input_test::$valid_form;
-}
-/**
- * Mock add_form_key()
- * Note: use the same namespace as the admin_input
- */
-function add_form_key()
-{
-	die('error');
 }
