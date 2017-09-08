@@ -261,6 +261,7 @@ class controller_base extends \phpbb_database_test_case
 		$this->gallery_image = new \phpbbgallery\core\image\image(
 			$this->db,
 			$this->user,
+			$this->language,
 			$this->template,
 			$this->phpbb_dispatcher,
 			$this->gallery_auth,

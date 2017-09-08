@@ -12,6 +12,60 @@ namespace phpbbgallery\core\image;
 
 class image
 {
+	/** @var \phpbb\db\driver\driver_interface  */
+	protected $db;
+
+	/** @var \phpbb\user  */
+	protected $user;
+
+	/** @var \phpbb\language\language  */
+	protected $language;
+
+	/** @var \phpbb\template\template  */
+	protected $template;
+
+	/** @var \phpbb\event\dispatcher_interface  */
+	protected $phpbb_dispatcher;
+
+	/** @var \phpbbgallery\core\auth\auth  */
+	protected $gallery_auth;
+
+	/** @var \phpbbgallery\core\album\album  */
+	protected $album;
+
+	/** @var \phpbbgallery\core\config  */
+	protected $gallery_config;
+
+	/** @var \phpbb\controller\helper  */
+	protected $helper;
+
+	/** @var \phpbbgallery\core\url  */
+	protected $url;
+
+	/** @var \phpbbgallery\core\log  */
+	protected $gallery_log;
+
+	/** @var \phpbbgallery\core\notification\helper  */
+	protected $notification_helper;
+
+	/** @var \phpbbgallery\core\cache  */
+	protected $gallery_cache;
+
+	/** @var \phpbbgallery\core\report  */
+	protected $gallery_report;
+
+	/** @var \phpbbgallery\core\user  */
+	protected $gallery_user;
+
+	/** @var \phpbbgallery\core\contest  */
+	protected $contest;
+
+	/** @var \phpbbgallery\core\file\file  */
+	protected $file;
+
+	/** @var   */
+	protected $table_images;
+
 	const IMAGE_SHOW_IP = 128;
 	const IMAGE_SHOW_RATINGS = 64;
 	const IMAGE_SHOW_USERNAME = 32;
@@ -26,6 +80,7 @@ class image
 	 *
 	 * @param \phpbb\db\driver\driver_interface      $db
 	 * @param \phpbb\user                            $user
+	 * @param \phpbb\language\language               $language
 	 * @param \phpbb\template\template               $template
 	 * @param \phpbb\event\dispatcher_interface      $phpbb_dispatcher
 	 * @param \phpbbgallery\core\auth\auth           $gallery_auth
@@ -42,14 +97,17 @@ class image
 	 * @param \phpbbgallery\core\file\file           $file
 	 * @param                                        $table_images
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\template\template $template, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\album\album $album,
-								\phpbbgallery\core\config $gallery_config, \phpbb\controller\helper $helper, \phpbbgallery\core\url $url, \phpbbgallery\core\log $gallery_log,
-								\phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\report $report, \phpbbgallery\core\cache $gallery_cache,
-								\phpbbgallery\core\user $gallery_user, \phpbbgallery\core\contest $contest,\phpbbgallery\core\file\file $file,
-								$table_images)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\language\language $language,
+		\phpbb\template\template $template, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbbgallery\core\auth\auth $gallery_auth,
+		\phpbbgallery\core\album\album $album, \phpbbgallery\core\config $gallery_config, \phpbb\controller\helper $helper,
+		\phpbbgallery\core\url $url, \phpbbgallery\core\log $gallery_log, \phpbbgallery\core\notification\helper $notification_helper,
+		\phpbbgallery\core\report $report, \phpbbgallery\core\cache $gallery_cache, \phpbbgallery\core\user $gallery_user,
+		\phpbbgallery\core\contest $contest,\phpbbgallery\core\file\file $file,
+		$table_images)
 	{
 		$this->db = $db;
 		$this->user = $user;
+		$this->language = $language;
 		$this->template = $template;
 		$this->phpbb_dispatcher = $phpbb_dispatcher;
 		$this->gallery_auth = $gallery_auth;
@@ -619,10 +677,10 @@ class image
 			'POSTER'		=> $show_username ? get_username_string('full', $image_data['image_user_id'], $image_data['image_username'], $image_data['image_user_colour']) : false,
 			'TIME'			=> $show_time ? $this->user->format_date($image_data['image_time']) : false,
 
-			'S_RATINGS'		=> ($this->gallery_config->get('allow_rates') == 1 && $show_ratings) ? ($image_data['image_rates'] > 0 ? $image_data['image_rate_avg'] / 100 : $this->user->lang('NOT_RATED')) : false,
+			'S_RATINGS'		=> ($this->gallery_config->get('allow_rates') == 1 && $show_ratings) ? ($image_data['image_rates'] > 0 ? $image_data['image_rate_avg'] / 100 : $this->language->lang('NOT_RATED')) : false,
 			'U_RATINGS'		=> $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_data['image_id'])) . '#rating',
-			'L_COMMENTS'	=> ($image_data['image_comments'] == 1) ? $this->user->lang['COMMENT'] : $this->user->lang['COMMENTS'],
-			'S_COMMENTS'	=> $show_comments ? (($this->gallery_config->get('allow_comments') && $this->gallery_auth->acl_check('c_read', $image_data['image_album_id'], $image_data['album_user_id'])) ? (($image_data['image_comments']) ? $image_data['image_comments'] : $this->user->lang['NO_COMMENTS']) : '') : false,
+			'L_COMMENTS'	=> ($image_data['image_comments'] == 1) ? $this->language->lang('COMMENT') : $this->language->lang('COMMENTS'),
+			'S_COMMENTS'	=> $show_comments ? (($this->gallery_config->get('allow_comments') && $this->gallery_auth->acl_check('c_read', $image_data['image_album_id'], $image_data['album_user_id'])) ? (($image_data['image_comments']) ? $image_data['image_comments'] : $this->language->lang('NO_COMMENTS')) : '') : false,
 			'U_COMMENTS'	=> $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_data['image_id'])) . '#comments',
 			'U_USER_IP'		=> $show_ip && $this->gallery_auth->acl_check('m_status', $image_data['image_album_id'], $image_data['album_user_id']) ? $image_data['image_user_ip'] : false,
 
@@ -635,7 +693,7 @@ class image
 
 			'U_REPORT'	=> ($this->gallery_auth->acl_check('m_report', $image_data['image_album_id'], $image_data['album_user_id']) && $image_data['image_reported']) ? '123'/*$this->url->append_sid('mcp', "mode=report_details&amp;album_id={$image_data['image_album_id']}&amp;option_id=" . $image_data['image_reported'])*/ : '',
 			'U_STATUS'	=> '',//($this->auth->acl_check('m_status', $image_data['image_album_id'], $album_user_id)) ? $phpbb_ext_gallery->url->append_sid('mcp', "mode=queue_details&amp;album_id={$image_data['image_album_id']}&amp;option_id=" . $image_data['image_id']) : '',
-			'L_STATUS'	=> ($image_data['image_status'] == \phpbbgallery\core\block::STATUS_UNAPPROVED) ? $this->user->lang['APPROVE_IMAGE'] : (($image_data['image_status'] == \phpbbgallery\core\block::STATUS_APPROVED) ? $this->user->lang['CHANGE_IMAGE_STATUS'] : $this->user->lang['UNLOCK_IMAGE']),
+			'L_STATUS'	=> ($image_data['image_status'] == \phpbbgallery\core\block::STATUS_UNAPPROVED) ? $this->language->lang('APPROVE_IMAGE') : (($image_data['image_status'] == \phpbbgallery\core\block::STATUS_APPROVED) ? $this->language->lang('CHANGE_IMAGE_STATUS') : $this->language->lang('UNLOCK_IMAGE')),
 		));
 	}
 }

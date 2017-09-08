@@ -126,6 +126,7 @@ class core_image_test extends core_base
 		$this->image = new \phpbbgallery\core\image\image(
 			$this->db,
 			$this->user,
+			$this->language,
 			$this->template,
 			$this->dispatcher,
 			$this->gallery_auth,

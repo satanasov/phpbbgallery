@@ -121,6 +121,7 @@ services:
         arguments:
             - '@dbal.conn'
             - '@user'
+            - '@language'
             - '@template'
             - '@dispatcher'
             - '@phpbbgallery.core.auth'

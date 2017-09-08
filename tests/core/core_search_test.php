@@ -52,11 +52,6 @@ class core_search_test extends core_base
 			'phpbb_gallery_users',
 			'phpbb_gallery_albums'
 		);
-		$this->gallery_image = $this->getMockBuilder('\phpbbgallery\core\image\image')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->gallery_image->method('get_status_orphan')
-			->willReturn(3);
 
 		$this->gallery_config = new \phpbbgallery\core\config(
 			$this->config
@@ -129,6 +124,7 @@ class core_search_test extends core_base
 		$this->gallery_image = new \phpbbgallery\core\image\image(
 			$this->db,
 			$this->user,
+			$this->language,
 			$this->template,
 			$this->dispatcher,
 			$this->gallery_auth,
@@ -296,7 +292,7 @@ class core_search_test extends core_base
 					'TIME' => null,
 					'S_RATINGS' => 10,
 					'U_RATINGS' => 'phpbbgallery_core_image#rating',
-					'L_COMMENTS' => null,
+					'L_COMMENTS' => 'COMMENT',
 					'S_COMMENTS' => 1,
 					'U_COMMENTS' => 'phpbbgallery_core_image#comments',
 					'U_USER_IP' => false,
@@ -308,7 +304,7 @@ class core_search_test extends core_base
 					'S_STATUS_LOCKED' => false,
 					'U_REPORT' => '',
 					'U_STATUS' => '',
-					'L_STATUS' => null,
+					'L_STATUS' => 'CHANGE_IMAGE_STATUS',
 				)
 			),
 			'173'	=> array(
@@ -329,7 +325,7 @@ class core_search_test extends core_base
 					'TIME' => null,
 					'S_RATINGS' => false,
 					'U_RATINGS' => 'phpbbgallery_core_image#rating',
-					'L_COMMENTS' => null,
+					'L_COMMENTS' => 'COMMENT',
 					'S_COMMENTS' => false,
 					'U_COMMENTS' => 'phpbbgallery_core_image#comments',
 					'U_USER_IP' => false,
@@ -341,7 +337,7 @@ class core_search_test extends core_base
 					'S_STATUS_LOCKED' => false,
 					'U_REPORT' => '',
 					'U_STATUS' => '',
-					'L_STATUS' => null,
+					'L_STATUS' => 'CHANGE_IMAGE_STATUS',
 				)
 			),
 		/*	'128'	=> array(
@@ -362,7 +358,7 @@ class core_search_test extends core_base
 					'TIME' => false,
 					'S_RATINGS' => false,
 					'U_RATINGS' => 'phpbbgallery_core_image#rating',
-					'L_COMMENTS' => null,
+					'L_COMMENTS' => 'COMMENT',
 					'S_COMMENTS' => false,
 					'U_COMMENTS' => 'phpbbgallery_core_image#comments',
 					'U_USER_IP' => '127.0.0.1',
@@ -374,7 +370,7 @@ class core_search_test extends core_base
 					'S_STATUS_LOCKED' => false,
 					'U_REPORT' => '',
 					'U_STATUS' => '',
-					'L_STATUS' => null,
+					'L_STATUS' => 'CHANGE_IMAGE_STATUS',
 				)
 			), Skip 128 as auth witll not allow admin IDin */
 			'64'	=> array(
@@ -395,7 +391,7 @@ class core_search_test extends core_base
 					'TIME' => false,
 					'S_RATINGS' => 10,
 					'U_RATINGS' => 'phpbbgallery_core_image#rating',
-					'L_COMMENTS' => null,
+					'L_COMMENTS' => 'COMMENT',
 					'S_COMMENTS' => false,
 					'U_COMMENTS' => 'phpbbgallery_core_image#comments',
 					'U_USER_IP' => false,
@@ -407,7 +403,7 @@ class core_search_test extends core_base
 					'S_STATUS_LOCKED' => false,
 					'U_REPORT' => '',
 					'U_STATUS' => '',
-					'L_STATUS' => null,
+					'L_STATUS' => 'CHANGE_IMAGE_STATUS',
 				)
 			),
 			'32'	=> array(
@@ -428,7 +424,7 @@ class core_search_test extends core_base
 					'TIME' => false,
 					'S_RATINGS' => false,
 					'U_RATINGS' => 'phpbbgallery_core_image#rating',
-					'L_COMMENTS' => null,
+					'L_COMMENTS' => 'COMMENT',
 					'S_COMMENTS' => false,
 					'U_COMMENTS' => 'phpbbgallery_core_image#comments',
 					'U_USER_IP' => false,
@@ -440,7 +436,7 @@ class core_search_test extends core_base
 					'S_STATUS_LOCKED' => false,
 					'U_REPORT' => '',
 					'U_STATUS' => '',
-					'L_STATUS' => null,
+					'L_STATUS' => 'CHANGE_IMAGE_STATUS',
 				)
 			),
 			'16'	=> array(
@@ -461,7 +457,7 @@ class core_search_test extends core_base
 					'TIME' => false,
 					'S_RATINGS' => false,
 					'U_RATINGS' => 'phpbbgallery_core_image#rating',
-					'L_COMMENTS' => null,
+					'L_COMMENTS' => 'COMMENT',
 					'S_COMMENTS' => false,
 					'U_COMMENTS' => 'phpbbgallery_core_image#comments',
 					'U_USER_IP' => false,
@@ -473,7 +469,7 @@ class core_search_test extends core_base
 					'S_STATUS_LOCKED' => false,
 					'U_REPORT' => '',
 					'U_STATUS' => '',
-					'L_STATUS' => null,
+					'L_STATUS' => 'CHANGE_IMAGE_STATUS',
 				)
 			),
 			'8'	=> array(
@@ -494,7 +490,7 @@ class core_search_test extends core_base
 					'TIME' => null,
 					'S_RATINGS' => false,
 					'U_RATINGS' => 'phpbbgallery_core_image#rating',
-					'L_COMMENTS' => null,
+					'L_COMMENTS' => 'COMMENT',
 					'S_COMMENTS' => false,
 					'U_COMMENTS' => 'phpbbgallery_core_image#comments',
 					'U_USER_IP' => false,
@@ -506,7 +502,7 @@ class core_search_test extends core_base
 					'S_STATUS_LOCKED' => false,
 					'U_REPORT' => '',
 					'U_STATUS' => '',
-					'L_STATUS' => null,
+					'L_STATUS' => 'CHANGE_IMAGE_STATUS',
 				)
 			),
 			'4'	=> array(
@@ -527,7 +523,7 @@ class core_search_test extends core_base
 					'TIME' => false,
 					'S_RATINGS' => false,
 					'U_RATINGS' => 'phpbbgallery_core_image#rating',
-					'L_COMMENTS' => null,
+					'L_COMMENTS' => 'COMMENT',
 					'S_COMMENTS' => false,
 					'U_COMMENTS' => 'phpbbgallery_core_image#comments',
 					'U_USER_IP' => false,
@@ -539,7 +535,7 @@ class core_search_test extends core_base
 					'S_STATUS_LOCKED' => false,
 					'U_REPORT' => '',
 					'U_STATUS' => '',
-					'L_STATUS' => null,
+					'L_STATUS' => 'CHANGE_IMAGE_STATUS',
 				)
 			),
 			'2'	=> array(
@@ -560,7 +556,7 @@ class core_search_test extends core_base
 					'TIME' => false,
 					'S_RATINGS' => false,
 					'U_RATINGS' => 'phpbbgallery_core_image#rating',
-					'L_COMMENTS' => null,
+					'L_COMMENTS' => 'COMMENT',
 					'S_COMMENTS' => 1,
 					'U_COMMENTS' => 'phpbbgallery_core_image#comments',
 					'U_USER_IP' => false,
@@ -572,7 +568,7 @@ class core_search_test extends core_base
 					'S_STATUS_LOCKED' => false,
 					'U_REPORT' => '',
 					'U_STATUS' => '',
-					'L_STATUS' => null,
+					'L_STATUS' => 'CHANGE_IMAGE_STATUS',
 				)
 			),
 			'1'	=> array(
@@ -593,7 +589,7 @@ class core_search_test extends core_base
 					'TIME' => false,
 					'S_RATINGS' => false,
 					'U_RATINGS' => 'phpbbgallery_core_image#rating',
-					'L_COMMENTS' => null,
+					'L_COMMENTS' => 'COMMENT',
 					'S_COMMENTS' => false,
 					'U_COMMENTS' => 'phpbbgallery_core_image#comments',
 					'U_USER_IP' => false,
@@ -605,7 +601,7 @@ class core_search_test extends core_base
 					'S_STATUS_LOCKED' => false,
 					'U_REPORT' => '',
 					'U_STATUS' => '',
-					'L_STATUS' => null,
+					'L_STATUS' => 'CHANGE_IMAGE_STATUS',
 				)
 			),
 			'0'	=> array(
@@ -626,7 +622,7 @@ class core_search_test extends core_base
 					'TIME' => false,
 					'S_RATINGS' => false,
 					'U_RATINGS' => 'phpbbgallery_core_image#rating',
-					'L_COMMENTS' => null,
+					'L_COMMENTS' => 'COMMENT',
 					'S_COMMENTS' => false,
 					'U_COMMENTS' => 'phpbbgallery_core_image#comments',
 					'U_USER_IP' => false,
@@ -638,7 +634,7 @@ class core_search_test extends core_base
 					'S_STATUS_LOCKED' => false,
 					'U_REPORT' => '',
 					'U_STATUS' => '',
-					'L_STATUS' => null,
+					'L_STATUS' => 'CHANGE_IMAGE_STATUS',
 				)
 			),
 		);
@@ -811,7 +807,7 @@ class core_search_test extends core_base
 					'TIME' => null,
 					'S_RATINGS' => false,
 					'U_RATINGS' => 'phpbbgallery_core_image#rating',
-					'L_COMMENTS' => null,
+					'L_COMMENTS' => 'COMMENT',
 					'S_COMMENTS' => false,
 					'U_COMMENTS' => 'phpbbgallery_core_image#comments',
 					'U_USER_IP' => false,
@@ -823,7 +819,7 @@ class core_search_test extends core_base
 					'S_STATUS_LOCKED' => false,
 					'U_REPORT' => '',
 					'U_STATUS' => '',
-					'L_STATUS' => null,
+					'L_STATUS' => 'CHANGE_IMAGE_STATUS',
 				))
 			);
 		$this->gallery_search->recent(1, 0, 53, 'rrc_gindex_display', 'recent');
@@ -865,7 +861,7 @@ class core_search_test extends core_base
 					'TIME' => null,
 					'S_RATINGS' => false,
 					'U_RATINGS' => 'phpbbgallery_core_image#rating',
-					'L_COMMENTS' => null,
+					'L_COMMENTS' => 'COMMENT',
 					'S_COMMENTS' => false,
 					'U_COMMENTS' => 'phpbbgallery_core_image#comments',
 					'U_USER_IP' => false,
@@ -877,7 +873,7 @@ class core_search_test extends core_base
 					'S_STATUS_LOCKED' => false,
 					'U_REPORT' => '',
 					'U_STATUS' => '',
-					'L_STATUS' => null,
+					'L_STATUS' => 'CHANGE_IMAGE_STATUS',
 				))
 			);
 		$this->gallery_search->random(1, 53, 'rrc_profile_display', 'random');
@@ -919,7 +915,7 @@ class core_search_test extends core_base
 					'TIME' => null,
 					'S_RATINGS' => false,
 					'U_RATINGS' => 'phpbbgallery_core_image#rating',
-					'L_COMMENTS' => null,
+					'L_COMMENTS' => 'COMMENT',
 					'S_COMMENTS' => false,
 					'U_COMMENTS' => 'phpbbgallery_core_image#comments',
 					'U_USER_IP' => false,
@@ -931,7 +927,7 @@ class core_search_test extends core_base
 					'S_STATUS_LOCKED' => false,
 					'U_REPORT' => '',
 					'U_STATUS' => '',
-					'L_STATUS' => null,
+					'L_STATUS' => 'CHANGE_IMAGE_STATUS',
 				))
 			);
 		$this->gallery_search->recent(1, 0, 53, 'rrc_gindex_display', 'recent');
@@ -973,7 +969,7 @@ class core_search_test extends core_base
 					'TIME' => null,
 					'S_RATINGS' => false,
 					'U_RATINGS' => 'phpbbgallery_core_image#rating',
-					'L_COMMENTS' => null,
+					'L_COMMENTS' => 'COMMENT',
 					'S_COMMENTS' => false,
 					'U_COMMENTS' => 'phpbbgallery_core_image#comments',
 					'U_USER_IP' => false,
@@ -985,7 +981,7 @@ class core_search_test extends core_base
 					'S_STATUS_LOCKED' => false,
 					'U_REPORT' => '',
 					'U_STATUS' => '',
-					'L_STATUS' => null,
+					'L_STATUS' => 'CHANGE_IMAGE_STATUS',
 				))
 			);
 		$this->gallery_search->random(1, 53, 'rrc_profile_display', 'random');
