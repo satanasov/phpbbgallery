@@ -509,7 +509,7 @@ class gallery_index_test extends controller_base
 
 	/**
 	* Test RRC Gallery Index Mode to show Recent images
-	* rrc_ginde_mode -> 1
+	* rrc_gindex_mode -> 1
 	*/
 	public function test_controller_base_case_4()
 	{
@@ -661,6 +661,7 @@ class gallery_index_test extends controller_base
 			);
 		$this->gallery_config->set('rrc_gindex_mode', 1);
 		$this->gallery_config->set('pegas_index_rct_count', 1);
+		$this->gallery_config->set('default_sort_key', 't');
 		$controller = $this->get_controller(2, 5, true);
 		$response = $controller->base();
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
