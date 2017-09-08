@@ -121,13 +121,13 @@ class main_listener implements EventSubscriberInterface
 		}
 		if ($recent)
 		{
-			$block_name	= $this->user->lang['RECENT_IMAGES'];
+			$block_name	= $this->language->lang('RECENT_IMAGES');
 			$u_block = ' ';
 			$this->gallery_search->recent($this->gallery_config->get('rrc_profile_items'), -1, $event['member']['user_id'], 'rrc_profile_display', $block_name, $u_block);
 		}
 		if ($random)
 		{
-			$block_name	= $this->user->lang['RANDOM_IMAGES'];
+			$block_name	= $this->language->lang('RANDOM_IMAGES');
 			$u_block = ' ';
 			$this->gallery_search->random($this->gallery_config->get('rrc_profile_items'), $event['member']['user_id'], 'rrc_profile_display', $block_name, $u_block);
 		}
