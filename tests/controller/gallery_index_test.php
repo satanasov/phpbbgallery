@@ -558,7 +558,7 @@ class gallery_index_test extends controller_base
 						'S_UNREAD' => false,
 					)),
 					array('imageblock', array(
-						'BLOCK_NAME' => null,
+						'BLOCK_NAME' => 'RECENT_IMAGES',
 						'U_BLOCK' => 'phpbbgallery_core_search_recent'
 					)),
 					array('imageblock.image', array(

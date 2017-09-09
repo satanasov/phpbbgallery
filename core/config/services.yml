@@ -213,6 +213,7 @@ services:
             - '@dbal.conn'
             - '@template'
             - '@user'
+            - '@language'
             - '@controller.helper'
             - '@phpbbgallery.core.config'
             - '@phpbbgallery.core.auth'

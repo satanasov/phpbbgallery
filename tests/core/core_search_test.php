@@ -149,6 +149,7 @@ class core_search_test extends core_base
 			$this->db,
 			$this->template,
 			$this->user,
+			$this->language,
 			$this->controller_helper,
 			$this->gallery_config,
 			$this->gallery_auth,

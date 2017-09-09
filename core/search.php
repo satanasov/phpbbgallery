@@ -38,19 +38,20 @@ class search
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\db\driver\driver|\phpbb\db\driver\driver_interface $db Database object
-	 * @param \phpbb\template\template $template Template object
-	 * @param \phpbb\user $user User object
-	 * @param \phpbb\controller\helper $helper Controller helper object
-	 * @param config $gallery_config
-	 * @param auth\auth $gallery_auth
-	 * @param album\album $album
-	 * @param image\image $image
-	 * @param \phpbb\pagination $pagination
-	 * @param \phpbb\user_loader $user_loader
-	 * @param $images_table
-	 * @param $albums_table
-	 * @param $comments_table
+	 * @param \phpbb\db\driver\driver|\phpbb\db\driver\driver_interface $db       Database object
+	 * @param \phpbb\template\template                                  $template Template object
+	 * @param \phpbb\user                                               $user     User object
+	 * @param \phpbb\language\language                                  $language
+	 * @param \phpbb\controller\helper                                  $helper   Controller helper object
+	 * @param config                                                    $gallery_config
+	 * @param auth\auth                                                 $gallery_auth
+	 * @param album\album                                               $album
+	 * @param image\image                                               $image
+	 * @param \phpbb\pagination                                         $pagination
+	 * @param \phpbb\user_loader                                        $user_loader
+	 * @param                                                           $images_table
+	 * @param                                                           $albums_table
+	 * @param                                                           $comments_table
 	 * @internal param \phpbb\auth\auth $auth Auth object
 	 * @internal param \phpbb\config\config $config Config object
 	 * @internal param \phpbb\request\request $request Request object
@@ -58,14 +59,16 @@ class search
 	 * @internal param string $root_path Root path
 	 * @internal param string $php_ext php file extension
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper,
-	\phpbbgallery\core\config $gallery_config, 	\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\album\album $album,
-	\phpbbgallery\core\image\image $image, \phpbb\pagination $pagination, \phpbb\user_loader $user_loader,
-	$images_table, $albums_table, $comments_table)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\user $user,
+		\phpbb\language\language $language, \phpbb\controller\helper $helper, \phpbbgallery\core\config $gallery_config,
+		\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\album\album $album, \phpbbgallery\core\image\image $image,
+		\phpbb\pagination $pagination, \phpbb\user_loader $user_loader,
+		$images_table, $albums_table, $comments_table)
 	{
 		$this->db = $db;
 		$this->template = $template;
 		$this->user = $user;
+		$this->language = $language;
 		$this->helper = $helper;
 		$this->gallery_config = $gallery_config;
 		$this->gallery_auth = $gallery_auth;
@@ -151,10 +154,10 @@ class search
 
 		$total_match_count = sizeof($id_ary);
 
-		$l_search_matches = $this->user->lang('FOUND_SEARCH_MATCHES', $total_match_count);
+		$l_search_matches = $this->language->lang('FOUND_SEARCH_MATCHES', $total_match_count);
 
 		$this->template->assign_block_vars('imageblock', array(
-			'BLOCK_NAME'	=> $block_name ? $block_name : $this->user->lang['RANDOM_IMAGES'],
+			'BLOCK_NAME'	=> $block_name ? $block_name : $this->language->lang('RANDOM_IMAGES'),
 			'U_BLOCK'	=> $u_block ? $u_block : $this->helper->route('phpbbgallery_core_search_random'),
 		));
 
@@ -162,7 +165,7 @@ class search
 		if (!sizeof($id_ary))
 		{
 			$this->template->assign_block_vars('imageblock', array(
-				'ERROR'	=> $this->user->lang('NO_SEARCH_RESULTS_RANDOM'),
+				'ERROR'	=> $this->language->lang('NO_SEARCH_RESULTS_RANDOM'),
 			));
 			return;
 		}
@@ -285,7 +288,7 @@ class search
 		if (empty($rowset))
 		{
 			$this->template->assign_vars(array(
-				'ERROR'	=> $this->user->lang('NO_SEARCH_RESULTS_RECENT_COMMENTS'),
+				'ERROR'	=> $this->language->lang('NO_SEARCH_RESULTS_RECENT_COMMENTS'),
 			));
 			return;
 		}
@@ -312,8 +315,8 @@ class search
 			));
 		}
 		$this->template->assign_vars(array(
-			'SEARCH_MATCHES'	=> $this->user->lang('TOTAL_COMMENTS_SPRINTF', $count),
-			'SEARCH_TITLE'		=> $this->user->lang('RECENT_COMMENTS'),
+			'SEARCH_MATCHES'	=> $this->language->lang('TOTAL_COMMENTS_SPRINTF', $count),
+			'SEARCH_TITLE'		=> $this->language->lang('RECENT_COMMENTS'),
 		));
 		$this->pagination->generate_template_pagination(array(
 			'routes' => array(
@@ -417,7 +420,7 @@ class search
 
 		$total_match_count = sizeof($id_ary);
 
-		$l_search_matches = $this->user->lang('FOUND_SEARCH_MATCHES', $total_match_count);
+		$l_search_matches = $this->language->lang('FOUND_SEARCH_MATCHES', $total_match_count);
 
 		if ($user > 0)
 		{
@@ -429,7 +432,7 @@ class search
 		else
 		{
 			$this->template->assign_block_vars('imageblock', array(
-				'BLOCK_NAME'	=>  $block_name ? $block_name : $this->user->lang['RECENT_IMAGES'],
+				'BLOCK_NAME'	=>  $block_name ? $block_name : $this->language->lang('RECENT_IMAGES'),
 				'U_BLOCK'	=> $u_block ? $u_block : $this->helper->route('phpbbgallery_core_search_recent'),
 			));
 		}
@@ -438,7 +441,7 @@ class search
 		if (!sizeof($id_ary))
 		{
 			$this->template->assign_block_vars('imageblock', array(
-				'ERROR'	=> $this->user->lang('NO_SEARCH_RESULTS_RECENT')
+				'ERROR'	=> $this->language->lang('NO_SEARCH_RESULTS_RECENT')
 			));
 			return;
 		}
@@ -475,8 +478,8 @@ class search
 		if ($user > 0)
 		{
 			$this->template->assign_vars(array(
-				'SEARCH_MATCHES'	=> $this->user->lang('TOTAL_IMAGES_SPRINTF', $count),
-				'SEARCH_TITLE'		=> $this->user->lang('SEARCH_USER_IMAGES_OF', $this->user->data['username']),
+				'SEARCH_MATCHES'	=> $this->language->lang('TOTAL_IMAGES_SPRINTF', $count),
+				'SEARCH_TITLE'		=> $this->language->lang('SEARCH_USER_IMAGES_OF', $this->user->data['username']),
 			));
 			$this->pagination->generate_template_pagination(array(
 				'routes' => array(
@@ -488,7 +491,7 @@ class search
 		else
 		{
 			$this->template->assign_vars(array(
-				'TOTAL_IMAGES'				=> $this->user->lang('VIEW_ALBUM_IMAGES', $count),
+				'TOTAL_IMAGES'				=> $this->language->lang('VIEW_ALBUM_IMAGES', $count),
 			));
 			if ($pagination)
 			{
@@ -546,7 +549,7 @@ class search
 		}
 
 		$this->template->assign_block_vars('imageblock', array(
-			'BLOCK_NAME'	=> $this->user->lang['SEARCH_TOPRATED'],
+			'BLOCK_NAME'	=> $this->language->lang('SEARCH_TOPRATED'),
 			'U_BLOCK'	=> $this->helper->route('phpbbgallery_core_search_toprated'),
 		));
 		$this->user_loader->load_users(array_keys($users_array));
@@ -560,8 +563,8 @@ class search
 		}
 
 		$this->template->assign_vars(array(
-			'SEARCH_MATCHES'	=> $this->user->lang('TOTAL_IMAGES_SPRINTF', $count),
-			'SEARCH_TITLE'		=> $this->user->lang('SEARCH_TOPRATED'),
+			'SEARCH_MATCHES'	=> $this->language->lang('TOTAL_IMAGES_SPRINTF', $count),
+			'SEARCH_TITLE'		=> $this->language->lang('SEARCH_TOPRATED'),
 		));
 		$this->pagination->generate_template_pagination(array(
 			'routes' => array(
