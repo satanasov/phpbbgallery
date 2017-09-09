@@ -17,18 +17,20 @@ class misc
 	 *
 	 * @param \phpbb\db\driver\driver_interface $db
 	 * @param \phpbb\user                       $user
+	 * @param \phpbb\language\language          $language
 	 * @param \phpbb\config\config              $config
 	 * @param \phpbbgallery\core\config         $gallery_config
-	 * @param \phpbbgallery\core\user			$gallery_user
-	 * @param \phpbbgallery\core\url			$url
+	 * @param \phpbbgallery\core\user           $gallery_user
+	 * @param \phpbbgallery\core\url            $url
 	 * @param                                   $track_table
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\config\config $config,
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\language\language $language, \phpbb\config\config $config,
 								   \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\url $url,
 								   $track_table)
 	{
 		$this->db = $db;
 		$this->user = $user;
+		$this->language = $language;
 		$this->config = $config;
 		$this->gallery_config = $gallery_config;
 		$this->gallery_user = $gallery_user;
