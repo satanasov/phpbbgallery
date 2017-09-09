@@ -58,27 +58,29 @@ class upload
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\user $user phpBB User class
+	 * @param \phpbb\user                       $user           phpBB User class
+	 * @param \phpbb\language\language          $language
 	 * @param \phpbb\db\driver\driver_interface $db
 	 * @param \phpbb\event\dispatcher_interface $phpbb_dispatcher
-	 * @param \phpbb\request\request $request
-	 * @param \phpbbgallery\core\image\image $gallery_image
-	 * @param \phpbbgallery\core\config $gallery_config Gallery Config
-	 * @param \phpbbgallery\core\url $gallery_url Gallery url
-	 * @param block $block
-	 * @param file\file $gallery_file
+	 * @param \phpbb\request\request            $request
+	 * @param \phpbb\files\upload               $file_upload
+	 * @param \phpbbgallery\core\image\image    $gallery_image
+	 * @param \phpbbgallery\core\config         $gallery_config Gallery Config
+	 * @param \phpbbgallery\core\url            $gallery_url    Gallery url
+	 * @param block                             $block
+	 * @param file\file                         $gallery_file
 	 * @param                                   $images_table
 	 * @param                                   $root_path
 	 * @param                                   $php_ext
 	 */
-	public function __construct(\phpbb\user $user, \phpbb\db\driver\driver_interface $db, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbb\request\request $request,
-								\phpbb\files\upload $file_upload,
-								\phpbbgallery\core\image\image $gallery_image, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\url $gallery_url, \phpbbgallery\core\block $block,
-								\phpbbgallery\core\file\file $gallery_file,
-								$images_table,
-								$root_path, $php_ext)
+	public function __construct(\phpbb\user $user, \phpbb\language\language $language, \phpbb\db\driver\driver_interface $db,
+		\phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbb\request\request $request, \phpbb\files\upload $file_upload,
+		\phpbbgallery\core\image\image $gallery_image, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\url $gallery_url,
+		\phpbbgallery\core\block $block, \phpbbgallery\core\file\file $gallery_file,
+		$images_table, $root_path, $php_ext)
 	{
 		$this->user = $user;
+		$this->language = $language;
 		$this->db = $db;
 		$this->phpbb_dispatcher = $phpbb_dispatcher;
 		$this->request = $request;
@@ -172,7 +174,7 @@ class upload
 		if (!empty($this->zip_file->error))
 		{
 			$this->zip_file->remove();
-			$this->new_error($this->user->lang('UPLOAD_ERROR', $this->zip_file->get('uploadname'), implode('<br />&raquo; ', $this->zip_file->error)));
+			$this->new_error($this->language->lang('UPLOAD_ERROR', $this->zip_file->get('uploadname'), implode('<br />&raquo; ', $this->zip_file->error)));
 			return false;
 		}
 
@@ -221,7 +223,7 @@ class upload
 					$this->file = $this->file_upload->handle_upload('files.types.local', $current_dir . $file, $file_info);
 					if ($this->file->error)
 					{
-						$this->new_error($this->user->lang('UPLOAD_ERROR', $this->file->get('uploadname'), implode('<br />&raquo; ', $this->file->error)));
+						$this->new_error($this->language->lang('UPLOAD_ERROR', $this->file->get('uploadname'), implode('<br />&raquo; ', $this->file->error)));
 					}
 					$image_id = $this->prepare_file();
 
@@ -234,7 +236,7 @@ class upload
 					{
 						if ($this->file->error)
 						{
-							$this->new_error($this->user->lang('UPLOAD_ERROR', $this->file->get('uploadname'), implode('<br />&raquo; ', $this->file->error)));
+							$this->new_error($this->language->lang('UPLOAD_ERROR', $this->file->get('uploadname'), implode('<br />&raquo; ', $this->file->error)));
 						}
 					}
 				}
@@ -266,7 +268,7 @@ class upload
 	{
 		if ($this->file_limit && ($this->uploaded_files >= $this->file_limit))
 		{
-			$this->new_error($this->user->lang('UPLOAD_ERROR', $this->image_data[$image_id]['image_name'], $this->user->lang['QUOTA_REACHED']));
+			$this->new_error($this->language->lang('UPLOAD_ERROR', $this->image_data[$image_id]['image_name'], $this->language->lang('QUOTA_REACHED')));
 			return false;
 		}
 		$this->file_count = (int) $this->array_id2row[$image_id];
@@ -366,7 +368,7 @@ class upload
 		if (!empty($this->file->error))
 		{
 			$this->file->remove();
-			$this->new_error($this->user->lang('UPLOAD_ERROR', $this->file->get('uploadname'), implode('<br />&raquo; ', $this->file->error)));
+			$this->new_error($this->language->lang('UPLOAD_ERROR', $this->file->get('uploadname'), implode('<br />&raquo; ', $this->file->error)));
 			return false;
 		}
 		@chmod($this->file->get('destination_file'), 0655);
@@ -413,7 +415,7 @@ class upload
 			else
 			{
 				$this->file->remove();
-				$this->new_error($this->user->lang('UPLOAD_ERROR', $this->file->get('uploadname'), $this->user->lang['UPLOAD_IMAGE_SIZE_TOO_BIG']));
+				$this->new_error($this->language->lang('UPLOAD_ERROR', $this->file->get('uploadname'), $this->language->lang('UPLOAD_IMAGE_SIZE_TOO_BIG')));
 				return false;
 			}
 		}
@@ -421,7 +423,7 @@ class upload
 		if ($this->file->get('filesize') > (1.2 * $this->max_filesize))
 		{
 			$this->file->remove();
-			$this->new_error($this->user->lang('UPLOAD_ERROR', $this->file->get('uploadname'), $this->user->lang['BAD_UPLOAD_FILE_SIZE']));
+			$this->new_error($this->language->lang('UPLOAD_ERROR', $this->file->get('uploadname'), $this->language->lang('BAD_UPLOAD_FILE_SIZE')));
 			return false;
 		}
 
@@ -566,7 +568,7 @@ class upload
 		{
 			return;
 		}
-		$this->new_error($this->user->lang('USER_REACHED_QUOTA_SHORT', $this->file_limit));
+		$this->new_error($this->language->lang('USER_REACHED_QUOTA_SHORT', $this->file_limit));
 		$this->sent_quota_error = true;
 	}
 
@@ -703,23 +705,23 @@ class upload
 		$extensions = $types = array();
 		if ($this->gallery_config->get('allow_jpg'))
 		{
-			$types[] = $this->user->lang['FILETYPES_JPG'];
+			$types[] = $this->language->lang('FILETYPES_JPG');
 			$extensions[] = 'jpg';
 			$extensions[] = 'jpeg';
 		}
 		if ($this->gallery_config->get('allow_gif'))
 		{
-			$types[] = $this->user->lang['FILETYPES_GIF'];
+			$types[] = $this->language->lang('FILETYPES_GIF');
 			$extensions[] = 'gif';
 		}
 		if ($this->gallery_config->get('allow_png'))
 		{
-			$types[] = $this->user->lang['FILETYPES_PNG'];
+			$types[] = $this->language->lang('FILETYPES_PNG');
 			$extensions[] = 'png';
 		}
 		if (!$ignore_zip && $this->gallery_config->get('allow_zip'))
 		{
-			$types[] = $this->user->lang['FILETYPES_ZIP'];
+			$types[] = $this->language->lang('FILETYPES_ZIP');
 			$extensions[] = 'zip';
 		}
 

@@ -273,6 +273,7 @@ services:
         class: phpbbgallery\core\upload
         arguments:
             - '@user'
+            - '@language'
             - '@dbal.conn'
             - '@dispatcher'
             - '@request'
