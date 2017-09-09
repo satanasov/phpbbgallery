@@ -311,6 +311,7 @@ class controller_base extends \phpbb_database_test_case
 			$this->db,
 			$this->template,
 			$this->user,
+			$this->language,
 			$this->request,
 			$this->gallery_config,
 			$this->gallery_auth,

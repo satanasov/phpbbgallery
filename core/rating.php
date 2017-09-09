@@ -51,23 +51,27 @@ class rating
 
 	/**
 	 * Constructor
+	 *
 	 * @param \phpbb\db\driver\driver_interface $db
-	 * @param \phpbb\template\template $template
-	 * @param \phpbb\user $user
-	 * @param \phpbb\request\request $request
-	 * @param config $gallery_config
-	 * @param auth\auth $gallery_auth
-	 * @param $images_table
-	 * @param $albums_table
-	 * @param $rates_table
+	 * @param \phpbb\template\template          $template
+	 * @param \phpbb\user                       $user
+	 * @param \phpbb\language\language          $language
+	 * @param \phpbb\request\request            $request
+	 * @param config                            $gallery_config
+	 * @param auth\auth                         $gallery_auth
+	 * @param                                   $images_table
+	 * @param                                   $albums_table
+	 * @param                                   $rates_table
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\user $user, \phpbb\request\request $request,
-	\phpbbgallery\core\config $gallery_config, \phpbbgallery\core\auth\auth $gallery_auth,
-	$images_table, $albums_table, $rates_table)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\user $user,
+		\phpbb\language\language $language, \phpbb\request\request $request, \phpbbgallery\core\config $gallery_config,
+		\phpbbgallery\core\auth\auth $gallery_auth,
+		$images_table, $albums_table, $rates_table)
 	{
 		$this->db = $db;
 		$this->template = $template;
 		$this->user = $user;
+		$this->language = $language;
 		$this->request = $request;
 		$this->gallery_config = $gallery_config;
 		$this->gallery_auth = $gallery_auth;
@@ -209,17 +213,17 @@ class rating
 				{
 					if (!$display_contest_end)
 					{
-						return $this->user->lang['CONTEST_RATING_HIDDEN'];
+						return $this->language->lang('CONTEST_RATING_HIDDEN');
 					}
-					return $this->user->lang('CONTEST_RESULT_HIDDEN', $this->user->format_date(($this->album_data('contest_start') + $this->album_data('contest_end')), false, true));
+					return $this->language->lang('CONTEST_RESULT_HIDDEN', $this->user->format_date(($this->album_data('contest_start') + $this->album_data('contest_end')), false, true));
 				}
 				else
 				{
 					if ($user_rating)
 					{
-						return $this->user->lang('RATING_STRINGS_USER', (int) $this->image_data('image_rates'), $this->get_image_rating_value(), $user_rating);
+						return $this->language->lang('RATING_STRINGS_USER', (int) $this->image_data('image_rates'), $this->get_image_rating_value(), $user_rating);
 					}
-					return $this->user->lang('RATING_STRINGS', (int) $this->image_data('image_rates'), $this->get_image_rating_value());
+					return $this->language->lang('RATING_STRINGS', (int) $this->image_data('image_rates'), $this->get_image_rating_value());
 				}
 			break;
 		}
