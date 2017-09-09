@@ -159,6 +159,7 @@ services:
             - '@phpbbgallery.core.log'
             - '@phpbbgallery.core.auth'
             - '@user'
+            - '@language'
             - '@dbal.conn'
             - '@user_loader'
             - '@phpbbgallery.core.album'

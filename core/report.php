@@ -21,14 +21,16 @@ class report
 	const OPEN = 1;
 	const LOCKED = 2;
 
-	public function __construct(\phpbbgallery\core\log $gallery_log, \phpbbgallery\core\auth\auth $gallery_auth, \phpbb\user $user, \phpbb\db\driver\driver_interface $db,
-	\phpbb\user_loader $user_loader, \phpbbgallery\core\album\album $album, \phpbb\template\template $template, \phpbb\controller\helper $helper,
-	\phpbbgallery\core\config $gallery_config, \phpbb\pagination $pagination, \phpbbgallery\core\notification\helper $notification_helper,
-	$images_table, $reports_table)
+	public function __construct(\phpbbgallery\core\log $gallery_log, \phpbbgallery\core\auth\auth $gallery_auth, \phpbb\user $user,
+		\phpbb\language\language $language, \phpbb\db\driver\driver_interface $db,	\phpbb\user_loader $user_loader,
+		\phpbbgallery\core\album\album $album, \phpbb\template\template $template, \phpbb\controller\helper $helper,
+		\phpbbgallery\core\config $gallery_config, \phpbb\pagination $pagination, \phpbbgallery\core\notification\helper $notification_helper,
+		$images_table, $reports_table)
 	{
 		$this->gallery_log = $gallery_log;
 		$this->gallery_auth = $gallery_auth;
 		$this->user = $user;
+		$this->language;
 		$this->db = $db;
 		$this->user_loader = $user_loader;
 		$this->album = $album;
@@ -322,7 +324,7 @@ class report
 			$reported_images_count ++;
 		}
 		$this->template->assign_vars(array(
-			'TOTAL_IMAGES_REPORTED' => $status == 1 ? $this->user->lang('WAITING_REPORTED_IMAGE', (int) $count) : $this->user->lang('WAITING_REPORTED_DONE', (int) $count),
+			'TOTAL_IMAGES_REPORTED' => $status == 1 ? $this->language->lang('WAITING_REPORTED_IMAGE', (int) $count) : $this->language->lang('WAITING_REPORTED_DONE', (int) $count),
 			'S_GALLERY_REPORT_ACTION'	=> $status == 1 ? ($album > 0 ? $this->helper->route('phpbbgallery_core_moderate_reports_album', array('album_id' => $album)) : $this->helper->route('phpbbgallery_core_moderate_reports')) : false,
 		));
 		if ($album === 0)
@@ -336,7 +338,7 @@ class report
 				),
 			), 'pagination', 'page', $count, $per_page, $page * $per_page);
 			$this->template->assign_vars(array(
-				'TOTAL_PAGES'				=> $this->user->lang('PAGE_TITLE_NUMBER', $page + 1),
+				'TOTAL_PAGES'				=> $this->language->lang('PAGE_TITLE_NUMBER', $page + 1),
 			));
 		}
 		else
@@ -351,7 +353,7 @@ class report
 				),
 			), 'pagination', 'page', $count, $per_page, $page * $per_page);
 			$this->template->assign_vars(array(
-				'TOTAL_PAGES'				=> $this->user->lang('PAGE_TITLE_NUMBER', $page + 1),
+				'TOTAL_PAGES'				=> $this->language->lang('PAGE_TITLE_NUMBER', $page + 1),
 			));
 		}
 	}

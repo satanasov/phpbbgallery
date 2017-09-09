@@ -98,6 +98,7 @@ class core_search_test extends core_base
 			$this->log,
 			$this->gallery_auth,
 			$this->user,
+			$this->language,
 			$this->db,
 			$this->user_loader,
 			$this->gallery_album,

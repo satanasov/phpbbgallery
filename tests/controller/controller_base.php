@@ -233,6 +233,7 @@ class controller_base extends \phpbb_database_test_case
 			$this->log,
 			$this->gallery_auth,
 			$this->user,
+			$this->language,
 			$this->db,
 			$this->user_loader,
 			$this->gallery_album,

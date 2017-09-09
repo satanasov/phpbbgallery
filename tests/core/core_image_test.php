@@ -101,6 +101,7 @@ class core_image_test extends core_base
 			$this->log,
 			$this->gallery_auth,
 			$this->user,
+			$this->language,
 			$this->db,
 			$this->user_loader,
 			$this->album,
