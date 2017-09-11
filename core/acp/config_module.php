@@ -31,8 +31,8 @@ class config_module
 		global $request, $config;
 
 		$phpbb_gallery_url = $phpbb_container->get('phpbbgallery.core.url');
-		$this->lang = $phpbb_container->get('language');
-		$this->lang->add_lang(array('gallery', 'gallery_acp'), 'phpbbgallery/core');
+		$this->language = $phpbb_container->get('language');
+		$this->language->add_lang(array('gallery', 'gallery_acp'), 'phpbbgallery/core');
 
 		$submit = (isset($_POST['submit'])) ? true : false;
 		$form_key = 'acp_time';
@@ -58,7 +58,7 @@ class config_module
 		validate_config_vars($vars['vars'], $cfg_array, $error);
 		if ($submit && !check_form_key($form_key))
 		{
-			$error[] = $user->lang['FORM_INVALID'];
+			$error[] = $this->language->lang('FORM_INVALID');
 		}
 
 		// Do not write values if there is an error
@@ -190,15 +190,15 @@ class config_module
 		if ($submit)
 		{
 			$cache->destroy('sql', CONFIG_TABLE);
-			trigger_error($user->lang['GALLERY_CONFIG_UPDATED'] . adm_back_link($this->u_action));
+			trigger_error($this->language->lang('GALLERY_CONFIG_UPDATED') . adm_back_link($this->u_action));
 		}
 
 		$this->tpl_name = 'acp_board';
 		$this->page_title = $vars['title'];
 
 		$template->assign_vars(array(
-			'L_TITLE'			=> $user->lang[$vars['title']],
-			'L_TITLE_EXPLAIN'	=> $user->lang[$vars['title'] . '_EXPLAIN'],
+			'L_TITLE'			=> $this->language->lang($vars['title']),
+			'L_TITLE_EXPLAIN'	=> $this->language->lang($vars['title'] . '_EXPLAIN'),
 
 			'S_ERROR'			=> (sizeof($error)) ? true : false,
 			'ERROR_MSG'			=> implode('<br />', $error),
@@ -218,21 +218,26 @@ class config_module
 			{
 				$template->assign_block_vars('options', array(
 					'S_LEGEND'		=> true,
-					'LEGEND'		=> (isset($user->lang[$vars])) ? $user->lang[$vars] : $vars)
+					'LEGEND'		=> ($this->language->lang($vars)) ? $this->language->lang($vars) : $vars)
 				);
 
 				continue;
 			}
+
 			if (isset($vars['append']))
 			{
-			    if (is_array($user->lang[$vars['append']]))
-                {
-                    $vars['append'] = (isset($user->lang[$vars['append']])) ? ' ' . substr($this->lang->lang($vars['append'], 0), 1) : $vars['append'];
-                }
-                else
-                {
-                    $vars['append'] = (isset($user->lang[$vars['append']])) ? ' ' . $this->lang->lang($vars['append']) : $vars['append'];
-                }
+				//var_dump(count($this->language->lang_array($vars['append'])));
+				$langs_var = $this->language->lang_raw($vars['append']);
+				//var_dump($langs_var);
+				if (count($langs_var) > 1)
+				{
+					$vars['append'] = ' ' . substr($this->language->lang($vars['append'], 0), 1);
+				}
+				else
+				{
+					$vars['append'] = ' ' . $this->language->lang($vars['append']);
+				}
+				//$vars['append'] = ' ' . $this->language->lang($vars['append']);
 			}
 
 			$this->new_config[$config_key] = $phpbb_gallery_configs->get($config_key);
@@ -243,7 +248,7 @@ class config_module
 			//$this->var_display($vars);
 			if (isset($vars['explain']))
 			{
-				$l_explain = (isset($user->lang[$vars['lang'] . '_EXP'])) ? $user->lang[$vars['lang'] . '_EXP'] : '';
+				$l_explain = $this->language->lang($vars['lang'] . '_EXP') ? $this->language->lang($vars['lang'] . '_EXP') : '';
 			}
 
 			$content = build_cfg_template($type, $config_key, $this->new_config, $config_key, $vars);
@@ -255,7 +260,7 @@ class config_module
 
 			$template->assign_block_vars('options', array(
 				'KEY'			=> $config_key,
-				'TITLE'			=> (isset($user->lang[$vars['lang']])) ? $user->lang[$vars['lang']] : $vars['lang'],
+				'TITLE'			=> $this->language->lang($vars['lang']) ? $this->language->lang($vars['lang']) : $vars['lang'],
 				'S_EXPLAIN'		=> (isset($vars['explain']) ? $vars['explain'] : ''),
 				'TITLE_EXPLAIN'	=> $l_explain,
 				'CONTENT'		=> $content,
@@ -446,12 +451,13 @@ class config_module
 	 */
 	function disabled_boolean($value, $key)
 	{
-		global $user;
+		global $user, $phpbb_container;
+		$this->language = $phpbb_container->get('language');
 
 		$tpl = '';
 
-		$tpl .= "<label><input type=\"radio\" name=\"config[$key]\" value=\"1\" disabled=\"disabled\" class=\"radio\" /> " . $user->lang['YES'] . '</label>';
-		$tpl .= "<label><input type=\"radio\" id=\"$key\" name=\"config[$key]\" value=\"0\" checked=\"checked\" disabled=\"disabled\"  class=\"radio\" /> " . $user->lang['NO'] . '</label>';
+		$tpl .= "<label><input type=\"radio\" name=\"config[$key]\" value=\"1\" disabled=\"disabled\" class=\"radio\" /> " . $this->language->lang('YES') . '</label>';
+		$tpl .= "<label><input type=\"radio\" id=\"$key\" name=\"config[$key]\" value=\"0\" checked=\"checked\" disabled=\"disabled\"  class=\"radio\" /> " . $this->language->lang('NO') . '</label>';
 
 		return $tpl;
 	}
@@ -464,18 +470,19 @@ class config_module
 	 */
 	function sort_method_select($value, $key)
 	{
-		global $user;
+		global $user, $phpbb_container;
+		$this->language = $phpbb_container->get('language');
 
 		$sort_method_options = '';
 
-		$sort_method_options .= '<option' . (($value == 't') ? ' selected="selected"' : '') . " value='t'>" . $user->lang['TIME'] . '</option>';
-		$sort_method_options .= '<option' . (($value == 'n') ? ' selected="selected"' : '') . " value='n'>" . $user->lang['IMAGE_NAME'] . '</option>';
-		$sort_method_options .= '<option' . (($value == 'vc') ? ' selected="selected"' : '') . " value='vc'>" . $user->lang['GALLERY_VIEWS'] . '</option>';
-		$sort_method_options .= '<option' . (($value == 'u') ? ' selected="selected"' : '') . " value='u'>" . $user->lang['USERNAME'] . '</option>';
-		$sort_method_options .= '<option' . (($value == 'ra') ? ' selected="selected"' : '') . " value='ra'>" . $user->lang['RATING'] . '</option>';
-		$sort_method_options .= '<option' . (($value == 'r') ? ' selected="selected"' : '') . " value='r'>" . $user->lang['RATES_COUNT'] . '</option>';
-		$sort_method_options .= '<option' . (($value == 'c') ? ' selected="selected"' : '') . " value='c'>" . $user->lang['COMMENTS'] . '</option>';
-		$sort_method_options .= '<option' . (($value == 'lc') ? ' selected="selected"' : '') . " value='lc'>" . $user->lang['NEW_COMMENT'] . '</option>';
+		$sort_method_options .= '<option' . (($value == 't') ? ' selected="selected"' : '') . " value='t'>" . $this->language->lang('TIME') . '</option>';
+		$sort_method_options .= '<option' . (($value == 'n') ? ' selected="selected"' : '') . " value='n'>" . $this->language->lang('IMAGE_NAME') . '</option>';
+		$sort_method_options .= '<option' . (($value == 'vc') ? ' selected="selected"' : '') . " value='vc'>" . $this->language->lang('GALLERY_VIEWS') . '</option>';
+		$sort_method_options .= '<option' . (($value == 'u') ? ' selected="selected"' : '') . " value='u'>" . $this->language->lang('USERNAME') . '</option>';
+		$sort_method_options .= '<option' . (($value == 'ra') ? ' selected="selected"' : '') . " value='ra'>" . $this->language->lang('RATING') . '</option>';
+		$sort_method_options .= '<option' . (($value == 'r') ? ' selected="selected"' : '') . " value='r'>" . $this->language->lang('RATES_COUNT') . '</option>';
+		$sort_method_options .= '<option' . (($value == 'c') ? ' selected="selected"' : '') . " value='c'>" . $this->language->lang('COMMENTS') . '</option>';
+		$sort_method_options .= '<option' . (($value == 'lc') ? ' selected="selected"' : '') . " value='lc'>" . $this->language->lang('NEW_COMMENT') . '</option>';
 
 		return "<select name=\"config[$key]\" id=\"$key\">$sort_method_options</select>";
 	}
@@ -488,12 +495,13 @@ class config_module
 	 */
 	function sort_order_select($value, $key)
 	{
-		global $user;
+		global $user, $phpbb_container;
+		$this->language = $phpbb_container->get('language');
 
 		$sort_order_options = '';
 
-		$sort_order_options .= '<option' . (($value == 'd') ? ' selected="selected"' : '') . " value='d'>" . $user->lang['SORT_DESCENDING'] . '</option>';
-		$sort_order_options .= '<option' . (($value == 'a') ? ' selected="selected"' : '') . " value='a'>" . $user->lang['SORT_ASCENDING'] . '</option>';
+		$sort_order_options .= '<option' . (($value == 'd') ? ' selected="selected"' : '') . " value='d'>" . $this->language->lang('SORT_DESCENDING') . '</option>';
+		$sort_order_options .= '<option' . (($value == 'a') ? ' selected="selected"' : '') . " value='a'>" . $this->language->lang('SORT_ASCENDING') . '</option>';
 
 		return "<select name=\"config[$key]\" id=\"$key\">$sort_order_options</select>";
 	}
@@ -527,9 +535,10 @@ class config_module
 	 */
 	function watermark_source($value, $key)
 	{
-		global $user;
+		global $user, $phpbb_container;
+		$this->language = $phpbb_container->get('language');
 
-		return generate_board_url() . "<br /><input type=\"text\" name=\"config[$key]\" id=\"$key\" value=\"$value\" size =\"40\" maxlength=\"125\" /><br /><img src=\"" . generate_board_url() . "/$value\" alt=\"" . $user->lang['WATERMARK'] . "\" />";
+		return generate_board_url() . "<br /><input type=\"text\" name=\"config[$key]\" id=\"$key\" value=\"$value\" size =\"40\" maxlength=\"125\" /><br /><img src=\"" . generate_board_url() . "/$value\" alt=\"" . $this->language->lang('WATERMARK') . "\" />";
 	}
 
 	/**
@@ -540,19 +549,21 @@ class config_module
 	 */
 	function watermark_position($value, $key)
 	{
-		global $user;
+		global $user, $phpbb_container;
+
+		$this->language = $phpbb_container->get('language');
 
 		$phpbb_ext_gallery_core_constants = new \phpbbgallery\core\constants();
 
 		$x_position_options = $y_position_options = '';
 
-		$x_position_options .= '<option' . (($value & $phpbb_ext_gallery_core_constants::WATERMARK_TOP) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_constants::WATERMARK_TOP . "'>" . $user->lang['WATERMARK_POSITION_TOP'] . '</option>';
-		$x_position_options .= '<option' . (($value & $phpbb_ext_gallery_core_constants::WATERMARK_MIDDLE) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_constants::WATERMARK_MIDDLE . "'>" . $user->lang['WATERMARK_POSITION_MIDDLE'] . '</option>';
-		$x_position_options .= '<option' . (($value & $phpbb_ext_gallery_core_constants::WATERMARK_BOTTOM) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_constants::WATERMARK_BOTTOM . "'>" . $user->lang['WATERMARK_POSITION_BOTTOM'] . '</option>';
+		$x_position_options .= '<option' . (($value & $phpbb_ext_gallery_core_constants::WATERMARK_TOP) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_constants::WATERMARK_TOP . "'>" . $this->language->lang('WATERMARK_POSITION_TOP') . '</option>';
+		$x_position_options .= '<option' . (($value & $phpbb_ext_gallery_core_constants::WATERMARK_MIDDLE) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_constants::WATERMARK_MIDDLE . "'>" . $this->language->lang('WATERMARK_POSITION_MIDDLE') . '</option>';
+		$x_position_options .= '<option' . (($value & $phpbb_ext_gallery_core_constants::WATERMARK_BOTTOM) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_constants::WATERMARK_BOTTOM . "'>" . $this->language->lang('WATERMARK_POSITION_BOTTOM') . '</option>';
 
-		$y_position_options .= '<option' . (($value & $phpbb_ext_gallery_core_constants::WATERMARK_LEFT) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_constants::WATERMARK_LEFT . "'>" . $user->lang['WATERMARK_POSITION_LEFT'] . '</option>';
-		$y_position_options .= '<option' . (($value & $phpbb_ext_gallery_core_constants::WATERMARK_CENTER) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_constants::WATERMARK_CENTER . "'>" . $user->lang['WATERMARK_POSITION_CENTER'] . '</option>';
-		$y_position_options .= '<option' . (($value & $phpbb_ext_gallery_core_constants::WATERMARK_RIGHT) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_constants::WATERMARK_RIGHT . "'>" . $user->lang['WATERMARK_POSITION_RIGHT'] . '</option>';
+		$y_position_options .= '<option' . (($value & $phpbb_ext_gallery_core_constants::WATERMARK_LEFT) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_constants::WATERMARK_LEFT . "'>" . $this->language->lang('WATERMARK_POSITION_LEFT') . '</option>';
+		$y_position_options .= '<option' . (($value & $phpbb_ext_gallery_core_constants::WATERMARK_CENTER) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_constants::WATERMARK_CENTER . "'>" . $this->language->lang('WATERMARK_POSITION_CENTER') . '</option>';
+		$y_position_options .= '<option' . (($value & $phpbb_ext_gallery_core_constants::WATERMARK_RIGHT) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_constants::WATERMARK_RIGHT . "'>" . $this->language->lang('WATERMARK_POSITION_RIGHT') . '</option>';
 
 		// Cheating is an evil-thing, but most times it's successful, that's why it is used.
 		return "<input type='hidden' name='config[$key]' value='$value' /><select name='" . $key . "_x' id='" . $key . "_x'>$x_position_options</select><select name='" . $key . "_y' id='" . $key . "_y'>$y_position_options</select>";
@@ -566,23 +577,24 @@ class config_module
 	 */
 	function uc_select($value, $key)
 	{
-		global $user;
+		global $user, $phpbb_container;
+		$this->language = $phpbb_container->get('language');
 
 		$sort_order_options = '';//phpbb_gallery_plugins::uc_select($value, $key);
 
 		if ($key != 'link_imagepage')
 		{
-			$sort_order_options .= '<option' . (($value == 'image_page') ? ' selected="selected"' : '') . " value='image_page'>" . $user->lang['UC_LINK_IMAGE_PAGE'] . '</option>';
+			$sort_order_options .= '<option' . (($value == 'image_page') ? ' selected="selected"' : '') . " value='image_page'>" . $this->language->lang('UC_LINK_IMAGE_PAGE') . '</option>';
 		}
 		else
 		{
-			$sort_order_options .= '<option' . (($value == 'next') ? ' selected="selected"' : '') . " value='next'>" . $user->lang['UC_LINK_NEXT'] . '</option>';
+			$sort_order_options .= '<option' . (($value == 'next') ? ' selected="selected"' : '') . " value='next'>" . $this->language->lang('UC_LINK_NEXT') . '</option>';
 		}
-		$sort_order_options .= '<option' . (($value == 'image') ? ' selected="selected"' : '') . " value='image'>" . $user->lang['UC_LINK_IMAGE'] . '</option>';
-		$sort_order_options .= '<option' . (($value == 'none') ? ' selected="selected"' : '') . " value='none'>" . $user->lang['UC_LINK_NONE'] . '</option>';
+		$sort_order_options .= '<option' . (($value == 'image') ? ' selected="selected"' : '') . " value='image'>" . $this->language->lang('UC_LINK_IMAGE') . '</option>';
+		$sort_order_options .= '<option' . (($value == 'none') ? ' selected="selected"' : '') . " value='none'>" . $this->language->lang('UC_LINK_NONE') . '</option>';
 
 		return "<select name='config[$key]' id='$key'>$sort_order_options</select>"
-			. (($key == 'link_thumbnail') ? '<br /><input class="checkbox" type="checkbox" name="update_bbcode" id="update_bbcode" value="update_bbcode" /><label for="update_bbcode">' .  $user->lang['UPDATE_BBCODE'] . '</label>' : '');
+			. (($key == 'link_thumbnail') ? '<br /><input class="checkbox" type="checkbox" name="update_bbcode" id="update_bbcode" value="update_bbcode" /><label for="update_bbcode">' .  $this->language->lang('UPDATE_BBCODE') . '</label>' : '');
 	}
 
 	/**
@@ -596,15 +608,16 @@ class config_module
 		global $user, $phpbb_container;
 
 		$phpbb_ext_gallery_core_block = $phpbb_container->get('phpbbgallery.core.block');
+		$this->language = $phpbb_container->get('language');
 
 		$rrc_mode_options = '';
 
-		$rrc_mode_options .= "<option value='" . $phpbb_ext_gallery_core_block::MODE_NONE . "'>" . $user->lang['RRC_MODE_NONE'] . '</option>';
-		$rrc_mode_options .= '<option' . (($value & $phpbb_ext_gallery_core_block::MODE_RECENT) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_block::MODE_RECENT . "'>" . $user->lang['RRC_MODE_RECENT'] . '</option>';
-		$rrc_mode_options .= '<option' . (($value & $phpbb_ext_gallery_core_block::MODE_RANDOM) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_block::MODE_RANDOM . "'>" . $user->lang['RRC_MODE_RANDOM'] . '</option>';
+		$rrc_mode_options .= "<option value='" . $phpbb_ext_gallery_core_block::MODE_NONE . "'>" . $this->language->lang('RRC_MODE_NONE') . '</option>';
+		$rrc_mode_options .= '<option' . (($value & $phpbb_ext_gallery_core_block::MODE_RECENT) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_block::MODE_RECENT . "'>" . $this->language->lang('RRC_MODE_RECENT') . '</option>';
+		$rrc_mode_options .= '<option' . (($value & $phpbb_ext_gallery_core_block::MODE_RANDOM) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_block::MODE_RANDOM . "'>" . $this->language->lang('RRC_MODE_RANDOM') . '</option>';
 		if ($key != 'rrc_profile_mode')
 		{
-			$rrc_mode_options .= '<option' . (($value & $phpbb_ext_gallery_core_block::MODE_COMMENT) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_block::MODE_COMMENT . "'>" . $user->lang['RRC_MODE_COMMENTS'] . '</option>';
+			$rrc_mode_options .= '<option' . (($value & $phpbb_ext_gallery_core_block::MODE_COMMENT) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_block::MODE_COMMENT . "'>" . $this->language->lang('RRC_MODE_COMMENTS') . '</option>';
 		}
 
 		// Cheating is an evil-thing, but most times it's successful, that's why it is used.
@@ -622,18 +635,19 @@ class config_module
 		global $user, $phpbb_container;
 		// Init gallery block class
 		$phpbb_ext_gallery_core_block = $phpbb_container->get('phpbbgallery.core.block');
+		$this->language = $phpbb_container->get('language');
 
 		$rrc_display_options = '';
 
-		$rrc_display_options .= "<option value='" . $phpbb_ext_gallery_core_block::DISPLAY_NONE . "'>" . $user->lang['RRC_DISPLAY_NONE'] . '</option>';
-		$rrc_display_options .= '<option' . (($value & $phpbb_ext_gallery_core_block::DISPLAY_ALBUMNAME) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_block::DISPLAY_ALBUMNAME . "'>" . $user->lang['RRC_DISPLAY_ALBUMNAME'] . '</option>';
-		$rrc_display_options .= '<option' . (($value & $phpbb_ext_gallery_core_block::DISPLAY_COMMENTS) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_block::DISPLAY_COMMENTS . "'>" . $user->lang['RRC_DISPLAY_COMMENTS'] . '</option>';
-		$rrc_display_options .= '<option' . (($value & $phpbb_ext_gallery_core_block::DISPLAY_IMAGENAME) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_block::DISPLAY_IMAGENAME . "'>" . $user->lang['RRC_DISPLAY_IMAGENAME'] . '</option>';
-		$rrc_display_options .= '<option' . (($value & $phpbb_ext_gallery_core_block::DISPLAY_IMAGETIME) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_block::DISPLAY_IMAGETIME . "'>" . $user->lang['RRC_DISPLAY_IMAGETIME'] . '</option>';
-		$rrc_display_options .= '<option' . (($value & $phpbb_ext_gallery_core_block::DISPLAY_IMAGEVIEWS) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_block::DISPLAY_IMAGEVIEWS . "'>" . $user->lang['RRC_DISPLAY_IMAGEVIEWS'] . '</option>';
-		$rrc_display_options .= '<option' . (($value & $phpbb_ext_gallery_core_block::DISPLAY_USERNAME) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_block::DISPLAY_USERNAME . "'>" . $user->lang['RRC_DISPLAY_USERNAME'] . '</option>';
-		$rrc_display_options .= '<option' . (($value & $phpbb_ext_gallery_core_block::DISPLAY_RATINGS) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_block::DISPLAY_RATINGS . "'>" . $user->lang['RRC_DISPLAY_RATINGS'] . '</option>';
-		$rrc_display_options .= '<option' . (($value & $phpbb_ext_gallery_core_block::DISPLAY_IP) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_block::DISPLAY_IP . "'>" . $user->lang['RRC_DISPLAY_IP'] . '</option>';
+		$rrc_display_options .= "<option value='" . $phpbb_ext_gallery_core_block::DISPLAY_NONE . "'>" . $this->language->lang('RRC_DISPLAY_NONE') . '</option>';
+		$rrc_display_options .= '<option' . (($value & $phpbb_ext_gallery_core_block::DISPLAY_ALBUMNAME) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_block::DISPLAY_ALBUMNAME . "'>" . $this->language->lang('RRC_DISPLAY_ALBUMNAME') . '</option>';
+		$rrc_display_options .= '<option' . (($value & $phpbb_ext_gallery_core_block::DISPLAY_COMMENTS) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_block::DISPLAY_COMMENTS . "'>" . $this->language->lang('RRC_DISPLAY_COMMENTS') . '</option>';
+		$rrc_display_options .= '<option' . (($value & $phpbb_ext_gallery_core_block::DISPLAY_IMAGENAME) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_block::DISPLAY_IMAGENAME . "'>" . $this->language->lang('RRC_DISPLAY_IMAGENAME') . '</option>';
+		$rrc_display_options .= '<option' . (($value & $phpbb_ext_gallery_core_block::DISPLAY_IMAGETIME) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_block::DISPLAY_IMAGETIME . "'>" . $this->language->lang('RRC_DISPLAY_IMAGETIME') . '</option>';
+		$rrc_display_options .= '<option' . (($value & $phpbb_ext_gallery_core_block::DISPLAY_IMAGEVIEWS) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_block::DISPLAY_IMAGEVIEWS . "'>" . $this->language->lang('RRC_DISPLAY_IMAGEVIEWS') . '</option>';
+		$rrc_display_options .= '<option' . (($value & $phpbb_ext_gallery_core_block::DISPLAY_USERNAME) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_block::DISPLAY_USERNAME . "'>" . $this->language->lang('RRC_DISPLAY_USERNAME') . '</option>';
+		$rrc_display_options .= '<option' . (($value & $phpbb_ext_gallery_core_block::DISPLAY_RATINGS) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_block::DISPLAY_RATINGS . "'>" . $this->language->lang('RRC_DISPLAY_RATINGS') . '</option>';
+		$rrc_display_options .= '<option' . (($value & $phpbb_ext_gallery_core_block::DISPLAY_IP) ? ' selected="selected"' : '') . " value='" . $phpbb_ext_gallery_core_block::DISPLAY_IP . "'>" . $this->language->lang('RRC_DISPLAY_IP') . '</option>';
 
 		// Cheating is an evil-thing, but most times it's successful, that's why it is used.
 		return "<input type='hidden' name='config[$key]' value='$value' /><select name='" . $key . "[]' multiple='multiple' id='$key'>$rrc_display_options</select>";
