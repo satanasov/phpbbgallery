@@ -24,7 +24,7 @@ class gallery_logs_module
 
 		$this->language = $phpbb_container->get('language');
 
-		$user->add_lang(array('info_acp_gallery_logs'), 'phpbbgallery/core');
+		$this->language->add_lang(array('info_acp_gallery_logs'), 'phpbbgallery/core');
 		$this->tpl_name = 'gallery_logs';
 		add_form_key('acp_logs');
 		$page = $request->variable('page', 0);
