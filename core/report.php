@@ -30,7 +30,7 @@ class report
 		$this->gallery_log = $gallery_log;
 		$this->gallery_auth = $gallery_auth;
 		$this->user = $user;
-		$this->language;
+		$this->language = $language;
 		$this->db = $db;
 		$this->user_loader = $user_loader;
 		$this->album = $album;
