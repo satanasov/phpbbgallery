@@ -22,9 +22,11 @@ class main_module
 		global $user, $language;
 		global $request, $phpbb_container, $gallery_url;
 
+		$this->language = $phpbb_container->get('language');
+
 		$gallery_url = $phpbb_container->get('phpbbgallery.core.url');
 
-		$user->add_lang_ext('phpbbgallery/core', array('gallery_acp', 'gallery'));
+		$this->language->add_lang(array('gallery_acp', 'gallery'), 'phpbbgallery/core');
 		$this->tpl_name = 'gallery_main';
 		add_form_key('acp_gallery');
 		$submode = $request->variable('submode', '');
@@ -33,7 +35,7 @@ class main_module
 		{
 			case 'overview':
 				$title = 'ACP_GALLERY_OVERVIEW';
-				$this->page_title = $user->lang[$title];
+				$this->page_title = $this->language->lang($title);
 
 				$this->overview();
 			break;
@@ -49,6 +51,7 @@ class main_module
 		global $auth, $config, $db, $template, $user, $table_prefix, $phpbb_root_path;
 		global $phpbb_container, $request, $gallery_url;
 
+		$this->language = $phpbb_container->get('language');
 		$phpbbgallery_core_file = $phpbb_root_path . 'files/phpbbgallery/core';
 		$phpbbgallery_core_file_medium = $phpbb_root_path . 'files/phpbbgallery/core/medium';
 		$phpbbgallery_core_file_mini = $phpbb_root_path . 'files/phpbbgallery/core/mini';
@@ -81,43 +84,43 @@ class main_module
 		if (!is_writable($phpbb_root_path . 'files'))
 		{
 			$template->assign_vars(array(
-				'U_FILE_DIR_STATE'	=> $user->lang['NO_WRITE_ACCESS'],
+				'U_FILE_DIR_STATE'	=> $this->language->lang('NO_WRITE_ACCESS'),
 				'U_FILE_DIR_STATE_ERROR'	=> 1,
-				'U_CORE_DIR_STATE'	=>  $user->lang['NO_WRITE_ACCESS'],
+				'U_CORE_DIR_STATE'	=>  $this->language->lang('NO_WRITE_ACCESS'),
 				'U_CORE_DIR_STATE_ERROR'	=> 1,
-				'U_MEDIUM_DIR_STATE'	=>  $user->lang['NO_WRITE_ACCESS'],
+				'U_MEDIUM_DIR_STATE'	=>  $this->language->lang('NO_WRITE_ACCESS'),
 				'U_MEDIUM_DIR_STATE_ERROR'	=> 1,
-				'U_MINI_DIR_STATE'	=>  $user->lang['NO_WRITE_ACCESS'],
+				'U_MINI_DIR_STATE'	=>  $this->language->lang('NO_WRITE_ACCESS'),
 				'U_MINI_DIR_STATE_ERROR'	=> 1,
-				'U_SOURCE_DIR_STATE'	=>  $user->lang['NO_WRITE_ACCESS'],
+				'U_SOURCE_DIR_STATE'	=>  $this->language->lang('NO_WRITE_ACCESS'),
 				'U_SOURCE_DIR_STATE_ERROR'	=> 1,
 			));
 		}
 		else
 		{
 			$template->assign_vars(array(
-				'U_FILE_DIR_STATE'	=>  $user->lang['WRITE_ACCESS'],
+				'U_FILE_DIR_STATE'	=>  $this->language->lang('WRITE_ACCESS'),
 				'U_FILE_DIR_STATE_ERROR'	=> 0,
 			));
 			if (!file_exists($phpbbgallery_core_file))
 			{
 				mkdir($phpbbgallery_core_file, 0755, true);
 				$template->assign_vars(array(
-					'U_CORE_DIR_STATE'	=>  $user->lang['DIR_CREATED'],
+					'U_CORE_DIR_STATE'	=>  $this->language->lang('DIR_CREATED'),
 					'U_CORE_DIR_STATE_ERROR'	=> 0,
 				));
 			}
 			else if (is_writable($phpbbgallery_core_file))
 			{
 				$template->assign_vars(array(
-					'U_CORE_DIR_STATE'	=>  $user->lang['WRITE_ACCESS'],
+					'U_CORE_DIR_STATE'	=>  $this->language->lang('WRITE_ACCESS'),
 					'U_CORE_DIR_STATE_ERROR'	=> 0,
 				));
 			}
 			else
 			{
 				$template->assign_vars(array(
-					'U_CORE_DIR_STATE'	=>  $user->lang['NO_WRITE_ACCESS'],
+					'U_CORE_DIR_STATE'	=>  $this->language->lang('NO_WRITE_ACCESS'),
 					'U_CORE_DIR_STATE_ERROR'	=> 1,
 				));
 			}
@@ -125,21 +128,21 @@ class main_module
 			{
 				mkdir($phpbbgallery_core_file_medium, 0755, true);
 				$template->assign_vars(array(
-					'U_MEDIUM_DIR_STATE'	=>  $user->lang['DIR_CREATED'],
+					'U_MEDIUM_DIR_STATE'	=>  $this->language->lang('DIR_CREATED'),
 					'U_MEDIUM_DIR_STATE_ERROR'	=> 0,
 				));
 			}
 			else if (is_writable($phpbbgallery_core_file_medium))
 			{
 				$template->assign_vars(array(
-					'U_MEDIUM_DIR_STATE'	=>  $user->lang['WRITE_ACCESS'],
+					'U_MEDIUM_DIR_STATE'	=>  $this->language->lang('WRITE_ACCESS'),
 					'U_MEDIUM_DIR_STATE_ERROR'	=> 0,
 				));
 			}
 			else
 			{
 				$template->assign_vars(array(
-					'U_MEDIUM_DIR_STATE'	=>  $user->lang['NO_WRITE_ACCESS'],
+					'U_MEDIUM_DIR_STATE'	=>  $this->language->lang('NO_WRITE_ACCESS'),
 					'U_MEDIUM_DIR_STATE_ERROR'	=> 1,
 				));
 			}
@@ -147,21 +150,21 @@ class main_module
 			{
 				mkdir($phpbbgallery_core_file_mini, 0755, true);
 				$template->assign_vars(array(
-					'U_MINI_DIR_STATE'	=>  $user->lang['DIR_CREATED'],
+					'U_MINI_DIR_STATE'	=>  $this->language->lang('DIR_CREATED'),
 					'U_MINI_DIR_STATE_ERROR'	=> 0,
 				));
 			}
 			else if (is_writable($phpbbgallery_core_file_mini))
 			{
 				$template->assign_vars(array(
-					'U_MINI_DIR_STATE'	=>  $user->lang['WRITE_ACCESS'],
+					'U_MINI_DIR_STATE'	=>  $this->language->lang('WRITE_ACCESS'),
 					'U_MINI_DIR_STATE_ERROR'	=> 0,
 				));
 			}
 			else
 			{
 				$template->assign_vars(array(
-					'U_MINI_DIR_STATE'	=>  $user->lang['NO_WRITE_ACCESS'],
+					'U_MINI_DIR_STATE'	=>  $this->language->lang('NO_WRITE_ACCESS'),
 					'U_MINI_DIR_STATE_ERROR'	=> 1,
 				));
 			}
@@ -169,21 +172,21 @@ class main_module
 			{
 				mkdir($phpbbgallery_core_file_source, 0755, true);
 				$template->assign_vars(array(
-					'U_SOURCE_DIR_STATE'	=>  $user->lang['DIR_CREATED'],
+					'U_SOURCE_DIR_STATE'	=>  $this->language->lang['DIR_CREATED'],
 					'U_SOURCE_DIR_STATE_ERROR'	=> 0,
 				));
 			}
 			else if (is_writable($phpbbgallery_core_file_source))
 			{
 				$template->assign_vars(array(
-					'U_SOURCE_DIR_STATE'	=>  $user->lang['WRITE_ACCESS'],
+					'U_SOURCE_DIR_STATE'	=>  $this->language->lang('WRITE_ACCESS'),
 					'U_SOURCE_DIR_STATE_ERROR'	=> 0,
 				));
 			}
 			else
 			{
 				$template->assign_vars(array(
-					'U_SOURCE_DIR_STATE'	=>  $user->lang['NO_WRITE_ACCESS'],
+					'U_SOURCE_DIR_STATE'	=>  $this->language->lang('NO_WRITE_ACCESS'),
 					'U_SOURCE_DIR_STATE_ERROR'	=> 1,
 				));
 			}
@@ -214,7 +217,7 @@ class main_module
 					$album_id = $request->variable('reset_album_id', 0);
 					$album_data = $phpbb_ext_gallery_core_album->get_info($album_id);
 					$confirm = true;
-					$confirm_lang = sprintf($user->lang['RESET_RATING_CONFIRM'], $album_data['album_name']);
+					$confirm_lang = sprintf($this->language->lang('RESET_RATING_CONFIRM'), $album_data['album_name']);
 				break;
 				case 'purge_cache':
 					$confirm = true;
@@ -224,7 +227,7 @@ class main_module
 					$confirm = false;
 					if (!$auth->acl_get('a_board'))
 					{
-						trigger_error($user->lang['NO_AUTH_OPERATION'] . adm_back_link($this->u_action), E_USER_WARNING);
+						trigger_error($this->language->lang('NO_AUTH_OPERATION') . adm_back_link($this->u_action), E_USER_WARNING);
 					}
 
 					$username = $request->variable('username', '', true);
@@ -250,7 +253,7 @@ class main_module
 					$db->sql_freeresult($result);
 					if (!$user_row)
 					{
-						trigger_error($user->lang['NO_USER'] . adm_back_link($this->u_action), E_USER_WARNING);
+						trigger_error($this->language->lang('NO_USER') . adm_back_link($this->u_action), E_USER_WARNING);
 					}
 
 					$image_user = $phpbb_gallery_user->set_user_id($user_row['user_id']);
@@ -258,17 +261,17 @@ class main_module
 
 					if ($album_id)
 					{
-						trigger_error($user->lang('PEGA_ALREADY_EXISTS', $user_row['username']) . adm_back_link($this->u_action), E_USER_WARNING);
+						trigger_error($this->language->lang('PEGA_ALREADY_EXISTS', $user_row['username']) . adm_back_link($this->u_action), E_USER_WARNING);
 					}
 					$phpbb_ext_gallery_core_album->generate_personal_album($user_row['username'], $user_row['user_id'], $user_row['user_colour'], $phpbb_gallery_user);
 
-					trigger_error($user->lang('PEGA_CREATED', $user_row['username']) . adm_back_link($this->u_action));
+					trigger_error($this->language->lang('PEGA_CREATED', $user_row['username']) . adm_back_link($this->u_action));
 				break;
 			}
 
 			if ($confirm)
 			{
-				confirm_box(false, (($album_id) ? $confirm_lang : $user->lang[$confirm_lang]), build_hidden_fields(array(
+				confirm_box(false, (($album_id) ? $confirm_lang : $this->language->lang($confirm_lang)), build_hidden_fields(array(
 					'i'			=> $id,
 					'mode'		=> $mode,
 					'action'	=> $action,
@@ -283,7 +286,7 @@ class main_module
 				case 'images':
 					if (!$auth->acl_get('a_board'))
 					{
-						trigger_error($user->lang['NO_AUTH_OPERATION'] . adm_back_link($this->u_action), E_USER_WARNING);
+						trigger_error($this->language->lang('NO_AUTH_OPERATION') . adm_back_link($this->u_action), E_USER_WARNING);
 					}
 
 					$total_images = $total_comments = 0;
@@ -311,13 +314,13 @@ class main_module
 
 					$phpbb_ext_gallery_config->set('num_images', $total_images);
 					$phpbb_ext_gallery_config->set('num_comments', $total_comments);
-					trigger_error($user->lang['RESYNCED_IMAGECOUNTS'] . adm_back_link($this->u_action));
+					trigger_error($this->language->lang('RESYNCED_IMAGECOUNTS') . adm_back_link($this->u_action));
 				break;
 
 				case 'personals':
 					if (!$auth->acl_get('a_board'))
 					{
-						trigger_error($user->lang['NO_AUTH_OPERATION'] . adm_back_link($this->u_action), E_USER_WARNING);
+						trigger_error($this->language->lang('NO_AUTH_OPERATION') . adm_back_link($this->u_action), E_USER_WARNING);
 					}
 
 					$phpbb_gallery_user->update_users('all', array('personal_album_id' => 0));
@@ -367,13 +370,13 @@ class main_module
 					$phpbb_ext_gallery_config->set('newest_pega_user_colour', $newest_pgallery['user_colour']);
 					$phpbb_ext_gallery_config->set('newest_pega_album_id', $newest_pgallery['album_id']);
 
-					trigger_error($user->lang['RESYNCED_PERSONALS'] . adm_back_link($this->u_action));
+					trigger_error($this->language->lang('RESYNCED_PERSONALS') . adm_back_link($this->u_action));
 				break;
 
 				case 'stats':
 					if (!$auth->acl_get('a_board'))
 					{
-						trigger_error($user->lang['NO_AUTH_OPERATION'] . adm_back_link($this->u_action), E_USER_WARNING);
+						trigger_error($this->language->lang('NO_AUTH_OPERATION') . adm_back_link($this->u_action), E_USER_WARNING);
 					}
 
 					// Hopefully this won't take to long! >> I think we must make it batchwise
@@ -409,7 +412,7 @@ class main_module
 						$phpbb_ext_gallery_core_album->update_info($row['album_id']);
 					}
 					$db->sql_freeresult($result);
-					trigger_error($user->lang['RESYNCED_LAST_IMAGES'] . adm_back_link($this->u_action));
+					trigger_error($this->language->lang('RESYNCED_LAST_IMAGES') . adm_back_link($this->u_action));
 				break;
 
 				case 'reset_rating':
@@ -431,13 +434,13 @@ class main_module
 						phpbb_gallery_image_rating::delete_ratings($image_ids, true);
 					}
 
-					trigger_error($user->lang['RESET_RATING_COMPLETED'] . adm_back_link($this->u_action));
+					trigger_error($this->language->lang('RESET_RATING_COMPLETED') . adm_back_link($this->u_action));
 				break;
 
 				case 'purge_cache':
 					if ($user->data['user_type'] != USER_FOUNDER)
 					{
-						trigger_error($user->lang['NO_AUTH_OPERATION'] . adm_back_link($this->u_action), E_USER_WARNING);
+						trigger_error($this->language->lang('NO_AUTH_OPERATION') . adm_back_link($this->u_action), E_USER_WARNING);
 					}
 
 					$cache_dir = @opendir($gallery_url->path('thumbnail'));
@@ -509,7 +512,7 @@ class main_module
 						SET ' . $db->sql_build_array('UPDATE', $sql_ary);
 					$db->sql_query($sql);
 
-					trigger_error($user->lang['PURGED_CACHE'] . adm_back_link($this->u_action));
+					trigger_error($this->language->lang('PURGED_CACHE') . adm_back_link($this->u_action));
 				break;
 			}
 		}
@@ -534,8 +537,8 @@ class main_module
 
 		$template->assign_vars(array(
 			'S_GALLERY_OVERVIEW'			=> true,
-			'ACP_GALLERY_TITLE'				=> $user->lang['ACP_GALLERY_OVERVIEW'],
-			'ACP_GALLERY_TITLE_EXPLAIN'		=> $user->lang['ACP_GALLERY_OVERVIEW_EXPLAIN'],
+			'ACP_GALLERY_TITLE'				=> $this->language->lang('ACP_GALLERY_OVERVIEW'),
+			'ACP_GALLERY_TITLE_EXPLAIN'		=> $this->language->lang('ACP_GALLERY_OVERVIEW_EXPLAIN'),
 
 			'TOTAL_IMAGES'			=> $config['phpbb_gallery_num_images'],
 			'IMAGES_PER_DAY'		=> $images_per_day,
