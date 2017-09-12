@@ -31,10 +31,11 @@ class permissions_module
 		$gallery_user = $phpbb_container->get('phpbbgallery.core.user');
 		$gallery_auth = $phpbb_container->get('phpbbgallery.core.auth');
 		$gallery_url = $phpbb_container->get('phpbbgallery.core.url');
+		$this->language = $phpbb_container->get('language');
 
-		$user->add_lang_ext('phpbbgallery/core', array('gallery_acp', 'gallery'));
+		$this->language->add_lang(array('gallery_acp', 'gallery'), 'phpbbgallery/core');
 		$this->tpl_name = 'gallery_permissions';
-		$this->page_title = $user->lang['ALBUM_AUTH_TITLE'];
+		$this->page_title = $this->language->lang('ALBUM_AUTH_TITLE');
 		add_form_key('acp_gallery');
 		$submit = (isset($_POST['submit_edit_options'])) ? true : ((isset($_POST['submit_add_options'])) ? true : false);
 		$action = $request->variable('action', '');
@@ -142,12 +143,13 @@ class permissions_module
 
 	function permissions_v_mask()
 	{
-		global $cache, $db, $template, $user, $table_prefix;
+		global $cache, $db, $template, $user, $table_prefix, $phpbb_container;
 		global $request, $gallery_auth, $gallery_url;
 
 		// Init auth
+		$this->language = $phpbb_container->get('language');
 
-		$user->add_lang('acp/permissions');
+		$this->language->add_lang('acp/permissions');
 
 		$submit = (isset($_POST['submit'])) ? true : false;
 		$delete = (isset($_POST['delete'])) ? true : false;
@@ -316,7 +318,7 @@ class permissions_module
 		while ($row = $db->sql_fetchrow($result))
 		{
 			$set_groups[] = $row['group_id'];
-			$s_defined_group_options .= '<option value="' . $row['group_id'] . '">' . (($row['group_type'] == GROUP_SPECIAL) ? $user->lang['G_' . $row['group_name']] : $row['group_name']) . '</option>';
+			$s_defined_group_options .= '<option value="' . $row['group_id'] . '">' . (($row['group_type'] == GROUP_SPECIAL) ? $this->language->lang('G_' . $row['group_name']) : $row['group_name']) . '</option>';
 		}
 		$db->sql_freeresult($result);
 
@@ -329,7 +331,7 @@ class permissions_module
 		$s_add_group_options = '';
 		while ($row = $db->sql_fetchrow($result))
 		{
-			$s_add_group_options .= '<option value="' . $row['group_id'] . '">' . (($row['group_type'] == GROUP_SPECIAL) ? $user->lang['G_' . $row['group_name']] : $row['group_name']) . '</option>';
+			$s_add_group_options .= '<option value="' . $row['group_id'] . '">' . (($row['group_type'] == GROUP_SPECIAL) ? $this->language->lang('G_' . $row['group_name']) : $row['group_name']) . '</option>';
 		}
 		$db->sql_freeresult($result);
 
@@ -371,8 +373,8 @@ class permissions_module
 			'U_ACTION'					=> $this->u_action . '&amp;action=v_mask',
 			'S_PERMISSION_V_MASK'		=> true,
 
-			'C_MASKS_NAMES'				=> (!$p_system) ? implode(', ', $a_names) : (($p_system == $gallery_auth::OWN_ALBUM) ? $user->lang['OWN_PERSONAL_ALBUMS'] : $user->lang['PERSONAL_ALBUMS']),
-			'L_C_MASKS'					=> $user->lang['ALBUMS'],
+			'C_MASKS_NAMES'				=> (!$p_system) ? implode(', ', $a_names) : (($p_system == $gallery_auth::OWN_ALBUM) ? $this->language->lang('OWN_PERSONAL_ALBUMS') : $this->language->lang('PERSONAL_ALBUMS')),
+			'L_C_MASKS'					=> $this->language->lang('ALBUMS'),
 
 			'S_CAN_SELECT_GROUP'		=> true,
 			'S_DEFINED_GROUP_OPTIONS'	=> $s_defined_group_options,
@@ -395,8 +397,9 @@ class permissions_module
 		// Init auth
 		$gallery_user = $phpbb_container->get('phpbbgallery.core.user');
 		$phpbb_ext_gallery_core_auth = $phpbb_container->get('phpbbgallery.core.auth');
+		$this->language = $phpbb_container->get('language');
 
-		$user->add_lang('acp/permissions');
+		$this->language->add_lang('acp/permissions');
 
 		if (!check_form_key('acp_gallery'))
 		{
@@ -429,7 +432,7 @@ class permissions_module
 
 			if (!sizeof($user_id))
 			{
-				trigger_error($user->lang['SELECTED_USER_NOT_EXIST'] . adm_back_link($this->u_action), E_USER_WARNING);
+				trigger_error($this->language->lang('SELECTED_USER_NOT_EXIST') . adm_back_link($this->u_action), E_USER_WARNING);
 			}
 		}
 		unset($username);
@@ -466,7 +469,7 @@ class permissions_module
 			$victim_list = array();
 			while ($row = $db->sql_fetchrow($result))
 			{
-				$row['group_name'] = (($row['group_type'] == GROUP_SPECIAL) ? $user->lang['G_' . $row['group_name']] : $row['group_name']);
+				$row['group_name'] = (($row['group_type'] == GROUP_SPECIAL) ? $this->language->lang('G_' . $row['group_name']) : $row['group_name']);
 				$victim_row = array(
 					'victim_id'		=> $row['group_id'],
 					'victim_name'	=> $row['group_name'],
@@ -571,7 +574,7 @@ class permissions_module
 							}
 						}
 						$template->assign_block_vars('c_mask.v_mask.category', array(
-							'CAT_NAME'				=> $user->lang['PERMISSION_' . strtoupper($category)],
+							'CAT_NAME'				=> $this->language->lang('PERMISSION_' . strtoupper($category)),
 							'PERM_GROUP_ID'			=> $category,
 							'S_YES'					=> ($acl_s_yes && !$acl_s_never && !$acl_s_no) ? true : false,
 							'S_NEVER'				=> ($acl_s_never && !$acl_s_yes && !$acl_s_no) ? true : false,
@@ -580,8 +583,8 @@ class permissions_module
 						foreach ($permission_values as $permission)
 						{
 							$template->assign_block_vars('c_mask.v_mask.category.mask', array(
-								'PERMISSION'			=> $user->lang['PERMISSION_' . strtoupper($permission)],
-								'PERMISSION_EXPLAIN'	=> (isset($user->lang['PERMISSION_' . strtoupper($permission) . '_EXPLAIN'])) ? $user->lang['PERMISSION_' . strtoupper($permission) . '_EXPLAIN'] : '',
+								'PERMISSION'			=> $this->language->lang('PERMISSION_' . strtoupper($permission)),
+								'PERMISSION_EXPLAIN'	=> ($this->language->lang('PERMISSION_' . strtoupper($permission) . '_EXPLAIN')) ? $this->language->lang('PERMISSION_' . strtoupper($permission) . '_EXPLAIN') : '',
 								'S_FIELD_NAME'			=> 'setting[' . $album_row['album_id'] . '][' . $victim_row['victim_id'] . '][' . $permission . ']',
 								'S_NO'					=> ((isset($roles[$role_id][$permission]) && ($roles[$role_id][$permission] == $phpbb_ext_gallery_core_auth::ACL_NO)) ? true : false),
 								'S_YES'					=> ((isset($roles[$role_id][$permission]) && ($roles[$role_id][$permission] == $phpbb_ext_gallery_core_auth::ACL_YES)) ? true : false),
@@ -598,7 +601,7 @@ class permissions_module
 		{
 			$template->assign_block_vars('c_mask', array(
 				'C_MASK_ID'				=> $p_system,
-				'C_MASK_NAME'			=> (($p_system == $phpbb_ext_gallery_core_auth::OWN_ALBUM) ? $user->lang['OWN_PERSONAL_ALBUMS'] : $user->lang['PERSONAL_ALBUMS']),
+				'C_MASK_NAME'			=> (($p_system == $phpbb_ext_gallery_core_auth::OWN_ALBUM) ? $this->language->lang('OWN_PERSONAL_ALBUMS') : $this->language->lang('PERSONAL_ALBUMS')),
 			));
 			foreach ($victim_id as $victim)
 			{
@@ -612,14 +615,14 @@ class permissions_module
 				foreach ($permissions->cats[$p_system] as $category => $permission_values)
 				{
 					$template->assign_block_vars('c_mask.v_mask.category', array(
-						'CAT_NAME'				=> $user->lang['PERMISSION_' . strtoupper($category)],
+						'CAT_NAME'				=> $this->language->lang('PERMISSION_' . strtoupper($category)),
 						'PERM_GROUP_ID'			=> $category,
 					));
 					foreach ($permission_values as $permission)
 					{
 						$template->assign_block_vars('c_mask.v_mask.category.mask', array(
-							'PERMISSION'			=> $user->lang['PERMISSION_' . strtoupper($permission)],
-							'PERMISSION_EXPLAIN'	=> (isset($user->lang['PERMISSION_' . strtoupper($permission) . '_EXPLAIN'])) ? $user->lang['PERMISSION_' . strtoupper($permission) . '_EXPLAIN'] : '',
+							'PERMISSION'			=> $this->language->lang('PERMISSION_' . strtoupper($permission)),
+							'PERMISSION_EXPLAIN'	=> ($this->language->lang('PERMISSION_' . strtoupper($permission) . '_EXPLAIN')) ? $this->language->lang('PERMISSION_' . strtoupper($permission) . '_EXPLAIN') : '',
 							'S_FIELD_NAME'			=> 'setting[' . $p_system . '][' . $victim_row['victim_id'] . '][' . $permission . ']',
 							'S_NO'					=> ((isset($roles[$role_id][$permission]) && ($roles[$role_id][$permission] == $phpbb_ext_gallery_core_auth::ACL_NO)) ? true : false),
 							'S_YES'					=> ((isset($roles[$role_id][$permission]) && ($roles[$role_id][$permission] == $phpbb_ext_gallery_core_auth::ACL_YES)) ? true : false),
@@ -975,7 +978,7 @@ class permissions_module
 			$cache->destroy('sql', $table_prefix . 'gallery_modscache');
 			$phpbb_ext_gallery_core_auth->set_user_permissions('all', '');
 
-			trigger_error($user->lang['PERMISSIONS_STORED'] . adm_back_link($this->u_action));
+			trigger_error($this->language->lang('PERMISSIONS_STORED') . adm_back_link($this->u_action));
 		}
 		trigger_error('HACKING_ATTEMPT', E_USER_WARNING);
 	}
@@ -998,6 +1001,7 @@ class permissions_module
 
 		// Init album
 		$phpbb_ext_gallery_core_album = $phpbb_container->get('phpbbgallery.core.album');
+		$this->language = $phpbb_container->get('language');
 
 		$submit = isset($_POST['submit']) ? true : false;
 
@@ -1015,12 +1019,12 @@ class permissions_module
 
 			if (!$src)
 			{
-				trigger_error($user->lang['SELECTED_ALBUM_NOT_EXIST'] . adm_back_link($this->u_action), E_USER_WARNING);
+				trigger_error($this->language->lang('SELECTED_ALBUM_NOT_EXIST') . adm_back_link($this->u_action), E_USER_WARNING);
 			}
 
 			if (!sizeof($dest))
 			{
-				trigger_error($user->lang['SELECTED_ALBUM_NOT_EXIST'] . adm_back_link($this->u_action), E_USER_WARNING);
+				trigger_error($this->language->lang('SELECTED_ALBUM_NOT_EXIST') . adm_back_link($this->u_action), E_USER_WARNING);
 			}
 
 			if (confirm_box(true))
@@ -1079,7 +1083,7 @@ class permissions_module
 				$cache->destroy('sql', $permissions_table);
 				$phpbb_ext_gallery_core_auth->set_user_permissions('all', '');
 
-				trigger_error($user->lang['COPY_PERMISSIONS_SUCCESSFUL'] . adm_back_link($this->u_action));
+				trigger_error($this->language->lang('COPY_PERMISSIONS_SUCCESSFUL') . adm_back_link($this->u_action));
 			}
 			else
 			{
@@ -1091,7 +1095,7 @@ class permissions_module
 
 				$s_hidden_fields = build_hidden_fields($s_hidden_fields);
 
-				confirm_box(false, $user->lang['COPY_PERMISSIONS_CONFIRM'], $s_hidden_fields);
+				confirm_box(false, $this->language->lang('COPY_PERMISSIONS_CONFIRM'), $s_hidden_fields);
 			}
 		}
 
@@ -1112,11 +1116,13 @@ class permissions_module
 	 */
 	function inherit_albums($cache_obtain_album_list, $allowed_albums, $album_id, $check_inherit_album = 0)
 	{
-		global $user;
+		global $user, $phpbb_container;
+
+		$this->language = $phpbb_container->get('language');
 		$disabled = false;
 
 		$return = '';
-		$return .= '<option value="0" selected="selected">' . $user->lang['NO_INHERIT'] . '</option>';
+		$return .= '<option value="0" selected="selected">' . $this->language->lang('NO_INHERIT') . '</option>';
 		foreach ($cache_obtain_album_list as $album)
 		{
 			if (in_array($album['album_id'], $allowed_albums))
@@ -1185,7 +1191,7 @@ class permissions_module
 		}
 
 		$return = '';
-		$return .= '<option value="0" selected="selected">' . $user->lang['NO_INHERIT'] . '</option>';
+		$return .= '<option value="0" selected="selected">' . $this->language->lang('NO_INHERIT') . '</option>';
 		foreach ($cache_obtain_album_list as $album)
 		{
 			if (in_array($album['album_id'], $allowed_albums))
@@ -1257,7 +1263,7 @@ class permissions_module
 		}
 
 		$return = '';
-		$return .= '<option value="0" selected="selected">' . $user->lang['NO_INHERIT'] . '</option>';
+		$return .= '<option value="0" selected="selected">' . $this->language->lang('NO_INHERIT') . '</option>';
 		foreach ($allowed_victims as $victim)
 		{
 			// We found the requested {$p_system}_victim: return true!
@@ -1279,7 +1285,7 @@ class permissions_module
 			{
 				$return .= ' disabled="disabled" class="disabled-option"';
 			}
-			$return .= '>&nbsp;&nbsp;&nbsp;' . (($p_system == $phpbb_ext_gallery_core_auth::OWN_ALBUM) ? $user->lang['OWN_PERSONAL_ALBUMS'] : $user->lang['PERSONAL_ALBUMS']) . ' >>> ' . $victim['victim_name'] . '</option>';
+			$return .= '>&nbsp;&nbsp;&nbsp;' . (($p_system == $phpbb_ext_gallery_core_auth::OWN_ALBUM) ? $this->language->lang('OWN_PERSONAL_ALBUMS') : $this->language->lang('PERSONAL_ALBUMS')) . ' >>> ' . $victim['victim_name'] . '</option>';
 		}
 		// Could we not find the requested {$p_system}_victim even here?
 		if ($check_inherit_victim)
