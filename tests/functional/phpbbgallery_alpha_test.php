@@ -544,8 +544,8 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 
 		$image = $crawler->filter('a:contains("Valid but needs approve")')->parents()->parents();
 
-		echo($crawler->text());
 		$form = $image->selectButton($this->lang['APPROVE'])->form();
+		echo($form);
 		$crawler = self::submit($form);
 
 		$form = $crawler->selectButton('confirm')->form();
