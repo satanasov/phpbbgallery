@@ -547,9 +547,8 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$form = $image->selectButton($this->lang['APPROVE'])->form();
 		$crawler = self::submit($form);
 
-		$form = $crawler->selectButton($this->lang['YES'])->form();
-		var_dump($form['fields']['confirm']);
-		var_dump($form['fields']['action']);
+		$form = $crawler->selectButton('confirm')->form();
+
 		$crawler = self::submit($form);
 
 		$this->assertContains('In total there is 1 image approved.',  $crawler->text());
