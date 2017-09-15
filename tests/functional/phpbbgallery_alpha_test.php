@@ -541,7 +541,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->add_lang('common');
 
 		//$crawler = self::request('GET', 'app.php/gallery/album/1');
-		$crawler = self::request('GET', 'app.php/gallery/moderate/image/18/approve');
+		$crawler = self::request('GET', 'app.php/gallery/moderate/image/2/approve');
 
 		//$image = $crawler->filter('a:contains("Valid but needs approve")')->parents()->parents();
 
