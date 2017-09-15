@@ -21,26 +21,16 @@ services:
             - [set_config, ['@config']]
         tags:
             - { name: notification.type }
-    phpbbgallery.core.notification.new_image:
-        class: phpbbgallery\core\notification\events\phpbbgallery_new_image
-        shared: false # scope MUST be prototype for this to work!
-        arguments:
-            - '@user_loader'
-            - '@dbal.conn'
-            - '@cache.driver'
-            - '@user'
-            - '@auth'
-            - '@config'
-            - '@controller.helper'
-            - '%core.root_path%'
-            - '%core.php_ext%'
-            - '%tables.notification_types%'
-            - '%tables.notifications%'
-            - '%tables.user_notifications%'
-        tags:
-            - { name: notification.type }
     phpbbgallery.core.notification.new_comment:
         class: phpbbgallery\core\notification\events\phpbbgallery_new_comment
+        shared: false # scope MUST be prototype for this to work!
+        calls:
+            - [set_user_loader, ['@user_loader']]
+            - [set_config, ['@config']]
+        tags:
+            - { name: notification.type }
+    phpbbgallery.core.notification.new_image:
+        class: phpbbgallery\core\notification\events\phpbbgallery_new_image
         shared: false # scope MUST be prototype for this to work!
         calls:
             - [set_user_loader, ['@user_loader']]
