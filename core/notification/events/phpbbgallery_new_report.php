@@ -10,30 +10,6 @@ namespace phpbbgallery\core\notification\events;
 
 class phpbbgallery_new_report extends \phpbb\notification\type\base
 {
-	protected $helper;
-	protected $user_loader;
-	protected $cache;
-	protected $config;
-	protected $notification_types_table;
-	protected $notifications_table;
-
-	public function __construct(\phpbb\user_loader $user_loader, \phpbb\db\driver\driver_interface $db, \phpbb\cache\driver\driver_interface $cache,
-	\phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\controller\helper $helper,
-	$phpbb_root_path, $php_ext, $notification_types_table, $notifications_table, $user_notifications_table)
-	{
-		$this->user_loader = $user_loader;
-		$this->db = $db;
-		$this->cache = $cache;
-		$this->user = $user;
-		$this->auth = $auth;
-		$this->config = $config;
-		$this->helper = $helper;
-		$this->phpbb_root_path = $phpbb_root_path;
-		$this->php_ext = $php_ext;
-		$this->notification_types_table = $notification_types_table;
-		$this->notifications_table = $notifications_table;
-		$this->user_notifications_table = $user_notifications_table;
-	}
 	/**
 	* Get notification type name
 	*
@@ -52,6 +28,23 @@ class phpbbgallery_new_report extends \phpbb\notification\type\base
 	public static $notification_option = array(
 		'lang'	=> 'NOTIFICATION_TYPE_PHPBBGALLERY_NEW_REPORT',
 	);
+
+	/** @var \phpbb\user_loader */
+	protected $user_loader;
+
+	/** @var \phpbb\config\config */
+	protected $config;
+
+	public function set_config(\phpbb\config\config $config)
+	{
+		$this->config = $config;
+	}
+
+	public function set_user_loader(\phpbb\user_loader $user_loader)
+	{
+		$this->user_loader = $user_loader;
+	}
+
 	/**
 	* Is this type available to the current user (defines whether or not it will be shown in the UCP Edit notification options)
 	*
@@ -98,24 +91,17 @@ class phpbbgallery_new_report extends \phpbb\notification\type\base
 		$this->user_loader->load_users($data['user_ids']);
 		return $this->check_user_notification_options($data['user_ids'], $options);
 	}
+
 	/**
-	* Users needed to query before this notification can be displayed
-	*
-	* @return array Array of user_ids
-	*/
-	public function users_to_query()
-	{
-		return array();
-	}
-	/**
-	* Get the user's avatar
-	*/
+	 * Get the user's avatar
+	 */
 	public function get_avatar()
 	{
 		$users = array($this->get_data('reporter'));
 		$this->user_loader->load_users($users);
 		return $this->user_loader->get_avatar($this->get_data('reporter'));
 	}
+
 	/**
 	* Get the HTML formatted title of this notification
 	*
@@ -126,17 +112,9 @@ class phpbbgallery_new_report extends \phpbb\notification\type\base
 		$users = array($this->get_data('reporter'));
 		$this->user_loader->load_users($users);
 		$username = $this->user_loader->get_username($this->get_data('reporter'), 'no_profile');
-		return $this->user->lang('NOTIFICATION_PHPBBGALLERY_NEW_REPORT', $username);
+		return $this->language->lang('NOTIFICATION_PHPBBGALLERY_NEW_REPORT', $username);
 	}
-	/**
-	* Get the url to this item
-	*
-	* @return string URL
-	*/
-	public function get_url()
-	{
-		return $this->get_data('url');
-	}
+
 	/**
 	* Get email template
 	*
@@ -155,6 +133,27 @@ class phpbbgallery_new_report extends \phpbb\notification\type\base
 	{
 		return array();
 	}
+
+	/**
+	 * Users needed to query before this notification can be displayed
+	 *
+	 * @return array Array of user_ids
+	 */
+	public function users_to_query()
+	{
+		return array();
+	}
+
+	/**
+	 * Get the url to this item
+	 *
+	 * @return string URL
+	 */
+	public function get_url()
+	{
+		return $this->get_data('url');
+	}
+
 	/**
 	* Function for preparing the data for insertion in an SQL query
 	* (The service handles insertion)
