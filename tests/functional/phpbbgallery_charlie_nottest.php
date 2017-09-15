@@ -11,7 +11,7 @@ namespace phpbbgallery\tests\functional;
 /**
 * @group functional1
 */
-class phpbbgallery_charlie_test extends phpbbgallery_base
+class phpbbgallery_charlie_nottest extends phpbbgallery_base
 {
 	//We need to init the cpfs
 	public function test_init_cpfs()

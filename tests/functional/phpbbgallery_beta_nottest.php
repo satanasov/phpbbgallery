@@ -11,7 +11,7 @@ namespace phpbbgallery\tests\functional;
 /**
 * @group functional1
 */
-class phpbbgallery_beta_test extends phpbbgallery_base
+class phpbbgallery_beta_nottest extends phpbbgallery_base
 {
 	// TESTS DATA PROVIDERS
 	public function pagination_data()

@@ -547,6 +547,8 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$form = $image->selectButton($this->lang['APPROVE'])->form();
 		$crawler = self::submit($form);
 
+		var_dump($crawler->text());
+
 		$form = $crawler->selectButton('confirm')->form();
 
 		$crawler = self::submit($form);
@@ -593,7 +595,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->logout();
 	}
 
-	public function test_acl_set_permissions_own()
+/*	public function test_acl_set_permissions_own()
 	{
 		$this->login();
 		$this->admin_login();

@@ -11,7 +11,7 @@ namespace phpbbgallery\tests\functional;
 /**
 * @group functional1
 */
-class phpbbgallery_delta_test extends phpbbgallery_base
+class phpbbgallery_delta_nottest extends phpbbgallery_base
 {
 	/*
 	* Set of test related to finctionality of ACP Import
