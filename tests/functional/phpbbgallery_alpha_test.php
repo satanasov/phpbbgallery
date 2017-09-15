@@ -540,14 +540,15 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->add_lang_ext('phpbbgallery/core', 'gallery_mcp');
 		$this->add_lang('common');
 
-		$crawler = self::request('GET', 'app.php/gallery/album/1');
+		//$crawler = self::request('GET', 'app.php/gallery/album/1');
+		$crawler = self::request('GET', 'app.php/gallery/moderate/image/18/approve');
 
-		$image = $crawler->filter('a:contains("Valid but needs approve")')->parents()->parents();
+		//$image = $crawler->filter('a:contains("Valid but needs approve")')->parents()->parents();
 
-		$form = $image->selectButton($this->lang['APPROVE'])->form();
-		var_dump($form['action']);
+		//$form = $image->selectButton($this->lang['APPROVE'])->form();
+		//var_dump($form['action']);
 
-		$crawler = self::submit($form);
+		//$crawler = self::submit($form);
 
 		$form = $crawler->selectButton('confirm')->form();
 		$crawler = self::submit($form);
