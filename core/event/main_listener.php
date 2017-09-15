@@ -83,12 +83,10 @@ class main_listener implements EventSubscriberInterface
 	}
 	public function load_language_on_setup($event)
 	{
-		//$this->language->add_lang(array('info_acp_gallery', 'gallery', 'gallery_notifications', 'permissions_gallery'), 'phpbbgallery/core');
 		$lang_set_ext = $event['lang_set_ext'];
 		$lang_set_ext[] = array(
 			'ext_name'	=> 'phpbbgallery/core',
-		//	'lang_set'	=> array('info_acp_gallery', 'gallery', 'gallery_notifications', 'permissions_gallery'),
-			'lang_set'	=> 'info_acp_gallery'
+			'lang_set'	=> array('info_acp_gallery', 'gallery', 'gallery_notifications'/*, 'permissions_gallery'*/),
 		);
 		$event['lang_set_ext'] = $lang_set_ext;
 		if ($this->gallery_config->get('disp_total_images') == 1)
