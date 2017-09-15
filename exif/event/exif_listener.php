@@ -28,7 +28,7 @@ class exif_listener implements EventSubscriberInterface
 			'phpbbgallery.core.ucp.set_settings_nosubmit'		=> 'ucp_set_settings_nosubmit',
 			'phpbbgallery.core.upload.prepare_file_before'		=> 'upload_prepare_file_before',
 			'phpbbgallery.core.upload.update_image_before'		=> 'upload_update_image_before',
-			'phpbbgallery.core.upload.update_image_nofilechange'	=> 'upload_update_image_nofilechange',
+			//'phpbbgallery.core.upload.update_image_nofilechange'	=> 'upload_update_image_nofilechange',
 			'phpbbgallery.core.user.get_default_values'			=> 'user_get_default_values',
 			'phpbbgallery.core.user.validate_data'				=> 'user_validate_data',
 			'phpbbgallery.core.viewimage'						=> 'viewimage',
