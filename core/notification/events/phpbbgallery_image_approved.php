@@ -117,7 +117,8 @@ class phpbbgallery_image_approved extends \phpbb\notification\type\base
 	 */
 	public function get_reference()
 	{
-		return censor_text($this->get_data('album_name'));
+		//return true;
+		//return censor_text($this->get_data('album_name'));
 	}
 
 	/**
