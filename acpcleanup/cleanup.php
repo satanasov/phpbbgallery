@@ -10,15 +10,76 @@
 
 namespace phpbbgallery\acpcleanup;
 
+use phpbb\language\language;
+use phpbb\user;
+use phpbbgallery\core\album\album;
+
 class cleanup
 {
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbbgallery\core\file\file $tool, \phpbbgallery\core\block $block, \phpbbgallery\core\comment $comment,
-	\phpbbgallery\core\config $gallery_config, \phpbbgallery\core\log $log, \phpbbgallery\core\moderate $moderate,
-	$albums_table, $images_table)
+	/** @var \phpbb\db\driver\driver_interface  */
+	protected $db;
+
+	/** @var \phpbbgallery\core\file\file  */
+	protected $tool;
+
+	/** @var \phpbb\user  */
+	protected $user;
+
+	/** @var \phpbb\language\language  */
+	protected $language;
+
+	/** @var \phpbbgallery\core\block  */
+	protected $block;
+
+	/** @var \phpbbgallery\core\album\album  */
+	protected $album;
+
+	/** @var \phpbbgallery\core\comment  */
+	protected $comment;
+
+	/** @var \phpbbgallery\core\config  */
+	protected $gallery_config;
+
+	/** @var \phpbbgallery\core\log  */
+	protected $log;
+
+	/** @var \phpbbgallery\core\moderate  */
+	protected $moderate;
+
+	/** @var   */
+	protected $albums_table;
+
+	/** @var   */
+	protected $images_table;
+
+
+	/**
+	 * cleanup constructor.
+	 *
+	 * @param \phpbb\db\driver\driver_interface $db
+	 * @param \phpbbgallery\core\file\file      $tool
+	 * @param \phpbb\user                       $user
+	 * @param \phpbb\language\language          $language
+	 * @param \phpbbgallery\core\block          $block
+	 * @param \phpbbgallery\core\album\album    $album
+	 * @param \phpbbgallery\core\comment        $comment
+	 * @param \phpbbgallery\core\config         $gallery_config
+	 * @param \phpbbgallery\core\log            $log
+	 * @param \phpbbgallery\core\moderate       $moderate
+	 * @param                                   $albums_table
+	 * @param                                   $images_table
+	 */
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbbgallery\core\file\file $tool, \phpbb\user $user, \phpbb\language\language $language,
+		\phpbbgallery\core\block $block, \phpbbgallery\core\album\album $album, \phpbbgallery\core\comment $comment,
+		\phpbbgallery\core\config $gallery_config, \phpbbgallery\core\log $log, \phpbbgallery\core\moderate $moderate,
+		$albums_table, $images_table)
 	{
 		$this->db = $db;
 		$this->tool = $tool;
+		$this->user = $user;
+		$this->language = $language;
 		$this->block = $block;
+		$this->album = $album;
 		$this->comment = $comment;
 		$this->gallery_config = $gallery_config;
 		$this->log = $log;
@@ -26,6 +87,7 @@ class cleanup
 		$this->albums_table = $albums_table;
 		$this->images_table = $images_table;
 	}
+
 	/**
 	* Delete source files without a database entry.
 	*
@@ -52,7 +114,7 @@ class cleanup
 	public function delete_images($image_ids)
 	{
 		$this->log->add_log('admin', 'clean_deleteentries', 0, 0, array('LOG_CLEANUP_DELETE_ENTRIES', count($image_ids)));
-		$this->moderate->delete_images($image_ids, false, true, true);
+		$this->moderate->delete_images($image_ids, false);
 
 		return 'CLEAN_SOURCES_DONE';
 	}
@@ -125,7 +187,7 @@ class cleanup
 			$delete_images[] = (int) $row['image_id'];
 			$filenames[(int) $row['image_id']] = $row['image_filename'];
 
-			if (($row['image_status'] == $this->block->get_status_unaproved()) ||
+			if (($row['image_status'] == $this->block->get_image_status_unapproved()) ||
 			($row['image_status'] == $this->block->get_image_status_orphan()))
 			{
 				continue;
@@ -226,8 +288,6 @@ class cleanup
 	*/
 	public function prune($pattern)
 	{
-		global $db;
-
 		$sql_where = '';
 		if (isset($pattern['image_album_id']))
 		{
@@ -241,7 +301,7 @@ class cleanup
 		{
 			if (is_array($value))
 			{
-				$sql_where .= (($sql_where) ? ' AND ' : ' WHERE ') . $db->sql_in_set($field, $value);
+				$sql_where .= (($sql_where) ? ' AND ' : ' WHERE ') . $this->db->sql_in_set($field, $value);
 				continue;
 			}
 			$sql_where .= (($sql_where) ? ' AND ' : ' WHERE ') . $field . ' < ' . $value;
@@ -251,14 +311,14 @@ class cleanup
 			FROM ' . $this->images_table . '
 			' . $sql_where;
 
-		$result = $db->sql_query($sql);
+		$result = $this->db->sql_query($sql);
 		$image_ids = $filenames = $update_albums = array();
-		while ($row = $db->sql_fetchrow($result))
+		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$image_ids[] = (int) $row['image_id'];
 			$filenames[(int) $row['image_id']] = $row['image_filename'];
 		}
-		$db->sql_freeresult($result);
+		$this->db->sql_freeresult($result);
 
 		if ($image_ids)
 		{
@@ -273,8 +333,6 @@ class cleanup
 	*/
 	public function lang_prune_pattern($pattern)
 	{
-		global $db, $user;
-
 		if (isset($pattern['image_album_id']))
 		{
 			$pattern['image_album_id'] = array_map('intval', explode(',', $pattern['image_album_id']));
@@ -294,40 +352,40 @@ class cleanup
 				case 'album_id':
 					$sql = 'SELECT album_name
 						FROM ' . $this->albums_table . '
-						WHERE ' . $db->sql_in_set('album_id', $value) . '
+						WHERE ' . $this->db->sql_in_set('album_id', $value) . '
 						ORDER BY album_id ASC';
-					$result = $db->sql_query($sql);
+					$result = $this->db->sql_query($sql);
 					$value = '';
-					while ($row = $db->sql_fetchrow($result))
+					while ($row = $this->db->sql_fetchrow($result))
 					{
 						$value .= (($value) ? ', ' : '') . $row['album_name'];
 					}
-					$db->sql_freeresult($result);
+					$this->db->sql_freeresult($result);
 				break;
 
 				case 'user_id':
 					$sql = 'SELECT user_id, user_colour, username
 						FROM ' . USERS_TABLE . '
-						WHERE ' . $db->sql_in_set('user_id', $value) . '
+						WHERE ' . $this->db->sql_in_set('user_id', $value) . '
 						ORDER BY user_id ASC';
-					$result = $db->sql_query($sql);
+					$result = $this->db->sql_query($sql);
 					$value = '';
-					while ($row = $db->sql_fetchrow($result))
+					while ($row = $this->db->sql_fetchrow($result))
 					{
-						$value .= (($value) ? ', ' : '') . get_username_string('full', $row['user_id'], (($row['user_id'] != ANONYMOUS) ? $row['username'] : $user->lang('GUEST')), $row['user_colour']);
+						$value .= (($value) ? ', ' : '') . get_username_string('full', $row['user_id'], (($row['user_id'] != ANONYMOUS) ? $row['username'] : $this->language->lang('GUEST')), $row['user_colour']);
 					}
-					$db->sql_freeresult($result);
+					$this->db->sql_freeresult($result);
 				break;
 
 				case 'time':
-					$value = $user->format_date($value, false, true);
+					$value = $this->user->format_date($value, false, true);
 				break;
 
 				case 'rate_avg':
 					$value = ($value / 100);
 				break;
 			}
-			$lang_pattern .= (($lang_pattern) ? '<br />' : '') . $user->lang('PRUNE_PATTERN_' . strtoupper($field), $value);
+			$lang_pattern .= (($lang_pattern) ? '<br />' : '') . $this->language->lang('PRUNE_PATTERN_' . strtoupper($field), $value);
 		}
 
 		return $lang_pattern;
