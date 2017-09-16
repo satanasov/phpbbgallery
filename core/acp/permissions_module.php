@@ -132,7 +132,7 @@ class permissions_module
 		));
 
 		$submit = (isset($_POST['submit'])) ? true : false;
-		$albums = $cache->obtain_album_list();
+		//$albums = $cache->obtain_album_list();
 
 		$template->assign_vars(array(
 			'U_ACTION'					=> $this->u_action . '&amp;action=v_mask',
