@@ -700,7 +700,8 @@ class moderate
 			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 		}
 		$action_ary = $this->request->variable('action', array('' => 0));
-		list($action, ) = each($action_ary);
+		$action_ary = array_keys($action_ary);
+		$action = $action_ary[0];
 
 		if ($action == 'disapprove')
 		{
