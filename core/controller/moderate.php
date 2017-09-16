@@ -720,6 +720,7 @@ class moderate
 			// So we need to see if there are still unapproved images in the album
 			$this->notification_helper->read('approval', $album_data['album_id']);
 			$message = $this->language->lang('WAITING_APPROVED_IMAGE', 1);
+			var_dump($message);
 			//meta_refresh($meta_refresh_time, $image_backlink);
 			$this->template->assign_vars(array(
 				'INFORMATION'	=> $message
