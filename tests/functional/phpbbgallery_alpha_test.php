@@ -539,16 +539,16 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
 		$this->add_lang_ext('phpbbgallery/core', 'gallery_mcp');
 		$this->add_lang('common');
+		$this->add_lang('mcp');
 
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
 
 		$image = $crawler->filter('a:contains("Valid but needs approve")')->parents()->parents();
 
-		$form = $image->selectButton($this->lang['APPROVE'])->form();
+		$form = $image->selectButton($this->lang('APPROVE'))->form();
 		$crawler = self::submit($form);
 
-		$form = $crawler->selectButton('confirm')->form();
-
+		$form = $crawler->selectButton($this->lang('YES'))->form();
 		$crawler = self::submit($form);
 
 		$this->assertContains('In total there is 1 image approved.',  $crawler->text());
