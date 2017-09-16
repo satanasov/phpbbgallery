@@ -533,7 +533,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->logout();
 	}
 
-	public function test_approve_image()
+	/*public function test_approve_image()
 	{
 		$this->login();
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
@@ -556,7 +556,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->logout();
 	}
 
-	/*public function test_disaprove_image()
+	public function test_disaprove_image()
 	{
 		$this->login();
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
@@ -591,9 +591,9 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->assertContains('Valid but needs approve',  $crawler->text());
 
 		$this->logout();
-	}
+	}*/
 
-/*	public function test_acl_set_permissions_own()
+	public function test_acl_set_permissions_own()
 	{
 		$this->login();
 		$this->admin_login();
