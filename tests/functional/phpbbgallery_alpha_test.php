@@ -542,20 +542,13 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 
 		$crawler = self::request('GET', 'app.php/gallery/album/1');
 
-		echo($crawler->text());
-
-		echo('\n ------------------ SPIT ------------------------');
-
 		$image = $crawler->filter('a:contains("Valid but needs approve")')->parents()->parents();
 
 		$form = $image->selectButton($this->lang['APPROVE'])->form();
 		$crawler = self::submit($form);
 
-		echo($crawler->text());
-
-		echo('\n ------------------ SPIT ------------------------');
-
 		$form = $crawler->selectButton('confirm')->form();
+		var_dump($form);
 		$crawler = self::submit($form);
 
 		$this->assertContains('In total there is 1 image approved.',  $crawler->text());
