@@ -710,32 +710,32 @@ class moderate
 		$show_notify = true;
 		$this->language->add_lang(array('gallery_mcp', 'gallery'), 'phpbbgallery/core');
 		$this->language->add_lang('mcp');
-			if (confirm_box(true))
-			{
-				$np = $this->request->variable('notify_poster', '');
-				$notify_poster = ($action == 'approve' && $np);
-				$image_id_ary = array($image_id);
-				$this->image->approve_images($image_id_ary, $album_data['album_id']);
-				$this->album->update_info($album_data['album_id']);
-				// So we need to see if there are still unapproved images in the album
-				$this->notification_helper->read('approval', $album_data['album_id']);
-				$message = sprintf($this->language->lang('WAITING_APPROVED_IMAGE', 1));
-				meta_refresh($meta_refresh_time, $image_backlink);
-				trigger_error($message);
-			}
-			else
-			{
-				$this->template->assign_vars(array(
-					'S_NOTIFY_POSTER'			=> $show_notify,
-					'S_' . strtoupper($action)	=> true,
-					'S_CONFIRM_ACTION'	=> $this->helper->route('phpbbgallery_core_moderate_image_approve', array('image_id' => $image_id)),
-				));
-				$action_msg = $this->language->lang('QUEUES_A_APPROVE2_CONFIRM');
-				$s_hidden_fields = build_hidden_fields(array(
-					'action'		=> 'approve',
-				));
-				confirm_box(false, $action_msg, $s_hidden_fields, 'mcp_approve.html');
-			}
+		if (confirm_box(true))
+		{
+			$np = $this->request->variable('notify_poster', '');
+			$notify_poster = ($action == 'approve' && $np);
+			$image_id_ary = array($image_id);
+			$this->image->approve_images($image_id_ary, $album_data['album_id']);
+			$this->album->update_info($album_data['album_id']);
+			// So we need to see if there are still unapproved images in the album
+			$this->notification_helper->read('approval', $album_data['album_id']);
+			$message = $this->language->lang('WAITING_APPROVED_IMAGE', 1);
+			//meta_refresh($meta_refresh_time, $image_backlink);
+			trigger_error($message);
+		}
+		else
+		{
+			$this->template->assign_vars(array(
+				'S_NOTIFY_POSTER'			=> $show_notify,
+				'S_' . strtoupper($action)	=> true,
+				'S_CONFIRM_ACTION'	=> $this->helper->route('phpbbgallery_core_moderate_image_approve', array('image_id' => $image_id)),
+			));
+			$action_msg = $this->language->lang('QUEUES_A_APPROVE2_CONFIRM');
+			$s_hidden_fields = build_hidden_fields(array(
+				'action'		=> 'approve',
+			));
+			confirm_box(false, $action_msg, $s_hidden_fields, 'mcp_approve.html');
+		}
 
 		return $this->helper->render('gallery/moderate_overview.html', $this->language->lang('GALLERY'));
 	}
