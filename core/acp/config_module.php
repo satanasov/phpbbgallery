@@ -415,6 +415,7 @@ class config_module
 				),
 
 				'PHPBB_INTEGRATION'	=> array(
+					'disp_gallery_icon'			=> array('lang' => 'DISP_GALLERY_ICON',				'validate' => 'bool',	'type' => 'radio:yes_no',	'explain' => true),
 					'disp_total_images'			=> array('lang' => 'DISP_TOTAL_IMAGES',				'validate' => 'bool',	'type' => 'radio:yes_no'),
 					'profile_user_images'		=> array('lang' => 'DISP_USER_IMAGES_PROFILE',		'validate' => 'bool',	'type' => 'radio:yes_no'),
 					'profile_pega'				=> array('lang' => 'DISP_PERSONAL_ALBUM_PROFILE',	'validate' => 'bool',	'type' => 'radio:yes_no'),

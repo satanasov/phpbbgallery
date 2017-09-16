@@ -98,9 +98,12 @@ class main_listener implements EventSubscriberInterface
 	}
 	public function add_page_header_link($event)
 	{
-		$this->template->assign_vars(array(
-			'U_GALLERY'	=> $this->helper->route('phpbbgallery_core_index'),
-		));
+		if ($this->gallery_config->get('disp_gallery_icon') == 1)
+		{
+			$this->template->assign_vars(array(
+				'U_GALLERY'	=> $this->helper->route('phpbbgallery_core_index'),
+			));
+		}
 	}
 	public function user_profile_galleries($event)
 	{

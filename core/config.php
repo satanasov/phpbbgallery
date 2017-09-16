@@ -53,6 +53,7 @@ class config
 		'disp_statistic'			=> true,
 		'disp_total_images'			=> true,
 		'disp_whoisonline'			=> true,
+		'disp_gallery_icon'			=> true,
 
 		'gdlib_version'		=> 2,
 
