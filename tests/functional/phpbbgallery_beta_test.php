@@ -1146,7 +1146,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				't',
 				'd',
 				'Image in sublabum to move',
-				'Valid but needs approve',
+				'Valid but needs delete',
 				'Valid',
 			),
 			'time_asc'	=> array(
@@ -1154,7 +1154,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				'a',
 				'Valid',
 				'Valid but needs approve',
-				'Image in sublabum to move',
+				'Valid but needs delete',
 			),
 			'name_desc'	=> array(
 				'n',
