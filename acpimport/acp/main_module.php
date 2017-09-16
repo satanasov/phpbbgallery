@@ -144,6 +144,7 @@ class main_module
 							//'image_exif_data'		=> '',
 						);
 
+						unset($image_tools);
 						$image_tools = $phpbb_container->get('phpbbgallery.core.file.tool');
 						$image_tools->set_image_options($gallery_config->get('max_filesize'), $gallery_config->get('max_height'), $gallery_config->get('max_width'));
 						$image_tools->set_image_data($gallery_url->path('upload') . $image_filename);
