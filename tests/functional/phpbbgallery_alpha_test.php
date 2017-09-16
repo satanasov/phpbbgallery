@@ -549,6 +549,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$crawler = self::submit($form);
 
 		$form = $crawler->selectButton($this->lang('YES'))->form();
+		var_dump($form);
 		$crawler = self::submit($form);
 
 		$this->assertContains('In total there is 1 image approved.',  $crawler->text());
@@ -571,7 +572,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$crawler = self::submit($form);
 
 
-		$form = $crawler->selectButton($this->lang['YES'])->form();
+		$form = $crawler->selectButton($this->lang('YES'))->form();
 		$crawler = self::submit($form);
 
 		$this->assertContainsLang('DELETED_IMAGE',  $crawler->text());
