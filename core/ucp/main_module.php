@@ -152,7 +152,7 @@ class main_module
 	function initialise_album()
 	{
 		global $cache, $db,  $user, $phpbb_ext_gallery_core_auth, $phpbb_ext_gallery_core_album, $phpbb_ext_gallery_config, $albums_table, $phpbb_ext_gallery_user;
-		global $request, $users_table;
+		global $request, $users_table, $phpbb_container;
 
 		// we will have to initialse $phpbb_ext_gallery_user
 		$phpbb_ext_gallery_user->set_user_id($user->data['user_id']);
@@ -184,6 +184,11 @@ class main_module
 				'personal_album_id'	=> $album_id,
 			));
 
+			$profile_fields = $phpbb_container->get('profilefields.manager');
+			$vars = array(
+				'pf_gallery_palbum'	=> (int) $album_id
+			);
+			$profile_fields->update_profile_field_data($user->data['user_id'], $vars);
 			$this->subscribe_pegas($album_id);
 			$phpbb_ext_gallery_config->inc('num_pegas', 1);
 
