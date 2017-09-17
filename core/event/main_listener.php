@@ -21,7 +21,7 @@ class main_listener implements EventSubscriberInterface
 			'core.user_setup'						=> 'load_language_on_setup',
 			'core.page_header'						=> 'add_page_header_link',
 			'core.memberlist_view_profile'	       => 'user_profile_galleries',
-			'core.generate_profile_fields_template_data_before'	       => 'profile_fileds',
+			//'core.generate_profile_fields_template_data_before'	       => 'profile_fileds',
 			'core.grab_profile_fields_data'	       => 'get_user_ids',
 			//'core.viewonline_overwrite_location'	=> 'add_newspage_viewonline',
 		);
@@ -153,6 +153,23 @@ class main_listener implements EventSubscriberInterface
 					'U_GALLERY_IMAGES_ALLOW'	=> true,
 					'U_GALLERY_IMAGES'	=> 0,
 				));
+			}
+		}
+	}
+	public function get_user_ids($event)
+	{
+		if (count($event['user_ids']) == 1)
+		{
+			$this->user_ids = $event['user_ids'];
+			if ($this->gallery_config->get('profile_pega'))
+			{
+				$sql = 'SELECT album_id, album_user_id FROM ' . $this->albums_table . ' WHERE parent_id = 0 and ' . $this->db->sql_in_set('album_user_id', $this->user_ids);
+				$result = $this->db->sql_query($sql);
+				while ($row = $this->db->sql_fetchrow($result))
+				{
+					$this->albums[$row['album_user_id']] = (int) $row['album_id'];
+				}
+				$this->db->sql_freeresult($result);
 			}
 		}
 	}
