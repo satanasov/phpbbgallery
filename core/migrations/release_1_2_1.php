@@ -32,14 +32,7 @@ class release_1_2_1 extends \phpbb\db\migration\profilefield_base_migration
 
 		foreach (self::$configs as $name => $value)
 		{
-			if (isset(self::$is_dynamic[$name]))
-			{
-				$config->set('phpbb_gallery_' . $name, $value, true);
-			}
-			else
-			{
-				$config->set('phpbb_gallery_' . $name, $value);
-			}
+			$config->set('phpbb_gallery_' . $name, $value);
 		}
 
 		return true;
