@@ -22,6 +22,7 @@ class release_1_2_1 extends \phpbb\db\migration\profilefield_base_migration
 			array('custom', array(array(&$this, 'install_config'))),
 			array('custom', array(array($this, 'create_custom_field'))),
 			array('custom', array(array(&$this, 'add_base_url'))),
+			array('custom', array(array(&$this, 'fix_gallery_lang'))),
 		);
 	}
 
@@ -57,6 +58,12 @@ class release_1_2_1 extends \phpbb\db\migration\profilefield_base_migration
 		$this->db->sql_query($sql);
 	}
 
+	public function fix_gallery_lang()
+	{
+		$sql = 'UPDATE ' . PROFILE_LANG_TABLE . ' SET lang_name = \'GALLERY\' WHERE lang_name = \'GALLERY_PALBUM\'';
+		$this->db->sql_query($sql);
+	}
+
 	static public $configs = array(
 		'version'					=> '1.2.1',
 		'disp_gallery_icon'			=> true,
@@ -85,7 +92,7 @@ class release_1_2_1 extends \phpbb\db\migration\profilefield_base_migration
 		'field_no_view'	=> 0,
 		'field_active'	=> 1,
 		'field_is_contact'	=> 1,
-		'field_contact_desc'	=> 'VIEW_USER_GALLERY',
+		'field_contact_desc'	=> 'USERS_PERSONAL_ALBUMS',
 		'field_contact_url'	=> ''
 	);
 }
