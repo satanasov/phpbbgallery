@@ -2,7 +2,7 @@
 <script type="text/javascript">
 function getElement(iElementId)
 {
-	if (document.all) 
+	if (document.all)
 	{
 		return document.all[iElementId];
 	}
@@ -30,32 +30,74 @@ function toggleElement(oElement)
 <!-- IF S_USER_LOGGED_IN and not S_IS_BOT -->
 <ul class="linklist">
 	<li class="rightside">
-		<div class="dropdown-container dropdown-button-control topic-tools dropdown-right dropdown-down">
-			<span title="{L_QUICK_LINKS}" class="dropdown-trigger button dropdown-select dropdown-toggle"></span>
-			<div class="dropdown hidden">
+		<div class="dropdown-container dropdown-button-control topic-tools">
+			<span title="Topic tools" class="button button-secondary dropdown-trigger dropdown-select dropdown-toggle">
+				<i class="icon fa-bars fa-fw" aria-hidden="true"></i>
+				<span class="caret"><i class="icon fa-sort-down fa-fw" aria-hidden="true"></i></span>
+			</span>
+			<div class="dropdown">
 				<div class="pointer"><div class="pointer-inner"></div></div>
 				<ul class="dropdown-contents">
 					<!-- IF not S_IS_BOT and U_MARK_ALBUMS -->
-						<li><a href="{U_MARK_ALBUMS}" accesskey="m">{L_MARK_ALBUMS_READ}</a></li>
+					<li>
+						<a href="{U_MARK_ALBUMS}" accesskey="m">
+							<i class="icon fa-eye fa-fw icon-blue" aria-hidden="true"></i>
+							<span>{L_MARK_ALBUMS_READ}</span>
+						</a>
+					</li>
 					<!-- ENDIF -->
-					<li><a href="{U_GALLERY_SEARCH}">{L_SEARCH}</a></li>
+					<li>
+						<a href="{U_GALLERY_SEARCH}">
+							<i class="icon fa-search fa-fw icon-blue" aria-hidden="true"></i>
+							<span>{L_SEARCH}</span>
+						</a>
+					</li>
 					<!-- IF U_G_SEARCH_RECENT -->
-					<li><a href="{U_G_SEARCH_RECENT}">{L_VIEW_SEARCH_RECENT}</a></li>
+					<li>
+						<a href="{U_G_SEARCH_RECENT}">
+							<i class="icon fa-camera fa-fw icon-blue" aria-hidden="true"></i>
+							<span>{L_VIEW_SEARCH_RECENT}</span>
+						</a>
+					</li>
 					<!-- ENDIF -->
 					<!-- IF U_G_SEARCH_RANDOM -->
-					<li><a href="{U_G_SEARCH_RANDOM}">{L_VIEW_SEARCH_RANDOM}</a></li>
+					<li>
+						<a href="{U_G_SEARCH_RANDOM}">
+							<i class="icon fa-random fa-fw icon-blue" aria-hidden="true"></i>
+							<span>{L_VIEW_SEARCH_RANDOM}</span>
+						</a>
+					</li>
 					<!-- ENDIF -->
 					<!-- IF U_G_SEARCH_COMMENTED -->
-						<li><a href="{U_G_SEARCH_COMMENTED}">{L_VIEW_SEARCH_COMMENTED}</a></li>
+					<li>
+						<a href="{U_G_SEARCH_COMMENTED}">
+							<i class="icon fa-comments fa-fw icon-blue" aria-hidden="true"></i>
+							<span>{L_VIEW_SEARCH_COMMENTED}</span>
+						</a>
+					</li>
 					<!-- ENDIF -->
 					<!-- IF U_G_SEARCH_TOPRATED -->
-						<li><a href="{U_G_SEARCH_TOPRATED}">{L_VIEW_SEARCH_TOPRATED}</a></li>
+					<li>
+						<a href="{U_G_SEARCH_TOPRATED}">
+							<i class="icon fa-star-half-o fa-fw icon-blue" aria-hidden="true"></i>
+							<span>{L_VIEW_SEARCH_TOPRATED}</span>
+						</a>
+					</li>
 					<!-- ENDIF -->
 					<!-- IF U_G_SEARCH_CONTESTS -->
-						<li><a href="{U_G_SEARCH_CONTESTS}">{L_VIEW_SEARCH_CONTESTS}</a></li>
+					<li>
+						<a href="{U_G_SEARCH_CONTESTS}">
+							<span>{L_VIEW_SEARCH_CONTESTS}</span>
+						</a>
+					</li>
 					<!-- ENDIF -->
 					<!-- IF S_USER_LOGGED_IN -->
-						<li><a href="{U_G_SEARCH_SELF}">{L_VIEW_SEARCH_SELF}</a></li>
+					<li>
+						<a href="{U_G_SEARCH_SELF}">
+							<i class="icon fa-user fa-fw icon-blue" aria-hidden="true"></i>
+							<span>{L_VIEW_SEARCH_SELF}</span>
+						</a>
+					</li>
 					<!-- ENDIF -->
 				</ul>
 			</div>
@@ -142,7 +184,7 @@ function toggleElement(oElement)
 		<div class="inner">
 			<ul class="topiclist">
 				<li class="header">
-					<dl class="icon">
+					<dl class="row-item">
 						<dt>
 							<div class="list-inner">
 								{L_GALLERY}
@@ -155,7 +197,7 @@ function toggleElement(oElement)
 			</ul>
 			<ul class="topiclist forums">
 				<li class="row">
-					<dl class="icon forum_unread">
+					<dl class="row-item forum_unread">
 						<dt>
 							<a href="{U_USERS_PERSONAL_GALLERIES}" class="icon-link"></a>
 							<div class="list-inner">
@@ -208,9 +250,9 @@ function toggleElement(oElement)
 				<span class="corners-top"><span></span></span>
 				<div class="postbody">
 						<ul class="post-buttons">
-							<!-- IF commentrow.U_EDIT --><li><a href="{commentrow.U_EDIT}" title="{L_EDIT_COMMENT}" class="button icon-button edit-icon"><span>{L_EDIT_COMMENT}</span></a></li><!-- ENDIF -->
-							<!-- IF commentrow.U_DELETE --><li><a href="{commentrow.U_DELETE}" title="{L_DELETE_COMMENT}" class="button icon-button delete-icon"><span>{L_DELETE_COMMENT}</span></a></li><!-- ENDIF -->
-							<!-- IF commentrow.U_QUOTE --><li><a href="{commentrow.U_QUOTE}" title="{L_QUOTE_COMMENT}" class="button icon-button quote-icon"><span>{L_QUOTE_COMMENT}</span></a></li><!-- ENDIF -->
+							<!-- IF commentrow.U_EDIT --><li><a href="{commentrow.U_EDIT}" title="{L_EDIT_COMMENT}" class="button button-icon-only"><i class="icon fa-pencil fa-fw" aria-hidden="true"></i><span class="sr-only">{L_QUOTE_COMMENT}</span></a></li><!-- ENDIF -->
+							<!-- IF commentrow.U_DELETE --><li><a href="{commentrow.U_DELETE}" title="{L_DELETE_COMMENT}" class="button button-icon-only"><i class="icon fa-times fa-fw" aria-hidden="true"></i><span class="sr-only">{L_QUOTE_COMMENT}</span></a></li><!-- ENDIF -->
+							<!-- IF commentrow.U_QUOTE --><li><a href="{commentrow.U_QUOTE" title="{L_QUOTE_COMMENT}" class="button button-icon-only"><i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">{L_QUOTE_COMMENT}</span></a></li><!-- ENDIF -->
 						</ul>
 						<p class="author"><a href="{commentrow.U_COMMENT}">{MINI_POST_IMG}</a>&nbsp;{L_POST_BY_AUTHOR} <strong>{commentrow.POST_AUTHOR_FULL}</strong> &raquo; {commentrow.TIME} </p>
 					<div class="content">{commentrow.TEXT}</div>

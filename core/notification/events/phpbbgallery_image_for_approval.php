@@ -10,25 +10,6 @@ namespace phpbbgallery\core\notification\events;
 
 class phpbbgallery_image_for_approval extends \phpbb\notification\type\base
 {
-	protected $helper;
-
-	public function __construct(\phpbb\user_loader $user_loader, \phpbb\db\driver\driver_interface $db, \phpbb\cache\driver\driver_interface $cache,
-	\phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\controller\helper $helper,
-	$phpbb_root_path, $php_ext, $notification_types_table, $notifications_table, $user_notifications_table)
-	{
-		$this->user_loader = $user_loader;
-		$this->db = $db;
-		$this->cache = $cache;
-		$this->user = $user;
-		$this->auth = $auth;
-		$this->config = $config;
-		$this->helper = $helper;
-		$this->phpbb_root_path = $phpbb_root_path;
-		$this->php_ext = $php_ext;
-		$this->notification_types_table = $notification_types_table;
-		$this->notifications_table = $notifications_table;
-		$this->user_notifications_table = $user_notifications_table;
-	}
 	/**
 	* Get notification type name
 	*
@@ -47,6 +28,23 @@ class phpbbgallery_image_for_approval extends \phpbb\notification\type\base
 	public static $notification_option = array(
 		'lang'	=> 'NOTIFICATION_TYPE_PHPBBGALLERY_IMAGE_FOR_APPROVE',
 	);
+
+	/** @var \phpbb\user_loader */
+	protected $user_loader;
+
+	/** @var \phpbb\config\config */
+	protected $config;
+
+	public function set_config(\phpbb\config\config $config)
+	{
+		$this->config = $config;
+	}
+
+	public function set_user_loader(\phpbb\user_loader $user_loader)
+	{
+		$this->user_loader = $user_loader;
+	}
+
 	/**
 	* Is this type available to the current user (defines whether or not it will be shown in the UCP Edit notification options)
 	*
@@ -79,57 +77,55 @@ class phpbbgallery_image_for_approval extends \phpbb\notification\type\base
 		// No parent
 		return $data['album_id'];
 	}
+
 	/**
-	* Find the users who will receive notifications
-	*
-	* @param array $data The data for the updated rules
-	*
-	* @return array
-	*/
+	 * Find the users who will receive notifications
+	 *
+	 * @param array $data The data for the updated rules
+	 *
+	 * @param array $options
+	 * @return array
+	 */
 	public function find_users_for_notification($data, $options = array())
 	{
 		$this->user_loader->load_users($data['user_ids']);
 		return $this->check_user_notification_options($data['user_ids'], $options);
 	}
+
 	/**
-	* Users needed to query before this notification can be displayed
-	*
-	* @return array Array of user_ids
-	*/
-	public function users_to_query()
-	{
-		return array();
-	}
-	/**
-	* Get the user's avatar
-	*/
+	 * Get the user's avatar
+	 */
 	public function get_avatar()
 	{
 		$users = array($this->get_data('uploader'));
 		$this->user_loader->load_users($users);
 		return $this->user_loader->get_avatar($this->get_data('uploader'));
 	}
+
 	/**
-	* Get the HTML formatted title of this notification
-	*
-	* @return string
-	*/
+	 * Get the HTML formatted title of this notification
+	 *
+	 * @return string
+	 */
 	public function get_title()
 	{
 		$users = array($this->get_data('uploader'));
 		$this->user_loader->load_users($users);
 		$username = $this->user_loader->get_username($this->get_data('uploader'), 'no_profile');
-		return $this->user->lang('NOTIFICATION_PHPBBGALLERY_IMAGE_FOR_APPROVAL', $this->get_data('album_name'), $username);
+		return $this->language->lang('NOTIFICATION_PHPBBGALLERY_IMAGE_FOR_APPROVAL', $this->get_data('album_name'), $username);
 	}
+
 	/**
-	* Get the url to this item
-	*
-	* @return string URL
-	*/
-	public function get_url()
+	 * Get the HTML formatted reference of the notification
+	 *
+	 * @return string
+	 */
+	public function get_reference()
 	{
-		return $this->get_data('album_url');
+		//return true;
+		//return censor_text($this->get_data('album_name'));
 	}
+
 	/**
 	* Get email template
 	*
@@ -148,6 +144,27 @@ class phpbbgallery_image_for_approval extends \phpbb\notification\type\base
 	{
 		return array();
 	}
+
+	/**
+	 * Get the url to this item
+	 *
+	 * @return string URL
+	 */
+	public function get_url()
+	{
+		return $this->get_data('album_url');
+	}
+
+	/**
+	 * Users needed to query before this notification can be displayed
+	 *
+	 * @return array Array of user_ids
+	 */
+	public function users_to_query()
+	{
+		return array();
+	}
+
 	/**
 	* Function for preparing the data for insertion in an SQL query
 	* (The service handles insertion)
@@ -162,6 +179,6 @@ class phpbbgallery_image_for_approval extends \phpbb\notification\type\base
 		$this->set_data('album_name', $data['album_name']);
 		$this->set_data('album_url', $data['album_url']);
 		$this->set_data('uploader', $data['uploader']);
-		return parent::create_insert_array($data, $pre_create_data);
+		parent::create_insert_array($data, $pre_create_data);
 	}
 }

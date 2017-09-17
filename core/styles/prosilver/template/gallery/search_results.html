@@ -68,9 +68,30 @@ function toggleElement(oElement)
 		<div class="inner">
 			<div class="postbody">
 					<ul class="post-buttons">
-						<!-- IF commentrow.U_EDIT --><li><a href="{commentrow.U_EDIT}" title="{L_EDIT_COMMENT}" class="button icon-button edit-icon"><span>{L_EDIT_COMMENT}</span></a></li><!-- ENDIF -->
-						<!-- IF commentrow.U_DELETE --><li><a href="{commentrow.U_DELETE}" title="{L_DELETE_COMMENT}" class="button icon-button delete-icon"><span>{L_DELETE_COMMENT}</span></a></li><!-- ENDIF -->
-						<!-- IF commentrow.U_QUOTE --><li><a href="{commentrow.U_QUOTE}" title="{L_QUOTE_COMMENT}" class="button icon-button quote-icon"><span>{L_QUOTE_COMMENT}</span></a></li><!-- ENDIF -->
+						<!-- IF commentrow.U_EDIT -->
+							<li>
+								<a href="{commentrow.U_EDIT}" title="{L_EDIT_COMMENT}" class="button button-icon-only">
+									<i class="icon fa-pencil fa-fw" aria-hidden="true"></i>
+									<span class="sr-only">{L_EDIT_COMMENT}</span>
+								</a>
+							</li>
+						<!-- ENDIF -->
+						<!-- IF commentrow.U_DELETE -->
+							<li>
+								<a href="{commentrow.U_DELETE}" title="{L_DELETE_COMMENT}" class="button button-icon-only">
+									<i class="icon fa-times fa-fw" aria-hidden="true"></i>
+									<span class="sr-only">{L_DELETE_COMMENT}</span>
+								</a>
+							</li>
+						<!-- ENDIF -->
+						<!-- IF commentrow.U_QUOTE -->
+							<li>
+								<a href="{commentrow.U_QUOTE}" title="{L_QUOTE_COMMENT}" class="button button-icon-only">
+									<i class="icon fa-quote-left fa-fw" aria-hidden="true"></i>
+									<span class="sr-only">{L_QUOTE_COMMENT}</span>
+								</a>
+							</li>
+						<!-- ENDIF -->
 					</ul>
 					<p class="author"><a href="{commentrow.U_COMMENT}">{MINI_POST_IMG}</a>&nbsp;{L_POST_BY_AUTHOR} <strong>{commentrow.POST_AUTHOR_FULL}</strong> &raquo; {commentrow.TIME} </p>
 				<div class="content">{commentrow.TEXT}</div>

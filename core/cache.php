@@ -169,4 +169,21 @@ class cache
 	{
 		$this->phpbb_cache->destroy('_albums');
 	}
+
+	/**
+	 * Destroy interface for phpbb_cache destroy
+	 * @param $target
+	 * @param bool $subtarget
+	 */
+	public function destroy($target, $subtarget = false)
+	{
+		if ($subtarget)
+		{
+			$this->phpbb_cache->destroy($target, $subtarget);
+		}
+		else
+		{
+			$this->phpbb_cache->destroy($target);
+		}
+	}
 }

@@ -61,15 +61,23 @@ class file
 	protected $use_watermark = false;
 
 	/**
-	* Constructor
-	*
-	* @param \phpbb\config\config		$config		Config object
-	* @param \phpbb\db\driver\driver	$db			Database object
-	* @param \phpbb\user				$user		User object
-	* @param \phpbbgallery\core\album\display	$display	Albums display object
-	* @param \phpbbgallery\core\auth\auth	$gallery_auth	Gallery auth object
-	* @param \phpbbgallery\core\user	$gallery_user	Gallery user object
-	*/
+	 * Constructor
+	 *
+	 * @param \phpbb\config\config $config Config object
+	 * @param \phpbb\db\driver\driver|\phpbb\db\driver\driver_interface $db Database object
+	 * @param \phpbb\user $user User object
+	 * @param \phpbbgallery\core\auth\auth $gallery_auth Gallery auth object
+	 * @param \phpbbgallery\core\user $gallery_user Gallery user object
+	 * @param \phpbbgallery\core\file\file $tool
+	 * @param \phpbb\request\request $request
+	 * @param $source_path
+	 * @param $medium_path
+	 * @param $mini_path
+	 * @param $watermark_file
+	 * @param $albums_table
+	 * @param $images_table
+	 * @internal param \phpbbgallery\core\album\display $display Albums display object
+	 */
 	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbbgallery\core\auth\auth $gallery_auth,
 	\phpbbgallery\core\user $gallery_user, \phpbbgallery\core\file\file $tool, \phpbb\request\request $request,
 	$source_path, $medium_path, $mini_path, $watermark_file, $albums_table, $images_table)

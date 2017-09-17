@@ -59,8 +59,9 @@ class settings_module
 
 		$this->gallery_user = $phpbb_container->get('phpbbgallery.core.user');
 		$this->gallery_user->set_user_id($this->user->data['user_id']);
-
-		$user->add_lang_ext('phpbbgallery/core', array('gallery', 'gallery_acp', 'gallery_mcp', 'gallery_ucp'));
+		$this->language = $phpbb_container->get('language');
+		$this->language->add_lang('posting');
+		$this->language->add_lang(array('gallery', 'gallery_acp', 'gallery_mcp', 'gallery_ucp'), 'phpbbgallery/core');
 		$this->tpl_name = 'gallery/ucp_gallery';
 		add_form_key('ucp_gallery');
 
@@ -68,7 +69,7 @@ class settings_module
 		{
 			case 'manage':
 				$title = 'UCP_GALLERY_SETTINGS';
-				$this->page_title = $user->lang[$title];
+				$this->page_title = $this->language->lang($title);
 				$this->set_personal_settings();
 			break;
 		}
@@ -76,6 +77,9 @@ class settings_module
 
 	protected function set_personal_settings()
 	{
+		global $phpbb_container;
+
+		$this->language = $phpbb_container->get('language');
 		if ($this->request->is_set_post('submit'))
 		{
 			$gallery_settings = array(
@@ -105,7 +109,7 @@ class settings_module
 			$this->gallery_user->update_data($gallery_settings);
 
 			meta_refresh(3, $this->u_action);
-			trigger_error($this->user->lang['WATCH_CHANGED'] . '<br /><br />' . sprintf($this->user->lang['RETURN_UCP'], '<a href="' . $this->u_action . '">', '</a>'));
+			trigger_error($this->language->lang('WATCH_CHANGED') . '<br /><br />' . sprintf($this->language->lang('RETURN_UCP'), '<a href="' . $this->u_action . '">', '</a>'));
 		}
 
 		/**
@@ -120,8 +124,8 @@ class settings_module
 			'S_PERSONAL_SETTINGS'	=> true,
 			'S_UCP_ACTION'			=> $this->u_action,
 
-			'L_TITLE'			=> $this->user->lang['UCP_GALLERY_SETTINGS'],
-			'L_TITLE_EXPLAIN'	=> $this->user->lang['WATCH_NOTE'],
+			'L_TITLE'			=> $this->language->lang('UCP_GALLERY_SETTINGS'),
+			'L_TITLE_EXPLAIN'	=> $this->language->lang('WATCH_NOTE'),
 
 			'S_WATCH_OWN'		=> $this->gallery_user->get_data('watch_own'),
 			'S_WATCH_COM'		=> $this->gallery_user->get_data('watch_com'),

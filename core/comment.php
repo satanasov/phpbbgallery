@@ -108,8 +108,11 @@ class comment
 	}
 
 	/**
-	* Edit comment
-	*/
+	 * Edit comment
+	 * @param $comment_id
+	 * @param $data
+	 * @return bool|void
+	 */
 	public function edit($comment_id, $data)
 	{
 		if (!isset($data['comment']))
@@ -131,8 +134,9 @@ class comment
 	}
 
 	/**
-	* Sync last comment information
-	*/
+	 * Sync last comment information
+	 * @param bool $image_ids
+	 */
 	public function sync_image_comments($image_ids = false)
 	{
 		$sql_where = $sql_where_image = '';

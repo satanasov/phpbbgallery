@@ -30,13 +30,14 @@ class albums_module
 		global $phpbb_dispatcher, $table_prefix, $table_name, $phpbb_container, $request, $moderators_table, $permissions_table, $roles_table, $users_table;
 		$helper = $phpbb_container->get('controller.helper');
 		$pagination = $phpbb_container->get('pagination');
+		$this->language = $phpbb_container->get('language');
 
 		// Let us define some helpers;
 		$albums_table = $table_prefix . 'gallery_albums';
 		$contests_table = $table_prefix . 'gallery_contests';
 		$tracking_table = $table_prefix . 'gallery_albums_tracking';
 		// Init ext gallery
-		$user->add_lang_ext('phpbbgallery/core', array('gallery_acp', 'gallery'));
+		$this->language->add_lang(array('gallery_acp', 'gallery'), 'phpbbgallery/core');
 
 		$gallery_user = $phpbb_container->get('phpbbgallery.core.user');
 		$phpbb_ext_gallery_core_auth = $phpbb_container->get('phpbbgallery.core.auth');
@@ -71,7 +72,7 @@ class albums_module
 		if ($update && !check_form_key($form_key))
 		{
 			$update = false;
-			$errors[] = $user->lang['FORM_INVALID'];
+			$errors[] = $this->language->lang('FORM_INVALID');
 		}
 
 		// Major routines
@@ -94,10 +95,11 @@ class albums_module
 
 					$cache->destroy('sql', $table_prefix . 'gallery_albums');
 
-					trigger_error($user->lang['ALBUM_DELETED'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id));
+					trigger_error($this->language->lang('ALBUM_DELETED') . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id));
 
 				break;
 
+				/** @noinspection PhpMissingBreakStatementInspection */
 				case 'edit':
 					$album_data = array(
 						'album_id'		=>	$album_id
@@ -175,11 +177,11 @@ class albums_module
 							if ($action == 'edit')
 							{
 								$sql = 'DELETE FROM ' . $table_prefix . 'gallery_permissions
-									WHERE perm_album_id = ' . $album_data['album_id'];
+									WHERE perm_album_id = ' . (int) $album_data['album_id'];
 								$db->sql_query($sql);
 
 								$sql = 'DELETE FROM ' . $table_prefix . 'gallery_modscache
-									WHERE album_id = ' . $album_data['album_id'];
+									WHERE album_id = ' . (int) $album_data['album_id'];
 								$db->sql_query($sql);
 							}
 
@@ -202,7 +204,7 @@ class albums_module
 
 							$modscache_ary = array();
 							$sql = 'SELECT * FROM ' . $table_prefix . 'gallery_modscache
-								WHERE album_id = ' . $album_perm_from;
+								WHERE album_id = ' . (int) $album_perm_from;
 							$result = $db->sql_query($sql);
 							while ($row = $db->sql_fetchrow($result))
 							{
@@ -229,8 +231,8 @@ class albums_module
 
 						$acl_url = '&amp;mode=manage&amp;action=v_mask&amp;album_id[]=' . $album_data['album_id'];
 
-						$message = ($action == 'add') ? $user->lang['ALBUM_CREATED'] : $user->lang['ALBUM_UPDATED'];
-						$message .= '<br /><br />' . sprintf($user->lang['REDIRECT_ACL'], '<a href="' . $phpbb_ext_gallery_core_url->append_sid('admin' , 'index', 'i=-phpbbgallery-core-acp-permissions_module' . $acl_url) . '">', '</a>');
+						$message = ($action == 'add') ? $this->language->lang('ALBUM_CREATED') : $this->language->lang('ALBUM_UPDATED');
+						$message .= '<br /><br />' . sprintf($this->language->lang('REDIRECT_ACL'), '<a href="' . $phpbb_ext_gallery_core_url->append_sid('admin' , 'index', 'i=-phpbbgallery-core-acp-permissions_module' . $acl_url) . '">', '</a>');
 
 						// Redirect directly to permission settings screen
 						if ($action == 'add' && !$album_perm_from)
@@ -252,19 +254,19 @@ class albums_module
 
 				if (!$album_id)
 				{
-					trigger_error($user->lang['NO_ALBUM'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
+					trigger_error($this->language->lang('NO_ALBUM') . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
 				}
 
 				$sql = 'SELECT *
-					FROM ' . $table_prefix . "gallery_albums
-					WHERE album_id = $album_id";
+					FROM ' . $table_prefix . 'gallery_albums
+					WHERE album_id = ' . (int) $album_id;
 				$result = $db->sql_query($sql);
 				$row = $db->sql_fetchrow($result);
 				$db->sql_freeresult($result);
 
 				if (!$row)
 				{
-					trigger_error($user->lang['NO_ALBUM'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
+					trigger_error($this->language->lang('NO_ALBUM') . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
 				}
 
 				$move_album_name = $manage_albums->move_album_by($row, $action, 1);
@@ -282,19 +284,19 @@ class albums_module
 			case 'sync_album':
 				if (!$album_id)
 				{
-					trigger_error($user->lang['NO_ALBUM'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
+					trigger_error($this->language->lang('NO_ALBUM') . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
 				}
 
 				$sql = 'SELECT album_name, album_type
-					FROM ' . $table_prefix . "gallery_albums
-					WHERE album_id = $album_id";
+					FROM ' . $table_prefix . 'gallery_albums
+					WHERE album_id = ' . (int) $album_id;
 				$result = $db->sql_query($sql);
 				$row = $db->sql_fetchrow($result);
 				$db->sql_freeresult($result);
 
 				if (!$row)
 				{
-					trigger_error($user->lang['NO_ALBUM'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
+					trigger_error($this->language->lang('NO_ALBUM') . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
 				}
 
 				$phpbb_ext_gallery_core_album->update_info($album_id);
@@ -302,7 +304,7 @@ class albums_module
 				$log = $phpbb_container->get('phpbbgallery.core.log');
 				$log->add_log('admin', 'resync', $album_id, 0, array('LOG_ALBUM_SYNC', $row['album_name']));
 
-				$template->assign_var('L_ALBUM_RESYNCED', sprintf($user->lang['ALBUM_RESYNCED'], $row['album_name']));
+				$template->assign_var('L_ALBUM_RESYNCED', sprintf($this->language->lang('ALBUM_RESYNCED'), $row['album_name']));
 
 			break;
 
@@ -434,28 +436,28 @@ class albums_module
 				}
 
 				$album_sort_key_options = '';
-				$album_sort_key_options .= '<option' . ((!in_array($album_data['album_sort_key'], array('t', 'n', 'vc', 'u', 'ra', 'r', 'c', 'lc'))) ? ' selected="selected"' : '') . " value=''>" . $user->lang['SORT_DEFAULT'] . '</option>';
-				$album_sort_key_options .= '<option' . (($album_data['album_sort_key'] == 't') ? ' selected="selected"' : '') . " value='t'>" . $user->lang['TIME'] . '</option>';
-				$album_sort_key_options .= '<option' . (($album_data['album_sort_key'] == 'n') ? ' selected="selected"' : '') . " value='n'>" . $user->lang['IMAGE_NAME'] . '</option>';
-				$album_sort_key_options .= '<option' . (($album_data['album_sort_key'] == 'vc') ? ' selected="selected"' : '') . " value='vc'>" . $user->lang['GALLERY_VIEWS'] . '</option>';
-				$album_sort_key_options .= '<option' . (($album_data['album_sort_key'] == 'u') ? ' selected="selected"' : '') . " value='u'>" . $user->lang['USERNAME'] . '</option>';
-				$album_sort_key_options .= '<option' . (($album_data['album_sort_key'] == 'ra') ? ' selected="selected"' : '') . " value='ra'>" . $user->lang['RATING'] . '</option>';
-				$album_sort_key_options .= '<option' . (($album_data['album_sort_key'] == 'r') ? ' selected="selected"' : '') . " value='r'>" . $user->lang['RATES_COUNT'] . '</option>';
-				$album_sort_key_options .= '<option' . (($album_data['album_sort_key'] == 'c') ? ' selected="selected"' : '') . " value='c'>" . $user->lang['COMMENTS'] . '</option>';
-				$album_sort_key_options .= '<option' . (($album_data['album_sort_key'] == 'lc') ? ' selected="selected"' : '') . " value='lc'>" . $user->lang['NEW_COMMENT'] . '</option>';
+				$album_sort_key_options .= '<option' . ((!in_array($album_data['album_sort_key'], array('t', 'n', 'vc', 'u', 'ra', 'r', 'c', 'lc'))) ? ' selected="selected"' : '') . " value=''>" . $this->language->lang('SORT_DEFAULT') . '</option>';
+				$album_sort_key_options .= '<option' . (($album_data['album_sort_key'] == 't') ? ' selected="selected"' : '') . " value='t'>" . $this->language->lang('TIME') . '</option>';
+				$album_sort_key_options .= '<option' . (($album_data['album_sort_key'] == 'n') ? ' selected="selected"' : '') . " value='n'>" . $this->language->lang('IMAGE_NAME') . '</option>';
+				$album_sort_key_options .= '<option' . (($album_data['album_sort_key'] == 'vc') ? ' selected="selected"' : '') . " value='vc'>" . $this->language->lang('GALLERY_VIEWS') . '</option>';
+				$album_sort_key_options .= '<option' . (($album_data['album_sort_key'] == 'u') ? ' selected="selected"' : '') . " value='u'>" . $this->language->lang('USERNAME') . '</option>';
+				$album_sort_key_options .= '<option' . (($album_data['album_sort_key'] == 'ra') ? ' selected="selected"' : '') . " value='ra'>" . $this->language->lang('RATING') . '</option>';
+				$album_sort_key_options .= '<option' . (($album_data['album_sort_key'] == 'r') ? ' selected="selected"' : '') . " value='r'>" . $this->language->lang('RATES_COUNT') . '</option>';
+				$album_sort_key_options .= '<option' . (($album_data['album_sort_key'] == 'c') ? ' selected="selected"' : '') . " value='c'>" . $this->language->lang('COMMENTS') . '</option>';
+				$album_sort_key_options .= '<option' . (($album_data['album_sort_key'] == 'lc') ? ' selected="selected"' : '') . " value='lc'>" . $this->language->lang('NEW_COMMENT') . '</option>';
 
 				$album_sort_dir_options = '';
-				$album_sort_dir_options .= '<option' . ((($album_data['album_sort_dir'] != 'd') && ($album_data['album_sort_dir'] != 'a')) ? ' selected="selected"' : '') . " value=''>" . $user->lang['SORT_DEFAULT'] . '</option>';
-				$album_sort_dir_options .= '<option' . (($album_data['album_sort_dir'] == 'd') ? ' selected="selected"' : '') . " value='d'>" . $user->lang['SORT_DESCENDING'] . '</option>';
-				$album_sort_dir_options .= '<option' . (($album_data['album_sort_dir'] == 'a') ? ' selected="selected"' : '') . " value='a'>" . $user->lang['SORT_ASCENDING'] . '</option>';
+				$album_sort_dir_options .= '<option' . ((($album_data['album_sort_dir'] != 'd') && ($album_data['album_sort_dir'] != 'a')) ? ' selected="selected"' : '') . " value=''>" . $this->language->lang('SORT_DEFAULT') . '</option>';
+				$album_sort_dir_options .= '<option' . (($album_data['album_sort_dir'] == 'd') ? ' selected="selected"' : '') . " value='d'>" . $this->language->lang('SORT_DESCENDING') . '</option>';
+				$album_sort_dir_options .= '<option' . (($album_data['album_sort_dir'] == 'a') ? ' selected="selected"' : '') . " value='a'>" . $this->language->lang('SORT_ASCENDING') . '</option>';
 
 				$statuslist = '<option value="' . \phpbbgallery\core\block::ALBUM_OPEN . '"' . (($album_data['album_status'] == \phpbbgallery\core\block::ALBUM_OPEN) ? ' selected="selected"' : '') . '>' . $user->lang['UNLOCKED'] . '</option><option value="' . \phpbbgallery\core\block::ALBUM_LOCKED . '"' . (($album_data['album_status'] == \phpbbgallery\core\block::ALBUM_LOCKED) ? ' selected="selected"' : '') . '>' . $user->lang['LOCKED'] . '</option>';
 
 				$sql = 'SELECT album_id
 					FROM ' . $table_prefix . 'gallery_albums
 					WHERE album_type = ' . \phpbbgallery\core\block::TYPE_UPLOAD . '
-						AND album_user_id = ' . \phpbbgallery\core\block::PUBLIC_ALBUM . "
-						AND album_id <> $album_id";
+						AND album_user_id = ' . \phpbbgallery\core\block::PUBLIC_ALBUM . '
+						AND album_id <> ' . (int) $album_id;
 				$result = $db->sql_query_limit($sql, 1);
 
 				$uploadable_album_exists = false;
@@ -594,9 +596,9 @@ class albums_module
 
 				$sql = 'SELECT album_id
 					FROM ' . $table_prefix . 'gallery_albums
-					WHERE album_type = ' . \phpbbgallery\core\block::TYPE_UPLOAD . "
-						AND album_id <> $album_id
-						AND album_user_id = " . \phpbbgallery\core\block::PUBLIC_ALBUM;
+					WHERE album_type = ' . \phpbbgallery\core\block::TYPE_UPLOAD . '
+						AND album_id <> ' . (int) $album_id . '
+						AND album_user_id = ' . \phpbbgallery\core\block::PUBLIC_ALBUM;
 				$result = $db->sql_query_limit($sql, 1);
 
 				if ($db->sql_fetchrow($result))
@@ -729,12 +731,14 @@ class albums_module
 	}
 
 	/**
-	* Display progress bar for syncinc albums
-	*
-	* borrowed from phpBB3
-	* @author: phpBB Group
-	* @function: display_progress_bar
-	*/
+	 * Display progress bar for syncinc albums
+	 *
+	 * borrowed from phpBB3
+	 * @author: phpBB Group
+	 * @function: display_progress_bar
+	 * @param $start
+	 * @param $total
+	 */
 	function display_progress_bar($start, $total)
 	{
 		global $template, $user;

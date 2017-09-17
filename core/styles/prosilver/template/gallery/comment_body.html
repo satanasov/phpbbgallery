@@ -5,10 +5,9 @@
 <!-- IF U_IMAGE -->
 <div class="post bg2">
 	<div class="inner">
-		<span class="corners-top"><span></span></span>
-		<div style="text-align: center; padding: 20px;">
-			<a href="{U_IMAGE}"<!-- IF S_GP_HIGHSLIDE --> class="highslide" onclick="return hs.expand(this)"<!-- ELSEIF S_GP_LYTEBOX --> rel="lytebox" class="image-resize"<!-- ENDIF -->><img src="{U_IMAGE}" alt="{IMAGE_NAME}" title="{IMAGE_NAME}" style="max-height: {IMAGE_RSZ_HEIGHT}px; max-width: {IMAGE_RSZ_WIDTH}px;" /></a></div>
-		<span class="corners-bottom"><span></span></span>
+		<div class="postbody_album" id="image">
+			<a href="{U_IMAGE}"><img src="{U_IMAGE}" alt="{IMAGE_NAME}" title="{IMAGE_NAME}" class="postimage" /></a>
+		</div>
 	</div>
 </div>
 <!-- ENDIF -->

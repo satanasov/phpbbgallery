@@ -26,7 +26,7 @@ class core_base extends \phpbb_database_test_case
 	{
 		return array('phpbbgallery/core');
 	}
-	
+
 	protected $db;
 
 	/**
@@ -42,10 +42,10 @@ class core_base extends \phpbb_database_test_case
 	*/
 	public function setUp()
 	{
-		global $config, $phpbb_dispatcher, $user, $cache, $request, $db;
+		global $config, $phpbb_dispatcher, $user, $cache, $request, $db, $phpbb_root_path, $phpEx;
 
-		
-	
+
+
 		/*$sql = 'DELETE FROM phpbb_config;';
 		$sql .= 'DELETE FROM phpbb_gallery_albums;';
 		$sql .= 'DELETE FROM phpbb_gallery_comments;';
@@ -57,29 +57,33 @@ class core_base extends \phpbb_database_test_case
 		$sql .= 'DELETE FROM phpbb_users;';
 		$sql .= 'DELETE FROM phpbb_user_group;';
 		$sql .= 'DELETE FROM phpbb_zebra;';
-		
+
 		$this->db->sql_query($sql);*/
-	
+
 		parent::setUp();
-		
+
 		$db = $this->db = $this->new_dbal();
 
 		$config = $this->config = new \phpbb\config\config(array());
 		$phpbb_dispatcher = $this->dispatcher = new \phpbb_mock_event_dispatcher();
-		
+
 		$this->template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
-		
-		$this->user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
-		$this->user->optionset('viewcensors', false);
-		$this->user->style['style_path'] = 'prosilver';
-		$this->user->method('lang')
+
+		$this->language = $this->getMockBuilder('\phpbb\language\language')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->language->method('lang')
 			->will($this->returnArgument(0));
-		
+
+		$this->user = $this->getMock('\phpbb\user', array(), array(
+			new \phpbb\language\language(new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx)),
+			'\phpbb\datetime'
+		));
 		$user = $this->user;
-		
+
 		$this->auth = $this->getMock('\phpbb\auth\auth');
-		
+
 		$this->controller_helper = $this->getMockBuilder('\phpbb\controller\helper')
 			->disableOriginalConstructor()
 			->getMock();
@@ -87,9 +91,9 @@ class core_base extends \phpbb_database_test_case
 		$this->controller_helper->method('route')->will($this->returnArgument(0));
 
 		$controller_helper = $this->controller_helper;
-		
+
 		$cache = $this->cache = new \phpbb\cache\service(
-			new \phpbb\cache\driver\null(),
+			new \phpbb\cache\driver\dummy(),
 			$this->config,
 			$this->db,
 			$phpbb_root_path,
@@ -107,7 +111,7 @@ class core_base extends \phpbb_database_test_case
 			->getMock();
 		$this->user_loader->method('get_username')
 			->will($this->returnArgument(0));
-		
+
 		$request = $this->request = $this->getMock('\phpbb\request\request');
 	}
 

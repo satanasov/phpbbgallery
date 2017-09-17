@@ -9,13 +9,13 @@
 *
 */
 
-namespace phpbbgallery\tests\core;
+namespace phpbbgallery\tests\core\album;
 /**
 * @group core
 */
-require_once dirname(__FILE__) . '/../../../../includes/functions.php';
+require_once dirname(__FILE__) . '/../../../../../includes/functions.php';
 
-class core_album_test extends core_base
+class core_album_test extends \phpbbgallery\tests\core\core_base
 {
 	public function setUp()
 	{
@@ -59,6 +59,7 @@ class core_album_test extends core_base
 		$this->album = new \phpbbgallery\core\album\album(
 			$this->db,
 			$this->user,
+			$this->language,
 			$this->gallery_auth,
 			$this->gallery_cache,
 			$this->block,
@@ -69,7 +70,7 @@ class core_album_test extends core_base
 			'phpbb_gallery_contests'
 		);
 	}
-	
+
 	/**
 	* Test get_info
 	* Here we test only exception.

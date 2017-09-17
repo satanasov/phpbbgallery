@@ -77,15 +77,18 @@ class auth
 	protected $table_users;
 
 	/**
-	* Construct
-	*
-	* @param	\phpbbgallery\core\cache	$cache	Cache object
-	* @param	\phpbb\db\driver\driver	$db			Database object
-	* @param	\phpbbgallery\core\user	$user		Gallery user object
-	* @param	string			$permissions_table	Gallery permissions table
-	* @param	string			$roles_table		Gallery permission roles table
-	* @param	string			$users_table		Gallery users table
-	*/
+	 * Construct
+	 *
+	 * @param    \phpbbgallery\core\cache $cache Cache object
+	 * @param \phpbb\db\driver\driver|\phpbb\db\driver\driver_interface $db Database object
+	 * @param    \phpbbgallery\core\user $user Gallery user object
+	 * @param \phpbb\user $phpbb_user
+	 * @param \phpbb\auth\auth $auth
+	 * @param    string $permissions_table Gallery permissions table
+	 * @param    string $roles_table Gallery permission roles table
+	 * @param    string $users_table Gallery users table
+	 * @param $albums_table
+	 */
 	public function __construct(\phpbbgallery\core\cache $cache, \phpbb\db\driver\driver_interface $db, \phpbbgallery\core\user $user, \phpbb\user $phpbb_user, \phpbb\auth\auth $auth,
 	$permissions_table, $roles_table, $users_table, $albums_table)
 	{
@@ -149,8 +152,9 @@ class auth
 	}
 
 	/**
-	* Query the permissions for a given user and store them in the database.
-	*/
+	 * Query the permissions for a given user and store them in the database.
+	 * @param $user_id
+	 */
 	protected function query_auth_data($user_id)
 	{
 		//$albums = array();//@todo $this->cache->obtain_album_list();
@@ -230,12 +234,14 @@ class auth
 	}
 
 	/**
-	* Serialize the auth-data sop we can store it.
-	*
-	* Line-Format:	bitfields:i_count:a_count::album_id(s)
-	* Samples:		8912837:0:10::-3
-	*				9961469:20:0::1:23:42
-	*/
+	 * Serialize the auth-data sop we can store it.
+	 *
+	 * Line-Format:    bitfields:i_count:a_count::album_id(s)
+	 * Samples:        8912837:0:10::-3
+	 *                9961469:20:0::1:23:42
+	 * @param $auth_data
+	 * @return string
+	 */
 	protected function serialize_auth_data($auth_data)
 	{
 		$acl_array = array();
@@ -257,8 +263,9 @@ class auth
 	}
 
 	/**
-	* Unserialize the stored auth-data
-	*/
+	 * Unserialize the stored auth-data
+	 * @param $serialized_data
+	 */
 	protected function unserialize_auth_data($serialized_data)
 	{
 		$acl_array = explode("\n", $serialized_data);
@@ -276,8 +283,10 @@ class auth
 	}
 
 	/**
-	* Stores an acl-row into the _auth_data-array.
-	*/
+	 * Stores an acl-row into the _auth_data-array.
+	 * @param $album_id
+	 * @param $data
+	 */
 	protected function store_acl_row($album_id, $data)
 	{
 		if (!isset($this->_auth_data[$album_id]))
@@ -333,8 +342,9 @@ class auth
 	}
 
 	/**
-	* Restrict the access to personal galleries, if the user is not a moderator.
-	*/
+	 * Restrict the access to personal galleries, if the user is not a moderator.
+	 * @param $user_id
+	 */
 	protected function restrict_pegas($user_id)
 	{
 		if (($user_id != ANONYMOUS) && $this->_auth_data[self::PERSONAL_ALBUM]->get_bit(self::$_permissions_flipped['m_']))
@@ -401,8 +411,10 @@ class auth
 	}
 
 	/**
-	* Get the users, which added our user as friend and/or foe
-	*/
+	 * Get the users, which added our user as friend and/or foe
+	 * @param $user_id
+	 * @return array
+	 */
 	public function get_user_zebra($user_id)
 	{
 
@@ -441,8 +453,12 @@ class auth
 	}
 
 	/**
-	* Get zebra state
-	*/
+	 * Get zebra state
+	 * @param $zebra_array
+	 * @param $album_author
+	 * @param $album_id
+	 * @return int
+	 */
 	public function get_zebra_state($zebra_array, $album_author, $album_id)
 	{
 		$state = 0;
@@ -473,9 +489,12 @@ class auth
 		}
 		return $state;
 	}
+
 	/**
-	* Get groups a user is member from.
-	*/
+	 * Get groups a user is member from.
+	 * @param $user_id
+	 * @return array
+	 */
 	public function get_usergroups($user_id)
 	{
 		$groups_ary = array();
@@ -499,8 +518,10 @@ class auth
 	}
 
 	/**
-	* Sets the permissions-cache in users-table to given array.
-	*/
+	 * Sets the permissions-cache in users-table to given array.
+	 * @param $user_ids
+	 * @param bool $permissions
+	 */
 	public function set_user_permissions($user_ids, $permissions = false)
 	{
 		$sql_set = (is_array($permissions)) ? $this->db->sql_escape($this->serialize_auth_data($permissions)) : '';

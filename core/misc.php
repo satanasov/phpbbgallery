@@ -17,18 +17,20 @@ class misc
 	 *
 	 * @param \phpbb\db\driver\driver_interface $db
 	 * @param \phpbb\user                       $user
+	 * @param \phpbb\language\language          $language
 	 * @param \phpbb\config\config              $config
 	 * @param \phpbbgallery\core\config         $gallery_config
-	 * @param \phpbbgallery\core\user			$gallery_user
-	 * @param \phpbbgallery\core\url			$url
+	 * @param \phpbbgallery\core\user           $gallery_user
+	 * @param \phpbbgallery\core\url            $url
 	 * @param                                   $track_table
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\config\config $config,
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\language\language $language, \phpbb\config\config $config,
 								   \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\user $gallery_user, \phpbbgallery\core\url $url,
 								   $track_table)
 	{
 		$this->db = $db;
 		$this->user = $user;
+		$this->language = $language;
 		$this->config = $config;
 		$this->gallery_config = $gallery_config;
 		$this->gallery_user = $gallery_user;
@@ -36,6 +38,12 @@ class misc
 		$this->track_table = $track_table;
 	}
 
+	/**
+	 * Display captcha when needed
+	 *
+	 * @param $mode
+	 * @return mixed
+	 */
 	public function display_captcha($mode)
 	{
 		static $gallery_display_captcha;
@@ -50,13 +58,20 @@ class misc
 		return $gallery_display_captcha[$mode];
 	}
 
+	/**
+	 * Create not authorized dialog
+	 *
+	 * @param $backlink
+	 * @param string $loginlink
+	 * @param string $login_explain
+	 */
 	public function not_authorised($backlink, $loginlink = '', $login_explain = '')
 	{
 		if (!$this->user->data['is_registered'] && $loginlink)
 		{
 			if ($login_explain && isset($this->user->lang[$login_explain]))
 			{
-				$login_explain = $this->user->lang[$login_explain];
+				$login_explain = $this->user->lang($login_explain);
 			}
 			else
 			{
@@ -97,7 +112,7 @@ class misc
 			{
 				// Mark all albums read (index page)
 				$sql = 'DELETE FROM ' . $this->track_table . '
-					WHERE user_id = ' . $this->user->data['user_id'];
+					WHERE user_id = ' . (int) $this->user->data['user_id'];
 				$this->db->sql_query($sql);
 
 				$this->gallery_user->update_data(array(
@@ -117,7 +132,7 @@ class misc
 
 			$sql = 'SELECT album_id
 				FROM ' . $this->track_table . '
-				WHERE user_id = ' .$this->user->data['user_id'] .'
+				WHERE user_id = ' . (int) $this->user->data['user_id'] .'
 					AND ' . $this->db->sql_in_set('album_id', $album_id);
 			$result = $this->db->sql_query($sql);
 
@@ -132,7 +147,7 @@ class misc
 			{
 				$sql = 'UPDATE ' . $this->track_table . '
 					SET mark_time = ' . time() . '
-					WHERE user_id = '. $this->user->data['user_id'] .'
+					WHERE user_id = '. (int) $this->user->data['user_id'] .'
 						AND ' . $this->db->sql_in_set('album_id', $sql_update);
 				$this->db->sql_query($sql);
 			}
@@ -163,7 +178,7 @@ class misc
 
 			$sql = 'UPDATE ' . $this->track_table . '
 				SET mark_time = ' . time() . '
-				WHERE user_id = ' . $this->user->data['user_id'] .'
+				WHERE user_id = ' . (int) $this->user->data['user_id'] .'
 					AND album_id = ' . (int) $album_id;
 			$this->db->sql_query($sql);
 

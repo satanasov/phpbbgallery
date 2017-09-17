@@ -94,9 +94,9 @@
 			<ul class="post-buttons">
 				<!-- EVENT gallery_viewimage_actions -->
 				<!--<li><a href="{U_EDIT}" title="{L_EDIT_IMAGE}" class="button icon-button icon-notification"><span>{L_EDIT_IMAGE}</span></a></li>-->
-				<!-- IF U_EDIT --><li><a href="{U_EDIT}" title="{L_EDIT_IMAGE}" class="button icon-button edit-icon"><span>{L_EDIT_IMAGE}</span></a></li><!-- ENDIF -->
-				<!-- IF U_DELETE --><li><a href="{U_DELETE}" title="{L_DELETE_IMAGE}" class="button icon-button delete-icon"><span>{L_DELETE_IMAGE}</span></a></li><!-- ENDIF -->
-				<!-- IF U_REPORT --><li><a href="{U_REPORT}" title="{L_REPORT_IMAGE}" class="button icon-button report-icon"><span>{L_REPORT_IMAGE}</span></a></li><!-- ENDIF -->
+				<!-- IF U_EDIT --><li><a href="{U_EDIT}" title="{L_EDIT_IMAGE}" class="button button-icon-only"><i class="icon fa-pencil fa-fw" aria-hidden="true"></i><span class="sr-only">{L_EDIT_IMAGE}</span></a></li><!-- ENDIF -->
+				<!-- IF U_DELETE --><li><a href="{U_DELETE}" title="{L_DELETE_IMAGE}" class="button button-icon-only"><i class="icon fa-times fa-fw" aria-hidden="true"></i><span class="sr-only">{L_DELETE_IMAGE}</span></a></li><!-- ENDIF -->
+				<!-- IF U_REPORT --><li><a href="{U_REPORT}" title="{L_REPORT_IMAGE}" class="button button-icon-only"><i class="icon fa-exclamation fa-fw" aria-hidden="true"></i><span class="sr-only">{L_REPORT_IMAGE}</span></a></li><!-- ENDIF -->
 			</ul>
 			<h3>{IMAGE_NAME}</h3>
 			<hr />
@@ -291,21 +291,21 @@
 						<div class="pointer"><div class="pointer-inner"></div></div>
 						<div style="margin-left: 0; left: 0; max-width: 1580px;" class="dropdown-contents contact-icons dropdown-nonscroll">
 							<div>
-								<!-- IF U_POSTER_PM --><a href="{U_POSTER_PM}" title="{L_PRIVATE_MESSAGE}">
+								<!-- IF commentrow.U_PM --><a href="{commentrow.U_PM}" title="{L_PRIVATE_MESSAGE}">
 									<span class="contact-icon pm-icon">{L_PRIVATE_MESSAGE}</span>
 								</a><!-- ENDIF -->
-								<!-- IF U_POSTER_EMAIL --><a href="{U_POSTER_EMAIL}" title="{U_POSTER_EMAIL}">
+								<!-- IF commentrow.U_EMAIL --><a href="{commentrow.U_EMAIL}" title="{U_POSTER_EMAIL}">
 									<span class="contact-icon email-icon">{U_POSTER_EMAIL}</span>
 								</a><!-- ENDIF -->
-								<!-- IF U_POSTER_JABBER --><a href="{U_POSTER_JABBER}" title="{L_JABBER}" onclick="popup(this.href, 750, 320); return false;">
+								<!-- IF commentrow.U_JABBER --><a href="{commentrow.U_JABBER}" title="{L_JABBER}" onclick="popup(this.href, 750, 320); return false;">
 									<span class="contact-icon jabber-icon">{L_JABBER}</span>
 								</a><!-- ENDIF -->
-								<!-- IF U_POSTER_ICQ --><a href="{U_POSTER_ICQ}" title="{L_ICQ}" class="last-cell">
+								<!-- IF commentrow.U_ICQ --><a href="{commentrow.U_ICQ}" title="{L_ICQ}" class="last-cell">
 									<span class="contact-icon phpbb_icq-icon">{L_ICQ}</span>
 								</a><!-- ENDIF -->
 							</div>
 						<div>
-							<!-- IF U_POSTER_WWW --><a href="{U_POSTER_WWW}" title="{L_VISIT_WEBSITE}{L_COLON} {U_WWW}">
+							<!-- IF commentrow.U_WWW --><a href="{commentrow.U_WWW}" title="{L_VISIT_WEBSITE}{L_COLON} {U_WWW}">
 								<span class="contact-icon phpbb_website-icon">{L_VISIT_WEBSITE}{L_COLON} {U_WWW}</span>
 							</a><!-- ENDIF -->
 						</div>
@@ -318,10 +318,10 @@
 			<div class="postbody" id="post_content{commentrow.COMMENT_ID}">
 				<!-- IF commentrow.U_DELETE or commentrow.U_EDIT or commentrow.U_INFO or commentrow.U_QUOTE -->
 					<ul class="post-buttons">
-						<!-- IF commentrow.U_EDIT --><li><a href="{commentrow.U_EDIT}" title="{L_EDIT_COMMENT}" class="button icon-button edit-icon"><span>{L_EDIT_COMMENT}</span></a></li><!-- ENDIF -->
-						<!-- IF commentrow.U_DELETE --><li><a href="{commentrow.U_DELETE}" title="{L_DELETE_COMMENT}" class="button icon-button delete-icon"><span>{L_DELETE_COMMENT}</span></a></li><!-- ENDIF -->
-						<!-- IF commentrow.U_INFO --><li><a href="{commentrow.U_INFO}" title="{L_IP}" onclick="popup(this.href, 750, 500); return false;" class="button icon-button info-icon"><span>{L_IP}</span></a></li><!-- ENDIF -->
-						<!-- IF commentrow.U_QUOTE --><li><a href="{commentrow.U_QUOTE}" title="{L_QUOTE_COMMENT}" class="button icon-button quote-icon"><span>{L_QUOTE_COMMENT}</span></a></li><!-- ENDIF -->
+						<!-- IF commentrow.U_EDIT --><li><a href="{commentrow.U_EDIT}" title="{L_EDIT_COMMENT}" class="button button-icon-only"><i class="icon fa-pencil fa-fw" aria-hidden="true"></i><span class="sr-only">{L_EDIT_COMMENT}</span></a></li><!-- ENDIF -->
+						<!-- IF commentrow.U_DELETE --><li><a href="{commentrow.U_DELETE}" title="{L_DELETE_COMMENT}" class="button button-icon-only"><i class="icon fa-times fa-fw" aria-hidden="true"></i><span class="sr-only">{L_DELETE_COMMENT}</span></a></li><!-- ENDIF -->
+						<!-- IF commentrow.U_INFO --><li><a href="{commentrow.U_INFO}" title="{L_IP}" onclick="popup(this.href, 750, 500); return false;" class="button button-icon-only"><i class="icon fa-info fa-fw" aria-hidden="true"></i><span class="sr-only">{L_IP}</span></a></li><!-- ENDIF -->
+						<!-- IF commentrow.U_QUOTE --><li><a href="{commentrow.U_QUOTE}" title="{L_QUOTE_COMMENT}" class="button button-icon-only"><i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">{L_QUOTE_COMMENT}</span></a></li><!-- ENDIF -->
 					</ul>
 				<!-- ENDIF -->
 				<p class="author"><!-- IF S_IS_BOT -->{commentrow.MINI_POST_IMG}<!-- ELSE --><a href="{commentrow.U_COMMENT}">{commentrow.MINI_POST_IMG}</a><!-- ENDIF --><span class="responsive-hide">{L_POST_BY_AUTHOR} <strong>{commentrow.POST_AUTHOR_FULL}</strong> &raquo; </span>{commentrow.TIME} </p>

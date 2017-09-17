@@ -72,7 +72,6 @@ $lang = array_merge($lang, array(
 
 	'CHANGE_AUTHOR'					=> 'Benutzer ändern',
 	'CHANGE_IMAGE_STATUS'			=> 'Bildstatus ändern',
-	'CHARACTERS'					=> 'Buchstaben',
 	'CLICK_RETURN_ALBUM'			=> 'Klicke %shier%s um zum Album zurückzukehren',
 	'CLICK_RETURN_IMAGE'			=> 'Klicke %shier%s um zum Bild zurückzukehren',
 	'CLICK_RETURN_INDEX'			=> 'Klicke %shier%s um zum Index zurückzukehren',
@@ -117,7 +116,7 @@ $lang = array_merge($lang, array(
 	'DESC_TOO_LONG'					=> 'Deine Beschreibung ist zu lang',
 	'DESCRIPTION_LENGTH'			=> 'Gib deine Beschreibung hier ein. Sie darf nicht mehr als <strong>%d</strong> Zeichen enthalten.',
 	'DETAILS'						=> 'Details',
-	'DISALLOWED_EXTENSION'			=> 'This image extension is not allowed',
+	'DISALLOWED_EXTENSION'			=> 'Diese Bilderweiterung ist nicht erlaubt',
 	'DONT_RATE_IMAGE'				=> 'Bild nicht bewerten',
 
 	'EDIT_COMMENT'					=> 'Kommentar ändern',
@@ -133,7 +132,7 @@ $lang = array_merge($lang, array(
 	'FILETYPES_PNG'					=> 'png',
 	'FILETYPES_ZIP'					=> 'zip',
 
-	'FULL_EDITOR'					=> 'Full editor',
+	'FULL_EDITOR'					=> 'Vollständiger Editor',
 
 	'GALLERY_IMAGE'					=> 'Bild',
 	'GALLERY_IMAGES'					=> 'Bilder',
@@ -159,9 +158,9 @@ $lang = array_merge($lang, array(
 	'IMAGES_UPDATED_SUCCESSFULLY'	=> 'Deine Bilderinformationen wurden erfolgreich aktualisiert',
 	'INSERT_IMAGE_POST'				=> 'Bild in Beitrag einfügen',
 	'INVALID_USERNAME'				=> 'Der Benutzername ist ungültig',
-	'INVALID_IMAGE'					=> 'Invalid Image',
-	'FILE_DISALLOWED_EXTENSION'		=> 'File extension is not allowed',
-	'FILE_WRONG_FILESIZE'			=> 'Wrong file size',
+	'INVALID_IMAGE'					=> 'Ungültiges Bild',
+	'FILE_DISALLOWED_EXTENSION'		=> 'Dateierweiterung ist nicht zulässig',
+	'FILE_WRONG_FILESIZE'			=> 'Falsche Dateigröße',
 
 	'LAST_COMMENT'					=> 'Letzter Kommentar',
 	'LAST_IMAGE'					=> 'Letztes Bild',
@@ -198,7 +197,7 @@ $lang = array_merge($lang, array(
 	'NOT_RATED'						=> 'Nicht bewertet',
 	'NO_SEARCH_RESULTS'				=> 'Keine Alben gefunden',
 
-	'NO_WRITE_ACCESS'				=> 'The upload directory is missing or phpBB has no write access to it.<br>Please contact the board admin!',
+	'NO_WRITE_ACCESS'				=> 'Das Upload-Verzeichnis fehlt oder PhpBB hat keinen Schreibzugriff darauf.<br>Bitte kontaktiere die Board-Administration!',
 
 	'ORDER'							=> 'Reihenfolge',
 	'ORIG_FILENAME'					=> 'Dateinamen als Bildname verwenden (das Eingabefeld ist ohne Funktion)',
@@ -207,7 +206,6 @@ $lang = array_merge($lang, array(
 
 	'PERCENT'						=> '%',
 	'PERSONAL_ALBUMS'				=> 'Persönliche Alben',
-	'PIXELS'						=> 'Pixel',
 	'PLUGIN_CLASS_MISSING'			=> 'Gallery Plugin Fehler: Die Klasse „%s“ konnte nicht gefunden werden!',
 	'POST_COMMENT'					=> 'Kommentar schreiben',
 	'POST_COMMENT_RATE_IMAGE'		=> 'Kommentar schreiben und Bild bewerten',
@@ -256,7 +254,7 @@ $lang = array_merge($lang, array(
 	'SEARCH_RECENT'					=> 'Neueste Bilder',
 	'NO_SEARCH_RESULTS_RECENT'		=> 'Es gibt keine Bilder oder Du hast nicht die Berechtigung sie zu sehen!',
 	'SEARCH_RECENT_COMMENTS'		=> 'Neueste Kommentare',
-	'NO_SEARCH_RESULTS_RECENT_COMMENTS'	=> 'There are no recent comments or you do not have access!',
+	'NO_SEARCH_RESULTS_RECENT_COMMENTS'	=> 'Es gibt keine Kommentare oder Du hast keinen Zugriff!',
 	'SEARCH_SUBALBUMS'				=> 'Subalben durchsuchen',
 	'SEARCH_TOPRATED'				=> 'Beste Bewertungen',
 	'SEARCH_USER_IMAGES'			=> 'Bilder des Mitglieds anzeigen',
@@ -326,6 +324,7 @@ $lang = array_merge($lang, array(
 	),
 	'USERNAME_BEGINS_WITH'			=> 'Benutzername fängt an mit',
 	'USERS_PERSONAL_ALBUMS'			=> 'Persönliche Alben der Mitglieder',
+	'VISIT_GALLERY'					=> 'Benutzer-Galerie besuchen',
 
 	'VIEW_ALBUM'					=> 'Album ansehen',
 	'VIEW_ALBUM_IMAGES'				=> array(
@@ -347,8 +346,6 @@ $lang = array_merge($lang, array(
 	'VIEWING_ALBUM'					=> 'Betrachtet Album %s',
 	'VIEWING_IMAGE'					=> 'Betrachtet ein Bild im Album %s',
 
-	'VISIT_GALLERY'					=> 'Benutzer Galerie besuchen',
-
 	'WATCH_ALBUM'					=> 'Album beobachten',
 	'WATCH_IMAGE'					=> 'Bild beobachten',
 	'WATCH_PEGAS'					=> 'Neue Alben automatisch beobachten',
@@ -364,8 +361,8 @@ $lang = array_merge($lang, array(
 		1	=>	'Bild verschoben',
 		2	=> 	'%s Bilder verschoben',
 	),
-	'WRONG_FILESIZE'	=> 'Image is bigger then the limit!',
+	'WRONG_FILESIZE'	=> 'Das Bild ist größer als das Limit!',
 
 	// Versions 1.2.1 addiotions
-	'GALLERY_DROP'		=> 'Drop your images here',
+	'GALLERY_DROP'		=> 'Lege Dein Bild hier rein',
 ));

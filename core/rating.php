@@ -50,16 +50,28 @@ class rating
 	*/
 
 	/**
-	* Constructor
-	*
-	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\user $user, \phpbb\request\request $request,
-	\phpbbgallery\core\config $gallery_config, \phpbbgallery\core\auth\auth $gallery_auth,
-	$images_table, $albums_table, $rates_table)
+	 * Constructor
+	 *
+	 * @param \phpbb\db\driver\driver_interface $db
+	 * @param \phpbb\template\template          $template
+	 * @param \phpbb\user                       $user
+	 * @param \phpbb\language\language          $language
+	 * @param \phpbb\request\request            $request
+	 * @param config                            $gallery_config
+	 * @param auth\auth                         $gallery_auth
+	 * @param                                   $images_table
+	 * @param                                   $albums_table
+	 * @param                                   $rates_table
+	 */
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\user $user,
+		\phpbb\language\language $language, \phpbb\request\request $request, \phpbbgallery\core\config $gallery_config,
+		\phpbbgallery\core\auth\auth $gallery_auth,
+		$images_table, $albums_table, $rates_table)
 	{
 		$this->db = $db;
 		$this->template = $template;
 		$this->user = $user;
+		$this->language = $language;
 		$this->request = $request;
 		$this->gallery_config = $gallery_config;
 		$this->gallery_auth = $gallery_auth;
@@ -69,12 +81,12 @@ class rating
 	}
 
 	/**
-	* Load data for the class to work with
-	*
-	* @param	int		$image_id
-	* @param	array	$image_data		Array with values from the image-table of the image
-	* @param	array	$album_data		Array with values from the album-table of the image's album
-	*/
+	 * Load data for the class to work with
+	 *
+	 * @param    int $image_id
+	 * @param array|bool $image_data Array with values from the image-table of the image
+	 * @param array|bool $album_data Array with values from the album-table of the image's album
+	 */
 	public function loader($image_id, $image_data = false, $album_data = false)
 	{
 		$this->image_id = (int) $image_id;
@@ -87,17 +99,20 @@ class rating
 			$this->album_data = $album_data;
 		}
 	}
+
 	/**
-	* Returns the value of image_data key.
-	* If the value is missing, it is queried from the database.
-	*/
+	 * Returns the value of image_data key.
+	 * If the value is missing, it is queried from the database.
+	 * @param $key
+	 * @return
+	 */
 	private function image_data($key)
 	{
 		if ($this->image_data == null)
 		{
 			$sql = 'SELECT *
 				FROM ' . $this->images_table . '
-				WHERE image_id = ' . $this->image_id;
+				WHERE image_id = ' . (int) $this->image_id;
 			$result = $this->db->sql_query($sql);
 			$this->image_data = $this->db->sql_fetchrow($result);
 			$this->db->sql_freeresult($result);
@@ -178,12 +193,12 @@ class rating
 	}
 
 	/**
-	* Get rating for a image
-	*
-	* @param	$user_rating			Personal rating of the user is displayed in most cases.
-	* @param	$display_contest_end	Shall we display the end-time of the contest? This requires the album-data to be filled.
-	* @return	string					Returns a string containing the information how the image was rated in average and how often.
-	*/
+	 * Get rating for a image
+	 *
+	 * @param bool|Personal $user_rating Personal rating of the user is displayed in most cases.
+	 * @param bool|Shall $display_contest_end Shall we display the end-time of the contest? This requires the album-data to be filled.
+	 * @return string Returns a string containing the information how the image was rated in average and how often.
+	 */
 	public function get_image_rating($user_rating = false, $display_contest_end = true)
 	{
 		$this->template->assign_var('GALLERY_RATING', self::MODE_SELECT);//@todo: phpbb_ext_gallery_core_config::get('rating_mode'));
@@ -198,17 +213,17 @@ class rating
 				{
 					if (!$display_contest_end)
 					{
-						return $this->user->lang['CONTEST_RATING_HIDDEN'];
+						return $this->language->lang('CONTEST_RATING_HIDDEN');
 					}
-					return $this->user->lang('CONTEST_RESULT_HIDDEN', $this->user->format_date(($this->album_data('contest_start') + $this->album_data('contest_end')), false, true));
+					return $this->language->lang('CONTEST_RESULT_HIDDEN', $this->user->format_date(($this->album_data('contest_start') + $this->album_data('contest_end')), false, true));
 				}
 				else
 				{
 					if ($user_rating)
 					{
-						return $this->user->lang('RATING_STRINGS_USER', (int) $this->image_data('image_rates'), $this->get_image_rating_value(), $user_rating);
+						return $this->language->lang('RATING_STRINGS_USER', (int) $this->image_data('image_rates'), $this->get_image_rating_value(), $user_rating);
 					}
-					return $this->user->lang('RATING_STRINGS', (int) $this->image_data('image_rates'), $this->get_image_rating_value());
+					return $this->language->lang('RATING_STRINGS', (int) $this->image_data('image_rates'), $this->get_image_rating_value());
 				}
 			break;
 		}
@@ -292,9 +307,9 @@ class rating
 	/**
 	 * Submit rating for an image.
 	 *
-	 * @param    int    $user_id
-	 * @param    int    $points
-	 * @param    string $user_ip Can be empty, function falls back to $user->ip
+	 * @param bool|int $user_id
+	 * @param bool|int $points
+	 * @param bool|string $user_ip Can be empty, function falls back to $user->ip
 	 * @return bool
 	 */
 	public function submit_rating($user_id = false, $points = false, $user_ip = false)
@@ -323,12 +338,12 @@ class rating
 	}
 
 	/**
-	* Insert the rating into the database.
-	*
-	* @param	int		$user_id
-	* @param	int		$points
-	* @param	string	$user_ip	Can be empty, function falls back to $user->ip
-	*/
+	 * Insert the rating into the database.
+	 *
+	 * @param    int $user_id
+	 * @param    int $points
+	 * @param bool|string $user_ip Can be empty, function falls back to $user->ip
+	 */
 	private function insert_rating($user_id, $points, $user_ip = false)
 	{
 		$sql_ary = array(

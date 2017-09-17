@@ -26,7 +26,7 @@ class upload
 	private $upload = null;
 	private $file = null;
 	private $zip_file = null;
-	private $tools = null;
+	//private $tools = null;
 
 	/**
 	* Basic variables...
@@ -59,29 +59,37 @@ class upload
 	 * Constructor
 	 *
 	 * @param \phpbb\user                       $user           phpBB User class
+	 * @param \phpbb\language\language          $language
 	 * @param \phpbb\db\driver\driver_interface $db
 	 * @param \phpbb\event\dispatcher_interface $phpbb_dispatcher
 	 * @param \phpbb\request\request            $request
+	 * @param \phpbb\files\upload               $file_upload
 	 * @param \phpbbgallery\core\image\image    $gallery_image
 	 * @param \phpbbgallery\core\config         $gallery_config Gallery Config
 	 * @param \phpbbgallery\core\url            $gallery_url    Gallery url
+	 * @param block                             $block
+	 * @param file\file                         $gallery_file
 	 * @param                                   $images_table
 	 * @param                                   $root_path
 	 * @param                                   $php_ext
 	 */
-	public function __construct(\phpbb\user $user, \phpbb\db\driver\driver_interface $db, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbb\request\request $request,
-								\phpbbgallery\core\image\image $gallery_image, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\url $gallery_url, \phpbbgallery\core\block $block,
-								$images_table,
-								$root_path, $php_ext)
+	public function __construct(\phpbb\user $user, \phpbb\language\language $language, \phpbb\db\driver\driver_interface $db,
+		\phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbb\request\request $request, \phpbb\files\upload $file_upload,
+		\phpbbgallery\core\image\image $gallery_image, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\url $gallery_url,
+		\phpbbgallery\core\block $block, \phpbbgallery\core\file\file $gallery_file,
+		$images_table, $root_path, $php_ext)
 	{
 		$this->user = $user;
+		$this->language = $language;
 		$this->db = $db;
 		$this->phpbb_dispatcher = $phpbb_dispatcher;
 		$this->request = $request;
+		$this->file_upload = $file_upload;
 		$this->gallery_image = $gallery_image;
 		$this->gallery_config = $gallery_config;
 		$this->gallery_url	= $gallery_url;
 		$this->block = $block;
+		$this->tools = $gallery_file;
 		$this->images_table = $images_table;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
@@ -95,14 +103,9 @@ class upload
 	 */
 	public function set_up($album_id, $num_files = 0)
 	{
-		if (!class_exists('fileupload'))
-		{
-			include_once($this->root_path . 'includes/functions_upload.' . $this->php_ext);
-		}
-		$this->upload = new \fileupload();
-		$this->upload->fileupload('', $this->get_allowed_types(), (4 * $this->gallery_config->get('max_filesize')));
-
-		$this->tools = new \phpbbgallery\core\file\file($this->request, $this->gallery_url, $this->gallery_config->get('gdlib_version'));
+		//$this->upload = new \fileupload();
+		//$this->upload->fileupload('', $this->get_allowed_types(), (4 * $this->gallery_config->get('max_filesize')));
+		$this->file_upload->set_allowed_extensions($this->get_allowed_types());
 
 		$this->album_id = (int) $album_id;
 		$this->file_limit = (int) $num_files;
@@ -126,16 +129,18 @@ class upload
 		}
 		$this->file_count = (int) $file_count;
 
-		$this->files = $this->form_upload('files');
-		foreach ($this->files as $VAR)
+		//$this->files = $this->form_upload('files');
+		$files = $this->file_upload->handle_upload('phpbbgallery.core.files.type.multiform', 'files');
+
+		foreach ($files as $var)
 		{
-			$this->file = $VAR;
-			if (!$this->file->uploadname)
+			$this->file = $var;
+			if (!$this->file->get('uploadname'))
 			{
 				return false;
 			}
 
-			if ($this->file->extension == 'zip')
+			if ($this->file->get('extension') == 'zip')
 			{
 				$this->zip_file = $this->file;
 				$this->upload_zip();
@@ -143,7 +148,6 @@ class upload
 			else
 			{
 				$image_id = $this->prepare_file();
-
 				if ($image_id)
 				{
 					$this->uploaded_files++;
@@ -170,23 +174,23 @@ class upload
 		if (!empty($this->zip_file->error))
 		{
 			$this->zip_file->remove();
-			$this->new_error($this->user->lang('UPLOAD_ERROR', $this->zip_file->uploadname, implode('<br />&raquo; ', $this->zip_file->error)));
+			$this->new_error($this->language->lang('UPLOAD_ERROR', $this->zip_file->get('uploadname'), implode('<br />&raquo; ', $this->zip_file->error)));
 			return false;
 		}
 
-		$compress = new \compress_zip('r', $this->zip_file->destination_file);
+		$compress = new \compress_zip('r', $this->zip_file->get('destination_file'));
 		$compress->extract($tmp_dir);
 		$compress->close();
 
 		$this->zip_file->remove();
 
 		// Remove zip from allowed extensions
-		$this->upload->set_allowed_extensions($this->get_allowed_types(false, true));
+		$this->file_upload->set_allowed_extensions($this->get_allowed_types(false, true));
 
 		$this->read_zip_folder($tmp_dir);
 
 		// Read zip from allowed extensions
-		$this->upload->set_allowed_extensions($this->get_allowed_types());
+		$this->file_upload->set_allowed_extensions($this->get_allowed_types());
 	}
 
 	/**
@@ -211,10 +215,15 @@ class upload
 			{
 				if (!$this->file_limit || ($this->uploaded_files < $this->file_limit))
 				{
-					$this->file = $this->upload->local_upload($current_dir . $file);
+					$file_info = array(
+						'type'	=> $this->tools->mimetype_by_filename($file),
+						'size'	=> filesize($current_dir . $file),
+						'realname' => $file
+					);
+					$this->file = $this->file_upload->handle_upload('files.types.local', $current_dir . $file, $file_info);
 					if ($this->file->error)
 					{
-						$this->new_error($this->user->lang('UPLOAD_ERROR', $this->file->uploadname, implode('<br />&raquo; ', $this->file->error)));
+						$this->new_error($this->language->lang('UPLOAD_ERROR', $this->file->get('uploadname'), implode('<br />&raquo; ', $this->file->error)));
 					}
 					$image_id = $this->prepare_file();
 
@@ -227,7 +236,7 @@ class upload
 					{
 						if ($this->file->error)
 						{
-							$this->new_error($this->user->lang('UPLOAD_ERROR', $this->file->uploadname, implode('<br />&raquo; ', $this->file->error)));
+							$this->new_error($this->language->lang('UPLOAD_ERROR', $this->file->get('uploadname'), implode('<br />&raquo; ', $this->file->error)));
 						}
 					}
 				}
@@ -250,7 +259,7 @@ class upload
 	/**
 	 * Update image information in the database: name, description, status, contest, ...
 	 *
-	 * @param      $image_id
+	 * @param int $image_id
 	 * @param bool $needs_approval
 	 * @param bool $is_in_contest
 	 * @return bool
@@ -259,7 +268,7 @@ class upload
 	{
 		if ($this->file_limit && ($this->uploaded_files >= $this->file_limit))
 		{
-			$this->new_error($this->user->lang('UPLOAD_ERROR', $this->image_data[$image_id]['image_name'], $this->user->lang['QUOTA_REACHED']));
+			$this->new_error($this->language->lang('UPLOAD_ERROR', $this->image_data[$image_id]['image_name'], $this->language->lang('QUOTA_REACHED')));
 			return false;
 		}
 		$this->file_count = (int) $this->array_id2row[$image_id];
@@ -359,10 +368,10 @@ class upload
 		if (!empty($this->file->error))
 		{
 			$this->file->remove();
-			$this->new_error($this->user->lang('UPLOAD_ERROR', $this->file->uploadname, implode('<br />&raquo; ', $this->file->error)));
+			$this->new_error($this->language->lang('UPLOAD_ERROR', $this->file->get('uploadname'), implode('<br />&raquo; ', $this->file->error)));
 			return false;
 		}
-		@chmod($this->file->destination_file, 0777);
+		@chmod($this->file->get('destination_file'), 0655);
 		$additional_sql_data = array();
 		$file = $this->file;
 
@@ -378,7 +387,7 @@ class upload
 		extract($this->phpbb_dispatcher->trigger_event('phpbbgallery.core.upload.prepare_file_before', compact($vars)));
 
 		$this->tools->set_image_options($this->max_filesize, $this->gallery_config->get('max_height'), $this->gallery_config->get('max_width'));
-		$this->tools->set_image_data($this->file->destination_file, '', $this->file->filesize, true);
+		$this->tools->set_image_data($this->file->get('destination_file'), '', $this->file->get('filesize'), true);
 
 		// Rotate the image
 		if ($this->gallery_config->get('allow_rotate') && $this->get_rotating())
@@ -392,35 +401,35 @@ class upload
 		}
 
 		// Resize oversized images
-		if (($this->file->width > $this->gallery_config->get('max_width')) || ($this->file->height > $this->gallery_config->get('max_height')))
+		if (($this->file->get('width') > $this->gallery_config->get('max_width')) || ($this->file->get('height') > $this->gallery_config->get('max_height')))
 		{
 			if ($this->gallery_config->get('allow_resize'))
 			{
 				$this->tools->resize_image($this->gallery_config->get('max_width'), $this->gallery_config->get('max_height'));
 				if ($this->tools->resized)
 				{
-					$this->file->height = $this->tools->image_size['height'];
-					$this->file->width = $this->tools->image_size['width'];
+					//$this->file->height = $this->tools->image_size['height'];
+					//$this->file->width = $this->tools->image_size['width'];
 				}
 			}
 			else
 			{
 				$this->file->remove();
-				$this->new_error($this->user->lang('UPLOAD_ERROR', $this->file->uploadname, $this->user->lang['UPLOAD_IMAGE_SIZE_TOO_BIG']));
+				$this->new_error($this->language->lang('UPLOAD_ERROR', $this->file->get('uploadname'), $this->language->lang('UPLOAD_IMAGE_SIZE_TOO_BIG')));
 				return false;
 			}
 		}
 
-		if ($this->file->filesize > (1.2 * $this->max_filesize))
+		if ($this->file->get('filesize') > (1.2 * $this->max_filesize))
 		{
 			$this->file->remove();
-			$this->new_error($this->user->lang('UPLOAD_ERROR', $this->file->uploadname, $this->user->lang['BAD_UPLOAD_FILE_SIZE']));
+			$this->new_error($this->language->lang('UPLOAD_ERROR', $this->file->get('uploadname'), $this->language->lang('BAD_UPLOAD_FILE_SIZE')));
 			return false;
 		}
 
 		if ($this->tools->rotated || $this->tools->resized)
 		{
-			$this->tools->write_image($this->file->destination_file, $this->gallery_config->get('jpg_quality'), true);
+			$this->tools->write_image($this->file->get('destination_file'), $this->gallery_config->get('jpg_quality'), true);
 		}
 
 		// Everything okay, now add the file to the database and return the image_id
@@ -462,13 +471,13 @@ class upload
 	 */
 	public function file_to_database($additional_sql_ary)
 	{
-		$image_name = str_replace("_", "_", utf8_substr($this->file->uploadname, 0, utf8_strrpos($this->file->uploadname, '.')));
+		$image_name = str_replace("_", "_", utf8_substr($this->file->get('uploadname'), 0, utf8_strrpos($this->file->get('uploadname'), '.')));
 
 		$sql_ary = array_merge(array(
 			'image_name'			=> $image_name,
 			'image_name_clean'		=> utf8_clean_string($image_name),
-			'image_filename' 		=> $this->file->realname,
-			'filesize_upload'		=> $this->file->filesize,
+			'image_filename' 		=> $this->file->get('realname'),
+			'filesize_upload'		=> $this->file->get('filesize'),
 			'image_time'			=> time() + $this->file_count,
 
 			'image_user_id'			=> $this->user->data['user_id'],
@@ -534,6 +543,7 @@ class upload
 			return 0;
 		}
 
+		// This code is never invoced. It's left here for future implementation.
 		$this->gallery_config->inc('current_upload_dir_size', 1);
 		if ($this->gallery_config->get('current_upload_dir_size') >= self::NUM_FILES_PER_DIR)
 		{
@@ -558,7 +568,7 @@ class upload
 		{
 			return;
 		}
-		$this->new_error($this->user->lang('USER_REACHED_QUOTA_SHORT', $this->file_limit));
+		$this->new_error($this->language->lang('USER_REACHED_QUOTA_SHORT', $this->file_limit));
 		$this->sent_quota_error = true;
 	}
 
@@ -695,23 +705,23 @@ class upload
 		$extensions = $types = array();
 		if ($this->gallery_config->get('allow_jpg'))
 		{
-			$types[] = $this->user->lang['FILETYPES_JPG'];
+			$types[] = $this->language->lang('FILETYPES_JPG');
 			$extensions[] = 'jpg';
 			$extensions[] = 'jpeg';
 		}
 		if ($this->gallery_config->get('allow_gif'))
 		{
-			$types[] = $this->user->lang['FILETYPES_GIF'];
+			$types[] = $this->language->lang('FILETYPES_GIF');
 			$extensions[] = 'gif';
 		}
 		if ($this->gallery_config->get('allow_png'))
 		{
-			$types[] = $this->user->lang['FILETYPES_PNG'];
+			$types[] = $this->language->lang('FILETYPES_PNG');
 			$extensions[] = 'png';
 		}
 		if (!$ignore_zip && $this->gallery_config->get('allow_zip'))
 		{
-			$types[] = $this->user->lang['FILETYPES_ZIP'];
+			$types[] = $this->language->lang('FILETYPES_ZIP');
 			$extensions[] = 'zip';
 		}
 
@@ -731,167 +741,4 @@ class upload
 		return $checks;
 	}
 
-	/**
-	 * Here we do a lot of hacking and slashing ... don't ask why ... I will have to change it to plupload usage once I know how!
-	 */
-
-	/**
-	 * Form upload method
-	 * Upload file from users harddisk
-	 *
-	 * @param string $form_name Form name assigned to the file input field (if it is an array, the key has to be specified)
-	 * @param \phpbb\mimetype\guesser $mimetype_guesser Mimetype guesser
-	 * @param \phpbb\plupload\plupload $plupload The plupload object
-	 *
-	 * @return object $file Object "filespec" is returned, all further operations can be done with this object
-	 * @access public
-	 */
-	private function form_upload($form_name, \phpbb\mimetype\guesser $mimetype_guesser = null)
-	{
-		$upload_unstr = $this->request->variable('files', array('name'=> array('' => ''), 'type' => array('' => ''), 'tmp_name' => array('' => ''), 'error' =>  array('' => ''), 'size' => array('' => '')), true, \phpbb\request\request_interface::FILES);
-
-		$upload_redy = array();
-		for ($i = 0; $i < count($upload_unstr['name']); $i++)
-		{
-			$upload_redy[$i] = array(
-				'name' => $upload_unstr['name'][$i],
-				'type' => $upload_unstr['type'][$i],
-				'tmp_name' => $upload_unstr['tmp_name'][$i],
-				'error'	=> ($upload_unstr['error'][$i] ? $upload_unstr['error'][$i] : null),
-				'size'	=> $upload_unstr['size'][$i]
-			);
-		}
-
-		foreach ($upload_redy as $ID => $VAR)
-		{
-			$upload = array(
-				'name' => $VAR['name'],
-				'type' => $VAR['type'],
-				'tmp_name' => $VAR['tmp_name'],
-				'error'	=> $VAR['error'],
-				'size'	=> $VAR['size']
-			);
-			$file = new \filespec($upload, $this, $mimetype_guesser, null);
-			if ($file->init_error)
-			{
-				$file->error[] = '';
-				$files[$ID] = $file;
-				continue;
-			}
-			// Error array filled?
-			if (isset($upload['error']))
-			{
-				$error = $upload['error'];
-				if ($error !== false)
-				{
-					$file->error[] = $error;
-					$files[$ID] = $file;
-					continue;
-				}
-			}
-			// Check if empty file got uploaded (not catched by is_uploaded_file)
-			if (isset($upload['size']) && $upload['size'] == 0)
-			{
-				$file->error[] = $this->user->lang['FILE_EMPTY_FILEUPLOAD'];
-				$files[$ID] = $file;
-				continue;
-			}
-			// PHP Upload filesize exceeded
-			if ($file->get('filename') == 'none')
-			{
-				$max_filesize = @ini_get('upload_max_filesize');
-				$unit = 'MB';
-				if (!empty($max_filesize))
-				{
-					$unit = strtolower(substr($max_filesize, -1, 1));
-					$max_filesize = (int) $max_filesize;
-					$unit = ($unit == 'k') ? 'KB' : (($unit == 'g') ? 'GB' : 'MB');
-				}
-				$file->error[] = (empty($max_filesize)) ? $this->user->lang['FILE_PHP_SIZE_NA'] : sprintf($this->user->lang['FILE_PHP_SIZE_OVERRUN'], $max_filesize, $this->user->lang[$unit]);
-				$files[$ID] = $file;
-				continue;
-			}
-
-			// Not correctly uploaded
-			if (!$file->is_uploaded())
-			{
-				$file->error[] = $this->user->lang['FILE_NOT_UPLOADED'];
-				$files[$ID] = $file;
-				continue;
-			}
-			$this->common_checks($file);
-			$files[$ID] = $file;
-			continue;
-		}
-		return $files;
-	}
-
-	/**
-	 * Perform common checks
-	 */
-	function common_checks(&$file)
-	{
-		// Filesize is too big or it's 0 if it was larger than the maxsize in the upload form
-		if ($this->max_filesize && ($file->get('filesize') > $this->max_filesize || $file->get('filesize') == 0))
-		{
-			$max_filesize = get_formatted_filesize($this->max_filesize, false);
-			$file->error[] = sprintf($this->user->lang['FILE_WRONG_FILESIZE'], $max_filesize['value'], $max_filesize['unit']);
-		}
-		// check Filename
-		if (preg_match("#[\\/:*?\"<>|]#i", $file->get('realname')))
-		{
-			$file->error[] = sprintf($this->user->lang['FILE_INVALID_FILENAME'], $file->get('realname'));
-		}
-		// Invalid Extension
-		if (!$this->valid_extension($file))
-		{
-			$file->error[] = sprintf($this->user->lang['FILE_DISALLOWED_EXTENSION'], $file->get('extension'));
-		}
-		// MIME Sniffing
-		//if (!$this->valid_content($file))
-		//{
-		//	$file->error[] = sprintf($this->user->lang['FILE_DISALLOWED_CONTENT']);
-		//}
-	}
-
-	function valid_extension($file)
-	{
-		$allowed = array();
-		if ($this->gallery_config->get('allow_jpg'))
-		{
-			$allowed[] = 'jpg';
-			$allowed[] = 'jpeg';
-		}
-		if ($this->gallery_config->get('allow_gif'))
-		{
-			$allowed[] = 'gif';
-		}
-		if ($this->gallery_config->get('allow_png'))
-		{
-			$allowed[] = 'png';
-		}
-		if ($this->gallery_config->get('allow_zip'))
-		{
-			$allowed[] = 'zip';
-		}
-		return in_array($file->get('extension'), $allowed);
-	}
-	/**
-	 * Check for allowed dimension
-	 */
-	function valid_dimensions(&$file)
-	{
-		if (!$this->max_width && !$this->max_height && !$this->min_width && !$this->min_height)
-		{
-			return true;
-		}
-		if (($file->get('width') > $this->max_width && $this->max_width) ||
-			($file->get('height') > $this->max_height && $this->max_height) ||
-			($file->get('width') < $this->min_width && $this->min_width) ||
-			($file->get('height') < $this->min_height && $this->min_height))
-		{
-			return false;
-		}
-		return true;
-	}
 }

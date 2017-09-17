@@ -49,9 +49,14 @@ class user
 	/**
 	 * Constructor
 	 *
-	 * @param	\phpbb\db\driver\driver	$db			Database object
-	 * @param	\phpbb\event\dispatcher	$dispatcher	Event dispatcher object
-	 * @param	string					$table_name	Gallery users table
+	 * @param \phpbb\db\driver\driver|\phpbb\db\driver\driver_interface $db Database object
+	 * @param    \phpbb\event\dispatcher $dispatcher Event dispatcher object
+	 * @param \phpbb\user $user
+	 * @param \phpbb\config\config $config
+	 * @param \phpbb\auth\auth $auth
+	 * @param    string $table_name Gallery users table
+	 * @param $root_path
+	 * @param $php_ext
 	 */
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\event\dispatcher $dispatcher, \phpbb\user $user, \phpbb\config\config $config,
 	\phpbb\auth\auth $auth,
@@ -113,8 +118,9 @@ class user
 	}
 
 	/**
-	* Load the users data from the database and cast it...
-	*/
+	 * Load the users data from the database and cast it...
+	 * @param $time
+	 */
 	public function set_permissions_changed($time)
 	{
 		if ($this->data)
@@ -157,9 +163,11 @@ class user
 	}
 
 	/**
-	* Updates/Inserts the data, depending on whether the user already exists or not.
-	*	Example: 'SET key = x'
-	*/
+	 * Updates/Inserts the data, depending on whether the user already exists or not.
+	 *    Example: 'SET key = x'
+	 * @param $data
+	 * @return bool
+	 */
 	public function update_data($data)
 	{
 		$this->force_load();
@@ -179,9 +187,11 @@ class user
 	}
 
 	/**
-	* Increase/Inserts the data, depending on whether the user already exists or not.
-	*	Example: 'SET key = key + x'
-	*/
+	 * Increase/Inserts the data, depending on whether the user already exists or not.
+	 *    Example: 'SET key = key + x'
+	 * @param $num
+	 * @return bool
+	 */
 	public function update_images($num)
 	{
 		$suc = false;
@@ -477,8 +487,9 @@ class user
 	);
 
 	/**
-	*
-	*/
+	 * @param $user_cache
+	 * @param $row
+	 */
 	public function add_user_to_cache(&$user_cache, $row)
 	{
 		$user_id = $row['user_id'];

@@ -109,7 +109,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		}
 		else
 		{
-			$this->assertEquals(3, $crawler->filter('div.polaroid')->count());
+			$this->assertEquals(4, $crawler->filter('div.polaroid')->count());
 		}
 
 		$this->logout();
@@ -366,7 +366,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->assertEquals(1, $crawler->filter('div.content:contains("Test comment that should be edited")')->count());
 		$this->logout();
 	}
-	public function test_delete_comment()
+	/*public function test_delete_comment()
 	{
 		$this->login();
 		$this->admin_login();
@@ -406,7 +406,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->assertEquals(0, $crawler->filter('div.content:contains("testuser1 wrote:")')->count());
 		$this->assertEquals(0, $crawler->filter('div.content:contains("Test comment that should be edited")')->count());
 		$this->logout();
-	}
+	}*/
 	public function test_comment_to_many_symbols_user()
 	{
 		$this->login();
@@ -1146,7 +1146,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				't',
 				'd',
 				'Image in sublabum to move',
-				'Valid but needs approve',
+				'Valid but needs delete',
 				'Valid',
 			),
 			'time_asc'	=> array(
@@ -1154,14 +1154,14 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				'a',
 				'Valid',
 				'Valid but needs approve',
-				'Image in sublabum to move',
+				'Valid but needs delete',
 			),
 			'name_desc'	=> array(
 				'n',
 				'd',
-				'Valid but needs approve',
+				'Valid but needs delete',
 				'Valid',
-				'Image in sublabum to move',
+				'Valid',
 			),
 			'name_asc'	=> array(
 				'n',
@@ -1174,8 +1174,8 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				'vc',
 				'd',
 				'Valid',
+				'Valid but needs delete',
 				'Valid but needs approve',
-				'Image in sublabum to move',
 			),
 			'view_count_asc'	=> array(
 				'vc',
@@ -1187,8 +1187,8 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 			'username_desc'	=> array(
 				'u',
 				'd',
+				'Valid but needs delete',
 				'Valid but needs approve',
-				'Image in sublabum to move',
 				'Valid',
 			),
 			'username_asc'	=> array(
@@ -1202,7 +1202,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				'ra',
 				'a',
 				'Image in sublabum to move',
-				'Valid but needs approve',
+				'Valid but needs delete',
 				'Valid',
 			),
 			'rating_desc'	=> array(
@@ -1215,8 +1215,8 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 			'rating_count_asc'	=> array(
 				'r',
 				'a',
-				'Image in sublabum to move',
-				'Valid but needs approve',
+				'Valid but needs delete',
+				'Valid but needs delete',
 				'Valid',
 			),
 			'rating_count_desc'	=> array(
@@ -1224,7 +1224,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				'd',
 				'Valid',
 				'Valid but needs approve',
-				'Image in sublabum to move',
+				'Valid but needs delete',
 			),
 			/*'comment_asc'	=> array(
 				'c',
@@ -1258,7 +1258,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				't',
 				'd',
 				'Image in sublabum to move',
-				'Valid but needs approve',
+				'Valid but needs delete',
 				'Valid',
 			),
 		);
@@ -1491,7 +1491,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$form['files'] = array(__DIR__ . '/images/valid.jpg');
 		$crawler = self::submit($form);
 
-		$this->assertContains($this->lang('FILE_WRONG_FILESIZE'), $crawler->filter('p.error')->text());
+		$this->assertContains($this->lang('BAD_UPLOAD_FILE_SIZE'), $crawler->filter('p.error')->text());
 
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main&sid=' . $this->sid);
 		$form = $crawler->selectButton('submit')->form();
@@ -1770,7 +1770,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		}
 		else
 		{
-			$this->assertContains($this->lang('FILE_DISALLOWED_EXTENSION'), $crawler->filter('p.error')->text());
+			$this->assertContains($this->lang('DISALLOWED_EXTENSION'), $crawler->filter('p.error')->text());
 		}
 		$this->logout();
 		$this->logout();
@@ -1815,7 +1815,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		}
 		else
 		{
-			$this->assertContains($this->lang('FILE_DISALLOWED_EXTENSION'), $crawler->filter('p.error')->text());
+			$this->assertContains($this->lang('DISALLOWED_EXTENSION'), $crawler->filter('p.error')->text());
 		}
 		$this->logout();
 		$this->logout();
@@ -1860,12 +1860,15 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		}
 		else
 		{
-			$this->assertContains($this->lang('FILE_DISALLOWED_EXTENSION'), $crawler->filter('p.error')->text());
+			$this->assertContains($this->lang('DISALLOWED_EXTENSION'), $crawler->filter('p.error')->text());
 		}
 		$this->logout();
 		$this->logout();
 	}
-	/*public function test_allow_zip($option)
+	/**
+	 * @dataProvider yes_no_data
+	 */
+	public function test_allow_zip($option)
 	{
 		$this->login();
 		$this->admin_login();
@@ -1888,7 +1891,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$upload_url = substr($crawler->filter('a:contains("' . $this->lang('UPLOAD_IMAGE') . '")')->attr('href'), 1);
 		$crawler = self::request('GET', $upload_url);
 		$form = $crawler->selectButton($this->lang('CONTINUE'))->form();
-		$form['image_file_0'] =  __DIR__ . '/images/valid.zip';
+		$form['files'] =  array(__DIR__ . '/images/valid.zip');
 		$crawler = self::submit($form);
 		if ($option == 1)
 		{
@@ -1906,7 +1909,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		}
 		$this->logout();
 		$this->logout();
-	}*/
+	}
 	public function test_description_length()
 	{
 		$this->login();
