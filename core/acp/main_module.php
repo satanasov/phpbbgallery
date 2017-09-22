@@ -265,13 +265,6 @@ class main_module
 					}
 					$album_id = $phpbb_ext_gallery_core_album->generate_personal_album($user_row['username'], $user_row['user_id'], $user_row['user_colour'], $phpbb_gallery_user);
 
-					// Add CPF address
-					$profile_fields = $phpbb_container->get('profilefields.manager');
-					$vars = array(
-						'pf_gallery_palbum'	=> (int) $album_id
-					);
-					$profile_fields->update_profile_field_data($user_row['user_id'], $vars);
-
 					trigger_error($this->language->lang('PEGA_CREATED', $user_row['username']) . adm_back_link($this->u_action));
 				break;
 			}

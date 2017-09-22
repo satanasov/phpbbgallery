@@ -12,6 +12,7 @@ services:
             - '@dbal.conn'
             - '@user'
             - '@language'
+            - '@profilefields.manager'
             - '@phpbbgallery.core.auth'
             - '@phpbbgallery.core.cache'
             - '@phpbbgallery.core.block'
