@@ -21,6 +21,10 @@ class core_display_test extends \phpbbgallery\tests\core\core_base
 	{
 		parent::setUp();
 
+		$this->user_cpf = $this->getMockBuilder('\phpbb\profilefields\manager')
+			->disableOriginalConstructor()
+			->getMock();
+
 		$this->gallery_cache = new \phpbbgallery\core\cache(
 			$this->cache,
 			$this->db,
@@ -32,6 +36,7 @@ class core_display_test extends \phpbbgallery\tests\core\core_base
 			$this->db,
 			$this->dispatcher,
 			$this->user,
+			$this->user_cpf,
 			$this->config,
 			$this->auth,
 			'phpbb_gallery_users',
