@@ -145,6 +145,7 @@ services:
             - '@dbal.conn'
             - '@dispatcher'
             - '@user'
+            - '@profilefields.manager'
             - '@config'
             - '@auth'
             - '%tables.phpbbgallery.users%'
