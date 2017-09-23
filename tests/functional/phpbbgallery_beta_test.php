@@ -1175,7 +1175,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				'd',
 				'Valid',
 				'Valid but needs approve',
-				'Valid but needs approve',
+				'Valid but needs delete',
 			),
 			'view_count_asc'	=> array(
 				'vc',
@@ -1215,7 +1215,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 			'rating_count_asc'	=> array(
 				'r',
 				'a',
-				'Valid but needs delete',
+				'Image in sublabum to move',
 				'Image in sublabum to move',
 				'Valid',
 			),
