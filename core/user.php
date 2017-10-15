@@ -650,15 +650,18 @@ class user
 			$user_ids = array($user_ids);
 		}
 		$sql = 'SELECT user_id, personal_album_id FROM ' . $this->gallery_users_table . ' WHERE ' . $this->db->sql_in_set('user_id', $user_ids);
+		//var_dump($sql);
 		$result = $this->db->sql_query($sql);
 		$set_array = array();
-		while ($row = $this->db->sql_query($result))
+		while ($row = $this->db->sql_fetchrow($result))
 		{
+			//var_dump($row);
 			if($row['personal_album_id'] > 0)
 			{
 				$set_array[$row['user_id']] = $row['personal_album_id'];
 			}
 		}
+		//var_dump($set_array);
 		$updated_rows = 0;
 		if (count($set_array) > 0)
 		{
