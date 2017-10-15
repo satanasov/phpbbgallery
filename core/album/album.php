@@ -2,8 +2,8 @@
 
 /**
 *
-* @package NV Newspage Extension
-* @copyright (c) 2014 nickvergessen
+* @package PhpBB Gallery
+* @copyright (c) 2017 satanasov
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -18,26 +18,29 @@ class album
 
 	/**
 	 * album constructor.
+	 *
 	 * @param \phpbb\db\driver\driver_interface $db
-	 * @param \phpbb\user $user
-	 * @param language $language
-	 * @param \phpbbgallery\core\auth\auth $gallery_auth
-	 * @param \phpbbgallery\core\cache $gallery_cache
-	 * @param \phpbbgallery\core\block $block
-	 * @param \phpbbgallery\core\config $gallery_config
-	 * @param $albums_table
-	 * @param $images_table
-	 * @param $watch_table
-	 * @param $contest_table
+	 * @param \phpbb\user                       $user
+	 * @param language                          $language
+	 * @param \phpbb\profilefields\manager      $user_cpf
+	 * @param \phpbbgallery\core\auth\auth      $gallery_auth
+	 * @param \phpbbgallery\core\cache          $gallery_cache
+	 * @param \phpbbgallery\core\block          $block
+	 * @param \phpbbgallery\core\config         $gallery_config
+	 * @param                                   $albums_table
+	 * @param                                   $images_table
+	 * @param                                   $watch_table
+	 * @param                                   $contest_table
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\language\language $language,
-								\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\cache $gallery_cache, \phpbbgallery\core\block $block,
-								\phpbbgallery\core\config $gallery_config,
-								$albums_table, $images_table, $watch_table, $contest_table)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\language\language $language, \phpbb\profilefields\manager $user_cpf,
+		\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\cache $gallery_cache, \phpbbgallery\core\block $block,
+		\phpbbgallery\core\config $gallery_config,
+		$albums_table, $images_table, $watch_table, $contest_table)
 	{
 		$this->db = $db;
 		$this->user = $user;
 		$this->language = $language;
+		$this->user_cpf = $user_cpf;
 		$this->gallery_auth = $gallery_auth;
 		$this->gallery_cache = $gallery_cache;
 		$this->block = $block;
@@ -390,7 +393,7 @@ class album
 	public function generate_personal_album($album_name, $user_id, $user_colour, $gallery_user)
 	{
 		$album_data = array(
-			'album_name'					=> $album_name,
+			'album_name'					=> $this->db->sql_escape($album_name),
 			'parent_id'						=> 0,
 			//left_id and right_id default by db
 			'album_desc_options'			=> 7,
@@ -398,7 +401,7 @@ class album
 			'album_parents'					=> '',
 			'album_type'					=> \phpbbgallery\core\block::TYPE_UPLOAD,
 			'album_status'					=> \phpbbgallery\core\block::ALBUM_OPEN,
-			'album_user_id'					=> $user_id,
+			'album_user_id'					=> (int) $user_id,
 			'album_last_username'			=> '',
 			'album_last_user_colour'		=> $user_colour,
 		);
@@ -408,6 +411,12 @@ class album
 		$gallery_user->update_data(array(
 				'personal_album_id'	=> $personal_album_id,
 		));
+
+		// Fill album CPF.
+		$cpf_vars = array(
+			'pf_gallery_palbum'	=> (int) $personal_album_id
+		);
+		$this->user_cpf->update_profile_field_data((int) $user_id, $cpf_vars);
 
 		$this->gallery_config->inc('num_pegas', 1);
 

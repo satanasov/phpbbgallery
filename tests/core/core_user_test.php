@@ -24,6 +24,7 @@ class core_user_test extends core_base
 			$this->db,
 			$this->dispatcher,
 			$this->user,
+			$this->user_cpf,
 			$this->config,
 			$this->auth,
 			'phpbb_gallery_users',

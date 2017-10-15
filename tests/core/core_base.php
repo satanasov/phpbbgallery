@@ -113,6 +113,11 @@ class core_base extends \phpbb_database_test_case
 			->will($this->returnArgument(0));
 
 		$request = $this->request = $this->getMock('\phpbb\request\request');
+
+		$this->user_cpf = $this->getMockBuilder('\phpbb\profilefields\manager')
+			->disableOriginalConstructor()
+			->getMock();
+
 	}
 
 	protected function tearDown()

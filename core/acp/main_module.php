@@ -172,7 +172,7 @@ class main_module
 			{
 				mkdir($phpbbgallery_core_file_source, 0755, true);
 				$template->assign_vars(array(
-					'U_SOURCE_DIR_STATE'	=>  $this->language->lang['DIR_CREATED'],
+					'U_SOURCE_DIR_STATE'	=>  $this->language->lang('DIR_CREATED'),
 					'U_SOURCE_DIR_STATE_ERROR'	=> 0,
 				));
 			}
@@ -223,6 +223,10 @@ class main_module
 					$confirm = true;
 					$confirm_lang = 'GALLERY_PURGE_CACHE_EXPLAIN';
 				break;
+				case 'resync_albums_to_cpf':
+					$confirm = true;
+					$confirm_lang = 'GALLERY_RESYNC_ALBUMS_TO_CPF_CONFIRM';
+				break;
 				case 'create_pega':
 					$confirm = false;
 					if (!$auth->acl_get('a_board'))
@@ -264,13 +268,6 @@ class main_module
 						trigger_error($this->language->lang('PEGA_ALREADY_EXISTS', $user_row['username']) . adm_back_link($this->u_action), E_USER_WARNING);
 					}
 					$album_id = $phpbb_ext_gallery_core_album->generate_personal_album($user_row['username'], $user_row['user_id'], $user_row['user_colour'], $phpbb_gallery_user);
-
-					// Add CPF address
-					$profile_fields = $phpbb_container->get('profilefields.manager');
-					$vars = array(
-						'pf_gallery_palbum'	=> (int) $album_id
-					);
-					$profile_fields->update_profile_field_data($user_row['user_id'], $vars);
 
 					trigger_error($this->language->lang('PEGA_CREATED', $user_row['username']) . adm_back_link($this->u_action));
 				break;
@@ -521,10 +518,30 @@ class main_module
 
 					trigger_error($this->language->lang('PURGED_CACHE') . adm_back_link($this->u_action));
 				break;
+
+				case 'resync_albums_to_cpf':
+					$resync_albums_to_cpf_stage = 'gather';
+				break;
 			}
 		}
 
-		//@todo: phpbb_gallery_modversioncheck::check();
+		/* Resync stats as per server
+		 * Time: 0.271s
+		 * Queries: 1087
+		 * Peak Memmoty usage: 8.62MB
+		 */
+		if (isset($resync_albums_to_cpf_stage))
+		{
+			// We will loop a resync
+			// Let's gather some info
+			$sql = 'SELECT user_id FROM ' . $users_table . ' ORDER BY user_id ASC';
+			$result = $db->sql_query($sql);
+			while ($row = $db->sql_fetchrow($result))
+			{
+				$sync_users[] = (int) $row['user_id'];
+			}
+			$phpbb_gallery_user->set_personal_albums($sync_users);
+		}
 
 		$boarddays = (time() - $config['board_startdate']) / 86400;
 		$images_per_day = sprintf('%.2f', $config['phpbb_gallery_num_images'] / $boarddays);

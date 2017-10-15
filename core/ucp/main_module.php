@@ -184,11 +184,6 @@ class main_module
 				'personal_album_id'	=> $album_id,
 			));
 
-			$profile_fields = $phpbb_container->get('profilefields.manager');
-			$vars = array(
-				'pf_gallery_palbum'	=> (int) $album_id
-			);
-			$profile_fields->update_profile_field_data($user->data['user_id'], $vars);
 			$this->subscribe_pegas($album_id);
 			$phpbb_ext_gallery_config->inc('num_pegas', 1);
 

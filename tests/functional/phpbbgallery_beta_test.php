@@ -1174,14 +1174,14 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				'vc',
 				'd',
 				'Valid',
-				'Valid but needs delete',
 				'Valid but needs approve',
+				'Valid but needs delete',
 			),
 			'view_count_asc'	=> array(
 				'vc',
 				'a',
-				'Image in sublabum to move',
 				'Valid but needs approve',
+				'Valid but needs delete',
 				'Valid',
 			),
 			'username_desc'	=> array(
@@ -1189,7 +1189,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				'd',
 				'Valid but needs delete',
 				'Valid but needs approve',
-				'Valid',
+				'Image in sublabum to move',
 			),
 			'username_asc'	=> array(
 				'u',
@@ -1210,13 +1210,13 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				'd',
 				'Valid',
 				'Valid but needs approve',
-				'Image in sublabum to move',
+				'Valid but needs delete',
 			),
 			'rating_count_asc'	=> array(
 				'r',
 				'a',
 				'Valid but needs delete',
-				'Valid but needs delete',
+				'Image in sublabum to move',
 				'Valid',
 			),
 			'rating_count_desc'	=> array(

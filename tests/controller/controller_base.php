@@ -106,6 +106,10 @@ class controller_base extends \phpbb_database_test_case
 			->disableOriginalConstructor()
 			->getMock();
 
+		$this->user_cpf = $this->getMockBuilder('\phpbb\profilefields\manager')
+			->disableOriginalConstructor()
+			->getMock();
+
 		$phpbb_dispatcher = $this->dispatcher = new \phpbb_mock_event_dispatcher();
 		$this->phpbb_container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
 
@@ -128,6 +132,7 @@ class controller_base extends \phpbb_database_test_case
 			$this->db,
 			$this->dispatcher,
 			$this->user,
+			$this->user_cpf,
 			$this->config,
 			$this->auth,
 			'phpbb_gallery_users',
@@ -197,6 +202,7 @@ class controller_base extends \phpbb_database_test_case
 			$this->db,
 			$this->user,
 			$this->language,
+			$this->user_cpf,
 			$this->gallery_auth,
 			$this->gallery_cache,
 			$this->block,

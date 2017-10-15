@@ -10,6 +10,8 @@
 
 namespace phpbbgallery\core;
 
+use phpbb\profilefields\manager;
+
 class user
 {
 	/**
@@ -34,7 +36,7 @@ class user
 	 * Gallery users table
 	 * @var string
 	 */
-	protected $table_name;
+	protected $gallery_users_table;
 
 	/**
 	 * Do we have an entry for the user in the table?
@@ -49,25 +51,27 @@ class user
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\db\driver\driver|\phpbb\db\driver\driver_interface $db Database object
-	 * @param    \phpbb\event\dispatcher $dispatcher Event dispatcher object
-	 * @param \phpbb\user $user
-	 * @param \phpbb\config\config $config
-	 * @param \phpbb\auth\auth $auth
-	 * @param    string $table_name Gallery users table
-	 * @param $root_path
-	 * @param $php_ext
+	 * @param \phpbb\db\driver\driver|\phpbb\db\driver\driver_interface $db         Database object
+	 * @param    \phpbb\event\dispatcher                                $dispatcher Event dispatcher object
+	 * @param \phpbb\user                                               $user
+	 * @param \phpbb\profilefields\manager                              $user_cpf
+	 * @param \phpbb\config\config                                      $config
+	 * @param \phpbb\auth\auth                                          $auth
+	 * @param    string                                                 $table_name Gallery users table
+	 * @param                                                           $root_path
+	 * @param                                                           $php_ext
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\event\dispatcher $dispatcher, \phpbb\user $user, \phpbb\config\config $config,
-	\phpbb\auth\auth $auth,
-								$table_name, $root_path, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\event\dispatcher $dispatcher, \phpbb\user $user,
+		\phpbb\profilefields\manager $user_cpf,	\phpbb\config\config $config,	\phpbb\auth\auth $auth,
+		$table_name, $root_path, $php_ext)
 	{
 		$this->db			= $db;
 		$this->dispatcher	= $dispatcher;
 		$this->user = $user;
+		$this->user_cpf = $user_cpf;
 		$this->config = $config;
 		$this->auth = $auth;
-		$this->table_name	= $table_name;
+		$this->gallery_users_table	= $table_name;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 	}
@@ -105,7 +109,7 @@ class user
 	{
 		$this->entry_exists	= false;
 		$sql = 'SELECT *
-			FROM ' . $this->table_name . '
+			FROM ' . $this->gallery_users_table . '
 			WHERE user_id = ' . $this->user_id;
 		$result = $this->db->sql_query($sql, 30);
 		if ($row = $this->db->sql_fetchrow($result))
@@ -225,7 +229,7 @@ class user
 		));
 		unset($sql_ary['user_id']);
 
-		$sql = 'UPDATE ' . $this->table_name . '
+		$sql = 'UPDATE ' . $this->gallery_users_table . '
 			SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . '
 			WHERE user_id = ' . $this->user_id;
 		$this->db->sql_query($sql);
@@ -243,7 +247,7 @@ class user
 	*/
 	protected function update_image_count($num)
 	{
-		$sql = 'UPDATE ' . $this->table_name . '
+		$sql = 'UPDATE ' . $this->gallery_users_table . '
 			SET user_images = user_images ' . (($num > 0) ? (' + ' . $num) : (' - ' . abs($num))) . ',
 				user_last_update = ' . time() . '
 			WHERE ' . (($num < 0) ? ' user_images > ' . abs($num) . ' AND ' : '') . '
@@ -277,7 +281,7 @@ class user
 
 		$this->db->sql_return_on_error(true);
 
-		$sql = 'INSERT INTO ' . $this->table_name . '
+		$sql = 'INSERT INTO ' . $this->gallery_users_table . '
 			' . $this->db->sql_build_array('INSERT', $sql_ary);
 		$this->db->sql_query($sql);
 		$error = $this->db->get_sql_error_triggered();
@@ -295,7 +299,7 @@ class user
 	*/
 	public function delete()
 	{
-		$sql = 'DELETE FROM ' . $this->table_name . '
+		$sql = 'DELETE FROM ' . $this->gallery_users_table . '
 			WHERE user_id = ' . $this->user_id;
 		$this->db->sql_query($sql);
 	}
@@ -310,7 +314,7 @@ class user
 
 		$sql_where = $this->sql_build_where($user_ids);
 
-		$sql = 'DELETE FROM ' . $this->table_name . '
+		$sql = 'DELETE FROM ' . $this->gallery_users_table . '
 			' . $sql_where;
 		$this->db->sql_query($sql);
 	}
@@ -331,7 +335,7 @@ class user
 
 		$sql_where = $this->sql_build_where($user_ids);
 
-		$sql = 'UPDATE ' . $this->table_name . '
+		$sql = 'UPDATE ' . $this->gallery_users_table . '
 			SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . '
 			' . $sql_where;
 		$this->db->sql_query($sql);
@@ -618,7 +622,7 @@ class user
 	*/
 	public function get_own_root_album()
 	{
-		$sql = 'SELECT personal_album_id FROM ' . $this->table_name . ' WHERE user_id = ' . $this->user_id;
+		$sql = 'SELECT personal_album_id FROM ' . $this->gallery_users_table . ' WHERE user_id = ' . $this->user_id;
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		return (int) $row['personal_album_id'];
@@ -632,5 +636,47 @@ class user
 		$this->user_id = null;
 		$this->entry_exists = null;
 		$this->data = array();
+	}
+
+	/**
+	 * @param  array	$user_ids	Array of user IDs
+	 * @return int					Count of updated Users
+	 */
+
+	public function set_personal_albums($user_ids)
+	{
+		if (!is_array($user_ids))
+		{
+			$user_ids = array($user_ids);
+		}
+		$sql = 'SELECT user_id, personal_album_id FROM ' . $this->gallery_users_table . ' WHERE ' . $this->db->sql_in_set('user_id', $user_ids);
+		//var_dump($sql);
+		$result = $this->db->sql_query($sql);
+		$set_array = array();
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			//var_dump($row);
+			if($row['personal_album_id'] > 0)
+			{
+				$set_array[$row['user_id']] = $row['personal_album_id'];
+			}
+		}
+		//var_dump($set_array);
+		$updated_rows = 0;
+		if (count($set_array) > 0)
+		{
+			foreach($set_array as $uid => $album_id)
+			{
+				// Fill album CPF.
+				$cpf_vars = array(
+					'pf_gallery_palbum'	=> (int) $album_id
+				);
+				$this->user_cpf->update_profile_field_data((int) $uid, $cpf_vars);
+
+				$updated_rows++;
+			}
+		}
+
+		return $updated_rows;
 	}
 }
