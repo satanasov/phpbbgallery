@@ -172,7 +172,7 @@ class main_module
 			{
 				mkdir($phpbbgallery_core_file_source, 0755, true);
 				$template->assign_vars(array(
-					'U_SOURCE_DIR_STATE'	=>  $this->language->lang['DIR_CREATED'],
+					'U_SOURCE_DIR_STATE'	=>  $this->language->lang('DIR_CREATED'),
 					'U_SOURCE_DIR_STATE_ERROR'	=> 0,
 				));
 			}
@@ -222,6 +222,10 @@ class main_module
 				case 'purge_cache':
 					$confirm = true;
 					$confirm_lang = 'GALLERY_PURGE_CACHE_EXPLAIN';
+				break;
+				case 'resync_albums_to_cpf':
+					$confirm = true;
+					$confirm_lang = 'GALLERY_RESYNC_ALBUMS_TO_CPF_CONFIRM';
 				break;
 				case 'create_pega':
 					$confirm = false;
@@ -514,10 +518,30 @@ class main_module
 
 					trigger_error($this->language->lang('PURGED_CACHE') . adm_back_link($this->u_action));
 				break;
+
+				case 'resync_albums_to_cpf':
+					$resync_albums_to_cpf_stage = 'gather';
+				break;
 			}
 		}
 
-		//@todo: phpbb_gallery_modversioncheck::check();
+		/* Resync stats as per server
+		 * Time: 0.271s
+		 * Queries: 1087
+		 * Peak Memmoty usage: 8.62MB
+		 */
+		if (isset($resync_albums_to_cpf_stage))
+		{
+			// We will loop a resync
+			// Let's gather some info
+			$sql = 'SELECT user_id FROM ' . $users_table . ' ORDER BY user_id ASC';
+			$result = $db->sql_query($sql);
+			while ($row = $db->sql_fetchrow($result))
+			{
+				$sync_users[] = (int) $row['user_id'];
+			}
+			$phpbb_gallery_user->set_personal_albums($sync_users);
+		}
 
 		$boarddays = (time() - $config['board_startdate']) / 86400;
 		$images_per_day = sprintf('%.2f', $config['phpbb_gallery_num_images'] / $boarddays);
