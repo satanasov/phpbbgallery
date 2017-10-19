@@ -23,22 +23,26 @@
 	<div class="inner">
 		<dl class="postprofile<!-- IF S_POSTER_ONLINE --> online<!-- ENDIF -->" id="profile_poster">
 			<dt class="<!-- IF POSTER_AVATAR -->has-avatar<!-- ELSE -->no-avatar<!-- ENDIF -->">
-				<!-- IF POSTER_AVATAR -->
 				<div class="avatar-container">
-					<!-- IF U_POSTER --><a href="{U_POSTER}" class="avatar">{POSTER_AVATAR}</a><!-- ELSE --><span class="avatar">{POSTER_AVATAR}</span><!-- ENDIF -->
+					<!-- EVENT viewtopic_body_avatar_before -->
+					<!-- IF POSTER_AVATAR -->
+						<!-- IF U_POSTER --><a href="{U_POSTER}" class="avatar">{POSTER_AVATAR}</a><!-- ELSE --><span class="avatar">{POSTER_AVATAR}</span><!-- ENDIF -->
+					<!-- ENDIF -->
+					<!-- EVENT viewtopic_body_avatar_after -->
 				</div>
-				<!-- ENDIF -->
+				<!-- EVENT viewtopic_body_post_author_before -->
 				<!-- IF not U_POSTER --><strong>{POSTER_FULL}</strong><!-- ELSE -->{POSTER_FULL}<!-- ENDIF -->
+				<!-- EVENT viewtopic_body_post_author_after -->
 			</dt>
 
-			<!-- IF POSTER_RANK_TITLE or POSTER_RANK_IMG --><dd>{POSTER_RANK_TITLE}<!-- IF POSTER_RANK_TITLE and POSTER_RANK_IMG --><br /><!-- ENDIF -->{POSTER_RANK_IMG}</dd><!-- ENDIF -->
+			<!-- EVENT viewtopic_body_postrow_rank_before -->
+			<!-- IF POSTER_RANK_TITLE or POSTER_RANK_IMG --><dd class="profile-rank">{POSTER_RANK_TITLE}<!-- IF POSTER_RANK_TITLE and POSTER_RANK_IMG --><br /><!-- ENDIF -->{POSTER_RANK_IMG}</dd><!-- ENDIF -->
+			<!-- EVENT viewtopic_body_postrow_rank_after -->
 
-			<dd>&nbsp;</dd>
-
-			<!-- IF POSTER_POSTS != '' --><dd><strong>{L_POSTS}{L_COLON}</strong> {POSTER_POSTS}</dd><!-- ENDIF -->
+			<!-- IF POSTER_POSTS != '' --><dd class="profile-posts"><strong>{L_POSTS}{L_COLON}</strong> {POSTER_POSTS}</dd><!-- ENDIF -->
 			<!-- IF POSTER_GALLERY_IMAGES != '' --><dd><strong>{L_IMAGES}{L_COLON}</strong> <!-- IF U_POSTER_GALLERY_SEARCH --><a href="{U_POSTER_GALLERY_SEARCH}">{POSTER_GALLERY_IMAGES}</a><!-- ELSE -->{POSTER_GALLERY_IMAGES}<!-- ENDIF --></dd><!-- ENDIF -->
-			<!-- IF POSTER_JOINED --><dd><strong>{L_JOINED}{L_COLON}</strong> {POSTER_JOINED}</dd><!-- ENDIF -->
-			<!-- IF POSTER_FROM --><dd><strong>{L_LOCATION}{L_COLON}</strong> {POSTER_FROM}</dd><!-- ENDIF -->
+			<!-- IF POSTER_JOINED --><dd class="profile-warnings"><strong>{L_JOINED}{L_COLON}</strong> {POSTER_JOINED}</dd><!-- ENDIF -->
+			<!-- IF POSTER_WARNINGS --><dd class="profile-warnings"><strong>{L_WARNINGS}{L_COLON}</strong> {POSTER_WARNINGS}</dd><!-- ENDIF -->
 			<!-- IF POSTER_IP --><dd><strong>{L_IP}{L_COLON}</strong> {POSTER_IP} [ <a href="{U_POSTER_WHOIS}" onclick="popup(this.href, 750, 500); return false;">{L_WHOIS}</a> ]</dd><!-- ENDIF -->
 
 			<!-- IF S_PROFILE_FIELD1 -->
@@ -46,48 +50,42 @@
 				<dd><strong>{PROFILE_FIELD1_NAME}{L_COLON}</strong> {PROFILE_FIELD1_VALUE}</dd>
 			<!-- ENDIF -->
 
+			<!-- EVENT viewtopic_body_postrow_custom_fields_before -->
 			<!-- BEGIN custom_fields -->
-				<dd><strong>{custom_fields.PROFILE_FIELD_NAME}{L_COLON}</strong> {custom_fields.PROFILE_FIELD_VALUE}</dd>
+				<dd class="profile-custom-field profile-{custom_fields.PROFILE_FIELD_IDENT}"><strong>{custom_fields.PROFILE_FIELD_NAME}{L_COLON}</strong> {custom_fields.PROFILE_FIELD_VALUE}</dd>
 			<!-- END custom_fields -->
+			<!-- EVENT viewtopic_body_postrow_custom_fields_after -->
 
-			<!-- IF not S_IS_BOT -->
-				<!-- DEFINE $DISPLAY_PROFILE_ICONS = false -->
-				<!-- IF U_POSTER_PM or U_POSTER_EMAIL or U_POSTER_WWW or U_POSTER_MSN or U_POSTER_ICQ -->
-					<!-- DEFINE $DISPLAY_PROFILE_ICONS = true -->
-				<!-- ELSEIF U_POSTER_YIM or U_POSTER_AIM or U_POSTER_JABBER or U_POSTER_GALLERY -->
-					<!-- DEFINE $DISPLAY_PROFILE_ICONS = true -->
-				<!-- ENDIF -->
-			<!-- ENDIF -->
-			<dd class="profile-contact">
-				<strong>{L_CONTACT}{L_COLON}</strong>
-				<div class="dropdown-container dropdown-left dropdown-down">
-					<a href="#" class="dropdown-trigger dropdown-toggle"><span class="imageset icon_contact" title="{L_CONTACT} {POSTER_USERNAME}">{L_CONTACT} {POSTER_USERNAME}</span></a>
-					<div style="display: none; margin-left: -1163.97px;" class="dropdown hidden">
-						<div class="pointer"><div class="pointer-inner"></div></div>
-						<div style="margin-left: 0; left: 0; max-width: 1580px;" class="dropdown-contents contact-icons dropdown-nonscroll">
-							<div>
-								<!-- IF U_POSTER_PM --><a href="{U_POSTER_PM}" title="{L_PRIVATE_MESSAGE}">
-									<span class="contact-icon pm-icon">{L_PRIVATE_MESSAGE}</span>
-								</a><!-- ENDIF -->
-								<!-- IF U_POSTER_EMAIL --><a href="{U_POSTER_EMAIL}" title="{U_POSTER_EMAIL}">
-									<span class="contact-icon email-icon">{U_POSTER_EMAIL}</span>
-								</a><!-- ENDIF -->
-								<!-- IF U_POSTER_JABBER --><a href="{U_POSTER_JABBER}" title="{L_JABBER}" onclick="popup(this.href, 750, 320); return false;">
-									<span class="contact-icon jabber-icon">{L_JABBER}</span>
-								</a><!-- ENDIF -->
-								<!-- IF U_POSTER_ICQ --><a href="{U_POSTER_ICQ}" title="{L_ICQ}" class="last-cell">
-									<span class="contact-icon phpbb_icq-icon">{L_ICQ}</span>
-								</a><!-- ENDIF -->
+			<!-- EVENT viewtopic_body_contact_fields_before -->
+			<!-- IF not S_IS_BOT and .contact -->
+				<dd class="profile-contact">
+					<strong>{L_CONTACT}{L_COLON}</strong>
+					<div class="dropdown-container dropdown-left">
+						<a href="#" class="dropdown-trigger" title="{POSTER_USERNAME}">
+							<i class="icon fa-commenting-o fa-fw icon-lg" aria-hidden="true"></i><span class="sr-only">POSTER_USERNAME}</span>
+						</a>
+						<div class="dropdown">
+							<div class="pointer"><div class="pointer-inner"></div></div>
+							<div class="dropdown-contents contact-icons">
+								<!-- BEGIN contact -->
+									{% set REMAINDER = contact.S_ROW_COUNT % 4 %}
+									<!-- DEFINE $S_LAST_CELL = ((REMAINDER eq 3) or (contact.S_LAST_ROW and contact.S_NUM_ROWS < 4)) -->
+									<!-- IF REMAINDER eq 0 -->
+									<div>
+										<!-- ENDIF -->
+										<a href="<!-- IF contact.U_CONTACT -->{contact.U_CONTACT}<!-- ELSE -->{U_POST_AUTHOR}<!-- ENDIF -->" title="{contact.NAME}"<!-- IF $S_LAST_CELL --> class="last-cell"<!-- ENDIF --><!-- IF contact.ID eq 'jabber' --> onclick="popup(this.href, 750, 320); return false;"<!-- ENDIF -->>
+										<span class="contact-icon {contact.ID}-icon">{contact.NAME}</span>
+										</a>
+										<!-- IF REMAINDER eq 3 or contact.S_LAST_ROW -->
+									</div>
+									<!-- ENDIF -->
+								<!-- END contact -->
 							</div>
-						<div>
-							<!-- IF U_POSTER_WWW --><a href="{U_POSTER_WWW}" title="{L_VISIT_WEBSITE}{L_COLON} {U_WWW}">
-								<span class="contact-icon phpbb_website-icon">{L_VISIT_WEBSITE}{L_COLON} {U_WWW}</span>
-							</a><!-- ENDIF -->
-						</div>
 						</div>
 					</div>
-				</div>
-			</dd>
+				</dd>
+			<!-- ENDIF -->
+			<!-- EVENT viewtopic_body_contact_fields_after -->
 		</dl>
 
 		<div class="postbody">
