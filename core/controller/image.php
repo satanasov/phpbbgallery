@@ -653,9 +653,8 @@ class image
 
                 if ($row['comment_edit_count'] > 0)
                 {
-                    $edit_info = ($row['comment_edit_count'] == 1) ? $this->language->lang('EDITED_TIME_TOTAL') : $this->language->lang('EDITED_TIMES_TOTAL');
+                    $edit_info = ($row['comment_edit_count'] == 1) ? $this->language->lang('IMAGE_EDITED_TIME_TOTAL') : $this->language->lang('EDITED_TIMES_TOTAL');
                     $edit_info = sprintf($edit_info, get_username_string('full', $row['comment_edit_user_id'], $this->users_data_array[$row['comment_edit_user_id']]['username'], $this->users_data_array[$row['comment_edit_user_id']]['user_colour']), $this->user->format_date($row['comment_edit_time'], false, true), $row['comment_edit_count']);
-                    var_dump($edit_info);
                 }
                 $user_deleted = (isset($this->users_data_array[$poster_id]) ? false : true);
                 // End signature parsing, only if needed
