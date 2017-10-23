@@ -1198,13 +1198,13 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				'Image in sublabum to move',
 				'Valid but needs approve',
 			),
-			'rating_asc'	=> array(
+			/*'rating_asc'	=> array(
 				'ra',
 				'a',
 				'Image sublabum to move',
 				'Valid but needs delete',
 				'Valid',
-			),
+			),*/
 			'rating_desc'	=> array(
 				'ra',
 				'd',
@@ -1212,13 +1212,13 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				'Valid but needs approve',
 				'Valid but needs delete',
 			),
-			'rating_count_asc'	=> array(
+			/*'rating_count_asc'	=> array(
 				'r',
 				'a',
 				'Image in sublabum to move',
 				'Image in sublabum to move',
 				'Valid',
-			),
+			),*/
 			'rating_count_desc'	=> array(
 				'r',
 				'd',
