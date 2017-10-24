@@ -679,7 +679,7 @@ class image
                     // They must be able to read PMs
                     in_array($poster_id, $this->can_receive_pm_list) &&
                     // They must allow users to contact via PM
-                    (($this->auth->acl_gets('a_', 'm_') || $this->uth->acl_getf_global('m_')) || $this->users_data_array[$poster_id]['allow_pm'])
+                    (($this->auth->acl_gets('a_', 'm_') || $this->auth->acl_getf_global('m_')) || $this->users_data_array[$poster_id]['allow_pm'])
                 );
                 $u_pm = '';
                 if ($this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm') && $can_receive_pm)
@@ -775,7 +775,7 @@ class image
                 }
 
 			}
-			$this->db->sql_freeresult($result);
+			//$this->db->sql_freeresult($result);
 
 			$this->pagination->generate_template_pagination(array(
 				'routes' => array(
