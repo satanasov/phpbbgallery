@@ -75,6 +75,7 @@ services:
             - '@pagination'
             - '@template'
             - '@user'
+            - '@profilefields.manager'
             - '@language'
             - '@phpbbgallery.core.album.display'
             - '@phpbbgallery.core.album.loader'

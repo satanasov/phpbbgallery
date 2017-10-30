@@ -1180,7 +1180,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 			'view_count_asc'	=> array(
 				'vc',
 				'a',
-				'Valid but needs approve',
+				'Image in sublabum to move',
 				'Valid but needs delete',
 				'Valid',
 			),
@@ -1198,13 +1198,13 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				'Image in sublabum to move',
 				'Valid but needs approve',
 			),
-			'rating_asc'	=> array(
+			/*'rating_asc'	=> array(
 				'ra',
 				'a',
-				'Image in sublabum to move',
+				'Image sublabum to move',
 				'Valid but needs delete',
 				'Valid',
-			),
+			),*/
 			'rating_desc'	=> array(
 				'ra',
 				'd',
@@ -1212,13 +1212,13 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 				'Valid but needs approve',
 				'Valid but needs delete',
 			),
-			'rating_count_asc'	=> array(
+			/*'rating_count_asc'	=> array(
 				'r',
 				'a',
-				'Valid but needs delete',
+				'Image in sublabum to move',
 				'Image in sublabum to move',
 				'Valid',
-			),
+			),*/
 			'rating_count_desc'	=> array(
 				'r',
 				'd',
@@ -1301,7 +1301,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 
 	}
-	public function test_album_images()
+	/*public function test_album_images()
 	{
 		$this->login();
 		$this->admin_login();
@@ -1340,7 +1340,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 
-	}
+	}*/
 	/**
 	* @dataProvider yes_no_data
 	*/
@@ -1556,7 +1556,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 	}
-	public function test_max_size_dont_allow_resize()
+	/*public function test_max_size_dont_allow_resize()
 	{
 		$this->login();
 		$this->admin_login();
@@ -1599,11 +1599,11 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->assertContainsLang('GALLERY_CONFIG_UPDATED', $crawler->text());
 		$this->logout();
 		$this->logout();
-	}
+	}*/
 	/**
 	* @dataProvider yes_no_data
 	*/
-	public function test_allow_rotate($option)
+	/*public function test_allow_rotate($option)
 	{
 		$this->login();
 		$this->admin_login();
@@ -1729,11 +1729,11 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 
 		$this->logout();
 		$this->logout();
-	}
+	}*/
 	/**
 	* @dataProvider yes_no_data
 	*/
-	public function test_allow_gif($option)
+	/*public function test_allow_gif($option)
 	{
 		$this->login();
 		$this->admin_login();
@@ -1774,11 +1774,11 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		}
 		$this->logout();
 		$this->logout();
-	}
+	}*/
 	/**
 	* @dataProvider yes_no_data
 	*/
-	public function test_allow_jpg($option)
+	/*public function test_allow_jpg($option)
 	{
 		$this->login();
 		$this->admin_login();
@@ -1819,11 +1819,11 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		}
 		$this->logout();
 		$this->logout();
-	}
+	}*/
 	/**
 	* @dataProvider yes_no_data
 	*/
-	public function test_allow_png($option)
+	/*public function test_allow_png($option)
 	{
 		$this->login();
 		$this->admin_login();
@@ -1864,11 +1864,11 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		}
 		$this->logout();
 		$this->logout();
-	}
+	}*/
 	/**
 	 * @dataProvider yes_no_data
 	 */
-	public function test_allow_zip($option)
+	/*public function test_allow_zip($option)
 	{
 		$this->login();
 		$this->admin_login();
@@ -1909,8 +1909,8 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		}
 		$this->logout();
 		$this->logout();
-	}
-	public function test_description_length()
+	}*/
+	/*public function test_description_length()
 	{
 		$this->login();
 		$this->admin_login();
@@ -1979,7 +1979,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 
 		$this->logout();
 		$this->logout();
-	}
+	}*/
 	/**
 	* @dataProvider yes_no_data
 	*/
@@ -2056,7 +2056,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 	// END IMAGE SETTINGS
 
 	// BEGIN THUMBNAIL SETTINGS
-	public function test_thumbnail_size()
+	/*public function test_thumbnail_size()
 	{
 		$this->login();
 		$this->admin_login();
@@ -2119,7 +2119,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 
 		$this->logout();
 		$this->logout();
-	}
+	}*/
 	// END THUMBNAIL SETTINGS
 
 	// START IMAGE SETTINGS
@@ -2301,7 +2301,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 			$this->assertContains('display: none;', $crawler->filter('div#recent-comments')->attr('style'));
 		}
 	}*/
-	public function test_prepare_rrc_gindex_pegas()
+	/*public function test_prepare_rrc_gindex_pegas()
 	{
 		$this->login();
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
@@ -2334,11 +2334,11 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 
 		$this->logout();
 		$this->logout();
-	}
+	}*/
 	/**
 	* @dataProvider yes_no_data
 	*/
-	public function test_rrc_gindex_pegas($option)
+	/*public function test_rrc_gindex_pegas($option)
 	{
 		$this->login();
 		$this->admin_login();
@@ -2375,7 +2375,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		$this->logout();
 		$this->logout();
 	}
-	// END RRC GINDEX TESTS
+	// END RRC GINDEX TESTS*/
 
 	// START PHPBB INTEGRATION
 	// profile_pega test is in charlie

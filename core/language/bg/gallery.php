@@ -120,7 +120,7 @@ $lang = array_merge($lang, array(
 
 	'EDIT_COMMENT'					=> 'Edit comment',
 	'EDIT_IMAGE'					=> 'Edit',
-	'EDITED_TIME_TOTAL'				=> 'Last edited by %s on %s; edited %d time in total',
+	'IMAGE_EDITED_TIME_TOTAL'				=> 'Last edited by %s on %s; edited %d time in total',
 	'EDITED_TIMES_TOTAL'			=> 'Last edited by %s on %s; edited %d times in total',
 
 	'FILE'							=> 'File',

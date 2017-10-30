@@ -584,7 +584,7 @@ class permissions_module
 						{
 							$template->assign_block_vars('c_mask.v_mask.category.mask', array(
 								'PERMISSION'			=> $this->language->lang('PERMISSION_' . strtoupper($permission)),
-								'PERMISSION_EXPLAIN'	=> ($this->language->lang('PERMISSION_' . strtoupper($permission) . '_EXPLAIN') != 'PERMISSION_' . strtoupper($permission) . '_EXPLAIN') ? $this->language->lang('PERMISSION_' . strtoupper($permission) . '_EXPLAIN') : '',
+								'PERMISSION_EXPLAIN'	=> ($this->language->lang_raw('PERMISSION_' . strtoupper($permission) . '_EXPLAIN') != 'PERMISSION_' . strtoupper($permission) . '_EXPLAIN') ? $this->language->lang('PERMISSION_' . strtoupper($permission) . '_EXPLAIN') : '',
 								'S_FIELD_NAME'			=> 'setting[' . $album_row['album_id'] . '][' . $victim_row['victim_id'] . '][' . $permission . ']',
 								'S_NO'					=> ((isset($roles[$role_id][$permission]) && ($roles[$role_id][$permission] == $phpbb_ext_gallery_core_auth::ACL_NO)) ? true : false),
 								'S_YES'					=> ((isset($roles[$role_id][$permission]) && ($roles[$role_id][$permission] == $phpbb_ext_gallery_core_auth::ACL_YES)) ? true : false),

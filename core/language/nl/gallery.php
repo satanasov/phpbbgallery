@@ -121,7 +121,7 @@ $lang = array_merge($lang, array(
 
 	'EDIT_COMMENT'					=> 'Wijzig reactie',
 	'EDIT_IMAGE'					=> 'Wijzig',
-	'EDITED_TIME_TOTAL'				=> 'Laatst gewijzigd door %s op %s;, %d keer totaal gewijzigd',
+	'IMAGE_EDITED_TIME_TOTAL'				=> 'Laatst gewijzigd door %s op %s;, %d keer totaal gewijzigd',
 	'EDITED_TIMES_TOTAL'			=> 'Laatst gewijzigd door %s op %s;, %d keer totaal gewijzigd',
 
 	'FILE'							=> 'Bestand',
