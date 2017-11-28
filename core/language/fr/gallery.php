@@ -119,7 +119,7 @@ $lang = array_merge($lang, array(
 	'EDIT_COMMENT'					=> 'Éditer le commentaire',
 	'EDIT_IMAGE'					=> 'Éditer',
 	'IMAGE_EDITED_TIME_TOTAL'				=> 'Dernière édition par %s le %s ; édité %d fois',
-	'EDITED_TIMES_TOTAL'			=> 'Dernière édition par %s le %s ; édité %d fois',
+	'IMAGE_EDITED_TIMES_TOTAL'			=> 'Dernière édition par %s le %s ; édité %d fois',
 
 	'FILE'							=> 'Fichier',
 	'FILE_SIZE'						=> 'Taille du fichier',
