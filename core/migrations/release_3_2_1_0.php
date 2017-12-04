@@ -9,7 +9,7 @@
 namespace phpbbgallery\core\migrations;
 
 
-class release_1_2_1 extends \phpbb\db\migration\profilefield_base_migration
+class release_3_2_1_0 extends \phpbb\db\migration\profilefield_base_migration
 {
 	static public function depends_on()
 	{
@@ -58,7 +58,7 @@ class release_1_2_1 extends \phpbb\db\migration\profilefield_base_migration
 	}
 
 	static public $configs = array(
-		'version'					=> '1.2.1',
+		'version'					=> '3.2.1.0',
 		'disp_gallery_icon'			=> true,
 	);
 
