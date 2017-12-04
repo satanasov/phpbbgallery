@@ -14,6 +14,40 @@ use phpbb\language\language;
 
 class album
 {
+    /** @var \phpbb\db\driver\driver_interface  */
+    protected $db;
+
+    /** @var \phpbb\user  */
+    protected $user;
+
+    /** @var language  */
+    protected $language;
+
+    /** @var \phpbb\profilefields\manager  */
+    protected $user_cpf;
+
+    /** @var \phpbbgallery\core\auth\auth  */
+    protected $gallery_auth;
+
+    /** @var \phpbbgallery\core\cache  */
+    protected $gallery_cache;
+
+    /** @var \phpbbgallery\core\block  */
+    protected $block;
+
+    /** @var \phpbbgallery\core\config  */
+    protected $gallery_config;
+
+    /** @var  */
+    protected $images_table;
+
+    /** @var  */
+    protected $watch_table;
+
+    /** @var  */
+    protected $contest_table;
+
+    /** @var  */
 	protected $albums_table;
 
 	/**
@@ -119,15 +153,11 @@ class album
 		{
 			$user_id = (int) $this->user->data['user_id'];
 		}
-		else
-		{
-			$user_id = (int) $user_id;
-		}
 
 		$sql = 'SELECT album_id
 			FROM ' . $this->albums_table . '
 			WHERE album_id = ' . (int) $album_id . '
-				AND album_user_id = ' . $user_id;
+				AND album_user_id = ' . (int) $user_id;
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
@@ -318,8 +348,8 @@ class album
 		// Number of not unapproved images
 		$sql = 'SELECT COUNT(image_id) images
 			FROM ' . $this->images_table .' 
-			WHERE image_status <> ' . $this->block->get_image_status_unapproved() . '
-				AND image_status <> ' . $this->block->get_image_status_orphan() . '
+			WHERE image_status <> ' . (int) $this->block->get_image_status_unapproved() . '
+				AND image_status <> ' . (int) $this->block->get_image_status_orphan() . '
 				AND image_album_id = ' . (int) $album_id;
 		$result = $this->db->sql_query($sql);
 		$images = $this->db->sql_fetchfield('images');
@@ -328,7 +358,7 @@ class album
 		// Number of total images
 		$sql = 'SELECT COUNT(image_id) images_real
 			FROM ' . $this->images_table .'
-			WHERE image_status <> ' . $this->block->get_image_status_orphan() . '
+			WHERE image_status <> ' . (int) $this->block->get_image_status_orphan() . '
 				AND image_album_id = ' . (int) $album_id;
 		$result = $this->db->sql_query($sql);
 		$images_real = $this->db->sql_fetchfield('images_real');
@@ -337,8 +367,8 @@ class album
 		// Data of the last not unapproved image
 		$sql = 'SELECT image_id, image_time, image_name, image_username, image_user_colour, image_user_id
 			FROM ' . $this->images_table .'
-			WHERE image_status <> ' . $this->block->get_image_status_unapproved() . '
-				AND image_status <> ' . $this->block->get_image_status_orphan() . '
+			WHERE image_status <> ' . (int) $this->block->get_image_status_unapproved() . '
+				AND image_status <> ' . (int) $this->block->get_image_status_orphan() . '
 				AND image_album_id = ' . (int) $album_id . '
 			ORDER BY image_time DESC';
 		$result = $this->db->sql_query($sql);

@@ -213,7 +213,7 @@ class main_module
 
 		$sql = 'SELECT COUNT(album_id) albums
 			FROM ' . $albums_table . '
-			WHERE album_user_id = ' . $user->data['user_id'];
+			WHERE album_user_id = ' . (int) $user->data['user_id'];
 		$result = $db->sql_query($sql);
 		$albums = (int) $db->sql_fetchfield('albums');
 		$db->sql_freeresult($result);
@@ -252,8 +252,8 @@ class main_module
 		$album = array();
 		$sql = 'SELECT *
 			FROM ' . $albums_table . '
-			WHERE parent_id = ' . $parent_id . '
-				AND album_user_id = ' . $user->data['user_id'] . '
+			WHERE parent_id = ' . (int) $parent_id . '
+				AND album_user_id = ' . (int) $user->data['user_id'] . '
 			ORDER BY left_id ASC';
 		$result = $db->sql_query($sql);
 
@@ -309,7 +309,7 @@ class main_module
 
 		$sql = 'SELECT COUNT(album_id) albums
 			FROM ' . $albums_table . '
-			WHERE album_user_id = ' . $user->data['user_id'];
+			WHERE album_user_id = ' . (int) $user->data['user_id'];
 		$result = $db->sql_query($sql);
 		$albums = $db->sql_fetchfield('albums');
 		$db->sql_freeresult($result);
@@ -398,7 +398,7 @@ class main_module
 			{
 				$sql = 'SELECT left_id, right_id, album_type
 					FROM ' . $albums_table . '
-					WHERE album_id = ' . $album_data['parent_id'];
+					WHERE album_id = ' . (int) $album_data['parent_id'];
 				$result = $db->sql_query($sql);
 				$row = $db->sql_fetchrow($result);
 				$db->sql_freeresult($result);
@@ -410,8 +410,8 @@ class main_module
 
 				$sql = 'UPDATE ' . $albums_table . '
 					SET left_id = left_id + 2, right_id = right_id + 2
-					WHERE left_id > ' . $row['right_id'] . '
-						AND album_user_id = ' . $album_data['album_user_id'];
+					WHERE left_id > ' . (int) $row['right_id'] . '
+						AND album_user_id = ' . (int) $album_data['album_user_id'];
 				$db->sql_query($sql);
 
 				$sql = 'UPDATE ' . $albums_table . '
@@ -558,7 +558,7 @@ class main_module
 				$moving_ids = ($row['right_id'] - $row['left_id']) + 1;
 				$sql = 'SELECT MAX(right_id) right_id
 					FROM ' . $albums_table . '
-					WHERE album_user_id = ' . $row['album_user_id'];
+					WHERE album_user_id = ' . (int) $row['album_user_id'];
 				$result = $db->sql_query($sql);
 				$moving_distance = ($db->sql_fetchfield('right_id') - $row['left_id']) + 1;
 				$db->sql_freeresult($result);
@@ -569,9 +569,9 @@ class main_module
 				$sql = 'UPDATE ' . $albums_table . '
 					SET right_id = right_id + ' . $moving_distance . ',
 						left_id = left_id + ' . $moving_distance . '
-					WHERE album_user_id = ' . $row['album_user_id'] . '
-						AND left_id >= ' . $row['left_id'] . '
-						AND right_id <= ' . $row['right_id'];
+					WHERE album_user_id = ' . (int) $row['album_user_id'] . '
+						AND left_id >= ' . (int) $row['left_id'] . '
+						AND right_id <= ' . (int) $row['right_id'];
 				$db->sql_query($sql);
 
 				$new['left_id'] = $row['left_id'] + $moving_distance;
@@ -582,44 +582,44 @@ class main_module
 				{
 					$sql = 'UPDATE ' . $albums_table . '
 						SET left_id = left_id - ' . $moving_ids . '
-						WHERE album_user_id = ' . $row['album_user_id'] . '
-							AND left_id >= ' . $row['left_id'];
+						WHERE album_user_id = ' . (int) $row['album_user_id'] . '
+							AND left_id >= ' . (int) $row['left_id'];
 					$db->sql_query($sql);
 
 					$sql = 'UPDATE ' . $albums_table . '
 						SET right_id = right_id - ' . $moving_ids . '
-						WHERE album_user_id = ' . $row['album_user_id'] . '
-							AND right_id >= ' . $row['left_id'];
+						WHERE album_user_id = ' . (int) $row['album_user_id'] . '
+							AND right_id >= ' . (int) $row['left_id'];
 					$db->sql_query($sql);
 				}
 				else
 				{
 					$sql = 'UPDATE ' . $albums_table . '
 						SET left_id = left_id - ' . $moving_ids . '
-						WHERE album_user_id = ' . $row['album_user_id'] . '
-							AND left_id >= ' . $row['left_id'] . '
-							AND right_id <= ' . $stop_updating;
+						WHERE album_user_id = ' . (int) $row['album_user_id'] . '
+							AND left_id >= ' . (int) $row['left_id'] . '
+							AND right_id <= ' . (int) $stop_updating;
 					$db->sql_query($sql);
 
 					$sql = 'UPDATE ' . $albums_table . '
 						SET right_id = right_id - ' . $moving_ids . '
-						WHERE album_user_id = ' . $row['album_user_id'] . '
-							AND right_id >= ' . $row['left_id'] . '
-							AND right_id <= ' . $stop_updating;
+						WHERE album_user_id = ' . (int) $row['album_user_id'] . '
+							AND right_id >= ' . (int) $row['left_id'] . '
+							AND right_id <= ' . (int) $stop_updating;
 					$db->sql_query($sql);
 
 					$sql = 'UPDATE ' . $albums_table . '
 						SET left_id = left_id + ' . $moving_ids . '
-						WHERE album_user_id = ' . $row['album_user_id'] . '
-							AND left_id >= ' . $parent['right_id'] . '
-							AND right_id <= ' . $stop_updating;
+						WHERE album_user_id = ' . (int) $row['album_user_id'] . '
+							AND left_id >= ' . (int) $parent['right_id'] . '
+							AND right_id <= ' . (int) $stop_updating;
 					$db->sql_query($sql);
 
 					$sql = 'UPDATE ' . $albums_table . '
 						SET right_id = right_id + ' . $moving_ids . '
-						WHERE album_user_id = ' . $row['album_user_id'] . '
-							AND right_id >= ' . $parent['right_id'] . '
-							AND right_id <= ' . $stop_updating;
+						WHERE album_user_id = ' . (int) $row['album_user_id'] . '
+							AND right_id >= ' . (int) $parent['right_id'] . '
+							AND right_id <= ' . (int) $stop_updating;
 					$db->sql_query($sql);
 
 					// Move the albums to the suggested gap.
@@ -628,8 +628,8 @@ class main_module
 					$sql = 'UPDATE ' . $albums_table . '
 						SET left_id = left_id - ' . $move_back . ',
 							right_id = right_id - ' . $move_back . '
-						WHERE album_user_id = ' . $row['album_user_id'] . '
-							AND left_id >= ' . $stop_updating;
+						WHERE album_user_id = ' . (int) $row['album_user_id'] . '
+							AND left_id >= ' . (int) $stop_updating;
 					$db->sql_query($sql);
 				}
 			}
@@ -696,7 +696,7 @@ class main_module
 			// Check for owner
 			$sql = 'SELECT album_id, left_id, right_id, parent_id
 				FROM ' . $albums_table . '
-				WHERE album_user_id = ' . $user->data['user_id'] . '
+				WHERE album_user_id = ' . (int) $user->data['user_id'] . '
 				ORDER BY left_id ASC';
 			$result = $db->sql_query($sql);
 
@@ -822,13 +822,13 @@ class main_module
 				$sql = 'UPDATE ' . $albums_table . "
 					SET left_id = left_id - $delete_id
 					WHERE left_id > $left_id
-						AND album_user_id = " . $user->data['user_id'];
+						AND album_user_id = " . (int) $user->data['user_id'];
 				$db->sql_query($sql);
 
 				$sql = 'UPDATE ' . $albums_table . "
 					SET right_id = right_id - $delete_id
 					WHERE right_id > $right_id
-						AND album_user_id = ". $user->data['user_id'];
+						AND album_user_id = ". (int) $user->data['user_id'];
 				$db->sql_query($sql);
 			}
 
@@ -989,7 +989,7 @@ class main_module
 				),
 			),
 
-			'WHERE'			=> 'w.album_id <> 0 AND w.user_id = ' . $user->data['user_id'],
+			'WHERE'			=> 'w.album_id <> 0 AND w.user_id = ' . (int) $user->data['user_id'],
 		);
 		$sql = $db->sql_build_query('SELECT', $sql_array);
 		$result = $db->sql_query($sql);
@@ -1019,7 +1019,7 @@ class main_module
 		$sql = 'SELECT COUNT(image_id) as images
 			FROM ' . $watch_table . '
 			WHERE image_id <> 0
-				AND user_id = ' . $user->data['user_id'];
+				AND user_id = ' . (int) $user->data['user_id'];
 		$result = $db->sql_query($sql);
 		$total_images = (int) $db->sql_fetchfield('images');
 		$db->sql_freeresult($result);
@@ -1043,7 +1043,7 @@ class main_module
 				),
 			),
 
-			'WHERE'			=> 'w.image_id <> 0 AND w.user_id = ' . $user->data['user_id'],
+			'WHERE'			=> 'w.image_id <> 0 AND w.user_id = ' . (int) $user->data['user_id'],
 		);
 		$sql = $db->sql_build_query('SELECT', $sql_array);
 		$result = $db->sql_query($sql, $images_per_page, $start);

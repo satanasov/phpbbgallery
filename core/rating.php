@@ -282,7 +282,6 @@ class rating
 	*/
 	public function get_user_rating($user_id)
 	{
-		$user_id = (int) $user_id;
 		if (isset($this->user_rating[$user_id]))
 		{
 			return $this->user_rating[$user_id];
@@ -295,7 +294,7 @@ class rating
 		$sql = 'SELECT rate_point
 			FROM ' . $this->rates_table . '
 			WHERE rate_image_id = ' . (int) $this->image_id . '
-				AND rate_user_id = ' . $user_id;
+				AND rate_user_id = ' . (int) $user_id;
 		$result = $this->db->sql_query($sql);
 		$rating = $this->db->sql_fetchfield('rate_point');
 		$this->db->sql_freeresult($result);
@@ -380,10 +379,10 @@ class rating
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$sql = 'UPDATE ' . $this->images_table . '
-				SET image_rates = ' . $row['image_rates'] . ',
-					image_rate_points = ' . $row['image_rate_points'] . ',
+				SET image_rates = ' . (int) $row['image_rates'] . ',
+					image_rate_points = ' . (int) $row['image_rate_points'] . ',
 					image_rate_avg = ' . round($row['image_rate_avg'], 2) * 100 . '
-				WHERE image_id = ' . $row['rate_image_id'];
+				WHERE image_id = ' . (int) $row['rate_image_id'];
 			$this->db->sql_query($sql);
 		}
 		$this->db->sql_freeresult($result);

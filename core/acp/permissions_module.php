@@ -1012,7 +1012,7 @@ class permissions_module
 
 			$sql = 'SELECT album_id
 				FROM ' . $albums_table . '
-				WHERE album_id = ' . $src;
+				WHERE album_id = ' . (int) $src;
 			$result = $db->sql_query($sql);
 			$src = (int) $db->sql_fetchfield('album_id');
 			$db->sql_freeresult($result);
@@ -1031,7 +1031,7 @@ class permissions_module
 			{
 				$sql = 'SELECT *
 					FROM ' . $permissions_table . '
-					WHERE perm_album_id = ' . $src;
+					WHERE perm_album_id = ' . (int) $src;
 				$result = $db->sql_query($sql);
 				while ($row = $db->sql_fetchrow($result))
 				{
@@ -1050,7 +1050,7 @@ class permissions_module
 
 				$modscache_ary = array();
 				$sql = 'SELECT * FROM ' . $modscache_table . '
-					WHERE album_id = ' . $src;
+					WHERE album_id = ' . (int) $src;
 				$result = $db->sql_query($sql);
 				while ($row = $db->sql_fetchrow($result))
 				{

@@ -110,7 +110,7 @@ class user
 		$this->entry_exists	= false;
 		$sql = 'SELECT *
 			FROM ' . $this->gallery_users_table . '
-			WHERE user_id = ' . $this->user_id;
+			WHERE user_id = ' . (int) $this->user_id;
 		$result = $this->db->sql_query($sql, 30);
 		if ($row = $this->db->sql_fetchrow($result))
 		{
@@ -231,7 +231,7 @@ class user
 
 		$sql = 'UPDATE ' . $this->gallery_users_table . '
 			SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . '
-			WHERE user_id = ' . $this->user_id;
+			WHERE user_id = ' . (int) $this->user_id;
 		$this->db->sql_query($sql);
 
 		$this->data = array_merge($this->data, $sql_ary);
@@ -300,7 +300,7 @@ class user
 	public function delete()
 	{
 		$sql = 'DELETE FROM ' . $this->gallery_users_table . '
-			WHERE user_id = ' . $this->user_id;
+			WHERE user_id = ' . (int) $this->user_id;
 		$this->db->sql_query($sql);
 	}
 
@@ -609,7 +609,7 @@ class user
 	*/
 	public function get_own_root_album()
 	{
-		$sql = 'SELECT personal_album_id FROM ' . $this->gallery_users_table . ' WHERE user_id = ' . $this->user_id;
+		$sql = 'SELECT personal_album_id FROM ' . $this->gallery_users_table . ' WHERE user_id = ' . (int) $this->user_id;
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		return (int) $row['personal_album_id'];

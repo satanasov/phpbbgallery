@@ -187,7 +187,7 @@ class albums_module
 
 							$sql = 'SELECT *
 								FROM ' . $table_prefix . 'gallery_permissions
-								WHERE perm_album_id = ' . $album_perm_from;
+								WHERE perm_album_id = ' . (int) $album_perm_from;
 							$result = $db->sql_query($sql);
 							$perm_data = array();
 							while ($row = $db->sql_fetchrow($result))

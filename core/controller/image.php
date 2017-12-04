@@ -259,7 +259,7 @@ class image
 		{
 			$sql = 'UPDATE ' . $this->table_images . '
 				SET image_view_count = image_view_count + 1
-				WHERE image_id = ' . $image_id;
+				WHERE image_id = ' . (int) $image_id;
 			$this->db->sql_query($sql);
 		}
 
