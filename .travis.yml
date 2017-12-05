@@ -50,7 +50,7 @@ branches:
   only:
     - master
     - 1.2.1
-    - stable-/^[0-9].[0-9].[0-9].[0-9]$/
+    - stable-3.2.1.0
 
 install:
   - cd core
