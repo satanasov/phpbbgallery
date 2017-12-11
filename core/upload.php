@@ -515,8 +515,8 @@ class upload
 
 		$sql = 'SELECT image_id, image_filename
 			FROM ' . $this->images_table . '
-			WHERE image_status = ' . $this->block->get_image_status_orphan() . '
-				AND image_time < ' . $prunetime;
+			WHERE image_status = ' . (int) $this->block->get_image_status_orphan() . '
+				AND image_time < ' . (int) $prunetime;
 		$result = $this->db->sql_query($sql);
 		$images = $filenames = array();
 		while ($row = $this->db->sql_fetchrow($result))
@@ -677,7 +677,7 @@ class upload
 
 		$sql = 'SELECT *
 			FROM ' . $this->images_table . '
-			WHERE image_status = ' . $this->block->get_image_status_orphan() . '
+			WHERE image_status = ' . (int) $this->block->get_image_status_orphan() . '
 				AND ' . $this->db->sql_in_set('image_id', $image_ids);
 		$result = $this->db->sql_query($sql);
 

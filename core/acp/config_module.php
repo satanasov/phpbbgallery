@@ -111,7 +111,7 @@ class config_module
 							'display_on_posting'	=> true,
 							'bbcode_helpline'		=> 'GALLERY_HELPLINE_ALBUM',
 						));
-
+                        // EPV error for not escpaed BBCode but this is from SQL query!
 						$sql = 'UPDATE ' . BBCODES_TABLE . '
 							SET ' . $db->sql_build_array('UPDATE', $sql_ary) . "
 							WHERE bbcode_tag = '" . $sql_ary['bbcode_tag'] . "'";

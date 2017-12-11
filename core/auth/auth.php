@@ -744,7 +744,7 @@ class auth
 		}
 		else
 		{
-			$sql = 'SELECT * FROM ' . $this->table_permissions . ' WHERE perm_album_id = ' . $album_id;
+			$sql = 'SELECT * FROM ' . $this->table_permissions . ' WHERE perm_album_id = ' . (int) $album_id;
 		}
 
 		$result = $this->db->sql_query($sql);

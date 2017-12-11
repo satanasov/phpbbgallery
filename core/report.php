@@ -372,7 +372,7 @@ class report
 			return;
 		}
 
-		$sql = 'SELECT * FROM ' . $this->reports_table . ' WHERE report_image_id = ' . $image_id;
+		$sql = 'SELECT * FROM ' . $this->reports_table . ' WHERE report_image_id = ' . (int) $image_id;
 		$result = $this->db->sql_query($sql);
 		$report_data = array();
 		while ($row = $this->db->sql_fetchrow($result))

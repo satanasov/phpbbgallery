@@ -271,7 +271,7 @@ class manage
 					$sql = 'UPDATE ' . $this->albums_table . ' 
 						SET right_id = right_id + 2
 						WHERE album_user_id = 0
-							AND ' . $row['left_id'] . ' BETWEEN left_id AND right_id';
+							AND ' . (int) $row['left_id'] . ' BETWEEN left_id AND right_id';
 					$this->db->sql_query($sql);
 
 					$album_data_sql['left_id'] = $row['left_id'] + 1;
@@ -445,7 +445,7 @@ class manage
 
 				$sql = 'UPDATE ' . GALLERY_CONTESTS_TABLE . '
 					SET ' . $db->sql_build_array('UPDATE', $contest_data) . '
-					WHERE contest_id = ' . $contest_id;
+					WHERE contest_id = ' . (int) $contest_id;
 				$db->sql_query($sql);
 				if ($reset_marked_images)
 				{
@@ -454,7 +454,7 @@ class manage
 						SET image_contest_rank = 0,
 							image_contest_end = 0,
 							image_contest = ' . phpbb_ext_gallery_core_image::IN_CONTEST . '
-						WHERE image_album_id = ' . $album_id;
+						WHERE image_album_id = ' . (int) $album_id;
 					$db->sql_query($sql);
 				}
 
@@ -512,15 +512,15 @@ class manage
 		$sql = 'UPDATE ' . $this->albums_table . " 
 			SET right_id = right_id - $diff, album_parents = ''
 			WHERE album_user_id = " . (int) $this->user_id . '
-				AND left_id < ' . $from_data['right_id'] . "
-				AND right_id > " . $from_data['right_id'];
+				AND left_id < ' . (int) $from_data['right_id'] . "
+				AND right_id > " . (int) $from_data['right_id'];
 		$this->db->sql_query($sql);
 
 		// Resync righthand side of tree
 		$sql = 'UPDATE ' . $this->albums_table . " 
 			SET left_id = left_id - $diff, right_id = right_id - $diff, album_parents = ''
 			WHERE album_user_id = " . (int) $this->user_id . '
-				AND left_id > ' . $from_data['right_id'];
+				AND left_id > ' . (int) $from_data['right_id'];
 		$this->db->sql_query($sql);
 
 		if ($to_id > 0)
@@ -532,7 +532,7 @@ class manage
 			$sql = 'UPDATE ' . $this->albums_table . " 
 				SET right_id = right_id + $diff, album_parents = ''
 				WHERE album_user_id = " . (int) $this->user_id . '
-					AND ' . $to_data['right_id'] . ' BETWEEN left_id AND right_id
+					AND ' . (int) $to_data['right_id'] . ' BETWEEN left_id AND right_id
 					AND ' . $this->db->sql_in_set('album_id', $moved_ids, true);
 			$this->db->sql_query($sql);
 
