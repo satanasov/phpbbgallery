@@ -252,7 +252,7 @@ class main_module
 		$album = array();
 		$sql = 'SELECT *
 			FROM ' . $albums_table . '
-			WHERE parent_id = ' . $parent_id . '
+			WHERE parent_id = ' . (int) $parent_id . '
 				AND album_user_id = ' . (int) $user->data['user_id'] . '
 			ORDER BY left_id ASC';
 		$result = $db->sql_query($sql);
@@ -598,28 +598,28 @@ class main_module
 						SET left_id = left_id - ' . $moving_ids . '
 						WHERE album_user_id = ' . (int) $row['album_user_id'] . '
 							AND left_id >= ' . (int) $row['left_id'] . '
-							AND right_id <= ' . $stop_updating;
+							AND right_id <= ' . (int) $stop_updating;
 					$db->sql_query($sql);
 
 					$sql = 'UPDATE ' . $albums_table . '
 						SET right_id = right_id - ' . $moving_ids . '
 						WHERE album_user_id = ' . (int) $row['album_user_id'] . '
 							AND right_id >= ' . (int) $row['left_id'] . '
-							AND right_id <= ' . $stop_updating;
+							AND right_id <= ' . (int) $stop_updating;
 					$db->sql_query($sql);
 
 					$sql = 'UPDATE ' . $albums_table . '
 						SET left_id = left_id + ' . $moving_ids . '
 						WHERE album_user_id = ' . (int) $row['album_user_id'] . '
 							AND left_id >= ' . (int) $parent['right_id'] . '
-							AND right_id <= ' . $stop_updating;
+							AND right_id <= ' . (int) $stop_updating;
 					$db->sql_query($sql);
 
 					$sql = 'UPDATE ' . $albums_table . '
 						SET right_id = right_id + ' . $moving_ids . '
 						WHERE album_user_id = ' . (int) $row['album_user_id'] . '
 							AND right_id >= ' . (int) $parent['right_id'] . '
-							AND right_id <= ' . $stop_updating;
+							AND right_id <= ' . (int) $stop_updating;
 					$db->sql_query($sql);
 
 					// Move the albums to the suggested gap.
@@ -629,7 +629,7 @@ class main_module
 						SET left_id = left_id - ' . $move_back . ',
 							right_id = right_id - ' . $move_back . '
 						WHERE album_user_id = ' . (int) $row['album_user_id'] . '
-							AND left_id >= ' . $stop_updating;
+							AND left_id >= ' . (int) $stop_updating;
 					$db->sql_query($sql);
 				}
 			}
