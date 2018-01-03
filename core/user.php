@@ -497,7 +497,7 @@ class user
 	public function add_user_to_cache(&$user_cache, $row)
 	{
 		$user_id = $row['user_id'];
-		if (!function_exists('phpbb_get_user_avatar') or !function_exists('phpbb_get_user_rank'))
+		if (!function_exists('phpbb_get_user_rank'))
 		{
 			include($this->root_path . 'includes/functions_display.' . $this->php_ext);
 		}
@@ -648,7 +648,7 @@ class user
 				$set_array[$row['user_id']] = $row['personal_album_id'];
 			}
 		}
-		//var_dump($set_array);
+		$this->db->sql_freeresult($result);
 		$updated_rows = 0;
 		if (count($set_array) > 0)
 		{

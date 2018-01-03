@@ -169,11 +169,11 @@ class log
 			{
 				return;
 			}
-			$sql_where[] = 'l.album = ' . $album;
+			$sql_where[] = 'l.album = ' . (int) $album;
 		}
 		if ($image > 0)
 		{
-			$sql_where[] = 'l.image = ' . $image;
+			$sql_where[] = 'l.image = ' . (int) $image;
 			$sql_where[] = $this->db->sql_in_set('i.image_album_id', $mod_array);
 		}
 		if (isset($additional['sort_days']))

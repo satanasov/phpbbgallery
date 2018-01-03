@@ -111,17 +111,6 @@ class phpbbgallery_image_approved extends \phpbb\notification\type\base
 	}
 
 	/**
-	 * Get the HTML formatted reference of the notification
-	 *
-	 * @return string
-	 */
-	public function get_reference()
-	{
-		//return true;
-		//return censor_text($this->get_data('album_name'));
-	}
-
-	/**
 	 * Get email template
 	 *
 	 * @return string|bool

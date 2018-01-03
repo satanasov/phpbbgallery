@@ -41,10 +41,7 @@ class release_3_2_1_0 extends \phpbb\db\migration\profilefield_base_migration
 	public function add_base_url()
 	{
 		global $config;
-		$base_URI = $config['server_protocol'];
-		$base_URI .= $config['server_name'];
-		$base_URI .= ($config['server_port'] != 80 ? ':' . $config['server_port'] : '');
-		$base_URI .= $config['script_path'];
+		$base_URI = generate_board_url();
 		$base_URI .= ($config['enable_mod_rewrite'] == 0 ? '/app.php/' : '');
 		$base_URI .= 'gallery/album/%s';
 		$sql = 'UPDATE ' . PROFILE_FIELDS_TABLE . ' SET field_contact_url = \'' . $base_URI . '\' WHERE field_name = \'gallery_palbum\'';

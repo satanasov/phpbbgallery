@@ -360,6 +360,8 @@ $lang = array_merge($lang, array(
 
 	'QUICK_MOD'	=> 'Sélectionner l’action du modérateur',
 	'WRONG_FILESIZE'	=> 'L’image est plus lourde que la limite de poids autorisée.',
+    'UNREAD_IMAGES'		=> 'Unviewd images',
+    'NO_UNREAD_IMAGES'	=> 'No unviewd images',
 
 	// Versions 1.2.1 addiotions
 	'GALLERY_DROP'		=> 'Déposez vos images ici',

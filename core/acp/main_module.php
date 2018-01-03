@@ -541,6 +541,7 @@ class main_module
 				$sync_users[] = (int) $row['user_id'];
 			}
 			$phpbb_gallery_user->set_personal_albums($sync_users);
+			$db->sql_freeresult($result);
 		}
 
 		$boarddays = (time() - $config['board_startdate']) / 86400;
