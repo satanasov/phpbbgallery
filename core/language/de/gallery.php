@@ -195,7 +195,6 @@ $lang = array_merge($lang, array(
 	'NO_IMAGES_LONG'				=> 'In diesem Album gibt es keine Bilder.',
 	'NOT_ALLOWED_FILE_TYPE'			=> 'Dieser Datei Typ ist nicht erlaubt',
 	'NOT_RATED'						=> 'Nicht bewertet',
-	'NO_SEARCH_RESULTS'				=> 'Keine Alben gefunden',
 
 	'NO_WRITE_ACCESS'				=> 'Das Upload-Verzeichnis fehlt oder PhpBB hat keinen Schreibzugriff darauf.<br>Bitte kontaktiere die Board-Administration!',
 
