@@ -98,7 +98,6 @@ class config_module
 						if (!class_exists('acp_bbcodes'))
 						{
 							$phpbb_gallery_url->_include('acp/acp_bbcodes', 'phpbb');
-							//include_once($phpbb_root_path . 'includes/acp/acp_bbcodes.' . $phpEx);
 						}
 						$acp_bbcodes = new \acp_bbcodes();
 						$bbcode_match = '[image]{NUMBER}[/image]';
@@ -111,14 +110,13 @@ class config_module
 							'display_on_posting'	=> true,
 							'bbcode_helpline'		=> 'GALLERY_HELPLINE_ALBUM',
 						));
-                        // EPV error for not escpaed BBCode but this is from SQL query!
 						$sql = 'UPDATE ' . BBCODES_TABLE . '
 							SET ' . $db->sql_build_array('UPDATE', $sql_ary) . "
-							WHERE bbcode_tag = '" . $sql_ary['bbcode_tag'] . "'";
+							WHERE bbcode_tag = '" . $db->sql_escape($sql_ary['bbcode_tag']) . "'";
 						$db->sql_query($sql);
 						$cache->destroy('sql', BBCODES_TABLE);
 					}
-					}
+				}
 				if ((strpos($config_name, 'watermark') !== false) && ($phpbb_gallery_configs->get($config_name) != $config_value))
 				{
 					$phpbb_gallery_configs->set('watermark_changed', time());
