@@ -3,37 +3,35 @@
 	<div>
 	<h2><a href="{U_VIEW_ALBUM}">{L_ALBUM}{L_COLON} {ALBUM_NAME}</a></h2>
 		<div class="panel">
-			<div class="inner"><span class="corners-top"><span></span></span>
+			<div class="inner">
+				<div class="postbody" style="width: 100%;">
+					<ul class="post-buttons">
+						<li><a href="{U_EDIT_IMAGE}" title="{L_EDIT_IMAGE}" class="button icon-button edit-icon"><span>{L_EDIT_IMAGE}</span></a></li>
+						<li><a href="{U_DELETE_IMAGE}" title="{L_DELETE_IMAGE}" class="button icon-button delete-icon"><span>{L_DELETE_IMAGE}</span></a></li>
+					</ul>
+					<h3>{IMAGE_NAME}</h3>
+					<p class="author">
+						{L_POST_BY_AUTHOR} {UPLOADER}<br />
+						{IMAGE_TIME}<br />
+						{L_ALBUM}{L_COLON} <a href="{U_VIEW_ALBUM}" style="font-weight: bold;">{ALBUM_NAME}</a><!-- IF U_MOVE_IMAGE --> &raquo; <a href="{U_MOVE_IMAGE}" style="font-weight: bold;">{L_MOVE}</a><!-- ENDIF --><br />
+						{L_STATUS}{L_COLON} <span style="font-weight: bold;">{STATUS}</span>
+					</p>
 
-			<div class="postbody" style="width: 100%;">
-				<ul class="post-buttons">
-					<li><a href="{U_EDIT_IMAGE}" title="{L_EDIT_IMAGE}" class="button icon-button edit-icon"><span>{L_EDIT_IMAGE}</span></a></li>
-					<li><a href="{U_DELETE_IMAGE}" title="{L_DELETE_IMAGE}" class="button icon-button delete-icon"><span>{L_DELETE_IMAGE}</span></a></li>
-				</ul>
-				<h3>{IMAGE_NAME}</h3>
-				<p class="author">
-					{L_POST_BY_AUTHOR} {UPLOADER}<br />
-					{IMAGE_TIME}<br />
-					{L_ALBUM}{L_COLON} <a href="{U_VIEW_ALBUM}" style="font-weight: bold;">{ALBUM_NAME}</a><!-- IF U_MOVE_IMAGE --> &raquo; <a href="{U_MOVE_IMAGE}" style="font-weight: bold;">{L_MOVE}</a><!-- ENDIF --><br />
-					{L_STATUS}{L_COLON} <span style="font-weight: bold;">{STATUS}</span>
-				</p>
-
-				<div class="content">
-					<div style="text-align: center;">{UC_IMAGE}</div>
-					<!-- IF IMAGE_DESC -->
-						<hr />
-						<span style="font-weight: bold;">{L_IMAGE_DESC}{L_COLON}</span><br />
-						{IMAGE_DESC}
-					<!-- ENDIF -->
+					<div class="content">
+						<div style="text-align: center;">{UC_IMAGE}</div>
+						<!-- IF IMAGE_DESC -->
+							<hr />
+							<span style="font-weight: bold;">{L_IMAGE_DESC}{L_COLON}</span><br />
+							{IMAGE_DESC}
+						<!-- ENDIF -->
+					</div>
 				</div>
 			</div>
-
-			<span class="corners-bottom"><span></span></span></div>
 		</div>
 
 		<!-- IF .reports -->
 			<div id="report" class="panel">
-				<div class="inner"><span class="corners-top"><span></span></span>
+				<div class="inner">
 				<!-- BEGIN reports -->
 				<div class="postbody <!-- IF reports.STATUS == 1 --> reported<!-- ENDIF -->" style="width: 100%">
 					<p class="author">{L_REPORT_BY} {reports.REPORTER} &raquo; {reports.REPORT_TIME}</p>
@@ -44,7 +42,7 @@
 					<!-- ENDIF -->
 				</div>
 				<!-- END reports -->
-				<span class="corners-bottom"><span></span></span></div>
+				</div>
 			</div>
 		<!-- ENDIF -->
 
@@ -60,6 +58,5 @@
 		</div>
 	<div class="clear"></div>
 
-	</div>
-	<span class="corners-bottom"><span></span></span></div>
+	</div></div>
 </div>
