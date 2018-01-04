@@ -109,7 +109,7 @@ input.autowidth-gallery {
 .polaroid
 {
 	width: 242px;
-	background: #FFFFFF;
+	background: #131313;
 	display: block;
 	float: left;
 	margin: 9px;
@@ -118,7 +118,7 @@ input.autowidth-gallery {
 	text-decoration: none;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, .3);
 	transition: all .15s linear;
-	border: 1px solid #EFEFEF;
+	/*border: 1px solid #EFEFEF;*/
 }
 
 .image_unapproved
