@@ -3,8 +3,8 @@
 	"type": "phpbb-extension",
 	"description": "phpBB Gallery",
 	"homepage": "https://github.com/satanasov/phpbbgallery",
-	"version": "3.2.1.0",
-	"time": "2017-12-5",
+	"version": "3.2.1.1",
+	"time": "2018-01-17",
 	"license": "GPL-2.0",
 	"authors": [
 		{
