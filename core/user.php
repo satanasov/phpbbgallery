@@ -400,6 +400,7 @@ class user
 				case 'watch_own':
 				case 'watch_com':
 				case 'subscribe_pegas':
+				case 'rrc_zebra':
 					$validated_data[$name] = (bool) $value;
 				break;
 
@@ -488,6 +489,8 @@ class user
 		'watch_com'			=> false,
 		// Automatically subscribe user to new personal galleries?
 		'subscribe_pegas'	=> false,
+		// Should we hide Foes from RRC
+		'rrc_zebra'			=> false,
 	);
 
 	/**

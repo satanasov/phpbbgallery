@@ -31,6 +31,14 @@
 			</dd>
 		</dl>
 		<!-- ENDIF -->
+		<hr />
+		<dl>
+			<dt><label for="rrc_zebra">{L_RRC_ZEBRA}{L_COLON}</label><br /><span>{L_RRC_ZEBRA_EXPLAIN}</span></dt>
+			<dd>
+				<label for="rrc_zebra1"><input type="radio" name="rrc_zebra" id="rrc_zebra1" value="1" <!-- IF S_RRC_ZEBRA --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+				<label for="rrc_zebra0"><input type="radio" name="rrc_zebra" id="rrc_zebra0" value="0" <!-- IF not S_RRC_ZEBRA --> checked="checked"<!-- ENDIF --> /> {L_NO}</label>
+			</dd>
+		</dl>
 		<!-- EVENT gallery_ucp_settings_fieldset -->
 		</fieldset>
 

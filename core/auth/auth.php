@@ -451,6 +451,20 @@ class auth
 		$this->db->sql_freeresult($result);
 		return $zebra;
 	}
+	public function get_user_foes($user_id)
+	{
+		$foes = array();
+		$sql = 'SELECT * 
+		FROM ' . ZEBRA_TABLE . '
+		WHERE user_id = ' . (int) $user_id . '
+		AND foe = 1';
+		$result = $this->db->sql_query($sql);
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$foes[] = (int) $row['zebra_id'];
+		}
+		return $foes;
+	}
 
 	/**
 	 * Get zebra state
@@ -811,12 +825,17 @@ class auth
 	public function get_exclude_zebra()
 	{
 		$zebra_array = $this->get_user_zebra($this->phpbb_user->data['user_id']);
+		$foes = array();
+		if ($this->user->get_data('rrc_zebra'))
+		{
+			$foes = $this->get_user_foes($this->phpbb_user->data['user_id']);
+		}
 		$albums = $this->cache->get_albums();
 		$exclude = array();
 		foreach ($albums as $album)
 		{
 			// There is zebra only for users
-			if ($album['album_type'] == 1 && $album['album_user_id'] > 0 && $this->get_zebra_state($zebra_array, $album['album_user_id'], $album['album_id']) < $album['album_auth_access'])
+			if ($album['album_type'] == 1 && $album['album_user_id'] > 0 && ($this->get_zebra_state($zebra_array, $album['album_user_id'], $album['album_id']) < $album['album_auth_access'] || in_array($album['album_user_id'], $foes)))
 			{
 				$exclude[] = (int) $album['album_id'];
 			}
