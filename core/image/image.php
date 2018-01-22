@@ -174,7 +174,6 @@ class image
 		{
 			return;
 		}
-
 		if (!$skip_files)
 		{
 			// Delete the files from the disc...
@@ -201,12 +200,11 @@ class image
 		$vars = array('images', 'filenames');
 		extract($this->phpbb_dispatcher->trigger_event('phpbbgallery.core.image.delete_images', compact($vars)));
 
-		$sql = 'SELECT image_album_id, image_contest_rank
+		$sql = 'SELECT *
 			FROM ' . $this->table_images . '
-			WHERE ' . $this->db->sql_in_set('image_id', $images) . '
-			GROUP BY image_album_id, image_contest_rank';
+			WHERE ' . $this->db->sql_in_set('image_id', $images);
 		$result = $this->db->sql_query($sql);
-		$resync_album_ids = $resync_contests = array();
+		$resync_album_ids = $resync_contests = $targets = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			if ($row['image_contest_rank'])
@@ -214,7 +212,28 @@ class image
 				$resync_contests[] = (int) $row['image_album_id'];
 			}
 			$resync_album_ids[] = (int) $row['image_album_id'];
+			if ($row['image_status'] == \phpbbgallery\core\block::STATUS_UNAPPROVED)
+			{
+				$targets[$row['image_album_id']][$row['image_id']] = $row['image_user_id'];
+			}
 		}
+
+		// Let's prepare notifications
+		if (!empty($targets))
+		{
+			foreach ($targets as $album => $target)
+			{
+
+				$data = array(
+					'targets'	=> array((int) current($target)),
+					'album_id'	=> $album,
+					'last_image'	=> key($target),
+				);
+				$this->notification_helper->notify('not_approved', $data);
+			}
+
+		}
+
 		$this->db->sql_freeresult($result);
 		$resync_contests = array_unique($resync_contests);
 		$resync_album_ids = array_unique($resync_album_ids);
