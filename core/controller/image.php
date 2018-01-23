@@ -861,7 +861,7 @@ class image
 			 * @var	array	sql_ary		sql array that should be populated.
 			 * @since 3.2.1.1
 			 */
-			$vars = array('$sql_ary');
+			$vars = array('sql_ary');
 			extract($this->dispatcher->trigger_event('phpbbgallery.core.image_edit', compact($vars)));
 
 			$errors = array();
