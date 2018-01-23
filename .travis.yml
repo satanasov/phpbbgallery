@@ -55,7 +55,7 @@ before_install:
 
 install:
   - cd core
-  - composer install --no-interaction --prefer-source
+  #- composer install --no-interaction --prefer-source
   - cd ..
   - travis/prepare-phpbb.sh $EXTNAME $PHPBB_BRANCH
   - cd ../phpBB3
