@@ -76,13 +76,13 @@ class core_base extends \phpbb_database_test_case
 		$this->language->method('lang')
 			->will($this->returnArgument(0));
 
-		$this->user = $this->createMock('\phpbb\user', array(), array(
+		$this->user = $this->getMock('\phpbb\user', array(), array(
 			new \phpbb\language\language(new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx)),
 			'\phpbb\datetime'
 		));
 		$user = $this->user;
 
-		$this->auth = $this->createMock('\phpbb\auth\auth');
+		$this->auth = $this->getMock('\phpbb\auth\auth');
 
 		$this->controller_helper = $this->getMockBuilder('\phpbb\controller\helper')
 			->disableOriginalConstructor()
@@ -112,7 +112,7 @@ class core_base extends \phpbb_database_test_case
 		$this->user_loader->method('get_username')
 			->will($this->returnArgument(0));
 
-		$request = $this->request = $this->createMock('\phpbb\request\request');
+		$request = $this->request = $this->getMock('\phpbb\request\request');
 
 		$this->user_cpf = $this->getMockBuilder('\phpbb\profilefields\manager')
 			->disableOriginalConstructor()

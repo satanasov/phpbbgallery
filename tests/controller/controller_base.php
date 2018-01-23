@@ -40,7 +40,7 @@ class controller_base extends \phpbb_database_test_case
 		global $request, $phpbb_root_path, $phpEx;
 		parent::setUp();
 		//Let's build some deps
-		$this->auth = $this->createMock('\phpbb\auth\auth');
+		$this->auth = $this->getMock('\phpbb\auth\auth');
 
 		$auth = $this->auth;
 
@@ -49,7 +49,7 @@ class controller_base extends \phpbb_database_test_case
 		$this->db = $this->new_dbal();
 		$db = $this->db;
 
-		$request = $this->request = $this->createMock('\phpbb\request\request');
+		$request = $this->request = $this->getMock('\phpbb\request\request');
 
 		$this->phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
@@ -62,7 +62,7 @@ class controller_base extends \phpbb_database_test_case
 		$this->language->method('lang')
 			->will($this->returnArgument(0));
 
-		$this->user = $this->createMock('\phpbb\user', array(), array(
+		$this->user = $this->getMock('\phpbb\user', array(), array(
 			new \phpbb\language\language(new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx)),
 			'\phpbb\datetime'
 		));
@@ -111,7 +111,7 @@ class controller_base extends \phpbb_database_test_case
 			->getMock();
 
 		$phpbb_dispatcher = $this->dispatcher = new \phpbb_mock_event_dispatcher();
-		$this->phpbb_container = $this->createMock('Symfony\Component\DependencyInjection\ContainerInterface');
+		$this->phpbb_container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
 
 		$this->user_loader = $this->getMockBuilder('\phpbb\user_loader')
 			->disableOriginalConstructor()
