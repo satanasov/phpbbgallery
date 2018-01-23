@@ -22,3 +22,7 @@ cd ../
 
 # Clone phpBB
 git clone --depth=1 "git://github.com/phpbb/phpbb.git" "phpBB3" --branch=$BRANCH
+
+# let's install some
+cd phpBB3/phpBB
+php ../composer.phar install
