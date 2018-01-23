@@ -854,6 +854,16 @@ class image
 				'image_allow_comments'		=> $this->request->variable('allow_comments', 0),
 			);
 
+			/**
+			 * Event edit image
+			 *
+			 * @event phpbbgallery.core.image_edit
+			 * @var	array	sql_ary		sql array that should be populated.
+			 * @since 3.2.1.1
+			 */
+			$vars = array('$sql_ary');
+			extract($this->dispatcher->trigger_event('phpbbgallery.core.image_edit', compact($vars)));
+
 			$errors = array();
 			if (empty($sql_ary['image_name_clean']))
 			{
@@ -991,11 +1001,22 @@ class image
 
 		$page_title = $disp_image_data['image_name'];
 
-		$this->template->assign_block_vars('image', array(
+		$template_vars = array(
 			'U_IMAGE'		=> $this->image->generate_link('thumbnail', 'plugin', $image_id, $image_data['image_name'], $album_id),
 			'IMAGE_NAME'	=> $disp_image_data['image_name'],
 			'IMAGE_DESC'	=> $message_parser->message,
-		));
+		);
+
+		/**
+		 * Event edit image display
+		 *
+		 * @event phpbbgallery.core.image_edit_display
+		 * @var	array	$template_vars		Template array.
+		 * @since 3.2.1.1
+		 */
+		$vars = array('template_vars', 'disp_image_data');
+		extract($this->dispatcher->trigger_event('phpbbgallery.core.image_edit_display', compact($vars)));
+		$this->template->assign_block_vars('image', $template_vars);
 
 		$this->template->assign_vars(array(
 			'L_DESCRIPTION_LENGTH'	=> $this->language->lang('DESCRIPTION_LENGTH', $this->gallery_config->get('description_length')),
