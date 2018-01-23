@@ -25,6 +25,8 @@ matrix:
       env: DB=mysqli
     - php: 7.1
       env: DB=mysqli
+    - php: 7.2
+      env: DB=mysqli
   allow_failures:
       - php: 7.1
   fast_finish: true
@@ -48,7 +50,7 @@ branches:
 # Tempory hack to address EPV failure
 # https://www.phpbb.com/community/viewtopic.php?f=461&t=2430651&start=15#p14881401
 before_install:
-  - composer self-update 1.5.2 --rollback
+  - sh -c "if [ '$EPV' != '0' ] && [ '$TRAVIS_PHP_VERSION' = '5.5' ] && [ '$NOTESTS' = '1' ]; then composer self-update 1.5.2 --rollback; fi"
 # end temporary hack
 
 install:
