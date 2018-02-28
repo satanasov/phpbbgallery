@@ -40,6 +40,9 @@ $lang = array_merge($lang, array(
 	'GALLERY_POPUP'						=> 'Galerij',
 	'GALLERY_POPUP_HELPLINE'			=> 'Opent een popup-venster waarin je je eigen recente afbeeldingen kan selecteren en nieuwe afbeeldingen kan uploaden.',
 
+	// Please do not change the copyright.
+	'GALLERY_COPYRIGHT'	=> 'Powered by <a href="http://www.anavaro.com/">phpBB Gallery</a> &copy; 2016 <a href="http://www.anavaro.com/">Lucifer</a>',	
+	
 	// A little line where you can give yourself some credits on the translation.
 	//'GALLERY_TRANSLATION_INFO' => 'English “phpBB Gallery“-Translation by <a href="http://www.flying-bits.org/">nickvergessen</a>',
 	'GALLERY_TRANSLATION_INFO'   => 'Nederlandse vertaling door <a href="https://github.com/dutch-translators">Dutch Translators</a>',

@@ -195,7 +195,6 @@ $lang = array_merge($lang, array(
 	'NO_IMAGES_LONG'				=> 'In diesem Album gibt es keine Bilder.',
 	'NOT_ALLOWED_FILE_TYPE'			=> 'Dieser Datei Typ ist nicht erlaubt',
 	'NOT_RATED'						=> 'Nicht bewertet',
-	'NO_SEARCH_RESULTS'				=> 'Keine Alben gefunden',
 
 	'NO_WRITE_ACCESS'				=> 'Das Upload-Verzeichnis fehlt oder PhpBB hat keinen Schreibzugriff darauf.<br>Bitte kontaktiere die Board-Administration!',
 
@@ -362,6 +361,9 @@ $lang = array_merge($lang, array(
 		2	=> 	'%s Bilder verschoben',
 	),
 	'WRONG_FILESIZE'	=> 'Das Bild ist größer als das Limit!',
+
+    'UNREAD_IMAGES'		=> 'Unviewed images',
+    'NO_UNREAD_IMAGES'	=> 'No unviewed images',
 
 	// Versions 1.2.1 addiotions
 	'GALLERY_DROP'		=> 'Lege Dein Bild hier rein',

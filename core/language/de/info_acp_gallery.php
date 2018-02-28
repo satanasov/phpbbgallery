@@ -33,14 +33,15 @@ $lang = array_merge($lang, array(
 	'ACP_GALLERY_LOGS_EXPLAIN'			=> 'Diese Liste zeigt alle Vorgänge, die von Moderatoren an Bildern und Kommentaren durchgeführt wurden.',
 	'ACP_GALLERY_MANAGE_ALBUMS'			=> 'Alben verwalten',
 	'ACP_GALLERY_OVERVIEW'				=> 'Übersicht',
-	'ACP_IMPORT_ALBUMS'					=> 'Bilder importieren',
-	'ACP_GALLERY_CLEANUP'				=> 'Galerie bereinigen',
 
 	'GALLERY'							=> 'Galerie',
 	'GALLERY_EXPLAIN'					=> 'Bilder Galerie',
 	'GALLERY_HELPLINE_ALBUM'			=> 'Galerie-Bild: [image]image_id[/image], mit diesem BBCode kannst du Bilder aus der Galerie in deinen Beitrag einfügen.',
 	'GALLERY_POPUP'						=> 'Galerie',
 	'GALLERY_POPUP_HELPLINE'			=> 'Öffne ein Popup in dem du deine neuesten Bilder auswählen und neue Bilder hochladen kannst.',
+	
+	// Please do not change the copyright.
+	'GALLERY_COPYRIGHT'	=> 'Powered by <a href="http://www.anavaro.com/">phpBB Gallery</a> &copy; 2016 <a href="http://www.anavaro.com/">Lucifer</a>',	
 
 	// A little line where you can give yourself some credits on the translation.
 	//'GALLERY_TRANSLATION_INFO'		=> 'English “phpBB Gallery“-Translation by <a href="http://www.flying-bits.org/">nickvergessen</a>',

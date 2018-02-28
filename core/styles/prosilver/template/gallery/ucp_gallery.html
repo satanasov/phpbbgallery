@@ -3,7 +3,7 @@
 <form id="ucp_gallery" method="post" action="{S_UCP_ACTION}">
 <h2>{L_TITLE}</h2>
 <div class="panel">
-	<div class="inner"><span class="corners-top"><span></span></span>
+	<div class="inner">
 		<p>{L_TITLE_EXPLAIN}</p>
 		<fieldset>
 		<dl>
@@ -34,7 +34,7 @@
 		<!-- EVENT gallery_ucp_settings_fieldset -->
 		</fieldset>
 
-	<span class="corners-bottom"><span></span></span></div>
+	</div>
 </div>
 
 <!-- EVENT gallery_ucp_settings_form -->
@@ -50,7 +50,7 @@
 <!-- IF S_INFO_CREATE -->
 <h2>{L_TITLE}</h2>
 <div class="panel">
-	<div class="inner"><span class="corners-top"><span></span></span>
+	<div class="inner">
 	<p>{L_TITLE_EXPLAIN}</p>
 	<form id="ucp" method="post" action="{S_UCP_ACTION}"{S_FORM_ENCTYPE}>
 		<fieldset class="submit-buttons">
@@ -59,7 +59,7 @@
 			{S_FORM_TOKEN}
 		</fieldset>
 	</form>
-	<span class="corners-bottom"><span></span></span></div>
+	</div>
 </div>
 <!-- ENDIF -->
 
@@ -67,7 +67,7 @@
 <form id="acp_gallery" method="post" action="{U_ACTION}">
 	<h2>{L_TITLE}</h2>
 	<div class="panel">
-		<div class="inner"><span class="corners-top"><span></span></span>
+		<div class="inner">
 			<p>{L_TITLE_EXPLAIN}</p>
 			<fieldset>
 			<!-- IF not S_PERSONAL_ALBUM -->
@@ -94,7 +94,7 @@
 					<label><input type="checkbox" class="radio" name="desc_parse_urls"<!-- IF S_DESC_URLS_CHECKED --> checked="checked"<!-- ENDIF --> /> {L_PARSE_URLS}</label></dd>
 			</dl>
 			</fieldset>
-		<span class="corners-bottom"><span></span></span></div>
+		</div>
 	</div>
 	<fieldset class="submit-buttons">
 		<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />&nbsp;
@@ -107,7 +107,7 @@
 <!-- IF S_MANAGE_SUBALBUMS -->
 <h2>{L_TITLE}</h2>
 <div class="panel">
-	<div class="inner"><span class="corners-top"><span></span></span>
+	<div class="inner">
 	<p><strong>{NAVIGATION}<!-- IF S_ALBUM --> [<a href="{U_EDIT}">{L_EDIT}</a> | <a href="{U_DELETE}">{L_DELETE}</a> | <a href="{U_GOTO}">{L_GOTO}</a> | <a href="{U_UPLOAD}">{L_UPLOAD_IMAGE}</a>]<!-- ENDIF --></strong></p>
 	<div class="forumbg">
 		<div class="inner">
@@ -169,14 +169,14 @@
 			</fieldset>
 		</form>
 	<!-- ENDIF -->
-	<span class="corners-bottom"><span></span></span></div>
+	</div>
 </div>
 <!-- ENDIF -->
 
 <!-- IF S_MANAGE_SUBSCRIPTIONS -->
 <h2>{L_TITLE}</h2>
 <div class="panel">
-	<div class="inner"><span class="corners-top"><span></span></span>
+	<div class="inner">
 	<p>{L_TITLE_EXPLAIN}</p>
 	<form id="ucp_gallery" method="post" action="{S_UCP_ACTION}">
 				<!-- IF .album_row -->
@@ -271,22 +271,24 @@
 			<input class="button2" type="submit" value="{L_SUBMIT}" />
 		</fieldset>
 	</form>
-	<span class="corners-bottom"><span></span></span></div>
+	</div>
 </div>
 <!-- ENDIF -->
 
 <!--
-	I request you retain the full copyright notice below including the link to www.flying-bits.org.
+	I request you retain the full copyright notice below including the link to www.anavaro.com.
 	This not only gives respect to the large amount of time given freely by the developer
 	but also helps build interest, traffic and use of phpBB Gallery. If you (honestly) cannot retain
 	the full copyright I ask you at least leave in place the "Powered by phpBB Gallery" line, with
-	"phpBB Gallery" linked to www.flying-bits.org. If you refuse to include even this then support on my
+	"phpBB Gallery" linked to www.anavaro.com. If you refuse to include even this then support on my
 	forums may be affected.
 
-	phpBB Gallery, nickvergessen : 2009
+	phpBB Gallery, Lucifer : 2016
 //-->
+
 <div class="copyright">
-	Powered by <a href="http://www.flying-bits.org/">phpBB Gallery</a> &copy; 2007, 2009 <a href="http://www.flying-bits.org/">nickvergessen</a>
-	<!-- IF GALLERY_TRANSLATION_INFO --><br />{GALLERY_TRANSLATION_INFO}<!-- ENDIF -->
+	{L_GALLERY_COPYRIGHT}
+	<br />
+	{L_GALLERY_TRANSLATION_INFO}
 </div>
 <!-- INCLUDE ucp_footer.html -->
