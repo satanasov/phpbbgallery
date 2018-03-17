@@ -55,7 +55,7 @@ class release_3_2_1_0 extends \phpbb\db\migration\profilefield_base_migration
 	}
 
 	static public $configs = array(
-		'version'					=> '3.2.1.0',
+		'version'					=> '3.2.1',
 		'disp_gallery_icon'			=> true,
 	);
 

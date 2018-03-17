@@ -859,7 +859,7 @@ class image
 			 *
 			 * @event phpbbgallery.core.image_edit
 			 * @var	array	sql_ary		sql array that should be populated.
-			 * @since 3.2.1.1
+			 * @since 3.2.2
 			 */
 			$vars = array('sql_ary');
 			extract($this->dispatcher->trigger_event('phpbbgallery.core.image_edit', compact($vars)));
@@ -1012,7 +1012,7 @@ class image
 		 *
 		 * @event phpbbgallery.core.image_edit_display
 		 * @var	array	$template_vars		Template array.
-		 * @since 3.2.1.1
+		 * @since 3.2.2
 		 */
 		$vars = array('template_vars', 'disp_image_data');
 		extract($this->dispatcher->trigger_event('phpbbgallery.core.image_edit_display', compact($vars)));

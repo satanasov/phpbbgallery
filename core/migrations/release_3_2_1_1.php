@@ -15,7 +15,7 @@ class release_3_2_1_1 extends \phpbb\db\migration\migration
 	public function update_data()
 	{
 		return array(
-			array('config.update', array('phpbb_gallery_version', '3.2.1.1'))
+			array('config.update', array('phpbb_gallery_version', '3.2.2'))
 		);
 	}
 
