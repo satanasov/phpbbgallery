@@ -362,8 +362,8 @@ $lang = array_merge($lang, array(
 	),
 	'WRONG_FILESIZE'	=> 'Das Bild ist größer als das Limit!',
 
-    'UNREAD_IMAGES'		=> 'Unviewd images',
-    'NO_UNREAD_IMAGES'	=> 'No unviewd images',
+    'UNREAD_IMAGES'		=> 'Unviewed images',
+    'NO_UNREAD_IMAGES'	=> 'No unviewed images',
 
 	// Versions 1.2.1 addiotions
 	'GALLERY_DROP'		=> 'Lege Dein Bild hier rein',

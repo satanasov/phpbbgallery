@@ -362,8 +362,8 @@ $lang = array_merge($lang, array(
 
 	'QUICK_MOD'	=> 'Select moderator action',
 	'WRONG_FILESIZE'	=> 'Image is bigger then the limit!',
-    'UNREAD_IMAGES'		=> 'Unviewd images',
-    'NO_UNREAD_IMAGES'	=> 'No unviewd images',
+    'UNREAD_IMAGES'		=> 'Unviewed images',
+    'NO_UNREAD_IMAGES'	=> 'No unviewed images',
 
 	// Versions 1.2.1 addiotions
 	'GALLERY_DROP'		=> 'Drop your images here',

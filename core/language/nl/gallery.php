@@ -364,8 +364,8 @@ $lang = array_merge($lang, array(
 	'QUICK_MOD'	=> 'Selecteer moderator actie',
 	'WRONG_FILESIZE'	=> 'De afbeeldingsgrootte is groter dan toegestaan!',
 
-    'UNREAD_IMAGES'		=> 'Unviewd images',
-    'NO_UNREAD_IMAGES'	=> 'No unviewd images',
+    'UNREAD_IMAGES'		=> 'Unviewed images',
+    'NO_UNREAD_IMAGES'	=> 'No unviewed images',
 
 	// Versions 1.2.1 addiotions
 	'GALLERY_DROP'		=> 'Plaats je afbeeldingen hier',

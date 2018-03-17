@@ -40,7 +40,10 @@ $lang = array_merge($lang, array(
 	'GALLERY_POPUP'						=> 'Galerie',
 	'GALLERY_POPUP_HELPLINE'			=> 'Öffne ein Popup in dem du deine neuesten Bilder auswählen und neue Bilder hochladen kannst.',
 
-	// A little line where you can give yourself some credits on the translation.
+    // Please do not change the copyright.
+    'GALLERY_COPYRIGHT'	=> 'Powered by <a href="http://www.anavaro.com/">phpBB Gallery</a> &copy; 2016 <a href="http://www.anavaro.com/">Lucifer</a>',
+
+    // A little line where you can give yourself some credits on the translation.
 	//'GALLERY_TRANSLATION_INFO'		=> 'English “phpBB Gallery“-Translation by <a href="http://www.flying-bits.org/">nickvergessen</a>',
 	'GALLERY_TRANSLATION_INFO'			=> 'Übersetzt von franki <a href="http://dieahnen.de/ahnenforum/">Die Ahnen</a>',
 
