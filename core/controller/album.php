@@ -168,15 +168,27 @@ class album
 				array('album_id' => $album_id)
 			));
 		}
-
+		//
 		if ((!$album_data['album_user_id'] || $album_data['album_user_id'] == $this->user->data['user_id'])
-			&& ($this->user->data['user_id'] == ANONYMOUS || $this->auth->acl_check('i_upload', $album_id, $album_data['album_user_id']))
-			&& (($album_data['contest_start'] + $album_data['contest_rating']) > time()) )
+			&& ($this->user->data['user_id'] == ANONYMOUS || $this->auth->acl_check('i_upload', $album_id, $album_data['album_user_id'])))
 		{
-			$this->template->assign_var('U_UPLOAD_IMAGE', $this->helper->route(
-				'phpbbgallery_core_album_upload',
-				array('album_id' => $album_id)
-			));
+			if (!array_key_exists('contest_start', $album_data))
+			{
+				$this->template->assign_var('U_UPLOAD_IMAGE', $this->helper->route(
+					'phpbbgallery_core_album_upload',
+					array('album_id' => $album_id)
+				));
+			}
+			else
+			{
+				if ($album_data['contest_start'] + $album_data['contest_rating'] > time())
+				{
+					$this->template->assign_var('U_UPLOAD_IMAGE', $this->helper->route(
+						'phpbbgallery_core_album_upload',
+						array('album_id' => $album_id)
+					));
+				}
+			}
 		}
 
 		$this->template->assign_vars(array(
@@ -282,10 +294,17 @@ class album
 			$show_ip = true;
 			$show_options = $show_options - 128;
 		}
-		if ($show_options >= 64 && !$album_data['contest_marked'])
+		if ($show_options >= 64)
 		{
 			$show_ratings = true;
 			$show_options = $show_options - 64;
+		}
+		if (isset($album_data['contest_marked']))
+		{
+			if ($album_data['contest_marked'])
+			{
+				$show_ratings = false;
+			}
 		}
 		if ($show_options >= 32)
 		{

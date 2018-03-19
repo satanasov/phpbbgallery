@@ -65,6 +65,7 @@ class gallery_album_test extends controller_base
 			$this->gallery_url,
 			$this->gallery_image,
 			$this->request,
+			$this->gallery_contest,
 			'phpbb_gallery_images'
 		);
 
@@ -230,6 +231,9 @@ class gallery_album_test extends controller_base
 						'ALBUM_NAME' => 'TestPublicAlbum1',
 						'ALBUM_DESC' => '',
 						'U_VIEW_ALBUM' => 'phpbbgallery_core_album',
+						'ALBUM_CONTEST_START' => '',
+						'ALBUM_CONTEST_RATING' => '',
+						'ALBUM_CONTEST_END' => ''
 					)
 				),
 				array(
@@ -442,6 +446,9 @@ class gallery_album_test extends controller_base
 						'ALBUM_NAME' => 'TestPublicAlbum1',
 						'ALBUM_DESC' => '',
 						'U_VIEW_ALBUM' => 'phpbbgallery_core_album',
+						'ALBUM_CONTEST_START' => '',
+						'ALBUM_CONTEST_RATING' => '',
+						'ALBUM_CONTEST_END' => ''
 					)
 				),
 				array(

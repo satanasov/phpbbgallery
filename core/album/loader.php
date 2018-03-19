@@ -70,7 +70,6 @@ class loader
 			$row = array_merge($row, $album_contest_data);
 		}
 
-
 		$this->data[$album_id] = $row;
 
 		return true;

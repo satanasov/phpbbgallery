@@ -186,14 +186,22 @@ class controller_base extends \phpbb_database_test_case
 			'phpbb_gallery_modscache'
 		);
 
+		$this->gallery_config = new \phpbbgallery\core\config(
+			$this->config
+		);
+
+		$this->gallery_contest = new \phpbbgallery\core\contest(
+			$this->db,
+			$this->gallery_config,
+			'phpbb_images_table',
+			'phpbb_contests_table'
+		);
+
 		$this->gallery_loader = new \phpbbgallery\core\album\loader(
 			$this->db,
 			$this->user,
+			$this->gallery_contest,
 			'phpbb_gallery_albums'
-		);
-
-		$this->gallery_config = new \phpbbgallery\core\config(
-			$this->config
 		);
 
 		$this->block = new \phpbbgallery\core\block();
@@ -250,13 +258,6 @@ class controller_base extends \phpbb_database_test_case
 			$this->gallery_notification_helper,
 			'phpbb_gallery_images',
 			'phpbb_gallery_reports'
-		);
-
-		$this->gallery_contest = new \phpbbgallery\core\contest(
-			$this->db,
-			$this->gallery_config,
-			'phpbb_images_table',
-			'phpbb_contests_table'
 		);
 
 		$this->gallery_file = new \phpbbgallery\core\file\file(
