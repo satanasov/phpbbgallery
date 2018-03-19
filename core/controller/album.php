@@ -78,6 +78,7 @@ class album
 								\phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\auth\level $auth_level,
 								\phpbbgallery\core\config $gallery_config,\phpbbgallery\core\notification\helper $notifications_helper,
 								\phpbbgallery\core\url $url, \phpbbgallery\core\image\image $image, \phpbb\request\request $request,
+								\phpbbgallery\core\contest $contest,
 								$images_table)
 	{
 		$this->config = $config;
@@ -96,6 +97,7 @@ class album
 		$this->image = $image;
 		$this->gallery_config = $gallery_config;
 		$this->request = $request;
+		$this->contest = $contest;
 		$this->table_images = $images_table;
 	}
 
@@ -123,18 +125,18 @@ class album
 
 		$album_data = $this->loader->get($album_id);
 
-		/*if ($album_data['album_contest'] == 1)
+		if ($album_data['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST)
 		{
-			$phpbb_gallery_contest = new \phpbbgallery\core\contest();
-			$album_contest_data = $phpbb_gallery_contest->get_contest($album_id);
+			$album_contest_data = $this->contest->get_contest($album_id);
 			if ($album_contest_data['contest_id'] && $album_contest_data['contest_marked'] && (($album_contest_data['contest_start'] + $album_contest_data['contest_end']) < time()))
 			{
 				$contest_end_time = $album_contest_data['contest_start'] + $album_contest_data['contest_end'];
-				$phpbb_gallery_contest->end($album_id, $album_contest_data['contest_id'], $contest_end_time);
+				$this->contest->end($album_id, $album_contest_data['contest_id'], $contest_end_time);
 
-				$album_contest_data['contest_marked'] = phpbb_ext_gallery_core_image::NO_CONTEST;
+				$album_contest_data['contest_marked'] = \phpbbgallery\core\block::NO_CONTEST;
 			}
-		}*/
+			$album_data = array_merge($album_data, $album_contest_data);
+		}
 		$this->check_permissions($album_id, $album_data['album_user_id'], $album_data['album_auth_access']);
 		$this->auth_level->display($album_id, $album_data['album_status'], $album_data['album_user_id']);
 

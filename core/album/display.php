@@ -177,9 +177,9 @@ class display
 			'ALBUM_ID' 		=> $album_data['album_id'],
 			'ALBUM_NAME'	=> $album_data['album_name'],
 			'ALBUM_DESC'	=> generate_text_for_display($album_data['album_desc'], $album_data['album_desc_uid'], $album_data['album_desc_bitfield'], $album_data['album_desc_options']),
-			//'ALBUM_CONTEST_START'	=> ($album_data['contest_id']) ? $this->user->lang('CONTEST_START' . ((($album_data['contest_start']) < time())? 'ED' : 'S'), $this->user->format_date(($album_data['contest_start']), false, true)) : '',
-			//'ALBUM_CONTEST_RATING'	=> ($album_data['contest_id']) ? $this->user->lang('CONTEST_RATING_START' . ((($album_data['contest_start'] + $album_data['contest_rating']) < time())? 'ED' : 'S'), $this->user->format_date(($album_data['contest_start'] + $album_data['contest_rating']), false, true)) : '',
-			//'ALBUM_CONTEST_END'		=> ($album_data['contest_id']) ? $this->user->lang('CONTEST_END' . ((($album_data['contest_start'] + $album_data['contest_end']) < time())? 'ED' : 'S'), $this->user->format_date(($album_data['contest_start'] + $album_data['contest_end']), false, true)) : '',
+			'ALBUM_CONTEST_START'	=> ($album_data['contest_id']) ? $this->language->lang('CONTEST_START' . ((($album_data['contest_start']) < time())? 'ED' : 'S'), $this->user->format_date(($album_data['contest_start']), false, true)) : '',
+			'ALBUM_CONTEST_RATING'	=> ($album_data['contest_id']) ? $this->language->lang('CONTEST_RATING_START' . ((($album_data['contest_start'] + $album_data['contest_rating']) < time())? 'ED' : 'S'), $this->user->format_date(($album_data['contest_start'] + $album_data['contest_rating']), false, true)) : '',
+			'ALBUM_CONTEST_END'		=> ($album_data['contest_id']) ? $this->language->lang('CONTEST_END' . ((($album_data['contest_start'] + $album_data['contest_end']) < time())? 'ED' : 'S'), $this->user->format_date(($album_data['contest_start'] + $album_data['contest_end']), false, true)) : '',
 			'U_VIEW_ALBUM'	=> $this->helper->route('phpbbgallery_core_album', array('album_id' => $album_data['album_id'])),
 		));
 

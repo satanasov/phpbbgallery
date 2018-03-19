@@ -46,6 +46,7 @@ services:
             - '@phpbbgallery.core.url'
             - '@phpbbgallery.core.image'
             - '@request'
+            - '@phpbbgallery.core.contest'
             - '%tables.phpbbgallery.images%'
     phpbbgallery.core.controller.file:
         class: phpbbgallery\core\controller\file
