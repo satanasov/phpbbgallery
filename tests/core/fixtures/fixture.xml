@@ -185,6 +185,39 @@
 			<value>0</value>
 		</row>
 	</table>
+	<table name="phpbb_gallery_contests">
+		<column>contest_id</column>
+		<column>contest_album_id</column>
+		<column>contest_start</column>
+		<column>contest_rating</column>
+		<column>contest_end</column>
+		<column>contest_marked</column>
+		<column>contest_first</column>
+		<column>contest_second</column>
+		<column>contest_third</column>
+		<row>
+			<value>1</value>
+			<value>5</value>
+			<value>1</value>
+			<value>3</value>
+			<value>5</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>6</value>
+			<value>1</value>
+			<value>3</value>
+			<value>5</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+	</table>
 	<table name="phpbb_gallery_comments">
 		<column>comment_id</column>
 		<column>comment_image_id</column>
