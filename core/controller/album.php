@@ -127,15 +127,13 @@ class album
 
 		if ($album_data['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST)
 		{
-			$album_contest_data = $this->contest->get_contest($album_id);
-			if ($album_contest_data['contest_id'] && $album_contest_data['contest_marked'] && (($album_contest_data['contest_start'] + $album_contest_data['contest_end']) < time()))
+			if ($album_data['contest_id'] && $album_data['contest_marked'] && (($album_data['contest_start'] + $album_data['contest_end']) < time()))
 			{
-				$contest_end_time = $album_contest_data['contest_start'] + $album_contest_data['contest_end'];
-				$this->contest->end($album_id, $album_contest_data['contest_id'], $contest_end_time);
+				$contest_end_time = $album_data['contest_start'] + $album_data['contest_end'];
+				$this->contest->end($album_id, $album_data['contest_id'], $contest_end_time);
 
 				$album_contest_data['contest_marked'] = \phpbbgallery\core\block::NO_CONTEST;
 			}
-			$album_data = array_merge($album_data, $album_contest_data);
 		}
 		$this->check_permissions($album_id, $album_data['album_user_id'], $album_data['album_auth_access']);
 		$this->auth_level->display($album_id, $album_data['album_status'], $album_data['album_user_id']);
@@ -172,7 +170,8 @@ class album
 		}
 
 		if ((!$album_data['album_user_id'] || $album_data['album_user_id'] == $this->user->data['user_id'])
-			&& ($this->user->data['user_id'] == ANONYMOUS || $this->auth->acl_check('i_upload', $album_id, $album_data['album_user_id'])))
+			&& ($this->user->data['user_id'] == ANONYMOUS || $this->auth->acl_check('i_upload', $album_id, $album_data['album_user_id']))
+			&& (($album_data['contest_start'] + $album_data['contest_rating']) > time()) )
 		{
 			$this->template->assign_var('U_UPLOAD_IMAGE', $this->helper->route(
 				'phpbbgallery_core_album_upload',
@@ -283,7 +282,7 @@ class album
 			$show_ip = true;
 			$show_options = $show_options - 128;
 		}
-		if ($show_options >= 64)
+		if ($show_options >= 64 && !$album_data['contest_marked'])
 		{
 			$show_ratings = true;
 			$show_options = $show_options - 64;

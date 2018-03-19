@@ -31,10 +31,11 @@ class loader
 	 * @param \phpbb\user                                               $user         User object
 	 * @param string                                                    $albums_table Gallery albums table
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, $albums_table)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbbgallery\core\contest $contest, $albums_table)
 	{
 		$this->db = $db;
 		$this->user = $user;
+		$this->contest = $contest;
 		$this->table_albums = $albums_table;
 	}
 
@@ -63,6 +64,12 @@ class loader
 		{
 			throw new \OutOfBoundsException('INVALID_ALBUM');
 		}
+		if ($row['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST)
+		{
+			$album_contest_data = $this->contest->get_contest($row['album_id'], 'album');
+			$row = array_merge($row, $album_contest_data);
+		}
+
 
 		$this->data[$album_id] = $row;
 

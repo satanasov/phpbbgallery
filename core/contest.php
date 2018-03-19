@@ -71,7 +71,7 @@ class contest
 	{
 		$sql = 'SELECT *
 			FROM ' . $this->contest_table . '
-			WHERE ' . (($mode = 'album') ? 'contest_album_id' : 'contest_id') . ' = ' . (int) $id;
+			WHERE ' . (($mode === 'album') ? 'contest_album_id' : 'contest_id') . ' = ' . (int) $id;
 		$result = $this->db->sql_query_limit($sql, 1);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);

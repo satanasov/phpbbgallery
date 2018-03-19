@@ -25,6 +25,7 @@ services:
             - '@phpbbgallery.core.url'
             - '@phpbbgallery.core.upload'
             - '@phpbbgallery.core.block'
+            - '@phpbbgallery.core.contest'
             - '%tables.phpbbgallery.images%'
             - '%core.root_path%'
     phpbbgallery.core.controller.album:

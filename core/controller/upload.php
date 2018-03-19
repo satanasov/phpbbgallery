@@ -113,7 +113,7 @@ class upload
 		\phpbb\controller\helper $helper, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\user $gallery_user,
 		\phpbbgallery\core\image\image $image, \phpbbgallery\core\notification $gallery_notification,
 		\phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\url $url,
-		\phpbbgallery\core\upload $gallery_upload, \phpbbgallery\core\block $block,
+		\phpbbgallery\core\upload $gallery_upload, \phpbbgallery\core\block $block, \phpbbgallery\core\contest $contest,
 		$images_table, $phpbb_root_path)
 	{
 		$this->request = $request;
@@ -136,6 +136,7 @@ class upload
 		$this->gallery_notification = $gallery_notification;
 		$this->notification_helper = $notification_helper;
 		$this->block = $block;
+		$this->contest = $contest;
 		$this->images_table = $images_table;
 		$this->phpbb_root_path = $phpbb_root_path;
 	}
@@ -154,6 +155,15 @@ class upload
 		if (!$this->auth->acl_check('i_upload', $album_id, $album_data['album_user_id']) || ($album_data['album_status'] == $this->block->get_album_status_locked()))
 		{
 			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+		}
+		if ($album_data['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST)
+		{
+			$contest = array();
+			$contest = $this->contest->get_contest($album_id, 'album');
+			if ($contest['contest_start'] + $contest['contest_rating'] <= time())
+			{
+				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+			}
 		}
 		$page_title = 'Upload to "' . $album_data['album_name'] . '"';
 
