@@ -542,7 +542,7 @@ class image
 			$this->template->assign_vars(array(
 				'S_ALLOWED_TO_COMMENT'	=> true,
 				'S_HIDE_COMMENT_INPUT'	=> $s_hide_comment_input,
-				'CONTEST_COMMENTS'		=> ($s_hide_comment_input ? '' : sprintf($this->language->lang_raw('CONTEST_COMMENTS_STARTS'), $this->user->format_date(($album_data['contest_start'] + $album_data['contest_end']), false, true))),
+				'CONTEST_COMMENTS'		=> ($s_hide_comment_input ? sprintf($this->language->lang_raw('CONTEST_COMMENTS_STARTS'), $this->user->format_date(($album_data['contest_start'] + $album_data['contest_end']), false, true)) : ''),
 
 				'BBCODE_STATUS'			=> ($bbcode_status) ? sprintf($this->language->lang('BBCODE_IS_ON'), '<a href="' . $this->url->append_sid('phpbb', 'faq', 'mode=bbcode') . '">', '</a>') : sprintf($this->language->lang('BBCODE_IS_OFF'), '<a href="' . $this->url->append_sid('phpbb', 'faq', 'mode=bbcode') . '">', '</a>'),
 				'IMG_STATUS'			=> ($img_status) ? $this->language->lang('IMAGES_ARE_ON') : $this->language->lang('IMAGES_ARE_OFF'),
