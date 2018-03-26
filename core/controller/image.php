@@ -1018,7 +1018,7 @@ class image
 		 * Event edit image display
 		 *
 		 * @event phpbbgallery.core.image_edit_display
-		 * @var	array	$template_vars		Template array.
+		 * @var	array	template_vars		Template array.
 		 * @since 3.2.2
 		 */
 		$vars = array('template_vars', 'disp_image_data');
