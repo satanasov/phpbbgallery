@@ -210,7 +210,14 @@ class comment
 		// Build smilies array
 		generate_smilies('inline', 0);
 
-		$s_hide_comment_input = (time() < ($album_data['contest_start'] + $album_data['contest_end'])) ? true : false;
+		if (isset($album_data['contest_start']))
+		{
+			$s_hide_comment_input = (time() < ($album_data['contest_start'] + $album_data['contest_end'])) ? true : false;
+		}
+		else
+		{
+			$s_hide_comment_input = false;
+		}
 
 		$this->template->assign_vars(array(
 			'BBCODE_STATUS'			=> ($bbcode_status) ? sprintf($this->language->lang('BBCODE_IS_ON'), '<a href="' . $this->url->append_sid('phpbb', 'faq', 'mode=bbcode') . '">', '</a>') : sprintf($this->language->lang('BBCODE_IS_OFF'), '<a href="' . $this->url->append_sid('phpbb', 'faq', 'mode=bbcode') . '">', '</a>'),
