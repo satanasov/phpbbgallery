@@ -223,7 +223,7 @@ class config_module
 			if (isset($vars['append']))
 			{
 				$langs_var = $this->language->lang_raw($vars['append']);
-				if (count($langs_var) > 1)
+				if (is_array($langs_var))
 				{
 					$vars['append'] = ' ' . substr($this->language->lang($vars['append'], 0), 1);
 				}
