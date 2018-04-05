@@ -47,13 +47,14 @@ class core_contest_test extends core_base
 	 */
 	public function data_is_step()
 	{
+		$time = time();
 		return array(
 			'contest_in_upload' => array(
 				array(//album data
 					'contest_id' => 1,
-					'constest_start'	=> time() - 20,
-					'contest_rating'	=> time() + 50,
-					'contest_end'	=> time() + 100,
+					'constest_start'	=> $time - 20,
+					'contest_rating'	=> $time + 50,
+					'contest_end'	=> $time + 100,
 				),
 				true,
 				false,
@@ -63,9 +64,9 @@ class core_contest_test extends core_base
 			'contest_in_rate' => array(
 				array(//album data
 					  'contest_id' => 1,
-					  'constest_start'	=> time() - 20,
-					  'contest_rating'	=> time() - 10,
-					  'contest_end'	=> time() + 100,
+					  'constest_start'	=> $time - 20,
+					  'contest_rating'	=> $time - 10,
+					  'contest_end'	=> $time + 100,
 				),
 				false,
 				true,
@@ -74,9 +75,9 @@ class core_contest_test extends core_base
 			'contest_in_comment' => array(
 				array(//album data
 					  'contest_id' => 1,
-					  'constest_start'	=> time() - 50,
-					  'contest_rating'	=> time() - 20,
-					  'contest_end'	=> time() - 10,
+					  'constest_start'	=> $time - 50,
+					  'contest_rating'	=> $time - 20,
+					  'contest_end'	=> $time - 10,
 				),
 				false,
 				false,
