@@ -5,7 +5,13 @@
 
 <!-- ELSE -->
 <!-- BEGIN image -->
-<div class="polaroid">
+<div  class="polaroid">
+	<!-- IF imageblock.image.S_CONTEST_RANK > 0 -->
+	<div class="trophy-container">
+		<i class="trophy-icon fa-trophy fa-stack-2x trophy-color-{imageblock.image.S_CONTEST_RANK}"></i>
+		<strong class="fa-stack-1x trophy-text">{imageblock.image.S_CONTEST_RANK}</strong>
+	</div>
+	<!-- ENDIF -->
 	<p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: bold; font-size: 1.2em;">
 		<!-- IF imageblock.image.U_IMAGE --><a href="{imageblock.image.U_IMAGE}"><!-- ENDIF -->{imageblock.image.UC_IMAGE_NAME}<!-- IF imageblock.image.U_IMAGE --></a><!-- ENDIF -->
 	</p>
