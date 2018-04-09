@@ -153,6 +153,7 @@ class gallery_album_test extends controller_base
 						'U_REPORT' => '',
 						'U_STATUS' => '',
 						'L_STATUS' => 'CHANGE_IMAGE_STATUS',
+						'S_CONTEST_RANK' => 0
 					)
 				),
 				array(
@@ -186,6 +187,7 @@ class gallery_album_test extends controller_base
 						'U_REPORT' => '',
 						'U_STATUS' => '',
 						'L_STATUS' => 'CHANGE_IMAGE_STATUS',
+						'S_CONTEST_RANK' => 0
 					)
 				),
 				array(
@@ -219,6 +221,7 @@ class gallery_album_test extends controller_base
 						'U_REPORT' => '',
 						'U_STATUS' => '',
 						'L_STATUS' => 'CHANGE_IMAGE_STATUS',
+						'S_CONTEST_RANK' => 0
 					)
 				)
 			);
@@ -368,6 +371,7 @@ class gallery_album_test extends controller_base
 						'U_REPORT' => '',
 						'U_STATUS' => '',
 						'L_STATUS' => 'CHANGE_IMAGE_STATUS',
+						'S_CONTEST_RANK' => 0
 					)
 				),
 				array(
@@ -401,6 +405,7 @@ class gallery_album_test extends controller_base
 						'U_REPORT' => '',
 						'U_STATUS' => '',
 						'L_STATUS' => 'CHANGE_IMAGE_STATUS',
+						'S_CONTEST_RANK' => 0
 					)
 				),
 				array(
@@ -434,6 +439,7 @@ class gallery_album_test extends controller_base
 						'U_REPORT' => '',
 						'U_STATUS' => '',
 						'L_STATUS' => 'CHANGE_IMAGE_STATUS',
+						'S_CONTEST_RANK' => 0
 					)
 				)
 			);
