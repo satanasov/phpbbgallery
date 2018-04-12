@@ -268,7 +268,7 @@ class file
 	public function check_auth()
 	{
 		$this->auth->load_user_premissions($this->user->data['user_id']);
-		//$zebra_array = $this->auth->get_user_zebra($this->user->data['user_id']);
+		$zebra_array = $this->auth->get_user_zebra($this->user->data['user_id']);
 		// Check permissions
 		if (($this->data['image_user_id'] != $this->user->data['user_id']) && ($this->data['image_status'] == \phpbbgallery\core\block::STATUS_ORPHAN))
 		{
@@ -298,7 +298,7 @@ class file
 			$this->data['image_filemissing'] = 0;
 			$this->data['album_watermark'] = 0;
 		}
-		/*if ($this->auth->get_zebra_state($zebra_array, (int) $this->data['album_user_id']) < (int) $this->data['album_auth_access'] && !$this->error)
+		if (($this->auth->get_zebra_state($zebra_array, (int) $this->data['album_user_id'], $this->data['album_id']) < (int) $this->data['album_auth_access'] && !$this->error))
 		{
 			// Zebra parameters not met
 			// trigger_error('NOT_AUTHORISED');
@@ -311,7 +311,7 @@ class file
 			$this->data['album_user_id'] = 1;
 			$this->data['image_filemissing'] = 0;
 			$this->data['album_watermark'] = 0;
-		}*/
+		}
 	}
 
 	public function generate_image_src()
