@@ -501,7 +501,7 @@ class auth
 				$state = 2;
 			}
 		}
-		return $state;
+		return (int) $state;
 	}
 
 	/**
