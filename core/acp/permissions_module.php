@@ -691,7 +691,7 @@ class permissions_module
 			{
 				trigger_error('FORM_INVALID', E_USER_WARNING);
 			}
-			$coal = $cache->get_albums();
+			$coal = $gallery_cache->get('albums');
 
 			/**
 			* Grab the permissions
