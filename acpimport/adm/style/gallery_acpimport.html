@@ -9,12 +9,12 @@
 	<fieldset class="field1">
 		<legend>{L_ALBUM_SETTINGS}</legend>
 		<dl>
-			<dt><label for="album_id">{L_IMPORT_ALBUM}:</label></dt>
+			<dt><label for="album_id">{L_IMPORT_ALBUM}{L_COLON}</label></dt>
 			<dd>{S_SELECT_IMPORT}</dd>
 			<dd><input class="radio" type="checkbox" name="users_pega" id="users_pega" value="1" /> <label for="users_pega">{L_IMPORT_USERS_PEGA}</label></dd>
 		</dl>
 		<dl>
-			<dt><label<!-- IF .imagerow --> for="images"<!-- ENDIF -->>{L_IMAGES}:</label>
+			<dt><label<!-- IF .imagerow --> for="images"<!-- ENDIF -->>{L_IMAGES}{L_COLON}</label>
 				<br /><span>{L_IMPORT_SELECT}</span></dt>
 			<dd><!-- IF not .imagerow -->
 				{L_IMPORT_DIR_EMPTY}
@@ -25,13 +25,13 @@
 			<!-- ENDIF --></dd>
 		</dl>
 		<dl>
-			<dt><label for="username">{L_IMPORT_USER}:</label>
+			<dt><label for="username">{L_IMPORT_USER}{L_COLON}</label>
 				<br /><span>{L_IMPORT_USER_EXP}</span></dt>
 			<dd><input class="inputbox autowidth" type="text" id="username" name="username" size="40" value="{USERNAME}" />&nbsp;
 				[ <a href="{U_FIND_USERNAME}" onclick="find_username(this.href); return false;">{L_FIND_USERNAME}</a> ]</dd>
 		</dl>
 		<dl>
-			<dt><label for="image_name">{L_IMAGE_NAME}:</label></dt>
+			<dt><label for="image_name">{L_IMAGE_NAME}{L_COLON}</label></dt>
 			<dd><input id="image_name" class="inputbox autowidth" type="text" name="image_name" size="60" value="{IMAGE_NAME}" /></dd>
 			<dd>{L_USE_NUM} <input class="inputbox autowidth" type="text" name="image_num" size="5" value="1" /></dd>
 			<dd><input class="button2 checkbox" type="checkbox" name="filename" value="filename" /> {L_ORIG_FILENAME}</dd>
