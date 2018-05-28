@@ -78,4 +78,7 @@ $lang = array_merge($lang, array(
 	'WATCH_COM'						=> 'S’abonner par défaut aux images commentées',
 	'WATCH_NOTE'					=> 'Cette option affecte seulement les nouvelles images. Toutes les autres images doivent être ajoutées avec l’option « S’abonner à l’image ».',
 	'WATCH_OWN'						=> 'S’abonner par défaut à ses propres images',
+
+	'RRC_ZEBRA'						=> 'Hide from foes in RRC',
+	'RRC_ZEBRA_EXPLAIN'				=> 'Hide images in albums from foes in Recent, Random and Comments part of the index.<br /><strong>WARNING!</strong> This won\'t hide images uploaded in common/public albums.'
 ));

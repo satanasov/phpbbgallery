@@ -251,7 +251,7 @@ class main_module
 
 					$sql = 'SELECT username, user_colour, user_id
 						FROM ' . USERS_TABLE . '
-						WHERE user_id = ' . $user_id;
+						WHERE user_id = ' . (int) $user_id;
 					$result = $db->sql_query($sql);
 					$user_row = $db->sql_fetchrow($result);
 					$db->sql_freeresult($result);
@@ -425,7 +425,7 @@ class main_module
 					$image_ids = array();
 					$sql = 'SELECT image_id
 						FROM ' . $images_table . '
-						WHERE image_album_id = ' . $album_id;
+						WHERE image_album_id = ' . (int) $album_id;
 					$result = $db->sql_query($sql);
 					while ($row = $db->sql_fetchrow($result))
 					{
@@ -541,6 +541,7 @@ class main_module
 				$sync_users[] = (int) $row['user_id'];
 			}
 			$phpbb_gallery_user->set_personal_albums($sync_users);
+			$db->sql_freeresult($result);
 		}
 
 		$boarddays = (time() - $config['board_startdate']) / 86400;

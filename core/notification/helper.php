@@ -32,11 +32,12 @@ class helper
 	}
 
 	/**
-	* Main notification function
-	* @param type			Type of notification (add/confirm)
-	* @param notify_user	User to notify
-	* @param action_user	User that trigered the action
-	*/
+	 * Main notification function
+	 *
+	 * @param $type
+	 * @param $target
+	 * @throws \Exception
+	 */
 	public function notify($type, $target)
 	{
 		$phpbb_notifications = $this->phpbb_container->get('notification_manager');
@@ -66,6 +67,18 @@ class helper
 					'album_url'	=> $this->url->get_uri($this->helper->route('phpbbgallery_core_album', array('album_id' => $target['album_id']))),
 				);
 				$phpbb_notifications->add_notifications('phpbbgallery.core.notification.image_approved', $notification_data);
+			break;
+			case 'not_approved':
+				$targets = $target['targets'];
+				$album_data = $this->album_load->get($target['album_id']);
+				$notification_data = array(
+					'user_ids' => $targets,
+					'album_id' => $target['album_id'],
+					'album_name' => $album_data['album_name'],
+					'last_image_id'	=> $target['last_image'],
+					'album_url'	=> $this->url->get_uri($this->helper->route('phpbbgallery_core_album', array('album_id' => $target['album_id']))),
+				);
+				$phpbb_notifications->add_notifications('phpbbgallery.core.notification.image_not_approved', $notification_data);
 			break;
 			case 'new_image':
 				$targets = $target['targets'];

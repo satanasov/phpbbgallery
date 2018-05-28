@@ -122,7 +122,7 @@ $lang = array_merge($lang, array(
 	'EDIT_COMMENT'					=> 'Wijzig reactie',
 	'EDIT_IMAGE'					=> 'Wijzig',
 	'IMAGE_EDITED_TIME_TOTAL'				=> 'Laatst gewijzigd door %s op %s;, %d keer totaal gewijzigd',
-	'EDITED_TIMES_TOTAL'			=> 'Laatst gewijzigd door %s op %s;, %d keer totaal gewijzigd',
+	'IMAGE_EDITED_TIMES_TOTAL'			=> 'Laatst gewijzigd door %s op %s;, %d keer totaal gewijzigd',
 
 	'FILE'							=> 'Bestand',
 	'FILE_SIZE'						=> 'Bestandsgrootte',
@@ -363,6 +363,9 @@ $lang = array_merge($lang, array(
 
 	'QUICK_MOD'	=> 'Selecteer moderator actie',
 	'WRONG_FILESIZE'	=> 'De afbeeldingsgrootte is groter dan toegestaan!',
+
+    'UNREAD_IMAGES'		=> 'Unviewed images',
+    'NO_UNREAD_IMAGES'	=> 'No unviewed images',
 
 	// Versions 1.2.1 addiotions
 	'GALLERY_DROP'		=> 'Plaats je afbeeldingen hier',

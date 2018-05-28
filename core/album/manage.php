@@ -147,6 +147,17 @@ class manage
 		// Validate the contest timestamps:
 		if ($album_data['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST)
 		{
+			if ($this->user->data['user_timezone'] == '')
+			{
+				$timezone = 'UTC';
+			}
+			else
+			{
+				$timezone = $this->user->data['user_timezone'];
+			}
+			//$timezone = ($this->user->data['user_timezone'] == '' ? $this->user->data['user_timezone'] : 'UTC');
+			$time = $this->user->create_datetime();
+
 			$start_date_error = $date_error = false;
 			if (!preg_match('#(\\d{4})-(\\d{1,2})-(\\d{1,2}) (\\d{1,2}):(\\d{2})#', $contest_data['contest_start'], $m))
 			{
@@ -155,7 +166,7 @@ class manage
 			}
 			else
 			{
-				$contest_data['contest_start'] = gmmktime($m[4], $m[5], 0, $m[2], $m[3], $m[1]) - ($this->user->data['user_timezone']);
+				$contest_data['contest_start'] = gmmktime((int) $m[4], (int) $m[5], 0, (int) $m[2], (int) $m[3], (int) $m[1]) - $time->getOffset();// - $offset;
 			}
 			if (!preg_match('#(\\d{4})-(\\d{1,2})-(\\d{1,2}) (\\d{1,2}):(\\d{2})#', $contest_data['contest_rating'], $m))
 			{
@@ -164,7 +175,7 @@ class manage
 			}
 			else if (!$start_date_error)
 			{
-				$contest_data['contest_rating'] = gmmktime($m[4], $m[5], 0, $m[2], $m[3], $m[1]) - ($this->user->data['user_timezone']) - $contest_data['contest_start'];
+				$contest_data['contest_rating'] = gmmktime($m[4], $m[5], 0, $m[2], $m[3], $m[1]) - $contest_data['contest_start'] - $time->getOffset();//- $offset;
 			}
 			if (!preg_match('#(\\d{4})-(\\d{1,2})-(\\d{1,2}) (\\d{1,2}):(\\d{2})#', $contest_data['contest_end'], $m))
 			{
@@ -173,7 +184,7 @@ class manage
 			}
 			else if (!$start_date_error)
 			{
-				$contest_data['contest_end'] = gmmktime($m[4], $m[5], 0, $m[2], $m[3], $m[1]) - ($this->user->data['user_timezone']) - $contest_data['contest_start'];
+				$contest_data['contest_end'] = gmmktime($m[4], $m[5], 0, $m[2], $m[3], $m[1]) - $contest_data['contest_start'] - $time->getOffset();//- $offset;
 			}
 			if (!$start_date_error && !$date_error)
 			{
@@ -271,7 +282,7 @@ class manage
 					$sql = 'UPDATE ' . $this->albums_table . ' 
 						SET right_id = right_id + 2
 						WHERE album_user_id = 0
-							AND ' . $row['left_id'] . ' BETWEEN left_id AND right_id';
+							AND ' . (int) $row['left_id'] . ' BETWEEN left_id AND right_id';
 					$this->db->sql_query($sql);
 
 					$album_data_sql['left_id'] = $row['left_id'] + 1;
@@ -445,7 +456,7 @@ class manage
 
 				$sql = 'UPDATE ' . GALLERY_CONTESTS_TABLE . '
 					SET ' . $db->sql_build_array('UPDATE', $contest_data) . '
-					WHERE contest_id = ' . $contest_id;
+					WHERE contest_id = ' . (int) $contest_id;
 				$db->sql_query($sql);
 				if ($reset_marked_images)
 				{
@@ -454,7 +465,7 @@ class manage
 						SET image_contest_rank = 0,
 							image_contest_end = 0,
 							image_contest = ' . phpbb_ext_gallery_core_image::IN_CONTEST . '
-						WHERE image_album_id = ' . $album_id;
+						WHERE image_album_id = ' . (int) $album_id;
 					$db->sql_query($sql);
 				}
 
@@ -512,15 +523,15 @@ class manage
 		$sql = 'UPDATE ' . $this->albums_table . " 
 			SET right_id = right_id - $diff, album_parents = ''
 			WHERE album_user_id = " . (int) $this->user_id . '
-				AND left_id < ' . $from_data['right_id'] . "
-				AND right_id > " . $from_data['right_id'];
+				AND left_id < ' . (int) $from_data['right_id'] . "
+				AND right_id > " . (int) $from_data['right_id'];
 		$this->db->sql_query($sql);
 
 		// Resync righthand side of tree
 		$sql = 'UPDATE ' . $this->albums_table . " 
 			SET left_id = left_id - $diff, right_id = right_id - $diff, album_parents = ''
 			WHERE album_user_id = " . (int) $this->user_id . '
-				AND left_id > ' . $from_data['right_id'];
+				AND left_id > ' . (int) $from_data['right_id'];
 		$this->db->sql_query($sql);
 
 		if ($to_id > 0)
@@ -532,7 +543,7 @@ class manage
 			$sql = 'UPDATE ' . $this->albums_table . " 
 				SET right_id = right_id + $diff, album_parents = ''
 				WHERE album_user_id = " . (int) $this->user_id . '
-					AND ' . $to_data['right_id'] . ' BETWEEN left_id AND right_id
+					AND ' . (int) $to_data['right_id'] . ' BETWEEN left_id AND right_id
 					AND ' . $this->db->sql_in_set('album_id', $moved_ids, true);
 			$this->db->sql_query($sql);
 

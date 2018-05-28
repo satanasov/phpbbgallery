@@ -100,6 +100,10 @@ class core_base extends \phpbb_database_test_case
 			$phpEx
 		);
 
+		$this->gallery_config = new \phpbbgallery\core\config(
+			$this->config
+		);
+
 		$this->cache->purge();
 
 		$this->pagination = $this->getMockBuilder('\phpbb\pagination')->disableOriginalConstructor()

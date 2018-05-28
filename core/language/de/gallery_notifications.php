@@ -32,6 +32,9 @@ $lang = array_merge($lang, array(
 	'NOTIFICATION_TYPE_PHPBBGALLERY_IMAGE_APPROVED'	=> 'Freigegebene Bilder',
 	'NOTIFICATION_PHPBBGALLERY_IMAGE_APPROVED'		=> 'Bilder im <strong>%1$s</strong> Album wurden freigegeben',
 
+	'NOTIFICATION_TYPE_PHPBBGALLERY_IMAGE_NOT_APPROVED'	=> 'Not approved images',
+	'NOTIFICATION_PHPBBGALLERY_IMAGE_NOT_APPROVED'		=> 'Images in album <strong>%1$s</strong> were not approved',
+
 	'NOTIFICATION_TYPE_PHPBBGALLERY_NEW_IMAGE'	=> 'Neue Bilder',
 	'NOTIFICATION_PHPBBGALLERY_NEW_IMAGE'		=> 'Neue Bilder wurden ins <strong>%1$s</strong> Album hochgeladen',
 

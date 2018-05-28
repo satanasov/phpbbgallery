@@ -91,6 +91,15 @@ class search
 	 */
 	public function random($limit, $user = 0, $fields = 'rrc_gindex_display', $block_name = false, $u_block = false)
 	{
+		// We will do small escape for not devising by 0
+		if ($limit == 0)
+		{
+			return;
+		}
+		if ($limit < -1)
+		{
+			$limit = -1;
+		}
 		// Define some vars
 		$images_per_page = $limit;
 
@@ -337,6 +346,15 @@ class search
 	 */
 	public function recent($limit, $start = 0, $user = 0, $fields = 'rrc_gindex_display', $block_name = false, $u_block = false)
 	{
+		// We will do small escape for not devising by 0
+		if ($limit == 0)
+		{
+			return;
+		}
+		if ($limit < -1)
+		{
+			$limit = -1;
+		}
 		$pagination = true;
 		if ($start == -1)
 		{

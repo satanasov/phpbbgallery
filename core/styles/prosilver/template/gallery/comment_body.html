@@ -15,7 +15,7 @@
 <form id="postform" action="{S_ALBUM_ACTION}" method="post" enctype="multipart/form-data">
 
 <div class="panel" id="postingbox">
-	<div class="inner"><span class="corners-top"><span></span></span>
+	<div class="inner">
 		<h3>{L_POST_COMMENT}</h3>
 		<fieldset class="fields1">
 			<!-- IF ERROR --><p class="error">{ERROR}</p><!-- ENDIF -->
@@ -85,18 +85,18 @@
 			<div><label for="attach_sig"><input type="checkbox" name="attach_sig" id="attach_sig"{S_SIGNATURE_CHECKED} /> {L_ATTACH_SIG}</label></div>
 
 		</fieldset>
-	<span class="corners-bottom"><span></span></span></div>
+	</div>
 </div>
 
 <div class="panel bg2">
-	<div class="inner"><span class="corners-top"><span></span></span>
+	<div class="inner">
 		<fieldset class="submit-buttons">
 			{S_HIDDEN_FIELDS}{S_CAPTCHA_HIDDEN_FIELDS}
 			<input type="reset" accesskey="r" tabindex="200" value="{L_RESET}" class="button2" />&nbsp;
 			<input type="submit" accesskey="s" tabindex="201" name="submit" value="{L_SUBMIT}" class="button1" />&nbsp;
 		</fieldset>
 		{S_FORM_TOKEN}
-	<span class="corners-bottom"><span></span></span></div>
+	</div>
 </div>
 </form>
 

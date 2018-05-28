@@ -119,7 +119,7 @@ $lang = array_merge($lang, array(
 	'EDIT_COMMENT'					=> 'Éditer le commentaire',
 	'EDIT_IMAGE'					=> 'Éditer',
 	'IMAGE_EDITED_TIME_TOTAL'				=> 'Dernière édition par %s le %s ; édité %d fois',
-	'EDITED_TIMES_TOTAL'			=> 'Dernière édition par %s le %s ; édité %d fois',
+	'IMAGE_EDITED_TIMES_TOTAL'			=> 'Dernière édition par %s le %s ; édité %d fois',
 
 	'FILE'							=> 'Fichier',
 	'FILE_SIZE'						=> 'Taille du fichier',
@@ -360,6 +360,8 @@ $lang = array_merge($lang, array(
 
 	'QUICK_MOD'	=> 'Sélectionner l’action du modérateur',
 	'WRONG_FILESIZE'	=> 'L’image est plus lourde que la limite de poids autorisée.',
+    'UNREAD_IMAGES'		=> 'Unviewed images',
+    'NO_UNREAD_IMAGES'	=> 'No unviewed images',
 
 	// Versions 1.2.1 addiotions
 	'GALLERY_DROP'		=> 'Déposez vos images ici',

@@ -17,7 +17,7 @@ class config_info
 			'title'		=> 'PHPBB_GALLERY',
 			'version'	=> '1.0.0',
 			'modes'		=> array(
-				'config_sample'	=> array(
+				'main'	=> array(
 					'title'		=> 'ACP_GALLERY_CONFIGURE_GALLERY',
 					'auth'		=> 'ext_phpbbgallery/core && acl_a_gallery_manage',
 					'cat'		=> array('PHPBB_GALLERY'),

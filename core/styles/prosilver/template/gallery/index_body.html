@@ -108,7 +108,7 @@ function toggleElement(oElement)
 
 <!-- IF S_PERSONAL_GALLERY and U_USERS_PERSONAL_GALLERIES -->
 	<div class="panel">
-		<div class="inner"><span class="corners-top"><span></span></span>
+		<div class="inner">
 
 		<ul class="linklist">
 			<li>
@@ -144,7 +144,7 @@ function toggleElement(oElement)
 				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=other">#</a></strong>
 			</li>
 		</ul>
-		<span class="corners-bottom"><span></span></span></div>
+		</div>
 	</div>
 <!-- ENDIF -->
 
@@ -160,7 +160,6 @@ function toggleElement(oElement)
 <!-- ENDIF -->
 
 <!-- INCLUDE gallery/albumlist_polaroid.html -->
-
 
 <!-- IF .pagination or TOTAL_ALBUMS -->
 	<div class="pagination">
@@ -180,7 +179,7 @@ function toggleElement(oElement)
 <!-- ENDIF -->
 
 <!-- IF S_USERS_PERSONAL_GALLERIES -->
-		<div class="forabg">
+	<div class="forabg">
 		<div class="inner">
 			<ul class="topiclist">
 				<li class="header">
@@ -247,7 +246,6 @@ function toggleElement(oElement)
 		<a id="{commentrow.COMMENT_ID}"></a>
 		<div class="post <!-- IF commentrow.S_ROW_COUNT is odd -->bg1<!-- ELSE -->bg2<!-- ENDIF -->">
 			<div class="inner">
-				<span class="corners-top"><span></span></span>
 				<div class="postbody">
 						<ul class="post-buttons">
 							<!-- IF commentrow.U_EDIT --><li><a href="{commentrow.U_EDIT}" title="{L_EDIT_COMMENT}" class="button button-icon-only"><i class="icon fa-pencil fa-fw" aria-hidden="true"></i><span class="sr-only">{L_QUOTE_COMMENT}</span></a></li><!-- ENDIF -->
@@ -265,7 +263,6 @@ function toggleElement(oElement)
 					<dd>{L_UPLOADED_BY_USER} {commentrow.IMAGE_AUTHOR}</dd>
 					<dd>{commentrow.IMAGE_TIME}</dd>
 				</dl>
-				<span class="corners-bottom"><span></span></span>
 			</div>
 		</div>
 		<!-- END commentrow -->

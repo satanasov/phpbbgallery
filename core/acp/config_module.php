@@ -38,8 +38,6 @@ class config_module
 		$form_key = 'acp_time';
 		add_form_key($form_key);
 
-		// Create the toolio config object
-		//$this->toolio_config = new phpbb_ext_gallery_core_config($config, $db, CONFIG_TABLE);
 		switch ($mode)
 		{
 			case 'main':
@@ -98,7 +96,6 @@ class config_module
 						if (!class_exists('acp_bbcodes'))
 						{
 							$phpbb_gallery_url->_include('acp/acp_bbcodes', 'phpbb');
-							//include_once($phpbb_root_path . 'includes/acp/acp_bbcodes.' . $phpEx);
 						}
 						$acp_bbcodes = new \acp_bbcodes();
 						$bbcode_match = '[image]{NUMBER}[/image]';
@@ -111,14 +108,13 @@ class config_module
 							'display_on_posting'	=> true,
 							'bbcode_helpline'		=> 'GALLERY_HELPLINE_ALBUM',
 						));
-
 						$sql = 'UPDATE ' . BBCODES_TABLE . '
 							SET ' . $db->sql_build_array('UPDATE', $sql_ary) . "
-							WHERE bbcode_tag = '" . $sql_ary['bbcode_tag'] . "'";
+							WHERE bbcode_tag = '" . $db->sql_escape($sql_ary['bbcode_tag']) . "'";
 						$db->sql_query($sql);
 						$cache->destroy('sql', BBCODES_TABLE);
 					}
-					}
+				}
 				if ((strpos($config_name, 'watermark') !== false) && ($phpbb_gallery_configs->get($config_name) != $config_value))
 				{
 					$phpbb_gallery_configs->set('watermark_changed', time());
@@ -218,7 +214,7 @@ class config_module
 			{
 				$template->assign_block_vars('options', array(
 					'S_LEGEND'		=> true,
-					'LEGEND'		=> ($this->language->lang($vars)) ? $this->language->lang($vars) : $vars)
+					'LEGEND'		=> ($this->language->is_set($vars)) ? $this->language->lang($vars) : $vars)
 				);
 
 				continue;
@@ -226,10 +222,8 @@ class config_module
 
 			if (isset($vars['append']))
 			{
-				//var_dump(count($this->language->lang_array($vars['append'])));
 				$langs_var = $this->language->lang_raw($vars['append']);
-				//var_dump($langs_var);
-				if (count($langs_var) > 1)
+				if (is_array($langs_var))
 				{
 					$vars['append'] = ' ' . substr($this->language->lang($vars['append'], 0), 1);
 				}
@@ -237,7 +231,6 @@ class config_module
 				{
 					$vars['append'] = ' ' . $this->language->lang($vars['append']);
 				}
-				//$vars['append'] = ' ' . $this->language->lang($vars['append']);
 			}
 
 			$this->new_config[$config_key] = $phpbb_gallery_configs->get($config_key);
@@ -245,7 +238,6 @@ class config_module
 			$type = explode(':', $vars['type']);
 
 			$l_explain = '';
-			//$this->var_display($vars);
 			if (isset($vars['explain']))
 			{
 				$l_explain = $this->language->lang($vars['lang'] . '_EXP') ? $this->language->lang($vars['lang'] . '_EXP') : '';
@@ -440,7 +432,6 @@ class config_module
 					'disp_statistic'		=> array('lang' => 'DISP_STATISTIC',		'validate' => 'bool',	'type' => 'radio:yes_no'),
 				),
 			),
-			//'tpl'	=> 'my_custom_templatefile',
 		),
 	);
 
@@ -452,7 +443,7 @@ class config_module
 	 */
 	function disabled_boolean($value, $key)
 	{
-		global $user, $phpbb_container;
+		global $phpbb_container;
 		$this->language = $phpbb_container->get('language');
 
 		$tpl = '';
@@ -471,7 +462,7 @@ class config_module
 	 */
 	function sort_method_select($value, $key)
 	{
-		global $user, $phpbb_container;
+		global $phpbb_container;
 		$this->language = $phpbb_container->get('language');
 
 		$sort_method_options = '';
@@ -496,7 +487,7 @@ class config_module
 	 */
 	function sort_order_select($value, $key)
 	{
-		global $user, $phpbb_container;
+		global $phpbb_container;
 		$this->language = $phpbb_container->get('language');
 
 		$sort_order_options = '';
@@ -536,7 +527,7 @@ class config_module
 	 */
 	function watermark_source($value, $key)
 	{
-		global $user, $phpbb_container;
+		global $phpbb_container;
 		$this->language = $phpbb_container->get('language');
 
 		return generate_board_url() . "<br /><input type=\"text\" name=\"config[$key]\" id=\"$key\" value=\"$value\" size =\"40\" maxlength=\"125\" /><br /><img src=\"" . generate_board_url() . "/$value\" alt=\"" . $this->language->lang('WATERMARK') . "\" />";
@@ -550,7 +541,7 @@ class config_module
 	 */
 	function watermark_position($value, $key)
 	{
-		global $user, $phpbb_container;
+		global $phpbb_container;
 
 		$this->language = $phpbb_container->get('language');
 
@@ -578,7 +569,7 @@ class config_module
 	 */
 	function uc_select($value, $key)
 	{
-		global $user, $phpbb_container;
+		global $phpbb_container;
 		$this->language = $phpbb_container->get('language');
 
 		$sort_order_options = '';//phpbb_gallery_plugins::uc_select($value, $key);
@@ -606,7 +597,7 @@ class config_module
 	 */
 	function rrc_modes($value, $key)
 	{
-		global $user, $phpbb_container;
+		global $phpbb_container;
 
 		$phpbb_ext_gallery_core_block = $phpbb_container->get('phpbbgallery.core.block');
 		$this->language = $phpbb_container->get('language');
@@ -633,7 +624,7 @@ class config_module
 	 */
 	function rrc_display($value, $key)
 	{
-		global $user, $phpbb_container;
+		global $phpbb_container;
 		// Init gallery block class
 		$phpbb_ext_gallery_core_block = $phpbb_container->get('phpbbgallery.core.block');
 		$this->language = $phpbb_container->get('language');

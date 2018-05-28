@@ -59,6 +59,7 @@ class settings_module
 
 		$this->gallery_user = $phpbb_container->get('phpbbgallery.core.user');
 		$this->gallery_user->set_user_id($this->user->data['user_id']);
+		$this->gallery_user->force_load();
 		$this->language = $phpbb_container->get('language');
 		$this->language->add_lang('posting');
 		$this->language->add_lang(array('gallery', 'gallery_acp', 'gallery_mcp', 'gallery_ucp'), 'phpbbgallery/core');
@@ -86,6 +87,7 @@ class settings_module
 				'watch_own'				=> $this->request->variable('watch_own', false),
 				'watch_com'				=> $this->request->variable('watch_com', false),
 				'user_allow_comments'	=> $this->request->variable('allow_comments', false),
+				'rrc_zebra'				=> $this->request->variable('rrc_zebra', false),
 			);
 			$additional_settings = array();
 
@@ -107,6 +109,9 @@ class settings_module
 			}
 			$this->gallery_user->set_user_id($this->user->data['user_id']);
 			$this->gallery_user->update_data($gallery_settings);
+
+			//If data is update we will need to refresh it
+			$this->gallery_user->destroy();
 
 			meta_refresh(3, $this->u_action);
 			trigger_error($this->language->lang('WATCH_CHANGED') . '<br /><br />' . sprintf($this->language->lang('RETURN_UCP'), '<a href="' . $this->u_action . '">', '</a>'));
@@ -130,6 +135,7 @@ class settings_module
 			'S_WATCH_OWN'		=> $this->gallery_user->get_data('watch_own'),
 			'S_WATCH_COM'		=> $this->gallery_user->get_data('watch_com'),
 			'S_ALLOW_COMMENTS'	=> $this->gallery_user->get_data('user_allow_comments'),
+			'S_RRC_ZEBRA'		=> $this->gallery_user->get_data('rrc_zebra'),
 			'S_COMMENTS_ENABLED'=> $this->config['phpbb_gallery_allow_comments'] && $this->config['phpbb_gallery_comment_user_control'],
 		));
 	}

@@ -110,7 +110,7 @@ class user
 		$this->entry_exists	= false;
 		$sql = 'SELECT *
 			FROM ' . $this->gallery_users_table . '
-			WHERE user_id = ' . $this->user_id;
+			WHERE user_id = ' . (int) $this->user_id;
 		$result = $this->db->sql_query($sql, 30);
 		if ($row = $this->db->sql_fetchrow($result))
 		{
@@ -231,7 +231,7 @@ class user
 
 		$sql = 'UPDATE ' . $this->gallery_users_table . '
 			SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . '
-			WHERE user_id = ' . $this->user_id;
+			WHERE user_id = ' . (int) $this->user_id;
 		$this->db->sql_query($sql);
 
 		$this->data = array_merge($this->data, $sql_ary);
@@ -300,7 +300,7 @@ class user
 	public function delete()
 	{
 		$sql = 'DELETE FROM ' . $this->gallery_users_table . '
-			WHERE user_id = ' . $this->user_id;
+			WHERE user_id = ' . (int) $this->user_id;
 		$this->db->sql_query($sql);
 	}
 
@@ -400,6 +400,7 @@ class user
 				case 'watch_own':
 				case 'watch_com':
 				case 'subscribe_pegas':
+				case 'rrc_zebra':
 					$validated_data[$name] = (bool) $value;
 				break;
 
@@ -488,6 +489,8 @@ class user
 		'watch_com'			=> false,
 		// Automatically subscribe user to new personal galleries?
 		'subscribe_pegas'	=> false,
+		// Should we hide Foes from RRC
+		'rrc_zebra'			=> false,
 	);
 
 	/**
@@ -497,7 +500,7 @@ class user
 	public function add_user_to_cache(&$user_cache, $row)
 	{
 		$user_id = $row['user_id'];
-		if (!function_exists('phpbb_get_user_avatar') or !function_exists('phpbb_get_user_rank'))
+		if (!function_exists('phpbb_get_user_rank'))
 		{
 			include($this->root_path . 'includes/functions_display.' . $this->php_ext);
 		}
@@ -609,7 +612,7 @@ class user
 	*/
 	public function get_own_root_album()
 	{
-		$sql = 'SELECT personal_album_id FROM ' . $this->gallery_users_table . ' WHERE user_id = ' . $this->user_id;
+		$sql = 'SELECT personal_album_id FROM ' . $this->gallery_users_table . ' WHERE user_id = ' . (int) $this->user_id;
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		return (int) $row['personal_album_id'];
@@ -648,7 +651,7 @@ class user
 				$set_array[$row['user_id']] = $row['personal_album_id'];
 			}
 		}
-		//var_dump($set_array);
+		$this->db->sql_freeresult($result);
 		$updated_rows = 0;
 		if (count($set_array) > 0)
 		{

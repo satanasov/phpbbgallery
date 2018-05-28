@@ -139,14 +139,18 @@ class log
 		$sql_array = array(
 			'FROM'	=> array(
 				$this->log_table	=> 'l',
-				$this->images_table => 'i'
 			),
+			'LEFT_JOIN' => array(
+				array(
+					'FROM'	=> array($this->images_table => 'i'),
+					'ON'	=> 'l.image = i.image_id'
+				)
+			)
 		);
 		$sql_where = array();
-		$sql_where[] = 'l.image = i.image_id';
 		if ($type != 'all')
 		{
-			$sql_where[] = 'log_type = \'' . $this->db->sql_escape($type) . '\'';
+			$sql_where[] = "log_type = '" . $this->db->sql_escape($type) . "'";
 		}
 		// If album is -1 we are calling it from ACP so ... prority!
 		// If album is 0 we are calling it from moderator log, so we need album we can access
@@ -169,11 +173,11 @@ class log
 			{
 				return;
 			}
-			$sql_where[] = 'l.album = ' . $album;
+			$sql_where[] = 'l.album = ' . (int) $album;
 		}
 		if ($image > 0)
 		{
-			$sql_where[] = 'l.image = ' . $image;
+			$sql_where[] = 'l.image = ' . (int) $image;
 			$sql_where[] = $this->db->sql_in_set('i.image_album_id', $mod_array);
 		}
 		if (isset($additional['sort_days']))
@@ -207,7 +211,7 @@ class log
 			$sql_array['GROUP_BY'] = 'l.log_time, l.log_id, i.image_id';
 		}
 		// So we need count - so define SELECT
-		$sql_array['SELECT'] = 'count(l.log_id) as count';
+		$sql_array['SELECT'] = 'SUM(l.log_id) as count';
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
@@ -230,14 +234,13 @@ class log
 				'ip'	=> $row['log_ip'],
 				'album'	=> $row['album'],
 				'image'	=> $row['image'],
-				'description'	=> json_decode($row['description'])
+				'description'	=> json_decode(stripslashes($row['description']))
 			);
 			$users_array[$row['log_user']] = array('');
 		}
 		$this->db->sql_freeresult($result);
 
 		$this->user_loader->load_users(array_keys($users_array));
-
 		// Let's build template vars
 		if (!empty($logoutput))
 		{
@@ -251,7 +254,7 @@ class log
 					'U_ALBUM_LINK'	=> $var['album'] != 0 ? $this->helper->route('phpbbgallery_core_album', array('album_id'	=> $var['album'])) : false,
 					'U_IMAGE_LINK'	=> $var['image'] != 0 ? $this->helper->route('phpbbgallery_core_image', array('image_id'	=> $var['image'])) : false,
 					//'U_LOG_ACTION'	=> $description,
-					'U_LOG_ACTION'	=> $description = $this->language->lang($var['description'][0], isset($var['description'][1]) ? $var['description'][1] : false, isset($var['description'][2]) ? $var['description'][2] : false, isset($var['description'][3]) ? $var['description'][3] : false),
+					'U_LOG_ACTION'	=> $this->language->lang($var['description'][0], isset($var['description'][1]) ? $var['description'][1] : false, isset($var['description'][2]) ? $var['description'][2] : false, isset($var['description'][3]) ? $var['description'][3] : false),
 					'U_TIME'		=> $this->user->format_date($var['time']),
 				));
 			}

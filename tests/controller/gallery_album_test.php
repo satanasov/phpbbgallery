@@ -65,6 +65,7 @@ class gallery_album_test extends controller_base
 			$this->gallery_url,
 			$this->gallery_image,
 			$this->request,
+			$this->gallery_contest,
 			'phpbb_gallery_images'
 		);
 
@@ -152,6 +153,7 @@ class gallery_album_test extends controller_base
 						'U_REPORT' => '',
 						'U_STATUS' => '',
 						'L_STATUS' => 'CHANGE_IMAGE_STATUS',
+						'S_CONTEST_RANK' => 0
 					)
 				),
 				array(
@@ -185,6 +187,7 @@ class gallery_album_test extends controller_base
 						'U_REPORT' => '',
 						'U_STATUS' => '',
 						'L_STATUS' => 'CHANGE_IMAGE_STATUS',
+						'S_CONTEST_RANK' => 0
 					)
 				),
 				array(
@@ -218,6 +221,7 @@ class gallery_album_test extends controller_base
 						'U_REPORT' => '',
 						'U_STATUS' => '',
 						'L_STATUS' => 'CHANGE_IMAGE_STATUS',
+						'S_CONTEST_RANK' => 0
 					)
 				)
 			);
@@ -230,6 +234,9 @@ class gallery_album_test extends controller_base
 						'ALBUM_NAME' => 'TestPublicAlbum1',
 						'ALBUM_DESC' => '',
 						'U_VIEW_ALBUM' => 'phpbbgallery_core_album',
+						'ALBUM_CONTEST_START' => '',
+						'ALBUM_CONTEST_RATING' => '',
+						'ALBUM_CONTEST_END' => ''
 					)
 				),
 				array(
@@ -364,6 +371,7 @@ class gallery_album_test extends controller_base
 						'U_REPORT' => '',
 						'U_STATUS' => '',
 						'L_STATUS' => 'CHANGE_IMAGE_STATUS',
+						'S_CONTEST_RANK' => 0
 					)
 				),
 				array(
@@ -397,6 +405,7 @@ class gallery_album_test extends controller_base
 						'U_REPORT' => '',
 						'U_STATUS' => '',
 						'L_STATUS' => 'CHANGE_IMAGE_STATUS',
+						'S_CONTEST_RANK' => 0
 					)
 				),
 				array(
@@ -430,6 +439,7 @@ class gallery_album_test extends controller_base
 						'U_REPORT' => '',
 						'U_STATUS' => '',
 						'L_STATUS' => 'CHANGE_IMAGE_STATUS',
+						'S_CONTEST_RANK' => 0
 					)
 				)
 			);
@@ -442,6 +452,9 @@ class gallery_album_test extends controller_base
 						'ALBUM_NAME' => 'TestPublicAlbum1',
 						'ALBUM_DESC' => '',
 						'U_VIEW_ALBUM' => 'phpbbgallery_core_album',
+						'ALBUM_CONTEST_START' => '',
+						'ALBUM_CONTEST_RATING' => '',
+						'ALBUM_CONTEST_END' => ''
 					)
 				),
 				array(

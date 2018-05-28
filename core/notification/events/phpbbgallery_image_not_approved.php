@@ -1,14 +1,13 @@
 <?php
 /**
-*
-* @package phpBB Gallery Extension
-* @copyright (c) 2014 Lucifer
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
-*/
+ *  @package phpBB Gallery
+ *  @version 3.2.1.x
+ *  @copyright (c) 2018 Stanislav Atanasov s.atanasov@anavaro.com http://www.anavaro.com
+ *  @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
 namespace phpbbgallery\core\notification\events;
 
-class phpbbgallery_image_approved extends \phpbb\notification\type\base
+class phpbbgallery_image_not_approved extends \phpbb\notification\type\base
 {
 	/**
 	* Get notification type name
@@ -17,7 +16,7 @@ class phpbbgallery_image_approved extends \phpbb\notification\type\base
 	*/
 	public function get_type()
 	{
-		return 'phpbbgallery.core.notification.image_approved';
+		return 'phpbbgallery.core.notification.image_not_approved';
 	}
 	/**
 	* Notification option data (for outputting to the user)
@@ -26,7 +25,7 @@ class phpbbgallery_image_approved extends \phpbb\notification\type\base
 	* 					Array of data (including keys 'id', 'lang', and 'group')
 	*/
 	public static $notification_option = array(
-		'lang'	=> 'NOTIFICATION_TYPE_PHPBBGALLERY_IMAGE_APPROVED',
+		'lang'	=> 'NOTIFICATION_TYPE_PHPBBGALLERY_IMAGE_NOT_APPROVED',
 	);
 
 	/** @var \phpbb\user_loader */
@@ -107,7 +106,7 @@ class phpbbgallery_image_approved extends \phpbb\notification\type\base
 	 */
 	public function get_title()
 	{
-		return $this->language->lang('NOTIFICATION_PHPBBGALLERY_IMAGE_APPROVED', $this->get_data('album_name'));
+		return $this->language->lang('NOTIFICATION_PHPBBGALLERY_IMAGE_NOT_APPROVED', $this->get_data('album_name'));
 	}
 
 	/**

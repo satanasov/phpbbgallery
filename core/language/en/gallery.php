@@ -121,7 +121,7 @@ $lang = array_merge($lang, array(
 	'EDIT_COMMENT'					=> 'Edit comment',
 	'EDIT_IMAGE'					=> 'Edit',
 	'IMAGE_EDITED_TIME_TOTAL'				=> 'Last edited by %s on %s; edited %d time in total',
-	'EDITED_TIMES_TOTAL'			=> 'Last edited by %s on %s; edited %d times in total',
+	'IMAGE_EDITED_TIMES_TOTAL'			=> 'Last edited by %s on %s; edited %d times in total',
 
 	'FILE'							=> 'File',
 	'FILE_SIZE'						=> 'File size',
@@ -362,6 +362,8 @@ $lang = array_merge($lang, array(
 
 	'QUICK_MOD'	=> 'Select moderator action',
 	'WRONG_FILESIZE'	=> 'Image is bigger then the limit!',
+    'UNREAD_IMAGES'		=> 'Unviewed images',
+    'NO_UNREAD_IMAGES'	=> 'No unviewed images',
 
 	// Versions 1.2.1 addiotions
 	'GALLERY_DROP'		=> 'Drop your images here',

@@ -81,4 +81,7 @@ $lang = array_merge($lang, array(
 	'WATCH_COM'						=> 'Kommentierte Bilder standardmässig beobachten',
 	'WATCH_NOTE'					=> 'Die Einstellung wirkt sich nur auf neue Bilder aus. Andere Bilder musst du über die Option „Bild beobachten“ hinzufügen',
 	'WATCH_OWN'						=> 'Eigene Bilder standardmässig beobachten',
+
+	'RRC_ZEBRA'						=> 'Hide from foes in RRC',
+	'RRC_ZEBRA_EXPLAIN'				=> 'Hide images in albums from foes in Recent, Random and Comments part of the index.<br /><strong>WARNING!</strong> This won\'t hide images uploaded in common/public albums.'
 ));

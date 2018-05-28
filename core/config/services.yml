@@ -47,6 +47,7 @@ services:
         arguments:
             - '@dbal.conn'
             - '@user'
+            - '@phpbbgallery.core.contest'
             - '%tables.phpbbgallery.albums%'
     phpbbgallery.core.album.manage:
         class: phpbbgallery\core\album\manage

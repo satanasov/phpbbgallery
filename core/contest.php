@@ -71,7 +71,7 @@ class contest
 	{
 		$sql = 'SELECT *
 			FROM ' . $this->contest_table . '
-			WHERE ' . (($mode = 'album') ? 'contest_album_id' : 'contest_id') . ' = ' . (int) $id;
+			WHERE ' . (($mode === 'album') ? 'contest_album_id' : 'contest_id') . ' = ' . (int) $id;
 		$result = $this->db->sql_query_limit($sql, 1);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
@@ -122,9 +122,9 @@ class contest
 			WHERE image_album_id = ' . (int) $album_id . '
 			ORDER BY ' .$this->get_tabulation();
 		$result = $this->db->sql_query_limit($sql, self::NUM_IMAGES);
-		$first = (int) $this->db->sql_fetchfield('image_id');
-		$second = (int) $this->db->sql_fetchfield('image_id');
-		$third = (int) $this->db->sql_fetchfield('image_id');
+		$first = $this->db->sql_fetchfield('image_id');
+		$second = $this->db->sql_fetchfield('image_id');
+		$third = $this->db->sql_fetchfield('image_id');
 		$this->db->sql_freeresult($result);
 
 		$sql = 'UPDATE ' . $this->contest_table . '
@@ -138,19 +138,19 @@ class contest
 		$sql = 'UPDATE ' . $this->images_table . '
 			SET image_contest_end = ' . (int) $end_time . ',
 				image_contest_rank = 1
-			WHERE image_id = ' . $first;
+			WHERE image_id = ' . (int) $first;
 		$this->db->sql_query($sql);
 
 		$sql = 'UPDATE ' . $this->images_table . '
 			SET image_contest_end = ' . (int) $end_time . ',
 				image_contest_rank = 2
-			WHERE image_id = ' . $second;
+			WHERE image_id = ' . (int) $second;
 		$this->db->sql_query($sql);
 
 		$sql = 'UPDATE ' . $this->images_table . '
 			SET image_contest_end = ' . (int) $end_time . ',
 				image_contest_rank = 3
-			WHERE image_id = ' . $third;
+			WHERE image_id = ' . (int) $third;
 		$this->db->sql_query($sql);
 
 		$this->gallery_config->inc('contests_ended', 1);
@@ -184,31 +184,31 @@ class contest
 			WHERE image_album_id = ' . (int) $album_id . '
 			ORDER BY ' . $this->get_tabulation();
 		$result = $this->db->sql_query_limit($sql, self::NUM_IMAGES);
-		$first = (int) $this->db->sql_fetchfield('image_id');
-		$second = (int) $this->db->sql_fetchfield('image_id');
-		$third = (int) $this->db->sql_fetchfield('image_id');
+		$first = $this->db->sql_fetchfield('image_id');
+		$second = $this->db->sql_fetchfield('image_id');
+		$third = $this->db->sql_fetchfield('image_id');
 		$this->db->sql_freeresult($result);
 
-		$sql = 'UPDATE ' . $this->contest_table . "
-			SET contest_first = $first,
-				contest_second = $second,
-				contest_third = $third
-			WHERE contest_album_id = " . (int) $album_id;
+		$sql = 'UPDATE ' . $this->contest_table . '
+			SET contest_first = ' . (int) $first .',
+				contest_second = ' . (int) $second .',
+				contest_third = ' . (int) $third .'
+			WHERE contest_album_id = ' . (int) $album_id;
 		$this->db->sql_query($sql);
 
 		$sql = 'UPDATE ' . $this->images_table . '
 			SET image_contest_rank = 1
-			WHERE image_id = ' . $first;
+			WHERE image_id = ' . (int) $first;
 		$this->db->sql_query($sql);
 
 		$sql = 'UPDATE ' . $this->images_table . '
 			SET image_contest_rank = 2
-			WHERE image_id = ' . $second;
+			WHERE image_id = ' . (int) $second;
 		$this->db->sql_query($sql);
 
 		$sql = 'UPDATE ' . $this->images_table . '
 			SET image_contest_rank = 3
-			WHERE image_id = ' . $third;
+			WHERE image_id = ' . (int) $third;
 		$this->db->sql_query($sql);
 	}
 }

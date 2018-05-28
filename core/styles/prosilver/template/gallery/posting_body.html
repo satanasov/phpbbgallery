@@ -4,7 +4,7 @@
 <br />
 <form method="post" id="mcp" action="{S_ALBUM_ACTION}">
 <div class="panel" id="message">
-	<div class="inner"><span class="corners-top"><span></span></span>
+	<div class="inner">
 		<h3>{L_UPLOAD_IMAGE}</h3>
 
 		<p>
@@ -12,7 +12,7 @@
 			<input class="button2" type="submit" name="move" value="{L_SUBMIT}" />
 			{S_FORM_TOKEN}{S_HIDDEN_FIELDS}
 		</p>
-	<span class="corners-bottom"><span></span></span></div>
+	</div>
 </div>
 </form>
 <!-- ELSEIF S_UPLOAD -->
@@ -45,7 +45,7 @@
 	</div>
 </div>
 <div>
-	<div class="inner"><span class="corners-top"><span></span></span>
+	<div class="inner">
 		<h3>{L_UPLOAD_IMAGE}</h3>
 		<fieldset class="fields1">
 			<!-- IF ERROR --><p class="error">{ERROR}</p><!-- ENDIF -->
@@ -95,11 +95,11 @@
 				</dl>
 			<!-- END upload_image -->
 		</fieldset>
-	<span class="corners-bottom"><span></span></span></div>
+	</div>
 </div>
 
 <div class="panel bg2">
-	<div class="inner"><span class="corners-top"><span></span></span>
+	<div class="inner">
 		<fieldset class="submit-buttons">
 			{S_HIDDEN_FIELDS}{S_CAPTCHA_HIDDEN_FIELDS}
 			<input type="hidden" id="mode" name="mode" value="upload">
@@ -107,19 +107,17 @@
 			<input type="submit" accesskey="s" tabindex="201" name="submit" value="{L_CONTINUE}" class="button1" />&nbsp;
 		</fieldset>
 		{S_FORM_TOKEN}
-	<span class="corners-bottom"><span></span></span></div>
+	</div>
 </div>
 </div>
 </form>
 <div id="outputTarget" class="panel bg2 hidden">
 	<div class="inner">
-		<span class="corners-top"><span></span></span>
 			<div class="meter">
 				<span style="width: 0"><p>0%</p></span>
 			</div>
 			<div class="containuploads">
 			</div>
-		<span class="corners-bottom"><span></span></span>
 		</div>
 </div>
 
@@ -132,7 +130,7 @@
 <form id="postform" action="{S_ALBUM_ACTION}" method="post">
 
 <div class="panel" id="postingbox">
-	<div class="inner"><span class="corners-top"><span></span></span>
+	<div class="inner">
 		<h3><!-- IF S_UPLOAD_EDIT -->{L_UPLOAD_IMAGE}<!-- ELSEIF S_EDIT -->{L_EDIT_IMAGE}<!-- ELSEIF S_REPORT -->{L_REPORT_IMAGE}<!-- ENDIF --></h3>
 		<fieldset class="fields1 gallery">
 			<!-- IF ERROR --><p class="error">{ERROR}</p><!-- ENDIF -->
@@ -189,16 +187,17 @@
 					</dd>
 				</dl>
 			<!-- END image -->
+			<!-- EVENT gallery_edit_addfields -->
 		</fieldset>
 			<!-- IF S_REPORT -->
 				<div><textarea name="message" id="message" rows="4" cols="76" tabindex="3" class="inputbox"></textarea></dd></div>
 			<!-- ENDIF -->
-	<span class="corners-bottom"><span></span></span></div>
+	</div>
 </div>
 
 <!-- IF S_MOVE_PERSONAL or S_COMMENTS_ENABLED or S_CHANGE_AUTHOR -->
 <div class="panel">
-	<div class="inner"><span class="corners-top"><span></span></span>
+	<div class="inner">
 		<fieldset class="fields1">
 			<!-- IF S_MOVE_PERSONAL -->
 				<dl>
@@ -219,7 +218,7 @@
 				</dl>
 			<!-- ENDIF -->
 		</fieldset>
-	<span class="corners-bottom"><span></span></span></div>
+	</div>
 </div>
 <!-- ENDIF -->
 
@@ -230,7 +229,7 @@
 </script>
 
 <div class="panel bg2">
-	<div class="inner"><span class="corners-top"><span></span></span>
+	<div class="inner">
 		<fieldset class="submit-buttons">
 			{S_HIDDEN_FIELDS}
 			<input type="hidden" id="mode" name="mode" value="upload_edit">
@@ -238,7 +237,7 @@
 			<input type="submit" accesskey="s" tabindex="201" name="submit" value="{L_SUBMIT}" class="button1" />&nbsp;
 		</fieldset>
 		{S_FORM_TOKEN}
-	<span class="corners-bottom"><span></span></span></div>
+	</div>
 </div>
 </form>
 <!-- ENDIF -->

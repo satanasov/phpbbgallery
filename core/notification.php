@@ -73,6 +73,16 @@ class notification
 		$album_ids = self::cast_mixed_int2array($album_ids);
 		$user_id = (int) (($user_id) ? $user_id : $this->user->data['user_id']);
 
+		// First check if we are not subscribed alredy for some
+		$sql = 'SELECT * FROM ' . $this->watch_table . '  WHERE user_id = ' . (int) $user_id . ' AND ' . $this->db->sql_in_set('album_id', $album_ids);
+		$result = $this->db->sql_query($sql);
+		$exclude = array();
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$exclude[] = (int) $row['album_id'];
+		}
+		$album_ids = array_diff($album_ids, $exclude);
+
 		foreach ($album_ids as $album_id)
 		{
 			$sql_ary = array(

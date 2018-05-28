@@ -259,7 +259,7 @@ class image
 		{
 			$sql = 'UPDATE ' . $this->table_images . '
 				SET image_view_count = image_view_count + 1
-				WHERE image_id = ' . $image_id;
+				WHERE image_id = ' . (int) $image_id;
 			$this->db->sql_query($sql);
 		}
 
@@ -274,7 +274,6 @@ class image
 		$s_allowed_delete = $s_allowed_edit = $s_allowed_status = false;
 		if (($this->gallery_auth->acl_check('m_', $album_id, $album_data['album_user_id']) || ($this->data['image_user_id'] == $this->user->data['user_id'])) && ($this->user->data['user_id'] != ANONYMOUS))
 		{
-			//$s_user_allowed = (($this->data['image_user_id'] == $this->user->data['user_id']) && ($album_data['album_status'] != phpbb_ext_gallery_core_album::STATUS_LOCKED));
 			$s_user_allowed = (($this->data['image_user_id'] == $this->user->data['user_id']) && ($album_data['album_status'] != 1));
 
 			$s_allowed_delete = (($this->gallery_auth->acl_check('i_delete', $album_id, $album_data['album_user_id']) && $s_user_allowed) || $this->gallery_auth->acl_check('m_delete', $album_id, $album_data['album_user_id']));
@@ -530,13 +529,20 @@ class image
 			// Build smilies array
 			generate_smilies('inline', 0);
 
-			//$s_hide_comment_input = (time() < ($album_data['contest_start'] + $album_data['contest_end'])) ? true : false;
-			$s_hide_comment_input = false;
+			if (isset($album_data['contest_start']))
+			{
+				$s_hide_comment_input = (time() < ($album_data['contest_start'] + $album_data['contest_end'])) ? true : false;
+			}
+			else
+			{
+				$s_hide_comment_input = false;
+			}
+
 
 			$this->template->assign_vars(array(
 				'S_ALLOWED_TO_COMMENT'	=> true,
 				'S_HIDE_COMMENT_INPUT'	=> $s_hide_comment_input,
-			//	'CONTEST_COMMENTS'		=> sprintf($user->lang['CONTEST_COMMENTS_STARTS'], $user->format_date(($album_data['contest_start'] + $album_data['contest_end']), false, true)),
+				'CONTEST_COMMENTS'		=> ($s_hide_comment_input ? sprintf($this->language->lang_raw('CONTEST_COMMENTS_STARTS'), $this->user->format_date(($album_data['contest_start'] + $album_data['contest_end']), false, true)) : ''),
 
 				'BBCODE_STATUS'			=> ($bbcode_status) ? sprintf($this->language->lang('BBCODE_IS_ON'), '<a href="' . $this->url->append_sid('phpbb', 'faq', 'mode=bbcode') . '">', '</a>') : sprintf($this->language->lang('BBCODE_IS_OFF'), '<a href="' . $this->url->append_sid('phpbb', 'faq', 'mode=bbcode') . '">', '</a>'),
 				'IMG_STATUS'			=> ($img_status) ? $this->language->lang('IMAGES_ARE_ON') : $this->language->lang('IMAGES_ARE_OFF'),
@@ -653,7 +659,7 @@ class image
 
                 if ($row['comment_edit_count'] > 0)
                 {
-                    $edit_info = ($row['comment_edit_count'] == 1) ? $this->language->lang('IMAGE_EDITED_TIME_TOTAL') : $this->language->lang('EDITED_TIMES_TOTAL');
+                    $edit_info = ($row['comment_edit_count'] == 1) ? $this->language->lang('IMAGE_EDITED_TIME_TOTAL') : $this->language->lang('IMAGE_EDITED_TIMES_TOTAL');
                     $edit_info = sprintf($edit_info, get_username_string('full', $row['comment_edit_user_id'], $this->users_data_array[$row['comment_edit_user_id']]['username'], $this->users_data_array[$row['comment_edit_user_id']]['user_colour']), $this->user->format_date($row['comment_edit_time'], false, true), $row['comment_edit_count']);
                 }
                 $user_deleted = (isset($this->users_data_array[$poster_id]) ? false : true);
@@ -855,6 +861,16 @@ class image
 				'image_allow_comments'		=> $this->request->variable('allow_comments', 0),
 			);
 
+			/**
+			 * Event edit image
+			 *
+			 * @event phpbbgallery.core.image_edit
+			 * @var	array	sql_ary		sql array that should be populated.
+			 * @since 3.2.2
+			 */
+			$vars = array('sql_ary');
+			extract($this->dispatcher->trigger_event('phpbbgallery.core.image_edit', compact($vars)));
+
 			$errors = array();
 			if (empty($sql_ary['image_name_clean']))
 			{
@@ -992,11 +1008,23 @@ class image
 
 		$page_title = $disp_image_data['image_name'];
 
-		$this->template->assign_block_vars('image', array(
+		$template_vars = array(
 			'U_IMAGE'		=> $this->image->generate_link('thumbnail', 'plugin', $image_id, $image_data['image_name'], $album_id),
 			'IMAGE_NAME'	=> $disp_image_data['image_name'],
 			'IMAGE_DESC'	=> $message_parser->message,
-		));
+		);
+
+		/**
+		 * Event edit image display
+		 *
+		 * @event phpbbgallery.core.image_edit_display
+		 * @var	array	template_vars		Template array.
+		 * @var	array	disp_image_data		Display image array.
+		 * @since 3.2.2
+		 */
+		$vars = array('template_vars', 'disp_image_data');
+		extract($this->dispatcher->trigger_event('phpbbgallery.core.image_edit_display', compact($vars)));
+		$this->template->assign_block_vars('image', $template_vars);
 
 		$this->template->assign_vars(array(
 			'L_DESCRIPTION_LENGTH'	=> $this->language->lang('DESCRIPTION_LENGTH', $this->gallery_config->get('description_length')),

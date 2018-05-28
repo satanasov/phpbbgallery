@@ -78,6 +78,7 @@ class album
 								\phpbbgallery\core\auth\auth $auth, \phpbbgallery\core\auth\level $auth_level,
 								\phpbbgallery\core\config $gallery_config,\phpbbgallery\core\notification\helper $notifications_helper,
 								\phpbbgallery\core\url $url, \phpbbgallery\core\image\image $image, \phpbb\request\request $request,
+								\phpbbgallery\core\contest $contest,
 								$images_table)
 	{
 		$this->config = $config;
@@ -96,6 +97,7 @@ class album
 		$this->image = $image;
 		$this->gallery_config = $gallery_config;
 		$this->request = $request;
+		$this->contest = $contest;
 		$this->table_images = $images_table;
 	}
 
@@ -123,18 +125,16 @@ class album
 
 		$album_data = $this->loader->get($album_id);
 
-		/*if ($album_data['album_contest'] == 1)
+		if ($album_data['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST)
 		{
-			$phpbb_gallery_contest = new \phpbbgallery\core\contest();
-			$album_contest_data = $phpbb_gallery_contest->get_contest($album_id);
-			if ($album_contest_data['contest_id'] && $album_contest_data['contest_marked'] && (($album_contest_data['contest_start'] + $album_contest_data['contest_end']) < time()))
+			if ($album_data['contest_id'] && $album_data['contest_marked'] && (($album_data['contest_start'] + $album_data['contest_end']) < time()))
 			{
-				$contest_end_time = $album_contest_data['contest_start'] + $album_contest_data['contest_end'];
-				$phpbb_gallery_contest->end($album_id, $album_contest_data['contest_id'], $contest_end_time);
+				$contest_end_time = $album_data['contest_start'] + $album_data['contest_end'];
+				$this->contest->end($album_id, $album_data['contest_id'], $contest_end_time);
 
-				$album_contest_data['contest_marked'] = phpbb_ext_gallery_core_image::NO_CONTEST;
+				$album_contest_data['contest_marked'] = \phpbbgallery\core\block::NO_CONTEST;
 			}
-		}*/
+		}
 		$this->check_permissions($album_id, $album_data['album_user_id'], $album_data['album_auth_access']);
 		$this->auth_level->display($album_id, $album_data['album_status'], $album_data['album_user_id']);
 
@@ -168,14 +168,27 @@ class album
 				array('album_id' => $album_id)
 			));
 		}
-
+		//
 		if ((!$album_data['album_user_id'] || $album_data['album_user_id'] == $this->user->data['user_id'])
 			&& ($this->user->data['user_id'] == ANONYMOUS || $this->auth->acl_check('i_upload', $album_id, $album_data['album_user_id'])))
 		{
-			$this->template->assign_var('U_UPLOAD_IMAGE', $this->helper->route(
-				'phpbbgallery_core_album_upload',
-				array('album_id' => $album_id)
-			));
+			if (!array_key_exists('contest_start', $album_data))
+			{
+				$this->template->assign_var('U_UPLOAD_IMAGE', $this->helper->route(
+					'phpbbgallery_core_album_upload',
+					array('album_id' => $album_id)
+				));
+			}
+			else
+			{
+				if ($album_data['contest_start'] + $album_data['contest_rating'] > time())
+				{
+					$this->template->assign_var('U_UPLOAD_IMAGE', $this->helper->route(
+						'phpbbgallery_core_album_upload',
+						array('album_id' => $album_id)
+					));
+				}
+			}
 		}
 
 		$this->template->assign_vars(array(
@@ -286,6 +299,13 @@ class album
 			$show_ratings = true;
 			$show_options = $show_options - 64;
 		}
+		if (isset($album_data['contest_marked']))
+		{
+			if ($album_data['contest_marked'])
+			{
+				$show_ratings = false;
+			}
+		}
 		if ($show_options >= 32)
 		{
 			$show_username = true;
@@ -391,6 +411,8 @@ class album
 				'U_REPORT'	=> ($this->auth->acl_check('m_report', $image_data['image_album_id'], $album_user_id) && $image_data['image_reported']) ? '123'/*$this->url->append_sid('mcp', "mode=report_details&amp;album_id={$image_data['image_album_id']}&amp;option_id=" . $image_data['image_reported'])*/ : '',
 				'U_STATUS'	=> '',//($this->auth->acl_check('m_status', $image_data['image_album_id'], $album_user_id)) ? $phpbb_ext_gallery->url->append_sid('mcp', "mode=queue_details&amp;album_id={$image_data['image_album_id']}&amp;option_id=" . $image_data['image_id']) : '',
 				'L_STATUS'	=> ($image_data['image_status'] == \phpbbgallery\core\block::STATUS_UNAPPROVED) ? $this->language->lang('APPROVE_IMAGE') : (($image_data['image_status'] == \phpbbgallery\core\block::STATUS_APPROVED) ? $this->language->lang('CHANGE_IMAGE_STATUS') : $this->language->lang('UNLOCK_IMAGE')),
+
+				'S_CONTEST_RANK'	=> $image_data['image_contest_rank'],
 			));
 		}
 		$this->db->sql_freeresult($result);

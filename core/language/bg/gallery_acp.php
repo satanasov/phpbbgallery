@@ -27,6 +27,13 @@ $lang = array_merge($lang, array(
 	'ACP_GALLERY_OVERVIEW'			=> 'phpBB Gallery',
 	'ACP_GALLERY_OVERVIEW_EXPLAIN'	=> 'Тук се намират някои от статистиките за вашата галерия.',
 
+	// File dirs states
+    'ACP_FILES_DIR_STATE'           => '<strong>./files/</strong> state',
+    'ACP_CORE_DIR_STATE'    => '<strong>./files/phpbbgallery/core/</strong> state',
+    'ACP_SOURCE_DIR_STATE'    => '<strong>./files/phpbbgallery/core/source/</strong> state',
+    'ACP_MEDIUM_DIR_STATE'    => '<strong>./files/phpbbgallery/core/meduim/</strong> state',
+    'ACP_MINI_DIR_STATE'    => '<strong>./files/phpbbgallery/core/mini/</strong> state',
+
 	'ADD_ALBUM_ON_TOP'				=> 'Добави албума от горе',
 	'ADD_PERMISSIONS'				=> 'Добави права',
 	'ALBUM_ADMIN'					=> 'Администрация на албум',

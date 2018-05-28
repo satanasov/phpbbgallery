@@ -136,7 +136,7 @@ class main_listener implements EventSubscriberInterface
 		// Now - do we show statistics
 		if ($this->gallery_config->get('profile_user_images') == 1)
 		{
-			$sql = 'SELECT * FROM ' . $this->users_table . ' WHERE user_id = ' . $event['member']['user_id'];
+			$sql = 'SELECT * FROM ' . $this->users_table . ' WHERE user_id = ' . (int) $event['member']['user_id'];
 			$result = $this->db->sql_query($sql);
 			$user_info = $this->db->sql_fetchrow($result);
 			$this->db->sql_freeresult($result);
