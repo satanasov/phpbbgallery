@@ -26,7 +26,7 @@
 
 <!-- IF S_IS_POSTABLE and (U_UPLOAD_IMAGE or PAGINATION or TOTAL_IMAGES or (U_SLIDE_SHOW and not S_IS_BOT)) -->
 	<div class="topic-actions" <!-- IF S_HAS_SUBALBUM -->style="margin-top: 2em;"<!-- ENDIF -->>
-
+<br />
 	<!-- IF not S_IN_GALLERY_POPUP and U_UPLOAD_IMAGE and not S_IS_BOT -->
 		<div class="buttons">
 			<a href="<!-- IF S_IS_LOCKED --> <!-- ELSE -->{U_UPLOAD_IMAGE}<!-- ENDIF -->" title="<!-- IF S_IS_LOCKED -->{L_ALBUM_LOCKED}<!-- ELSE -->{L_UPLOAD_IMAGE}<!-- ENDIF -->" class="button icon-button <!-- IF S_IS_LOCKED -->locked-icon<!-- ELSE -->post-icon<!-- ENDIF -->"><!-- IF S_IS_LOCKED -->{L_ALBUM_LOCKED}<!-- ELSE --><i class="icon fa-upload fa-fw" aria-hidden="true"></i> {L_UPLOAD_IMAGE}<!-- ENDIF --></a>
