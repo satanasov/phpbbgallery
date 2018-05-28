@@ -92,6 +92,7 @@ $lang = array_merge($lang, array(
 	'REPORTS_A_OPEN2'				=> 'Открыть жалобы?',
 	'REPORTS_A_OPEN2_CONFIRM'		=> 'Подтвердите открытие жалоб.',
 	'REPORT_MOD'					=> 'Редактировал',
+	'REPORT_CLOSED_BY'				=> 'Report closed by',
 	'REPORTED_IMAGES'				=> 'Обжалованные фото',
 	'REPORTER'						=> 'Пожаловался',
 	'REPORTER_AND_ALBUM'			=> 'Жалующийся и альбом',

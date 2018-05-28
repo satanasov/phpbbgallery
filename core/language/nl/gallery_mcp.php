@@ -107,6 +107,7 @@ $lang = array_merge($lang, array(
 	'REPORTS_A_OPEN2_CONFIRM'		=> 'Weet je zeker dat je deze meldingen wilt heropenen?',
 
 	'REPORT_MOD'					=> 'Bewerkt door',
+	'REPORT_CLOSED_BY'				=> 'Report closed by',
 	'REPORTED_IMAGES'				=> 'Gemelde afbeeldingen',
 	'REPORTER'						=> 'Gemeld door',
 	'REPORTER_AND_ALBUM'			=> 'Reporter & Album',

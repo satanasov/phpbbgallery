@@ -106,6 +106,7 @@ $lang = array_merge($lang, array(
 	'REPORTS_A_OPEN2_CONFIRM'		=> 'Сигурни ли сте, че искате да отворите тези доклади?',
 
 	'REPORT_MOD'					=> 'Променено от',
+	'REPORT_CLOSED_BY'				=> 'Report closed by',
 	'REPORTED_IMAGES'				=> 'Докладвани изображения',
 	'REPORTER'						=> 'Докладвал',
 	'REPORTER_AND_ALBUM'			=> 'Докладвал и Албум',
