@@ -1,12 +1,13 @@
 <?php
 /**
 *
-* @package phpBB Gallery - Gallery Extension [French]
-* @copyright (c) 2012 nickvergessen - http://www.flying-bits.org/
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-* @translator fr (c) pokyto aka le.poke http://www.lestontonsfraggers.com inspired by darky - http://www.foruminfopc.fr/ and Team http://www.phpbb-fr.com/
+* phpBB Gallery. An extension for the phpBB Forum Software package. Gallery [French]
+* French translation by pokyto aka le.poke http://www.lestontonsfraggers.com (inspired by darky http://www.foruminfopc.fr/ and http://www.phpbb-fr.com/) & Galixte (http://www.galixte.com)
 *
-**/
+* @copyright (c) 2012 nickvergessen <http://www.flying-bits.org/> - 2018 Stanislav Atanasov <http://www.anavaro.com>
+* @license GNU General Public License, version 2 (GPL-2.0-only)
+*
+*/
 
 /**
 * DO NOT CHANGE
@@ -20,6 +21,22 @@ if (empty($lang) || !is_array($lang))
 {
 	$lang = array();
 }
+
+// DEVELOPERS PLEASE NOTE
+//
+// All language files should use UTF-8 as their encoding and the files must not contain a BOM.
+//
+// Placeholders can now contain order information, e.g. instead of
+// 'Page %s of %s' you can (and should) write 'Page %1$s of %2$s', this allows
+// translators to re-order the output of data while ensuring it remains correct
+//
+// You do not need this where single placeholders are used, e.g. 'Message %d' is fine
+// equally where a string contains only two placeholders which are used to wrap text
+// in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
+//
+// Some characters you may want to copy&paste:
+// ’ « » “ ” …
+//
 
 $lang = array_merge($lang, array(
 	'ADD_UPLOAD_FIELD'				=> 'Ajouter une autre image',
@@ -52,8 +69,8 @@ $lang = array_merge($lang, array(
 	'ALBUM_COMMENT_CANNOT'		=> 'Vous <strong>ne pouvez pas</strong> poster de commentaires dans cet album.',
 	'ALBUM_DELETE_CAN'			=> 'Vous <strong>pouvez</strong> supprimer vos images de cet album.',
 	'ALBUM_DELETE_CANNOT'		=> 'Vous <strong>ne pouvez pas</strong> supprimer vos images de cet album.',
-	'ALBUM_EDIT_CAN'			=> 'Vous <strong>pouvez</strong> éditer vos images dans cet album.',
-	'ALBUM_EDIT_CANNOT'			=> 'Vous <strong>ne pouvez pas</strong> éditer vos images dans cet album.',
+	'ALBUM_EDIT_CAN'			=> 'Vous <strong>pouvez</strong> modifier vos images dans cet album.',
+	'ALBUM_EDIT_CANNOT'			=> 'Vous <strong>ne pouvez pas</strong> modifier vos images dans cet album.',
 	'ALBUM_RATE_CAN'			=> 'Vous <strong>pouvez</strong> noter les images de cet album.',
 	'ALBUM_RATE_CANNOT'			=> 'Vous <strong>ne pouvez pas</strong> noter les images de cet album.',
 	'ALBUM_UPLOAD_CAN'			=> 'Vous <strong>pouvez</strong> charger de nouvelles images dans cet album.',
@@ -116,10 +133,10 @@ $lang = array_merge($lang, array(
 	'DISALLOWED_EXTENSION'			=> 'L’extension de cette image n’est pas autorisée.',
 	'DONT_RATE_IMAGE'				=> 'Ne pas noter l’image',
 
-	'EDIT_COMMENT'					=> 'Éditer le commentaire',
-	'EDIT_IMAGE'					=> 'Éditer',
-	'IMAGE_EDITED_TIME_TOTAL'				=> 'Dernière édition par %s le %s ; édité %d fois',
-	'IMAGE_EDITED_TIMES_TOTAL'			=> 'Dernière édition par %s le %s ; édité %d fois',
+	'EDIT_COMMENT'					=> 'Modifier le commentaire',
+	'EDIT_IMAGE'					=> 'Modifier',
+	'IMAGE_EDITED_TIME_TOTAL'				=> 'Dernière modification par %s le %s ; modifié %d fois',
+	'IMAGE_EDITED_TIMES_TOTAL'			=> 'Dernière modification par %s le %s ; modifié %d fois',
 
 	'FILE'							=> 'Fichier',
 	'FILE_SIZE'						=> 'Taille du fichier',
@@ -170,7 +187,7 @@ $lang = array_merge($lang, array(
 	'MAX_HEIGHT'					=> 'Hauteur maximale de l’image',
 	'MAX_WIDTH'						=> 'Largeur maximale de l’image',
 	'MISSING_COMMENT'				=> 'Aucun message saisi.',
-	'MISSING_IMAGE_NAME'			=> 'Vous devez spécifier un nom lorsque vous éditez une image.',
+	'MISSING_IMAGE_NAME'			=> 'Vous devez spécifier un nom lorsque vous modifiez une image.',
 	'MISSING_MODE'					=> 'Aucun mode sélectionné',
 	'MISSING_REPORT_REASON'			=> 'Vous devez mentionner une raison, pour rapporter une image.',
 	'MISSING_SLIDESHOW_PLUGIN'		=> 'Aucun plugin de diaporama trouvé. Contactez l’administrateur du forum.',
