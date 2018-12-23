@@ -138,7 +138,7 @@ class log
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 		$sql_array = array(
 			'FROM'	=> array(
-				$this->log_table	=> 'l',
+				$this->log_table	=> 'l'
 			),
 			'LEFT_JOIN' => array(
 				array(
