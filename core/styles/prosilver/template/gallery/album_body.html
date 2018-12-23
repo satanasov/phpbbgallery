@@ -29,7 +29,7 @@
 
 	<!-- IF not S_IN_GALLERY_POPUP and U_UPLOAD_IMAGE and not S_IS_BOT -->
 		<div class="buttons">
-			<a href="<!-- IF S_IS_LOCKED --> <!-- ELSE -->{U_UPLOAD_IMAGE}<!-- ENDIF -->" title="<!-- IF S_IS_LOCKED -->{L_ALBUM_LOCKED}<!-- ELSE -->{L_UPLOAD_IMAGE}<!-- ENDIF -->" class="button icon-button <!-- IF S_IS_LOCKED -->locked-icon<!-- ELSE -->post-icon<!-- ENDIF -->"><!-- IF S_IS_LOCKED -->{L_ALBUM_LOCKED}<!-- ELSE --><i class="icon fa-upload fa-fw" aria-hidden="true"></i> {L_UPLOAD_IMAGE}<!-- ENDIF --></a>
+			<a href="<!-- IF S_IS_LOCKED --> <!-- ELSE -->{U_UPLOAD_IMAGE}<!-- ENDIF -->" title="<!-- IF S_IS_LOCKED -->{L_ALBUM_LOCKED}<!-- ELSE -->{L_UPLOAD_IMAGE}<!-- ENDIF -->" class="button icon-button <!-- IF S_IS_LOCKED -->locked-icon<!-- ELSE -->post-icon<!-- ENDIF -->"><!-- IF S_IS_LOCKED --><i class="icon fa-lock fa-fw" aria-hidden="true"></i> {L_ALBUM_LOCKED}<!-- ELSE --><i class="icon fa-upload fa-fw" aria-hidden="true"></i> {L_UPLOAD_IMAGE}<!-- ENDIF --></a>
 			<!-- IF S_REGISTERED_USER --><a href="{U_WATCH_TOGLE}" title="<!-- IF S_IS_WATCHED -->{L_UNWATCH_ALBUM}<!-- ELSE -->{L_WATCH_ALBUM}<!-- ENDIF -->" class="button"><i class="icon <!-- IF S_IS_WATCHED -->fa-square-o<!-- ELSE -->fa-check-square-o<!-- ENDIF --> fa-fw" aria-hidden="true"></i><!-- IF S_IS_WATCHED -->{L_UNWATCH_ALBUM}<!-- ELSE -->{L_WATCH_ALBUM}<!-- ENDIF --></a><!-- ENDIF -->
 		</div>
 	<!-- ENDIF -->
