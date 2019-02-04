@@ -25,13 +25,11 @@
 <!-- ENDIF -->
 
 <!-- IF S_IS_POSTABLE and (U_UPLOAD_IMAGE or PAGINATION or TOTAL_IMAGES or (U_SLIDE_SHOW and not S_IS_BOT)) -->
-	<div class="topic-actions" <!-- IF S_HAS_SUBALBUM -->style="margin-top: 2em;"<!-- ENDIF -->>
+	<div class="action-bar bar-top" <!-- IF S_HAS_SUBALBUM -->style="margin-top: 2em;"<!-- ENDIF -->>
 
 	<!-- IF not S_IN_GALLERY_POPUP and U_UPLOAD_IMAGE and not S_IS_BOT -->
-		<div class="buttons">
-			<a href="<!-- IF S_IS_LOCKED --> <!-- ELSE -->{U_UPLOAD_IMAGE}<!-- ENDIF -->" title="<!-- IF S_IS_LOCKED -->{L_ALBUM_LOCKED}<!-- ELSE -->{L_UPLOAD_IMAGE}<!-- ENDIF -->" class="button icon-button <!-- IF S_IS_LOCKED -->locked-icon<!-- ELSE -->post-icon<!-- ENDIF -->"><!-- IF S_IS_LOCKED -->{L_ALBUM_LOCKED}<!-- ELSE --><i class="icon fa-upload fa-fw" aria-hidden="true"></i> {L_UPLOAD_IMAGE}<!-- ENDIF --></a>
-			<!-- IF S_REGISTERED_USER --><a href="{U_WATCH_TOGLE}" title="<!-- IF S_IS_WATCHED -->{L_UNWATCH_ALBUM}<!-- ELSE -->{L_WATCH_ALBUM}<!-- ENDIF -->" class="button"><i class="icon <!-- IF S_IS_WATCHED -->fa-square-o<!-- ELSE -->fa-check-square-o<!-- ENDIF --> fa-fw" aria-hidden="true"></i><!-- IF S_IS_WATCHED -->{L_UNWATCH_ALBUM}<!-- ELSE -->{L_WATCH_ALBUM}<!-- ENDIF --></a><!-- ENDIF -->
-		</div>
+		<a href="<!-- IF S_IS_LOCKED --> <!-- ELSE -->{U_UPLOAD_IMAGE}<!-- ENDIF -->" title="<!-- IF S_IS_LOCKED -->{L_ALBUM_LOCKED}<!-- ELSE -->{L_UPLOAD_IMAGE}<!-- ENDIF -->" class="button"><!-- IF S_IS_LOCKED --><i class="icon fa-lock fa-fw" aria-hidden="true"></i> <span>{L_ALBUM_LOCKED}</span><!-- ELSE --><i class="icon fa-upload fa-fw" aria-hidden="true"></i> <span>{L_UPLOAD_IMAGE}</span><!-- ENDIF --></a>
+			<!-- IF S_REGISTERED_USER --><a href="{U_WATCH_TOGLE}" title="<!-- IF S_IS_WATCHED -->{L_UNWATCH_ALBUM}<!-- ELSE -->{L_WATCH_ALBUM}<!-- ENDIF -->" class="button"><i class="icon <!-- IF S_IS_WATCHED -->fa-square-o<!-- ELSE -->fa-check-square-o<!-- ENDIF --> fa-fw" aria-hidden="true"></i> <!-- IF S_IS_WATCHED --><span>{L_UNWATCH_ALBUM}</span><!-- ELSE --><span>{L_WATCH_ALBUM}</span><!-- ENDIF --></a><!-- ENDIF -->
 	<!-- ENDIF -->
 
 	<!-- IF not S_IN_GALLERY_POPUP and S_DISPLAY_SEARCHBOX -->
@@ -93,11 +91,9 @@
 	<hr />
 	<!-- ENDIF -->
 	<!-- IF .imageblock -->
-	<div class="topic-actions">
+	<div class="action-bar bar-bottom">
 		<!-- IF U_UPLOAD_IMAGE and not S_IS_BOT -->
-			<div class="buttons">
-				<a href="<!-- IF S_IS_LOCKED --> <!-- ELSE -->{U_UPLOAD_IMAGE}<!-- ENDIF -->" title="<!-- IF S_IS_LOCKED -->{L_ALBUM_LOCKED}<!-- ELSE -->{L_UPLOAD_IMAGE}<!-- ENDIF -->" class="button icon-button <!-- IF S_IS_LOCKED -->locked-icon<!-- ELSE -->post-icon<!-- ENDIF -->"><!-- IF S_IS_LOCKED -->{L_ALBUM_LOCKED}<!-- ELSE -->{L_UPLOAD_IMAGE}<!-- ENDIF --></a>
-			</div>
+			<a href="<!-- IF S_IS_LOCKED --> <!-- ELSE -->{U_UPLOAD_IMAGE}<!-- ENDIF -->" title="<!-- IF S_IS_LOCKED -->{L_ALBUM_LOCKED}<!-- ELSE -->{L_UPLOAD_IMAGE}<!-- ENDIF -->" class="button"><!-- IF S_IS_LOCKED --><i class="icon fa-lock fa-fw" aria-hidden="true"></i> <span>{L_ALBUM_LOCKED}</span><!-- ELSE --><i class="icon fa-upload fa-fw" aria-hidden="true"></i> <span>{L_UPLOAD_IMAGE}</span><!-- ENDIF --></a>
 		<!-- ENDIF -->
 
 		<!-- IF .pagination or TOTAL_IMAGES -->
