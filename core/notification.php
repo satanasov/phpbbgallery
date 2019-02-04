@@ -41,7 +41,7 @@ class notification
 		$image_ids = self::cast_mixed_int2array($image_ids);
 		$user_id = (int) (($user_id) ? $user_id : $this->user->data['user_id']);
 
-		// First check if we are not subscribed alredy for some
+		// First check if we are not subscribed already for some
 		$sql = 'SELECT * FROM ' . $this->watch_table . '  WHERE user_id = ' . (int) $user_id . ' AND ' . $this->db->sql_in_set('image_id', $image_ids);
 		$result = $this->db->sql_query($sql);
 		$exclude = array();
@@ -73,7 +73,7 @@ class notification
 		$album_ids = self::cast_mixed_int2array($album_ids);
 		$user_id = (int) (($user_id) ? $user_id : $this->user->data['user_id']);
 
-		// First check if we are not subscribed alredy for some
+		// First check if we are not subscribed already for some
 		$sql = 'SELECT * FROM ' . $this->watch_table . '  WHERE user_id = ' . (int) $user_id . ' AND ' . $this->db->sql_in_set('album_id', $album_ids);
 		$result = $this->db->sql_query($sql);
 		$exclude = array();
