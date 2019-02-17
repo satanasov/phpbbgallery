@@ -662,6 +662,24 @@
 			<value>0</value>
 		</row>
 	</table>
+	<table name="phpbb_gallery_rates">
+		<column>rate_image_id</column>
+		<column>rate_user_id</column>
+		<column>rate_user_ip</column>
+		<column>rate_point</column>
+		<row>
+			<value>1</value>
+			<value>2</value>
+			<value>localhost</value>
+			<value>10</value>
+		</row>
+		<row>
+			<value>1</value>
+			<value>3</value>
+			<value>localhost</value>
+			<value>9</value>
+		</row>
+	</table>
 	<table name="phpbb_gallery_roles">
 		<column>role_id</column>
 		<column>a_list</column>
