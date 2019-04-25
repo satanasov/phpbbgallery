@@ -972,10 +972,10 @@ class image
 
 				if ($change_image_count)
 				{
-					$new_user = new \phpbbgallery\core\user($this->db, $this->dispatcher, $this->user, $this->config, $this->auth, $this->table_users, $this->phpbb_root_path, $this->php_ext);
+					$new_user = new \phpbbgallery\core\user($this->db, $this->dispatcher, $this->user, $this->cpf_manager, $this->config, $this->auth, $this->table_users, $this->phpbb_root_path, $this->php_ext);
 					$new_user->set_user_id($user_data['user_id']);
 					$new_user->update_images(1);
-					$old_user = new \phpbbgallery\core\user($this->db, $this->dispatcher, $this->user, $this->config, $this->auth, $this->table_users, $this->phpbb_root_path, $this->php_ext);
+					$old_user = new \phpbbgallery\core\user($this->db, $this->dispatcher, $this->user, $this->cpf_manager, $this->config, $this->auth, $this->table_users, $this->phpbb_root_path, $this->php_ext);
 					$old_user->set_user_id($image_data['image_user_id']);
 					$old_user->update_images(-1);
 				}
