@@ -250,7 +250,7 @@ class search
 			$search_query = '';
 			$matches = array('i.image_name', 'i.image_desc');
 
-			if (!sizeof($keywords_ary) && !sizeof($user_id_ary))
+			if (is_array($keywords_ary) && !sizeof($keywords_ary) && is_array($user_id_ary) && !sizeof($user_id_ary))
 			{
 				trigger_error('NO_SEARCH_RESULTS');
 			}
