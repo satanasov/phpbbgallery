@@ -1,6 +1,6 @@
 parameters:
-    tables.phpbbgallery.albums: %core.table_prefix%gallery_albums
-    tables.phpbbgallery.images: %core.table_prefix%gallery_images
+    tables.phpbbgallery.albums: '%core.table_prefix%gallery_albums'
+    tables.phpbbgallery.images: '%core.table_prefix%gallery_images'
 
 services:
     phpbbgallery.acpcleanup.cleanup:
