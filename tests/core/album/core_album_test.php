@@ -9,17 +9,21 @@
 *
 */
 
-namespace phpbbgallery\tests\core;
+namespace phpbbgallery\tests\core\album;
 /**
 * @group core
 */
-require_once dirname(__FILE__) . '/../../../../includes/functions.php';
+require_once dirname(__FILE__) . '/../../../../../includes/functions.php';
 
-class core_album_test extends core_base
+class core_album_test extends \phpbbgallery\tests\core\core_base
 {
 	public function setUp()
 	{
 		parent::setUp();
+
+		$this->user_cpf = $this->getMockBuilder('\phpbb\profilefields\manager')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->gallery_cache = new \phpbbgallery\core\cache(
 			$this->cache,
@@ -32,6 +36,7 @@ class core_album_test extends core_base
 			$this->db,
 			$this->dispatcher,
 			$this->user,
+			$this->user_cpf,
 			$this->config,
 			$this->auth,
 			'phpbb_gallery_users',
@@ -56,9 +61,12 @@ class core_album_test extends core_base
 		$this->gallery_config = new \phpbbgallery\core\config(
 			$this->config
 		);
+
 		$this->album = new \phpbbgallery\core\album\album(
 			$this->db,
 			$this->user,
+			$this->language,
+			$this->user_cpf,
 			$this->gallery_auth,
 			$this->gallery_cache,
 			$this->block,
@@ -69,7 +77,7 @@ class core_album_test extends core_base
 			'phpbb_gallery_contests'
 		);
 	}
-	
+
 	/**
 	* Test get_info
 	* Here we test only exception.

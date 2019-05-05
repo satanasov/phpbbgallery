@@ -27,6 +27,4 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'ACL_A_GALLERY_MANAGE'		=> 'Kann die Einstellungen der phpBB Gallery ändern',
 	'ACL_A_GALLERY_ALBUMS'		=> 'Kann Alben und Berechtigungen hinzufügen oder ändern',
-	'ACL_A_GALLERY_IMPORT'		=> 'Kann die Import-Funktion benutzen',
-	'ACL_A_GALLERY_CLEANUP'		=> 'Kann die phpBB Gallery reinigen',
 ));

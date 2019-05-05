@@ -6,12 +6,15 @@ services:
     phpbbgallery.acpcleanup.cleanup:
         class: phpbbgallery\acpcleanup\cleanup
         arguments:
-            - @dbal.conn
-            - @phpbbgallery.core.file.tool
-            - @phpbbgallery.core.block
-            - @phpbbgallery.core.comment
-            - @phpbbgallery.core.config
-            - @phpbbgallery.core.log
-            - @phpbbgallery.core.moderate
-            - %tables.phpbbgallery.albums%
-            - %tables.phpbbgallery.images%
+            - '@dbal.conn'
+            - '@phpbbgallery.core.file.tool'
+            - '@user'
+            - '@language'
+            - '@phpbbgallery.core.block'
+            - '@phpbbgallery.core.album'
+            - '@phpbbgallery.core.comment'
+            - '@phpbbgallery.core.config'
+            - '@phpbbgallery.core.log'
+            - '@phpbbgallery.core.moderate'
+            - '%tables.phpbbgallery.albums%'
+            - '%tables.phpbbgallery.images%'

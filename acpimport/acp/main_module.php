@@ -36,6 +36,7 @@ class main_module
 
 		$import_schema = $request->variable('import_schema', '');
 		$images = $request->variable('images', array(''), true);
+
 		$submit = (isset($_POST['submit'])) ? true : ((empty($images)) ? false : true);
 
 		if ($import_schema)
@@ -143,6 +144,7 @@ class main_module
 							//'image_exif_data'		=> '',
 						);
 
+						unset($image_tools);
 						$image_tools = $phpbb_container->get('phpbbgallery.core.file.tool');
 						$image_tools->set_image_options($gallery_config->get('max_filesize'), $gallery_config->get('max_height'), $gallery_config->get('max_width'));
 						$image_tools->set_image_data($gallery_url->path('upload') . $image_filename);
@@ -227,7 +229,7 @@ class main_module
 				$gallery_config->inc('num_images', $images_loop);
 				$todo_images = $todo_images - $images_loop;
 			}
-			\phpbbgallery\core\album\album::update_info($album_id);
+			$gallery_album->update_info($album_id);
 
 			if (!$todo_images)
 			{

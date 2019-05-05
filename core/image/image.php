@@ -12,6 +12,60 @@ namespace phpbbgallery\core\image;
 
 class image
 {
+	/** @var \phpbb\db\driver\driver_interface  */
+	protected $db;
+
+	/** @var \phpbb\user  */
+	protected $user;
+
+	/** @var \phpbb\language\language  */
+	protected $language;
+
+	/** @var \phpbb\template\template  */
+	protected $template;
+
+	/** @var \phpbb\event\dispatcher_interface  */
+	protected $phpbb_dispatcher;
+
+	/** @var \phpbbgallery\core\auth\auth  */
+	protected $gallery_auth;
+
+	/** @var \phpbbgallery\core\album\album  */
+	protected $album;
+
+	/** @var \phpbbgallery\core\config  */
+	protected $gallery_config;
+
+	/** @var \phpbb\controller\helper  */
+	protected $helper;
+
+	/** @var \phpbbgallery\core\url  */
+	protected $url;
+
+	/** @var \phpbbgallery\core\log  */
+	protected $gallery_log;
+
+	/** @var \phpbbgallery\core\notification\helper  */
+	protected $notification_helper;
+
+	/** @var \phpbbgallery\core\cache  */
+	protected $gallery_cache;
+
+	/** @var \phpbbgallery\core\report  */
+	protected $gallery_report;
+
+	/** @var \phpbbgallery\core\user  */
+	protected $gallery_user;
+
+	/** @var \phpbbgallery\core\contest  */
+	protected $contest;
+
+	/** @var \phpbbgallery\core\file\file  */
+	protected $file;
+
+	/** @var   */
+	protected $table_images;
+
 	const IMAGE_SHOW_IP = 128;
 	const IMAGE_SHOW_RATINGS = 64;
 	const IMAGE_SHOW_USERNAME = 32;
@@ -26,6 +80,7 @@ class image
 	 *
 	 * @param \phpbb\db\driver\driver_interface      $db
 	 * @param \phpbb\user                            $user
+	 * @param \phpbb\language\language               $language
 	 * @param \phpbb\template\template               $template
 	 * @param \phpbb\event\dispatcher_interface      $phpbb_dispatcher
 	 * @param \phpbbgallery\core\auth\auth           $gallery_auth
@@ -42,14 +97,17 @@ class image
 	 * @param \phpbbgallery\core\file\file           $file
 	 * @param                                        $table_images
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\template\template $template, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\album\album $album,
-								\phpbbgallery\core\config $gallery_config, \phpbb\controller\helper $helper, \phpbbgallery\core\url $url, \phpbbgallery\core\log $gallery_log,
-								\phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\report $report, \phpbbgallery\core\cache $gallery_cache,
-								\phpbbgallery\core\user $gallery_user, \phpbbgallery\core\contest $contest,\phpbbgallery\core\file\file $file,
-								$table_images)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\language\language $language,
+		\phpbb\template\template $template, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbbgallery\core\auth\auth $gallery_auth,
+		\phpbbgallery\core\album\album $album, \phpbbgallery\core\config $gallery_config, \phpbb\controller\helper $helper,
+		\phpbbgallery\core\url $url, \phpbbgallery\core\log $gallery_log, \phpbbgallery\core\notification\helper $notification_helper,
+		\phpbbgallery\core\report $report, \phpbbgallery\core\cache $gallery_cache, \phpbbgallery\core\user $gallery_user,
+		\phpbbgallery\core\contest $contest,\phpbbgallery\core\file\file $file,
+		$table_images)
 	{
 		$this->db = $db;
 		$this->user = $user;
+		$this->language = $language;
 		$this->template = $template;
 		$this->phpbb_dispatcher = $phpbb_dispatcher;
 		$this->gallery_auth = $gallery_auth;
@@ -116,7 +174,6 @@ class image
 		{
 			return;
 		}
-
 		if (!$skip_files)
 		{
 			// Delete the files from the disc...
@@ -132,12 +189,6 @@ class image
 			$this->file->delete($filenames);
 		}
 
-		// Delete the ratings...
-		//$phpbb_gallery_image_rating->delete_ratings($images);
-		//$phpbb_gallery_comment->delete_images($images);
-		//$phpbb_gallery_notification->delete_images($images);
-		//$this->gallery_report->delete_images($images);
-
 		/**
 		* Event delete images
 		*
@@ -149,12 +200,11 @@ class image
 		$vars = array('images', 'filenames');
 		extract($this->phpbb_dispatcher->trigger_event('phpbbgallery.core.image.delete_images', compact($vars)));
 
-		$sql = 'SELECT image_album_id, image_contest_rank
+		$sql = 'SELECT *
 			FROM ' . $this->table_images . '
-			WHERE ' . $this->db->sql_in_set('image_id', $images) . '
-			GROUP BY image_album_id, image_contest_rank';
+			WHERE ' . $this->db->sql_in_set('image_id', $images);
 		$result = $this->db->sql_query($sql);
-		$resync_album_ids = $resync_contests = array();
+		$resync_album_ids = $resync_contests = $targets = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			if ($row['image_contest_rank'])
@@ -162,7 +212,28 @@ class image
 				$resync_contests[] = (int) $row['image_album_id'];
 			}
 			$resync_album_ids[] = (int) $row['image_album_id'];
+			if ($row['image_status'] == \phpbbgallery\core\block::STATUS_UNAPPROVED)
+			{
+				$targets[$row['image_album_id']][$row['image_id']] = $row['image_user_id'];
+			}
 		}
+
+		// Let's prepare notifications
+		if (!empty($targets))
+		{
+			foreach ($targets as $album => $target)
+			{
+
+				$data = array(
+					'targets'	=> array((int) current($target)),
+					'album_id'	=> $album,
+					'last_image'	=> key($target),
+				);
+				$this->notification_helper->notify('not_approved', $data);
+			}
+
+		}
+
 		$this->db->sql_freeresult($result);
 		$resync_contests = array_unique($resync_contests);
 		$resync_album_ids = array_unique($resync_album_ids);
@@ -223,11 +294,11 @@ class image
 	 * @param    bool $count shall the image-link be counted as view? (Set to false from image_page.php to deny double increment)
 	 * @param    string $additional_parameters additional parameters for the url, (starting with &amp;)
 	 * @param int $next_image
-	 * @return
+	 * @return mixed
 	 */
 	public function generate_link($content, $mode, $image_id, $image_name, $album_id, $is_gif = false, $count = true, $additional_parameters = '', $next_image = 0)
 	{
-		$image_page_url = $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_id));
+		$image_page_url = $this->helper->route('phpbbgallery_core_image', array('image_id' => (int) $image_id));
 		//$image_page_url = $phpbb_ext_gallery_url->append_sid('image_page', "album_id=$album_id&amp;image_id=$image_id{$additional_parameters}");
 		//$image_url = $phpbb_ext_gallery_url->append_sid('image', "album_id=$album_id&amp;image_id=$image_id{$additional_parameters}" . ((!$count) ? '&amp;view=no_count' : ''));
 		$image_url = $this->url->show_image($image_id, 'medium');
@@ -245,7 +316,7 @@ class image
 				$content = $shorten_image_name;
 			break;
 			case 'thumbnail':
-				$content = '<img src="{U_THUMBNAIL}" alt="{IMAGE_NAME}" title="{IMAGE_NAME}" />';
+				$content = '<img src="{U_THUMBNAIL}" alt="{IMAGE_NAME}" title="{IMAGE_NAME}" style="max-width: 100%; max-height: 100%"/>';
 				$content = str_replace(array('{U_THUMBNAIL}', '{IMAGE_NAME}'), array($thumb_url, $image_name), $content);
 			break;
 			case 'fake_thumbnail':
@@ -384,7 +455,7 @@ class image
 			return;
 		}
 
-		$sql = 'SELECT * FROM ' . $this->table_images .' WHERE image_id = ' . $image_id;
+		$sql = 'SELECT * FROM ' . $this->table_images .' WHERE image_id = ' . (int) $image_id;
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
@@ -588,10 +659,10 @@ class image
 		switch ($thumbanil_link)
 		{
 			case 'image_page':
-				$action = $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_data['image_id']));
+				$action = $this->helper->route('phpbbgallery_core_image', array('image_id' => (int) $image_data['image_id']));
 				break;
 			case 'image':
-				$action = $this->helper->route('phpbbgallery_core_image_file_source', array('image_id' => $image_data['image_id']));
+				$action = $this->helper->route('phpbbgallery_core_image_file_source', array('image_id' => (int) $image_data['image_id']));
 				break;
 			default:
 				$action = false;
@@ -600,10 +671,10 @@ class image
 		switch ($imagename_link)
 		{
 			case 'image_page':
-				$action_image = $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_data['image_id']));
+				$action_image = $this->helper->route('phpbbgallery_core_image', array('image_id' => (int) $image_data['image_id']));
 				break;
 			case 'image':
-				$action_image = $this->helper->route('phpbbgallery_core_image_file_source', array('image_id' => $image_data['image_id']));
+				$action_image = $this->helper->route('phpbbgallery_core_image_file_source', array('image_id' => (int) $image_data['image_id']));
 				break;
 			default:
 				$action_image = false;
@@ -613,11 +684,11 @@ class image
 			'IMAGE_ID'		=> $image_data['image_id'],
 			'U_IMAGE'		=> $show_imagename ? $action_image : false,
 			'UC_IMAGE_NAME'	=> $show_imagename ? $image_data['image_name'] : false,
-			'U_ALBUM'	=> $show_album ? $this->helper->route('phpbbgallery_core_album', array('album_id' => $image_data['album_id'])) : false,
+			'U_ALBUM'	=> $show_album ? $this->helper->route('phpbbgallery_core_album', array('album_id' => (int) $image_data['album_id'])) : false,
 			'ALBUM_NAME'	=> $show_album ? $image_data['album_name'] : false,
 			'IMAGE_VIEWS'	=> $show_views ? $image_data['image_view_count'] : -1,
 			//'UC_THUMBNAIL'	=> 'self::generate_link('thumbnail', $phpbb_ext_gallery->config->get('link_thumbnail'), $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id']),
-			'UC_THUMBNAIL'		=> $this->helper->route('phpbbgallery_core_image_file_mini', array('image_id' => $image_data['image_id'])),
+			'UC_THUMBNAIL'		=> $this->helper->route('phpbbgallery_core_image_file_mini', array('image_id' => (int) $image_data['image_id'])),
 			'UC_THUMBNAIL_ACTION'	=> $action,
 			'S_UNAPPROVED'	=> ($this->gallery_auth->acl_check('m_status', $image_data['image_album_id'], $image_data['album_user_id']) && ($image_data['image_status'] == \phpbbgallery\core\block::STATUS_UNAPPROVED)) ? true : false,
 			'S_LOCKED'		=> ($image_data['image_status'] == \phpbbgallery\core\block::STATUS_LOCKED) ? true : false,
@@ -625,23 +696,23 @@ class image
 			'POSTER'		=> $show_username ? get_username_string('full', $image_data['image_user_id'], $image_data['image_username'], $image_data['image_user_colour']) : false,
 			'TIME'			=> $show_time ? $this->user->format_date($image_data['image_time']) : false,
 
-			'S_RATINGS'		=> ($this->gallery_config->get('allow_rates') == 1 && $show_ratings) ? ($image_data['image_rates'] > 0 ? $image_data['image_rate_avg'] / 100 : $this->user->lang('NOT_RATED')) : false,
-			'U_RATINGS'		=> $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_data['image_id'])) . '#rating',
-			'L_COMMENTS'	=> ($image_data['image_comments'] == 1) ? $this->user->lang['COMMENT'] : $this->user->lang['COMMENTS'],
-			'S_COMMENTS'	=> $show_comments ? (($this->gallery_config->get('allow_comments') && $this->gallery_auth->acl_check('c_read', $image_data['image_album_id'], $image_data['album_user_id'])) ? (($image_data['image_comments']) ? $image_data['image_comments'] : $this->user->lang['NO_COMMENTS']) : '') : false,
-			'U_COMMENTS'	=> $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_data['image_id'])) . '#comments',
+			'S_RATINGS'		=> ($this->gallery_config->get('allow_rates') == 1 && $show_ratings) ? ($image_data['image_rates'] > 0 ? $image_data['image_rate_avg'] / 100 : $this->language->lang('NOT_RATED')) : false,
+			'U_RATINGS'		=> $this->helper->route('phpbbgallery_core_image', array('image_id' => (int) $image_data['image_id'])) . '#rating',
+			'L_COMMENTS'	=> ($image_data['image_comments'] == 1) ? $this->language->lang('COMMENT') : $this->language->lang('COMMENTS'),
+			'S_COMMENTS'	=> $show_comments ? (($this->gallery_config->get('allow_comments') && $this->gallery_auth->acl_check('c_read', $image_data['image_album_id'], $image_data['album_user_id'])) ? (($image_data['image_comments']) ? $image_data['image_comments'] : $this->language->lang('NO_COMMENTS')) : '') : false,
+			'U_COMMENTS'	=> $this->helper->route('phpbbgallery_core_image', array('image_id' => (int) $image_data['image_id'])) . '#comments',
 			'U_USER_IP'		=> $show_ip && $this->gallery_auth->acl_check('m_status', $image_data['image_album_id'], $image_data['album_user_id']) ? $image_data['image_user_ip'] : false,
 
 			'S_IMAGE_REPORTED'		=> $image_data['image_reported'],
 			'U_IMAGE_REPORTED'		=> '',//($image_data['image_reported']) ? $phpbb_ext_gallery->url->append_sid('mcp', "mode=report_details&amp;album_id={$image_data['image_album_id']}&amp;option_id=" . $image_data['image_reported']) : '',
 			'S_STATUS_APPROVED'		=> ($image_data['image_status'] == \phpbbgallery\core\block::STATUS_APPROVED),
 			'S_STATUS_UNAPPROVED'	=> ($this->gallery_auth->acl_check('m_status', $image_data['image_album_id'], $image_data['album_user_id']) && $image_data['image_status'] == \phpbbgallery\core\block::STATUS_UNAPPROVED) ? true : false,
-			'S_STATUS_UNAPPROVED_ACTION'	=> ($this->gallery_auth->acl_check('m_status', $image_data['image_album_id'], $image_data['album_user_id']) && $image_data['image_status'] == \phpbbgallery\core\block::STATUS_UNAPPROVED) ? $this->helper->route('phpbbgallery_core_moderate_image_approve', array('image_id' => $image_data['image_id'])) : '',
+			'S_STATUS_UNAPPROVED_ACTION'	=> ($this->gallery_auth->acl_check('m_status', $image_data['image_album_id'], $image_data['album_user_id']) && $image_data['image_status'] == \phpbbgallery\core\block::STATUS_UNAPPROVED) ? $this->helper->route('phpbbgallery_core_moderate_image_approve', array('image_id' => (int) $image_data['image_id'])) : '',
 			'S_STATUS_LOCKED'		=> ($image_data['image_status'] == \phpbbgallery\core\block::STATUS_LOCKED),
 
 			'U_REPORT'	=> ($this->gallery_auth->acl_check('m_report', $image_data['image_album_id'], $image_data['album_user_id']) && $image_data['image_reported']) ? '123'/*$this->url->append_sid('mcp', "mode=report_details&amp;album_id={$image_data['image_album_id']}&amp;option_id=" . $image_data['image_reported'])*/ : '',
 			'U_STATUS'	=> '',//($this->auth->acl_check('m_status', $image_data['image_album_id'], $album_user_id)) ? $phpbb_ext_gallery->url->append_sid('mcp', "mode=queue_details&amp;album_id={$image_data['image_album_id']}&amp;option_id=" . $image_data['image_id']) : '',
-			'L_STATUS'	=> ($image_data['image_status'] == \phpbbgallery\core\block::STATUS_UNAPPROVED) ? $this->user->lang['APPROVE_IMAGE'] : (($image_data['image_status'] == \phpbbgallery\core\block::STATUS_APPROVED) ? $this->user->lang['CHANGE_IMAGE_STATUS'] : $this->user->lang['UNLOCK_IMAGE']),
+			'L_STATUS'	=> ($image_data['image_status'] == \phpbbgallery\core\block::STATUS_UNAPPROVED) ? $this->language->lang('APPROVE_IMAGE') : (($image_data['image_status'] == \phpbbgallery\core\block::STATUS_APPROVED) ? $this->language->lang('CHANGE_IMAGE_STATUS') : $this->language->lang('UNLOCK_IMAGE')),
 		));
 	}
 }

@@ -27,7 +27,15 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'ACP_GALLERY_OVERVIEW'			=> 'Обзор',
 	'ACP_GALLERY_OVERVIEW_EXPLAIN'	=> '',
-	'ADD_ALBUM_ON_TOP'				=> 'Сделать альбом первым в списке',
+
+    // File dirs states
+    'ACP_FILES_DIR_STATE'           => '<strong>./files/</strong> state',
+    'ACP_CORE_DIR_STATE'    => '<strong>./files/phpbbgallery/core/</strong> state',
+    'ACP_SOURCE_DIR_STATE'    => '<strong>./files/phpbbgallery/core/source/</strong> state',
+    'ACP_MEDIUM_DIR_STATE'    => '<strong>./files/phpbbgallery/core/meduim/</strong> state',
+    'ACP_MINI_DIR_STATE'    => '<strong>./files/phpbbgallery/core/mini/</strong> state',
+
+    'ADD_ALBUM_ON_TOP'				=> 'Сделать альбом первым в списке',
 	'ADD_PERMISSIONS'				=> 'Добавить права доступа',
 	'ALBUM_ADMIN'					=> 'Администрирование альбомов',
 	'ALBUM_ADMIN_EXPLAIN'			=> 'Каждый альбом может содержать неограниченное количество вложенных альбомов. Здесь можно добавлять, редактировать, удалять, закрывать и открывать альбомы, а также управлять их дополнительными свойствами. Также, если тебуется, можно произвести ресинхронизацию альбома. Чтобы вновь созданный альбом стал виден, необходимо установить или скопировать соответствующие права доступа.',
@@ -123,6 +131,8 @@ $lang = array_merge($lang, array(
 	'DISP_NEXTPREV_THUMB_EXPLAIN'	=> 'Если «Нет», ссылки на предыдущее/следующее фото будут текстовыми.',
 	'DISP_PERSONAL_ALBUM_PROFILE'	=> 'Показывать ссылку на личный альбом в профиле пользователя',
 	'DISP_STATISTIC'				=> 'Показывать статистику галереи',
+	'DISP_GALLERY_ICON'				=> 'Show gallery link',
+	'DISP_GALLERY_ICON_EXP'			=> 'Show link to the gallery in user menu.',
 	'DISP_TOTAL_IMAGES'				=> 'Показывать общее число фотографий на главной странице конференции',
 	'DISP_USER_IMAGES_PROFILE'		=> 'Показывать статистику загруженных файлов в профиле пользователя',
 	'DISP_VIEWTOPIC_ICON'			=> 'Показывать кнопку-ссылку на личный альбом в минипрофиле',
@@ -140,6 +150,9 @@ $lang = array_merge($lang, array(
 	'GALLERY_CONFIG_UPDATED'		=> 'Параметры изменены.',
 	'GALLERY_INDEX'					=> 'Главная страница галереи',
 	'GALLERY_PURGE_CACHE_EXPLAIN'	=> 'Если включены миниатюры, вы должны очищать кэш после любого изменения их параметров.',
+	'GALLERY_RESYNC_ALBUMS_TO_CPF'	=> 'Resync personal albums to profile fields',
+	'GALLERY_RESYNC_ALBUMS_TO_CPF_EXPAIN'	=> 'This action will resync all top level personal albums as contact based custom profile field. <br> WARNING! If you have too many top level personal albums this could take some time!',
+	'GALLERY_RESYNC_ALBUMS_TO_CPF_CONFIRM'	=> 'Are you sure that you want to resync all top level personal albums as contact CPFs?',
 	'GALLERY_STATS'					=> 'Статистика галереи',
 	'GALLERY_VERSION'				=> 'Версия галереи',
 	'GD_VERSION'					=> 'Версия GD',

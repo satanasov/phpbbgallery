@@ -72,7 +72,6 @@ $lang = array_merge($lang, array(
 
 	'CHANGE_AUTHOR'					=> 'Wijzig auteur',
 	'CHANGE_IMAGE_STATUS'			=> 'Verander afbeeldingsstatus',
-	'CHARACTERS'					=> 'karakters',
 	'CLICK_RETURN_ALBUM'			=> 'Klik %shier%s om terug te gaan naar het album',
 	'CLICK_RETURN_IMAGE'			=> 'Klik %shier%s om terug te gaan naar de afbeelding',
 	'CLICK_RETURN_INDEX'			=> 'Klik %shier%s om terug te gaan naar de albumindex',
@@ -122,8 +121,8 @@ $lang = array_merge($lang, array(
 
 	'EDIT_COMMENT'					=> 'Wijzig reactie',
 	'EDIT_IMAGE'					=> 'Wijzig',
-	'EDITED_TIME_TOTAL'				=> 'Laatst gewijzigd door %s op %s;, %d keer totaal gewijzigd',
-	'EDITED_TIMES_TOTAL'			=> 'Laatst gewijzigd door %s op %s;, %d keer totaal gewijzigd',
+	'IMAGE_EDITED_TIME_TOTAL'				=> 'Laatst gewijzigd door %s op %s;, %d keer totaal gewijzigd',
+	'IMAGE_EDITED_TIMES_TOTAL'			=> 'Laatst gewijzigd door %s op %s;, %d keer totaal gewijzigd',
 
 	'FILE'							=> 'Bestand',
 	'FILE_SIZE'						=> 'Bestandsgrootte',
@@ -206,7 +205,6 @@ $lang = array_merge($lang, array(
 
 	'PERCENT'						=> '%',
 	'PERSONAL_ALBUMS'				=> 'Persoonlijke albums',
-	'PIXELS'						=> 'pixels',
 	'PLUGIN_CLASS_MISSING'			=> 'Galerij Plugin fout: Class “%s“ kan niet gevonden worden!',
 	'POST_COMMENT'					=> 'Plaats een reactie',
 	'POST_COMMENT_RATE_IMAGE'		=> 'Plaats een reactie en beoordeel de afbeelding',
@@ -365,4 +363,10 @@ $lang = array_merge($lang, array(
 
 	'QUICK_MOD'	=> 'Selecteer moderator actie',
 	'WRONG_FILESIZE'	=> 'De afbeeldingsgrootte is groter dan toegestaan!',
-));
+
+    'UNREAD_IMAGES'		=> 'Unviewed images',
+    'NO_UNREAD_IMAGES'	=> 'No unviewed images',
+
+	// Versions 1.2.1 addiotions
+	'GALLERY_DROP'		=> 'Plaats je afbeeldingen hier',
+	));

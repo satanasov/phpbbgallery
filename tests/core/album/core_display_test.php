@@ -11,15 +11,19 @@
 
 namespace phpbbgallery\tests\core;
 /**
-* @group core1
+* @group core
 */
-require_once dirname(__FILE__) . '/../../../../includes/functions.php';
+require_once dirname(__FILE__) . '/../../../../../includes/functions.php';
 
-class core_display_test extends core_base
+class core_display_test extends \phpbbgallery\tests\core\core_base
 {
 	public function setUp()
 	{
 		parent::setUp();
+
+		$this->user_cpf = $this->getMockBuilder('\phpbb\profilefields\manager')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->gallery_cache = new \phpbbgallery\core\cache(
 			$this->cache,
@@ -32,6 +36,7 @@ class core_display_test extends core_base
 			$this->db,
 			$this->dispatcher,
 			$this->user,
+			$this->user_cpf,
 			$this->config,
 			$this->auth,
 			'phpbb_gallery_users',
@@ -65,6 +70,7 @@ class core_display_test extends core_base
 			$this->request,
 			$this->template,
 			$this->user,
+			$this->language,
 			$this->gallery_auth,
 			$this->gallery_user,
 			$this->misc,

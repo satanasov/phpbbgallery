@@ -67,4 +67,7 @@ $lang = array_merge($lang, array(
 	'WATCH_COM'						=> 'Подписаться на комментированные вами фотографии',
 	'WATCH_NOTE'					=> 'Параметры подписки по умолчанию. Они коснутся только новых фотографий и новых комментариев.',
 	'WATCH_OWN'						=> 'Подписаться на комментарии к вашим фотографиям',
+
+	'RRC_ZEBRA'						=> 'Hide from foes in RRC',
+	'RRC_ZEBRA_EXPLAIN'				=> 'Hide images in albums from foes in Recent, Random and Comments part of the index.<br /><strong>WARNING!</strong> This won\'t hide images uploaded in common/public albums.'
 ));

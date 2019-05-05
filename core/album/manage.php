@@ -28,7 +28,32 @@ class manage
 
 	private $u_action = '';
 
-	public function __construct(\phpbb\user $user, \phpbb\request\request $request, \phpbb\db\driver\driver_interface $db,
+	/**
+	 * manage constructor.
+	 * @param \phpbb\user $user
+	 * @param \phpbb\request\request $request
+	 * @param \phpbb\db\driver\driver_interface $db
+	 * @param \phpbb\event\dispatcher $dispatcher
+	 * @param \phpbbgallery\core\auth\auth $gallery_auth
+	 * @param album $gallery_album
+	 * @param display $gallery_display
+	 * @param \phpbbgallery\core\image\image $gallery_image
+	 * @param \phpbbgallery\core\cache $gallery_cache
+	 * @param \phpbbgallery\core\user $gallery_user
+	 * @param \phpbbgallery\core\config $gallery_config
+	 * @param \phpbbgallery\core\contest $gallery_contest
+	 * @param \phpbbgallery\core\report $gallery_report
+	 * @param \phpbbgallery\core\log $gallery_log
+	 * @param \phpbbgallery\core\notification $gallery_notification
+	 * @param $albums_table
+	 * @param $images_table
+	 * @param $comments_table
+	 * @param $permissions_table
+	 * @param $moderators_table
+	 * @param $contests_table
+	 */
+	public function __construct(\phpbb\user $user, \phpbb\language\language $language,
+								\phpbb\request\request $request, \phpbb\db\driver\driver_interface $db,
 								\phpbb\event\dispatcher $dispatcher,
 								\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\album\album $gallery_album,
 								\phpbbgallery\core\album\display $gallery_display, \phpbbgallery\core\image\image $gallery_image,
@@ -39,6 +64,7 @@ class manage
 								$albums_table, $images_table, $comments_table, $permissions_table, $moderators_table, $contests_table)
 	{
 		$this->user = $user;
+		$this->language = $language;
 		$this->request = $request;
 		$this->db = $db;
 		$this->dispatcher = $dispatcher;
@@ -75,33 +101,39 @@ class manage
 	{
 		$this->u_action = $action;
 	}
+
 	/**
-	* Generate back link for acp pages
-	*/
+	 * Generate back link for acp pages
+	 * @param $u_action
+	 * @return string
+	 */
 	public function back_link($u_action)
 	{
-		return '<br /><br /><a href="' . $u_action . '">&laquo; ' . $this->user->lang['BACK_TO_PREV'] . '</a>';
+		return '<br /><br /><a href="' . $u_action . '">&laquo; ' . $this->language->lang('BACK_TO_PREV') . '</a>';
 	}
 
 	/**
-	* Update album data
-	*
-	* borrowed from phpBB3
-	* @author: phpBB Group
-	* @function: update_forum_data
-	*/
+	 * Update album data
+	 *
+	 * borrowed from phpBB3
+	 * @author: phpBB Group
+	 * @function: update_forum_data
+	 * @param $album_data
+	 * @param $contest_data
+	 * @return array
+	 */
 	public function update_album_data(&$album_data, &$contest_data)
 	{
 		$errors = array();
 
 		if (!$album_data['album_name'])
 		{
-			$errors[] = $this->user->lang['ALBUM_NAME_EMPTY'];
+			$errors[] = $this->language->lang('ALBUM_NAME_EMPTY');
 		}
 
 		if (utf8_strlen($album_data['album_desc']) > 4000)
 		{
-			$errors[] = $this->user->lang['ALBUM_DESC_TOO_LONG'];
+			$errors[] = $this->language->lang('ALBUM_DESC_TOO_LONG');
 		}
 
 		/*if ($album_data['album_password'] || $album_data['album_password_confirm'])
@@ -115,47 +147,58 @@ class manage
 		// Validate the contest timestamps:
 		if ($album_data['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST)
 		{
+			if ($this->user->data['user_timezone'] == '')
+			{
+				$timezone = 'UTC';
+			}
+			else
+			{
+				$timezone = $this->user->data['user_timezone'];
+			}
+			//$timezone = ($this->user->data['user_timezone'] == '' ? $this->user->data['user_timezone'] : 'UTC');
+			$time = $this->user->create_datetime();
+
 			$start_date_error = $date_error = false;
 			if (!preg_match('#(\\d{4})-(\\d{1,2})-(\\d{1,2}) (\\d{1,2}):(\\d{2})#', $contest_data['contest_start'], $m))
 			{
-				$errors[] = sprintf($this->user->lang['CONTEST_START_INVALID'], $contest_data['contest_start']);
+				$errors[] = sprintf($this->language->lang('CONTEST_START_INVALID'), $contest_data['contest_start']);
 				$start_date_error = true;
 			}
 			else
 			{
-				$contest_data['contest_start'] = gmmktime($m[4], $m[5], 0, $m[2], $m[3], $m[1]) - ($this->user->data['user_timezone']);
+				$contest_data['contest_start'] = gmmktime((int) $m[4], (int) $m[5], 0, (int) $m[2], (int) $m[3], (int) $m[1]) - $time->getOffset();// - $offset;
 			}
 			if (!preg_match('#(\\d{4})-(\\d{1,2})-(\\d{1,2}) (\\d{1,2}):(\\d{2})#', $contest_data['contest_rating'], $m))
 			{
-				$errors[] = sprintf($this->user->lang['CONTEST_RATING_INVALID'], $contest_data['contest_rating']);
+				$errors[] = sprintf($this->language->lang('CONTEST_RATING_INVALID'), $contest_data['contest_rating']);
 				$date_error = true;
 			}
 			else if (!$start_date_error)
 			{
-				$contest_data['contest_rating'] = gmmktime($m[4], $m[5], 0, $m[2], $m[3], $m[1]) - ($this->user->data['user_timezone']) - $contest_data['contest_start'];
+				$contest_data['contest_rating'] = gmmktime($m[4], $m[5], 0, $m[2], $m[3], $m[1]) - $contest_data['contest_start'] - $time->getOffset();//- $offset;
 			}
 			if (!preg_match('#(\\d{4})-(\\d{1,2})-(\\d{1,2}) (\\d{1,2}):(\\d{2})#', $contest_data['contest_end'], $m))
 			{
-				$errors[] = sprintf($this->user->lang['CONTEST_END_INVALID'], $contest_data['contest_end']);
+				$errors[] = sprintf($this->language->lang('CONTEST_END_INVALID'), $contest_data['contest_end']);
 				$date_error = true;
 			}
 			else if (!$start_date_error)
 			{
-				$contest_data['contest_end'] = gmmktime($m[4], $m[5], 0, $m[2], $m[3], $m[1]) - ($this->user->data['user_timezone']) - $contest_data['contest_start'];
+				$contest_data['contest_end'] = gmmktime($m[4], $m[5], 0, $m[2], $m[3], $m[1]) - $contest_data['contest_start'] - $time->getOffset();//- $offset;
 			}
 			if (!$start_date_error && !$date_error)
 			{
 				if ($contest_data['contest_end'] < $contest_data['contest_rating'])
 				{
-					$errors[] = $this->user->lang['CONTEST_END_BEFORE_RATING'];
+					$errors[] = $this->language->lang('CONTEST_END_BEFORE_RATING');
 				}
 				if ($contest_data['contest_rating'] < 0)
 				{
-					$errors[] = $this->user->lang['CONTEST_RATING_BEFORE_START'];
+					$errors[] = $this->language->lang('CONTEST_RATING_BEFORE_START');
 				}
 				if ($contest_data['contest_end'] < 0)
 				{
-					$errors[] = $this->user->lang['CONTEST_END_BEFORE_START'];
+					$errors[] = $this->language->lang('CONTEST_END_BEFORE_START');
 				}
 			}
 		}
@@ -201,14 +244,14 @@ class manage
 			{
 				$sql = 'SELECT left_id, right_id, album_type
 					FROM ' . $this->albums_table . '
-					WHERE album_id = ' . $album_data_sql['parent_id'];
+					WHERE album_id = ' . (int) $album_data_sql['parent_id'];
 				$result = $this->db->sql_query($sql);
 				$row = $this->db->sql_fetchrow($result);
 				$this->db->sql_freeresult($result);
 
 				if (!$row)
 				{
-					trigger_error($this->user->lang['PARENT_NOT_EXIST'] . $this->back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
+					trigger_error($this->language->lang('PARENT_NOT_EXIST') . $this->back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
 				}
 
 				if (!$add_on_top)
@@ -216,13 +259,13 @@ class manage
 					$sql = 'UPDATE ' . $this->albums_table . ' 
 						SET left_id = left_id + 2, right_id = right_id + 2
 						WHERE album_user_id = 0
-							AND left_id > ' . $row['right_id'];
+							AND left_id > ' . (int) $row['right_id'];
 					$this->db->sql_query($sql);
 
 					$sql = 'UPDATE ' . $this->albums_table . ' 
 						SET right_id = right_id + 2
 						WHERE album_user_id = 0
-							AND ' . $row['left_id'] . ' BETWEEN left_id AND right_id';
+							AND ' . (int) $row['left_id'] . ' BETWEEN left_id AND right_id';
 					$this->db->sql_query($sql);
 
 					$album_data_sql['left_id'] = $row['right_id'];
@@ -233,13 +276,13 @@ class manage
 					$sql = 'UPDATE ' . $this->albums_table . ' 
 						SET left_id = left_id + 2, right_id = right_id + 2
 						WHERE album_user_id = 0
-							AND left_id > ' . $row['left_id'];
+							AND left_id > ' . (int) $row['left_id'];
 					$this->db->sql_query($sql);
 
 					$sql = 'UPDATE ' . $this->albums_table . ' 
 						SET right_id = right_id + 2
 						WHERE album_user_id = 0
-							AND ' . $row['left_id'] . ' BETWEEN left_id AND right_id';
+							AND ' . (int) $row['left_id'] . ' BETWEEN left_id AND right_id';
 					$this->db->sql_query($sql);
 
 					$album_data_sql['left_id'] = $row['left_id'] + 1;
@@ -289,7 +332,7 @@ class manage
 
 				$sql = 'UPDATE ' . $this->albums_table . ' 
 					SET album_contest = ' . $album_data['album_contest'] . '
-					WHERE album_id = ' . $album_data['album_id'];
+					WHERE album_id = ' . (int) $album_data['album_id'];
 				$this->db->sql_query($sql);
 			}
 			$this->gallery_log->add_log('admin', 'add', $album_data['album_id'], 0, array('LOG_ALBUM_ADD', $album_data['album_name']));
@@ -303,14 +346,14 @@ class manage
 			{
 				// Changing a contest to album? No!
 				// Changing a contest to category? No!
-				$errors[] = $this->user->lang['ALBUM_WITH_CONTEST_NO_TYPE_CHANGE'];
+				$errors[] = $this->language->lang('ALBUM_WITH_CONTEST_NO_TYPE_CHANGE');
 				return $errors;
 			}
 			else if ($row['album_type'] != \phpbbgallery\core\block::TYPE_CONTEST && $album_data_sql['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST)
 			{
 				// Changing a album to contest? No!
 				// Changing a category to contest? No!
-				$errors[] = $this->user->lang['ALBUM_NO_TYPE_CHANGE_TO_CONTEST'];
+				$errors[] = $this->language->lang('ALBUM_NO_TYPE_CHANGE_TO_CONTEST');
 				return $errors;
 			}
 			else if ($row['album_type'] == \phpbbgallery\core\block::TYPE_CAT && $album_data_sql['album_type'] == \phpbbgallery\core\block::TYPE_UPLOAD)
@@ -334,7 +377,7 @@ class manage
 					}
 					else
 					{
-						return array($this->user->lang['NO_DESTINATION_ALBUM']);
+						return array($this->language->lang('NO_DESTINATION_ALBUM'));
 					}
 				}
 				else if ($album_data_sql['type_action'] == 'delete')
@@ -343,7 +386,7 @@ class manage
 				}
 				else
 				{
-					return array($this->user->lang['NO_ALBUM_ACTION']);
+					return array($this->language->lang('NO_ALBUM_ACTION'));
 				}
 			}
 			else if ($row['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST && $album_data_sql['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST)
@@ -402,7 +445,7 @@ class manage
 
 			$sql = 'UPDATE ' . $this->albums_table . '  
 				SET ' . $this->db->sql_build_array('UPDATE', $album_data_sql) . '
-				WHERE album_id = ' . $album_id;
+				WHERE album_id = ' . (int) $album_id;
 			$this->db->sql_query($sql);
 
 /*			if ($album_data_sql['album_type'] == $phpbb_ext_gallery_core_album::TYPE_CONTEST)
@@ -413,7 +456,7 @@ class manage
 
 				$sql = 'UPDATE ' . GALLERY_CONTESTS_TABLE . '
 					SET ' . $db->sql_build_array('UPDATE', $contest_data) . '
-					WHERE contest_id = ' . $contest_id;
+					WHERE contest_id = ' . (int) $contest_id;
 				$db->sql_query($sql);
 				if ($reset_marked_images)
 				{
@@ -422,7 +465,7 @@ class manage
 						SET image_contest_rank = 0,
 							image_contest_end = 0,
 							image_contest = ' . phpbb_ext_gallery_core_image::IN_CONTEST . '
-						WHERE image_album_id = ' . $album_id;
+						WHERE image_album_id = ' . (int) $album_id;
 					$db->sql_query($sql);
 				}
 
@@ -440,12 +483,15 @@ class manage
 	}
 
 	/**
-	* Move album
-	*
-	* borrowed from phpBB3
-	* @author: phpBB Group
-	* @function: move_forum
-	*/
+	 * Move album
+	 *
+	 * borrowed from phpBB3
+	 * @author: phpBB Group
+	 * @function: move_forum
+	 * @param $from_id
+	 * @param $to_id
+	 * @return array
+	 */
 	public function move_album($from_id, $to_id)
 	{
 		$to_data = $moved_ids = $errors = array();
@@ -468,7 +514,7 @@ class manage
 			// Can not select child as parent
 			if ($moved_albums[$i]['album_id'] == $to_id)
 			{
-				return array($this->user->lang['ALBUM_PARENT_INVALID']);
+				return array($this->language->lang('ALBUM_PARENT_INVALID'));
 			}
 			$moved_ids[] = $moved_albums[$i]['album_id'];
 		}
@@ -476,16 +522,16 @@ class manage
 		// Resync parents
 		$sql = 'UPDATE ' . $this->albums_table . " 
 			SET right_id = right_id - $diff, album_parents = ''
-			WHERE album_user_id = " . $this->user_id . '
-				AND left_id < ' . $from_data['right_id'] . "
-				AND right_id > " . $from_data['right_id'];
+			WHERE album_user_id = " . (int) $this->user_id . '
+				AND left_id < ' . (int) $from_data['right_id'] . "
+				AND right_id > " . (int) $from_data['right_id'];
 		$this->db->sql_query($sql);
 
 		// Resync righthand side of tree
 		$sql = 'UPDATE ' . $this->albums_table . " 
 			SET left_id = left_id - $diff, right_id = right_id - $diff, album_parents = ''
-			WHERE album_user_id = " . $this->user_id . '
-				AND left_id > ' . $from_data['right_id'];
+			WHERE album_user_id = " . (int) $this->user_id . '
+				AND left_id > ' . (int) $from_data['right_id'];
 		$this->db->sql_query($sql);
 
 		if ($to_id > 0)
@@ -496,16 +542,16 @@ class manage
 			// Resync new parents
 			$sql = 'UPDATE ' . $this->albums_table . " 
 				SET right_id = right_id + $diff, album_parents = ''
-				WHERE album_user_id = " . $this->user_id . '
-					AND ' . $to_data['right_id'] . ' BETWEEN left_id AND right_id
+				WHERE album_user_id = " . (int) $this->user_id . '
+					AND ' . (int) $to_data['right_id'] . ' BETWEEN left_id AND right_id
 					AND ' . $this->db->sql_in_set('album_id', $moved_ids, true);
 			$this->db->sql_query($sql);
 
 			// Resync the righthand side of the tree
-			$sql = 'UPDATE ' . $this->albums_table . " 
-				SET left_id = left_id + $diff, right_id = right_id + $diff, album_parents = ''
-				WHERE album_user_id = " . $this->user_id . '
-					AND left_id > ' . $to_data['right_id'] . '
+			$sql = 'UPDATE ' . $this->albums_table . ' 
+				SET left_id = left_id + ' . (int) $diff . ', right_id = right_id + ' . (int) $diff . ', album_parents = \'\'
+				WHERE album_user_id = ' . (int) $this->user_id . '
+					AND left_id > ' . (int) $to_data['right_id'] . '
 					AND ' . $this->db->sql_in_set('album_id', $moved_ids, true);
 			$this->db->sql_query($sql);
 
@@ -525,7 +571,7 @@ class manage
 		{
 			$sql = 'SELECT MAX(right_id) AS right_id
 				FROM ' . $this->albums_table . ' 
-				WHERE album_user_id = ' . $this->user_id . '
+				WHERE album_user_id = ' . (int) $this->user_id . '
 					AND ' . $this->db->sql_in_set('album_id', $moved_ids, true);
 			$result = $this->db->sql_query($sql);
 			$row = $this->db->sql_fetchrow($result);
@@ -536,7 +582,7 @@ class manage
 
 		$sql = 'UPDATE ' . $this->albums_table . " 
 			SET left_id = left_id $diff, right_id = right_id $diff, album_parents = ''
-			WHERE album_user_id = " . $this->user_id . '
+			WHERE album_user_id = " . (int) $this->user_id . '
 				AND ' . $this->db->sql_in_set('album_id', $moved_ids);
 		$this->db->sql_query($sql);
 
@@ -544,12 +590,18 @@ class manage
 	}
 
 	/**
-	* Remove complete album
-	*
-	* borrowed from phpBB3
-	* @author: phpBB Group
-	* @function: delete_forum
-	*/
+	 * Remove complete album
+	 *
+	 * borrowed from phpBB3
+	 * @author: phpBB Group
+	 * @function: delete_forum
+	 * @param $album_id
+	 * @param string $action_images
+	 * @param string $action_subalbums
+	 * @param int $images_to_id
+	 * @param int $subalbums_to_id
+	 * @return array
+	 */
 	public function delete_album($album_id, $action_images = 'delete', $action_subalbums = 'delete', $images_to_id = 0, $subalbums_to_id = 0)
 	{
 		$album_data = $this->gallery_album->get_info($album_id);
@@ -566,7 +618,7 @@ class manage
 		{
 			if (!$images_to_id)
 			{
-				$errors[] = $this->user->lang['NO_DESTINATION_ALBUM'];
+				$errors[] = $this->language->lang('NO_DESTINATION_ALBUM');
 			}
 			else
 			{
@@ -574,14 +626,14 @@ class manage
 
 				$sql = 'SELECT album_name
 					FROM ' . $this->albums_table . '
-					WHERE album_id = ' . $images_to_id;
+					WHERE album_id = ' . (int) $images_to_id;
 				$result = $this->db->sql_query($sql);
 				$row = $this->db->sql_fetchrow($result);
 				$this->db->sql_freeresult($result);
 
 				if (!$row)
 				{
-					$errors[] = $this->user->lang['NO_ALBUM'];
+					$errors[] = $this->language->lang('NO_ALBUM');
 				}
 				else
 				{
@@ -622,7 +674,7 @@ class manage
 		{
 			if (!$subalbums_to_id)
 			{
-				$errors[] = $this->user->lang['NO_DESTINATION_ALBUM'];
+				$errors[] = $this->language->lang('NO_DESTINATION_ALBUM');
 			}
 			else
 			{
@@ -630,14 +682,14 @@ class manage
 
 				$sql = 'SELECT album_name
 					FROM ' . $this->albums_table . ' 
-					WHERE album_id = ' . $subalbums_to_id;
+					WHERE album_id = ' . (int) $subalbums_to_id;
 				$result = $this->db->sql_query($sql);
 				$row = $this->db->sql_fetchrow($result);
 				$this->db->sql_freeresult($result);
 
 				if (!$row)
 				{
-					$errors[] = $this->user->lang['NO_ALBUM'];
+					$errors[] = $this->language->lang('NO_ALBUM');
 				}
 				else
 				{
@@ -658,9 +710,9 @@ class manage
 					$album_data = $this->gallery_album->get_info($album_id);
 
 					$sql = 'UPDATE ' . $this->albums_table . ' 
-						SET parent_id = ' . $subalbums_to_id .'
+						SET parent_id = ' . (int) $subalbums_to_id .'
 						WHERE parent_id = ' . (int) $album_id . '
-							AND album_user_id = ' . $this->user_id;
+							AND album_user_id = ' . (int) $this->user_id;
 					$this->db->sql_query($sql);
 
 					$diff = 2;
@@ -685,15 +737,15 @@ class manage
 
 		// Resync tree
 		$sql = 'UPDATE ' . $this->albums_table . '  
-			SET right_id = right_id - ' . $diff . '
-			WHERE left_id < ' . $album_data['right_id'] . ' AND right_id > ' . $album_data['right_id']. '
-				AND album_user_id = ' . $this->user_id;
+			SET right_id = right_id - ' . (int) $diff . '
+			WHERE left_id < ' . (int) $album_data['right_id'] . ' AND right_id > ' . (int) $album_data['right_id']. '
+				AND album_user_id = ' . (int) $this->user_id;
 		$this->db->sql_query($sql);
 
 		$sql = 'UPDATE ' . $this->albums_table . ' 
-			SET left_id = left_id - ' . $diff . ', right_id = right_id - ' . $diff . '
-			WHERE left_id > ' . $album_data['right_id']. '
-				AND album_user_id = ' . $this->user_id;
+			SET left_id = left_id - ' . (int) $diff . ', right_id = right_id - ' . (int) $diff . '
+			WHERE left_id > ' . (int) $album_data['right_id']. '
+				AND album_user_id = ' . (int) $this->user_id;
 		$this->db->sql_query($sql);
 
 		$log_action = implode('_', array($log_action_images, $log_action_albums));
@@ -745,12 +797,16 @@ class manage
 	}
 
 	/**
-	* Move album content from one to another album
-	*
-	* borrowed from phpBB3
-	* @author: phpBB Group
-	* @function: move_forum_content
-	*/
+	 * Move album content from one to another album
+	 *
+	 * borrowed from phpBB3
+	 * @author: phpBB Group
+	 * @function: move_forum_content
+	 * @param $from_id
+	 * @param $to_id
+	 * @param bool $sync
+	 * @return array
+	 */
 	public function move_album_content($from_id, $to_id, $sync = true)
 	{
 		// Lucifer TODO - Log to gallery log
@@ -810,9 +866,11 @@ class manage
 	}
 
 	/**
-	* Delete album content:
-	* Deletes all images, comments, rates, image-files, etc.
-	*/
+	 * Delete album content:
+	 * Deletes all images, comments, rates, image-files, etc.
+	 * @param $album_id
+	 * @return array
+	 */
 	public function delete_album_content($album_id)
 	{
 		$album_id = (int) $album_id;
@@ -820,7 +878,7 @@ class manage
 		// Before we remove anything we make sure we are able to adjust the image counts later. ;)
 		$sql = 'SELECT image_user_id
 			FROM ' . $this->images_table . ' 
-			WHERE image_album_id = ' . $album_id . '
+			WHERE image_album_id = ' . (int) $album_id . '
 				AND image_status <> ' . \phpbbgallery\core\block::STATUS_UNAPPROVED . '
 				AND image_status <> ' . \phpbbgallery\core\block::STATUS_ORPHAN;
 		$result = $this->db->sql_query($sql);
@@ -834,7 +892,7 @@ class manage
 
 		$sql = 'SELECT image_id, image_filename, image_album_id
 			FROM ' . $this->images_table . ' 
-			WHERE image_album_id = ' . $album_id;
+			WHERE image_album_id = ' . (int) $album_id;
 		$result = $this->db->sql_query($sql);
 
 		$filenames = $deleted_images = array();
@@ -858,14 +916,14 @@ class manage
 
 		//@todo: merge queries into loop
 		$sql = 'DELETE FROM ' . $this->permissions_table . ' 
-			WHERE perm_album_id = ' . $album_id;
+			WHERE perm_album_id = ' . (int) $album_id;
 		$this->db->sql_query($sql);
 		$sql = 'DELETE FROM ' . $this->contests_table . ' 
-			WHERE contest_album_id = ' . $album_id;
+			WHERE contest_album_id = ' . (int) $album_id;
 		$this->db->sql_query($sql);
 
 		$sql = 'DELETE FROM ' . $this->moderators_table . ' 
-			WHERE album_id = ' . $album_id;
+			WHERE album_id = ' . (int) $album_id;
 		$this->db->sql_query($sql);
 
 		$this->gallery_notification->delete_albums($album_id);
@@ -908,12 +966,16 @@ class manage
 	}
 
 	/**
-	* Move album position by $steps up/down
-	*
-	* borrowed from phpBB3
-	* @author: phpBB Group
-	* @function: move_forum_by
-	*/
+	 * Move album position by $steps up/down
+	 *
+	 * borrowed from phpBB3
+	 * @author: phpBB Group
+	 * @function: move_forum_by
+	 * @param $album_row
+	 * @param string $action
+	 * @param int $steps
+	 * @return mixed
+	 */
 	public function move_album_by($album_row, $action = 'move_up', $steps = 1)
 	{
 		/**
@@ -924,8 +986,8 @@ class manage
 		*/
 		$sql = 'SELECT album_id, album_name, left_id, right_id
 			FROM ' . $this->albums_table . ' 
-			WHERE parent_id = ' . $album_row['parent_id'] . '
-				AND album_user_id = ' . $this->user_id . '
+			WHERE parent_id = ' . (int) $album_row['parent_id'] . '
+				AND album_user_id = ' . (int) $this->user_id . '
 				AND ' . (($action == 'move_up') ? 'right_id < ' . $album_row['right_id'] . ' ORDER BY right_id DESC' : 'left_id > ' . $album_row['left_id'] . ' ORDER BY left_id ASC');
 		$result = $this->db->sql_query_limit($sql, $steps);
 
@@ -973,20 +1035,20 @@ class manage
 		}
 
 		// Now do the dirty job
-		$sql = 'UPDATE ' . $this->albums_table . " 
+		$sql = 'UPDATE ' . $this->albums_table . ' 
 			SET left_id = left_id + CASE
-				WHEN left_id BETWEEN {$move_up_left} AND {$move_up_right} THEN -{$diff_up}
-				ELSE {$diff_down}
+				WHEN left_id BETWEEN ' . (int) $move_up_left . ' AND ' . (int) $move_up_right . ' THEN -' .(int) $diff_up . '
+				ELSE ' .(int) $diff_down . '
 			END,
 			right_id = right_id + CASE
-				WHEN right_id BETWEEN {$move_up_left} AND {$move_up_right} THEN -{$diff_up}
-				ELSE {$diff_down}
+				WHEN right_id BETWEEN ' . (int) $move_up_left . ' AND ' . (int) $move_up_right . ' THEN -' . (int) $diff_up . '
+				ELSE ' . (int) $diff_down . '
 			END,
-			album_parents = ''
+			album_parents = \'\'
 			WHERE
-				left_id BETWEEN {$left_id} AND {$right_id}
-				AND right_id BETWEEN {$left_id} AND {$right_id}
-				AND album_user_id = " . $this->user_id;
+				left_id BETWEEN ' . (int) $left_id . ' AND ' . (int) $right_id . '
+				AND right_id BETWEEN ' . (int) $left_id . ' AND ' . (int) $right_id . '
+				AND album_user_id = ' . (int) $this->user_id;
 		$this->db->sql_query($sql);
 
 		return $target['album_name'];

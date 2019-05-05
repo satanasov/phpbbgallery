@@ -21,14 +21,16 @@ class report
 	const OPEN = 1;
 	const LOCKED = 2;
 
-	public function __construct(\phpbbgallery\core\log $gallery_log, \phpbbgallery\core\auth\auth $gallery_auth, \phpbb\user $user, \phpbb\db\driver\driver_interface $db,
-	\phpbb\user_loader $user_loader, \phpbbgallery\core\album\album $album, \phpbb\template\template $template, \phpbb\controller\helper $helper,
-	\phpbbgallery\core\config $gallery_config, \phpbb\pagination $pagination, \phpbbgallery\core\notification\helper $notification_helper,
-	$images_table, $reports_table)
+	public function __construct(\phpbbgallery\core\log $gallery_log, \phpbbgallery\core\auth\auth $gallery_auth, \phpbb\user $user,
+		\phpbb\language\language $language, \phpbb\db\driver\driver_interface $db,	\phpbb\user_loader $user_loader,
+		\phpbbgallery\core\album\album $album, \phpbb\template\template $template, \phpbb\controller\helper $helper,
+		\phpbbgallery\core\config $gallery_config, \phpbb\pagination $pagination, \phpbbgallery\core\notification\helper $notification_helper,
+		$images_table, $reports_table)
 	{
 		$this->gallery_log = $gallery_log;
 		$this->gallery_auth = $gallery_auth;
 		$this->user = $user;
+		$this->language = $language;
 		$this->db = $db;
 		$this->user_loader = $user_loader;
 		$this->album = $album;
@@ -81,10 +83,10 @@ class report
 	}
 
 	/**
-	* Close report
-	* @param 	array	$report_ids		array of report_ids to closedir
-	* @param 	int		$user_id		User Id, if not set - use current user idate
-	*/
+	 * Close report
+	 * @param    array $report_ids array of report_ids to closedir
+	 * @param bool|int $user_id User Id, if not set - use current user idate
+	 */
 	public function close_reports_by_image($report_ids, $user_id = false)
 	{
 		$sql_ary = array(
@@ -107,10 +109,11 @@ class report
 	}
 
 	/**
-	* Move an image from one album to another
-	*
-	* @param	mixed	$image_ids		Array or integer with image_id.
-	*/
+	 * Move an image from one album to another
+	 *
+	 * @param    mixed $image_ids Array or integer with image_id.
+	 * @param $move_to
+	 */
 	public function move_images($image_ids, $move_to)
 	{
 		$image_ids = self::cast_mixed_int2array($image_ids);
@@ -122,10 +125,12 @@ class report
 	}
 
 	/**
-	* Move the content from one album to another
-	*
-	* @param	mixed	$image_ids		Array or integer with image_id.
-	*/
+	 * Move the content from one album to another
+	 *
+	 * @param $move_from
+	 * @param $move_to
+	 * @internal param mixed $image_ids Array or integer with image_id.
+	 */
 	public function move_album_content($move_from, $move_to)
 	{
 		$sql = 'UPDATE ' . $this->reports_table . '
@@ -217,13 +222,14 @@ class report
 			WHERE ' . $this->db->sql_in_set('report_album_id', $album_ids);
 		$this->db->sql_query($sql);
 	}
+
 	/**
-	* Helper function building queues
-	* @param	(string)	type	What type of queue are we building (short or full)
-	* @param	(string)	target	For what are we building queue
-	* @param	(int)		$page	This queue builder should return objects for MCP queues, so page?
-	* @param	(int)		$count	We need how many elements per page
-	*/
+	 * Helper function building queues
+	 * @param    (string)    type    What type of queue are we building (short or full)
+	 * @param int $page
+	 * @param int $per_page
+	 * @param int $status
+	 */
 	public function build_list($album, $page = 1, $per_page = 0, $status = 1)
 	{
 		// So if we are not forcing par page get it from config
@@ -318,7 +324,7 @@ class report
 			$reported_images_count ++;
 		}
 		$this->template->assign_vars(array(
-			'TOTAL_IMAGES_REPORTED' => $status == 1 ? $this->user->lang('WAITING_REPORTED_IMAGE', (int) $count) : $this->user->lang('WAITING_REPORTED_DONE', (int) $count),
+			'TOTAL_IMAGES_REPORTED' => $status == 1 ? $this->language->lang('WAITING_REPORTED_IMAGE', (int) $count) : $this->language->lang('WAITING_REPORTED_DONE', (int) $count),
 			'S_GALLERY_REPORT_ACTION'	=> $status == 1 ? ($album > 0 ? $this->helper->route('phpbbgallery_core_moderate_reports_album', array('album_id' => $album)) : $this->helper->route('phpbbgallery_core_moderate_reports')) : false,
 		));
 		if ($album === 0)
@@ -332,7 +338,7 @@ class report
 				),
 			), 'pagination', 'page', $count, $per_page, $page * $per_page);
 			$this->template->assign_vars(array(
-				'TOTAL_PAGES'				=> $this->user->lang('PAGE_TITLE_NUMBER', $page + 1),
+				'TOTAL_PAGES'				=> $this->language->lang('PAGE_TITLE_NUMBER', $page + 1),
 			));
 		}
 		else
@@ -347,7 +353,7 @@ class report
 				),
 			), 'pagination', 'page', $count, $per_page, $page * $per_page);
 			$this->template->assign_vars(array(
-				'TOTAL_PAGES'				=> $this->user->lang('PAGE_TITLE_NUMBER', $page + 1),
+				'TOTAL_PAGES'				=> $this->language->lang('PAGE_TITLE_NUMBER', $page + 1),
 			));
 		}
 	}
@@ -366,7 +372,7 @@ class report
 			return;
 		}
 
-		$sql = 'SELECT * FROM ' . $this->reports_table . ' WHERE report_image_id = ' . $image_id;
+		$sql = 'SELECT * FROM ' . $this->reports_table . ' WHERE report_image_id = ' . (int) $image_id;
 		$result = $this->db->sql_query($sql);
 		$report_data = array();
 		while ($row = $this->db->sql_fetchrow($result))

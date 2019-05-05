@@ -10,6 +10,8 @@
 
 namespace phpbbgallery\core;
 
+use phpbb\profilefields\manager;
+
 class user
 {
 	/**
@@ -34,7 +36,7 @@ class user
 	 * Gallery users table
 	 * @var string
 	 */
-	protected $table_name;
+	protected $gallery_users_table;
 
 	/**
 	 * Do we have an entry for the user in the table?
@@ -49,20 +51,27 @@ class user
 	/**
 	 * Constructor
 	 *
-	 * @param	\phpbb\db\driver\driver	$db			Database object
-	 * @param	\phpbb\event\dispatcher	$dispatcher	Event dispatcher object
-	 * @param	string					$table_name	Gallery users table
+	 * @param \phpbb\db\driver\driver|\phpbb\db\driver\driver_interface $db         Database object
+	 * @param    \phpbb\event\dispatcher                                $dispatcher Event dispatcher object
+	 * @param \phpbb\user                                               $user
+	 * @param \phpbb\profilefields\manager                              $user_cpf
+	 * @param \phpbb\config\config                                      $config
+	 * @param \phpbb\auth\auth                                          $auth
+	 * @param    string                                                 $table_name Gallery users table
+	 * @param                                                           $root_path
+	 * @param                                                           $php_ext
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\event\dispatcher $dispatcher, \phpbb\user $user, \phpbb\config\config $config,
-	\phpbb\auth\auth $auth,
-								$table_name, $root_path, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\event\dispatcher $dispatcher, \phpbb\user $user,
+		\phpbb\profilefields\manager $user_cpf,	\phpbb\config\config $config,	\phpbb\auth\auth $auth,
+		$table_name, $root_path, $php_ext)
 	{
 		$this->db			= $db;
 		$this->dispatcher	= $dispatcher;
 		$this->user = $user;
+		$this->user_cpf = $user_cpf;
 		$this->config = $config;
 		$this->auth = $auth;
-		$this->table_name	= $table_name;
+		$this->gallery_users_table	= $table_name;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 	}
@@ -100,9 +109,9 @@ class user
 	{
 		$this->entry_exists	= false;
 		$sql = 'SELECT *
-			FROM ' . $this->table_name . '
-			WHERE user_id = ' . $this->user_id;
-		$result = $this->db->sql_query($sql);
+			FROM ' . $this->gallery_users_table . '
+			WHERE user_id = ' . (int) $this->user_id;
+		$result = $this->db->sql_query($sql, 30);
 		if ($row = $this->db->sql_fetchrow($result))
 		{
 			$this->data			= $this->validate_data($row);
@@ -113,8 +122,9 @@ class user
 	}
 
 	/**
-	* Load the users data from the database and cast it...
-	*/
+	 * Load the users data from the database and cast it...
+	 * @param $time
+	 */
 	public function set_permissions_changed($time)
 	{
 		if ($this->data)
@@ -157,9 +167,11 @@ class user
 	}
 
 	/**
-	* Updates/Inserts the data, depending on whether the user already exists or not.
-	*	Example: 'SET key = x'
-	*/
+	 * Updates/Inserts the data, depending on whether the user already exists or not.
+	 *    Example: 'SET key = x'
+	 * @param $data
+	 * @return bool
+	 */
 	public function update_data($data)
 	{
 		$this->force_load();
@@ -179,9 +191,11 @@ class user
 	}
 
 	/**
-	* Increase/Inserts the data, depending on whether the user already exists or not.
-	*	Example: 'SET key = key + x'
-	*/
+	 * Increase/Inserts the data, depending on whether the user already exists or not.
+	 *    Example: 'SET key = key + x'
+	 * @param $num
+	 * @return bool
+	 */
 	public function update_images($num)
 	{
 		$suc = false;
@@ -215,9 +229,9 @@ class user
 		));
 		unset($sql_ary['user_id']);
 
-		$sql = 'UPDATE ' . $this->table_name . '
+		$sql = 'UPDATE ' . $this->gallery_users_table . '
 			SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . '
-			WHERE user_id = ' . $this->user_id;
+			WHERE user_id = ' . (int) $this->user_id;
 		$this->db->sql_query($sql);
 
 		$this->data = array_merge($this->data, $sql_ary);
@@ -233,7 +247,7 @@ class user
 	*/
 	protected function update_image_count($num)
 	{
-		$sql = 'UPDATE ' . $this->table_name . '
+		$sql = 'UPDATE ' . $this->gallery_users_table . '
 			SET user_images = user_images ' . (($num > 0) ? (' + ' . $num) : (' - ' . abs($num))) . ',
 				user_last_update = ' . time() . '
 			WHERE ' . (($num < 0) ? ' user_images > ' . abs($num) . ' AND ' : '') . '
@@ -267,7 +281,7 @@ class user
 
 		$this->db->sql_return_on_error(true);
 
-		$sql = 'INSERT INTO ' . $this->table_name . '
+		$sql = 'INSERT INTO ' . $this->gallery_users_table . '
 			' . $this->db->sql_build_array('INSERT', $sql_ary);
 		$this->db->sql_query($sql);
 		$error = $this->db->get_sql_error_triggered();
@@ -285,8 +299,8 @@ class user
 	*/
 	public function delete()
 	{
-		$sql = 'DELETE FROM ' . $this->table_name . '
-			WHERE user_id = ' . $this->user_id;
+		$sql = 'DELETE FROM ' . $this->gallery_users_table . '
+			WHERE user_id = ' . (int) $this->user_id;
 		$this->db->sql_query($sql);
 	}
 
@@ -300,7 +314,7 @@ class user
 
 		$sql_where = $this->sql_build_where($user_ids);
 
-		$sql = 'DELETE FROM ' . $this->table_name . '
+		$sql = 'DELETE FROM ' . $this->gallery_users_table . '
 			' . $sql_where;
 		$this->db->sql_query($sql);
 	}
@@ -321,7 +335,7 @@ class user
 
 		$sql_where = $this->sql_build_where($user_ids);
 
-		$sql = 'UPDATE ' . $this->table_name . '
+		$sql = 'UPDATE ' . $this->gallery_users_table . '
 			SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . '
 			' . $sql_where;
 		$this->db->sql_query($sql);
@@ -386,6 +400,7 @@ class user
 				case 'watch_own':
 				case 'watch_com':
 				case 'subscribe_pegas':
+				case 'rrc_zebra':
 					$validated_data[$name] = (bool) $value;
 				break;
 
@@ -474,130 +489,120 @@ class user
 		'watch_com'			=> false,
 		// Automatically subscribe user to new personal galleries?
 		'subscribe_pegas'	=> false,
+		// Should we hide Foes from RRC
+		'rrc_zebra'			=> false,
 	);
 
 	/**
-	*
-	*/
+	 * @param $user_cache
+	 * @param $row
+	 */
 	public function add_user_to_cache(&$user_cache, $row)
 	{
 		$user_id = $row['user_id'];
-		if (!function_exists('phpbb_get_user_avatar'))
+		if (!function_exists('phpbb_get_user_rank'))
 		{
 			include($this->root_path . 'includes/functions_display.' . $this->php_ext);
 		}
 
-		if ($user_id == ANONYMOUS)
-		{
-			$user_cache[$user_id] = array(
-				'username'			=> $row['username'],
-				'user_colour'		=> $row['user_colour'],
-				'joined'		=> '',
-				'posts'			=> '',
-				'warnings'			=> 0,
-				'allow_pm'			=> 0,
+        $now = $this->user->create_datetime();
+        $now = phpbb_gmgetdate($now->getTimestamp() + $now->getOffset());
 
-				'sig'					=> '',
-				'sig_bbcode_uid'		=> '',
-				'sig_bbcode_bitfield'	=> '',
+        // Cache various user specific data ... so we don't have to recompute
+        // this each time the same user appears on this page
+        if (!isset($user_cache[$user_id])) {
+            if ($user_id == ANONYMOUS) {
+                $user_cache_data = array(
+                    'user_type' => USER_IGNORE,
+                    'joined' => '',
+                    'posts' => '',
+                    'sig' => '',
+                    'sig_bbcode_uid' => '',
+                    'sig_bbcode_bitfield' => '',
+                    'online' => false,
+                    'avatar' => ($this->user->optionget('viewavatars')) ? phpbb_get_user_avatar($row) : '',
+                    'rank_title' => '',
+                    'rank_image' => '',
+                    'rank_image_src' => '',
+                    'pm' => '',
+                    'email' => '',
+                    'jabber' => '',
+                    'search' => '',
+                    'age' => '',
+                    'username' => $row['username'],
+                    'user_colour' => $row['user_colour'],
+                    'contact_user' => '',
+                    'warnings' => 0,
+                    'allow_pm' => 0,
+                );
+            } else {
+                $user_sig = '';
+                // We add the signature to every posters entry because enable_sig is post dependent
+                if ($row['user_sig'] && $this->config['allow_sig'] && $this->user->optionget('viewsigs')) {
+                    $user_sig = $row['user_sig'];
+                }
+                $user_cache_data = array(
+                    'user_type' => $row['user_type'],
+                    'user_inactive_reason' => $row['user_inactive_reason'],
+                    'joined' => $this->user->format_date($row['user_regdate']),
+                    'posts' => $row['user_posts'],
+                    'warnings' => (isset($row['user_warnings'])) ? $row['user_warnings'] : 0,
+                    'sig' => $user_sig,
+                    'sig_bbcode_uid' => (!empty($row['user_sig_bbcode_uid'])) ? $row['user_sig_bbcode_uid'] : '',
+                    'sig_bbcode_bitfield' => (!empty($row['user_sig_bbcode_bitfield'])) ? $row['user_sig_bbcode_bitfield'] : '',
+                    'viewonline' => $row['user_allow_viewonline'],
+                    'allow_pm' => $row['user_allow_pm'],
+                    'avatar' => ($this->user->optionget('viewavatars')) ? phpbb_get_user_avatar($row) : '',
+                    'age' => '',
+                    'rank_title' => '',
+                    'rank_image' => '',
+                    'rank_image_src' => '',
+                    'username' => $row['username'],
+                    'user_colour' => $row['user_colour'],
+                    'contact_user' => $this->user->lang('CONTACT_USER', get_username_string('username', $user_id, $row['username'], $row['user_colour'], $row['username'])),
+                    'online' => false,
+                    'jabber' => ($this->config['jab_enable'] && $row['user_jabber'] && $this->auth->acl_get('u_sendim')) ? append_sid("{$this->root_path}memberlist.$this->php_ext", "mode=contact&amp;action=jabber&amp;u=$user_id") : '',
+                    'search' => ($this->config['load_search'] && $this->auth->acl_get('u_search')) ? append_sid("{$this->root_path}search.$this->php_ext", "author_id=$user_id&amp;sr=posts") : '',
+                    'author_full' => get_username_string('full', $user_id, $row['username'], $row['user_colour']),
+                    'author_colour' => get_username_string('colour', $user_id, $row['username'], $row['user_colour']),
+                    'author_username' => get_username_string('username', $user_id, $row['username'], $row['user_colour']),
+                    'author_profile' => get_username_string('profile', $user_id, $row['username'], $row['user_colour']),
+                );
 
-				'online'			=> false,
-				'avatar'			=> ($this->user->optionget('viewavatars')) ? phpbb_get_user_avatar($row) : '',
-				'rank_title'		=> '',
-				'rank_image'		=> '',
-				'rank_image_src'	=> '',
-				'profile'			=> '',
-				'pm'				=> '',
-				'email'				=> '',
-				'jabber'			=> '',
-				'search'			=> '',
-				'age'				=> '',
+                $user_cache[$user_id] = $user_cache_data;
 
-				'gallery_album'		=> '',
-				'gallery_images'	=> '',
-				'gallery_search'	=> '',
+                $user_rank_data = phpbb_get_user_rank($row, $row['user_posts']);
+                $user_cache[$user_id]['rank_title'] = $user_rank_data['title'];
+                $user_cache[$user_id]['rank_image'] = $user_rank_data['img'];
+                $user_cache[$user_id]['rank_image_src'] = $user_rank_data['img_src'];
 
-			);
-
-			get_user_rank($row['user_rank'], false, $user_cache[$user_id]['rank_title'], $user_cache[$user_id]['rank_image'], $user_cache[$user_id]['rank_image_src']);
-		}
-		else
-		{
-			$user_sig = '';
-			if ($row['user_sig'] && $this->config['allow_sig'] && $this->user->optionget('viewsigs'))
-			{
-				$user_sig = $row['user_sig'];
-			}
-
-			$id_cache[] = $user_id;
-
-			$user_cache[$user_id] = array(
-				'joined'		=> $this->user->format_date($row['user_regdate']),
-				'posts'			=> $row['user_posts'],
-				'warnings'		=> (isset($row['user_warnings'])) ? $row['user_warnings'] : 0,
-				'viewonline'	=> $row['user_allow_viewonline'],
-				'allow_pm'		=> $row['user_allow_pm'],
-
-				'sig'					=> $user_sig,
-				'sig_bbcode_uid'		=> (!empty($row['user_sig_bbcode_uid'])) ? $row['user_sig_bbcode_uid'] : '',
-				'sig_bbcode_bitfield'	=> (!empty($row['user_sig_bbcode_bitfield'])) ? $row['user_sig_bbcode_bitfield'] : '',
-
-				'avatar'		=> ($this->user->optionget('viewavatars')) ? phpbb_get_user_avatar($row) : '',
-				'age'			=> '',
-
-				'rank_title'		=> '',
-				'rank_image'		=> '',
-				'rank_image_src'	=> '',
-
-				'user_id'			=> $row['user_id'],
-				'username'			=> $row['username'],
-				'user_colour'		=> $row['user_colour'],
-
-				'online'		=> false,
-				'profile'		=> append_sid($this->root_path . 'memberlist.' . $this->php_ext, "mode=viewprofile&amp;u=$user_id"),
-				'jabber'		=> ($row['user_jabber'] && $this->auth->acl_get('u_sendim')) ? append_sid($this->root_path . 'memberlist.' . $this->php_ext, "mode=contact&amp;action=jabber&amp;u=$user_id") : '',
-				'search'		=> ($this->auth->acl_get('u_search')) ? append_sid($this->root_path . 'search.' . $this->php_ext, "author_id=$user_id&amp;sr=posts") : '',
-
-				'gallery_album'		=> '',//($row['personal_album_id'] && $config['phpbb_gallery_viewtopic_icon']) ? $phpbb_ext_gallery->url->append_sid('album', "album_id=" . $row['personal_album_id']) : '',
-				'gallery_images'	=> ($this->config['phpbb_gallery_viewtopic_images']) ? $row['user_images'] : 0,
-				'gallery_search'	=> '',//($config['phpbb_gallery_viewtopic_images'] && $config['phpbb_gallery_viewtopic_images'] && $row['user_images']) ? $phpbb_ext_gallery->url->append_sid('search', "user_id=$user_id") : '',
-			);
-
-			get_user_rank($row['user_rank'], $row['user_posts'], $user_cache[$user_id]['rank_title'], $user_cache[$user_id]['rank_image'], $user_cache[$user_id]['rank_image_src']);
-
-			if (!empty($row['user_allow_viewemail']) || $this->auth->acl_get('a_email'))
-			{
-				$user_cache[$user_id]['email'] = ($this->config['board_email_form'] && $this->config['email_enable']) ? append_sid($this->root_path . 'memberlist.' . $this->php_ext, "mode=email&amp;u=$user_id") : (($this->config['board_hide_emails'] && !$this->auth->acl_get('a_email')) ? '' : 'mailto:' . $row['user_email']);
-			}
-			else
-			{
-				$user_cache[$user_id]['email'] = '';
-			}
-
-			if ($this->config['allow_birthdays'] && !empty($row['user_birthday']))
-			{
-				list($bday_day, $bday_month, $bday_year) = array_map('intval', explode('-', $row['user_birthday']));
-				$age = 0;
-				if ($bday_year)
-				{
-					$now = $this->user->create_datetime();
-					$now = phpbb_gmgetdate($now->getTimestamp() + $now->getOffset());
-
-					$diff = $now['mon'] - $bday_month;
-					if ($diff == 0)
-					{
-						$diff = ($now['mday'] - $bday_day < 0) ? 1 : 0;
-					}
-					else
-					{
-						$diff = ($diff < 0) ? 1 : 0;
-					}
-					$age = max(0, (int) ($now['year'] - $bday_year - $diff));
-				}
-
-				$user_cache[$user_id]['age'] = $age;
-			}
-		}
+                if ((!empty($row['user_allow_viewemail']) && $this->auth->acl_get('u_sendemail')) || $this->auth->acl_get('a_email'))
+                {
+                    $user_cache[$user_id]['email'] = ($this->config['board_email_form'] && $this->config['email_enable']) ? append_sid("{$this->root_path}memberlist.$this->php_ext", "mode=email&amp;u=$user_id") : (($this->config['board_hide_emails'] && !$this->auth->acl_get('a_email')) ? '' : 'mailto:' . $row['user_email']);
+                }
+                else
+                {
+                    $user_cache[$user_id]['email'] = '';
+                }
+                if ($this->config['allow_birthdays'] && !empty($row['user_birthday']))
+                {
+                    list($bday_day, $bday_month, $bday_year) = array_map('intval', explode('-', $row['user_birthday']));
+                    if ($bday_year)
+                    {
+                        $diff = $now['mon'] - $bday_month;
+                        if ($diff == 0)
+                        {
+                            $diff = ($now['mday'] - $bday_day < 0) ? 1 : 0;
+                        }
+                        else
+                        {
+                            $diff = ($diff < 0) ? 1 : 0;
+                        }
+                        $user_cache[$user_id]['age'] = (int) ($now['year'] - $bday_year - $diff);
+                    }
+                }
+            }
+        }
 	}
 
 	/**
@@ -607,7 +612,7 @@ class user
 	*/
 	public function get_own_root_album()
 	{
-		$sql = 'SELECT personal_album_id FROM ' . $this->table_name . ' WHERE user_id = ' . $this->user_id;
+		$sql = 'SELECT personal_album_id FROM ' . $this->gallery_users_table . ' WHERE user_id = ' . (int) $this->user_id;
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		return (int) $row['personal_album_id'];
@@ -621,5 +626,47 @@ class user
 		$this->user_id = null;
 		$this->entry_exists = null;
 		$this->data = array();
+	}
+
+	/**
+	 * @param  array	$user_ids	Array of user IDs
+	 * @return int					Count of updated Users
+	 */
+
+	public function set_personal_albums($user_ids)
+	{
+		if (!is_array($user_ids))
+		{
+			$user_ids = array($user_ids);
+		}
+		$sql = 'SELECT user_id, personal_album_id FROM ' . $this->gallery_users_table . ' WHERE ' . $this->db->sql_in_set('user_id', $user_ids);
+		//var_dump($sql);
+		$result = $this->db->sql_query($sql);
+		$set_array = array();
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			//var_dump($row);
+			if($row['personal_album_id'] > 0)
+			{
+				$set_array[$row['user_id']] = $row['personal_album_id'];
+			}
+		}
+		$this->db->sql_freeresult($result);
+		$updated_rows = 0;
+		if (count($set_array) > 0)
+		{
+			foreach($set_array as $uid => $album_id)
+			{
+				// Fill album CPF.
+				$cpf_vars = array(
+					'pf_gallery_palbum'	=> (int) $album_id
+				);
+				$this->user_cpf->update_profile_field_data((int) $uid, $cpf_vars);
+
+				$updated_rows++;
+			}
+		}
+
+		return $updated_rows;
 	}
 }

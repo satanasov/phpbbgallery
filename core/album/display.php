@@ -33,9 +33,12 @@ class display
 	public $albums_total;
 	public $album_mode;
 
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $db,
-	\phpbb\pagination $pagination, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \phpbbgallery\core\auth\auth $gallery_auth,
-	\phpbbgallery\core\user $gallery_user, \phpbbgallery\core\misc $misc, $root_path, $php_ext, $albums_table, $contests_table, $tracking_table, $moderators_table)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\controller\helper $helper,
+								\phpbb\db\driver\driver_interface $db, 	\phpbb\pagination $pagination,
+								\phpbb\request\request $request, \phpbb\template\template $template,
+								\phpbb\user $user, \phpbb\language\language $language, \phpbbgallery\core\auth\auth $gallery_auth,
+								\phpbbgallery\core\user $gallery_user, \phpbbgallery\core\misc $misc,
+								$root_path, $php_ext, $albums_table, $contests_table, $tracking_table, $moderators_table)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
@@ -45,6 +48,7 @@ class display
 		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
+		$this->language = $language;
 		$this->gallery_auth = $gallery_auth;
 		$this->gallery_user = $gallery_user;
 		$this->misc = $misc;
@@ -57,12 +61,18 @@ class display
 	}
 
 	/**
-	* Get album branch
-	*
-	* borrowed from phpBB3
-	* @author: phpBB Group
-	* @function: get_forum_branch
-	*/
+	 * Get album branch
+	 *
+	 * borrowed from phpBB3
+	 * @author: phpBB Group
+	 * @function: get_forum_branch
+	 * @param $branch_user_id
+	 * @param $album_id
+	 * @param string $type
+	 * @param string $order
+	 * @param bool $include_album
+	 * @return array
+	 */
 	public function get_branch($branch_user_id, $album_id, $type = 'all', $order = 'descending', $include_album = true)
 	{
 		switch ($type)
@@ -105,19 +115,20 @@ class display
 	}
 
 	/**
-	* Create album navigation links for given album, create parent
-	* list if currently null, assign basic album info to template
-	*
-	* borrowed from phpBB3
-	* @author: phpBB Group
-	* @function: generate_forum_nav
-	*/
+	 * Create album navigation links for given album, create parent
+	 * list if currently null, assign basic album info to template
+	 *
+	 * borrowed from phpBB3
+	 * @author: phpBB Group
+	 * @function: generate_forum_nav
+	 * @param $album_data
+	 */
 	public function generate_navigation($album_data)
 	{
 		// Add gallery menu entry
 		// TO DO !!! THIS SHOULD BE MOVED TO MENU CREATOR!!
 		$this->template->assign_block_vars('navlinks', array(
-			'FORUM_NAME'   => $this->user->lang('GALLERY'),
+			'FORUM_NAME'   => $this->language->lang('GALLERY'),
 			'U_VIEW_FORUM'   => $this->helper->route('phpbbgallery_core_index'),
 		));
 		// Get album parents
@@ -134,7 +145,7 @@ class display
 			while ($row = $this->db->sql_fetchrow($result))
 			{
 				$this->template->assign_block_vars('navlinks', array(
-					'FORUM_NAME'	=> $this->user->lang('PERSONAL_ALBUMS'),
+					'FORUM_NAME'	=> $this->language->lang('PERSONAL_ALBUMS'),
 					'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_core_personal'),
 				));
 			}
@@ -166,9 +177,9 @@ class display
 			'ALBUM_ID' 		=> $album_data['album_id'],
 			'ALBUM_NAME'	=> $album_data['album_name'],
 			'ALBUM_DESC'	=> generate_text_for_display($album_data['album_desc'], $album_data['album_desc_uid'], $album_data['album_desc_bitfield'], $album_data['album_desc_options']),
-			//'ALBUM_CONTEST_START'	=> ($album_data['contest_id']) ? $this->user->lang('CONTEST_START' . ((($album_data['contest_start']) < time())? 'ED' : 'S'), $this->user->format_date(($album_data['contest_start']), false, true)) : '',
-			//'ALBUM_CONTEST_RATING'	=> ($album_data['contest_id']) ? $this->user->lang('CONTEST_RATING_START' . ((($album_data['contest_start'] + $album_data['contest_rating']) < time())? 'ED' : 'S'), $this->user->format_date(($album_data['contest_start'] + $album_data['contest_rating']), false, true)) : '',
-			//'ALBUM_CONTEST_END'		=> ($album_data['contest_id']) ? $this->user->lang('CONTEST_END' . ((($album_data['contest_start'] + $album_data['contest_end']) < time())? 'ED' : 'S'), $this->user->format_date(($album_data['contest_start'] + $album_data['contest_end']), false, true)) : '',
+			'ALBUM_CONTEST_START'	=> ($album_data['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST) ? $this->language->lang('CONTEST_START' . ((($album_data['contest_start']) < time())? 'ED' : 'S'), $this->user->format_date(($album_data['contest_start']), false, true)) : '',
+			'ALBUM_CONTEST_RATING'	=> ($album_data['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST) ? $this->language->lang('CONTEST_RATING_START' . ((($album_data['contest_start'] + $album_data['contest_rating']) < time())? 'ED' : 'S'), $this->user->format_date(($album_data['contest_start'] + $album_data['contest_rating']), false, true)) : '',
+			'ALBUM_CONTEST_END'		=> ($album_data['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST) ? $this->language->lang('CONTEST_END' . ((($album_data['contest_start'] + $album_data['contest_end']) < time())? 'ED' : 'S'), $this->user->format_date(($album_data['contest_start'] + $album_data['contest_end']), false, true)) : '',
 			'U_VIEW_ALBUM'	=> $this->helper->route('phpbbgallery_core_album', array('album_id' => $album_data['album_id'])),
 		));
 
@@ -176,12 +187,14 @@ class display
 	}
 
 	/**
-	* Returns album parents as an array. Get them from album_data if available, or update the database otherwise
-	*
-	* borrowed from phpBB3
-	* @author: phpBB Group
-	* @function: get_forum_parents
-	*/
+	 * Returns album parents as an array. Get them from album_data if available, or update the database otherwise
+	 *
+	 * borrowed from phpBB3
+	 * @author: phpBB Group
+	 * @function: get_forum_parents
+	 * @param $album_data
+	 * @return array|mixed
+	 */
 	public function get_parents($album_data)
 	{
 		$album_parents = array();
@@ -220,12 +233,14 @@ class display
 	}
 
 	/**
-	* Obtain list of moderators of each album
-	*
-	* borrowed from phpBB3
-	* @author: phpBB Group
-	* @function: get_forum_moderators
-	*/
+	 * Obtain list of moderators of each album
+	 *
+	 * borrowed from phpBB3
+	 * @author: phpBB Group
+	 * @function: get_forum_moderators
+	 * @param bool $album_id
+	 * @return array
+	 */
 	public function get_moderators($album_id = false)
 	{
 		$album_id_ary = $album_moderators = array();
@@ -279,7 +294,7 @@ class display
 			}
 			else
 			{
-				$group_name = (($row['group_type'] == GROUP_SPECIAL) ? $this->user->lang('G_' . $row['group_name']) : $row['group_name']);
+				$group_name = (($row['group_type'] == GROUP_SPECIAL) ? $this->language->lang('G_' . $row['group_name']) : $row['group_name']);
 
 				if ($this->user->data['user_id'] != ANONYMOUS && !$this->auth->acl_get('u_viewprofile'))
 				{
@@ -297,12 +312,16 @@ class display
 	}
 
 	/**
-	* Display albums
-	*
-	* borrowed from phpBB3
-	* @author: phpBB Group
-	* @function: display_forums
-	*/
+	 * Display albums
+	 *
+	 * borrowed from phpBB3
+	 * @author: phpBB Group
+	 * @function: display_forums
+	 * @param string $root_data
+	 * @param bool $display_moderators
+	 * @param bool $return_moderators
+	 * @return array
+	 */
 	public function display_albums($root_data = '', $display_moderators = true, $return_moderators = false)
 	{
 		$album_rows = $subalbums = $album_ids = $album_ids_moderator = $album_moderators = $active_album_ary = array();
@@ -547,19 +566,19 @@ class display
 				if ($mark_read == 'all')
 				{
 					$this->misc->markread('all');
-					$message = $this->user->lang('RETURN_INDEX', '<a href="' . $redirect . '">', '</a>');
+					$message = $this->language->lang('RETURN_INDEX', '<a href="' . $redirect . '">', '</a>');
 				}
 				else
 				{
 					$this->misc->markread('albums', $album_ids);
-					$message = $this->user->lang('RETURN_ALBUM', '<a href="' . $redirect . '">', '</a>');
+					$message = $this->language->lang('RETURN_ALBUM', '<a href="' . $redirect . '">', '</a>');
 				}
 				meta_refresh(3, $redirect);
-				trigger_error($this->user->lang('ALBUMS_MARKED') . '<br /><br />' . $message);
+				trigger_error($this->language->lang('ALBUMS_MARKED') . '<br /><br />' . $message);
 			}
 			else
 			{
-				$message = $this->user->lang('RETURN_PAGE', '<a href="' . $redirect . '">', '</a>');
+				$message = $this->language->lang('RETURN_PAGE', '<a href="' . $redirect . '">', '</a>');
 				meta_refresh(3, $redirect);
 				trigger_error($message);
 			}
@@ -647,7 +666,7 @@ class display
 					}
 				}
 
-				$l_subalbums = (sizeof($subalbums[$album_id]) == 1) ? $this->user->lang('SUBALBUM') : $this->user->lang('SUBALBUMS');
+				$l_subalbums = (sizeof($subalbums[$album_id]) == 1) ? $this->language->lang('SUBALBUM') : $this->language->lang('SUBALBUMS');
 				$folder_image = ($album_unread) ? 'forum_unread_subforum' : 'forum_read_subforum';
 			}
 			else
@@ -687,14 +706,14 @@ class display
 			$l_moderator = $moderators_list = '';
 			if ($display_moderators && !empty($album_moderators[$album_id]))
 			{
-				$l_moderator = (sizeof($album_moderators[$album_id]) == 1) ? $this->user->lang('MODERATOR') : $this->user->lang('MODERATORS');
+				$l_moderator = (sizeof($album_moderators[$album_id]) == 1) ? $this->language->lang('MODERATOR') : $this->language->lang('MODERATORS');
 				$moderators_list = implode(', ', $album_moderators[$album_id]);
 			}
 
 			$s_subalbums_list = array();
 			foreach ($subalbums_list as $subalbum)
 			{
-				$s_subalbums_list[] = '<a href="' . $subalbum['link'] . '" class="subforum ' . (($subalbum['unread']) ? 'unread' : 'read') . '" title="' . (($subalbum['unread']) ? $this->user->lang('NEW_IMAGES') : $this->user->lang('NO_NEW_IMAGES')) . '">' . $subalbum['name'] . '</a>';
+				$s_subalbums_list[] = '<a href="' . $subalbum['link'] . '" class="subforum ' . (($subalbum['unread']) ? 'unread' : 'read') . '" title="' . (($subalbum['unread']) ? $this->language->lang('NEW_IMAGES') : $this->language->lang('NO_NEW_IMAGES')) . '">' . $subalbum['name'] . '</a>';
 			}
 			$s_subalbums_list = (string) implode(', ', $s_subalbums_list);
 			$catless = ($row['parent_id'] == $root_data['album_id']) ? true : false;
@@ -709,17 +728,17 @@ class display
 				'S_LIST_SUBALBUMS'	=> ($row['display_subalbum_list']) ? true : false,
 				'S_SUBALBUMS'		=> (sizeof($subalbums_list)) ? true : false,
 
-				'ALBUM_ID'				=> $row['album_id'],
+				'ALBUM_ID'				=> (int) $row['album_id'],
 				'ALBUM_NAME'			=> $row['album_name'],
 				'ALBUM_DESC'			=> generate_text_for_display($row['album_desc'], $row['album_desc_uid'], $row['album_desc_bitfield'], $row['album_desc_options']),
-				'IMAGES'				=> $row['album_images'],
+				'IMAGES'				=> (int) $row['album_images'],
 				'UNAPPROVED_IMAGES'		=> ($this->gallery_auth->acl_check('m_status', $album_id, $row['album_user_id'])) ? ($row['album_images_real'] - $row['album_images']) : 0,
 				'ALBUM_IMG_STYLE'		=> $folder_image,
 				'ALBUM_FOLDER_IMG'		=> $this->user->img($folder_image, $folder_alt),
-				'ALBUM_FOLDER_IMG_ALT'	=> isset($this->user->lang[$folder_alt]) ? $this->user->lang($folder_alt) : '',
+				'ALBUM_FOLDER_IMG_ALT'	=> $this->language->lang($folder_alt) ? $this->language->lang($folder_alt) : '',
 				//'ALBUM_IMAGE'			=> ($row['album_image']) ? $row['album_image'] : '',
 				'LAST_IMAGE_TIME'		=> $lastimage_time,
-				'LAST_USER_FULL'		=> ($s_username_hidden) ? $this->user->lang('CONTEST_USERNAME') : get_username_string('full', $row['album_last_user_id'], $row['album_last_username'], $row['album_last_user_colour']),
+				'LAST_USER_FULL'		=> ($s_username_hidden) ? $this->language->lang('CONTEST_USERNAME') : get_username_string('full', $row['album_last_user_id'], $row['album_last_username'], $row['album_last_user_colour']),
 				'UC_THUMBNAIL'			=> $this->config['phpbb_gallery_mini_thumbnail_disp'] ? $lastimage_uc_thumbnail : '',
 				'UC_FAKE_THUMBNAIL'		=> $this->config['phpbb_gallery_mini_thumbnail_disp'] ? $lastimage_uc_fake_thumbnail : '',
 				'UC_IMAGE_NAME'			=> $lastimage_uc_name,
@@ -751,7 +770,7 @@ class display
 		$this->template->assign_vars(array(
 			'U_MARK_ALBUMS'		=> ($this->user->data['is_registered']) ? $this->helper->route('phpbbgallery_core_album', array('album_id' => $root_data['album_id'], 'hash' => generate_link_hash('global'), 'mark' => 'albums')) : '',
 			'S_HAS_SUBALBUM'	=> ($visible_albums) ? true : false,
-			'L_SUBFORUM'		=> ($visible_albums == 1) ? $this->user->lang('SUBALBUM') : $this->user->lang('SUBALBUMS'),
+			'L_SUBFORUM'		=> ($visible_albums == 1) ? $this->language->lang('SUBALBUM') : $this->language->lang('SUBALBUMS'),
 			'LAST_POST_IMG'		=> $this->user->img('icon_topic_latest', 'VIEW_LATEST_POST'),
 			'FAKE_THUMB_SIZE'	=> $this->config['phpbb_gallery_mini_thumbnail_size'],
 		));

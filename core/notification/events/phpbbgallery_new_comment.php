@@ -10,25 +10,6 @@ namespace phpbbgallery\core\notification\events;
 
 class phpbbgallery_new_comment extends \phpbb\notification\type\base
 {
-	protected $helper;
-
-	public function __construct(\phpbb\user_loader $user_loader, \phpbb\db\driver\driver_interface $db, \phpbb\cache\driver\driver_interface $cache,
-	\phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\controller\helper $helper,
-	$phpbb_root_path, $php_ext, $notification_types_table, $notifications_table, $user_notifications_table)
-	{
-		$this->user_loader = $user_loader;
-		$this->db = $db;
-		$this->cache = $cache;
-		$this->user = $user;
-		$this->auth = $auth;
-		$this->config = $config;
-		$this->helper = $helper;
-		$this->phpbb_root_path = $phpbb_root_path;
-		$this->php_ext = $php_ext;
-		$this->notification_types_table = $notification_types_table;
-		$this->notifications_table = $notifications_table;
-		$this->user_notifications_table = $user_notifications_table;
-	}
 	/**
 	* Get notification type name
 	*
@@ -47,6 +28,23 @@ class phpbbgallery_new_comment extends \phpbb\notification\type\base
 	public static $notification_option = array(
 		'lang'	=> 'NOTIFICATION_TYPE_PHPBBGALLERY_NEW_COMMENT',
 	);
+
+	/** @var \phpbb\user_loader */
+	protected $user_loader;
+
+	/** @var \phpbb\config\config */
+	protected $config;
+
+	public function set_config(\phpbb\config\config $config)
+	{
+		$this->config = $config;
+	}
+
+	public function set_user_loader(\phpbb\user_loader $user_loader)
+	{
+		$this->user_loader = $user_loader;
+	}
+
 	/**
 	* Is this type available to the current user (defines whether or not it will be shown in the UCP Edit notification options)
 	*
@@ -79,18 +77,84 @@ class phpbbgallery_new_comment extends \phpbb\notification\type\base
 		// No parent
 		return $data['image_id'];
 	}
+
 	/**
-	* Find the users who will receive notifications
-	*
-	* @param array $data The data for the updated rules
-	*
-	* @return array
-	*/
+	 * Find the users who will receive notifications
+	 *
+	 * @param array $data The data for the updated rules
+	 *
+	 * @param array $options
+	 * @return array
+	 */
 	public function find_users_for_notification($data, $options = array())
 	{
 		$this->user_loader->load_users($data['user_ids']);
 		return $this->check_user_notification_options($data['user_ids'], $options);
 	}
+
+	/**
+	 * Get the user's avatar
+	 */
+	public function get_avatar()
+	{
+		$users = array($this->get_data('poster_id'));
+		$this->user_loader->load_users($users);
+		return $this->user_loader->get_avatar($this->get_data('poster_id'));
+	}
+
+	/**
+	 * Get the HTML formatted title of this notification
+	 *
+	 * @return string
+	 */
+	public function get_title()
+	{
+		$users = array($this->get_data('poster_id'));
+		$this->user_loader->load_users($users);
+		$username = $this->user_loader->get_username($this->get_data('poster_id'), 'no_profile');
+		return $this->language->lang('NOTIFICATION_PHPBBGALLERY_NEW_COMMENT', $username);
+	}
+
+	/**
+	 * Get the HTML formatted reference of the notification
+	 *
+	 * @return string
+	 */
+	public function get_reference()
+	{
+		//return true;
+		//return censor_text($this->get_data('album_name'));
+	}
+
+	/**
+	 * Get email template
+	 *
+	 * @return string|bool
+	 */
+	public function get_email_template()
+	{
+		return false;
+	}
+	/**
+	 * Get email template variables
+	 *
+	 * @return array
+	 */
+	public function get_email_template_variables()
+	{
+		return array();
+	}
+
+	/**
+	 * Get the url to this item
+	 *
+	 * @return string URL
+	 */
+	public function get_url()
+	{
+		return $this->get_data('url');
+	}
+
 	/**
 	* Users needed to query before this notification can be displayed
 	*
@@ -100,54 +164,7 @@ class phpbbgallery_new_comment extends \phpbb\notification\type\base
 	{
 		return array();
 	}
-	/**
-	* Get the user's avatar
-	*/
-	public function get_avatar()
-	{
-		$users = array($this->get_data('poster_id'));
-		$this->user_loader->load_users($users);
-		return $this->user_loader->get_avatar($this->get_data('poster_id'));
-	}
-	/**
-	* Get the HTML formatted title of this notification
-	*
-	* @return string
-	*/
-	public function get_title()
-	{
-		$users = array($this->get_data('poster_id'));
-		$this->user_loader->load_users($users);
-		$username = $this->user_loader->get_username($this->get_data('poster_id'), 'no_profile');
-		return $this->user->lang('NOTIFICATION_PHPBBGALLERY_NEW_COMMENT', $username);
-	}
-	/**
-	* Get the url to this item
-	*
-	* @return string URL
-	*/
-	public function get_url()
-	{
-		return $this->get_data('url');
-	}
-	/**
-	* Get email template
-	*
-	* @return string|bool
-	*/
-	public function get_email_template()
-	{
-		return false;
-	}
-	/**
-	* Get email template variables
-	*
-	* @return array
-	*/
-	public function get_email_template_variables()
-	{
-		return array();
-	}
+
 	/**
 	* Function for preparing the data for insertion in an SQL query
 	* (The service handles insertion)
@@ -163,6 +180,6 @@ class phpbbgallery_new_comment extends \phpbb\notification\type\base
 		$this->set_data('comment_id', $data['comment_id']);
 		$this->set_data('poster_id', $data['poster']);
 		$this->set_data('url', $data['url']);
-		return parent::create_insert_array($data, $pre_create_data);
+		parent::create_insert_array($data, $pre_create_data);
 	}
 }

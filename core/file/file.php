@@ -13,7 +13,7 @@ namespace phpbbgallery\core\file;
 /**
  * A little class for all the actions that the gallery does on images.
 *
-* resize, rotate, watermark, create thumbnail, write to hdd, send to browser
+* resize, rotate, watermark, crete thumbnail, write to hdd, send to browser
  *
  * @property \phpbbgallery\core\url url
  * @property \phpbb\request\request request
@@ -60,12 +60,14 @@ class file
 	 *
 	 * @param \phpbb\request\request $request
 	 * @param \phpbbgallery\core\url $url
-	 * @param int                    $gd_version
+	 * @param \phpbbgallery\core\config $gallery_config
+	 * @param int $gd_version
 	 */
-	public function __construct(\phpbb\request\request $request, \phpbbgallery\core\url $url, $gd_version)
+	public function __construct(\phpbb\request\request $request, \phpbbgallery\core\url $url, \phpbbgallery\core\config $gallery_config, $gd_version)
 	{
 		$this->request = $request;
 		$this->url = $url;
+		$this->gallery_config = $gallery_config;
 		$this->gd_version = $gd_version;
 	}
 
@@ -100,10 +102,12 @@ class file
 	}
 
 	/**
-	* Get image mimetype by filename
-	*
-	* Only use this, if the image is secure. As we created all these images, they should be...
-	*/
+	 * Get image mimetype by filename
+	 *
+	 * Only use this, if the image is secure. As we created all these images, they should be...
+	 * @param $filename
+	 * @return string
+	 */
 	static public function mimetype_by_filename($filename)
 	{
 		switch (utf8_substr(strtolower($filename), -4))
@@ -124,8 +128,10 @@ class file
 	}
 
 	/**
-	* Read image
-	*/
+	 * Read image
+	 * @param bool $force_filesize
+	 * @return bool
+	 */
 	public function read_image($force_filesize = false)
 	{
 		if (!file_exists($this->image_source))
@@ -171,10 +177,17 @@ class file
 	}
 
 	/**
-	* Write image to disk
-	*/
-	public function write_image($destination, $quality = 100, $destroy_image = false)
+	 * Write image to disk
+	 * @param $destination
+	 * @param int $quality
+	 * @param bool $destroy_image
+	 */
+	public function write_image($destination, $quality = -1, $destroy_image = false)
 	{
+		if ($quality == -1)
+		{
+			$quality = $this->gallery_config->get('jpg_quality');
+		}
 		switch ($this->image_type)
 		{
 			case 'jpeg':
@@ -227,14 +240,15 @@ class file
 	}
 
 	/**
-	* Collect the last timestamp where something changed.
-	* This must contain:
-	*	- Last change of the file
-	*	- Last change of user's permissions
-	*	- Last change of user's groups
-	*	- Last change of watermark config
-	*	- Last change of watermark file
-	*/
+	 * Collect the last timestamp where something changed.
+	 * This must contain:
+	 *    - Last change of the file
+	 *    - Last change of user's permissions
+	 *    - Last change of user's groups
+	 *    - Last change of watermark config
+	 *    - Last change of watermark file
+	 * @param $timestamp
+	 */
 	public function set_last_modified($timestamp)
 	{
 		$this->last_modified = max($timestamp, $this->last_modified);
@@ -361,10 +375,13 @@ class file
 	}
 
 	/**
-	* Watermark the image:
-	*
-	* @param int $watermark_position summary of the parameters for vertical and horizontal adjustment
-	*/
+	 * Watermark the image:
+	 *
+	 * @param $watermark_source
+	 * @param int $watermark_position summary of the parameters for vertical and horizontal adjustment
+	 * @param int $min_height
+	 * @param int $min_width
+	 */
 	public function watermark_image($watermark_source, $watermark_position = 20, $min_height = 0, $min_width = 0)
 	{
 		$this->watermark_source = $watermark_source;
@@ -466,6 +483,10 @@ class file
 		}
 	}
 
+	/**
+	 * @param $files
+	 * @param array $locations
+	 */
 	public function delete_cache($files, $locations = array('thumbnail', 'medium'))
 	{
 		if (!is_array($files))
@@ -477,10 +498,14 @@ class file
 		{
 			foreach ($locations as $location)
 			{
-				unlink($this->url->path($location) . $file);
+				@unlink($this->url->path($location) . $file);
 			}
 		}
 	}
+
+	/**
+	 * @param $files
+	 */
 	public function delete_wm($files)
 	{
 		$locations = array('upload', 'medium');

@@ -3,7 +3,7 @@
 <form id="ucp_gallery" method="post" action="{S_UCP_ACTION}">
 <h2>{L_TITLE}</h2>
 <div class="panel">
-	<div class="inner"><span class="corners-top"><span></span></span>
+	<div class="inner">
 		<p>{L_TITLE_EXPLAIN}</p>
 		<fieldset>
 		<dl>
@@ -31,10 +31,18 @@
 			</dd>
 		</dl>
 		<!-- ENDIF -->
+		<hr />
+		<dl>
+			<dt><label for="rrc_zebra">{L_RRC_ZEBRA}{L_COLON}</label><br /><span>{L_RRC_ZEBRA_EXPLAIN}</span></dt>
+			<dd>
+				<label for="rrc_zebra1"><input type="radio" name="rrc_zebra" id="rrc_zebra1" value="1" <!-- IF S_RRC_ZEBRA --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+				<label for="rrc_zebra0"><input type="radio" name="rrc_zebra" id="rrc_zebra0" value="0" <!-- IF not S_RRC_ZEBRA --> checked="checked"<!-- ENDIF --> /> {L_NO}</label>
+			</dd>
+		</dl>
 		<!-- EVENT gallery_ucp_settings_fieldset -->
 		</fieldset>
 
-	<span class="corners-bottom"><span></span></span></div>
+	</div>
 </div>
 
 <!-- EVENT gallery_ucp_settings_form -->
@@ -50,7 +58,7 @@
 <!-- IF S_INFO_CREATE -->
 <h2>{L_TITLE}</h2>
 <div class="panel">
-	<div class="inner"><span class="corners-top"><span></span></span>
+	<div class="inner">
 	<p>{L_TITLE_EXPLAIN}</p>
 	<form id="ucp" method="post" action="{S_UCP_ACTION}"{S_FORM_ENCTYPE}>
 		<fieldset class="submit-buttons">
@@ -59,7 +67,7 @@
 			{S_FORM_TOKEN}
 		</fieldset>
 	</form>
-	<span class="corners-bottom"><span></span></span></div>
+	</div>
 </div>
 <!-- ENDIF -->
 
@@ -67,7 +75,7 @@
 <form id="acp_gallery" method="post" action="{U_ACTION}">
 	<h2>{L_TITLE}</h2>
 	<div class="panel">
-		<div class="inner"><span class="corners-top"><span></span></span>
+		<div class="inner">
 			<p>{L_TITLE_EXPLAIN}</p>
 			<fieldset>
 			<!-- IF not S_PERSONAL_ALBUM -->
@@ -94,7 +102,7 @@
 					<label><input type="checkbox" class="radio" name="desc_parse_urls"<!-- IF S_DESC_URLS_CHECKED --> checked="checked"<!-- ENDIF --> /> {L_PARSE_URLS}</label></dd>
 			</dl>
 			</fieldset>
-		<span class="corners-bottom"><span></span></span></div>
+		</div>
 	</div>
 	<fieldset class="submit-buttons">
 		<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />&nbsp;
@@ -107,48 +115,58 @@
 <!-- IF S_MANAGE_SUBALBUMS -->
 <h2>{L_TITLE}</h2>
 <div class="panel">
-	<div class="inner"><span class="corners-top"><span></span></span>
+	<div class="inner">
 	<p><strong>{NAVIGATION}<!-- IF S_ALBUM --> [<a href="{U_EDIT}">{L_EDIT}</a> | <a href="{U_DELETE}">{L_DELETE}</a> | <a href="{U_GOTO}">{L_GOTO}</a> | <a href="{U_UPLOAD}">{L_UPLOAD_IMAGE}</a>]<!-- ENDIF --></strong></p>
-	<ul class="topiclist">
-		<li class="header">
-			<dl class="icon">
-				<dt><!-- IF .album_row -->{L_ATTACHED_SUBALBUMS}<!-- ELSEIF U_CREATE_SUBALBUM -->{L_NO_SUBALBUMS}<!-- ENDIF --></dt>
-			</dl>
-		</li>
-	</ul>
-	<!-- IF .album_row -->
-	<ul class="topiclist cplist">
-		<!-- BEGIN album_row -->
-		<li class="row<!-- IF album_row.S_ROW_COUNT is odd --> bg1<!-- ELSE --> bg2<!-- ENDIF -->">
-			<!--<dl class="icon" style="background-image: url({album_row.FOLDER_IMAGE}); background-repeat: no-repeat;"> -->
-			<dl class="icon" style="background-repeat: no-repeat;">
-				<dt title="{album_row.ALBUM_NAME}">
-					<!-- IF album_row.FORUM_IMAGE --><div style="float: {S_CONTENT_FLOW_BEGIN}; margin-right: 5px;">{album_row.FORUM_IMAGE}</div><!-- ENDIF -->
-					<a href="{album_row.U_ALBUM}" class="topictitle">{album_row.ALBUM_NAME}</a>
-					<!-- IF album_row.ALBUM_DESCRIPTION --><br />{album_row.ALBUM_DESCRIPTION}<!-- ENDIF -->
-				</dt>
-				<dd class="mark" style="width: 120px;">
-					<!-- IF album_row.S_FIRST_ROW && not album_row.S_LAST_ROW -->
-						{ICON_MOVE_UP_DISABLED}
-						<a href="{album_row.U_MOVE_DOWN}">{ICON_MOVE_DOWN}</a>
-					<!-- ELSEIF not album_row.S_FIRST_ROW && not album_row.S_LAST_ROW-->
-						<a href="{album_row.U_MOVE_UP}">{ICON_MOVE_UP}</a>
-						<a href="{album_row.U_MOVE_DOWN}">{ICON_MOVE_DOWN}</a>
-					<!-- ELSEIF album_row.S_LAST_ROW && not album_row.S_FIRST_ROW -->
-						<a href="{album_row.U_MOVE_UP}">{ICON_MOVE_UP}</a>
-						{ICON_MOVE_DOWN_DISABLED}
-					<!-- ELSE -->
-						{ICON_MOVE_UP_DISABLED}
-						{ICON_MOVE_DOWN_DISABLED}
-					<!-- ENDIF -->
-					<a href="{album_row.U_EDIT}">{ICON_EDIT}</a>
-					<a href="{album_row.U_DELETE}">{ICON_DELETE}</a>
-				</dd>
-			</dl>
-		</li>
-		<!-- END album_row -->
-	</ul>
-	<!-- ENDIF -->
+	<div class="forumbg">
+		<div class="inner">
+			<ul class="topiclist">
+				<li class="header">
+					<dl class="row-item">
+						<dt>
+							<div class="list-inner">
+								<!-- IF .album_row -->{L_ATTACHED_SUBALBUMS}<!-- ELSEIF U_CREATE_SUBALBUM -->{L_NO_SUBALBUMS}<!-- ENDIF -->
+							</div>
+						</dt>
+						<dd>&nbsp;</dd>
+					</dl>
+				</li>
+			</ul>
+			<!-- IF .album_row -->
+			<ul class="topiclist topics">
+				<!-- BEGIN album_row -->
+				<li class="row<!-- IF album_row.S_ROW_COUNT is odd --> bg1<!-- ELSE --> bg2<!-- ENDIF -->">
+					<dl class="row-item<!-- IF album_row.FORUM_IMAGE --><!-- ELSE --> topic_read_mine<!-- ENDIF -->">
+						<dt title="{album_row.ALBUM_NAME}">
+							<div class="list-inner">
+								<!-- IF album_row.FORUM_IMAGE --><div style="float: {S_CONTENT_FLOW_BEGIN}; margin-right: 5px;">{album_row.FORUM_IMAGE}</div><!-- ENDIF -->
+								<a href="{album_row.U_ALBUM}" class="topictitle">{album_row.ALBUM_NAME}</a>
+								<!-- IF album_row.ALBUM_DESCRIPTION --><br />{album_row.ALBUM_DESCRIPTION}<!-- ENDIF -->
+							</div>
+						</dt>
+						<dd class="mark" style="width: 120px;">
+							<!-- IF album_row.S_FIRST_ROW && not album_row.S_LAST_ROW -->
+							{ICON_MOVE_UP_DISABLED}
+							<a href="{album_row.U_MOVE_DOWN}">{ICON_MOVE_DOWN}</a>
+							<!-- ELSEIF not album_row.S_FIRST_ROW && not album_row.S_LAST_ROW-->
+							<a href="{album_row.U_MOVE_UP}">{ICON_MOVE_UP}</a>
+							<a href="{album_row.U_MOVE_DOWN}">{ICON_MOVE_DOWN}</a>
+							<!-- ELSEIF album_row.S_LAST_ROW && not album_row.S_FIRST_ROW -->
+							<a href="{album_row.U_MOVE_UP}">{ICON_MOVE_UP}</a>
+							{ICON_MOVE_DOWN_DISABLED}
+							<!-- ELSE -->
+							{ICON_MOVE_UP_DISABLED}
+							{ICON_MOVE_DOWN_DISABLED}
+							<!-- ENDIF -->
+							<a href="{album_row.U_EDIT}">{ICON_EDIT}</a>
+							<a href="{album_row.U_DELETE}">{ICON_DELETE}</a>
+						</dd>
+					</dl>
+				</li>
+				<!-- END album_row -->
+			</ul>
+			<!-- ENDIF -->
+		</div>
+	</div>
 	<!-- IF U_CREATE_SUBALBUM -->
 		<form id="albums" method="post" action="{U_CREATE_SUBALBUM}">
 
@@ -159,14 +177,14 @@
 			</fieldset>
 		</form>
 	<!-- ENDIF -->
-	<span class="corners-bottom"><span></span></span></div>
+	</div>
 </div>
 <!-- ENDIF -->
 
 <!-- IF S_MANAGE_SUBSCRIPTIONS -->
 <h2>{L_TITLE}</h2>
 <div class="panel">
-	<div class="inner"><span class="corners-top"><span></span></span>
+	<div class="inner">
 	<p>{L_TITLE_EXPLAIN}</p>
 	<form id="ucp_gallery" method="post" action="{S_UCP_ACTION}">
 				<!-- IF .album_row -->
@@ -261,7 +279,7 @@
 			<input class="button2" type="submit" value="{L_SUBMIT}" />
 		</fieldset>
 	</form>
-	<span class="corners-bottom"><span></span></span></div>
+	</div>
 </div>
 <!-- ENDIF -->
 
@@ -276,7 +294,8 @@
 	phpBB Gallery, nickvergessen : 2009
 //-->
 <div class="copyright">
-	Powered by <a href="http://www.flying-bits.org/">phpBB Gallery</a> &copy; 2007, 2009 <a href="http://www.flying-bits.org/">nickvergessen</a>
-	<!-- IF GALLERY_TRANSLATION_INFO --><br />{GALLERY_TRANSLATION_INFO}<!-- ENDIF -->
+	{L_GALLERY_COPYRIGHT}
+	<br />
+	{L_GALLERY_TRANSLATION_INFO}
 </div>
 <!-- INCLUDE ucp_footer.html -->

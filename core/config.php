@@ -53,6 +53,7 @@ class config
 		'disp_statistic'			=> true,
 		'disp_total_images'			=> true,
 		'disp_whoisonline'			=> true,
+		'disp_gallery_icon'			=> true,
 
 		'gdlib_version'		=> 2,
 
@@ -127,9 +128,11 @@ class config
 		'watermark_source'		=> 'gallery/images/watermark.png',
 		'watermark_width'		=> 200,
 	);
+
 	/**
-	* Constructor
-	*/
+	 * Constructor
+	 * @param \phpbb\config\config $config
+	 */
 	public function __construct(\phpbb\config\config $config)
 	{
 		$this->config = $config;

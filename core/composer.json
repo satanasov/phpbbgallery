@@ -1,10 +1,10 @@
 {
 	"name": "phpbbgallery/core",
 	"type": "phpbb-extension",
-	"description": "PhpBB Gallery",
+	"description": "phpBB Gallery",
 	"homepage": "https://github.com/satanasov/phpbbgallery",
-	"version": "1.2.0",
-	"time": "2014-03-15",
+	"version": "3.2.2",
+	"time": "2018-03-17",
 	"license": "GPL-2.0",
 	"authors": [
 		{
@@ -21,16 +21,15 @@
 		}
 	],
 	"require": {
-		"php": ">=5.3"
+		"php": ">=5.4"
 	},
 	"require-dev": {
-		"phpbb/epv": "dev-master",
 		"satooshi/php-coveralls": "~1.0"
 	},
 	"extra": {
 		"display-name": "phpBB Gallery",
 		"soft-require": {
-			"phpbb/phpbb": ">=3.1.0-RC2,<3.2.0@dev"
+			"phpbb/phpbb": ">=3.2.0@dev"
 		}
 	}
 }

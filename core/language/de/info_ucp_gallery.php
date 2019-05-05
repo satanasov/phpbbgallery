@@ -29,5 +29,4 @@ $lang = array_merge($lang, array(
 	'UCP_GALLERY_PERSONAL_ALBUMS'		=> 'Persönliche Alben verwalten',
 	'UCP_GALLERY_SETTINGS'				=> 'Persönliche Einstellungen',
 	'UCP_GALLERY_WATCH'					=> 'Benachrichtigungen verwalten',
-	'UCP_GALLERY_FAVORITES'				=> 'Galerie-Favoriten',
 ));

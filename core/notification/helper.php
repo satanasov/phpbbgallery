@@ -32,11 +32,12 @@ class helper
 	}
 
 	/**
-	* Main notification function
-	* @param type			Type of notification (add/confirm)
-	* @param notify_user	User to notify
-	* @param action_user	User that trigered the action
-	*/
+	 * Main notification function
+	 *
+	 * @param $type
+	 * @param $target
+	 * @throws \Exception
+	 */
 	public function notify($type, $target)
 	{
 		$phpbb_notifications = $this->phpbb_container->get('notification_manager');
@@ -66,6 +67,18 @@ class helper
 					'album_url'	=> $this->url->get_uri($this->helper->route('phpbbgallery_core_album', array('album_id' => $target['album_id']))),
 				);
 				$phpbb_notifications->add_notifications('phpbbgallery.core.notification.image_approved', $notification_data);
+			break;
+			case 'not_approved':
+				$targets = $target['targets'];
+				$album_data = $this->album_load->get($target['album_id']);
+				$notification_data = array(
+					'user_ids' => $targets,
+					'album_id' => $target['album_id'],
+					'album_name' => $album_data['album_name'],
+					'last_image_id'	=> $target['last_image'],
+					'album_url'	=> $this->url->get_uri($this->helper->route('phpbbgallery_core_album', array('album_id' => $target['album_id']))),
+				);
+				$phpbb_notifications->add_notifications('phpbbgallery.core.notification.image_not_approved', $notification_data);
 			break;
 			case 'new_image':
 				$targets = $target['targets'];
@@ -135,11 +148,12 @@ class helper
 	}
 
 	/**
-	* Get watched for album
-	*
-	* @param (int) $album_id	Album we check
-	* @param (int) $user_id = false	User we check for
-	*/
+	 * Get watched for album
+	 *
+	 * @param (int) $album_id    Album we check
+	 * @param bool $user_id
+	 * @return
+	 */
 	public function get_watched_album($album_id, $user_id = false)
 	{
 		if (!$user_id)
@@ -152,9 +166,12 @@ class helper
 		$this->db->sql_freeresult($result);
 		return $row['count'];
 	}
+
 	/**
-	* Get album watchers
-	*/
+	 * Get album watchers
+	 * @param $album_id
+	 * @return array
+	 */
 	public function get_album_watchers($album_id)
 	{
 		$sql = 'SELECT user_id FROM ' . $this->watch_table . ' WHERE album_id = ' . (int) $album_id;
@@ -167,9 +184,12 @@ class helper
 
 		return $watchers;
 	}
+
 	/**
-	* Get album watchers
-	*/
+	 * Get album watchers
+	 * @param $image_id
+	 * @return array
+	 */
 	public function get_image_watchers($image_id)
 	{
 		$sql = 'SELECT user_id FROM ' . $this->watch_table . ' WHERE image_id = ' . (int) $image_id;
@@ -184,11 +204,11 @@ class helper
 	}
 
 	/**
-	* Add albums to watch-list
-	*
-	* @param	mixed	$album_ids		Array or integer with album_id where we delete from the watch-list.
-	* @param	int		$user_id		If not set, it uses the currents user_id
-	*/
+	 * Add albums to watch-list
+	 *
+	 * @param    mixed $album_ids Array or integer with album_id where we delete from the watch-list.
+	 * @param bool|int $user_id If not set, it uses the currents user_id
+	 */
 	public function add_albums($album_ids, $user_id = false)
 	{
 		$album_ids = $this->cast_mixed_int2array($album_ids);
@@ -251,9 +271,10 @@ class helper
 	}
 
 	/**
-	*
-	* New image in album
-	*/
+	 *
+	 * New image in album
+	 * @param $data
+	 */
 	public function new_image($data)
 	{
 		$get_watchers = $this->get_album_watchers($data['album_id']);

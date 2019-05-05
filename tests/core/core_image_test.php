@@ -32,6 +32,7 @@ class core_image_test extends core_base
 			$this->db,
 			$this->dispatcher,
 			$this->user,
+			$this->user_cpf,
 			$this->config,
 			$this->auth,
 			'phpbb_gallery_users',
@@ -61,6 +62,8 @@ class core_image_test extends core_base
 		$this->album = new \phpbbgallery\core\album\album(
 			$this->db,
 			$this->user,
+			$this->language,
+			$this->user_cpf,
 			$this->gallery_auth,
 			$this->gallery_cache,
 			$this->block,
@@ -82,13 +85,15 @@ class core_image_test extends core_base
 		$this->log = new \phpbbgallery\core\log(
 			$this->db,
 			$this->user,
+			$this->language,
 			$this->user_loader,
 			$this->template,
 			$this->controller_helper,
 			$this->pagination,
 			$this->gallery_auth,
 			$this->gallery_config,
-			'phpbb_gallery_log'
+			'phpbb_gallery_log',
+			'phpbb_gallery_images'
 		);
 		$this->notification_helper = $this->getMockBuilder('\phpbbgallery\core\notification\helper')
 			->disableOriginalConstructor()
@@ -98,6 +103,7 @@ class core_image_test extends core_base
 			$this->log,
 			$this->gallery_auth,
 			$this->user,
+			$this->language,
 			$this->db,
 			$this->user_loader,
 			$this->album,
@@ -112,6 +118,7 @@ class core_image_test extends core_base
 		$this->file = new \phpbbgallery\core\file\file(
 			$this->request,
 			$this->url,
+			$this->gallery_config,
 			2
 		);
 		$this->contest = new \phpbbgallery\core\contest(
@@ -123,6 +130,7 @@ class core_image_test extends core_base
 		$this->image = new \phpbbgallery\core\image\image(
 			$this->db,
 			$this->user,
+			$this->language,
 			$this->template,
 			$this->dispatcher,
 			$this->gallery_auth,

@@ -22,7 +22,9 @@ class gallery_logs_module
 		global $auth, $template, $user, $request;
 		global $phpbb_container;
 
-		$user->add_lang_ext('phpbbgallery/core', array('info_acp_gallery_logs'));
+		$this->language = $phpbb_container->get('language');
+
+		$this->language->add_lang(array('info_acp_gallery_logs'), 'phpbbgallery/core');
 		$this->tpl_name = 'gallery_logs';
 		add_form_key('acp_logs');
 		$page = $request->variable('page', 0);
@@ -43,7 +45,7 @@ class gallery_logs_module
 			}
 			else
 			{
-				confirm_box(false, $user->lang['CONFIRM_OPERATION'], build_hidden_fields(array(
+				confirm_box(false, $this->language->lang('CONFIRM_OPERATION'), build_hidden_fields(array(
 					'page'		=> $page,
 					'delmarked'	=> $deletemark,
 					'mark'		=> $marked,
@@ -64,7 +66,7 @@ class gallery_logs_module
 					case 'all':
 						$title = 'ACP_GALLERY_LOGS';
 						$template->assign_vars(array(
-							'L_TITLE'	=> $user->lang('ACP_GALLERY_LOGS'),
+							'L_TITLE'	=> $this->language->lang('ACP_GALLERY_LOGS'),
 							'L_EXPLAIN'	=> '',
 							'S_SELECT_OPTION'	=> 'all'
 						));
@@ -72,30 +74,30 @@ class gallery_logs_module
 					case 'admin':
 						$title = 'ACP_LOG_GALLERY_ADM';
 						$template->assign_vars(array(
-							'L_TITLE'	=> $user->lang('ACP_LOG_GALLERY_ADM'),
-							'L_EXPLAIN'	=> $user->lang('ACP_LOG_GALLERY_ADM_EXP'),
+							'L_TITLE'	=> $this->language->lang('ACP_LOG_GALLERY_ADM'),
+							'L_EXPLAIN'	=> $this->language->lang('ACP_LOG_GALLERY_ADM_EXP'),
 							'S_SELECT_OPTION'	=> 'admin'
 						));
 					break;
 					case 'moderator':
 						$title = 'ACP_LOG_GALLERY_MOD';
 						$template->assign_vars(array(
-							'L_TITLE'	=> $user->lang('ACP_LOG_GALLERY_MOD'),
-							'L_EXPLAIN'	=> $user->lang('ACP_LOG_GALLERY_MOD_EXP'),
+							'L_TITLE'	=> $this->language->lang('ACP_LOG_GALLERY_MOD'),
+							'L_EXPLAIN'	=> $this->language->lang('ACP_LOG_GALLERY_MOD_EXP'),
 							'S_SELECT_OPTION'	=> 'moderator'
 						));
 					break;
 					case 'system':
 						$title = 'ACP_LOG_GALLERY_SYSTEM';
 						$template->assign_vars(array(
-							'L_TITLE'	=> $user->lang('ACP_LOG_GALLERY_SYSTEM'),
-							'L_EXPLAIN'	=> $user->lang('ACP_LOG_GALLERY_SYSTEM_EXP'),
+							'L_TITLE'	=> $this->language->lang('ACP_LOG_GALLERY_SYSTEM'),
+							'L_EXPLAIN'	=> $this->language->lang('ACP_LOG_GALLERY_SYSTEM_EXP'),
 							'S_SELECT_OPTION'	=> 'system'
 						));
 					break;
 				}
-				$limit_days = array(0 => $user->lang['ALL_ENTRIES'], 1 => $user->lang['1_DAY'], 7 => $user->lang['7_DAYS'], 14 => $user->lang['2_WEEKS'], 30 => $user->lang['1_MONTH'], 90 => $user->lang['3_MONTHS'], 180 => $user->lang['6_MONTHS'], 365 => $user->lang['1_YEAR']);
-				$sort_by_text = array('u' => $user->lang['SORT_USER_ID'], 't' => $user->lang['SORT_DATE'], 'i' => $user->lang['SORT_IP'], 'o' => $user->lang['SORT_ACTION']);
+				$limit_days = array(0 => $this->language->lang('ALL_ENTRIES'), 1 => $this->language->lang('1_DAY'), 7 => $this->language->lang('7_DAYS'), 14 => $this->language->lang('2_WEEKS'), 30 => $this->language->lang('1_MONTH'), 90 => $this->language->lang('3_MONTHS'), 180 => $this->language->lang('6_MONTHS'), 365 => $this->language->lang('1_YEAR'));
+				$sort_by_text = array('u' => $this->language->lang('SORT_USER_ID'), 't' => $this->language->lang('SORT_DATE'), 'i' => $this->language->lang('SORT_IP'), 'o' => $this->language->lang('SORT_ACTION'));
 				$s_limit_days = $s_sort_key = $s_sort_dir = $u_sort_param = '';
 				gen_sort_selects($limit_days, $sort_by_text, $sort_days, $sort_key, $sort_dir, $s_limit_days, $s_sort_key, $s_sort_dir, $u_sort_param);
 
@@ -106,7 +108,7 @@ class gallery_logs_module
 					'S_CLEARLOGS'	=> $auth->acl_get('a_clearlogs'),
 					'U_ACTION'	=> $this->u_action . "&amp;$u_sort_param&amp;page=$page",
 				));
-				$this->page_title = $user->lang($title);
+				$this->page_title = $this->language->lang($title);
 				// Let's build some additional parameters for the log
 				$additional = array();
 				if ($sort_days > 0)
