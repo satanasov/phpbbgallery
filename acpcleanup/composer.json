@@ -1,21 +1,23 @@
 {
 	"name": "phpbbgallery/acpcleanup",
 	"type": "phpbb-extension",
-	"description": "",
+	"description": "This phpBB Gallery Add-on adds an ACP Cleanup for easily managed crashed images, crashed entries or even delete images according some settings",
 	"homepage": "https://github.com/satanasov/phpbbgallery",
-	"version": "1.2.0",
-	"time": "2014-03-15",
+	"version": "1.2.1",
+	"time": "2019-05-05",
 	"license": "GPL-2.0",
 	"authors": [
 		{
 			"name": "Joas Schilling",
 			"email": "nickvergessen@gmx.de",
 			"homepage": "http://github.com/nickvergessen",
-			"role": "Main Author",
+			"role": "Main MOD Author"
+		},
+		{
 			"name": "Stanislav Atanasov",
 			"email": "lucifer@anavaro.com",
 			"homepage": "http://www.anavaro.com",
-			"role": "Developer"
+			"role": "Extension Developer"
 		}
 	],
 	"require": {
@@ -24,7 +26,7 @@
 	"extra": {
 		"display-name": "phpBB Gallery Add-on: ACP Cleanup",
 		"soft-require": {
-			"phpbb/phpbb": ">=3.1.0-RC2,<3.2.0@dev"
+			"phpbb/phpbb": ">=3.1.0-RC2,<3.3.0@dev"
 		}
 	}
 }

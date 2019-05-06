@@ -5,7 +5,7 @@
 services:
     phpbbgallery.core.notification.image_for_approval:
         class: phpbbgallery\core\notification\events\phpbbgallery_image_for_approval
-        shared: false # scope MUST be prototype for this to work!
+        shared: false
         parent: notification.type.base
         calls:
             - [set_user_loader, ['@user_loader']]
@@ -14,7 +14,7 @@ services:
             - { name: notification.type }
     phpbbgallery.core.notification.image_approved:
         class: phpbbgallery\core\notification\events\phpbbgallery_image_approved
-        shared: false # scope MUST be prototype for this to work!
+        shared: false
         parent: notification.type.base
         calls:
             - [set_user_loader, ['@user_loader']]
@@ -23,7 +23,7 @@ services:
             - { name: notification.type }
     phpbbgallery.core.notification.image_not_approved:
             class: phpbbgallery\core\notification\events\phpbbgallery_image_not_approved
-            shared: false # scope MUST be prototype for this to work!
+            shared: false
             parent: notification.type.base
             calls:
                 - [set_user_loader, ['@user_loader']]
@@ -32,7 +32,7 @@ services:
                 - { name: notification.type }
     phpbbgallery.core.notification.new_comment:
         class: phpbbgallery\core\notification\events\phpbbgallery_new_comment
-        shared: false # scope MUST be prototype for this to work!
+        shared: false
         parent: notification.type.base
         calls:
             - [set_user_loader, ['@user_loader']]
@@ -41,7 +41,7 @@ services:
             - { name: notification.type }
     phpbbgallery.core.notification.new_image:
         class: phpbbgallery\core\notification\events\phpbbgallery_new_image
-        shared: false # scope MUST be prototype for this to work!
+        shared: false
         parent: notification.type.base
         calls:
             - [set_user_loader, ['@user_loader']]
@@ -50,7 +50,7 @@ services:
             - { name: notification.type }
     phpbbgallery.core.notification.new_report:
         class: phpbbgallery\core\notification\events\phpbbgallery_new_report
-        shared: false # scope MUST be prototype for this to work!
+        shared: false
         parent: notification.type.base
         calls:
             - [set_user_loader, ['@user_loader']]

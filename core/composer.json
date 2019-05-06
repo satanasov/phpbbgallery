@@ -4,20 +4,20 @@
 	"description": "phpBB Gallery",
 	"homepage": "https://github.com/satanasov/phpbbgallery",
 	"version": "3.2.2",
-	"time": "2018-03-17",
+	"time": "2019-05-05",
 	"license": "GPL-2.0",
 	"authors": [
 		{
 			"name": "Joas Schilling",
 			"email": "nickvergessen@gmx.de",
 			"homepage": "http://github.com/nickvergessen",
-			"role": "Main Author"
+			"role": "Main MOD Author"
 		},
 		{
 			"name": "Stanislav Atanasov",
 			"email": "lucifer@anavaro.com",
 			"homepage": "http://www.anavaro.com",
-			"role": "Developer"
+			"role": "Extension Developer"
 		}
 	],
 	"require": {
