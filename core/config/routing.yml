@@ -2,16 +2,16 @@
 #### Gallery index routes #####
 ###############################
 phpbbgallery_core_index:
-    path: /gallery
+    pattern: /gallery
     defaults: { _controller: phpbbgallery.core.controller.index:base }
 phpbbgallery_core_index_slash:
-    path: /gallery/
+    pattern: /gallery/
     defaults: { _controller: phpbbgallery.core.controller.index:base }
 phpbbgallery_core_personal:
-    path: /gallery/users
+    pattern: /gallery/users
     defaults: { _controller: phpbbgallery.core.controller.index:personal, page: 1 }
 phpbbgallery_core_personal_page:
-    path: /gallery/users/{page}
+    pattern: /gallery/users/{page}
     defaults: { _controller: phpbbgallery.core.controller.index:personal }
     requirements:
         page: \d+
@@ -20,24 +20,24 @@ phpbbgallery_core_personal_page:
 #### Album controller routes #####
 ##################################
 phpbbgallery_core_album:
-    path: /gallery/album/{album_id}
+    pattern: /gallery/album/{album_id}
     defaults: { _controller: phpbbgallery.core.controller.album:base, page: 1 }
     requirements:
         album_id: \d+
 
 phpbbgallery_core_album_page:
-    path: /gallery/album/{album_id}/page/{page}
+    pattern: /gallery/album/{album_id}/page/{page}
     defaults: { _controller: phpbbgallery.core.controller.album:base }
     requirements:
         album_id: \d+
         page: \d+
 phpbbgallery_core_album_upload:
-    path: /gallery/album/{album_id}/upload
+    pattern: /gallery/album/{album_id}/upload
     defaults: { _controller: phpbbgallery.core.controller.upload:main }
     requirements:
         album_id: \d+
 phpbbgallery_core_album_watch:
-    path: /gallery/album/{album_id}/watch
+    pattern: /gallery/album/{album_id}/watch
     defaults: { _controller: phpbbgallery.core.controller.album:watch }
     requirements:
         album_id: \d+
@@ -46,51 +46,51 @@ phpbbgallery_core_album_watch:
 #### Image controller routes #####
 ##################################
 phpbbgallery_core_image:
-    path: /gallery/image/{image_id}
+    pattern: /gallery/image/{image_id}
     defaults: { _controller: phpbbgallery.core.controller.image:base, page: 1 }
     requirements:
         image_id: \d+
 phpbbgallery_core_image_page:
-    path: /gallery/image/{image_id}/{page}
+    pattern: /gallery/image/{image_id}/{page}
     defaults: { _controller: phpbbgallery.core.controller.image:base }
     requirements:
         image_id: \d+
         page: \d+
 phpbbgallery_core_image_delete:
-    path: /gallery/image/{image_id}/delete
+    pattern: /gallery/image/{image_id}/delete
     defaults: { _controller: phpbbgallery.core.controller.image:delete }
     requirements:
         image_id: \d+
 phpbbgallery_core_image_edit:
-    path: /gallery/image/{image_id}/edit
+    pattern: /gallery/image/{image_id}/edit
     defaults: { _controller: phpbbgallery.core.controller.image:edit }
     requirements:
         image_id: \d+
 phpbbgallery_core_image_report:
-    path: /gallery/image/{image_id}/report
+    pattern: /gallery/image/{image_id}/report
     defaults: { _controller: phpbbgallery.core.controller.image:report }
     requirements:
         image_id: \d+
 phpbbgallery_core_comment_add:
-    path: /gallery/comment/{image_id}/add/{comment_id}
+    pattern: /gallery/comment/{image_id}/add/{comment_id}
     defaults: { _controller: phpbbgallery.core.controller.comment:add }
     requirements:
         image_id: \d+
         comment_id: \d+
 phpbbgallery_core_comment_edit:
-    path: /gallery/comment/{image_id}/edit/{comment_id}
+    pattern: /gallery/comment/{image_id}/edit/{comment_id}
     defaults: { _controller: phpbbgallery.core.controller.comment:edit }
     requirements:
         image_id: \d+
         comment_id: \d+
 phpbbgallery_core_comment_delete:
-    path: /gallery/comment/{image_id}/delete/{comment_id}
+    pattern: /gallery/comment/{image_id}/delete/{comment_id}
     defaults: { _controller: phpbbgallery.core.controller.comment:delete }
     requirements:
         image_id: \d+
         comment_id: \d+
 phpbbgallery_core_image_rate:
-    path: /gallery/comment/{image_id}/rate
+    pattern: /gallery/comment/{image_id}/rate
     defaults: { _controller: phpbbgallery.core.controller.comment:rate }
     requirements:
         image_id: \d+
@@ -99,17 +99,17 @@ phpbbgallery_core_image_rate:
 #### Image file routes #####
 ############################
 phpbbgallery_core_image_file_source:
-    path: /gallery/image/{image_id}/source
+    pattern: /gallery/image/{image_id}/source
     defaults: { _controller: phpbbgallery.core.controller.file:source }
     requirements:
         image_id: \d+
 phpbbgallery_core_image_file_medium:
-    path: /gallery/image/{image_id}/medium
+    pattern: /gallery/image/{image_id}/medium
     defaults: { _controller: phpbbgallery.core.controller.file:medium }
     requirements:
         image_id: \d+
 phpbbgallery_core_image_file_mini:
-    path: /gallery/image/{image_id}/mini
+    pattern: /gallery/image/{image_id}/mini
     defaults: { _controller: phpbbgallery.core.controller.file:mini }
     requirements:
         image_id: \d+
@@ -118,37 +118,37 @@ phpbbgallery_core_image_file_mini:
 #### Moderate overview routes #####
 ###################################
 phpbbgallery_core_moderate:
-    path: /gallery/moderate
+    pattern: /gallery/moderate
     defaults: { _controller: phpbbgallery.core.controller.moderate:base, album_id: 0 }
 phpbbgallery_core_moderate_queue_approve:
-    path: /gallery/moderate/approve
+    pattern: /gallery/moderate/approve
     defaults: { _controller: phpbbgallery.core.controller.moderate:queue_approve, page: 1, album_id: 0 }
 phpbbgallery_core_moderate_queue_approve_page:
-    path: /gallery/moderate/approve/{page}
+    pattern: /gallery/moderate/approve/{page}
     defaults: { _controller: phpbbgallery.core.controller.moderate:queue_approve, album_id: 0}
     requirements:
         page: \d+
 phpbbgallery_core_moderate_action_log:
-    path: /gallery/moderate/actions
+    pattern: /gallery/moderate/actions
     defaults: { _controller: phpbbgallery.core.controller.moderate:action_log, page: 1, album_id: 0 }
 phpbbgallery_core_moderate_action_log_page:
-    path: /gallery/moderate/actions/{page}
+    pattern: /gallery/moderate/actions/{page}
     defaults: { _controller: phpbbgallery.core.controller.moderate:action_log, album_id: 0}
     requirements:
         page: \d+
 phpbbgallery_core_moderate_reports:
-    path: /gallery/moderate/reports
+    pattern: /gallery/moderate/reports
     defaults: { _controller: phpbbgallery.core.controller.moderate:reports, page: 1, album_id: 0, status: 1 }
 phpbbgallery_core_moderate_reports_page:
-    path: /gallery/moderate/reports/{page}
+    pattern: /gallery/moderate/reports/{page}
     defaults: { _controller: phpbbgallery.core.controller.moderate:reports, album_id: 0, status: 1}
     requirements:
         page: \d+
 phpbbgallery_core_moderate_reports_closed:
-    path: /gallery/moderate/reports_closed
+    pattern: /gallery/moderate/reports_closed
     defaults: { _controller: phpbbgallery.core.controller.moderate:reports, page: 1, album_id: 0, status: 0 }
 phpbbgallery_core_moderate_reports_closed_page:
-    path: /gallery/moderate/reports_closed/{page}
+    pattern: /gallery/moderate/reports_closed/{page}
     defaults: { _controller: phpbbgallery.core.controller.moderate:reports, album_id: 0, status: 0}
     requirements:
         page: \d+
@@ -157,61 +157,61 @@ phpbbgallery_core_moderate_reports_closed_page:
 #### Moderate album routes #####
 ################################
 phpbbgallery_core_moderate_album:
-    path: /gallery/moderate/album/{album_id}
+    pattern: /gallery/moderate/album/{album_id}
     defaults: { _controller: phpbbgallery.core.controller.moderate:base }
     requirements:
         album_id: \d+
 phpbbgallery_core_moderate_queue_approve_album:
-    path: /gallery/moderate/album/{album_id}/approve
+    pattern: /gallery/moderate/album/{album_id}/approve
     defaults: { _controller: phpbbgallery.core.controller.moderate:queue_approve, page: 1 }
     requirements:
         album_id: \d+
 phpbbgallery_core_moderate_queue_approve_album_page:
-    path: /gallery/moderate/album/{album_id}/approve/{page}
+    pattern: /gallery/moderate/album/{album_id}/approve/{page}
     defaults: { _controller: phpbbgallery.core.controller.moderate:queue_approve}
     requirements:
         album_id: \d+
         page: \d+
 phpbbgallery_core_moderate_action_log_album:
-    path: /gallery/moderate/album/{album_id}/actions
+    pattern: /gallery/moderate/album/{album_id}/actions
     defaults: { _controller: phpbbgallery.core.controller.moderate:action_log, page: 1 }
     requirements:
         album_id: \d+
 phpbbgallery_core_moderate_action_log_album_page:
-    path: /gallery/moderate/album/{album_id}/actions/{page}
+    pattern: /gallery/moderate/album/{album_id}/actions/{page}
     defaults: { _controller: phpbbgallery.core.controller.moderate:action_log}
     requirements:
         album_id: \d+
         page: \d+
 phpbbgallery_core_moderate_reports_album:
-    path: /gallery/moderate/album/{album_id}/reports
+    pattern: /gallery/moderate/album/{album_id}/reports
     defaults: { _controller: phpbbgallery.core.controller.moderate:reports, page: 1, status: 1 }
     requirements:
         album_id: \d+
 phpbbgallery_core_moderate_reports_album_page:
-    path: /gallery/moderate/album/{album_id}/reports/{page}
+    pattern: /gallery/moderate/album/{album_id}/reports/{page}
     defaults: { _controller: phpbbgallery.core.controller.moderate:reports, status: 1}
     requirements:
         album_id: \d+
         page: \d+
 phpbbgallery_core_moderate_reports_closed_album:
-    path: /gallery/moderate/album/{album_id}/reports_closed
+    pattern: /gallery/moderate/album/{album_id}/reports_closed
     defaults: { _controller: phpbbgallery.core.controller.moderate:reports, page: 1, status: 0 }
     requirements:
         album_id: \d+
 phpbbgallery_core_moderate_reports_closed_album_page:
-    path: /gallery/moderate/album/{album_id}/reports_closed/{page}
+    pattern: /gallery/moderate/album/{album_id}/reports_closed/{page}
     defaults: { _controller: phpbbgallery.core.controller.moderate:reports, status: 0}
     requirements:
         album_id: \d+
         page: \d+
 phpbbgallery_core_moderate_view:
-    path: /gallery/moderate/album/{album_id}/overview
+    pattern: /gallery/moderate/album/{album_id}/overview
     defaults: { _controller: phpbbgallery.core.controller.moderate:album_overview, page: 1 }
     requirements:
         album_id: \d+
 phpbbgallery_core_moderate_view_page:
-    path: /gallery/moderate/album/{album_id}/overview/{page}
+    pattern: /gallery/moderate/album/{album_id}/overview/{page}
     defaults: { _controller: phpbbgallery.core.controller.moderate:album_overview }
     requirements:
         album_id: \d+
@@ -221,27 +221,27 @@ phpbbgallery_core_moderate_view_page:
 #### Moderate image routes #####
 ################################
 phpbbgallery_core_moderate_image:
-    path: /gallery/moderate/image/{image_id}
+    pattern: /gallery/moderate/image/{image_id}
     defaults: { _controller: phpbbgallery.core.controller.moderate:image }
     requirements:
         image_id: \d+
 phpbbgallery_core_moderate_image_approve:
-    path: /gallery/moderate/image/{image_id}/approve
+    pattern: /gallery/moderate/image/{image_id}/approve
     defaults: { _controller: phpbbgallery.core.controller.moderate:approve }
     requirements:
         image_id: \d+
 phpbbgallery_core_moderate_image_unapprove:
-    path: /gallery/moderate/image/{image_id}/unapprove
+    pattern: /gallery/moderate/image/{image_id}/unapprove
     defaults: { _controller: phpbbgallery.core.controller.moderate:unapprove }
     requirements:
         image_id: \d+
 phpbbgallery_core_moderate_image_move:
-    path: /gallery/moderate/image/{image_id}/move
+    pattern: /gallery/moderate/image/{image_id}/move
     defaults: { _controller: phpbbgallery.core.controller.moderate:move }
     requirements:
         image_id: \d+
 phpbbgallery_core_moderate_image_lock:
-    path: /gallery/moderate/image/{image_id}/lock
+    pattern: /gallery/moderate/image/{image_id}/lock
     defaults: { _controller: phpbbgallery.core.controller.moderate:lock }
     requirements:
         image_id: \d+
@@ -250,45 +250,45 @@ phpbbgallery_core_moderate_image_lock:
 #### Search routes #####
 ########################
 phpbbgallery_core_search_random:
-    path: /gallery/search/random
+    pattern: /gallery/search/random
     defaults: { _controller: phpbbgallery.core.controller.search:random }
 phpbbgallery_core_search_recent:
-    path: /gallery/search/recent
+    pattern: /gallery/search/recent
     defaults: { _controller: phpbbgallery.core.controller.search:recent, page: 1 }
 phpbbgallery_core_search_recent_page:
-    path: /gallery/search/recent/{page}
+    pattern: /gallery/search/recent/{page}
     defaults: { _controller: phpbbgallery.core.controller.search:recent }
     requirements:
         page: \d+
 phpbbgallery_core_search_commented:
-    path: /gallery/search/commented
+    pattern: /gallery/search/commented
     defaults: { _controller: phpbbgallery.core.controller.search:recent_comments, page: 1 }
 phpbbgallery_core_search_commented_page:
-    path: /gallery/search/commented/{page}
+    pattern: /gallery/search/commented/{page}
     defaults: { _controller: phpbbgallery.core.controller.search:recent_comments }
     requirements:
         page: \d+
 phpbbgallery_core_search_egosearch:
-    path: /gallery/search/self
+    pattern: /gallery/search/self
     defaults: { _controller: phpbbgallery.core.controller.search:ego_search, page: 1 }
 phpbbgallery_core_search_egosearch_page:
-    path: /gallery/search/self/{page}
+    pattern: /gallery/search/self/{page}
     defaults: { _controller: phpbbgallery.core.controller.search:ego_search }
     requirements:
         page: \d+
 phpbbgallery_core_search_toprated:
-    path: /gallery/search/toprated
+    pattern: /gallery/search/toprated
     defaults: { _controller: phpbbgallery.core.controller.search:toprated, page: 1 }
 phpbbgallery_core_search_toprated_page:
-    path: /gallery/search/toprated/{page}
+    pattern: /gallery/search/toprated/{page}
     defaults: { _controller: phpbbgallery.core.controller.search:toprated }
     requirements:
         page: \d+
 phpbbgallery_core_search:
-    path: /gallery/search
+    pattern: /gallery/search
     defaults: { _controller: phpbbgallery.core.controller.search:base, page: 1 }
 phpbbgallery_core_search_page:
-    path: /gallery/search/{page}
+    pattern: /gallery/search/{page}
     defaults: { _controller: phpbbgallery.core.controller.search:base }
     requirements:
         page: \d+

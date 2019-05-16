@@ -38,5 +38,5 @@ $lang = array_merge($lang, array(
 
 	'MISSING_IMPORT_SCHEMA'			=> 'The specified import-schema (%s) could not be found.',
 
-	'NO_FILE_SELECTED'				=> 'You need to select atleast one file.',
+	'NO_FILE_SELECTED'				=> 'You need to select at least one file.',
 ));

@@ -9,18 +9,18 @@
 	<fieldset>
 		<legend>{L_MANAGE_CRASHED_IMAGES}</legend>
 		<dl>
-			<dt><label<!-- IF .sourcerow --> for="source"<!-- ENDIF -->>{L_MISSING_SOURCE}:</label>
+			<dt><label<!-- IF .sourcerow --> for="source"<!-- ENDIF -->>{L_MISSING_SOURCE}{L_COLON}</label>
 				<br /><span><a href="{CHECK_SOURCE}">{L_CHECK}</a></span></dt>
 			<dd><!-- IF not .sourcerow -->
 				{L_CHECK_SOURCE_EXPLAIN}
 			<!-- ELSE -->
 				<select id="source" name="source[]" multiple="multiple" size="10">
-					<!-- BEGIN sourcerow --><option value="{sourcerow.IMAGE_ID}">{L_IMAGE_ID}: {sourcerow.IMAGE_ID} - {sourcerow.IMAGE_NAME}</option><!-- END sourcerow -->
+					<!-- BEGIN sourcerow --><option value="{sourcerow.IMAGE_ID}">{L_IMAGE_ID}{L_COLON} {sourcerow.IMAGE_ID} - {sourcerow.IMAGE_NAME}</option><!-- END sourcerow -->
 				</select>
 			<!-- ENDIF --></dd>
 		</dl>
 		<dl>
-			<dt><label<!-- IF .entryrow --> for="entry"<!-- ENDIF -->>{L_MISSING_ENTRY}:</label>
+			<dt><label<!-- IF .entryrow --> for="entry"<!-- ENDIF -->>{L_MISSING_ENTRY}{L_COLON}</label>
 				<br /><span><a href="{CHECK_ENTRY}">{L_CHECK}</a></span></dt>
 			<dd><!-- IF not .entryrow -->
 				{L_CHECK_ENTRY_EXPLAIN}
@@ -44,28 +44,28 @@
 	<fieldset>
 		<legend>{L_MANAGE_CRASHED_ENTRIES}</legend>
 		<dl>
-			<dt><label<!-- IF .authorrow --> for="author"<!-- ENDIF -->>{L_MISSING_AUTHOR}:</label></dt>
+			<dt><label<!-- IF .authorrow --> for="author"<!-- ENDIF -->>{L_MISSING_AUTHOR}{L_COLON}</label></dt>
 			<dd><!-- IF not .authorrow -->
 				{L_CHECK_AUTHOR_EXPLAIN}
 			<!-- ELSE -->
 				<select id="author" name="author[]" multiple="multiple" size="10">
-					<!-- BEGIN authorrow --><option value="{authorrow.IMAGE_ID}">{L_IMAGE_ID}: {authorrow.IMAGE_ID} - {L_AUTHOR}: {authorrow.AUTHOR_NAME}</option><!-- END authorrow -->
+					<!-- BEGIN authorrow --><option value="{authorrow.IMAGE_ID}">{L_IMAGE_ID}{L_COLON} {authorrow.IMAGE_ID} - {L_AUTHOR}{L_COLON} {authorrow.AUTHOR_NAME}</option><!-- END authorrow -->
 				</select>
 			<!-- ENDIF --></dd>
 		</dl>
 		<dl>
-			<dt><label<!-- IF .commentrow --> for="comment"<!-- ENDIF -->>{L_MISSING_AUTHOR_C}:</label></dt>
+			<dt><label<!-- IF .commentrow --> for="comment"<!-- ENDIF -->>{L_MISSING_AUTHOR_C}{L_COLON}</label></dt>
 			<dd><!-- IF not .commentrow -->
 				{L_CHECK_COMMENT_EXPLAIN}
 			<!-- ELSE -->
 				<select id="comment" name="comment[]" multiple="multiple" size="10">
-					<!-- BEGIN commentrow --><option value="{commentrow.COMMENT_ID}">{L_COMMENT_ID}: {commentrow.COMMENT_ID} - {L_IMAGE_ID}: {commentrow.IMAGE_ID} - {L_AUTHOR}: {commentrow.AUTHOR_NAME}</option><!-- END commentrow -->
+					<!-- BEGIN commentrow --><option value="{commentrow.COMMENT_ID}">{L_COMMENT_ID}{L_COLON} {commentrow.COMMENT_ID} - {L_IMAGE_ID}{L_COLON} {commentrow.IMAGE_ID} - {L_AUTHOR}{L_COLON} {commentrow.AUTHOR_NAME}</option><!-- END commentrow -->
 				</select>
 			<!-- ENDIF --></dd>
 		</dl>
 		<!-- IF .commentrow or .authorrow -->
 		<dl>
-			<dt><label for="prune_rating_avg_check">{L_MOVE_TO_USER}:</label>
+			<dt><label for="prune_rating_avg_check">{L_MOVE_TO_USER}{L_COLON}</label>
 				<br /><span>{L_MOVE_TO_USER_EXP}</span></dt>
 			<dd><input class="inputbox autowidth" type="text" name="new_author" size="15" value="" /></dd>
 		</dl>
@@ -79,24 +79,24 @@
 	<fieldset>
 		<legend>{L_MANAGE_PERSONALS}</legend>
 		<dl>
-			<dt><label<!-- IF .personalrow --> for="personal_missing"<!-- ENDIF -->>{L_MISSING_OWNER}:</label>
+			<dt><label<!-- IF .personalrow --> for="personal_missing"<!-- ENDIF -->>{L_MISSING_OWNER}{L_COLON}</label>
 				<br /><span>{L_MISSING_OWNER_EXP}</span></dt>
 			<dd><!-- IF not .personalrow -->
 				{L_CHECK_PERSONALS_EXPLAIN}
 			<!-- ELSE -->
 				<select id="personal_missing" name="personal[]" multiple="multiple" size="10">
-					<!-- BEGIN personalrow --><option value="{personalrow.USER_ID}">{L_ALBUM_ID}: {personalrow.ALBUM_ID} - {L_AUTHOR}: {personalrow.AUTHOR_NAME}</option><!-- END personalrow -->
+					<!-- BEGIN personalrow --><option value="{personalrow.USER_ID}">{L_ALBUM_ID}{L_COLON} {personalrow.ALBUM_ID} - {L_AUTHOR}{L_COLON} {personalrow.AUTHOR_NAME}</option><!-- END personalrow -->
 				</select>
 			<!-- ENDIF --></dd>
 		</dl>
 		<dl>
-			<dt><label<!-- IF .personal_bad_row --> for="personal_bad"<!-- ENDIF -->>{L_PERSONAL_ALBUMS}:</label>
+			<dt><label<!-- IF .personal_bad_row --> for="personal_bad"<!-- ENDIF -->>{L_PERSONAL_ALBUMS}{L_COLON}</label>
 				<br /><span>{L_MISSING_OWNER_EXP}</span></dt>
 			<dd><!-- IF not .personal_bad_row -->
 				{L_CHECK_PERSONALS_BAD_EXPLAIN}
 			<!-- ELSE -->
 				<select id="personal_bad" name="personal_bad[]" multiple="multiple" size="10">
-					<!-- BEGIN personal_bad_row --><option value="{personal_bad_row.USER_ID}">{L_ALBUM_ID}: {personal_bad_row.ALBUM_ID} - {L_AUTHOR}: {personal_bad_row.AUTHOR_NAME} - {L_IMAGES}: {personal_bad_row.IMAGES}</option><!-- END personal_bad_row -->
+					<!-- BEGIN personal_bad_row --><option value="{personal_bad_row.USER_ID}">{L_ALBUM_ID}{L_COLON} {personal_bad_row.ALBUM_ID} - {L_AUTHOR}{L_COLON} {personal_bad_row.AUTHOR_NAME} - {L_IMAGES}{L_COLON} {personal_bad_row.IMAGES}</option><!-- END personal_bad_row -->
 				</select>
 			<!-- ENDIF --></dd>
 		</dl>
@@ -112,34 +112,34 @@
 	<fieldset>
 		<legend>{L_PRUNE_ALBUMS}</legend>
 		<dl>
-			<dt><label for="prune_album_ids">{L_SELECT_ALBUMS}:</label></dt>
+			<dt><label for="prune_album_ids">{L_SELECT_ALBUMS}{L_COLON}</label></dt>
 			<dd><select id="prune_album_ids" name="prune_album_ids[]" multiple="multiple" size="10">{S_SELECT_ALBUM}</select></dd>
 		</dl>
 		<dl>
-			<dt><label for="prune_username_check">{L_PRUNE_USERNAME}:</label>
+			<dt><label for="prune_username_check">{L_PRUNE_USERNAME}{L_COLON}</label>
 				<br /><span>{L_PRUNE_USERNAME_EXP}</span></dt>
 			<dd><input class="radio" type="checkbox" id="prune_username_check" name="prune_username_check" value="1" /> <label for="prune_username_check">{L_PRUNE_CHECK_OPTION}</label></dd>
 			<dd><textarea id="prune_usernames" name="prune_usernames" rows="5" cols="5"></textarea></dd>
-			<dd><div style="float: {S_CONTENT_FLOW_END};">[ <a href="{U_FIND_USERNAME}" onclick="find_username(this.href); return false;">{L_FIND_USERNAME}</a> ]</div><label><input type="checkbox" class="radio" id="anonymous" name="prune_anonymous" value="{ANONYMOUS_USER_ID}" /> {L_SELECT_ANONYMOUS}</label></dd>
+			<dd><div style="float:{S_CONTENT_FLOW_END};">[ <a href="{U_FIND_USERNAME}" onclick="find_username(this.href); return false;">{L_FIND_USERNAME}</a> ]</div><label><input type="checkbox" class="radio" id="anonymous" name="prune_anonymous" value="{ANONYMOUS_USER_ID}" /> {L_SELECT_ANONYMOUS}</label></dd>
 		</dl>
 		<dl>
-			<dt><label for="prune_time_check">{L_PRUNE_TIME}:</label>
+			<dt><label for="prune_time_check">{L_PRUNE_TIME}{L_COLON}</label>
 				<br /><span>{L_PRUNE_TIME_EXP}</span></dt>
 			<dd><input class="radio" type="checkbox" id="prune_time_check" name="prune_time_check" value="1" /> <label for="prune_time_check">{L_PRUNE_CHECK_OPTION}</label></dd>
 			<dd><input class="inputbox autowidth" type="text" name="prune_time" size="15" value="" /></dd>
 		</dl>
 		<dl>
-			<dt><label for="prune_comments_check">{L_PRUNE_COMMENTS}:</label></dt>
+			<dt><label for="prune_comments_check">{L_PRUNE_COMMENTS}{L_COLON}</label></dt>
 			<dd><input class="radio" type="checkbox" id="prune_comments_check" name="prune_comments_check" value="1" /> <label for="prune_comments_check">{L_PRUNE_CHECK_OPTION}</label></dd>
 			<dd><input class="inputbox autowidth" type="text" name="prune_comments" size="15" value="" /></dd>
 		</dl>
 		<dl>
-			<dt><label for="prune_ratings_check">{L_PRUNE_RATINGS}:</label></dt>
+			<dt><label for="prune_ratings_check">{L_PRUNE_RATINGS}{L_COLON}</label></dt>
 			<dd><input class="radio" type="checkbox" id="prune_ratings_check" name="prune_ratings_check" value="1" /> <label for="prune_ratings_check">{L_PRUNE_CHECK_OPTION}</label></dd>
 			<dd><input class="inputbox autowidth" type="text" name="prune_ratings" size="15" value="" /></dd>
 		</dl>
 		<dl>
-			<dt><label for="prune_rating_avg_check">{L_PRUNE_RATING_AVG}:</label>
+			<dt><label for="prune_rating_avg_check">{L_PRUNE_RATING_AVG}{L_COLON}</label>
 				<br /><span>{L_PRUNE_RATING_AVG_EXP}</span></dt>
 			<dd><input class="radio" type="checkbox" id="prune_rating_avg_check" name="prune_rating_avg_check" value="1" /> <label for="prune_rating_avg_check">{L_PRUNE_CHECK_OPTION}</label></dd>
 			<dd><input class="inputbox autowidth" type="text" name="prune_rating_avg" size="15" value="" /></dd>
