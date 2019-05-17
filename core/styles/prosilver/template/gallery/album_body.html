@@ -25,7 +25,7 @@
 <!-- ENDIF -->
 
 <!-- IF S_IS_POSTABLE and (U_UPLOAD_IMAGE or PAGINATION or TOTAL_IMAGES or (U_SLIDE_SHOW and not S_IS_BOT)) -->
-	<div class="action-bar bar-top" <!-- IF S_HAS_SUBALBUM -->style="margin-top: 2em;"<!-- ENDIF -->>
+	<div class="action-bar bar-top" <!-- IF S_HAS_SUBALBUM -->style="margin-top: 2em;"<!-- ENDIF -->><br />
 
 	<!-- IF not S_IN_GALLERY_POPUP and U_UPLOAD_IMAGE and not S_IS_BOT -->
 		<a href="<!-- IF S_IS_LOCKED --> <!-- ELSE -->{U_UPLOAD_IMAGE}<!-- ENDIF -->" title="<!-- IF S_IS_LOCKED -->{L_ALBUM_LOCKED}<!-- ELSE -->{L_UPLOAD_IMAGE}<!-- ENDIF -->" class="button"><!-- IF S_IS_LOCKED --><i class="icon fa-lock fa-fw" aria-hidden="true"></i> <span>{L_ALBUM_LOCKED}</span><!-- ELSE --><i class="icon fa-upload fa-fw" aria-hidden="true"></i> <span>{L_UPLOAD_IMAGE}</span><!-- ENDIF --></a>
