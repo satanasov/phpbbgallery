@@ -24,7 +24,7 @@ function toggleElement(oElement)
 	}
 }
 </script>
-<h2><!-- IF SEARCH_TITLE -->{SEARCH_TITLE}<!-- ELSE -->{SEARCH_MATCHES}<!-- ENDIF --><!-- IF SEARCH_WORDS -->: <a href="{U_SEARCH_WORDS}">{SEARCH_WORDS}</a><!-- ENDIF --></h2>
+<h2><!-- IF SEARCH_TITLE -->{SEARCH_TITLE}<!-- ELSE -->{SEARCH_MATCHES}<!-- ENDIF --><!-- IF SEARCH_WORDS -->{L_COLON} <a href="{U_SEARCH_WORDS}">{SEARCH_WORDS}</a><!-- ENDIF --></h2>
 <!-- IF IGNORED_WORDS --> <p>{L_IGNORED_TERMS}{L_COLON} <strong>{IGNORED_WORDS}</strong></p><!-- ENDIF -->
 
 <!-- IF U_GALLERY_SEARCH --><p><a class="{S_CONTENT_FLOW_BEGIN}" href="{U_GALLERY_SEARCH}" title="{L_SEARCH_ADV}">{L_RETURN_TO_SEARCH_ADV}</a></p><!-- ENDIF -->
