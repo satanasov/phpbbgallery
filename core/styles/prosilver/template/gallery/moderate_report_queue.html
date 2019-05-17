@@ -34,7 +34,7 @@
 						</dt>
 						<dd class="moderation">
 							<span>
-								{L_REPORT_BY} : {report_image_open.REPORT_AUTHOR} &raquo; {report_image_open.REPORT_TIME}
+								{L_REPORT_BY}{L_COLON} {report_image_open.REPORT_AUTHOR} &raquo; {report_image_open.REPORT_TIME}
 							</span>
 						</dd>
 						<!-- IF U_STATUS -->
@@ -55,7 +55,7 @@
 <!-- IF .report_image_open -->
 <fieldset class="display-actions">
 	<input class="button1" type="submit" name="action[close]" value="{L_CLOSE_REPORTS}" />
-	<div><a href="#" onclick="marklist('gallery_report', 'report', true); return false;">Mark all</a> :: <a href="#" onclick="marklist('gallery_report', 'report', false); return false;">Unmark all</a></div>
+	<div><a href="#" onclick="marklist('gallery_report', 'report', true); return false;">{L_MARK_ALL}</a> :: <a href="#" onclick="marklist('gallery_report', 'report', false); return false;">{L_UNMARK_ALL}</a></div>
 </fieldset>
 <!-- ENDIF -->
 <!-- ENDIF -->
