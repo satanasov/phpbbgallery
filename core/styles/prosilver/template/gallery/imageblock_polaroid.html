@@ -26,7 +26,7 @@
 	<!-- IF imageblock.image.IMAGE_VIEWS > -1 -->{L_IMAGE_VIEWS}{L_COLON} {imageblock.image.IMAGE_VIEWS}<br /><!-- ENDIF -->
 	<!-- IF imageblock.image.S_RATINGS -->{L_RATING}{L_COLON} <a href="{imageblock.image.U_RATINGS}">{imageblock.image.S_RATINGS}</a><br /><!-- ENDIF -->
 	<!-- IF imageblock.image.S_COMMENTS -->{imageblock.image.L_COMMENTS}{L_COLON} <a href="{imageblock.image.U_COMMENTS}">{imageblock.image.S_COMMENTS}</a><br /><!-- ENDIF -->
-	<!-- IF imageblock.image.U_USER_IP -->{L_IP}{L_COLON}{imageblock.image.U_USER_IP}<br /><!-- ENDIF -->
+	<!-- IF imageblock.image.U_USER_IP -->{L_IP}{L_COLON} {imageblock.image.U_USER_IP}<br /><!-- ENDIF -->
 	<!-- IF imageblock.image.S_STATUS_UNAPPROVED -->
 			<br />
 			<form method="post" class="mcp_approve" action="{imageblock.image.S_STATUS_UNAPPROVED_ACTION}">
