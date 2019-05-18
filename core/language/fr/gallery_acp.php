@@ -1,12 +1,13 @@
 <?php
 /**
 *
-* @package phpBB Gallery - ACP Extension [French]
-* @copyright (c) 2012 nickvergessen - http://www.flying-bits.org/
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-* @translator fr (c) pokyto aka le.poke http://www.lestontonsfraggers.com inspired by darky - http://www.foruminfopc.fr/ and Team http://www.phpbb-fr.com/
+* phpBB Gallery. An extension for the phpBB Forum Software package.
+* French translation by pokyto aka le.poke http://www.lestontonsfraggers.com (inspired by darky http://www.foruminfopc.fr/ and http://www.phpbb-fr.com/) & Galixte (http://www.galixte.com)
 *
-**/
+* @copyright (c) 2012 nickvergessen <http://www.flying-bits.org/> - 2018 Stanislav Atanasov <http://www.anavaro.com>
+* @license GNU General Public License, version 2 (GPL-2.0-only)
+*
+*/
 
 /**
 * DO NOT CHANGE
@@ -21,21 +22,37 @@ if (empty($lang) || !is_array($lang))
 	$lang = array();
 }
 
+// DEVELOPERS PLEASE NOTE
+//
+// All language files should use UTF-8 as their encoding and the files must not contain a BOM.
+//
+// Placeholders can now contain order information, e.g. instead of
+// 'Page %s of %s' you can (and should) write 'Page %1$s of %2$s', this allows
+// translators to re-order the output of data while ensuring it remains correct
+//
+// You do not need this where single placeholders are used, e.g. 'Message %d' is fine
+// equally where a string contains only two placeholders which are used to wrap text
+// in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
+//
+// Some characters you may want to copy&paste:
+// ’ « » “ ” …
+//
+
 $lang = array_merge($lang, array(
 	'ACP_GALLERY_OVERVIEW'			=> 'Galerie phpBB',
 	'ACP_GALLERY_OVERVIEW_EXPLAIN'	=> 'Voici quelques statistiques sur votre galerie.',
 
     // File dirs states
-    'ACP_FILES_DIR_STATE'           => '<strong>./files/</strong> state',
-    'ACP_CORE_DIR_STATE'    => '<strong>./files/phpbbgallery/core/</strong> state',
-    'ACP_SOURCE_DIR_STATE'    => '<strong>./files/phpbbgallery/core/source/</strong> state',
-    'ACP_MEDIUM_DIR_STATE'    => '<strong>./files/phpbbgallery/core/meduim/</strong> state',
-    'ACP_MINI_DIR_STATE'    => '<strong>./files/phpbbgallery/core/mini/</strong> state',
+    'ACP_FILES_DIR_STATE'           => 'État du répertoire : <strong>./files/</strong>',
+    'ACP_CORE_DIR_STATE'    		=> 'État du répertoire : <strong>./files/phpbbgallery/core/</strong>',
+    'ACP_SOURCE_DIR_STATE'    		=> 'État du répertoire : <strong>./files/phpbbgallery/core/source/</strong>',
+    'ACP_MEDIUM_DIR_STATE'    		=> 'État du répertoire : <strong>./files/phpbbgallery/core/meduim/</strong>',
+    'ACP_MINI_DIR_STATE'    		=> 'État du répertoire : <strong>./files/phpbbgallery/core/mini/</strong>',
 
 	'ADD_ALBUM_ON_TOP'				=> 'Ajouter l’album en haut',
 	'ADD_PERMISSIONS'				=> 'Ajouter des permissions',
 	'ALBUM_ADMIN'					=> 'Administration des albums',
-	'ALBUM_ADMIN_EXPLAIN'			=> 'Dans la Galerie phpBB, il n’y a pas de catégories, tout est basé sur un système d’albums. Chaque album peut contenir un nombre illimité de sous-albums et vous pouvez déterminer pour chacun d’entre eux, s’ils doivent être affichés ou non. Vous pouvez individuellement ajouter, éditer, supprimer, verrouiller, déverrouiller des albums, mais aussi définir d’autres options. Si vos images ne sont plus synchronisées, vous pouvez resynchroniser leur album. <strong>Vous devez copier ou définir les permissions nécessaires, afin d’afficher les albums nouvellement créés.</strong>',
+	'ALBUM_ADMIN_EXPLAIN'			=> 'Dans la Galerie phpBB, il n’y a pas de catégories, tout est basé sur un système d’albums. Chaque album peut contenir un nombre illimité de sous-albums et vous pouvez déterminer pour chacun d’entre eux, s’ils doivent être affichés ou non. Vous pouvez individuellement ajouter, modifier, supprimer, verrouiller, déverrouiller des albums, mais aussi définir d’autres options. Si vos images ne sont plus synchronisées, vous pouvez resynchroniser leur album. <strong>Vous devez copier ou définir les permissions nécessaires, afin d’afficher les albums nouvellement créés.</strong>',
 	'ALBUM_AUTH_TITLE'				=> 'Permissions de l’album',
 	'ALBUM_CREATED'					=> 'Album créé avec succès.',
 	'ALBUM_DELETE'					=> 'Supprimer l’album',
@@ -51,12 +68,12 @@ $lang = array_merge($lang, array(
 	'ALBUM_NAME_EMPTY'				=> 'Vous devez saisir un titre d’album.',
 	'ALBUM_NO_TYPE_CHANGE_TO_CONTEST'	=> 'Un album simple ne peut pas être transformé en album-concours.',
 	'ALBUM_PARENT'					=> 'Album parent',
-	'ALBUM_PARENT_INVALID'			=> 'L’album parent que vous avez sélectionné est invalide. Il s’agit, soit d’un album enfant de celui que vous éditez, soit il n’existe pas.',
+	'ALBUM_PARENT_INVALID'			=> 'L’album parent que vous avez sélectionné est invalide. Il s’agit, soit d’un album enfant de celui que vous modifiez, soit il n’existe pas.',
 	'ALBUM_PASSWORD'				=> 'Mot de passe de l’album',
 	'ALBUM_PASSWORD_EXPLAIN'		=> 'Indiquez un mot de passe pour cet album. Utilisez de préférence le système de permissions.',
 	'ALBUM_PASSWORD_CONFIRM'		=> 'Confirmation du mot de passe de l’album',
 	'ALBUM_PASSWORD_CONFIRM_EXPLAIN'	=> 'Uniquement si un mot de passe a été saisi.',
-	'ALBUM_RESYNCED'				=> 'L’album « %s » a été resynchronisé avec succès.',
+	'ALBUM_RESYNCED'				=> 'L’album « %s » a été resynchronisé avec succès.',
 	'ALBUM_SETTINGS'				=> 'Paramètres des albums',
 	'ALBUM_STATUS'					=> 'Statut de l’album',
 	'ALBUM_TYPE'					=> 'Type d’album',
@@ -65,11 +82,11 @@ $lang = array_merge($lang, array(
 	'ALBUM_TYPE_UPLOAD'				=> 'Album',
 	'ALBUM_UPDATED'					=> 'L’album a été mis à jour avec succès.',
 	'ALBUM_WATERMARK'				=> 'Afficher le filigrane',
-	'ALBUM_WATERMARK_EXPLAIN'		=> 'Si cette option est définie sur <samp>Non</samp>, le filigrane ne sera jamais affiché, indépendamment des permissions !',
+	'ALBUM_WATERMARK_EXPLAIN'		=> 'Si cette option est définie sur <samp>Non</samp>, le filigrane ne sera jamais affiché, indépendamment des permissions !',
 	'ALBUM_WITH_CONTEST_NO_TYPE_CHANGE'	=> 'Un album-concours ne peut pas être transformé en un album simple.',
 	'ALBUMS'						=> 'Albums',
 
-	'CACHE_DIR_SIZE'				=> 'Taille du répertoire « cache/ »',
+	'CACHE_DIR_SIZE'				=> 'Taille du répertoire « cache/ »',
 	'CHANGE_AUTHOR_TO_GUEST'		=> 'Modifier l’auteur en invité',
 	'CHECK'							=> 'Vérifier',
 	'CHECK_AUTHOR_EXPLAIN'			=> 'Aucune image sans auteur valide trouvée.',
@@ -93,7 +110,7 @@ $lang = array_merge($lang, array(
 	'CONTEST_END_INVALID'			=> 'Fin de concours invalide (%s). Merci de saisir une date dans ce format AAAA-MM-JJ HH:MM.',
 	'CONTEST_RATING'				=> 'Début des votes',
 	'CONTEST_RATING_BEFORE_START'	=> 'Les votes ne doivent pas débuter avant le concours.',
-	'CONTEST_RATING_EXPLAIN'		=> 'Après le « Début des votes », les utilisateurs ne peuvent plus charger d’images.',
+	'CONTEST_RATING_EXPLAIN'		=> 'Après le « Début des votes », les utilisateurs ne peuvent plus charger d’images.',
 	'CONTEST_RATING_INVALID'		=> 'Début des votes invalide (%s). Merci de saisir une date dans ce format AAAA-MM-JJ HH:MM.',
 	'CONTEST_SETTINGS'				=> 'Paramètres du concours',
 	'CONTEST_START'					=> 'Début du concours',
@@ -127,21 +144,21 @@ $lang = array_merge($lang, array(
 	'DISP_LOGIN'					=> 'Afficher les champs de connexion',
 	'DISP_LOGIN_EXP'				=> 'invités uniquement',
 	'DISP_NEXTPREV_THUMB'			=> 'Afficher la miniature de l’image suivante/précédente',
-	'DISP_NEXTPREV_THUMB_EXPLAIN'	=> 'Si sur « Non », il n’y aura que le nom de l’image affiché comme lien.',
+	'DISP_NEXTPREV_THUMB_EXPLAIN'	=> 'Si sur « Non », il n’y aura que le nom de l’image affiché comme lien.',
 	'DISP_PERSONAL_ALBUM_PROFILE'	=> 'Afficher le lien vers l’album personnel dans le profil de l’utilisateur',
 	'DISP_STATISTIC'				=> 'Afficher les statistiques de la galerie',
 	'DISP_GALLERY_ICON'				=> 'Afficher le lien vers la galerie',
 	'DISP_GALLERY_ICON_EXP'			=> 'Permet d’afficher un lien vers la galerie dans la barre de navigation du forum.',
-	'DISP_TOTAL_IMAGES'				=> 'Afficher le « Total d’images » dans index.php',
+	'DISP_TOTAL_IMAGES'				=> 'Afficher le « Total d’images » dans index.php',
 	'DISP_USER_IMAGES_PROFILE'		=> 'Afficher les statistiques avec les images chargées dans le profil de l’utilisateur',
 	'DISP_VIEWTOPIC_ICON'			=> 'Afficher l’icône des albums personnels dans viewtopic.php',
 	'DISP_VIEWTOPIC_IMAGES'			=> 'Afficher le compteur d’images dans viewtopic.php',
 	'DISP_VIEWTOPIC_LINK'			=> 'Lien dans le compteur d’images de l’utilisateur',
-	'DISP_WHOISONLINE'				=> 'Afficher « Qui est en ligne ? »',
-	'DISPLAY_IN_RRC'				=> 'Afficher les images de cet album dans les « Dernières Images/Images aléatoires »',
+	'DISP_WHOISONLINE'				=> 'Afficher « Qui est en ligne ? »',
+	'DISPLAY_IN_RRC'				=> 'Afficher les images de cet album dans les « Dernières Images/Images aléatoires »',
 	'DONT_COPY_PERMISSIONS'			=> 'Ne pas copier les permissions',
 
-	'EDIT_ALBUM'					=> 'Éditer l’album',
+	'EDIT_ALBUM'					=> 'Modifier l’album',
 
 	'FAKE_THUMB_SIZE'				=> 'Taille de la miniature',
 	'FAKE_THUMB_SIZE_EXP'			=> 'Si vous souhaitez conserver la taille originale, n’oubliez pas les 16 pixels de la ligne noire d’informations.',
@@ -151,22 +168,22 @@ $lang = array_merge($lang, array(
 	'GALLERY_CONFIG_EXPLAIN'		=> 'Vous pouvez modifier ici les paramètres généraux de la Galerie phpBB.',
 	'GALLERY_CONFIG_UPDATED'		=> 'La configuration de la Galerie a été mise à jour avec succès.',
 	'GALLERY_INDEX'					=> 'Index-Galerie',
-	'GALLERY_PURGE_CACHE_EXPLAIN'	=> 'Si vous utilisez la fonction de Cache des Miniatures, vous devez vider le cache des miniatures après avoir modifié les paramètres des miniatures dans la « Configuration de la Galerie ».',
+	'GALLERY_PURGE_CACHE_EXPLAIN'	=> 'Si vous utilisez la fonction de Cache des Miniatures, vous devez vider le cache des miniatures après avoir modifié les paramètres des miniatures dans la « Configuration de la Galerie ».',
 	'GALLERY_RESYNC_ALBUMS_TO_CPF'	=> 'Resynchroniser les albums personnels en champs de profils personnalisés',
-	'GALLERY_RESYNC_ALBUMS_TO_CPF_EXPAIN'	=> 'Permet de resynchroniser tous les albums personnels principaux en tant que contacts basés sur les champs de profils personnallisés. <br> Information : Si un trop grand nombre d’albums personnels principaux sont présents cette opération peut mettre un certain temps avant d’aboutir !',
+	'GALLERY_RESYNC_ALBUMS_TO_CPF_EXPAIN'	=> 'Permet de resynchroniser tous les albums personnels principaux en tant que contacts basés sur les champs de profils personnalisés.<br>Information : Si un trop grand nombre d’albums personnels principaux sont présents cette opération peut mettre un certain temps avant d’aboutir !',
 	'GALLERY_RESYNC_ALBUMS_TO_CPF_CONFIRM'	=> 'Confirmer la resynchronisation de tous les albums personnels principaux comme contacts basés sur les champs de profils personnalisés ?',
 	'GALLERY_STATS'					=> 'Statistiques de la Galerie',
 	'GALLERY_VERSION'				=> 'Version de la Galerie phpBB',
 	'GD_VERSION'					=> 'Optimiser pour la version GD',
 	'GENERAL_ALBUM_SETTINGS'		=> 'Paramètres généraux de l’album',
 	'GIF_ALLOWED'					=> 'Autoriser à envoyer des fichiers GIF',
-	'GUPLOAD_DIR_SIZE'				=> 'Taille du répertoire « upload/ »',
+	'GUPLOAD_DIR_SIZE'				=> 'Taille du répertoire « upload/ »',
 
-	'HACKING_ATTEMPT'				=> 'Tentative de piratage !',
-	'HANDLE_IMAGES'					=> 'Que faire avec les images ?',
-	'HANDLE_SUBS'					=> 'Que faire avec les sous-albums ?',
+	'HACKING_ATTEMPT'				=> 'Tentative de piratage !',
+	'HANDLE_IMAGES'					=> 'Que faire avec les images ?',
+	'HANDLE_SUBS'					=> 'Que faire avec les sous-albums ?',
 	'HOTLINK_ALLOWED'				=> 'Liste blanche des liens',
-	'HOTLINK_ALLOWED_EXP'			=> 'Les liens vers des images provenants de ces domaines, sont toujours autorisés. Les domaines doivent être séparés par des virgules (sans espaces). Exemple : « lestontonsfraggers.com,phpbb.com »',
+	'HOTLINK_ALLOWED_EXP'			=> 'Les liens vers des images provenants de ces domaines sont toujours autorisés. Les domaines doivent être séparés par des virgules (sans espaces). Exemple : « lestontonsfraggers.com,phpbb.com »',
 	'HOTLINK_PREVENT'				=> 'Autoriser les liens vers des images de tous les sites',
 
 	'IMAGE_DESC_MAX_LENGTH'			=> 'Longueur maximale de la description',
@@ -183,20 +200,20 @@ $lang = array_merge($lang, array(
 	'JPG_QUALITY_EXP'				=> 'Lorsque vous redimensionnez ou que vous faites pivoter une image, la taille du fichier peut augmenter. Avec cette option, vous pouvez réduire la qualité d’une image et donc économiser de l’espace disque.',
 
 	'LIST_INDEX'					=> 'Lister le sous-album dans la légende de l’album parent',
-	'LIST_INDEX_EXPLAIN'			=> 'Affiche cet album sur l’index et dans la légende de son album parent, si l’option « Lister les sous-albums dans la légende » est activée.',
+	'LIST_INDEX_EXPLAIN'			=> 'Affiche cet album sur l’index et dans la légende de son album parent, si l’option « Lister les sous-albums dans la légende » est activée.',
 	'LIST_SUBALBUMS'				=> 'Lister les sous-albums dans la légende',
-	'LIST_SUBALBUMS_EXPLAIN'		=> 'Affiche les sous-albums de cet album sur l’index et dans la légende de son album parent, si l’option « Lister le sous-album dans la légende de l’album parent » est activée.',
+	'LIST_SUBALBUMS_EXPLAIN'		=> 'Affiche les sous-albums de cet album sur l’index et dans la légende de son album parent, si l’option « Lister le sous-album dans la légende de l’album parent » est activée.',
 	'LOCKED'						=> 'Verrouillé',
 	'LOOK_UP_ALBUM'					=> 'Sélectionner un album',
 	'LOOK_UP_ALBUMS_EXPLAIN'		=> 'Vous êtes en mesure de sélectionner plusieurs albums.',
 
-	'MANAGE_CRASHED_ENTRIES'		=> 'Gérer les entrées problèmatiques',
-	'MANAGE_CRASHED_IMAGES'			=> 'Gérer les images problèmatiques',
+	'MANAGE_CRASHED_ENTRIES'		=> 'Gérer les entrées problématiques',
+	'MANAGE_CRASHED_IMAGES'			=> 'Gérer les images problématiques',
 	'MANAGE_PERSONALS'				=> 'Gérer les albums personnels',
 	'MAX_IMAGES_PER_ALBUM'			=> 'Nombre maximum d’images pour chaque album',
 	'MAX_IMAGES_PER_ALBUM_EXP'		=> 'Illimité est -1',
 	'MEDIUM_CACHE'					=> 'Cache des images redimensionnées pour la page des images',
-	'MEDIUM_DIR_SIZE'				=> 'Taille du répertoire « medium/ »',
+	'MEDIUM_DIR_SIZE'				=> 'Taille du répertoire « medium/ »',
 	'MISSING_ALBUM_NAME'			=> 'Vous devez saisir un titre d’album.',
 	'MISSING_AUTHOR'				=> 'Images sans auteur valide',
 	'MISSING_AUTHOR_C'				=> 'Commentaires sans auteur valide',
@@ -234,14 +251,14 @@ $lang = array_merge($lang, array(
 	'PERMISSION_A_UNLIMITED'		=> 'Nombre illimité de sous-albums personnels',
 	'PERMISSION_C'					=> 'Commentaires',
 	'PERMISSION_C_DELETE'			=> 'Peut supprimer ses commentaires',
-	'PERMISSION_C_EDIT'				=> 'Peut éditer ses commentaires',
+	'PERMISSION_C_EDIT'				=> 'Peut modifier ses commentaires',
 	'PERMISSION_C_POST'				=> 'Peut commenter les images',
 	'PERMISSION_C_READ'				=> 'Peut lire les commentaires',
 	'PERMISSION_I'					=> 'Images',
 	'PERMISSION_I_APPROVE'			=> 'Peut envoyer une image sans approbation',
 	'PERMISSION_I_COUNT'			=> 'Nombre d’images chargeables',
 	'PERMISSION_I_DELETE'			=> 'Peut supprimer ses images',
-	'PERMISSION_I_EDIT'				=> 'Peut éditer ses images',
+	'PERMISSION_I_EDIT'				=> 'Peut modifier ses images',
 	'PERMISSION_I_LOCK'				=> 'Peut verrouiller des images',
 	'PERMISSION_I_RATE'				=> 'Peut noter des images',
 	'PERMISSION_I_RATE_EXPLAIN'		=> 'Les invités et les auteurs des images ne peuvent <samp>JAMAIS</samp> noter les/leurs images.',
@@ -255,7 +272,7 @@ $lang = array_merge($lang, array(
 	'PERMISSION_MISC'				=> 'Autres', //Miscellaneous
 	'PERMISSION_M_COMMENTS'			=> 'Peut modérer les commentaires',
 	'PERMISSION_M_DELETE'			=> 'Peut supprimer les images',
-	'PERMISSION_M_EDIT'				=> 'Peut éditer les images',
+	'PERMISSION_M_EDIT'				=> 'Peut modifier les images',
 	'PERMISSION_M_MOVE'				=> 'Peut déplacer les images',
 	'PERMISSION_M_REPORT'			=> 'Peut gérer les rapports',
 	'PERMISSION_M_STATUS'			=> 'Peut valider et verrouiller les images',
@@ -266,17 +283,17 @@ $lang = array_merge($lang, array(
 	'PERMISSIONS_EXPLAIN'			=> 'Vous pouvez modifier ici l’accès des albums aux utilisateurs et/ou groupes d’utilisateurs.',
 	'PERMISSIONS_STORED'			=> 'Les permissions ont été enregistrées avec succès.',
 	'PERSONAL_ALBUM_INDEX'			=> 'Afficher les albums personnels sur l’index comme un album',
-	'PERSONAL_ALBUM_INDEX_EXP'		=> 'Si vous mettez « Non », il y aura le lien juste en-dessous.',
+	'PERSONAL_ALBUM_INDEX_EXP'		=> 'Si vous mettez « Non », il y aura le lien juste en-dessous.',
 	'PEGA_CREATED'					=> 'Création de la galerie personnelle pour %s.',
 	'PEGA_ALREADY_EXISTS'			=> '%s dispose déjà d’une galerie personnelle.',
 	'PGALLERIES_PER_PAGE'			=> 'Nombre de galeries personnelles par page',
 	'ITEMS_PER_PAGE'				=> 'Objets par page',
 	'ITEMS_PER_PAGE_EXP'			=> 'Combien d’images/albums par page',
-	'RANDOM_ON_INDEX'				=> 'Afficher les images aléatoires sur l’accueil?',
-	'RANDOM_ON_INDEX_EXP'			=> 'Afficher des images aléatoires sur la page d’index de la galerie?',
+	'RANDOM_ON_INDEX'				=> 'Afficher les images aléatoires sur l’accueil ?',
+	'RANDOM_ON_INDEX_EXP'			=> 'Afficher des images aléatoires sur la page d’index de la galerie ?',
 	'RANDOM_ON_INDEX_COUNT'			=> 'Nombre d’images aléatoires',
-	'RECENT_ON_INDEX'				=> 'Afficher les images récentes?',
-	'RECENT_ON_INDEX_EXP'			=> 'Afficher les images récentes sont sur l’accueil?',
+	'RECENT_ON_INDEX'				=> 'Afficher les images récentes ?',
+	'RECENT_ON_INDEX_EXP'			=> 'Afficher les images récentes sont sur l’accueil ?',
 	'RECENT_ON_INDEX_COUNT'			=> 'Nombre d’images récentes',
 	'PHPBB_INTEGRATION'				=> 'Intégration à phpBB',
 	'PNG_ALLOWED'					=> 'Autoriser à charger des fichiers PNG',
@@ -288,20 +305,20 @@ $lang = array_merge($lang, array(
 	'REMOVE_IMAGES_FOR_CAT'			=> 'Vous devez supprimer les images de l’album, avant de le convertir en catégorie.',
 	'RESET_RATING'					=> 'Réinitialiser les notes d’un album',
 	'RESET_RATING_COMPLETED'		=> 'Les notes ont été supprimées avec succès.',
-	'RESET_RATING_CONFIRM'			=> 'Voulez-vous vraiment supprimer toutes les notes des images de cet album « %s » ?',
+	'RESET_RATING_CONFIRM'			=> 'Voulez-vous vraiment supprimer toutes les notes des images de cet album « %s » ?',
 	'RESET_RATING_EXPLAIN'			=> 'Cette option supprime toutes les notes des images de l’album spécifié.',
 	'RESIZE_IMAGES'					=> 'Redimensionner les grandes images',
 	'RESYNC_IMAGECOUNTS'			=> 'Resynchroniser les compteurs d’images',
-	'RESYNC_IMAGECOUNTS_CONFIRM'	=> 'Êtes-vous sûr de vouloir resynchroniser les compteurs d’images ?',
+	'RESYNC_IMAGECOUNTS_CONFIRM'	=> 'Êtes-vous sûr de vouloir resynchroniser les compteurs d’images ?',
 	'RESYNC_IMAGECOUNTS_EXPLAIN'	=> 'Seules les images existantes seront prises en considération.',
-	'RESYNC_LAST_IMAGES'			=> 'Rafraîchir la « Dernière Image »',
+	'RESYNC_LAST_IMAGES'			=> 'Rafraîchir la « Dernière Image »',
 	'RESYNC_PERSONALS'				=> 'Resynchroniser les albums personnels',
-	'RESYNC_PERSONALS_CONFIRM'		=> 'Êtes-vous sûr de vouloir resynchroniser les albums personnels ?',
+	'RESYNC_PERSONALS_CONFIRM'		=> 'Êtes-vous sûr de vouloir resynchroniser les albums personnels ?',
 	'RESYNCED_IMAGECOUNTS'			=> 'Compteurs d’images resynchronisés.',
-	'RESYNCED_LAST_IMAGES'			=> '« Dernière Image » rafraîchie.',
+	'RESYNCED_LAST_IMAGES'			=> '« Dernière Image » rafraîchie.',
 	'RESYNCED_PERSONALS'			=> 'Albums personnels resynchronisés.',
 	'ROTATE_IMAGES'					=> 'Autoriser la rotation des images',
-	'ROTATE_IMAGES_EXP'				=> 'Cette fonctionnalité ne peut pas être utilisée pour le moment, car la fonction « imagerotate » n’est pas incluse dans votre version GD.',
+	'ROTATE_IMAGES_EXP'				=> 'Cette fonctionnalité ne peut pas être utilisée pour le moment, car la fonction « imagerotate » n’est pas incluse dans votre version GD.',
 	'ROWS_PER_PAGE'					=> 'Nombre de lignes sur la page des miniatures',
 
 	'RRC_DISPLAY_ALBUMNAME'			=> 'Titre de l’album',
@@ -311,7 +328,7 @@ $lang = array_merge($lang, array(
 	'RRC_DISPLAY_IMAGEVIEWS'		=> 'Images vues',
 	'RRC_DISPLAY_IP'				=> 'IP de l’utilisateur',
 	'RRC_DISPLAY_NONE'				=> 'Aucun',
-	'RRC_DISPLAY_OPTIONS'			=> 'Quelles valeurs doivent être affichées sous les miniatures?',
+	'RRC_DISPLAY_OPTIONS'			=> 'Quelles valeurs doivent être affichées sous les miniatures ?',
 	'RRC_DISPLAY_USERNAME'			=> 'Nom d’utilisateur',
 	'RRC_DISPLAY_RATINGS'			=> 'Notes',
 	'RRC_GINDEX'					=> 'Fonctions Dernières Images/Commentaires & Images aléatoires',
@@ -320,7 +337,7 @@ $lang = array_merge($lang, array(
 	'RRC_GINDEX_CONTESTS'			=> 'Nombre de concours',
 	'RRC_GINDEX_CROWS'				=> 'Nombre de commentaires',
 	'RRC_GINDEX_MODE'				=> 'Mode',
-	'RRC_GINDEX_MODE_EXP'			=> 'Le système « Images aléatoires » peut mettre un certain temps à se charger, surtout sur les grandes base de données!',
+	'RRC_GINDEX_MODE_EXP'			=> 'Le système « Images aléatoires » peut mettre un certain temps à se charger, surtout sur les grandes base de données !',
 	'RRC_GINDEX_PGALLERIES'			=> 'Afficher les images des albums personnels',
 	'RRC_GINDEX_ROWS'				=> 'Lignes',
 	'RRC_MODE_COMMENTS'				=> 'Commentaires',
@@ -328,8 +345,8 @@ $lang = array_merge($lang, array(
 	'RRC_MODE_RANDOM'				=> 'Images aléatoires',
 	'RRC_MODE_RECENT'				=> 'Dernières images',
 	'RRC_PROFILE_COLUMNS'			=> 'Colonnes',
-	'RRC_PROFILE_MODE'				=> 'Fonctions dans le profil « Dernières images/Images aléatoires »',
-	'RRC_PROFILE_MODE_EXP'			=> 'Le système « Images aléatoires » peut mettre un certain temps à se charger, surtout sur les grandes base de données!',
+	'RRC_PROFILE_MODE'				=> 'Fonctions dans le profil « Dernières images/Images aléatoires »',
+	'RRC_PROFILE_MODE_EXP'			=> 'Le système « Images aléatoires » peut mettre un certain temps à se charger, surtout sur les grandes base de données !',
 	'RRC_PROFILE_ROWS'				=> 'Lignes',
 	'RRC_PROFILE_ITEMS'				=> 'Objets dans le profil de l’utilisateur',
 
@@ -338,7 +355,7 @@ $lang = array_merge($lang, array(
 
 	'SEARCH_SETTINGS'				=> 'Paramètres de recherche',
 	'SELECT_ALBUM'					=> 'Sélectionner un album',
-	'SELECT_ALBUMS'					=> 'Selectionner les albums',
+	'SELECT_ALBUMS'					=> 'Sélectionner les albums',
 	'SELECT_GROUPS'					=> 'Sélectionner des groupes d’utilisateurs',
 	'SELECT_PERM_SYS'				=> 'Sélectionner un système de permissions',
 	'SELECT_PERMISSIONS'			=> 'Sélectionner des permissions',
@@ -366,7 +383,7 @@ $lang = array_merge($lang, array(
 	'UC_LINK_HIGHSLIDE'				=> 'Ouvrir avec le plugin Highslide',
 	'UC_LINK_IMAGE'					=> 'Ouvrir l’image',
 	'UC_LINK_IMAGE_PAGE'			=> 'Ouvrir la page de l’image (avec les détails et les commentaires)',
-	'UC_LINK_LYTEBOX'				=> 'Ouvrir avec le plugin Lytebox',
+	'UC_LINK_LYTEBOX'				=> 'Ouvrir avec le plugin Lightbox',
 	'UC_LINK_NEXT'					=> 'Image suivante',
 	'UC_LINK_NEWTAB'				=> 'Ouvrir dans un nouvel onglet',
 	'UC_LINK_NONE'					=> 'Aucun lien',

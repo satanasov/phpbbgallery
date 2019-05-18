@@ -1,12 +1,13 @@
 <?php
 /**
 *
-* @package phpBB Gallery - MCP Extension [French]
-* @copyright (c) 2012 nickvergessen - http://www.flying-bits.org/
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-* @translator fr (c) pokyto aka le.poke http://www.lestontonsfraggers.com inspired by darky - http://www.foruminfopc.fr/ and Team http://www.phpbb-fr.com/
+* phpBB Gallery. An extension for the phpBB Forum Software package.
+* French translation by pokyto aka le.poke http://www.lestontonsfraggers.com (inspired by darky http://www.foruminfopc.fr/ and http://www.phpbb-fr.com/) & Galixte (http://www.galixte.com)
 *
-**/
+* @copyright (c) 2012 nickvergessen <http://www.flying-bits.org/> - 2018 Stanislav Atanasov <http://www.anavaro.com>
+* @license GNU General Public License, version 2 (GPL-2.0-only)
+*
+*/
 
 /**
 * DO NOT CHANGE
@@ -20,6 +21,22 @@ if (empty($lang) || !is_array($lang))
 {
 	$lang = array();
 }
+
+// DEVELOPERS PLEASE NOTE
+//
+// All language files should use UTF-8 as their encoding and the files must not contain a BOM.
+//
+// Placeholders can now contain order information, e.g. instead of
+// 'Page %s of %s' you can (and should) write 'Page %1$s of %2$s', this allows
+// translators to re-order the output of data while ensuring it remains correct
+//
+// You do not need this where single placeholders are used, e.g. 'Message %d' is fine
+// equally where a string contains only two placeholders which are used to wrap text
+// in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
+//
+// Some characters you may want to copy&paste:
+// ’ « » “ ” …
+//
 
 $lang = array_merge($lang, array(
 	'CHOOSE_ACTION'					=> 'Sélectionner l’action désirée',
@@ -47,63 +64,64 @@ $lang = array_merge($lang, array(
 	'LATEST_IMAGES_UNAPPROVED'		=> 'Les 5 dernières images en attente de validation',
 
 	'QUEUE_A_APPROVE'				=> 'Valider l’image',
-	'QUEUE_A_APPROVE2'				=> 'Valider l’image?',
-	'QUEUE_A_APPROVE2_CONFIRM'		=> 'Êtes-vous sûr de vouloir valider cette image?',
+	'QUEUE_A_APPROVE2'				=> 'Valider l’image ?',
+	'QUEUE_A_APPROVE2_CONFIRM'		=> 'Êtes-vous sûr de vouloir valider cette image ?',
 	'QUEUE_A_DELETE'				=> 'Supprimer l’image',
-	'QUEUE_A_DELETE2'				=> 'Supprimer l’image?',
-	'QUEUE_A_DELETE2_CONFIRM'		=> 'Êtes-vous sûr de vouloir supprimer cette image?',
+	'QUEUE_A_DELETE2'				=> 'Supprimer l’image ?',
+	'QUEUE_A_DELETE2_CONFIRM'		=> 'Êtes-vous sûr de vouloir supprimer cette image ?',
 	'QUEUE_A_LOCK'					=> 'Verrouiller l’image',
-	'QUEUE_A_LOCK2'					=> 'Verrouiller l’image?',
-	'QUEUE_A_LOCK2_CONFIRM'			=> 'Êtes-vous sûr de vouloir verrouiller cette image?',
+	'QUEUE_A_LOCK2'					=> 'Verrouiller l’image ?',
+	'QUEUE_A_LOCK2_CONFIRM'			=> 'Êtes-vous sûr de vouloir verrouiller cette image ?',
 	'QUEUE_A_MOVE'					=> 'Déplacer l’image',
 	'QUEUE_A_UNAPPROVE'				=> 'Refuser l’image',
-	'QUEUE_A_UNAPPROVE2'			=> 'Refuser l’image?',
-	'QUEUE_A_UNAPPROVE2_CONFIRM'	=> 'Êtes-vous sûr de vouloir refuser cette image?',
+	'QUEUE_A_UNAPPROVE2'			=> 'Refuser l’image ?',
+	'QUEUE_A_UNAPPROVE2_CONFIRM'	=> 'Êtes-vous sûr de vouloir refuser cette image ?',
 
 	'QUEUE_STATUS_0'				=> 'L’image est attente de validation.',
 	'QUEUE_STATUS_1'				=> 'L’image est validée.',
 	'QUEUE_STATUS_2'				=> 'L’image est verrouillée.',
 
 	'QUEUES_A_APPROVE'				=> 'Valider les images',
-	'QUEUES_A_APPROVE2'				=> 'Valider les images?',
-	'QUEUES_A_APPROVE2_CONFIRM'		=> 'Êtes-vous sûr de vouloir valider ces images?',
+	'QUEUES_A_APPROVE2'				=> 'Valider les images ?',
+	'QUEUES_A_APPROVE2_CONFIRM'		=> 'Êtes-vous sûr de vouloir valider ces images ?',
 	'QUEUES_A_DELETE'				=> 'Supprimer les images',
-	'QUEUES_A_DELETE2'				=> 'Supprimer les images?',
-	'QUEUES_A_DELETE2_CONFIRM'		=> 'Êtes-vous sûr de vouloir supprimer ces images?',
+	'QUEUES_A_DELETE2'				=> 'Supprimer les images ?',
+	'QUEUES_A_DELETE2_CONFIRM'		=> 'Êtes-vous sûr de vouloir supprimer ces images ?',
 	'QUEUES_A_LOCK'					=> 'Verrouiller les images',
-	'QUEUES_A_LOCK2'				=> 'Verrouiller les images?',
-	'QUEUES_A_LOCK2_CONFIRM'		=> 'Êtes-vous sûr de vouloir verrouiller ces images?',
+	'QUEUES_A_LOCK2'				=> 'Verrouiller les images ?',
+	'QUEUES_A_LOCK2_CONFIRM'		=> 'Êtes-vous sûr de vouloir verrouiller ces images ?',
 	'QUEUES_A_MOVE'					=> 'Déplacer les images',
 	'QUEUES_A_UNAPPROVE'			=> 'Refuser les images',
-	'QUEUES_A_UNAPPROVE2'			=> 'Refuser les images?',
-	'QUEUES_A_UNAPPROVE2_CONFIRM'	=> 'Êtes-vous sûr de vouloir refuser ces images?',
-	'QUEUES_A_DISAPPROVE2_CONFIRM'	=> 'Êtes-vous sûr de vouloir refuser ces images?',
+	'QUEUES_A_UNAPPROVE2'			=> 'Refuser les images ?',
+	'QUEUES_A_UNAPPROVE2_CONFIRM'	=> 'Êtes-vous sûr de vouloir refuser ces images ?',
+	'QUEUES_A_DISAPPROVE2_CONFIRM'	=> 'Êtes-vous sûr de vouloir refuser ces images ?',
 
 	'REPORT_A_CLOSE'				=> 'Fermer le rapport',
-	'REPORT_A_CLOSE2'				=> 'Fermer le rapport?',
-	'REPORT_A_CLOSE2_CONFIRM'		=> 'Êtes-vous sûr de vouloir fermer ce rapport?',
+	'REPORT_A_CLOSE2'				=> 'Fermer le rapport ?',
+	'REPORT_A_CLOSE2_CONFIRM'		=> 'Êtes-vous sûr de vouloir fermer ce rapport ?',
 	'REPORT_A_DELETE'				=> 'Supprimer le rapport',
-	'REPORT_A_DELETE2'				=> 'Supprimer le rapport?',
-	'REPORT_A_DELETE2_CONFIRM'		=> 'Êtes-vous sûr de vouloir supprimer ce rapport?',
+	'REPORT_A_DELETE2'				=> 'Supprimer le rapport ?',
+	'REPORT_A_DELETE2_CONFIRM'		=> 'Êtes-vous sûr de vouloir supprimer ce rapport ?',
 	'REPORT_A_OPEN'					=> 'Ouvrir le rapport',
-	'REPORT_A_OPEN2'				=> 'Ouvrir le rapport?',
-	'REPORT_A_OPEN2_CONFIRM'		=> 'Êtes-vous sûr de vouloir ouvrir ce rapport?',
+	'REPORT_A_OPEN2'				=> 'Ouvrir le rapport ?',
+	'REPORT_A_OPEN2_CONFIRM'		=> 'Êtes-vous sûr de vouloir ouvrir ce rapport ?',
 
 	'REPORT_NOT_FOUND'				=> 'Le rapport n’a pas pu être trouvé.',
 	'REPORT_STATUS_1'				=> 'Le rapport doit être revu.',
 	'REPORT_STATUS_2'				=> 'Le rapport est fermé.',
 
 	'REPORTS_A_CLOSE'				=> 'Fermer les rapports',
-	'REPORTS_A_CLOSE2'				=> 'Fermer les rapports?',
-	'REPORTS_A_CLOSE2_CONFIRM'		=> 'Êtes-vous sûr de vouloir fermer ces rapports?',
+	'REPORTS_A_CLOSE2'				=> 'Fermer les rapports ?',
+	'REPORTS_A_CLOSE2_CONFIRM'		=> 'Êtes-vous sûr de vouloir fermer ces rapports ?',
 	'REPORTS_A_DELETE'				=> 'Supprimer les rapports',
-	'REPORTS_A_DELETE2'				=> 'Supprimer les rapports?',
-	'REPORTS_A_DELETE2_CONFIRM'		=> 'Êtes-vous sûr de vouloir supprimer ces rapports?',
+	'REPORTS_A_DELETE2'				=> 'Supprimer les rapports ?',
+	'REPORTS_A_DELETE2_CONFIRM'		=> 'Êtes-vous sûr de vouloir supprimer ces rapports ?',
 	'REPORTS_A_OPEN'				=> 'Ouvrir les rapports',
-	'REPORTS_A_OPEN2'				=> 'Ouvrir les rapports?',
-	'REPORTS_A_OPEN2_CONFIRM'		=> 'Êtes-vous sûr de vouloir ouvrir ces rapports?',
+	'REPORTS_A_OPEN2'				=> 'Ouvrir les rapports ?',
+	'REPORTS_A_OPEN2_CONFIRM'		=> 'Êtes-vous sûr de vouloir ouvrir ces rapports ?',
 
-	'REPORT_MOD'					=> 'Édité par',
+	'REPORT_MOD'					=> 'Modifié par',
+	'REPORT_CLOSED_BY'				=> 'Rapport clôturé par',
 	'REPORTED_IMAGES'				=> 'Images rapportées',
 	'REPORTER'						=> 'Utilisateur rapporté',
 	'REPORTER_AND_ALBUM'			=> 'Rapport & Album',
