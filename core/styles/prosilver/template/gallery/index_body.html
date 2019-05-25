@@ -243,20 +243,21 @@ function toggleElement(oElement)
 	<!-- ELSE -->
 	<div id="recent-comments" <!-- IF COMMENTS_EXPAND --><!-- ELSE -->style="display: none;"<!-- ENDIF -->>
 		<!-- BEGIN commentrow -->
-		<a id="{commentrow.COMMENT_ID}"></a>
-		<div class="post <!-- IF commentrow.S_ROW_COUNT is odd -->bg1<!-- ELSE -->bg2<!-- ENDIF -->">
+		<div class="post has-profile <!-- IF commentrow.S_ROW_COUNT is odd -->bg1<!-- ELSE -->bg2<!-- ENDIF -->">
+		<a id="{commentrow.COMMENT_ID}" class="anchor"></a>
 			<div class="inner">
-				<div class="postbody">
+				<div class="postbody" id="post_content{commentrow.COMMENT_ID}">
+					<!-- IF commentrow.U_DELETE or commentrow.U_EDIT or commentrow.U_QUOTE -->
 						<ul class="post-buttons">
 							<!-- IF commentrow.U_EDIT --><li><a href="{commentrow.U_EDIT}" title="{L_EDIT_COMMENT}" class="button button-icon-only"><i class="icon fa-pencil fa-fw" aria-hidden="true"></i><span class="sr-only">{L_QUOTE_COMMENT}</span></a></li><!-- ENDIF -->
 							<!-- IF commentrow.U_DELETE --><li><a href="{commentrow.U_DELETE}" title="{L_DELETE_COMMENT}" class="button button-icon-only"><i class="icon fa-times fa-fw" aria-hidden="true"></i><span class="sr-only">{L_QUOTE_COMMENT}</span></a></li><!-- ENDIF -->
-							<!-- IF commentrow.U_QUOTE --><li><a href="{commentrow.U_QUOTE" title="{L_QUOTE_COMMENT}" class="button button-icon-only"><i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">{L_QUOTE_COMMENT}</span></a></li><!-- ENDIF -->
+							<!-- IF commentrow.U_QUOTE --><li><a href="{commentrow.U_QUOTE}" title="{L_QUOTE_COMMENT}" class="button button-icon-only"><i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">{L_QUOTE_COMMENT}</span></a></li><!-- ENDIF -->
 						</ul>
-						<p class="author"><a href="{commentrow.U_COMMENT}">{MINI_POST_IMG}</a>&nbsp;{L_POST_BY_AUTHOR} <strong>{commentrow.POST_AUTHOR_FULL}</strong> &raquo; {commentrow.TIME} </p>
+					<!-- ENDIF -->
+					<p class="author"><!-- IF S_IS_BOT --><i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">{commentrow.MINI_POST_IMG}</span><!-- ELSE --><a href="{commentrow.U_COMMENT}"><i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">{commentrow.MINI_POST_IMG}</span></a><!-- ENDIF --> {L_POST_BY_AUTHOR} <strong>{commentrow.POST_AUTHOR_FULL}</strong> &raquo; {commentrow.TIME} </p>
 					<div class="content">{commentrow.TEXT}</div>
 				</div>
-				<dl class="postprofile" id="profile{commentrow.COMMENT_ID}">
-					<dd>{L_COMMENT_ON}{L_COLON}</dd>
+				<dl class="postprofile" id="profile{commentrow.COMMENT_ID} profile_poster">
 					<dd>{commentrow.UC_IMAGE_NAME}</dd>
 					<dt>{commentrow.UC_THUMBNAIL}</dt><br />
 
