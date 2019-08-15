@@ -215,17 +215,19 @@ function toggleElement(oElement)
 							<dfn>{L_GALLERY_IMAGES}</dfn>
 						</dd>
 						<dd class="lastpost">
+							<!-- IF U_IMAGENAME -->
 							<div>
 								<span style="float: left; margin-right: 15px;"	>
 									<dfn>{L_LAST_IMAGES}</dfn>
-									<a href="{U_IMAGE_ACTION}"><img src="{U_PERSONAL_GALLERIES_LAST_IMAGE}" style="max-width: 50px; max-height: 50px;"></a>
+									<a href="{U_IMAGE_ACTION}"><img src="{U_PERSONAL_GALLERIES_LAST_IMAGE}" style="max-width: 50px; max-height: 50px;" alt="{U_IMAGENAME}"></a>
 								</span>
 								<span style="width: 150px;">
-									<!-- IF U_IMAGENAME --><a href="{U_IMAGENAME_ACTION}"><p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: bold; margin-bottom: 2px;">{U_IMAGENAME}</p></a>
+									<a href="{U_IMAGENAME_ACTION}"><p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: bold; margin-bottom: 2px;">{U_IMAGENAME}</p></a>
 									{U_TIME} <br>
-									{U_UPLOADER}<!-- ENDIF -->
+									{U_UPLOADER}
 								</span>
 							</div>
+							<!-- ENDIF -->
 						</dd>
 					<dl>
 				</li>
