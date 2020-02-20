@@ -14,6 +14,7 @@ GITREPO=$3
 
 if [ "$TRAVIS_PHP_VERSION" == "7.2" ] && [ "$DB" == "mysqli" ]
 then
+	pwd
     cd ../"$GITREPO"
     wget https://scrutinizer-ci.com/ocular.phar
     php ocular.phar code-coverage:upload --format=php-clover ../../phpBB3/build/logs/clover.xml
