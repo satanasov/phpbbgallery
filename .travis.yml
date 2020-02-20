@@ -52,7 +52,7 @@ install:
   - composer install --dev --no-interaction --prefer-source
   - cd ..
   - travis/prepare-phpbb.sh $EXTNAME $PHPBB_BRANCH
-  - cwd
+  - pwd
   - cd ../phpBB3
   - sh -c "if [ '$COVER' != '0' ]; then sed -i '/phpenv/d' travis/setup-php-extensions.sh; fi"
   - travis/prepare-extension.sh $EXTNAME $PHPBB_BRANCH
