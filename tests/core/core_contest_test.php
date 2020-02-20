@@ -19,7 +19,7 @@ class core_contest_test extends core_base
 {
 	protected $gallery_contest;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 

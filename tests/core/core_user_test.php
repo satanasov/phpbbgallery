@@ -17,7 +17,7 @@ require_once dirname(__FILE__) . '/../../../../includes/functions.php';
 
 class core_user_test extends core_base
 {
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 		$this->gallery_user = new \phpbbgallery\core\user(

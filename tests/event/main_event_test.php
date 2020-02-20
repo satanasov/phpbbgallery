@@ -39,7 +39,7 @@ class main_event_test extends \phpbb_database_test_case
 	/**
 	* Setup test environment
 	*/
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -57,10 +57,12 @@ class main_event_test extends \phpbb_database_test_case
 		$this->language->method('lang')
 			->will($this->returnArgument(0));
 
-		$this->user = $this->getMock('\phpbb\user', array(), array(
-			new \phpbb\language\language(new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx)),
-			'\phpbb\datetime'
-		));
+		$this->user = $this->getMockBuilder('\phpbb\user')
+			->setConstructorArgs(array(
+				new \phpbb\language\language(new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx)),
+				'\phpbb\datetime'
+			))
+			->getMock();
 		$this->user->optionset('viewcensors', false);
 		$this->user->style['style_path'] = 'prosilver';
 

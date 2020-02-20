@@ -17,7 +17,7 @@ require_once dirname(__FILE__) . '/../../../../../includes/functions.php';
 
 class core_display_test extends \phpbbgallery\tests\core\core_base
 {
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -302,6 +302,6 @@ class core_display_test extends \phpbbgallery\tests\core\core_base
 	{
 		$this->assertEquals($expected, $this->display->get_branch($branch_user_id, $album_id, $type, $order, $include_album));
 	}
-	
-	
+
+
 }

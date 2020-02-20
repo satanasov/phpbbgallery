@@ -22,7 +22,7 @@ class gallery_album_test extends controller_base
 	/**
 	* Setup test environment
 	*/
-	public function setUp()
+	public function setUp() : void
 	{
 
 		parent::setUp();
@@ -523,7 +523,7 @@ class gallery_album_test extends controller_base
 		//$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
 		//$this->assertEquals('404', $response->getStatusCode());
 	}
-	protected function tearDown()
+	protected function tearDown() : void
 	{
 		parent::tearDown();
 	}

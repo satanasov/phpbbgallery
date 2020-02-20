@@ -17,7 +17,7 @@ require_once dirname(__FILE__) . '/../../../../../includes/functions.php';
 
 class core_album_test extends \phpbbgallery\tests\core\core_base
 {
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 

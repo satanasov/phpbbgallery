@@ -18,12 +18,12 @@ class phpbbgallery_base extends \phpbb_functional_test_case
 	{
 		return array('phpbbgallery/core', 'phpbbgallery/exif', 'phpbbgallery/acpimport', 'phpbbgallery/acpcleanup');
 	}
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 		$this->path = __DIR__ . '/images/';
-		
-	}	
+
+	}
 
 	public function get_state($ext)
 	{
@@ -38,7 +38,7 @@ class phpbbgallery_base extends \phpbb_functional_test_case
 	public function get_user_id($username)
 	{
 		$this->get_db();
-		$sql = 'SELECT user_id, username 
+		$sql = 'SELECT user_id, username
 				FROM ' . USERS_TABLE . '
 				WHERE username_clean = \''.$this->db->sql_escape(utf8_clean_string($username)).'\'';
 		$result = $this->db->sql_query($sql);
@@ -58,7 +58,7 @@ class phpbbgallery_base extends \phpbb_functional_test_case
 	{
 		$parts = explode(';', $url);
 		$base = end($parts);
-		
+
 		return substr($base, 5);
 	}
 }

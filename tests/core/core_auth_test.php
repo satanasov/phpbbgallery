@@ -17,7 +17,7 @@ require_once dirname(__FILE__) . '/../../../../includes/functions.php';
 
 class core_auth_test extends core_base
 {
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 		global $table_prefix;

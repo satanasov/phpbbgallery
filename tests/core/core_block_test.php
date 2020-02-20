@@ -16,7 +16,7 @@ require_once dirname(__FILE__) . '/../../../../includes/functions.php';
 
 class core_block_test extends core_base
 {
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 

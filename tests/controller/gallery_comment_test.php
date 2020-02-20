@@ -20,7 +20,7 @@ class gallery_comment_test extends controller_base
 	/**
 	 * Setup test environment
 	 */
-	public function setUp()
+	public function setUp() : void
 	{
 
 		parent::setUp();

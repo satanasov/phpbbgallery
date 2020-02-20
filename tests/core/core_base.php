@@ -40,9 +40,9 @@ class core_base extends \phpbb_database_test_case
 	/**
 	* Setup test environment
 	*/
-	public function setUp()
+	public function setUp() : void
 	{
-		global $config, $phpbb_dispatcher, $user, $cache, $request, $db, $phpbb_root_path, $phpEx;
+		global $auth, $config, $phpbb_dispatcher, $user, $cache, $request, $db, $phpbb_root_path, $phpEx;
 
 
 
@@ -76,13 +76,19 @@ class core_base extends \phpbb_database_test_case
 		$this->language->method('lang')
 			->will($this->returnArgument(0));
 
-		$this->user = $this->getMock('\phpbb\user', array(), array(
-			new \phpbb\language\language(new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx)),
-			'\phpbb\datetime'
-		));
+		$this->user = $this->getMockBuilder('\phpbb\user')
+			->setConstructorArgs(array(
+				new \phpbb\language\language(new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx)),
+				'\phpbb\datetime'
+			))
+			->getMock();
 		$user = $this->user;
 
-		$this->auth = $this->getMock('\phpbb\auth\auth');
+		$this->auth = $this->getMockBuilder('\phpbb\auth\auth')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$auth = $this->auth;
 
 		$this->controller_helper = $this->getMockBuilder('\phpbb\controller\helper')
 			->disableOriginalConstructor()
@@ -116,7 +122,9 @@ class core_base extends \phpbb_database_test_case
 		$this->user_loader->method('get_username')
 			->will($this->returnArgument(0));
 
-		$request = $this->request = $this->getMock('\phpbb\request\request');
+		$request = $this->request = $this->getMockBuilder('\phpbb\request\request')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->user_cpf = $this->getMockBuilder('\phpbb\profilefields\manager')
 			->disableOriginalConstructor()
@@ -124,7 +132,7 @@ class core_base extends \phpbb_database_test_case
 
 	}
 
-	protected function tearDown()
+	protected function tearDown() : void
 	{
 		parent::tearDown();
 	}

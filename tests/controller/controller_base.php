@@ -35,12 +35,14 @@ class controller_base extends \phpbb_database_test_case
 	/**
 	* Setup test environment
 	*/
-	public function setUp()
+	public function setUp() : void
 	{
 		global $request, $phpbb_root_path, $phpEx;
 		parent::setUp();
 		//Let's build some deps
-		$this->auth = $this->getMock('\phpbb\auth\auth');
+		$this->auth = $this->getMockBuilder('\phpbb\auth\auth')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$auth = $this->auth;
 
@@ -49,11 +51,14 @@ class controller_base extends \phpbb_database_test_case
 		$this->db = $this->new_dbal();
 		$db = $this->db;
 
-		$request = $this->request = $this->getMock('\phpbb\request\request');
+		$request = $this->request = $this->getMockBuilder('\phpbb\request\request')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
 		$this->template = $this->getMockBuilder('\phpbb\template\template')
+			->disableOriginalConstructor()
 			->getMock();
 
 		$this->language = $this->getMockBuilder('\phpbb\language\language')
@@ -62,10 +67,12 @@ class controller_base extends \phpbb_database_test_case
 		$this->language->method('lang')
 			->will($this->returnArgument(0));
 
-		$this->user = $this->getMock('\phpbb\user', array(), array(
-			new \phpbb\language\language(new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx)),
-			'\phpbb\datetime'
-		));
+		$this->user = $this->getMockBuilder('\phpbb\user')
+			->setConstructorArgs(array(
+				new \phpbb\language\language(new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx)),
+				'\phpbb\datetime'
+			))
+			->getMock();
 		$this->user
 			->method('lang')
 			->will($this->returnArgument(0));
@@ -111,7 +118,9 @@ class controller_base extends \phpbb_database_test_case
 			->getMock();
 
 		$phpbb_dispatcher = $this->dispatcher = new \phpbb_mock_event_dispatcher();
-		$this->phpbb_container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+		$this->phpbb_container = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->user_loader = $this->getMockBuilder('\phpbb\user_loader')
 			->disableOriginalConstructor()

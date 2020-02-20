@@ -16,7 +16,7 @@ require_once dirname(__FILE__) . '/../../../../includes/functions.php';
 
 class core_config_test extends core_base
 {
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 		$this->gallery_config = new \phpbbgallery\core\config(
@@ -276,7 +276,7 @@ class core_config_test extends core_base
 			$this->assertContains($this->gallery_config->get($variable), $expectation);
 		}
 	}
-	
+
 	/**
 	* Test data for the test_config_set test
 	*
@@ -340,8 +340,8 @@ class core_config_test extends core_base
 	 * Determine if two associative arrays are similar
 	 *
 	 * Both arrays must have the same indexes with identical values
-	 * without respect to key ordering 
-	 * 
+	 * without respect to key ordering
+	 *
 	 * @param array $a
 	 * @param array $b
 	 * @return bool

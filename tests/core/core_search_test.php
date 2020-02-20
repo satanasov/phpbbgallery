@@ -19,7 +19,7 @@ require_once dirname(__FILE__) . '/../../../../includes/functions.php';
 
 class core_search_test extends core_base
 {
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 		$this->gallery_cache = new \phpbbgallery\core\cache(
@@ -231,10 +231,6 @@ class core_search_test extends core_base
 	*/
 	public function test_random($user_id, $group_id, $limit, $search_user, $expected)
 	{
-		global $auth;
-		$this->auth->method('get_acl')
-			->willReturn(true);
-		$auth = $this->auth;
 		$this->user->data['user_id'] = $user_id;
 		$this->user->data['group_id'] = $group_id;
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
@@ -248,10 +244,6 @@ class core_search_test extends core_base
 	*/
 	public function test_recent($user_id, $group_id, $limit, $search_user, $expected)
 	{
-		global $auth;
-		$this->auth->method('get_acl')
-			->willReturn(true);
-		$auth = $this->auth;
 		$this->user->data['user_id'] = $user_id;
 		$this->user->data['group_id'] = $group_id;
 		$this->gallery_config->set('default_sort_dir', 'a');
@@ -650,10 +642,6 @@ class core_search_test extends core_base
 	*/
 	public function test_rrc_gindex_display_recent($state, $expect)
 	{
-		global $auth;
-		$this->auth->method('get_acl')
-			->willReturn(true);
-		$auth = $this->auth;
 		$this->user->data['user_id'] = 2;
 		$this->user->data['group_id'] = 5;
 		$this->gallery_config->set('rrc_gindex_display', $state);
@@ -675,10 +663,6 @@ class core_search_test extends core_base
 	*/
 	public function test_rrc_profile_display_recent($state, $expect)
 	{
-		global $auth;
-		$this->auth->method('get_acl')
-			->willReturn(true);
-		$auth = $this->auth;
 		$this->user->data['user_id'] = 2;
 		$this->user->data['group_id'] = 5;
 		$this->gallery_config->set('rrc_profile_display', $state);
@@ -700,10 +684,6 @@ class core_search_test extends core_base
 	*/
 	public function test_rrc_gindex_display_random($state, $expect)
 	{
-		global $auth;
-		$this->auth->method('get_acl')
-			->willReturn(true);
-		$auth = $this->auth;
 		$this->user->data['user_id'] = 2;
 		$this->user->data['group_id'] = 5;
 		$this->gallery_config->set('rrc_gindex_display', $state);
@@ -725,10 +705,6 @@ class core_search_test extends core_base
 	*/
 	public function test_rrc_profile_display_random($state, $expect)
 	{
-		global $auth;
-		$this->auth->method('get_acl')
-			->willReturn(true);
-		$auth = $this->auth;
 		$this->user->data['user_id'] = 2;
 		$this->user->data['group_id'] = 5;
 		$this->gallery_config->set('rrc_profile_display', $state);
@@ -781,10 +757,6 @@ class core_search_test extends core_base
 	*/
 	public function test_link_thumbnail_recent($state, $expect)
 	{
-		global $auth;
-		$this->auth->method('get_acl')
-			->willReturn(true);
-		$auth = $this->auth;
 		$this->user->data['user_id'] = 2;
 		$this->user->data['group_id'] = 5;
 		$this->gallery_config->set('link_thumbnail', $state);
@@ -835,10 +807,6 @@ class core_search_test extends core_base
 	*/
 	public function test_link_thumbnail_random($state, $expect)
 	{
-		global $auth;
-		$this->auth->method('get_acl')
-			->willReturn(true);
-		$auth = $this->auth;
 		$this->user->data['user_id'] = 2;
 		$this->user->data['group_id'] = 5;
 		$this->gallery_config->set('link_thumbnail', $state);
@@ -889,10 +857,6 @@ class core_search_test extends core_base
 	*/
 	public function test_link_image_name_recent($state, $expect)
 	{
-		global $auth;
-		$this->auth->method('get_acl')
-			->willReturn(true);
-		$auth = $this->auth;
 		$this->user->data['user_id'] = 2;
 		$this->user->data['group_id'] = 5;
 		$this->gallery_config->set('link_image_name', $state);
@@ -943,10 +907,6 @@ class core_search_test extends core_base
 	*/
 	public function test_link_image_name_random($state, $expect)
 	{
-		global $auth;
-		$this->auth->method('get_acl')
-			->willReturn(true);
-		$auth = $this->auth;
 		$this->user->data['user_id'] = 2;
 		$this->user->data['group_id'] = 5;
 		$this->gallery_config->set('link_image_name', $state);
@@ -1029,10 +989,6 @@ class core_search_test extends core_base
 	*/
 	public function test_recent_comments_admin()
 	{
-		global $auth;
-		$this->auth->method('get_acl')
-			->willReturn(true);
-		$auth = $this->auth;
 		$this->user->data['user_id'] = 2;
 		$this->user->data['group_id'] = 5;
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
@@ -1128,10 +1084,6 @@ class core_search_test extends core_base
 	}
 	public function test_recent_comments_admin_limit()
 	{
-		global $auth;
-		$this->auth->method('get_acl')
-			->willReturn(true);
-		$auth = $this->auth;
 		$this->user->data['user_id'] = 2;
 		$this->user->data['group_id'] = 5;
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
@@ -1171,10 +1123,6 @@ class core_search_test extends core_base
 	}
 	public function test_recent_comments_admin_limit_start()
 	{
-		global $auth;
-		$this->auth->method('get_acl')
-			->willReturn(true);
-		$auth = $this->auth;
 		$this->user->data['user_id'] = 2;
 		$this->user->data['group_id'] = 5;
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
@@ -1214,10 +1162,6 @@ class core_search_test extends core_base
 	}
 	public function test_recent_comments_admin_limit_start_overflow()
 	{
-		global $auth;
-		$this->auth->method('get_acl')
-			->willReturn(true);
-		$auth = $this->auth;
 		$this->user->data['user_id'] = 2;
 		$this->user->data['group_id'] = 5;
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
@@ -1227,10 +1171,6 @@ class core_search_test extends core_base
 	}
 	public function test_recent_comments_user()
 	{
-		global $auth;
-		$this->auth->method('get_acl')
-			->willReturn(true);
-		$auth = $this->auth;
 		$this->user->data['user_id'] = 52;
 		$this->user->data['group_id'] = 2;
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
@@ -1284,10 +1224,6 @@ class core_search_test extends core_base
 	}
 	public function test_recent_comments_user_limit()
 	{
-		global $auth;
-		$this->auth->method('get_acl')
-			->willReturn(true);
-		$auth = $this->auth;
 		$this->user->data['user_id'] = 52;
 		$this->user->data['group_id'] = 2;
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
@@ -1313,10 +1249,6 @@ class core_search_test extends core_base
 	}
 	public function test_recent_comments_user_limit_start()
 	{
-		global $auth;
-		$this->auth->method('get_acl')
-			->willReturn(true);
-		$auth = $this->auth;
 		$this->user->data['user_id'] = 52;
 		$this->user->data['group_id'] = 2;
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);

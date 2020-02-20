@@ -22,7 +22,7 @@ class gallery_index_test extends controller_base
 	/**
 	* Setup test environment
 	*/
-	public function setUp()
+	public function setUp() : void
 	{
 
 		parent::setUp();
@@ -941,7 +941,7 @@ class gallery_index_test extends controller_base
 		$this->assertEquals('200', $response->getStatusCode());
 	}
 
-	protected function tearDown()
+	protected function tearDown() : void
 	{
 		parent::tearDown();
 	}

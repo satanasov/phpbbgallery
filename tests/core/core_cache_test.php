@@ -17,10 +17,10 @@ require_once dirname(__FILE__) . '/../../../../includes/functions.php';
 
 class core_cache_test extends core_base
 {
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
-		
+
 		global $table_prefix;
 		$table_prefix = 'phpbb_';
 		$this->gallery_cache = new \phpbbgallery\core\cache(
