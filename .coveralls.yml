@@ -1,4 +1,0 @@
-# .coveralls.yml configuration
-
-# for php-coveralls
-json_path: build/logs/coveralls-upload.json

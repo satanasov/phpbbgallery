@@ -23,9 +23,6 @@
 	"require": {
 		"php": ">=5.4"
 	},
-	"require-dev": {
-		"satooshi/php-coveralls": "~1.0"
-	},
 	"extra": {
 		"display-name": "phpBB Gallery",
 		"soft-require": {
