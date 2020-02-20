@@ -22,7 +22,7 @@
 
 	<filter>
 		<whitelist processUncoveredFilesFromWhitelist="true">
-			<directory suffix=".php">../</directory>
+			<directory suffix=".php">./</directory>
 			<exclude>
 				<directory suffix=".php">../core/language/</directory>
 				<directory suffix=".php">../core/migrations/</directory>
