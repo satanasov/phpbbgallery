@@ -13,8 +13,6 @@ matrix:
           env: DB=sqlite3
         - php: 7.1
           env: DB=mysqli # MyISAM
-        - php: 7.1
-          env: DB=mysqli;SLOW=1 # Functional tests
         - php: 7.2
           env: DB=mysqli;COVER=1
         - php: 7.3
@@ -23,6 +21,8 @@ matrix:
           env: DB=mysqli
         - php: nightly
           env: DB=mysqli
+        - php: 7.1
+          env: DB=mysqli;SLOW=1 # Functional tests
     allow_failures:
         - php: nightly
     fast_finish: true
