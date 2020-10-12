@@ -6,7 +6,7 @@
 
 © 2014 - 2017 - [Lucifer](http://www.anavaro.com)
 
-Welcome to phpBB Gallery version 1.2.1
+Welcome to phpBB Gallery version 3.2.x
 
 This is direct port of [nickvergessen](https://github.com/nickvergessen)'s phpBB Gallery 1.1.6 for phpBB 3.0. As he has no time to support it or to port it, I have taken this on my self. The phpBB Gallery is very good project and I use it heavily. This is why I can't leave it and just wait for someone to port it or to create alternative.
 
