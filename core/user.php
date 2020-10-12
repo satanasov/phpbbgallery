@@ -619,10 +619,7 @@ class user
 		{
 			return (int) $row['personal_album_id'];
 		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
 
 	/**

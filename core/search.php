@@ -280,7 +280,11 @@ class search
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
-		$count = $row['count'];
+		$count = 0;
+		if ($row)
+		{
+			$count = $row['count'];
+		}
 		$sql_array['SELECT'] = '*';
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query_limit($sql, $sql_limit, $start);
