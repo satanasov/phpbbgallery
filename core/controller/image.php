@@ -812,8 +812,8 @@ class image
 		$this->display->generate_navigation($album_data);
 		add_form_key('gallery');
 		$submit = $this->request->variable('submit', false);
-		$image_backlink = append_sid('./gallery/image/'. $image_id);
-		$album_backlink = append_sid('./gallery/album/'. $image_data['image_album_id']);
+		$image_backlink = $this->helper->route('phpbbgallery_core_image', array('image_id'	=> $image_id));
+		$album_backlink = $this->helper->route('phpbbgallery_core_album', array('album_id'	=> $image_data['image_album_id']));
 		$disp_image_data = $image_data;
 		$owner_id = $image_data['image_user_id'];
 		$album_loginlink = './ucp.php?mode=login';
@@ -1114,8 +1114,8 @@ class image
 		$album_data = $this->album->get_info($album_id);
 		$this->language->add_lang(array('gallery'), 'phpbbgallery/core');
 		$album_loginlink = './ucp.php?mode=login';
-		$image_backlink = append_sid('./gallery/image/'. $image_id);
-		$album_backlink = append_sid('./gallery/album/'. $image_data['image_album_id']);
+		$image_backlink = $this->helper->route('phpbbgallery_core_image', array('image_id'	=> $image_id));
+		$album_backlink = $this->helper->route('phpbbgallery_core_album', array('album_id'	=> $image_data['image_album_id']));
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 		if (!$this->gallery_auth->acl_check('i_report', $album_id, $album_data['album_user_id']) || ($image_data['image_user_id'] == $this->user->data['user_id']))
 		{
