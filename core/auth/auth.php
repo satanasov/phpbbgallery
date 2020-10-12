@@ -268,6 +268,7 @@ class auth
 	 */
 	protected function unserialize_auth_data($serialized_data)
 	{
+		var_dump($serialized_data);
 		$acl_array = explode("\n", $serialized_data);
 
 		foreach ($acl_array as $acl_row)
