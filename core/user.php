@@ -615,7 +615,14 @@ class user
 		$sql = 'SELECT personal_album_id FROM ' . $this->gallery_users_table . ' WHERE user_id = ' . (int) $this->user_id;
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
-		return (int) $row['personal_album_id'];
+		if ($row)
+		{
+			return (int) $row['personal_album_id'];
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/**
