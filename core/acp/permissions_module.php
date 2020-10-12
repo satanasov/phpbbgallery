@@ -43,6 +43,10 @@ class permissions_module
 		/**
 		* All our beautiful permissions
 		*/
+		if (!isset($permissions))
+		{
+			$permissions = new \stdClass();
+		}
 		$permissions->cats['full'] = array(
 			'i'		=> array('i_view', 'i_watermark', 'i_upload', 'i_approve', 'i_edit', 'i_delete', 'i_report', 'i_rate'),
 			'c'		=> array('c_read', 'c_post', 'c_edit', 'c_delete'),
