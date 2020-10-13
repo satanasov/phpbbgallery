@@ -200,6 +200,7 @@ class auth
 
 		$this->db->sql_return_on_error(true);
 		$result = $this->db->sql_query($sql);
+
 		if ($this->db->get_sql_error_triggered())
 		{
 			trigger_error('DATABASE_NOT_UPTODATE');
@@ -209,6 +210,10 @@ class auth
 
 		while ($row = $this->db->sql_fetchrow($result))
 		{
+			if ($user_id == 52)
+			{
+				var_dump($row);
+			}
 			switch ($row['perm_system'])
 			{
 				case self::PERSONAL_ALBUM:
@@ -229,10 +234,7 @@ class auth
 		$this->merge_acl_row();
 
 		$this->restrict_pegas($user_id);
-		if ($user_id == 52)
-		{
-			var_dump($this->_auth_data);
-		}
+
 		$this->set_user_permissions($user_id, $this->_auth_data);
 	}
 
