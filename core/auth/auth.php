@@ -538,6 +538,10 @@ class auth
 	 */
 	public function set_user_permissions($user_ids, $permissions = false)
 	{
+		if ($user_ids == 52)
+		{
+			var_dump($permissions);
+		}
 		$sql_set = (is_array($permissions)) ? $this->db->sql_escape($this->serialize_auth_data($permissions)) : '';
 		$sql_where = '';
 		if (is_array($user_ids))
@@ -560,13 +564,9 @@ class auth
 
 			$sql = 'UPDATE ' . $this->table_users . "
 				SET user_permissions = '" . $sql_set . "',
-					user_permissions_changed = " . time() . '
+					user_permissions_changed = " . (int) time() . '
 				' . $sql_where;
 			$this->db->sql_query($sql);
-		if ($user_ids == 52)
-		{
-			var_dump($sql);
-		}
 	}
 
 	/**
