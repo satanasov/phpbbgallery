@@ -268,7 +268,6 @@ class auth
 	 */
 	protected function unserialize_auth_data($serialized_data)
 	{
-		var_dump($serialized_data);
 		$acl_array = explode("\n", $serialized_data);
 
 		foreach ($acl_array as $acl_row)
@@ -558,7 +557,8 @@ class auth
 		{
 			$this->user->set_permissions_changed(time());
 		}
-
+		var_dump($sql_set);
+		var_dump($sql_where);
 			$sql = 'UPDATE ' . $this->table_users . "
 				SET user_permissions = '" . $sql_set . "',
 					user_permissions_changed = " . time() . '
