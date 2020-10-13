@@ -210,10 +210,6 @@ class auth
 
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			if ($user_id == 52)
-			{
-				var_dump($row);
-			}
 			switch ($row['perm_system'])
 			{
 				case self::PERSONAL_ALBUM:
