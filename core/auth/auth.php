@@ -229,7 +229,10 @@ class auth
 		$this->merge_acl_row();
 
 		$this->restrict_pegas($user_id);
-
+		if ($user_id == 52)
+		{
+			var_dump($this->_auth_data);
+		}
 		$this->set_user_permissions($user_id, $this->_auth_data);
 	}
 
@@ -538,10 +541,6 @@ class auth
 	 */
 	public function set_user_permissions($user_ids, $permissions = false)
 	{
-		if ($user_ids == 52)
-		{
-			var_dump($permissions);
-		}
 		$sql_set = (is_array($permissions)) ? $this->db->sql_escape($this->serialize_auth_data($permissions)) : '';
 		$sql_where = '';
 		if (is_array($user_ids))
@@ -563,7 +562,7 @@ class auth
 		}
 
 			$sql = 'UPDATE ' . $this->table_users . "
-				SET user_permissions = '" . $sql_set . "',
+				SET user_permissions = '" . $this->db->sql_escape($sql_set) . "',
 					user_permissions_changed = " . (int) time() . '
 				' . $sql_where;
 			$this->db->sql_query($sql);
