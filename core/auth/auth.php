@@ -557,16 +557,16 @@ class auth
 		{
 			$this->user->set_permissions_changed(time());
 		}
-		if ($user_ids == 52)
-		{
-			var_dump($sql_set);
-			var_dump($sql_where);
-		}
+
 			$sql = 'UPDATE ' . $this->table_users . "
 				SET user_permissions = '" . $sql_set . "',
 					user_permissions_changed = " . time() . '
 				' . $sql_where;
 			$this->db->sql_query($sql);
+		if ($user_ids == 52)
+		{
+			var_dump($sql);
+		}
 	}
 
 	/**
