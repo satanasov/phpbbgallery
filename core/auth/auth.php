@@ -560,7 +560,7 @@ class auth
 		}
 
 			$sql = 'UPDATE ' . $this->table_users . "
-				SET user_permissions = '" . $this->db->sql_escape($sql_set) . "',
+				SET user_permissions = '" . $sql_set . "',
 					user_permissions_changed = " . (int) time() . '
 				' . $sql_where;
 			$this->db->sql_query($sql);
