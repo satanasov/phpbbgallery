@@ -25,6 +25,11 @@
 	},
 	"extra": {
 		"display-name": "phpBB Gallery",
+		"version-check": {
+			"host": "lab.anavaro.com",
+			"directory": "/phpbb-ext/3.3.x",
+			"filename": "phpbbgallery_core.json"
+		},
 		"soft-require": {
 			"phpbb/phpbb": ">=3.3.0@dev"
 		}
