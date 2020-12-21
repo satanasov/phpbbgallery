@@ -709,7 +709,7 @@ class image
                     'POSTER_USERNAME'	=> get_username_string('username', $poster_id, $this->users_data_array[$poster_id]['username'], $this->users_data_array[$poster_id]['user_colour']),
                     'U_POSTER'			=> get_username_string('profile', $poster_id, $this->users_data_array[$poster_id]['username'], $this->users_data_array[$poster_id]['user_colour']),
 
-					'SIGNATURE'			=> ($row['comment_signature'] && !$user_deleted) ? $this->users_data_array[$poster_id]['sig'] : '',
+					'SIGNATURE'			=> ($row['comment_signature'] && !$user_deleted) ? generate_text_for_display($this->users_data_array[$poster_id]['sig'], $row['comment_uid'], $row['comment_bitfield'], 7) : '',
 					'RANK_TITLE'		=> $user_deleted ? '' : $this->users_data_array[$poster_id]['rank_title'],
 					'RANK_IMG'			=> $user_deleted ? '' : $this->users_data_array[$poster_id]['rank_image'],
 					'RANK_IMG_SRC'		=> $user_deleted ? '' : $this->users_data_array[$poster_id]['rank_image_src'],
