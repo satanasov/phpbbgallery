@@ -4,9 +4,9 @@
 
 © 2012 - [nickvergessen](http://www.flying-bits.org)
 
-© 2014 - 2017 - [Lucifer](http://www.anavaro.com)
+© 2014 - 2021 - [Lucifer](http://www.anavaro.com)
 
-Welcome to phpBB Gallery version 3.2.x
+Welcome to phpBB Gallery version 3.3.x
 
 This is direct port of [nickvergessen](https://github.com/nickvergessen)'s phpBB Gallery 1.1.6 for phpBB 3.0. As he has no time to support it or to port it, I have taken this on my self. The phpBB Gallery is very good project and I use it heavily. This is why I can't leave it and just wait for someone to port it or to create alternative.
 
@@ -51,9 +51,9 @@ If you want to contribute to this project do it as you will any other project - 
 
 As I said the 1.2 version will be primarly targeted as backword compatible with phpBB Gallery 1.1.6 MOD (DB will be the same but you will have to manualy move your images to the new location).
 
-1.2.1 is providing phpBB 3.2 compatibility and some code optimization. When initial release is done I will start adding features.
+3.2.x is providing phpBB 3.2 compatibility and some code optimization. When initial release is done I will start adding features.
 
-Version 1.3 will be compatible to phpBB 3.3 and will have new features.
+Version 3.3.x will be compatible to phpBB 3.3 and will have new features.
 
 ## Installation
 
