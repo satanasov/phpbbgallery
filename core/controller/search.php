@@ -318,7 +318,7 @@ class search
 			{
 				$this->image->assign_block('imageblock.image', $row, $show_options, $thumbnail_link, $imagename_link);
 			}
-
+			$current_page = $page*$this->gallery_config->get('items_per_page');
 			$this->pagination->generate_template_pagination(array(
 				'routes' => array(
 					'phpbbgallery_core_search',
@@ -336,7 +336,7 @@ class search
 					'sk'		=> $sort_key,
 					'sd'		=> $sort_dir
 				),
-			), 'pagination', 'page', $search_count, $this->gallery_config->get('items_per_page'), $page - 1);
+			), 'pagination', 'page', $search_count, $this->gallery_config->get('items_per_page'), $current_page - 1);
 
 			$this->template->assign_vars(array(
 				'SEARCH_MATCHES'	=> $this->language->lang('FOUND_SEARCH_MATCHES', $search_count),
