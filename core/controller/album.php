@@ -176,7 +176,7 @@ class album
 			{
 				$this->template->assign_var('U_UPLOAD_IMAGE', $this->helper->route(
 					'phpbbgallery_core_album_upload',
-					array('album_id' => $album_id)
+					array('album_id' => (int) $album_id)
 				));
 			}
 			else
@@ -185,7 +185,7 @@ class album
 				{
 					$this->template->assign_var('U_UPLOAD_IMAGE', $this->helper->route(
 						'phpbbgallery_core_album_upload',
-						array('album_id' => $album_id)
+						array('album_id' => (int) $album_id)
 					));
 				}
 			}
@@ -197,9 +197,9 @@ class album
 
 			'U_RETURN_LINK'		=> $this->helper->route('phpbbgallery_core_index'),
 			'L_RETURN_LINK'		=> $this->language->lang('RETURN_TO_GALLERY'),
-			'S_ALBUM_ACTION'	=> $this->helper->route('phpbbgallery_core_album', array('album_id' => $album_id)),
+			'S_ALBUM_ACTION'	=> $this->helper->route('phpbbgallery_core_album', array('album_id' => (int) $album_id)),
 			'S_IS_WATCHED'		=> $this->notifications_helper->get_watched_album($album_id) ? true : false,
-			'U_WATCH_TOGLE'		=> $this->helper->route('phpbbgallery_core_album_watch', array('album_id' => $album_id)),
+			'U_WATCH_TOGLE'		=> $this->helper->route('phpbbgallery_core_album_watch', array('album_id' => (int) $album_id)),
 		));
 
 		if ($album_data['album_type'] != \phpbbgallery\core\block::TYPE_CAT
@@ -382,7 +382,7 @@ class album
 				'IMAGE_ID'		=> $image_data['image_id'],
 				'U_IMAGE'		=> $action_image,
 				'UC_IMAGE_NAME'	=> $show_imagename ? htmlspecialchars_decode($image_data['image_name'], ENT_COMPAT) : false,
-				'U_ALBUM'	=> $show_album ? $this->helper->route('phpbbgallery_core_album', array('album_id' => $album_data['album_id'])) : false,
+				'U_ALBUM'	=> $show_album ? $this->helper->route('phpbbgallery_core_album', array('album_id' => (int) $album_data['album_id'])) : false,
 				'ALBUM_NAME'	=> $show_album ? $album_data['album_name'] : false,
 				'IMAGE_VIEWS'	=> $show_views ? $image_data['image_view_count'] : -1,
 				//'UC_THUMBNAIL'	=> 'self::generate_link('thumbnail', $phpbb_ext_gallery->config->get('link_thumbnail'), $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id']),
@@ -423,7 +423,7 @@ class album
 					'phpbbgallery_core_album_page',
 				),
 				'params' => array(
-					'album_id' => $album_id,
+					'album_id' => (int) $album_id,
 					'sk' => $sort_key,
 					'sd' => $sort_dir,
 					'st' => $sort_days
@@ -451,7 +451,7 @@ class album
 		$this->check_permissions($album_id, $album_data['album_user_id'], $album_data['album_auth_access']);
 		if (confirm_box(true))
 		{
-			$back_link = $this->helper->route('phpbbgallery_core_album', array('album_id' => $album_id));
+			$back_link = $this->helper->route('phpbbgallery_core_album', array('album_id' => (int) $album_id));
 			if ($this->notifications_helper->get_watched_album($album_id) == 1)
 			{
 				$this->notifications_helper->remove_albums($album_id);
