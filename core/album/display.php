@@ -162,7 +162,7 @@ class display
 				$this->template->assign_block_vars('navlinks', array(
 					'FORUM_NAME'	=> $parent_name,
 					'FORUM_ID'		=> $parent_album_id,
-					'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_core_album', array('album_id' => $parent_album_id)),
+					'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_core_album', array('album_id' => (int) $parent_album_id)),
 				));
 			}
 		}
@@ -170,7 +170,7 @@ class display
 		$this->template->assign_block_vars('navlinks', array(
 			'FORUM_NAME'	=> $album_data['album_name'],
 			'FORUM_ID'		=> $album_data['album_id'],
-			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_core_album', array('album_id' => $album_data['album_id'])),
+			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_core_album', array('album_id' => (int) $album_data['album_id'])),
 		));
 
 		$this->template->assign_vars(array(
@@ -180,7 +180,7 @@ class display
 			'ALBUM_CONTEST_START'	=> ($album_data['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST) ? $this->language->lang('CONTEST_START' . ((($album_data['contest_start']) < time())? 'ED' : 'S'), $this->user->format_date(($album_data['contest_start']), false, true)) : '',
 			'ALBUM_CONTEST_RATING'	=> ($album_data['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST) ? $this->language->lang('CONTEST_RATING_START' . ((($album_data['contest_start'] + $album_data['contest_rating']) < time())? 'ED' : 'S'), $this->user->format_date(($album_data['contest_start'] + $album_data['contest_rating']), false, true)) : '',
 			'ALBUM_CONTEST_END'		=> ($album_data['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST) ? $this->language->lang('CONTEST_END' . ((($album_data['contest_start'] + $album_data['contest_end']) < time())? 'ED' : 'S'), $this->user->format_date(($album_data['contest_start'] + $album_data['contest_end']), false, true)) : '',
-			'U_VIEW_ALBUM'	=> $this->helper->route('phpbbgallery_core_album', array('album_id' => $album_data['album_id'])),
+			'U_VIEW_ALBUM'	=> $this->helper->route('phpbbgallery_core_album', array('album_id' => (int) $album_data['album_id'])),
 		));
 
 		return;
@@ -609,7 +609,7 @@ class display
 					'ALBUM_FOLDER_IMG'		=> '',
 					'ALBUM_FOLDER_IMG_SRC'	=> '',
 					// 'ALBUM_IMAGE'			=> ($row['album_image']) ? $row['album_image'] : '',
-					'U_VIEWALBUM'			=> $this->helper->route('phpbbgallery_core_album', array('album_id' => $row['album_id'])),
+					'U_VIEWALBUM'			=> $this->helper->route('phpbbgallery_core_album', array('album_id' => (int) $row['album_id'])),
 				));
 
 				continue;
@@ -650,7 +650,7 @@ class display
 					if ($subalbum_row['display'] && $subalbum_row['name'])
 					{
 						$subalbums_list[] = array(
-							'link'		=> $this->helper->route('phpbbgallery_core_album', array('album_id' => $subalbum_id)),
+							'link'		=> $this->helper->route('phpbbgallery_core_album', array('album_id' => (int) $subalbum_id)),
 							'name'		=> $subalbum_row['name'],
 							'unread'	=> $subalbum_unread,
 						);
@@ -751,7 +751,7 @@ class display
 				'L_ALBUM_FOLDER_ALT'	=> $folder_alt,
 				'L_MODERATOR_STR'		=> $l_moderator,
 
-				'U_VIEWALBUM'			=> $this->helper->route('phpbbgallery_core_album', array('album_id' => $row['album_id'])),
+				'U_VIEWALBUM'			=> $this->helper->route('phpbbgallery_core_album', array('album_id' => (int) $row['album_id'])),
 			));
 
 			// Assign subforums loop for style authors
@@ -768,7 +768,7 @@ class display
 		}
 
 		$this->template->assign_vars(array(
-			'U_MARK_ALBUMS'		=> ($this->user->data['is_registered']) ? $this->helper->route('phpbbgallery_core_album', array('album_id' => $root_data['album_id'], 'hash' => generate_link_hash('global'), 'mark' => 'albums')) : '',
+			'U_MARK_ALBUMS'		=> ($this->user->data['is_registered']) ? $this->helper->route('phpbbgallery_core_album', array('album_id' => (int) $root_data['album_id'], 'hash' => generate_link_hash('global'), 'mark' => 'albums')) : '',
 			'S_HAS_SUBALBUM'	=> ($visible_albums) ? true : false,
 			'L_SUBFORUM'		=> ($visible_albums == 1) ? $this->language->lang('SUBALBUM') : $this->language->lang('SUBALBUMS'),
 			'LAST_POST_IMG'		=> $this->user->img('icon_topic_latest', 'VIEW_LATEST_POST'),
