@@ -171,12 +171,12 @@ class exif
 		$this->prepared_data = array();
 		if (isset($this->data["EXIF"]["DateTimeOriginal"]))
 		{
-			$timestamp_year = substr($this->data["EXIF"]["DateTimeOriginal"], 0, 4);
-			$timestamp_month = substr($this->data["EXIF"]["DateTimeOriginal"], 5, 2);
-			$timestamp_day = substr($this->data["EXIF"]["DateTimeOriginal"], 8, 2);
-			$timestamp_hour = substr($this->data["EXIF"]["DateTimeOriginal"], 11, 2);
-			$timestamp_minute = substr($this->data["EXIF"]["DateTimeOriginal"], 14, 2);
-			$timestamp_second = substr($this->data["EXIF"]["DateTimeOriginal"], 17, 2);
+			$timestamp_year = (int) substr($this->data["EXIF"]["DateTimeOriginal"], 0, 4);
+			$timestamp_month = (int) substr($this->data["EXIF"]["DateTimeOriginal"], 5, 2);
+			$timestamp_day = (int) substr($this->data["EXIF"]["DateTimeOriginal"], 8, 2);
+			$timestamp_hour = (int) substr($this->data["EXIF"]["DateTimeOriginal"], 11, 2);
+			$timestamp_minute = (int) substr($this->data["EXIF"]["DateTimeOriginal"], 14, 2);
+			$timestamp_second = (int) substr($this->data["EXIF"]["DateTimeOriginal"], 17, 2);
 			$timestamp = (int) @mktime($timestamp_hour, $timestamp_minute, $timestamp_second, $timestamp_month, $timestamp_day, $timestamp_year);
 			if ($timestamp)
 			{
