@@ -9,6 +9,7 @@
 */
 
 namespace phpbbgallery\core\controller;
+
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class moderate

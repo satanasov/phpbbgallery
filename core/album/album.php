@@ -1,12 +1,12 @@
 <?php
 
 /**
-*
-* @package PhpBB Gallery
-* @copyright (c) 2017 satanasov
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
-*/
+ *
+ * @package       PhpBB Gallery
+ * @copyright (c) 2017 satanasov
+ * @license       http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ *
+ */
 
 namespace phpbbgallery\core\album;
 
@@ -14,40 +14,40 @@ use phpbb\language\language;
 
 class album
 {
-	/** @var \phpbb\db\driver\driver_interface  */
+	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var \phpbb\user  */
+	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var language  */
+	/** @var language */
 	protected $language;
 
-	/** @var \phpbb\profilefields\manager  */
+	/** @var \phpbb\profilefields\manager */
 	protected $user_cpf;
 
-	/** @var \phpbbgallery\core\auth\auth  */
+	/** @var \phpbbgallery\core\auth\auth */
 	protected $gallery_auth;
 
-	/** @var \phpbbgallery\core\cache  */
+	/** @var \phpbbgallery\core\cache */
 	protected $gallery_cache;
 
-	/** @var \phpbbgallery\core\block  */
+	/** @var \phpbbgallery\core\block */
 	protected $block;
 
-	/** @var \phpbbgallery\core\config  */
+	/** @var \phpbbgallery\core\config */
 	protected $gallery_config;
 
-	/** @var  */
+	/** @var */
 	protected $images_table;
 
-	/** @var  */
+	/** @var */
 	protected $watch_table;
 
-	/** @var  */
+	/** @var */
 	protected $contest_table;
 
-	/** @var  */
+	/** @var */
 	protected $albums_table;
 
 	/**
@@ -95,10 +95,10 @@ class album
 	public function get_info($album_id, $extended_info = true)
 	{
 		$sql_array = array(
-			'SELECT'		=> 'a.*',
-			'FROM'			=> array($this->albums_table => 'a'),
+			'SELECT' => 'a.*',
+			'FROM'   => array($this->albums_table => 'a'),
 
-			'WHERE'			=> 'a.album_id = ' . (int) $album_id,
+			'WHERE' => 'a.album_id = ' . (int) $album_id,
 		);
 
 		if ($extended_info)
@@ -106,12 +106,12 @@ class album
 			$sql_array['SELECT'] .= ', c.*, w.watch_id';
 			$sql_array['LEFT_JOIN'] = array(
 				array(
-					'FROM'		=> array($this->watch_table => 'w'),
-					'ON'		=> 'a.album_id = w.album_id AND w.user_id = ' . (int) $this->user->data['user_id'],
+					'FROM' => array($this->watch_table => 'w'),
+					'ON'   => 'a.album_id = w.album_id AND w.user_id = ' . (int) $this->user->data['user_id'],
 				),
 				array(
-					'FROM'		=> array($this->contests_table => 'c'),
-					'ON'		=> 'a.album_id = c.contest_album_id',
+					'FROM' => array($this->contests_table => 'c'),
+					'ON'   => 'a.album_id = c.contest_album_id',
 				),
 			);
 		}
@@ -126,7 +126,7 @@ class album
 			throw new \phpbb\exception\http_exception(404, 'ALBUM_NOT_EXIST');
 		}
 
-		if ($extended_info  && !isset($row['contest_id']))
+		if ($extended_info && !isset($row['contest_id']))
 		{
 			$row['contest_id'] = 0;
 			$row['contest_rates_start'] = 0;
@@ -173,18 +173,21 @@ class album
 
 	/**
 	 * Generate gallery-albumbox
-	 * @param    bool $ignore_personals list personal albums
-	 * @param    string $select_name request_var() for the select-box
-	 * @param bool|int $select_id selected album
+	 *
+	 * @param bool        $ignore_personals     list personal albums
+	 * @param string      $select_name          request_var() for the select-box
+	 * @param bool|int    $select_id            selected album
 	 * @param bool|string $requested_permission Exp: for moving a image you need i_upload permissions or a_moderate
-	 * @param bool $ignore_id
-	 * @param int $album_user_id for the select-boxes of the ucp so you only can attach to your own albums
-	 * @param    int $requested_album_type only albums of the album_type are allowed
+	 * @param bool        $ignore_id
+	 * @param int         $album_user_id        for the select-boxes of the ucp so you only can attach to your own
+	 *                                          albums
+	 * @param int         $requested_album_type only albums of the album_type are allowed
 	 * @return string $gallery_albumbox        if ($select_name) {full select-box} else {list with options}
-	 * else {list with options}
+	 *                                          else {list with options}
 	 *
 	 * comparable to make_forum_select (includes/functions_admin.php)
-	 * @internal param $ (string || array)    $ignore_id                disabled albums, Exp: on moving: the album where the image is now
+	 * @internal param $ (string || array)    $ignore_id                disabled albums, Exp: on moving: the album
+	 *           where the image is now
 	 */
 	public function get_albumbox($ignore_personals, $select_name, $select_id = false, $requested_permission = false, $ignore_id = false, $album_user_id = \phpbbgallery\core\block::PUBLIC_ALBUM, $requested_album_type = -1)
 	{
@@ -230,14 +233,14 @@ class album
 			$disabled = false;
 
 			if (
-			// Is in the ignore_id
-			((is_array($ignore_id) && in_array($row['album_id'], $ignore_id)) || $row['album_id'] == $ignore_id)
-			||
-			// Need upload permissions (for moving)
-			(($requested_permission == 'm_move') && (($row['album_type'] == \phpbbgallery\core\block::TYPE_CAT) || (!$this->gallery_auth->acl_check('i_upload', $row['album_id'], $row['album_user_id']) && !$this->gallery_auth->acl_check('m_move', $row['album_id'], $row['album_user_id']))))
-			||
-			// album_type does not fit
-			($check_album_type && ($row['album_type'] != $requested_album_type))
+				// Is in the ignore_id
+				((is_array($ignore_id) && in_array($row['album_id'], $ignore_id)) || $row['album_id'] == $ignore_id)
+				||
+				// Need upload permissions (for moving)
+				(($requested_permission == 'm_move') && (($row['album_type'] == \phpbbgallery\core\block::TYPE_CAT) || (!$this->gallery_auth->acl_check('i_upload', $row['album_id'], $row['album_user_id']) && !$this->gallery_auth->acl_check('m_move', $row['album_id'], $row['album_user_id']))))
+				||
+				// album_type does not fit
+				($check_album_type && ($row['album_type'] != $requested_album_type))
 			)
 			{
 				$disabled = true;
@@ -330,6 +333,7 @@ class album
 	 * - album_images, _real
 	 * - album_last_image_id, _time, _name
 	 * - album_last_username, _user_colour, _user_id
+	 *
 	 * @param $album_id
 	 * @return mixed
 	 */
@@ -339,7 +343,7 @@ class album
 
 		// Get the album_user_id, so we can keep the user_colour
 		$sql = 'SELECT album_user_id
-			FROM ' . $this->albums_table .'
+			FROM ' . $this->albums_table . '
 			WHERE album_id = ' . (int) $album_id;
 		$result = $this->db->sql_query($sql);
 		$album_user_id = $this->db->sql_fetchfield('album_user_id');
@@ -347,7 +351,7 @@ class album
 
 		// Number of not unapproved images
 		$sql = 'SELECT COUNT(image_id) images
-			FROM ' . $this->images_table .' 
+			FROM ' . $this->images_table . ' 
 			WHERE image_status <> ' . (int) $this->block->get_image_status_unapproved() . '
 				AND image_status <> ' . (int) $this->block->get_image_status_orphan() . '
 				AND image_album_id = ' . (int) $album_id;
@@ -357,7 +361,7 @@ class album
 
 		// Number of total images
 		$sql = 'SELECT COUNT(image_id) images_real
-			FROM ' . $this->images_table .'
+			FROM ' . $this->images_table . '
 			WHERE image_status <> ' . (int) $this->block->get_image_status_orphan() . '
 				AND image_album_id = ' . (int) $album_id;
 		$result = $this->db->sql_query($sql);
@@ -366,7 +370,7 @@ class album
 
 		// Data of the last not unapproved image
 		$sql = 'SELECT image_id, image_time, image_name, image_username, image_user_colour, image_user_id
-			FROM ' . $this->images_table .'
+			FROM ' . $this->images_table . '
 			WHERE image_status <> ' . (int) $this->block->get_image_status_unapproved() . '
 				AND image_status <> ' . (int) $this->block->get_image_status_orphan() . '
 				AND image_album_id = ' . (int) $album_id . '
@@ -375,28 +379,28 @@ class album
 		if ($row = $this->db->sql_fetchrow($result))
 		{
 			$sql_ary = array(
-				'album_images_real'			=> $images_real,
-				'album_images'				=> $images,
-				'album_last_image_id'		=> $row['image_id'],
-				'album_last_image_time'		=> $row['image_time'],
-				'album_last_image_name'		=> $row['image_name'],
-				'album_last_username'		=> $row['image_username'],
-				'album_last_user_colour'	=> $row['image_user_colour'],
-				'album_last_user_id'		=> $row['image_user_id'],
+				'album_images_real'      => $images_real,
+				'album_images'           => $images,
+				'album_last_image_id'    => $row['image_id'],
+				'album_last_image_time'  => $row['image_time'],
+				'album_last_image_name'  => $row['image_name'],
+				'album_last_username'    => $row['image_username'],
+				'album_last_user_colour' => $row['image_user_colour'],
+				'album_last_user_id'     => $row['image_user_id'],
 			);
 		}
 		else
 		{
 			// No approved image, so we clear the columns
 			$sql_ary = array(
-				'album_images_real'			=> $images_real,
-				'album_images'				=> $images,
-				'album_last_image_id'		=> 0,
-				'album_last_image_time'		=> 0,
-				'album_last_image_name'		=> '',
-				'album_last_username'		=> '',
-				'album_last_user_colour'	=> '',
-				'album_last_user_id'		=> 0,
+				'album_images_real'      => $images_real,
+				'album_images'           => $images,
+				'album_last_image_id'    => 0,
+				'album_last_image_time'  => 0,
+				'album_last_image_name'  => '',
+				'album_last_username'    => '',
+				'album_last_user_colour' => '',
+				'album_last_user_id'     => 0,
 			);
 			if ($album_user_id)
 			{
@@ -405,7 +409,7 @@ class album
 		}
 		$this->db->sql_freeresult($result);
 
-		$sql = 'UPDATE ' . $this->albums_table .' SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . '
+		$sql = 'UPDATE ' . $this->albums_table . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . '
 			WHERE album_id = ' . (int) $album_id;
 		$this->db->sql_query($sql);
 
@@ -414,6 +418,7 @@ class album
 
 	/**
 	 * Generate personal album for user, when moving image into it
+	 *
 	 * @param $album_name
 	 * @param $user_id
 	 * @param $user_colour
@@ -423,28 +428,28 @@ class album
 	public function generate_personal_album($album_name, $user_id, $user_colour, $gallery_user)
 	{
 		$album_data = array(
-			'album_name'					=> $this->db->sql_escape($album_name),
-			'parent_id'						=> 0,
+			'album_name'             => $this->db->sql_escape($album_name),
+			'parent_id'              => 0,
 			//left_id and right_id default by db
-			'album_desc_options'			=> 7,
-			'album_desc'					=> '',
-			'album_parents'					=> '',
-			'album_type'					=> \phpbbgallery\core\block::TYPE_UPLOAD,
-			'album_status'					=> \phpbbgallery\core\block::ALBUM_OPEN,
-			'album_user_id'					=> (int) $user_id,
-			'album_last_username'			=> '',
-			'album_last_user_colour'		=> $user_colour,
+			'album_desc_options'     => 7,
+			'album_desc'             => '',
+			'album_parents'          => '',
+			'album_type'             => \phpbbgallery\core\block::TYPE_UPLOAD,
+			'album_status'           => \phpbbgallery\core\block::ALBUM_OPEN,
+			'album_user_id'          => (int) $user_id,
+			'album_last_username'    => '',
+			'album_last_user_colour' => $user_colour,
 		);
-		$this->db->sql_query('INSERT INTO ' . $this->albums_table. ' ' . $this->db->sql_build_array('INSERT', $album_data));
+		$this->db->sql_query('INSERT INTO ' . $this->albums_table . ' ' . $this->db->sql_build_array('INSERT', $album_data));
 		$personal_album_id = $this->db->sql_nextid();
 
 		$gallery_user->update_data(array(
-				'personal_album_id'	=> $personal_album_id,
+			'personal_album_id' => $personal_album_id,
 		));
 
 		// Fill album CPF.
 		$cpf_vars = array(
-			'pf_gallery_palbum'	=> (int) $personal_album_id
+			'pf_gallery_palbum' => (int) $personal_album_id,
 		);
 		$this->user_cpf->update_profile_field_data((int) $user_id, $cpf_vars);
 
@@ -463,8 +468,8 @@ class album
 	}
 
 	/**
-	* Create array of album IDs that are public
-	*/
+	 * Create array of album IDs that are public
+	 */
 	public function get_public_albums()
 	{
 		$sql = 'SELECT album_id

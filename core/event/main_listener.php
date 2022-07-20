@@ -51,24 +51,24 @@ class main_listener implements EventSubscriberInterface
 	protected $target = 0;
 	protected $albums = array();
 
-    /**
-     * Constructor
-     *
-     * @param \phpbb\controller\helper $helper Newspage helper object
-     * @param \phpbb\template\template $template Template object
-     * @param \phpbb\user $user User object
-     * @param \phpbb\language\language $lang
-     * @param \phpbbgallery\core\search $gallery_search
-     * @param \phpbbgallery\core\config $gallery_config
-     * @param \phpbb\db\driver\driver_interface $db
-     * @param $albums_table
-     * @param $users_table
-     * @param string $php_ext phpEx
-     */
+	/**
+	 * Constructor
+	 *
+	 * @param \phpbb\controller\helper $helper Newspage helper object
+	 * @param \phpbb\template\template $template Template object
+	 * @param \phpbb\user $user User object
+	 * @param \phpbb\language\language $lang
+	 * @param \phpbbgallery\core\search $gallery_search
+	 * @param \phpbbgallery\core\config $gallery_config
+	 * @param \phpbb\db\driver\driver_interface $db
+	 * @param $albums_table
+	 * @param $users_table
+	 * @param string $php_ext phpEx
+	 */
 	public function __construct(\phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user,
-                                \phpbb\language\language $lang, \phpbbgallery\core\search $gallery_search,
-	                            \phpbbgallery\core\config $gallery_config, \phpbb\db\driver\driver_interface $db,
-	                            $albums_table, $users_table, $php_ext)
+								\phpbb\language\language $lang, \phpbbgallery\core\search $gallery_search,
+								\phpbbgallery\core\config $gallery_config, \phpbb\db\driver\driver_interface $db,
+								$albums_table, $users_table, $php_ext)
 	{
 		$this->helper = $helper;
 		$this->template = $template;
@@ -107,7 +107,7 @@ class main_listener implements EventSubscriberInterface
 	}
 	public function user_profile_galleries($event)
 	{
-	    $this->language->add_lang(array('gallery'), 'phpbbgallery/core');
+		$this->language->add_lang(array('gallery'), 'phpbbgallery/core');
 		$this->language->add_lang('search');
 		$random = $recent = false;
 		$show_parts = $this->gallery_config->get('rrc_profile_mode');
