@@ -228,7 +228,7 @@ jobs:
               if: matrix.php == '7.3'
               env:
                   DB: ${{steps.database-type.outputs.db}}
-              run: phpBB/vendor/bin/phpunit --configuration phpBB/ext/$EXTNAME/.github/phpunit-$DB-github.xml --bootstrap ./tests/bootstrap.php --coverage-clover phpBB/ext/$EXTNAME/.github/clover.xml --exclude functional, functional1
+              run: phpBB/vendor/bin/phpunit --configuration phpBB/ext/$EXTNAME/.github/phpunit-$DB-github.xml --bootstrap ./tests/bootstrap.php --coverage-clover phpBB/ext/$EXTNAME/.github/clover.xml --exclude functional,functional1
               working-directory: ./phpBB3
 
             - name: Upload Scrutinizer coverage
