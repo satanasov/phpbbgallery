@@ -1,6 +1,6 @@
 # phpBB Gallery
 
-[![Build Status](https://travis-ci.org/satanasov/phpbbgallery.svg?branch=master)](https://travis-ci.org/satanasov/phpbbgallery) [![Coverage Status](https://coveralls.io/repos/satanasov/phpbbgallery/badge.svg?branch=master&service=github)](https://coveralls.io/github/satanasov/phpbbgallery?branch=master)
+[![Tests](https://github.com/satanasov/phpbbgallery/actions/workflows/tests.yml/badge.svg)](https://github.com/satanasov/phpbbgallery/actions/workflows/tests.yml) [![Coverage Status](https://coveralls.io/repos/satanasov/phpbbgallery/badge.svg?branch=master&service=github)](https://coveralls.io/github/satanasov/phpbbgallery?branch=master)
 
 © 2012 - [nickvergessen](http://www.flying-bits.org)
 
