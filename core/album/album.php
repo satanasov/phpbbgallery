@@ -10,8 +10,6 @@
 
 namespace phpbbgallery\core\album;
 
-use phpbb\language\language;
-
 class album
 {
 	/** @var \phpbb\db\driver\driver_interface */
@@ -20,7 +18,7 @@ class album
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var language */
+	/** @var \phpbb\language\language */
 	protected $language;
 
 	/** @var \phpbb\profilefields\manager */
@@ -66,7 +64,8 @@ class album
 	 * @param                                   $watch_table
 	 * @param                                   $contest_table
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\language\language $language, \phpbb\profilefields\manager $user_cpf,
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user,
+		\phpbb\language\language $language, \phpbb\profilefields\manager $user_cpf,
 		\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\cache $gallery_cache, \phpbbgallery\core\block $block,
 		\phpbbgallery\core\config $gallery_config,
 		$albums_table, $images_table, $watch_table, $contest_table)
