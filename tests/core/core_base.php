@@ -98,10 +98,12 @@ class core_base extends \phpbb_database_test_case
 
 		$controller_helper = $this->controller_helper;
 
+		$phpbb_dispatcher = new phpbb_mock_event_dispatcher();
 		$cache = $this->cache = new \phpbb\cache\service(
 			new \phpbb\cache\driver\dummy(),
 			$this->config,
 			$this->db,
+			$phpbb_dispatcher,
 			$phpbb_root_path,
 			$phpEx
 		);
