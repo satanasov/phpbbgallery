@@ -66,11 +66,32 @@ jobs:
               run: composer require phpbb/epv:dev-master --dev --no-interaction --ignore-platform-reqs
               working-directory: ./phpBB3/phpBB
 
-            - name: Run code sniffer
+            - name: Run code sniffer Core
               if: ${{ env.SNIFF != 0 }}
               env:
                   NOTESTS: '1'
-              run: .github/ext-sniff.sh $EXTSNIFF $NOTESTS
+              run: .github/ext-sniff.sh phpbbgallery/core $NOTESTS
+              working-directory: ./phpBB3
+
+            - name: Run code sniffer EXIF
+              if: ${{ env.SNIFF != 0 }}
+              env:
+                  NOTESTS: '1'
+              run: .github/ext-sniff.sh phpbbgallery/exif $NOTESTS
+              working-directory: ./phpBB3
+
+            - name: Run code sniffer ACP Cleanup
+              if: ${{ env.SNIFF != 0 }}
+              env:
+                  NOTESTS: '1'
+              run: .github/ext-sniff.sh phpbbgallery/acpcleanup $NOTESTS
+              working-directory: ./phpBB3
+
+            - name: Run code sniffer ACP Import
+              if: ${{ env.SNIFF != 0 }}
+              env:
+                  NOTESTS: '1'
+              run: .github/ext-sniff.sh phpbbgallery/acpimport $NOTESTS
               working-directory: ./phpBB3
 
             - name: Check image ICC profiles
