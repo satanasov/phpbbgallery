@@ -14,40 +14,40 @@ use phpbb\language\language;
 
 class album
 {
-    /** @var \phpbb\db\driver\driver_interface  */
-    protected $db;
+	/** @var \phpbb\db\driver\driver_interface  */
+	protected $db;
 
-    /** @var \phpbb\user  */
-    protected $user;
+	/** @var \phpbb\user  */
+	protected $user;
 
-    /** @var language  */
-    protected $language;
+	/** @var language  */
+	protected $language;
 
-    /** @var \phpbb\profilefields\manager  */
-    protected $user_cpf;
+	/** @var \phpbb\profilefields\manager  */
+	protected $user_cpf;
 
-    /** @var \phpbbgallery\core\auth\auth  */
-    protected $gallery_auth;
+	/** @var \phpbbgallery\core\auth\auth  */
+	protected $gallery_auth;
 
-    /** @var \phpbbgallery\core\cache  */
-    protected $gallery_cache;
+	/** @var \phpbbgallery\core\cache  */
+	protected $gallery_cache;
 
-    /** @var \phpbbgallery\core\block  */
-    protected $block;
+	/** @var \phpbbgallery\core\block  */
+	protected $block;
 
-    /** @var \phpbbgallery\core\config  */
-    protected $gallery_config;
+	/** @var \phpbbgallery\core\config  */
+	protected $gallery_config;
 
-    /** @var  */
-    protected $images_table;
+	/** @var  */
+	protected $images_table;
 
-    /** @var  */
-    protected $watch_table;
+	/** @var  */
+	protected $watch_table;
 
-    /** @var  */
-    protected $contest_table;
+	/** @var  */
+	protected $contest_table;
 
-    /** @var  */
+	/** @var  */
 	protected $albums_table;
 
 	/**

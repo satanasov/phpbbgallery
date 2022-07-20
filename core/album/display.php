@@ -34,7 +34,7 @@ class display
 	public $album_mode;
 
 	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\controller\helper $helper,
-								\phpbb\db\driver\driver_interface $db, 	\phpbb\pagination $pagination,
+								\phpbb\db\driver\driver_interface $db, \phpbb\pagination $pagination,
 								\phpbb\request\request $request, \phpbb\template\template $template,
 								\phpbb\user $user, \phpbb\language\language $language, \phpbbgallery\core\auth\auth $gallery_auth,
 								\phpbbgallery\core\user $gallery_user, \phpbbgallery\core\misc $misc,

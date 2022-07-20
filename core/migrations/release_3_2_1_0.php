@@ -8,7 +8,6 @@
 
 namespace phpbbgallery\core\migrations;
 
-
 class release_3_2_1_0 extends \phpbb\db\migration\profilefield_base_migration
 {
 	static public function depends_on()

@@ -42,12 +42,12 @@ $lang = array_merge($lang, array(
 	'ACP_GALLERY_OVERVIEW'			=> 'Galerie phpBB',
 	'ACP_GALLERY_OVERVIEW_EXPLAIN'	=> 'Voici quelques statistiques sur votre galerie.',
 
-    // File dirs states
-    'ACP_FILES_DIR_STATE'           => 'État du répertoire : <strong>./files/</strong>',
-    'ACP_CORE_DIR_STATE'    		=> 'État du répertoire : <strong>./files/phpbbgallery/core/</strong>',
-    'ACP_SOURCE_DIR_STATE'    		=> 'État du répertoire : <strong>./files/phpbbgallery/core/source/</strong>',
-    'ACP_MEDIUM_DIR_STATE'    		=> 'État du répertoire : <strong>./files/phpbbgallery/core/meduim/</strong>',
-    'ACP_MINI_DIR_STATE'    		=> 'État du répertoire : <strong>./files/phpbbgallery/core/mini/</strong>',
+	// File dirs states
+	'ACP_FILES_DIR_STATE'           => 'État du répertoire : <strong>./files/</strong>',
+	'ACP_CORE_DIR_STATE'    		=> 'État du répertoire : <strong>./files/phpbbgallery/core/</strong>',
+	'ACP_SOURCE_DIR_STATE'    		=> 'État du répertoire : <strong>./files/phpbbgallery/core/source/</strong>',
+	'ACP_MEDIUM_DIR_STATE'    		=> 'État du répertoire : <strong>./files/phpbbgallery/core/meduim/</strong>',
+	'ACP_MINI_DIR_STATE'    		=> 'État du répertoire : <strong>./files/phpbbgallery/core/mini/</strong>',
 
 	'ADD_ALBUM_ON_TOP'				=> 'Ajouter l’album en haut',
 	'ADD_PERMISSIONS'				=> 'Ajouter des permissions',

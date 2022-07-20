@@ -28,14 +28,14 @@ $lang = array_merge($lang, array(
 	'ACP_GALLERY_OVERVIEW'			=> 'Обзор',
 	'ACP_GALLERY_OVERVIEW_EXPLAIN'	=> '',
 
-    // File dirs states
-    'ACP_FILES_DIR_STATE'           => '<strong>./files/</strong> state',
-    'ACP_CORE_DIR_STATE'    => '<strong>./files/phpbbgallery/core/</strong> state',
-    'ACP_SOURCE_DIR_STATE'    => '<strong>./files/phpbbgallery/core/source/</strong> state',
-    'ACP_MEDIUM_DIR_STATE'    => '<strong>./files/phpbbgallery/core/meduim/</strong> state',
-    'ACP_MINI_DIR_STATE'    => '<strong>./files/phpbbgallery/core/mini/</strong> state',
+	// File dirs states
+	'ACP_FILES_DIR_STATE'           => '<strong>./files/</strong> state',
+	'ACP_CORE_DIR_STATE'    => '<strong>./files/phpbbgallery/core/</strong> state',
+	'ACP_SOURCE_DIR_STATE'    => '<strong>./files/phpbbgallery/core/source/</strong> state',
+	'ACP_MEDIUM_DIR_STATE'    => '<strong>./files/phpbbgallery/core/meduim/</strong> state',
+	'ACP_MINI_DIR_STATE'    => '<strong>./files/phpbbgallery/core/mini/</strong> state',
 
-    'ADD_ALBUM_ON_TOP'				=> 'Сделать альбом первым в списке',
+	'ADD_ALBUM_ON_TOP'				=> 'Сделать альбом первым в списке',
 	'ADD_PERMISSIONS'				=> 'Добавить права доступа',
 	'ALBUM_ADMIN'					=> 'Администрирование альбомов',
 	'ALBUM_ADMIN_EXPLAIN'			=> 'Каждый альбом может содержать неограниченное количество вложенных альбомов. Здесь можно добавлять, редактировать, удалять, закрывать и открывать альбомы, а также управлять их дополнительными свойствами. Также, если тебуется, можно произвести ресинхронизацию альбома. Чтобы вновь созданный альбом стал виден, необходимо установить или скопировать соответствующие права доступа.',

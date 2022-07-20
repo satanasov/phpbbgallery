@@ -102,7 +102,7 @@ class image
 		\phpbbgallery\core\album\album $album, \phpbbgallery\core\config $gallery_config, \phpbb\controller\helper $helper,
 		\phpbbgallery\core\url $url, \phpbbgallery\core\log $gallery_log, \phpbbgallery\core\notification\helper $notification_helper,
 		\phpbbgallery\core\report $report, \phpbbgallery\core\cache $gallery_cache, \phpbbgallery\core\user $gallery_user,
-		\phpbbgallery\core\contest $contest,\phpbbgallery\core\file\file $file,
+		\phpbbgallery\core\contest $contest, \phpbbgallery\core\file\file $file,
 		$table_images)
 	{
 		$this->db = $db;
