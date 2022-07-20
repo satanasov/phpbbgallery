@@ -71,7 +71,7 @@ class multiform extends \phpbb\files\types\base
 	protected function form_upload($form_name)
 	{
 
-		$uploads = ($this->request->variable($form_name, array('name'=> array('' => ''), 'type' => array('' => ''), 'tmp_name' => array('' => ''), 'error' =>  array('' => ''), 'size' => array('' => '')), true, \phpbb\request\request_interface::FILES));
+		$uploads = ($this->request->variable($form_name, array('name'=> array('' => ''), 'type' => array('' => ''), 'tmp_name' => array('' => ''), 'error' =>  array('' => ''), 'size' => array('' => '')), true, $this->request::FILES));
 		$upload_redy = array();
 		for ($i = 0; $i < count($uploads['name']); $i++)
 		{

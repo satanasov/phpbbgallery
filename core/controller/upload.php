@@ -32,7 +32,7 @@ class upload
 	/** @var \phpbb\config\config  */
 	protected $config;
 
-	/** @var \Symfony\Component\DependencyInjection\ContainerInterface  */
+	/** @var ContainerInterface  */
 	protected $phpbb_container;
 
 	/* @var \phpbbgallery\core\misc */

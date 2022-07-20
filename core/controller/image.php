@@ -96,7 +96,7 @@ class image
 	/** @var \phpbbgallery\core\block */
 	protected $block;
 
-	/** @var \Symfony\Component\DependencyInjection\ContainerInterface */
+	/** @var ContainerInterface */
 	protected $phpbb_container;
 
 	/** @var */
@@ -538,7 +538,6 @@ class image
 				$s_hide_comment_input = false;
 			}
 
-
 			$this->template->assign_vars(array(
 				'S_ALLOWED_TO_COMMENT' => true,
 				'S_HIDE_COMMENT_INPUT' => $s_hide_comment_input,
@@ -654,7 +653,6 @@ class image
 			foreach ($comments as $row)
 			{
 				$edit_info = '';
-
 
 				// Let's deply new profile
 				$poster_id = $row['comment_user_id'];
@@ -777,8 +775,6 @@ class image
 						{
 							$this->template->assign_block_vars('commentrow.custom_fields', $field_data);
 						}
-
-
 					}
 				}
 
@@ -1244,7 +1240,6 @@ class image
 			$this->gallery_user->add_user_to_cache($this->users_data_array, $row);
 		}
 		$this->db->sql_freeresult($result);
-
 
 		// Load CPF's
 		$profile_fields_tmp = $this->cpf_manager->grab_profile_fields_data($this->users_id_array);
