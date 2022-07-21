@@ -41,6 +41,7 @@ class main_event_test extends \phpbb_database_test_case
 	*/
 	public function setUp() : void
 	{
+		global $phpbb_root_path, $phpEx;
 		parent::setUp();
 
 		$this->controller_helper = $this->getMockBuilder('\phpbb\controller\helper')

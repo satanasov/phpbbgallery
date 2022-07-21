@@ -259,7 +259,7 @@ class core_user_test extends core_base
 		}
 		else
 		{
-			$this->assertContains($expected, $this->gallery_user->sql_build_where($input));
+			$this->assertStringContainsString($expected, $this->gallery_user->sql_build_where($input));
 		}
 	}
 

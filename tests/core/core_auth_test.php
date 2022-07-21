@@ -236,8 +236,8 @@ class core_auth_test extends core_base
 		$row = $this->db->sql_fetchrow($result);
 		if ($expected1 !== null)
 		{
-			$this->assertContains($expected1, $row['user_permissions']);
-			$this->assertContains($expected2, $row['user_permissions']);
+			$this->assertStringContainsString($expected1, $row['user_permissions']);
+			$this->assertStringContainsString($expected2, $row['user_permissions']);
 		}
 	}
 

@@ -84,6 +84,7 @@ class controller_base extends \phpbb_database_test_case
 			'datetime' => array(),
 			'DATE_FORMAT' => 'm/d/Y',
 		);
+		$this->user->host = '';
 
 		$user = $this->user;
 
