@@ -10,10 +10,6 @@
 
 namespace phpbbgallery\acpcleanup;
 
-use phpbb\language\language;
-use phpbb\user;
-use phpbbgallery\core\album\album;
-
 class cleanup
 {
 	/** @var \phpbb\db\driver\driver_interface  */
