@@ -175,7 +175,7 @@ class gallery_index_test extends controller_base
 					array(
 						'S_PERSONAL_ALBUM' => true,
 						'U_PERSONAL_ALBUM' => 'phpbbgallery_core_album',
-						'U_PERSONAL_ALBUM_USER' => null,
+						'U_PERSONAL_ALBUM_USER' => 'admin',
 						'U_PERSONAL_ALBUM_COLOR' => null
 					)
 				),
@@ -275,7 +275,7 @@ class gallery_index_test extends controller_base
 					'ALBUM_FOLDER_IMG' => null,
 					'ALBUM_FOLDER_IMG_ALT' => 'NO_NEW_IMAGES',
 					'LAST_IMAGE_TIME' => 0,
-					'LAST_USER_FULL' => '<span class="username"></span>',
+					'LAST_USER_FULL' => '<span class="username">Guest</span>',
 					'UC_THUMBNAIL' => '',
 					'UC_FAKE_THUMBNAIL' => '',
 					'UC_IMAGE_NAME' => '',
@@ -457,7 +457,7 @@ class gallery_index_test extends controller_base
 					array(
 						'S_PERSONAL_ALBUM' => true,
 						'U_PERSONAL_ALBUM' => 'phpbbgallery_core_album',
-						'U_PERSONAL_ALBUM_USER' => null,
+						'U_PERSONAL_ALBUM_USER' => 'admin',
 						'U_PERSONAL_ALBUM_COLOR' => null
 					)
 				),
@@ -627,7 +627,7 @@ class gallery_index_test extends controller_base
 					array(
 						'S_PERSONAL_ALBUM' => true,
 						'U_PERSONAL_ALBUM' => 'phpbbgallery_core_album',
-						'U_PERSONAL_ALBUM_USER' => null,
+						'U_PERSONAL_ALBUM_USER' => 'admin',
 						'U_PERSONAL_ALBUM_COLOR' => null
 					)
 				),

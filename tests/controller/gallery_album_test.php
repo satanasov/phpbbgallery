@@ -263,7 +263,7 @@ class gallery_album_test extends controller_base
 				array(
 					array(
 						'TOTAL_IMAGES' => 'VIEW_ALBUM_IMAGES',
-						'S_SELECT_SORT_DIR' => '<select name="sd" id="sd"><option value="a" selected="selected"></option><option value="d"></option></select>',
+						'S_SELECT_SORT_DIR' => '<select name="sd" id="sd"><option value="a" selected="selected">ASC</option><option value="d"></option></select>',
 						'S_SELECT_SORT_KEY' => '<select name="sk" id="sk"><option value="t" selected="selected">TIME</option><option value="n">IMAGE_NAME</option><option value="vc">GALLERY_VIEWS</option><option value="u">SORT_USERNAME</option></select>'
 					)
 				)
@@ -487,7 +487,7 @@ class gallery_album_test extends controller_base
 				array(
 					array(
 						'TOTAL_IMAGES' => 'VIEW_ALBUM_IMAGES',
-						'S_SELECT_SORT_DIR' => '<select name="sd" id="sd"><option value="a" selected="selected"></option><option value="d"></option></select>',
+						'S_SELECT_SORT_DIR' => '<select name="sd" id="sd"><option value="a" selected="selected">ASC</option><option value="d"></option></select>',
 						'S_SELECT_SORT_KEY' => '<select name="sk" id="sk"><option value="t" selected="selected">TIME</option><option value="n">IMAGE_NAME</option><option value="vc">GALLERY_VIEWS</option><option value="u">SORT_USERNAME</option><option value="ra">RATING</option><option value="r">RATES_COUNT</option><option value="c">COMMENTS</option><option value="lc">NEW_COMMENT</option></select>'
 					)
 				)
