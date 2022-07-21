@@ -150,7 +150,7 @@ class log
 		$sql_where = array();
 		if ($type != 'all')
 		{
-			$sql_where[] = "log_type = '" . $this->db->sql_escape($type) . "'";
+			$sql_where[] = "l.log_type = '" . $this->db->sql_escape($type) . "'";
 		}
 		// If album is -1 we are calling it from ACP so ... prority!
 		// If album is 0 we are calling it from moderator log, so we need album we can access
