@@ -84,14 +84,20 @@ class controller_base extends \phpbb_database_test_case
 			->will($this->returnCallback(array($this, 'create_datetime_callback')));
 		$this->user->timezone = new \DateTimeZone('UTC');
 		$this->user->lang = array(
-			'datetime' => array(),
-			'DATE_FORMAT' => 'm/d/Y',
+			'datetime' 			=> array(),
+			'DATE_FORMAT' 		=> 'm/d/Y',
+			'ASCENDING'			=> 'ASC',
+			'DESCENDING'		=> 'DESC',
+			'GUEST'				=> 'Guest',
 		);
 		$this->user->host = '';
-		$this->user->data['user_form_salt'] = '';
-		$this->user->data['username'] = 'admin';
-		$this->user->lang['ASCENDING'] = 'ASC';
-		$this->user->lang['GUEST'] = 'Guest';
+		$data_array = array(
+			'user_form_salt'	=> '',
+			'username'			=> 'admin',
+			'user_colour'			=> '',
+		);
+
+		$this->user->data = $data_array;
 
 		$user = $this->user;
 
