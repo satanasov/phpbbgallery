@@ -194,7 +194,10 @@ class moderate
 		$approve_ary = $this->request->variable('approval', array('' => array(0)));
 		$action_ary = $this->request->variable('action', array('' => 0));
 		$back_link = $this->request->variable('back_link', $album_id > 0 ? $this->helper->route('phpbbgallery_core_moderate_queue_approve_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_core_moderate_queue_approve'));
-		list($action, ) = each($action_ary);
+		foreach ($action_ary as $act => $garb)
+		{
+			$action = $act;
+		}
 
 		$this->language->add_lang(array('gallery_mcp', 'gallery'), 'phpbbgallery/core');
 		$this->language->add_lang('mcp');
@@ -339,7 +342,10 @@ class moderate
 		$report_ary = $this->request->variable('report', array(0));
 		$action_ary = $this->request->variable('action', array('' => 0));
 		$back_link = $this->request->variable('back_link', $album_id > 0 ? $this->helper->route('phpbbgallery_core_moderate_reports_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_core_moderate_reports'));
-		list($action, ) = each($action_ary);
+		foreach ($action_ary as $act => $garb)
+		{
+			$action = $act;
+		}
 
 		$this->language->add_lang(array('gallery_mcp', 'gallery'), 'phpbbgallery/core');
 		$this->language->add_lang('mcp');
@@ -793,7 +799,7 @@ class moderate
 	 * @param $image_id
 	 * @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
 	 */
-	public function move($image_id)
+	public function move($image_id): \Symfony\Component\HttpFoundation\Response
 	{
 		$image_data = $this->image->get_image_data($image_id);
 		$album_id = $image_data['image_album_id'];
