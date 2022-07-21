@@ -220,6 +220,10 @@ class log
 		{
 			$count = $row['count'];
 		}
+		else
+		{
+			$count = 0;
+		}
 
 		$sql_array['SELECT'] = '*';
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
