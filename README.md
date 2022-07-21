@@ -4,7 +4,7 @@
 
 © 2012 - [nickvergessen](http://www.flying-bits.org)
 
-© 2014 - 2021 - [Lucifer](http://www.anavaro.com)
+© 2014 - 2022 - [Lucifer](http://www.anavaro.com)
 
 Welcome to phpBB Gallery version 3.3.x
 
@@ -19,6 +19,10 @@ If you like my code - buy me a beer/coffee/license for PhpStorm :D
 - ETH: 0x363abc8edf41ac89906b20e90cf7fdc71fe78cd5
 
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=XQ6USSXCSUM5W)
+
+## Known Issues
+
+MSSQL is not ok. I don't have a MSSQL instance to test different functions. If you want to use with MSSQL - we can debug and do stuff.
 
 ## Add ons
  - Exif
