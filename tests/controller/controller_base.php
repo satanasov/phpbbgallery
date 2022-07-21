@@ -76,9 +76,9 @@ class controller_base extends \phpbb_database_test_case
 				'\phpbb\datetime'
 			))
 			->getMock();
-		$this->user
-			->method('lang')
-			->will($this->returnArgument(0));
+		//$this->user
+		//	->method('lang')
+		//	->will($this->returnArgument(0));
 		$this->user->expects($this->any())
 			->method('create_datetime')
 			->will($this->returnCallback(array($this, 'create_datetime_callback')));
