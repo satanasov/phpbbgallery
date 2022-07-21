@@ -26,10 +26,10 @@ class permissions_module
 	private $language;
 
 	/** @var string */
-	private string $tpl_name;
+	protected $tpl_name;
 
 	/** @var string */
-	private string $page_title;
+	protected $page_title;
 
 	function main($id, $mode)
 	{
