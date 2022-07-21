@@ -37,7 +37,7 @@ class controller_base extends \phpbb_database_test_case
 	*/
 	public function setUp() : void
 	{
-		global $request, $phpbb_root_path, $phpEx;
+		global $request, $user, $phpbb_root_path, $phpEx;
 		parent::setUp();
 		//Let's build some deps
 		$this->auth = $this->getMockBuilder('\phpbb\auth\auth')
