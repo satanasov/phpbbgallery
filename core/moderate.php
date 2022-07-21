@@ -142,7 +142,6 @@ class moderate
 				'IMAGE_ALBUM_ID'       => $VAR['image_album_id'],
 			));
 			unset($album_tmp);
-			$waiting_images++;
 		}
 		$this->template->assign_vars(array(
 			'TOTAL_IMAGES_WAITING'     => $this->lang->lang('WAITING_UNAPPROVED_IMAGE', (int) $count),
