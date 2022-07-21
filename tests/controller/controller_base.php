@@ -89,6 +89,9 @@ class controller_base extends \phpbb_database_test_case
 		);
 		$this->user->host = '';
 		$this->user->data['user_form_salt'] = '';
+		$this->user->data['username'] = 'admin';
+		$this->user->lang['ASCENDING'] = 'ASC';
+		$this->user->lang['GUEST'] = 'Guest';
 
 		$user = $this->user;
 
