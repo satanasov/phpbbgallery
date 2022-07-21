@@ -19,7 +19,17 @@ namespace phpbbgallery\core\acp;
 */
 class permissions_module
 {
+	/** @var  */
 	var $u_action;
+
+	/** @var */
+	private $language;
+
+	/** @var string  */
+	private string $tpl_name;
+
+	/** @var string */
+	private string $page_title;
 
 	function main($id, $mode)
 	{
@@ -125,7 +135,7 @@ class permissions_module
 
 	function permissions_c_mask()
 	{
-		global $cache, $template, $phpbb_container, $gallery_auth;
+		global $template, $phpbb_container, $gallery_auth;
 		// Init album
 		$gallery_album = $phpbb_container->get('phpbbgallery.core.album');
 
@@ -134,9 +144,6 @@ class permissions_module
 			'C_OWN_PERSONAL_ALBUMS'	=> $gallery_auth::OWN_ALBUM,
 			'C_PERSONAL_ALBUMS'		=> $gallery_auth::PERSONAL_ALBUM,
 		));
-
-		$submit = (isset($_POST['submit'])) ? true : false;
-		//$albums = $cache->obtain_album_list();
 
 		$template->assign_vars(array(
 			'U_ACTION'					=> $this->u_action . '&amp;action=v_mask',
@@ -410,8 +417,6 @@ class permissions_module
 			trigger_error('FORM_INVALID');
 		}
 
-		$submit = (isset($_POST['submit'])) ? true : false;
-		$delete = (isset($_POST['delete'])) ? true : false;
 		$album_id = $request->variable('album_id', array(0));
 		$group_id = $request->variable('group_id', array(0));
 		$user_id = $request->variable('user_id', array(0));
