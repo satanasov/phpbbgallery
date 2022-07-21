@@ -213,7 +213,7 @@ jobs:
               with:
                   php-version: ${{ matrix.php }}
                   extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, mysqli, sqlite, pdo_sqlite, intl, gd, exif, iconv, sqlsrv, pdo_sqlsrv, ldap, xml
-                  coverage: none
+                  coverage: xdebug
 
             - name: Setup environment for phpBB
               env:
