@@ -10,7 +10,6 @@
 
 namespace phpbbgallery\core;
 
-
 class moderate
 {
 	/**
