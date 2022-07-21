@@ -10,7 +10,6 @@
 
 namespace phpbbgallery\core;
 
-use phpbb\language\language;
 
 class moderate
 {
@@ -21,7 +20,7 @@ class moderate
 	 * @param \phpbb\template\template          $template
 	 * @param \phpbb\controller\helper          $helper
 	 * @param \phpbb\user                       $user
-	 * @param language                          $lang
+	 * @param \phpbb\language\language          $lang
 	 * @param \phpbb\user_loader                $user_loader
 	 * @param album\album                       $album
 	 * @param auth\auth                         $gallery_auth

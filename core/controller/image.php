@@ -10,7 +10,6 @@
 
 namespace phpbbgallery\core\controller;
 
-use phpbb\profilefields\manager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class image
@@ -137,7 +136,7 @@ class image
 	 * @param \phpbb\pagination                                         $pagination   Pagination object
 	 * @param \phpbb\template\template                                  $template     Template object
 	 * @param \phpbb\user                                               $user         User object
-	 * @param manager                                                   $cpf_manager
+	 * @param \phpbb\profilefields\manager                              $cpf_manager
 	 * @param \phpbb\language\language                                  $language
 	 * @param \phpbbgallery\core\album\display                          $display      Albums display object
 	 * @param \phpbbgallery\core\album\loader                           $loader       Albums display object
