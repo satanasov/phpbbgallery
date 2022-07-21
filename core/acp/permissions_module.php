@@ -25,7 +25,7 @@ class permissions_module
 	/** @var */
 	private $language;
 
-	/** @var string  */
+	/** @var string */
 	private string $tpl_name;
 
 	/** @var string */
