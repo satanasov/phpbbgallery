@@ -104,9 +104,24 @@ jobs:
               run: rm phpBB/ext/$EXTNAME/travis/*; .github/ext-check-executable-files.sh ./ $EXTNAME
               working-directory: ./phpBB3
 
-            - name: Run EPV
+            - name: Run EPV on Core
               if: ${{ env.EPV != 0 }}
-              run: phpBB/vendor/bin/EPV.php run --dir="phpBB/ext/$EXTSNIFF/"
+              run: phpBB/vendor/bin/EPV.php run --dir="phpBB/ext/phpbbgallery/core/"
+              working-directory: ./phpBB3
+
+            - name: Run EPV on ACP ECIF
+              if: ${{ env.EPV != 0 }}
+              run: phpBB/vendor/bin/EPV.php run --dir="phpBB/ext/phpbbgallery/exif/"
+              working-directory: ./phpBB3
+
+            - name: Run EPV on ACP Cleanup
+              if: ${{ env.EPV != 0 }}
+              run: phpBB/vendor/bin/EPV.php run --dir="phpBB/ext/phpbbgallery/acpcleanup/"
+              working-directory: ./phpBB3
+
+            - name: Run EPV on ACP Import
+              if: ${{ env.EPV != 0 }}
+              run: phpBB/vendor/bin/EPV.php run --dir="phpBB/ext/phpbbgallery/acpimport/"
               working-directory: ./phpBB3
     # END Basic Checks Job
 
