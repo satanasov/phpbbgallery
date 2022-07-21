@@ -41,6 +41,9 @@ class image
 	/** @var \phpbb\user */
 	protected $user;
 
+	/** @var \phpbb\profilefields\manager */
+	protected \phpbb\profilefields\manager $cpf_manager;
+
 	/** @var \phpbb\language\language */
 	protected $language;
 
@@ -123,6 +126,9 @@ class image
 	protected $users_data_array;
 	protected $profile_fields_data;
 	protected $can_receive_pm_list;
+	protected string $table_albums;
+	protected string $table_images;
+	protected string $table_users;
 
 	/**
 	 * Constructor
