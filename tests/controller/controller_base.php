@@ -88,6 +88,7 @@ class controller_base extends \phpbb_database_test_case
 			'DATE_FORMAT' => 'm/d/Y',
 		);
 		$this->user->host = '';
+		$this->user->data['user_form_salt'] = '';
 
 		$user = $this->user;
 
