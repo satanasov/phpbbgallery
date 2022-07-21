@@ -69,7 +69,7 @@ class core_contest_test extends core_base
 					  'contest_end'	=> $time + 100,
 				),
 				true,
-				true,
+				false,
 				false
 			),
 			'contest_in_comment' => array(
@@ -81,7 +81,7 @@ class core_contest_test extends core_base
 				),
 				true,
 				false,
-				true
+				false
 			),
 		);
 	}
