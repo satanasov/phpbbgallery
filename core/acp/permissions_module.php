@@ -23,13 +23,13 @@ class permissions_module
 	var $u_action;
 
 	/** @var */
-	private $language;
+	var $language;
 
 	/** @var string */
-	protected $tpl_name;
+	var $tpl_name;
 
 	/** @var string */
-	protected $page_title;
+	var $page_title;
 
 	function main($id, $mode)
 	{
