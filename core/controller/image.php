@@ -126,9 +126,9 @@ class image
 	protected $users_data_array;
 	protected $profile_fields_data;
 	protected $can_receive_pm_list;
-	protected string $table_albums;
-	protected string $table_images;
-	protected string $table_users;
+	protected $table_albums;
+	protected $table_images;
+	protected $table_users;
 
 	/**
 	 * Constructor
