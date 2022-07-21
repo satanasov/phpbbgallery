@@ -273,7 +273,7 @@ class core_config_test extends core_base
 		}
 		else
 		{
-			$this->assertContains($this->gallery_config->get($variable), $expectation);
+			$this->assertStringContainsString($this->gallery_config->get($variable), $expectation);
 		}
 	}
 
@@ -317,9 +317,9 @@ class core_config_test extends core_base
 		}
 		else
 		{
-			$this->assertContains($this->gallery_config->get($variable), $old);
+			$this->assertStringContainsString($this->gallery_config->get($variable), $old);
 			$this->gallery_config->set($variable, $new);
-			$this->assertContains($this->gallery_config->get($variable), $new);
+			$this->assertStringContainsString($this->gallery_config->get($variable), $new);
 		}
 	}
 	public function test_config_inc()
