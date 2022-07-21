@@ -49,7 +49,7 @@ class core_contest_test extends core_base
 	{
 		$time = time();
 		return array(
-			/*'contest_in_upload' => array(
+			'contest_in_upload' => array(
 				array(//album data
 					'contest_id' => 1,
 					'contest_start'	=> $time - 20,
@@ -60,7 +60,7 @@ class core_contest_test extends core_base
 				false,
 				false
 
-			),*/
+			),
 			'contest_in_rate' => array(
 				array(//album data
 					  'contest_id' => 1,
@@ -68,7 +68,7 @@ class core_contest_test extends core_base
 					  'contest_rating'	=> $time - 10,
 					  'contest_end'	=> $time + 100,
 				),
-				false,
+				true,
 				true,
 				false
 			),
@@ -79,7 +79,7 @@ class core_contest_test extends core_base
 					  'contest_rating'	=> $time - 20,
 					  'contest_end'	=> $time - 10,
 				),
-				false,
+				true,
 				false,
 				true
 			),
