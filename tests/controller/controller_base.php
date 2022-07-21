@@ -69,6 +69,7 @@ class controller_base extends \phpbb_database_test_case
 			->getMock();
 		$this->language->method('lang')
 			->will($this->returnArgument(0));
+		$this->language['GUEST'] = 'Guest';
 
 		$this->user = $this->getMockBuilder('\phpbb\user')
 			->setConstructorArgs(array(
@@ -76,9 +77,9 @@ class controller_base extends \phpbb_database_test_case
 				'\phpbb\datetime'
 			))
 			->getMock();
-		//$this->user
-		//	->method('lang')
-		//	->will($this->returnArgument(0));
+		$this->user
+			->method('lang')
+			->will($this->returnArgument(0));
 		$this->user->expects($this->any())
 			->method('create_datetime')
 			->will($this->returnCallback(array($this, 'create_datetime_callback')));
