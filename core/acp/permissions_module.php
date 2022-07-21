@@ -31,7 +31,7 @@ class permissions_module
 	/** @var string */
 	var $page_title;
 
-	function main($id, $mode)
+	public function main($id, $mode)
 	{
 		global $user, $permissions, $phpbb_container, $gallery_url, $gallery_auth, $gallery_cache, $gallery_user;
 		global $request;
@@ -152,7 +152,7 @@ class permissions_module
 		));
 	}
 
-	function permissions_v_mask()
+	private function permissions_v_mask()
 	{
 		global $cache, $db, $template, $user, $table_prefix, $phpbb_container;
 		global $request, $gallery_auth, $gallery_url;
@@ -398,7 +398,7 @@ class permissions_module
 		));
 	}
 
-	function permissions_p_mask()
+	private function permissions_p_mask()
 	{
 		global $db, $permissions, $template, $user, $phpbb_ext_gallery, $phpbb_dispatcher, $table_prefix, $table_name, $users_table, $phpbb_container;
 		global $request, $gallery_cache, $gallery_url;
@@ -659,7 +659,7 @@ class permissions_module
 		));
 	}
 
-	function permissions_set()
+	private function permissions_set()
 	{
 		global $cache, $db, $permissions, $template, $user, $phpbb_ext_gallery, $phpbb_dispatcher, $table_prefix, $table_name, $phpbb_container;
 		global $request;
@@ -995,7 +995,7 @@ class permissions_module
 	/**
 	* Handles copying permissions from one album to others
 	*/
-	function copy_album_permissions()
+	private function copy_album_permissions()
 	{
 		global $cache, $db, $template, $user, $table_prefix, $phpbb_dispatcher, $table_name, $users_table, $phpbb_container;
 		global $request;
@@ -1123,7 +1123,7 @@ class permissions_module
 	 * @param int $check_inherit_album
 	 * @return bool|string
 	 */
-	function inherit_albums($cache_obtain_album_list, $allowed_albums, $album_id, $check_inherit_album = 0)
+	private function inherit_albums($cache_obtain_album_list, $allowed_albums, $album_id, $check_inherit_album = 0)
 	{
 		global $user, $phpbb_container;
 
@@ -1179,7 +1179,7 @@ class permissions_module
 	 * @param int $check_inherit_victim
 	 * @return bool|string
 	 */
-	function inherit_victims($cache_obtain_album_list, $allowed_albums, $allowed_victims, $album_id, $victim_id, $check_inherit_album = 0, $check_inherit_victim = 0)
+	private function inherit_victims($cache_obtain_album_list, $allowed_albums, $allowed_victims, $album_id, $victim_id, $check_inherit_album = 0, $check_inherit_victim = 0)
 	{
 		global $user;
 
@@ -1249,7 +1249,7 @@ class permissions_module
 	 * @param int $check_inherit_victim
 	 * @return bool|string
 	 */
-	function p_system_inherit_victims($p_system, $allowed_victims, $victim_id, $check_inherit_victim = 0)
+	private function p_system_inherit_victims($p_system, $allowed_victims, $victim_id, $check_inherit_victim = 0)
 	{
 		global $user, $phpbb_container;
 
