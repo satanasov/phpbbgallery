@@ -72,6 +72,7 @@ class gallery_index_test extends controller_base
 		$this->user->data['user_id'] = $user_id;
 		$this->user->data['group'] = $group;
 		$this->user->data['is_registered'] = $is_registered;
+		$this->user->lang['GUEST'] = 'Guest';
 		$controller = new \phpbbgallery\core\controller\index(
 			$this->auth,
 			$this->config,

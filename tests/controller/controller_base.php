@@ -69,7 +69,6 @@ class controller_base extends \phpbb_database_test_case
 			->getMock();
 		$this->language->method('lang')
 			->will($this->returnArgument(0));
-		$this->language['GUEST'] = 'Guest';
 
 		$this->user = $this->getMockBuilder('\phpbb\user')
 			->setConstructorArgs(array(
