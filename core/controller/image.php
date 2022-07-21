@@ -42,7 +42,7 @@ class image
 	protected $user;
 
 	/** @var \phpbb\profilefields\manager */
-	protected \phpbb\profilefields\manager $cpf_manager;
+	protected $cpf_manager;
 
 	/** @var \phpbb\language\language */
 	protected $language;
