@@ -409,8 +409,6 @@ class file
 		}
 
 		return $response;
-		//return $response;
-
 	}
 
 	protected function resize($image_id, $resize_width, $resize_height, $store_filesize = '', $put_details = false)
