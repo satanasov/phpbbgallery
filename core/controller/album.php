@@ -163,10 +163,9 @@ class album
 		{
 			$this->template->assign_var('U_MCP', $this->helper->route(
 				'phpbbgallery_core_moderate_album',
-				array('album_id' => $album_id)
+				array('album_id' => (int) $album_id)
 			));
 		}
-		//
 		if ((!$album_data['album_user_id'] || $album_data['album_user_id'] == $this->user->data['user_id'])
 			&& ($this->user->data['user_id'] == ANONYMOUS || $this->auth->acl_check('i_upload', $album_id, $album_data['album_user_id'])))
 		{
