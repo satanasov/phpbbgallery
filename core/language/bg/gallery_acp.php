@@ -284,6 +284,7 @@ $lang = array_merge($lang, array(
 	'RECENT_ON_INDEX_COUNT'    => 'Брой последни изображения',
 	'PHPBB_INTEGRATION'        => 'Интеграция в phpBB',
 	'PNG_ALLOWED'              => 'Разрешено качването на PNG файлове',
+	'WEBP_ALLOWED'              => 'Разрешено качването на WEBP файлове',
 	'PURGED_CACHE'             => 'Кешът е прочистен',
 
 	'RATE_SCALE'                 => 'Скала за оценяване',
