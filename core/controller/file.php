@@ -127,7 +127,6 @@ class file
 			$this->data['album_id'] = 0;
 			$this->data['album_user_id'] = 1;
 			$this->data['image_filemissing'] = 0;
-			$this->data['image_filemissing'] = 0;
 			$this->data['album_watermark'] = 0;
 		}
 
@@ -232,7 +231,6 @@ class file
 			$this->data['album_id'] = 0;
 			$this->data['album_user_id'] = 1;
 			$this->data['image_filemissing'] = 0;
-			$this->data['image_filemissing'] = 0;
 			$this->data['album_watermark'] = 0;
 		}
 		else
@@ -257,7 +255,6 @@ class file
 				$this->data['image_status'] = 2;
 				$this->data['album_id'] = 0;
 				$this->data['album_user_id'] = 1;
-				$this->data['image_filemissing'] = 0;
 				$this->data['image_filemissing'] = 0;
 				$this->data['album_watermark'] = 0;
 
@@ -333,7 +330,6 @@ class file
 			$this->data['image_status'] = 2;
 			$this->data['album_id'] = 0;
 			$this->data['album_user_id'] = 1;
-			$this->data['image_filemissing'] = 0;
 			$this->data['image_filemissing'] = 0;
 			$this->data['album_watermark'] = 0;
 		}
@@ -477,7 +473,6 @@ class file
 				$this->data['image_status'] = 2;
 				$this->data['album_id'] = 0;
 				$this->data['album_user_id'] = 1;
-				$this->data['image_filemissing'] = 0;
 				$this->data['image_filemissing'] = 0;
 				$this->data['album_watermark'] = 0;
 			}
