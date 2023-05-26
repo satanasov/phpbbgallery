@@ -1,5 +1,5 @@
 <!-- INCLUDE gallery/gallery_header.html -->
-<h2><a href="{S_ALBUM_ACTION}">{IMAGE_NAME}</a></h2>
+<h2 style= "color: black;">{L_IMAGE_NAME}{L_COLON}<a href="{S_ALBUM_ACTION}" style="display: inline;"> {IMAGE_NAME}</a></h2>
 
 <div class="post bg2<!-- IF S_IMAGE_REPORTED --> reported<!-- ENDIF -->">
 	<div class="inner">
@@ -43,8 +43,9 @@
 			<!-- IF POSTER_GALLERY_IMAGES != '' --><dd><strong>{L_IMAGES}{L_COLON}</strong> <!-- IF U_POSTER_GALLERY_SEARCH --><a href="{U_POSTER_GALLERY_SEARCH}">{POSTER_GALLERY_IMAGES}</a><!-- ELSE -->{POSTER_GALLERY_IMAGES}<!-- ENDIF --></dd><!-- ENDIF -->
 			<!-- IF POSTER_JOINED --><dd class="profile-joined"><strong>{L_JOINED}{L_COLON}</strong> {POSTER_JOINED}</dd><!-- ENDIF -->
 			<!-- IF POSTER_WARNINGS --><dd class="profile-warnings"><strong>{L_WARNINGS}{L_COLON}</strong> {POSTER_WARNINGS}</dd><!-- ENDIF -->
+<!-- IF U_ACP -->
 			<!-- IF POSTER_IP --><dd><strong>{L_IP}{L_COLON}</strong> {POSTER_IP} <!-- [ <a href="{U_POSTER_WHOIS}" onclick="popup(this.href, 750, 500); return false;">{L_WHOIS}</a> ]--></dd><!-- ENDIF -->
-
+<!-- ENDIF -->
 			<!-- IF S_PROFILE_FIELD1 -->
 				<!-- Use a construct like this to include admin defined profile fields. Replace FIELD1 with the name of your field. -->
 				<dd><strong>{PROFILE_FIELD1_NAME}{L_COLON}</strong> {PROFILE_FIELD1_VALUE}</dd>
@@ -96,48 +97,47 @@
 				<!-- IF U_DELETE --><li><a href="{U_DELETE}" title="{L_DELETE_IMAGE}" class="button button-icon-only"><i class="icon fa-times fa-fw" aria-hidden="true"></i><span class="sr-only">{L_DELETE_IMAGE}</span></a></li><!-- ENDIF -->
 				<!-- IF U_REPORT --><li><a href="{U_REPORT}" title="{L_REPORT_IMAGE}" class="button button-icon-only"><i class="icon fa-exclamation fa-fw" aria-hidden="true"></i><span class="sr-only">{L_REPORT_IMAGE}</span></a></li><!-- ENDIF -->
 			</ul>
-			<h3>{IMAGE_NAME}</h3>
-			<hr />
+			<h2 style= "color: black; font-size: 1.5em;">{L_IMAGE_NAME}{L_COLON}<a href="{S_ALBUM_ACTION}" style="display: inline; line-height: 1.2em; font-weight: bold;"> {IMAGE_NAME}</a></h2>
 
 			<fieldset class="fields1 anti-postbody">
 				<!-- IF CONTEST_RANK -->
-				<dl class="column1">
+				<dl>
 					<dt><label>{L_CONTEST_RESULT}{L_COLON}</label></dt>
 					<dd>{CONTEST_RANK}</dd>
 				</dl>
 				<!-- ENDIF -->
-				<dl class="column2">
+				<dl>
 					<dt><label>{L_UPLOADED_ON_DATE}{L_COLON}</label></dt>
 					<dd>{IMAGE_TIME}</dd>
 				</dl>
 				<!-- IF IMAGE_URL -->
-				<dl class="column1">
+				<dl>
 					<dt><label>{L_IMAGE_URL}{L_COLON}</label></dt>
-					<dd><input type="text" size="28" value="{IMAGE_URL}" class="inputbox autowidth-gallery" onclick="this.focus();this.select();" /></dd>
+					<dd><input type="text" size="28" value="{IMAGE_URL}" class="inputbox" onclick="this.focus();this.select();" /></dd>
 				</dl>
 				<!-- ENDIF -->
-				<dl class="column2">
+				<dl">
 					<dt><label>{L_GALLERY_VIEWS}{L_COLON}</label></dt>
 					<dd>{IMAGE_VIEW}</dd>
 				</dl>
 				<!-- IF IMAGE_BBCODE -->
-				<dl class="column1">
+				<dl>
 					<dt><label>{L_IMAGE_BBCODE}{L_COLON}</label></dt>
-					<dd><input type="text" size="28" value="{IMAGE_BBCODE}" class="inputbox autowidth-gallery" onclick="this.focus();this.select();" /></dd>
+					<dd><input type="text" size="28" value="{IMAGE_BBCODE}" class="inputbox" onclick="this.focus();this.select();" /></dd>
 					<!-- IF IMAGE_IMGURL_BBCODE -->
-						<dd><input type="text" size="28" value="{IMAGE_IMGURL_BBCODE}" class="inputbox autowidth-gallery" onclick="this.focus();this.select();" /></dd>
+						<dd><input type="text" size="28" value="{IMAGE_IMGURL_BBCODE}" class="inputbox" onclick="this.focus();this.select();" /></dd>
 					<!-- ENDIF -->
 				</dl>
 				<!-- ENDIF -->
 				<!-- IF S_VIEW_RATE -->
-				<dl class="column2">
+				<dl>
 					<dt><label>{L_RATING}{L_COLON}</label></dt>
 					<dd><!-- IF CONTEST_RESULT_HIDDEN -->{CONTEST_RESULT_HIDDEN}<!-- ELSE -->{IMAGE_RATING}<!-- ENDIF --><!-- IF S_YOUR_RATING --> ({L_YOUR_RATING}{L_COLON} {S_YOUR_RATING})<!-- ENDIF --></dd>
 				</dl>
 				<!-- ENDIF -->
 				<!-- IF S_ALLOWED_TO_RATE -->
 				<form id="postform" action="{S_RATE_ACTION}" method="post">
-				<dl class="column2">
+				<dl>
 					<dt><label>{L_YOUR_RATING}{L_COLON}</label></dt>
 					<dd>
 						<!-- IF .rate_scale -->
@@ -190,6 +190,7 @@
 				<div class="inner">
 						<h2 class="quickreply-title">{L_POST_COMMENT}</h2>
 						<fieldset class="fields1">
+						{L_COMMENT_LENGTH}
 						<!-- IF not S_USER_LOGGED_IN -->
 							<dl>
 								<dt><label>{L_USERNAME}{L_COLON}</label></dt>
@@ -203,6 +204,7 @@
 						<div id="message-box" class="message-box">
 							<textarea style="height: 9em;" name="message" rows="7" cols="76" tabindex="3" class="inputbox" name="message" id="message"></textarea>
 						</div>
+						<div><label for="attach_sig"><input type="checkbox" name="attach_sig" id="attach_sig"{S_SIGNATURE_CHECKED} /> {L_ATTACH_SIG}</label></div>
 						<!-- EVENT quickreply_editor_message_after -->
 						</fieldset>
 						<fieldset class="submit-buttons">
@@ -314,6 +316,7 @@
 
 			<div class="postbody" id="post_content{commentrow.COMMENT_ID}">
 				<!-- IF commentrow.U_DELETE or commentrow.U_EDIT or commentrow.U_INFO or commentrow.U_QUOTE -->
+<br>
 					<ul class="post-buttons">
 						<!-- IF commentrow.U_EDIT --><li><a href="{commentrow.U_EDIT}" title="{L_EDIT_COMMENT}" class="button button-icon-only"><i class="icon fa-pencil fa-fw" aria-hidden="true"></i><span class="sr-only">{L_EDIT_COMMENT}</span></a></li><!-- ENDIF -->
 						<!-- IF commentrow.U_DELETE --><li><a href="{commentrow.U_DELETE}" title="{L_DELETE_COMMENT}" class="button button-icon-only"><i class="icon fa-times fa-fw" aria-hidden="true"></i><span class="sr-only">{L_DELETE_COMMENT}</span></a></li><!-- ENDIF -->

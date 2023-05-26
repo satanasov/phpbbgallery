@@ -1,19 +1,23 @@
 <!-- INCLUDE gallery/gallery_header.html -->
 <div class="panel bg3">
 	<div>
-	<h2><a href="{U_VIEW_ALBUM}">{L_ALBUM}{L_COLON} {ALBUM_NAME}</a></h2>
+	<h2 style= "color: black;">{L_ALBUM_NAME}{L_COLON}<a href="{U_VIEW_ALBUM}" style="display: inline;"> {ALBUM_NAME}</a></h2>
 		<div class="panel">
 			<div class="inner">
 				<div class="postbody" style="width: 100%;">
 					<ul class="post-buttons">
-						<li><a href="{U_EDIT_IMAGE}" title="{L_EDIT_IMAGE}" class="button icon-button edit-icon"><span>{L_EDIT_IMAGE}</span></a></li>
-						<li><a href="{U_DELETE_IMAGE}" title="{L_DELETE_IMAGE}" class="button icon-button delete-icon"><span>{L_DELETE_IMAGE}</span></a></li>
+						<a href="{U_EDIT_IMAGE}" title="{L_EDIT_IMAGE}" class="button button-icon-only">
+							<i class="icon fa-pencil fa-fw" aria-hidden="true"></i><span class="sr-only">{L_EDIT_IMAGE}</span>
+						</a>
+						<a href="{U_DELETE_IMAGE}" title="{L_DELETE_IMAGE}" class="button button-icon-only">
+							<i class="icon fa-times fa-fw" aria-hidden="true"></i><span class="sr-only">{L_DELETE_IMAGE}</span>
+						</a>
 					</ul>
-					<h3>{IMAGE_NAME}</h3>
+					<h2 style= "color: black;">{L_IMAGE_NAME}{L_COLON}<a href="{U_VIEW_ALBUM}" style="display: inline; line-height: 1.2em;"> {IMAGE_NAME}</a></h2>
 					<p class="author">
 						{L_POST_BY_AUTHOR} {UPLOADER}<br />
 						{IMAGE_TIME}<br />
-						{L_ALBUM}{L_COLON} <a href="{U_VIEW_ALBUM}" style="font-weight: bold;">{ALBUM_NAME}</a><!-- IF U_MOVE_IMAGE --> &raquo; <a href="{U_MOVE_IMAGE}" style="font-weight: bold;">{L_MOVE}</a><!-- ENDIF --><br />
+						{L_ALBUM}{L_COLON} <a href="{U_VIEW_ALBUM}" style="font-weight: bold; display: inline;">{ALBUM_NAME}</a><!-- IF U_MOVE_IMAGE --> &raquo; <a href="{U_MOVE_IMAGE}" style="font-weight: bold;">{L_MOVE}</a><!-- ENDIF --><br />
 						{L_STATUS}{L_COLON} <span style="font-weight: bold;">{STATUS}</span>
 					</p>
 
@@ -55,8 +59,6 @@
 				<input type="hidden" value="{REPORT_ID}" name="image_id_ary[{REPORT_ID}]" />
 			</fieldset>
 		</form>
-		</div>
-	<div class="clear"></div>
-
-	</div></div>
+	</div>
 </div>
+<!-- INCLUDE gallery/gallery_footer.html -->
