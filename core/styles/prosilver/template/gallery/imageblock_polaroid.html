@@ -12,15 +12,18 @@
 		<strong class="fa-stack-1x trophy-text">{imageblock.image.S_CONTEST_RANK}</strong>
 	</div>
 	<!-- ENDIF -->
-	<p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: bold; font-size: 1.2em;">
-		<!-- IF imageblock.image.U_IMAGE --><a href="{imageblock.image.U_IMAGE}"><!-- ENDIF -->{imageblock.image.UC_IMAGE_NAME}<!-- IF imageblock.image.U_IMAGE --></a><!-- ENDIF -->
+	<p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: bold; font-size: 1.2em; margin-bottom: 1em;">
+		<!-- IF imageblock.image.U_IMAGE --><a href="{imageblock.image.U_IMAGE}" style="display: inline;"><!-- ENDIF -->{imageblock.image.UC_IMAGE_NAME}<!-- IF imageblock.image.U_IMAGE --></a><!-- ENDIF -->
 	</p>
 	<hr />
 	<div id="thumbnail">
 	<!-- IF imageblock.image.UC_THUMBNAIL_ACTION --><a href="{imageblock.image.UC_THUMBNAIL_ACTION}"><!-- ENDIF --><img src="{imageblock.image.UC_THUMBNAIL}" alt="{imageblock.image.UC_IMAGE_NAME}" title="{imageblock.image.UC_IMAGE_NAME}" /><!-- IF imageblock.image.UC_THUMBNAIL_ACTION --></a><!-- ENDIF -->
 	</div>
 	<hr />
-	<!-- IF imageblock.image.U_ALBUM -->{L_ALBUM_NAME}{L_COLON} <a href="{imageblock.image.U_ALBUM}" style="font-weight: bold;" title="{imageblock.image.ALBUM_NAME}">{imageblock.image.ALBUM_NAME}</a><br /><!-- ENDIF -->
+	{L_ALBUM_NAME}{L_COLON}
+	<p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: bold; margin-bottom: 0px;">
+		<!-- IF imageblock.image.U_ALBUM --><a href="{imageblock.image.U_ALBUM}" style="display: inline;"><!-- ENDIF -->{imageblock.image.ALBUM_NAME}<!-- IF imageblock.image.U_ALBUM --></a><!-- ENDIF -->
+	</p>
 	<!-- IF imageblock.image.POSTER -->{L_UPLOADED_BY_USER}{L_COLON} {imageblock.image.POSTER}<br /><!-- ENDIF -->
 	<!-- IF imageblock.image.TIME -->{L_UPLOADED_ON_DATE}{L_COLON} {imageblock.image.TIME}<br /><!-- ENDIF -->
 	<!-- IF imageblock.image.IMAGE_VIEWS > -1 -->{L_IMAGE_VIEWS}{L_COLON} {imageblock.image.IMAGE_VIEWS}<br /><!-- ENDIF -->

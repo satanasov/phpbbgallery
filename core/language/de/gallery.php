@@ -152,7 +152,7 @@ $lang = array_merge($lang, array(
 	'IMAGE_PCT'                    => '%.2f%% aller Bilder',
 	'IMAGE_STATUS'                 => 'Status',
 	'IMAGE_URL'                    => 'Bildlink',
-	'IMAGE_VIEWS'                  => 'Views',
+	'IMAGE_VIEWS'                  => 'Betrachtet',
 	'IMAGE_WIDTH'                  => 'Bildbreite',
 	'IMAGES_REPORTED_SUCCESSFULLY' => 'Das Bild wurde erfolgreich gemeldet',
 	'IMAGES_UPDATED_SUCCESSFULLY'  => 'Deine Bilderinformationen wurden erfolgreich aktualisiert',
@@ -362,8 +362,8 @@ $lang = array_merge($lang, array(
 	),
 	'WRONG_FILESIZE' => 'Das Bild ist größer als das Limit!',
 
-	'UNREAD_IMAGES'    => 'Unviewed images',
-	'NO_UNREAD_IMAGES' => 'No unviewed images',
+	'UNREAD_IMAGES'    => 'Unbewertete Bilder',
+	'NO_UNREAD_IMAGES' => 'Es gibt keine ungeprüften Bilder',
 
 	// Versions 1.2.1 addiotions
 	'GALLERY_DROP'     => 'Lege Dein Bild hier rein',

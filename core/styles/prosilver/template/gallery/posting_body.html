@@ -35,7 +35,7 @@
 //]]>
 </script>
 
-<h2><a href="{U_VIEW_ALBUM}">{ALBUM_NAME}</a></h2>
+<h2 style= "color: black;">{L_ALBUM_NAME}{L_COLON}<a href="{U_VIEW_ALBUM}" style="display: inline;"> {ALBUM_NAME}</a></h2>
 
 <form id="postform" action="{S_ALBUM_ACTION}" method="post" enctype="multipart/form-data" data-url="{S_ALBUM_ACTION}">
 <div class="panel" id="postingbox" style="position: relative;">
@@ -57,7 +57,7 @@
 			<!-- IF not S_USER_LOGGED_IN -->
 			<dl>
 				<dt><label for="username">{L_USERNAME}{L_COLON}</label></dt>
-				<dd id="username"><input class="inputbox autowidth" type="text" tabindex="1" name="username" value="{USERNAME}" size="60" maxlength="32" /></dd>
+				<dd id="username"><input class="inputbox" type="text" tabindex="1" name="username" value="{USERNAME}" size="60" maxlength="32" /></dd>
 			</dl>
 			<!-- ENDIF -->
 			<!-- IF S_COMMENTS_ENABLED -->
@@ -80,12 +80,12 @@
 			<hr />
 			<dl id="upload_field">
 				<dt><label for="image_file">{L_IMAGES}{L_COLON}</label></dt>
-				<dd><input class="inputbox autowidth dz-hidden-input" type="file" name="files[]" id="files" size="52" multiple accept="image/jpeg,image/png,image/gif,application/zip"/></dd>
+				<dd><input class="inputbox dz-hidden-input" type="file" name="files[]" id="files" size="52" multiple accept="image/jpeg,image/png,image/gif,application/zip"/></dd>
 			</dl>
 			<!-- BEGIN upload_image -->
 				<dl id="upload_field_{upload_image.S_ROW_COUNT}">
 					<dt><label for="image_file_{upload_image.S_ROW_COUNT}">{L_FILE}{L_COLON}</label></dt>
-					<dd><input class="inputbox autowidth" type="file" onchange="add_field();" tabindex="1{upload_image.S_ROW_COUNT}" id="image_file_{upload_image.S_ROW_COUNT}" name="image_file_{upload_image.S_ROW_COUNT}" size="52" /></dd>
+					<dd><input class="inputbox" type="file" onchange="add_field();" tabindex="1{upload_image.S_ROW_COUNT}" id="image_file_{upload_image.S_ROW_COUNT}" name="image_file_{upload_image.S_ROW_COUNT}" size="52" /></dd>
 					<!-- IF S_ALLOW_ROTATE -->
 						<dd><input type="radio" name="rotate[{upload_image.S_ROW_COUNT}]" id="rotate_{upload_image.S_ROW_COUNT}_0" value="0" checked="checked" /> <label for="rotate_{upload_image.S_ROW_COUNT}_0">{L_ROTATE_NONE}</label> &nbsp;
 							<input type="radio" name="rotate[{upload_image.S_ROW_COUNT}]" id="rotate_{upload_image.S_ROW_COUNT}_270" value="270" /> <label for="rotate_{upload_image.S_ROW_COUNT}_270">{L_ROTATE_RIGHT}</label> &nbsp;
@@ -125,7 +125,7 @@
 
 <!-- INCLUDE gallery/posting_javascript.html -->
 
-<h2><!-- IF U_VIEW_IMAGE --><a href="{U_VIEW_IMAGE}">{IMAGE_NAME}</a><!-- ELSE --><a href="{U_VIEW_ALBUM}">{ALBUM_NAME}</a><!-- ENDIF --></h2>
+<!-- IF U_VIEW_IMAGE --><h2 style= "color: black;">{L_IMAGE_NAME}{L_COLON}<a href="{U_VIEW_IMAGE}" style="display: inline;"> {IMAGE_NAME}</a></h2><!-- ELSE --><h2 style= "color: black;">{L_ALBUM_NAME}{L_COLON}<a href="{U_VIEW_ALBUM}" style="display: inline;"> {ALBUM_NAME}</a></h2><!-- ENDIF -->
 
 <form id="postform" action="{S_ALBUM_ACTION}" method="post">
 
@@ -138,7 +138,7 @@
 			<!-- IF not S_USER_LOGGED_IN -->
 				<dl>
 					<dt><label for="username">{L_USERNAME}{L_COLON}</label></dt>
-					<dd id="username"><input class="inputbox autowidth" type="text" tabindex="1" name="username" value="{S_USERNAME}" size="60" maxlength="32" /></dd>
+					<dd id="username"><input class="inputbox" type="text" tabindex="1" name="username" value="{S_USERNAME}" size="60" maxlength="32" /></dd>
 				</dl>
 			<!-- ENDIF -->
 			<!-- IF BBCODE_STATUS -->
@@ -159,15 +159,15 @@
 		<fieldset class="fields1">
 			<!-- BEGIN image -->
 				<dl>
-					<dt<!-- IF image.S_FIRST_ROW and (NUM_IMAGES > 1) --> class="first"<!-- ENDIF -->>{image.U_IMAGE}</dt>
+					<dt<!-- IF image.S_FIRST_ROW and (NUM_IMAGES > 1) --> class="first"<!-- ENDIF -->><a href="{U_IMAGE_ACTION}" style="max-width: 95%; max-height: 95%">{image.U_IMAGE}</a></dt>
 					<dd>
 						<dl>
 							<dt><label for="image_name_{image.S_ROW_COUNT}">{L_IMAGE_NAME}{L_COLON}</label></dt>
 							<!-- IF image.S_FIRST_ROW and (NUM_IMAGES > 1) -->
 							<dd><input type="checkbox" name="same_name" id="same_name" value="1" onchange="change_read_write();" /> <label for="same_name">{L_USE_SAME_NAME}</label></dd>
-							<dd>{L_USE_NUM} <input class="inputbox autowidth" type="text" id="image_num" name="image_num" size="5" onchange="update_all('image_name'); update_all('message');" onkeyup="update_all('image_name'); update_all('message');" value="1" /></dd>
+							<dd>{L_USE_NUM} <input class="inputbox" type="text" id="image_num" name="image_num" size="5" onchange="update_all('image_name'); update_all('message');" onkeyup="update_all('image_name'); update_all('message');" value="1" /></dd>
 							<!-- ENDIF -->
-							<dd><input class="inputbox autowidth" type="text" tabindex="1{image.S_ROW_COUNT}" id="image_name_{image.S_ROW_COUNT}" name="image_name[{image.S_ROW_COUNT}]" value="{image.IMAGE_NAME}"<!-- IF image.S_FIRST_ROW --> onchange="update_all('image_name');" onselect="update_all('image_name');" onclick="update_all('image_name');" onkeyup="update_all('image_name');"<!-- ENDIF --> size="60" maxlength="128" /></dd>
+							<dd><input class="inputbox" type="text" tabindex="1{image.S_ROW_COUNT}" id="image_name_{image.S_ROW_COUNT}" name="image_name[{image.S_ROW_COUNT}]" value="{image.IMAGE_NAME}"<!-- IF image.S_FIRST_ROW --> onchange="update_all('image_name');" onselect="update_all('image_name');" onclick="update_all('image_name');" onkeyup="update_all('image_name');"<!-- ENDIF --> size="60"/></dd>
 						</dl>
 						<dl>
 							<dt><label for="message_{image.S_ROW_COUNT}">{L_IMAGE_DESC}{L_COLON}</label></dt>
@@ -214,7 +214,7 @@
 			<!-- IF S_CHANGE_AUTHOR and U_FIND_USERNAME -->
 				<dl>
 					<dt><label for="change_author">{L_CHANGE_AUTHOR}{L_COLON}</label></dt>
-					<dd><input type="text" class="inputbox autowidth" name="change_author" id="change_author" value="" size="32" /> [ <a href="{U_FIND_USERNAME}" onclick="find_username(this.href); return false;">{L_FIND_USERNAME}</a> ]</dd>
+					<dd><input type="text" class="inputbox" name="change_author" id="change_author" value="" size="32" /><a href="{U_FIND_USERNAME}" onclick="find_username(this.href); return false;">[ {L_FIND_USERNAME} ]</a></dd>
 				</dl>
 			<!-- ENDIF -->
 		</fieldset>

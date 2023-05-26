@@ -12,6 +12,7 @@ ul.profile-icons li.gallery-icon {
 
 h2.invade-linklist {
 	margin-top: -20px;
+	text-algin: center;
 }
 
 .rtl .icon-gallery {
@@ -103,11 +104,14 @@ input.autowidth-gallery {
 
 .polaroid img {
 	max-height: 120px;
-	max-width: 230px;
+	min-height: 120px;
+	max-width: 220px;
 }
 
 .polaroid
 {
+	max-height: 280px;
+	min-height: 280px;
 	width: 242px;
 	background: #FFFFFF;
 	display: block;
@@ -157,14 +161,14 @@ input.autowidth-gallery {
 {
 	float: left; 
 	text-align: left; 
-	width: 48%;
+	max-width: 48%;
 	clip-path: url(#left_arrow);
 }
 .image_next_image
 {
 	float: right; 
 	text-align: right; 
-	width: 48%;
+	max-width: 48%;
 	clip-path: url(#right_arrow);
 }
 
