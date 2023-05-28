@@ -284,6 +284,7 @@ $lang = array_merge($lang, array(
 	'RECENT_ON_INDEX_COUNT'    => 'Recent images count',
 	'PHPBB_INTEGRATION'        => 'phpBB integration',
 	'PNG_ALLOWED'              => 'Allowed to upload PNG files',
+	'WEBP_ALLOWED'             => 'Allowed to upload WEBP files',
 	'PURGED_CACHE'             => 'Purged the cache',
 
 	'RATE_SCALE'                 => 'Rating scale',
