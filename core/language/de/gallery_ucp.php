@@ -82,6 +82,6 @@ $lang = array_merge($lang, array(
 	'WATCH_NOTE'					=> 'Die Einstellung wirkt sich nur auf neue Bilder aus. Andere Bilder musst du über die Option „Bild beobachten“ hinzufügen',
 	'WATCH_OWN'						=> 'Eigene Bilder standardmässig beobachten',
 
-	'RRC_ZEBRA'						=> 'Hide from foes in RRC',
-	'RRC_ZEBRA_EXPLAIN'				=> 'Hide images in albums from foes in Recent, Random and Comments part of the index.<br /><strong>WARNING!</strong> This won\'t hide images uploaded in common/public albums.'
+	'RRC_ZEBRA'						=> 'Bilder vor Benutzern verstecken',
+	'RRC_ZEBRA_EXPLAIN'				=> 'Verstecke Bilder in Alben vor Benutzern in den Bereichen „Neueste“, „Zufällig“ und „Kommentare“ des Index.<br /><strong>WARNUNG!</strong> Dadurch werden keine Bilder ausgeblendet, die in gemeinsame/öffentliche Alben hochgeladen wurden.'
 ));
