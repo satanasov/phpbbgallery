@@ -243,7 +243,7 @@ class core_image_test extends core_base
 		$additional_parameters = '';
 		$next_image = 0;
 
-		$result = $this->helper->generate_link($content, $mode, $image_id, $image_name, $album_id, $is_gif, $count, $additional_parameters, $next_image); 
+		$result = $this->image->generate_link($content, $mode, $image_id, $image_name, $album_id, $is_gif, $count, $additional_parameters, $next_image); 
 
 		$this->assertNotEmpty($result);
 		$this->assertIsString($result);
@@ -265,7 +265,7 @@ class core_image_test extends core_base
 		$additional_parameters = '';
 		$next_image = 0;
 
-		$result = $this->helper->generate_link($content, $mode, $image_id, $image_name, $album_id, $is_gif, $count, $additional_parameters, $next_image); 
+		$result = $this->image->generate_link($content, $mode, $image_id, $image_name, $album_id, $is_gif, $count, $additional_parameters, $next_image); 
 
 		$this->assertNotEmpty($result);
 		$this->assertIsString($result);
@@ -288,7 +288,7 @@ class core_image_test extends core_base
 		$additional_parameters = '';
 		$next_image = 2;
 
-		$result = $this->helper->generate_link($content, $mode, $image_id, $image_name, $album_id, $is_gif, $count, $additional_parameters, $next_image); 
+		$result = $this->image->generate_link($content, $mode, $image_id, $image_name, $album_id, $is_gif, $count, $additional_parameters, $next_image); 
 
 		$this->assertNotEmpty($result);
 		$this->assertIsString($result);
@@ -311,15 +311,13 @@ class core_image_test extends core_base
 		$additional_parameters = '';
 		$next_image = 0;
 
-		$result = $this->helper->generate_link($content, $mode, $image_id, $image_name, $album_id, $is_gif, $count, $additional_parameters, $next_image); 
+		$result = $this->image->generate_link($content, $mode, $image_id, $image_name, $album_id, $is_gif, $count, $additional_parameters, $next_image); 
 
 		$this->assertNotEmpty($result);
 		$this->assertIsString($result);
 		$this->assertStringContainsString('<img', $result);
 		$this->assertStringContainsString('{U_THUMBNAIL}', $result);
 		$this->assertStringContainsString('alt="test_image"', $result);
-
-
 	}
 
 	/**
