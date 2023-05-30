@@ -124,6 +124,11 @@ input.autowidth-gallery {
 
 .polaroid
 {
+<<<<<<< HEAD
+=======
+	max-height: 280px;
+	min-height: 280px;
+>>>>>>> 91021d0 (Rebased and put to master branch)
 	width: 242px;
 	background: #FFFFFF;
 	display: block;
