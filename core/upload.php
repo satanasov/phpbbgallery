@@ -719,6 +719,11 @@ class upload
 			$types[] = $this->language->lang('FILETYPES_PNG');
 			$extensions[] = 'png';
 		}
+		if ($this->gallery_config->get('allow_webp'))
+		{
+			$types[] = $this->language->lang('FILETYPES_WEBP');
+			$extensions[] = 'webp';
+		}
 		if (!$ignore_zip && $this->gallery_config->get('allow_zip'))
 		{
 			$types[] = $this->language->lang('FILETYPES_ZIP');

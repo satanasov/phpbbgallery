@@ -4,7 +4,7 @@
 	"description": "phpBB Gallery",
 	"homepage": "https://github.com/satanasov/phpbbgallery",
 	"version": "3.3.0",
-	"time": "2020-12-22",
+	"time": "2023-05-26",
 	"license": "GPL-2.0",
 	"authors": [
 		{
@@ -25,13 +25,13 @@
 	},
 	"extra": {
 		"display-name": "phpBB Gallery",
-		"version-check": {
-			"host": "lab.anavaro.com",
-			"directory": "/phpbb-ext/3.3.x",
-			"filename": "phpbbgallery_core.json"
-		},
 		"soft-require": {
 			"phpbb/phpbb": ">=3.3.0@dev"
 		}
+	},
+	"version-check": {
+		"host": "lab.anavaro.com",
+		"directory": "/phpbb-ext/3.3.x",
+		"filename": "/phpbbgallery_core.json"
 	}
 }

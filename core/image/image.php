@@ -438,13 +438,13 @@ class image
 
 		if ($add)
 		{
-			$this->gallery_config->inc('num_images', $num_images);
-			$this->gallery_config->inc('num_comments', $num_comments);
+			$this->gallery_config->inc('num_images', (int) $num_images);
+			$this->gallery_config->inc('num_comments', (int) $num_comments);
 		}
 		else
 		{
-			$this->gallery_config->dec('num_images', $num_images);
-			$this->gallery_config->dec('num_comments', $num_comments);
+			$this->gallery_config->dec('num_images', (int) $num_images);
+			$this->gallery_config->dec('num_comments', (int) $num_comments);
 		}
 	}
 
