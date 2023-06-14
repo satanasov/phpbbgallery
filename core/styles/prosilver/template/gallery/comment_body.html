@@ -1,12 +1,12 @@
 <!-- INCLUDE gallery/gallery_header.html -->
 
-<h2><a href="{U_VIEW_IMAGE}">{IMAGE_NAME}</a></h2>
+<h2>{L_IMAGE_NAME}{L_COLON}<a href="{U_VIEW_IMAGE}" style="display: inline;"> {IMAGE_NAME}</a></h2>
 
 <!-- IF U_IMAGE -->
 <div class="post bg2">
 	<div class="inner">
 		<div class="postbody_album" id="image">
-			<a href="{U_IMAGE}"><img src="{U_IMAGE}" alt="{IMAGE_NAME}" title="{IMAGE_NAME}" class="postimage" /></a>
+			<a href="{U_IMAGE}" style="display: inline;"><img src="{U_IMAGE}" alt="{IMAGE_NAME}" title="{IMAGE_NAME}" class="postimage" /></a>
 		</div>
 	</div>
 </div>
@@ -48,38 +48,52 @@
 				<!-- INCLUDE {CAPTCHA_TEMPLATE} -->
 			<!-- ENDIF -->
 
-			<dl>
-				<dt><label for="message">{L_YOUR_COMMENT}{L_COLON}</label></dt>
-			</dl>
 
 			<!-- INCLUDE posting_buttons.html -->
 
-			<div id="smiley-box">
+			<div id="smiley-box" class="smiley-box">
+			<!-- EVENT posting_editor_smilies_before -->
 				<!-- IF S_SMILIES_ALLOWED and .smiley -->
 					<strong>{L_SMILIES}</strong><br />
 					<!-- BEGIN smiley -->
 						<a href="#" onclick="insert_text('{smiley.A_SMILEY_CODE}', true); return false;"><img src="{smiley.SMILEY_IMG}" width="{smiley.SMILEY_WIDTH}" height="{smiley.SMILEY_HEIGHT}" alt="{smiley.SMILEY_CODE}" title="{smiley.SMILEY_DESC}" /></a>
 					<!-- END smiley -->
 				<!-- ENDIF -->
-				<!-- IF S_SHOW_SMILEY_LINK and S_SMILIES_ALLOWED-->
-					<br /><a href="{U_MORE_SMILIES}" onclick="popup(this.href, 300, 350, '_phpbbsmilies'); return false;">{L_MORE_SMILIES}</a>
-				<!-- ENDIF -->
 
+				<!-- EVENT posting_editor_smilies_after -->
+				<div>
+					<div class="inner">
+						<fieldset class="submit-buttons">
+							<!-- IF S_SHOW_SMILEY_LINK and S_SMILIES_ALLOWED -->
+								<a href="{U_MORE_SMILIES}" class="button2" onclick="popup(this.href, 750, 350, '_phpbbsmilies'); return false;">{L_MORE_SMILIES}</a>
+							<!-- ENDIF -->
+						</fieldset>
+					</div>
+				</div>
 				<!-- IF BBCODE_STATUS -->
-					<!-- IF .smiley --><hr /><!-- ENDIF -->
-					{BBCODE_STATUS}<br />
-					<!-- IF S_BBCODE_ALLOWED -->
+					<div class="bbcode-status">
+						<!-- IF .smiley --><hr /><!-- ENDIF -->
+						{BBCODE_STATUS}<br />
+						<!-- IF S_BBCODE_ALLOWED -->
 						{IMG_STATUS}<br />
-						{FLASH_STATUS}<br />
+						<!-- IF S_BBCODE_FLASH -->
+							{FLASH_STATUS}<br />
+						<!-- ENDIF -->
 						{URL_STATUS}<br />
-						{SMILIES_STATUS}<hr />
-					<!-- ENDIF -->
+						<!-- ENDIF -->
+						{SMILIES_STATUS}
+					</div>
 				<!-- ENDIF -->
-				{L_COMMENT_LENGTH}
+				<!-- EVENT posting_editor_bbcode_status_after -->
+				<!-- IF S_EDIT_DRAFT || S_DISPLAY_REVIEW -->
+				<!-- IF S_DISPLAY_REVIEW --><hr /><!-- ENDIF -->
+				<!-- IF S_EDIT_DRAFT --><strong><a href="{S_UCP_ACTION}">{L_BACK_TO_DRAFTS}</a></strong><!-- ENDIF -->
+				<!-- IF S_DISPLAY_REVIEW --><strong><a href="#review">{L_TOPIC_REVIEW}</a></strong><!-- ENDIF -->
+			<!-- ENDIF -->
 			</div>
-
-			<div id="message-box">
-				<textarea name="message" id="message" rows="7" cols="76" tabindex="3" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" class="inputbox">{MESSAGE}</textarea>
+			{L_COMMENT_LENGTH}
+			<div id="message-box" class="message-box">
+				<textarea <!-- IF S_UCP_ACTION and not S_PRIVMSGS and not S_EDIT_DRAFT -->name="signature" id="signature" style="height: 9em;"<!-- ELSE -->name="message" id="message"<!-- ENDIF --> rows="15" cols="76" tabindex="4" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" onfocus="initInsertions();" class="inputbox">{MESSAGE}{DRAFT_MESSAGE}{SIGNATURE}</textarea>
 			</div>
 
 			<div><label for="attach_sig"><input type="checkbox" name="attach_sig" id="attach_sig"{S_SIGNATURE_CHECKED} /> {L_ATTACH_SIG}</label></div>

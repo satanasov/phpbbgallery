@@ -122,6 +122,9 @@ class file
 			case '.jpg':
 				return 'image/jpeg';
 			break;
+			case '.webp':
+				return 'image/webp';
+			break;
 		}
 
 		return '';
@@ -146,6 +149,10 @@ class file
 				imagealphablending($this->image, true); // Set alpha blending on ...
 				imagesavealpha($this->image, true); // ... and save alphablending!
 				$this->image_type = 'png';
+			break;
+			case '.webp':
+				$this->image = imagecreatefromwebp($this->image_source);
+				$this->image_type = 'webp';
 			break;
 			case '.gif':
 				$this->image = imagecreatefromgif($this->image_source);
@@ -195,6 +202,9 @@ class file
 			break;
 			case 'png':
 				imagepng($this->image, $destination);
+			break;
+			case 'webp':
+				imagewebp($this->image, $destination);
 			break;
 			case 'gif':
 				imagegif($this->image, $destination);
@@ -415,6 +425,9 @@ class file
 			{
 				case 'image/png':
 					$imagecreate = 'imagecreatefrompng';
+					break;
+				case 'image/webp':
+					$imagecreate = 'imagecreatefromwebp';
 					break;
 				case 'image/gif':
 					$imagecreate = 'imagecreatefromgif';

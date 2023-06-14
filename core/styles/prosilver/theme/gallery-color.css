@@ -105,6 +105,21 @@ input.autowidth-gallery {
 	max-height: 120px;
 	min-height: 120px;
 	max-width: 220px;
+	border-radius: 7px;
+	border-color:#4f4103;
+	border-style:double;
+	border-width: 5px;
+	border-radius: 7px;
+	padding: 5px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, .3);
+	transition: all .15s linear;
+	background-color:black;
+	background-image: -moz-linear-gradient(top, #A48946 0%, #FBF7C8 50%, #FBF7C8 51%, #A48946 100%);
+	background-image: -webkit-linear-gradient(top, #A48946 0%, #FBF7C8 50%, #FBF7C8 51%, #A48946 100%);
+	background-image: linear-gradient(to bottom, #A48946 0%, #FBF7C8 50%, #FBF7C8 51%, #A48946 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#A48946', endColorstr='#A48946',GradientType=0 );
+	text-shadow: none;
+	color: #4F4103;
 }
 
 .polaroid
@@ -120,6 +135,16 @@ input.autowidth-gallery {
 	box-shadow: 0 4px 6px rgba(0, 0, 0, .3);
 	transition: all .15s linear;
 	border: 1px solid #EFEFEF;
+	border-color:#4f4103;
+	border-style:double;
+	border-width: 5px;
+	border-radius: 7px;
+	background-image: -moz-linear-gradient(to right, #727475 0%, #FFFFFF 50%, #FFFFFF 51%, #727475 100%);
+	background-image: -webkit-linear-gradient(to right, #727475 0%, #FFFFFF 50%, #FFFFFF 51%, #727475 100%);
+	background-image: linear-gradient(to right, #727475 0%, #FFFFFF 50%, #FFFFFF 51%, #727475 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#727475', endColorstr='#727475',GradientType=0 );
+	text-shadow: none;
+	color: #4F4103;
 }
 
 .image_unapproved
@@ -159,6 +184,26 @@ input.autowidth-gallery {
 	float: left; 
 	text-align: left; 
 	max-width: 48%;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	display: block;
+	text-decoration: none;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, .3);
+	transition: all .15s linear;
+	border: 1px solid #FFFFFF;
+	border-color:#4f4103;
+	border-style:double;
+	border-width: 5px;
+	border-radius: 7px;
+	padding: 5px;
+	background-color:black;
+	background-image: -moz-linear-gradient(top, #A48946 0%, #FBF7C8 50%, #FBF7C8 51%, #A48946 100%);
+	background-image: -webkit-linear-gradient(top, #A48946 0%, #FBF7C8 50%, #FBF7C8 51%, #A48946 100%);
+	background-image: linear-gradient(to bottom, #A48946 0%, #FBF7C8 50%, #FBF7C8 51%, #A48946 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#A48946', endColorstr='#A48946',GradientType=0 );
+	text-shadow: none;
+	color: #4F4103;
 	clip-path: url(#left_arrow);
 }
 .image_next_image
@@ -166,6 +211,26 @@ input.autowidth-gallery {
 	float: right; 
 	text-align: right; 
 	max-width: 48%;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	display: block;
+	text-decoration: none;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, .3);
+	transition: all .15s linear;
+	border: 1px solid #FFFFFF;
+	border-color:#4f4103;
+	border-style:double;
+	border-width: 5px;
+	border-radius: 7px;
+	padding: 5px;
+	background-color:black;
+	background-image: -moz-linear-gradient(top, #A48946 0%, #FBF7C8 50%, #FBF7C8 51%, #A48946 100%);
+	background-image: -webkit-linear-gradient(top, #A48946 0%, #FBF7C8 50%, #FBF7C8 51%, #A48946 100%);
+	background-image: linear-gradient(to bottom, #A48946 0%, #FBF7C8 50%, #FBF7C8 51%, #A48946 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#A48946', endColorstr='#A48946',GradientType=0 );
+	text-shadow: none;
+	color: #4F4103;
 	clip-path: url(#right_arrow);
 }
 
@@ -178,6 +243,19 @@ input.autowidth-gallery {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
+	border: 1px solid #FFFFFF;
+	border-color:#4f4103;
+	border-style:double;
+	border-width: 5px;
+	border-radius: 7px;
+	padding: 10px;
+	background-color:black;
+	background-image: -moz-linear-gradient(top, #A48946 0%, #FBF7C8 50%, #FBF7C8 51%, #A48946 100%);
+	background-image: -webkit-linear-gradient(top, #A48946 0%, #FBF7C8 50%, #FBF7C8 51%, #A48946 100%);
+	background-image: linear-gradient(to bottom, #A48946 0%, #FBF7C8 50%, #FBF7C8 51%, #A48946 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#A48946', endColorstr='#A48946',GradientType=0 );
+	text-shadow: none;
+	color: #4F4103;
 }
 
 .trophy-container

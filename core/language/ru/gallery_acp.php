@@ -270,6 +270,7 @@ $lang = array_merge($lang, array(
 	'RECENT_ON_INDEX_COUNT'			=> 'Количество последних фото',
 	'PHPBB_INTEGRATION'				=> 'Интеграция в phpBB',
 	'PNG_ALLOWED'					=> 'PNG разрешён',
+	'WEBP_ALLOWED'					=> 'WEBP разрешён',
 	'PURGED_CACHE'					=> 'Очистка кэша',
 	'RATE_SCALE'					=> 'Шкала оценок',
 	'RATE_SYSTEM'					=> 'Включить оценки',
