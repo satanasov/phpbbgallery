@@ -50,7 +50,7 @@ $lang = array_merge($lang, array(
 	'LOG_ALBUM_MOVE_UP'						=> '<strong>Alben verschoben</strong> %1$s <strong>über</strong> %2$s',
 	'LOG_ALBUM_SYNC'						=> '<strong>Alben resynchronisiert</strong><br />» %s',
 
-	'LOG_CLEAR_GALLERY'						=> 'Gallery-Protokoll gelöscht',
+	'LOG_CLEAR_GALLERY'						=> 'Galerie-Protokoll gelöscht',
 
 	'LOG_GALLERY_APPROVED'					=> '<strong>Bild freigeschalten</strong><br />» %s',
 	'LOG_GALLERY_COMMENT_DELETED'			=> '<strong>Kommentar gelöscht</strong><br />» %s',
