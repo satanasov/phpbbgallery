@@ -55,7 +55,7 @@
             /*
             // The regular expression for allowed file types, matches
             // against either file type or file name:
-            acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+            acceptFileTypes: /(\.|\/)(webp|gif|jpe?g|png)$/i,
             // The maximum allowed file size in bytes:
             maxFileSize: 10000000, // 10 MB
             // The minimum allowed file size in bytes:

@@ -105,6 +105,16 @@ class main_module
 							}
 						break;
 
+						case 'image/webp':
+							$filetype_ext = '.webp';
+							$read_function = 'imagecreatefromwebp';
+							if (substr(strtolower($image_src), -5) != '.webp')
+							{
+								$this->log_import_error($import_schema, sprintf($user->lang['FILETYPE_MIMETYPE_MISMATCH'], $image_src, $filetype['mime']));
+								$error_occured = true;
+							}
+						break;
+
 						default:
 							$this->log_import_error($import_schema, $user->lang['NOT_ALLOWED_FILE_TYPE']);
 							$error_occured = true;
@@ -354,6 +364,7 @@ class main_module
 		while ($file = readdir($handle))
 		{
 			if (!is_dir($gallery_url->path('import') . $file) && (
+			((substr(strtolower($file), -5) == '.webp') && $gallery_config->get('allow_webp')) ||
 			((substr(strtolower($file), -4) == '.png') && $gallery_config->get('allow_png')) ||
 			((substr(strtolower($file), -4) == '.gif') && $gallery_config->get('allow_gif')) ||
 			((substr(strtolower($file), -4) == '.jpg') && $gallery_config->get('allow_jpg')) ||

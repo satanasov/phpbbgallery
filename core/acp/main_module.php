@@ -450,7 +450,7 @@ class main_module
 					$cache_dir = @opendir($gallery_url->path('thumbnail'));
 					while ($cache_file = @readdir($cache_dir))
 					{
-						if (preg_match('/(\.gif$|\.png$|\.jpg|\.jpeg)$/is', $cache_file))
+						if (preg_match('/(\.webp$|\.gif$|\.png$|\.jpg|\.jpeg)$/is', $cache_file))
 						{
 							@unlink($gallery_url->path('thumbnail') . $cache_file);
 						}
@@ -460,7 +460,7 @@ class main_module
 					$medium_dir = @opendir($gallery_url->path('medium'));
 					while ($medium_file = @readdir($medium_dir))
 					{
-						if (preg_match('/(\.gif$|\.png$|\.jpg|\.jpeg)$/is', $medium_file))
+						if (preg_match('/(\.webp$|\.gif$|\.png$|\.jpg|\.jpeg)$/is', $medium_file))
 						{
 							@unlink($gallery_url->path('medium') . $medium_file);
 						}
@@ -469,7 +469,7 @@ class main_module
 					$upload_dir = @opendir($gallery_url->path('upload'));
 					while ($upload_file = @readdir($upload_dir))
 					{
-						if (preg_match('/(\_wm.gif$|\_wm.png$|\_wm.jpg|\_wm.jpeg)$/is', $upload_file))
+						if (preg_match('/(\_wm.webp$|\_wm.gif$|\_wm.png$|\_wm.jpg|\_wm.jpeg)$/is', $upload_file))
 						{
 							@unlink($gallery_url->path('upload') . $upload_file);
 						}
@@ -481,7 +481,7 @@ class main_module
 						$cache_dir = @opendir($gallery_url->path('thumbnail') . $i . '/');
 						while ($cache_file = @readdir($cache_dir))
 						{
-							if (preg_match('/(\.gif$|\.png$|\.jpg|\.jpeg)$/is', $cache_file))
+							if (preg_match('/(\.webp$|\.gif$|\.png$|\.jpg|\.jpeg)$/is', $cache_file))
 							{
 								@unlink($gallery_url->path('thumbnail') . $i . '/' . $cache_file);
 							}
@@ -491,7 +491,7 @@ class main_module
 						$medium_dir = @opendir($gallery_url->path('medium') . $i . '/');
 						while ($medium_file = @readdir($medium_dir))
 						{
-							if (preg_match('/(\.gif$|\.png$|\.jpg|\.jpeg)$/is', $medium_file))
+							if (preg_match('/(\.webp$|\.gif$|\.png$|\.jpg|\.jpeg)$/is', $medium_file))
 							{
 								@unlink($gallery_url->path('medium') . $i . '/' . $medium_file);
 							}
@@ -500,7 +500,7 @@ class main_module
 						$upload_dir = @opendir($gallery_url->path('upload') . $i . '/');
 						while ($upload_file = @readdir($upload_dir))
 						{
-							if (preg_match('/(\_wm.gif$|\_wm.png$|\_wm.jpg|\_wm.jpeg)$/is', $upload_file))
+							if (preg_match('/(\_wm.webp$|\_wm.gif$|\_wm.png$|\_wm.jpg|\_wm.jpeg)$/is', $upload_file))
 							{
 								@unlink($gallery_url->path('upload') . $upload_file);
 							}

@@ -297,6 +297,7 @@ $lang = array_merge($lang, array(
 	'RECENT_ON_INDEX_COUNT'			=> 'Nombre d’images récentes',
 	'PHPBB_INTEGRATION'				=> 'Intégration à phpBB',
 	'PNG_ALLOWED'					=> 'Autoriser à charger des fichiers PNG',
+	'WEBP_ALLOWED'					=> 'Autoriser à charger des fichiers WEBP',
 	'PURGED_CACHE'					=> 'Vider le cache',
 
 	'RATE_SCALE'					=> 'Notes sur',

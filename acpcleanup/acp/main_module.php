@@ -361,8 +361,8 @@ class main_module
 			while ($file = readdir($handle))
 			{
 				if (!is_dir($directory . $file) &&
-				 ((substr(strtolower($file), '-4') == '.png') || (substr(strtolower($file), '-4') == '.gif') || (substr(strtolower($file), '-4') == '.jpg') || (substr(strtolower($file), '-5') == '.jpeg')) &&
-				 ((substr(strtolower($file), '-7') <> '_wm.png') && (substr(strtolower($file), '-7') <> '_wm.gif') && (substr(strtolower($file), '-7') <> '_wm.jpg') && (substr(strtolower($file), '-8') <> '_wm.jpeg'))
+				 ((substr(strtolower($file), '-5') == '.webp') || (substr(strtolower($file), '-4') == '.png') || (substr(strtolower($file), '-4') == '.gif') || (substr(strtolower($file), '-4') == '.jpg') || (substr(strtolower($file), '-5') == '.jpeg')) &&
+				 ((substr(strtolower($file), '-8') <> '_wm.webp') && (substr(strtolower($file), '-7') <> '_wm.png') && (substr(strtolower($file), '-7') <> '_wm.gif') && (substr(strtolower($file), '-7') <> '_wm.jpg') && (substr(strtolower($file), '-8') <> '_wm.jpeg'))
 				 && !in_array($file, $requested_source)
 				)
 				{
