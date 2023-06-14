@@ -24,11 +24,11 @@ function toggleElement(oElement)
 	}
 }
 </script>
-<p class="{S_CONTENT_FLOW_END}<!-- IF S_USER_LOGGED_IN --> rightside<!-- ENDIF -->"><!-- IF S_USER_LOGGED_IN -->{LAST_VISIT_DATE}<!-- ELSE -->{CURRENT_TIME}<!-- ENDIF --></p>
-<!-- IF U_MCP --><p>{CURRENT_TIME} <br />[&nbsp;<a href="{U_MCP}">{L_MCP}</a>&nbsp;]</p><!-- ELSEIF S_USER_LOGGED_IN --><p>{CURRENT_TIME}</p><!-- ENDIF -->
+<p class="right responsive-center time rightside<!-- IF S_USER_LOGGED_IN --> rightside<!-- ENDIF -->"><!-- IF S_USER_LOGGED_IN -->{LAST_VISIT_DATE}<!-- ELSE -->{CURRENT_TIME}<!-- ENDIF --></p>
+<p class="responsive-center time<!-- IF S_USER_LOGGED_IN -->">{CURRENT_TIME}<!-- ENDIF --></p>
 
 <!-- IF S_USER_LOGGED_IN and not S_IS_BOT -->
-<ul class="linklist">
+<ul class="linklist right responsive-center rightside">
 	<li class="rightside">
 		<div class="dropdown-container dropdown-button-control topic-tools">
 			<span title="Topic tools" class="button button-secondary dropdown-trigger dropdown-select dropdown-toggle">
@@ -189,7 +189,7 @@ function toggleElement(oElement)
 								{L_GALLERY}
 							</div>
 						</dt>
-						<dd class="topics">{L_GALLERY_IMAGES}</dd>
+						<dd class="topics" style="width: 70px;">{L_GALLERY_IMAGES}</dd>
 						<dd class="lastpost"><span>{L_LAST_IMAGE}</span></dd>
 					</dl>
 				</li>
@@ -210,22 +210,24 @@ function toggleElement(oElement)
 								</div>
 							</div>
 						</dt>
-						<dd class="topics">
+						<dd class="topics" style="width: 70px;">
 							{U_PERSONAL_GALLERIES_IMAGES}
 							<dfn>{L_GALLERY_IMAGES}</dfn>
 						</dd>
-						<dd class="lastpost">
-							<div>
-								<span style="float: left; margin-right: 15px;"	>
+						<dd class="topics" style="width: 60px;">
+
+
 									<dfn>{L_LAST_IMAGES}</dfn>
 									<a href="{U_IMAGE_ACTION}"><img src="{U_PERSONAL_GALLERIES_LAST_IMAGE}" style="max-width: 50px; max-height: 50px;"></a>
+
+						</dd>
+						<dd class="lastpost" style="width: 280px;">
+								<span>
+									<!-- IF U_IMAGENAME --><p style="margin-bottom: .1em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><a href="{U_IMAGENAME_ACTION}" style="display: inline; font-weight: bold;">{U_IMAGENAME}</a></p>
+										{U_TIME}<br>
+										{U_UPLOADER}
+									<!-- ENDIF -->
 								</span>
-								<span style="width: 150px;">
-									<!-- IF U_IMAGENAME --><a href="{U_IMAGENAME_ACTION}"><p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: bold; margin-bottom: 2px;">{U_IMAGENAME}</p></a>
-									{U_TIME} <br>
-									{U_UPLOADER}<!-- ENDIF -->
-								</span>
-							</div>
 						</dd>
 					</dl>
 				</li>
