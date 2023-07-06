@@ -309,7 +309,7 @@ class image
 		{
 			case 'image_name':
 				$shorten_image_name = $image_name;
-				$content = '<span style="font-weight: bold;">' . $shorten_image_name . '</span>';
+				$content = '<span style="font-weight: bold; display: inline;">' . $shorten_image_name . '</span>';
 			break;
 			case 'image_name_unbold':
 				$shorten_image_name = $image_name;
@@ -324,7 +324,7 @@ class image
 				$content = str_replace(array('{U_THUMBNAIL}', '{IMAGE_NAME}', '{FAKE_THUMB_SIZE}'), array($thumb_url, $image_name, $this->gallery_config->get('mini_thumbnail_size')), $content);
 			break;
 			case 'medium':
-				$content = '<img src="{U_MEDIUM}" alt="{IMAGE_NAME}" title="{IMAGE_NAME}" />';
+				$content = '<img src="{U_MEDIUM}" alt="{IMAGE_NAME}" title="{IMAGE_NAME}" class="postimage" />';
 				$content = str_replace(array('{U_MEDIUM}', '{IMAGE_NAME}'), array($medium_url, $image_name), $content);
 				//cheat for animated/transparent gifs
 				if ($is_gif)
@@ -343,7 +343,7 @@ class image
 		switch ($mode)
 		{
 			case 'image_page':
-				$tpl = '<a href="{IMAGE_URL}" title="{IMAGE_NAME}">{CONTENT}</a>';
+				$tpl = '<a href="{IMAGE_URL}" title="{IMAGE_NAME}" style="display: inline;">{CONTENT}</a>';
 			break;
 			case 'image_page_next':
 				$tpl = '<a href="{IMAGE_URL}" title="{IMAGE_NAME}" class="right-box right">{CONTENT}</a>';

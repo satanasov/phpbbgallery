@@ -117,7 +117,7 @@
 <div class="panel">
 	<div class="inner">
 	<p><strong>{NAVIGATION}<!-- IF S_ALBUM --> [<a href="{U_EDIT}">{L_EDIT}</a> | <a href="{U_DELETE}">{L_DELETE}</a> | <a href="{U_GOTO}">{L_GOTO}</a> | <a href="{U_UPLOAD}">{L_UPLOAD_IMAGE}</a>]<!-- ENDIF --></strong></p>
-	<div class="forumbg">
+	<div>
 		<div class="inner">
 			<ul class="topiclist">
 				<li class="header">
@@ -137,13 +137,7 @@
 				<li class="row<!-- IF album_row.S_ROW_COUNT is odd --> bg1<!-- ELSE --> bg2<!-- ENDIF -->">
 					<dl class="row-item<!-- IF album_row.FORUM_IMAGE --><!-- ELSE --> topic_read_mine<!-- ENDIF -->">
 						<dt title="{album_row.ALBUM_NAME}">
-							<div class="list-inner">
-								<!-- IF album_row.FORUM_IMAGE --><div style="float: {S_CONTENT_FLOW_BEGIN}; margin-right: 5px;">{album_row.FORUM_IMAGE}</div><!-- ENDIF -->
-								<a href="{album_row.U_ALBUM}" class="topictitle">{album_row.ALBUM_NAME}</a>
-								<!-- IF album_row.ALBUM_DESCRIPTION --><br />{album_row.ALBUM_DESCRIPTION}<!-- ENDIF -->
-							</div>
-						</dt>
-						<dd class="mark" style="width: 120px;">
+						<div class="list-inner" style="text-align: right; margin-right: 0;">
 							<!-- IF album_row.S_FIRST_ROW && not album_row.S_LAST_ROW -->
 							{ICON_MOVE_UP_DISABLED}
 							<a href="{album_row.U_MOVE_DOWN}">{ICON_MOVE_DOWN}</a>
@@ -159,7 +153,13 @@
 							<!-- ENDIF -->
 							<a href="{album_row.U_EDIT}">{ICON_EDIT}</a>
 							<a href="{album_row.U_DELETE}">{ICON_DELETE}</a>
-						</dd>
+						</div>
+							<div class="list-inner" style="margin-right: 0;">
+								<!-- IF album_row.FORUM_IMAGE --><div style="float: {S_CONTENT_FLOW_BEGIN}; margin-right: 5px;">{album_row.FORUM_IMAGE}</div><!-- ENDIF -->
+								{L_SUBALBUM}{L_COLON} <a href="{album_row.U_ALBUM}" class="topictitle">{album_row.ALBUM_NAME}</a><br>
+								<!-- IF album_row.ALBUM_DESCRIPTION --><br><label for="album_desc">{L_ALBUM_DESC}{L_COLON}</label>{album_row.ALBUM_DESCRIPTION}<!-- ENDIF -->
+							</div>
+						</dt>
 					</dl>
 				</li>
 				<!-- END album_row -->
@@ -167,9 +167,10 @@
 			<!-- ENDIF -->
 		</div>
 	</div>
+	</div>
+</div>
 	<!-- IF U_CREATE_SUBALBUM -->
-		<form id="albums" method="post" action="{U_CREATE_SUBALBUM}">
-
+		<form id="albums" method="post" action="{U_CREATE_SUBALBUM}" style="text-align: center;">
 			<fieldset class="quick">
 				<!--input type="hidden" name="action" value="add" /-->
 				<input class="button2" name="addforum" type="submit" value="{L_CREATE_SUBALBUM}" />
@@ -177,8 +178,6 @@
 			</fieldset>
 		</form>
 	<!-- ENDIF -->
-	</div>
-</div>
 <!-- ENDIF -->
 
 <!-- IF S_MANAGE_SUBSCRIPTIONS -->
@@ -192,7 +191,7 @@
 						<li class="header">
 							<dl>
 								<dt>{L_ALBUMS}</dt>
-								<dd class="moderation">{L_LAST_IMAGE}</dd>
+								<dd class="g_moderation moderation">{L_LAST_IMAGE}</dd>
 								<dd class="mark">{L_MARK}</dd>
 							</dl>
 						</li>
@@ -203,18 +202,22 @@
 						<li class="row<!-- IF album_row.S_ROW_COUNT is odd --> bg1<!-- ELSE --> bg2<!-- ENDIF --><!-- IF album_row.S_REPORTED --> reported<!-- ENDIF -->">
 							<dl>
 								<dt>
-									<a href="{album_row.U_VIEW_ALBUM}" class="topictitle">{album_row.ALBUM_NAME}</a><br />
-									<span>{album_row.ALBUM_DESC}</span>
+									<div class="list-inner">
+										<p style="overflow: hidden;"><a href="{album_row.U_VIEW_ALBUM}" class="topictitle" style="font-size: 1.1em; display: inline;">{album_row.ALBUM_NAME}</a></p>
+										<span><label for="album_desc">{L_ALBUM_DESC}{L_COLON}</label>{album_row.ALBUM_DESC}</span>
+									</div>
 								</dt>
 								<!-- IF album_row.LAST_IMAGE -->
-									<dd class="g_moderation moderation">
-										<!-- IF album_row.UC_FAKE_THUMBNAIL --><span style="float: left; text-align: center; width: {FAKE_THUMB_SIZE}px; padding-right: 5px;">{album_row.UC_FAKE_THUMBNAIL}</span><!-- ENDIF -->
-										<dfn>{L_LAST_IMAGE}</dfn> {album_row.UC_IMAGE_NAME}
-										{L_POST_BY_AUTHOR} {album_row.UPLOADER}<br />
-										{album_row.LAST_IMAGE_TIME}
+									<dd class="g_moderation moderation" style="float: left; padding-left: 5px; padding-right: 5px;">
+										<p style="margin-bottom: -12px; overflow: hidden; text-overflow: ellipsis; line-height: normal; font-size: 1em; text-align: center;">
+											<!-- IF album_row.UC_FAKE_THUMBNAIL --><a style="float: left; width: {FAKE_THUMB_SIZE}px;">{album_row.UC_FAKE_THUMBNAIL}</a><!-- ENDIF --><br><br>
+											<dfn>{L_LAST_IMAGE}</dfn> {album_row.UC_IMAGE_NAME}<br>
+											{L_UPLOADED_BY_USER} {album_row.UPLOADER}<br>
+											&raquo; {album_row.LAST_IMAGE_TIME}<br><br>
+										</p>
 									</dd>
 								<!-- ENDIF -->
-								<dd class="mark"><input type="checkbox" name="album_id_ary[]" value="{album_row.ALBUM_ID}" /></dd><br /><br />
+								<dd class="mark" style="padding-left: 8px;"><input type="checkbox" name="album_id_ary[]" value="{album_row.ALBUM_ID}" /></dd>
 							</dl>
 						</li>
 					<!-- END album_row -->
@@ -227,7 +230,7 @@
 					<li class="header">
 						<dl>
 							<dt>{L_IMAGES}</dt>
-							<dd class="moderation">{L_LAST_COMMENT}</dd>
+							<dd class="g_moderation moderation">{L_LAST_COMMENT}</dd>
 							<dd class="mark">{L_MARK}</dd>
 						</dl>
 					</li>
@@ -238,19 +241,24 @@
 					<li class="row<!-- IF image_row.S_ROW_COUNT is odd --> bg1<!-- ELSE --> bg2<!-- ENDIF --><!-- IF image_row.S_REPORTED --> reported<!-- ENDIF -->">
 						<dl>
 							<dt>
-								<!-- IF image_row.UC_FAKE_THUMBNAIL --><span style="float: left; text-align: center; width: {FAKE_THUMB_SIZE}px; padding: 5px;">{image_row.UC_FAKE_THUMBNAIL}</span><!-- ENDIF -->
-								<dfn>{L_LAST_IMAGE}</dfn> {image_row.UC_IMAGE_NAME}<br />
-								{L_UPLOADED_BY_USER} {image_row.UPLOADER}<br />
-								{image_row.IMAGE_TIME}<br />
-								{L_ALBUM}{L_COLON} <a href="{image_row.U_VIEW_ALBUM}" style="font-weight: bold;">{image_row.ALBUM_NAME}</a>
+								<div class="list-inner">
+									<p style="margin-bottom: -12px; overflow: hidden; line-height: normal; font-size: 1em; text-align: center;">
+										<!-- IF image_row.UC_FAKE_THUMBNAIL --><a style="float: left; width: {FAKE_THUMB_SIZE}px;">{image_row.UC_FAKE_THUMBNAIL}</a><!-- ENDIF --><br><br>
+										<dfn>{L_LAST_IMAGE}</dfn> {image_row.UC_IMAGE_NAME}<br>
+										{L_UPLOADED_BY_USER}{L_COLON} {image_row.UPLOADER}<br>
+										{image_row.IMAGE_TIME}
+										{L_RRC_DISPLAY_ALBUMNAME}{L_COLON} <a href="{image_row.U_VIEW_ALBUM}" style="font-weight: bold; display: inline;">{image_row.ALBUM_NAME}</a>
+									</p>
+									<br>
+								</div>
 							</dt>
-								<dd class="moderation">
+								<dd class="g_moderation moderation">
 									<!-- IF image_row.COMMENT -->
 										<span>{L_POST_BY_AUTHOR} {image_row.LAST_COMMENT_BY}<br />
 										{image_row.LAST_COMMENT_TIME}</span>
 									<!-- ELSE -->&nbsp;<!-- ENDIF -->
 								</dd>
-							<dd class="mark"><input type="checkbox" name="image_id_ary[]" value="{image_row.IMAGE_ID}" /></dd>
+							<dd class="mark" style="padding-left: 8px;"><input type="checkbox" name="image_id_ary[]" value="{image_row.IMAGE_ID}" /></dd>
 						</dl>
 					</li>
 				<!-- END image_row -->
