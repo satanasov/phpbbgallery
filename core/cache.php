@@ -15,6 +15,8 @@ class cache
 {
 	private $phpbb_cache;
 	private $phpbb_db;
+	protected $table_albums;
+	protected $table_images;
 
 	/**
 	* cache constructor.
