@@ -176,10 +176,18 @@ class config
 
 	public function inc($name, $value)
 	{
+		if (!$this->config->offsetGet('phpbb_gallery_' . $name))
+		{
+			$this->config->set('phpbb_gallery_' . $name, 0);
+		}
 		$this->config->increment('phpbb_gallery_' . $name, (int) $value);
 	}
 	public function dec($name, $value)
 	{
+		if (!$this->config->offsetGet('phpbb_gallery_' . $name))
+		{
+			$this->config->set('phpbb_gallery_' . $name, 0);
+		}
 		$this->config->increment('phpbb_gallery_' . $name, (int) $value * -1);
 	}
 }

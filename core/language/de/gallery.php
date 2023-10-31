@@ -133,7 +133,7 @@ $lang = array_merge($lang, array(
 	'FILETYPES_WEBP'             => 'webp',
 	'FILETYPES_ZIP'              => 'zip',
 
-	'FULL_EDITOR' => 'Vollständiger Editor',
+	'FULL_EDITOR_GALLERY' => 'Vollständiger Editor',
 
 	'GALLERY_IMAGE'  => 'Bild',
 	'GALLERY_IMAGES' => 'Bilder',
