@@ -4,7 +4,7 @@
 	<fieldset class="fields1 anti-postbody" id="exif_data_fieldset"<!-- IF not S_VIEWEXIF --> style="display: none;"<!-- ENDIF -->>
 	<!-- BEGIN exif_value -->
 		<dl class="<!-- IF exif_value.S_ROW_COUNT is even -->column1<!-- ELSE -->column2<!-- ENDIF -->">
-			<dt><label>{exif_value.EXIF_NAME}:</label></dt>
+			<dt><label>{exif_value.EXIF_NAME}{L_COLON}</label></dt>
 			<dd>{exif_value.EXIF_VALUE}</dd>
 		</dl>
 	<!-- END exif_value -->
