@@ -2,3 +2,5 @@
 .idea
 phpunit.xml.dist
 .vscode
+
+.codegpt
