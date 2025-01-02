@@ -27,7 +27,7 @@ jobs:
         strategy:
             matrix:
                 include:
-                    - php: '7.1'
+                    - php: '7.2'
                       db: "none"
                       NOTESTS: 1
 
@@ -131,23 +131,23 @@ jobs:
         strategy:
             matrix:
                 include:
-                    - php: '7.1'
+                    - php: '7.2'
                       db: "mariadb:10.1"
-                    - php: '7.1'
+                    - php: '7.2'
                       db: "mariadb:10.2"
-                    - php: '7.1'
+                    - php: '7.2'
                       db: "mariadb:10.3"
-                    - php: '7.1'
+                    - php: '7.2'
                       db: "mariadb:10.4"
-                    - php: '7.1'
+                    - php: '7.2'
                       db: "mariadb:10.5"
-                    - php: '7.1'
+                    - php: '7.2'
                       db: "mysql:5.6"
                       db_alias: "MyISAM Tests"
                       MYISAM: 1
-                    - php: '7.1'
+                    - php: '7.2'
                       db: "mysql:5.6"
-                    - php: '7.1'
+                    - php: '7.2'
                       db: "mysql:5.7"
                     - php: '7.2'
                       db: "mysql:5.7"
