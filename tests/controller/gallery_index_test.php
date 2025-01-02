@@ -290,7 +290,8 @@ class gallery_index_test extends controller_base
 					'L_ALBUM_FOLDER_ALT' => 'NO_NEW_IMAGES',
 					'L_MODERATOR_STR' => '',
 					'U_VIEWALBUM' => 'phpbbgallery_core_album',
-					'UC_IMAGE_URL' => ''
+					'UC_IMAGE_URL' => '',
+					'ALBUM_IMAGE' => ''
 				)),
 				array('albumrow', array(
 					'S_IS_CAT' => false,
@@ -320,7 +321,8 @@ class gallery_index_test extends controller_base
 					'L_ALBUM_FOLDER_ALT' => 'NO_NEW_IMAGES',
 					'L_MODERATOR_STR' => '',
 					'U_VIEWALBUM' => 'phpbbgallery_core_album',
-					'UC_IMAGE_URL' => ''
+					'UC_IMAGE_URL' => '',
+					'ALBUM_IMAGE' => ''
 				)),
 				array('navlinks', array(
 					'FORUM_NAME' => 'GALLERY',
@@ -422,7 +424,8 @@ class gallery_index_test extends controller_base
 					'L_ALBUM_FOLDER_ALT' => '',
 					'L_MODERATOR_STR' => '',
 					'U_VIEWALBUM' => 'phpbbgallery_core_album',
-					'UC_IMAGE_URL' => ''
+					'UC_IMAGE_URL' => '',
+					'ALBUM_IMAGE' => ''
 				)),
 				array('albumrow.subalbum', array(
 					'U_SUBALBUM' => 'phpbbgallery_core_album',
@@ -557,7 +560,8 @@ class gallery_index_test extends controller_base
 						'L_ALBUM_FOLDER_ALT' => '',
 						'L_MODERATOR_STR' => '',
 						'U_VIEWALBUM' => 'phpbbgallery_core_album',
-						'UC_IMAGE_URL' => ''
+						'UC_IMAGE_URL' => '',
+						'ALBUM_IMAGE' => ''
 					)),
 					array('albumrow.subalbum', array(
 						'U_SUBALBUM' => 'phpbbgallery_core_album',
@@ -724,7 +728,8 @@ class gallery_index_test extends controller_base
 					'L_ALBUM_FOLDER_ALT' => 'NO_NEW_IMAGES',
 					'L_MODERATOR_STR' => '',
 					'U_VIEWALBUM' => 'phpbbgallery_core_album',
-					'UC_IMAGE_URL' => ''
+					'UC_IMAGE_URL' => '',
+					'ALBUM_IMAGE' => ''
 
 				)),
 				array('albumrow', array(
@@ -755,7 +760,8 @@ class gallery_index_test extends controller_base
 					'L_ALBUM_FOLDER_ALT' => 'NO_NEW_IMAGES',
 					'L_MODERATOR_STR' => '',
 					'U_VIEWALBUM' => 'phpbbgallery_core_album',
-					'UC_IMAGE_URL' => ''
+					'UC_IMAGE_URL' => '',
+					'ALBUM_IMAGE' => ''
 				)),
 				array('navlinks', array(
 					'FORUM_NAME' => 'GALLERY',
@@ -842,7 +848,8 @@ class gallery_index_test extends controller_base
 					'L_ALBUM_FOLDER_ALT' => 'NO_NEW_IMAGES',
 					'L_MODERATOR_STR' => '',
 					'U_VIEWALBUM' => 'phpbbgallery_core_album',
-					'UC_IMAGE_URL' => ''
+					'UC_IMAGE_URL' => '',
+					'ALBUM_IMAGE' => ''
 				)),
 				array('navlinks', array(
 					'FORUM_NAME' => 'GALLERY',
