@@ -317,7 +317,7 @@ class search
 				'U_EDIT'	=> $this->gallery_auth->acl_check('c_edit', $album_tmp['album_id'], $album_tmp['album_user_id'])? $this->helper->route('phpbbgallery_core_comment_edit', array('image_id'	=> $var['comment_image_id'], 'comment_id'	=> $var['comment_id'])) : false,
 				'U_QUOTE'	=> ($this->gallery_auth->acl_check('c_post', $album_tmp['album_id'], $album_tmp['album_user_id'])) ? $this->helper->route('phpbbgallery_core_comment_add', array('image_id'	=> $var['comment_image_id'], 'comment_id'	=> $var['comment_id'])) : false,
 				'U_COMMENT'	=> $this->helper->route('phpbbgallery_core_image', array('image_id' => $var['comment_image_id'])) . '#comment_' . $var['comment_id'],
-				'POST_AUTHOR_FULL'	=> $this->user_loader->get_username($var['comment_user_id'], 'full'),
+				'POST_AUTHOR_FULL'	=> (string) $this->user_loader->get_username($var['comment_user_id'], 'full'),
 				'TIME'	=> $this->user->format_date($var['comment_time']),
 				'TEXT'	=> generate_text_for_display($var['comment'], $var['comment_uid'], $var['comment_bitfield'], 7),
 				'UC_IMAGE_NAME'	=> '<a href="' . $this->helper->route('phpbbgallery_core_image', array('image_id' => $var['comment_image_id'])) . '">' . $var['image_name'] . '</a>',

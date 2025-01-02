@@ -276,17 +276,17 @@ jobs:
         strategy:
             matrix:
                 include:
-                    - php: '7.1'
+                    - php: '7.2'
                       db: "postgres:9.5"
-                    - php: '7.1'
+                    - php: '7.2'
                       db: "postgres:9.6"
-                    - php: '7.1'
+                    - php: '7.2'
                       db: "postgres:10"
-                    - php: '7.1'
+                    - php: '7.2'
                       db: "postgres:11"
-                    - php: '7.1'
+                    - php: '7.2'
                       db: "postgres:12"
-                    - php: '7.1'
+                    - php: '7.2'
                       db: "postgres:13"
 
         name: PHP ${{ matrix.php }} - ${{ matrix.db }}
@@ -374,7 +374,7 @@ jobs:
         strategy:
             matrix:
                 include:
-                    - php: '7.1'
+                    - php: '7.2'
                       db: "sqlite3"
             #        - php: '7.2'
             #          db: "mcr.microsoft.com/mssql/server:2017-latest"
