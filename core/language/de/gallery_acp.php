@@ -32,7 +32,7 @@ $lang = array_merge($lang, array(
 	'ACP_FILES_DIR_STATE'          => '<strong>./files/</strong> state',
 	'ACP_CORE_DIR_STATE'           => '<strong>./files/phpbbgallery/core/</strong> state',
 	'ACP_SOURCE_DIR_STATE'         => '<strong>./files/phpbbgallery/core/source/</strong> state',
-	'ACP_MEDIUM_DIR_STATE'         => '<strong>./files/phpbbgallery/core/meduim/</strong> state',
+	'ACP_MEDIUM_DIR_STATE'         => '<strong>./files/phpbbgallery/core/medium/</strong> state',
 	'ACP_MINI_DIR_STATE'           => '<strong>./files/phpbbgallery/core/mini/</strong> state',
 
 	'ADD_ALBUM_ON_TOP'                  => 'Album oben einfügen',
@@ -298,7 +298,7 @@ $lang = array_merge($lang, array(
 	'PEGA_ALREADY_EXISTS'      => '%s hat bereits ein persönliches Album.',
 	'PGALLERIES_PER_PAGE'      => 'Anzahl der persönlichen Galerien pro Seite',
 	'ITEMS_PER_PAGE'           => 'Artikel pro Seite',
-	'ITEMS_PER_PAGE_EXP'       => 'Wie viele Bilder / Alben pro Seite',
+	'ITEMS_PER_PAGE_EXP'       => 'Wie viele Bilder/Alben/Kommentare pro Seite',
 	'RANDOM_ON_INDEX'          => 'Zufällige Bilder auf der Index-Seite anzeigen',
 	'RANDOM_ON_INDEX_EXP'      => 'Zufalls-Bilder auf der Galerie-Index-Seite anzeigen lassen.',
 	'RANDOM_ON_INDEX_COUNT'    => 'Zufallsbild Zahl',
@@ -388,7 +388,7 @@ $lang = array_merge($lang, array(
 
 	'UC_IMAGE_NAME'      => 'Bildname',
 	'UC_IMAGE_ICON'      => '„Letztes Bild“-Icon',
-	'UC_IMAGEPAGE'       => 'Bild auf der Image-page',
+	'UC_IMAGEPAGE'       => 'Bild auf der Bild-Seite',
 	'UC_IMAGEPAGE_EXP'   => 'Das ist die Seite mit den Details und Kommentaren',
 	'UC_LINK_CONFIG'     => 'Link Konfiguration',
 	'UC_LINK_HIGHSLIDE'  => 'Highslide-Plugin öffnen',

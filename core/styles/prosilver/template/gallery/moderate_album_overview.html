@@ -4,15 +4,16 @@
 <!-- IF .pagination -->
 	<div class="topic-actions">
 		<div class="pagination">
-			{TOTAL_PAGES} &bull; 
+			{TOTAL_PAGES}
 			<!-- IF .pagination -->
 				<!-- INCLUDE pagination.html -->
 			<!-- ELSE -->
-				{PAGE_NUMBER}
+				&bull; {PAGE_NUMBER}
 			<!-- ENDIF -->
 		</div>
 	</div>
 <!-- ENDIF -->
+<br />
 <div id="tabs" class="tabs">
 	<ul>
 		<li class="tab"><a href="{U_GALLERY_MODERATE_OVERVIEW}">{L_GALLERY_MCP_MAIN}</a></li>
@@ -41,9 +42,10 @@
 			<!-- IF .overview -->
 				<ul class="topiclist two-long-columns">
 					<li class="header">
-						<dl>
-							<dt><div class="list-inner">{L_GALLERY_MCP_QUEUE_DETAIL}</div></dt>
-							<dd class="moderation"><span>{L_ALBUM}</span></dd>
+						<dl class="row-item">
+							<dt>{L_GALLERY_MCP_QUEUE_DETAIL}</dt>
+							<dd class="lastpost" style="margin-left: -95px;">{L_ALBUM}</dd>
+							<dd class="mark">{L_MARK}</dd>
 						</dl>
 					</li>
 				</ul>
@@ -56,18 +58,24 @@
 									<a href="{overview.U_IMAGE_MODERATE_URL}" align="middle"><img style="max-width: 70px; max-height: 70px;" src="{overview.U_IMAGE}" alt="{overview.U_IMAGE_NAME}"></a>
 								</div>
 								<div class="list-inner" style="margin-bottom: -12px; white-space: normal; overflow: hidden;">
-										<a href="{overview.U_IMAGE_MODERATE_URL}" class="topictitle" style="font-weight: bold;">{overview.U_IMAGE_NAME}<!-- IF overview.U_IS_REPORTED --><span class="imageset icon_topic_reported" style="float: right;" title="{L_REPORTED_IMAGES}">{L_REPORTED_IMAGES}</span><!-- ENDIF --><!-- IF overview.U_IS_UNAPPROVED --><span class="image_unapproved" title="{L_QUEUE_STATUS_0}">&nbsp;</span><!-- ENDIF --><!-- IF overview.U_IS_LOCKED --><span class="image_locked" title="{L_QUEUE_STATUS_2}">{L_QUEUE_STATUS_2}</span><!-- ENDIF --></a><br>
-									{L_UPLOADED_BY_USER}{L_COLON} {overview.IMAGE_AUTHOR} <br>
-									&raquo; {overview.IMAGE_TIME} <br>
-								</div> <br>
+									{L_IMAGE_NAME}{L_COLON}
+									<a href="{overview.U_IMAGE_MODERATE_URL}" class="topictitle" style="font-weight: bold;">
+										<!-- IF overview.U_IS_REPORTED --><span class="image_unapproved" title="{L_REPORTED_IMAGES}">{L_REPORTED_IMAGES}</span><!-- ENDIF -->
+										<!-- IF overview.U_IS_UNAPPROVED --><span class="image_unapproved" title="{L_QUEUE_STATUS_0}">&nbsp;</span><!-- ENDIF -->
+										<!-- IF overview.U_IS_LOCKED --><span class="image_locked" title="{L_QUEUE_STATUS_2}">{L_QUEUE_STATUS_2}</span><!-- ENDIF -->
+										{overview.U_IMAGE_NAME}
+									</a><br />
+									{L_UPLOADED_BY_USER}{L_COLON} {overview.IMAGE_AUTHOR}<br />
+									&raquo; {overview.IMAGE_TIME}<br /><br />
+								</div> <br />
 							</dt>
-							<dd class="moderation">
+							<dd class="lastpost">
 								<span>
-									{L_ALBUM}{L_COLON} <a href="{overview.IMAGE_ALBUM_URL}" style="display: inline;">{overview.IMAGE_ALBUM}</a>
+									{L_ALBUM_NAME}{L_COLON} <a href="{overview.IMAGE_ALBUM_URL}" style="display: inline;">{overview.IMAGE_ALBUM}</a>
 								</span>
 							</dd>
 							<dd class="mark" style="padding-left: 8px;">
-								<input name="action[]" value="{overview.U_IMAGE_ID}" type="checkbox">
+								<input name="action[]" value="{overview.U_IMAGE_ID}" type="checkbox" />
 							</dd>
 						</dl>
 					</li>
@@ -80,7 +88,7 @@
 		</div>
 		<!-- IF .overview -->
 		<fieldset class="display-actions">
-			{U_ACTION_SELECT} &nbsp; <input class="button1" name="submit" value="{L_GO}" type="submit">
+			{U_ACTION_SELECT} &nbsp; <input class="button1" name="submit" value="{L_GO}" type="submit" />
 			<div><a href="#" onclick="marklist('overview_action', 'action', true); return false;">{L_MARK_ALL}</a> :: <a href="#" onclick="marklist('overview_action', 'action', false); return false;">{L_UNMARK_ALL}</a></div>
 		</fieldset>
 		<!-- ENDIF -->
@@ -93,15 +101,15 @@
 <!-- IF .pagination -->
 	<div class="topic-actions">
 		<div class="pagination">
-			{TOTAL_PAGES} &bull; 
+			{TOTAL_PAGES}
 			<!-- IF .pagination -->
 				<!-- INCLUDE pagination.html -->
 			<!-- ELSE -->
-				{PAGE_NUMBER}
+				&bull; {PAGE_NUMBER}
 			<!-- ENDIF -->
 		</div>
 	</div>
-	<br>
+	<br />
 <!-- ENDIF -->
-<br>
+<br />
 <!-- INCLUDE gallery/gallery_footer.html -->

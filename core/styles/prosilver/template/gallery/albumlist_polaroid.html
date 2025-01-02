@@ -15,7 +15,7 @@
 			</p>
 			<hr />
 			<!-- IF albumrow.UC_THUMBNAIL -->
-			<img src="{albumrow.UC_THUMBNAIL}" alt="{albumrow.UC_IMAGE_NAME}" title="{albumrow.UC_IMAGE_NAME}" />
+			<a href="{albumrow.U_VIEWALBUM}" class="polaroid_img_container"><img src="{albumrow.UC_THUMBNAIL}" alt="{albumrow.UC_IMAGE_NAME}" title="{L_VIEW_ALBUM}{albumrow.UC_IMAGE_NAME}" /></a>
 			<!-- ENDIF -->
 
 			<hr />
@@ -64,8 +64,9 @@
 	<!-- ENDIF -->
 
 <!-- BEGINELSE -->
+<br />
 	<div class="panel">
-		<div class="inner">
+		<div class="inner" style="text-align: center;">
 			<strong>{L_NO_ALBUMS}</strong>
 		</div>
 	</div>

@@ -13,13 +13,11 @@
 <!-- ENDIF -->
 
 <form id="postform" action="{S_ALBUM_ACTION}" method="post" enctype="multipart/form-data">
-
 <div class="panel" id="postingbox">
 	<div class="inner">
 		<h3>{L_POST_COMMENT}</h3>
 		<fieldset class="fields1">
 			<!-- IF ERROR --><p class="error">{ERROR}</p><!-- ENDIF -->
-
 			<!-- IF not S_USER_LOGGED_IN -->
 			<dl>
 				<dt><label for="username">{L_USERNAME}{L_COLON}</label></dt>
@@ -48,7 +46,6 @@
 				<!-- INCLUDE {CAPTCHA_TEMPLATE} -->
 			<!-- ENDIF -->
 
-
 			<!-- INCLUDE posting_buttons.html -->
 
 			<div id="smiley-box" class="smiley-box">
@@ -59,7 +56,6 @@
 						<a href="#" onclick="insert_text('{smiley.A_SMILEY_CODE}', true); return false;"><img src="{smiley.SMILEY_IMG}" width="{smiley.SMILEY_WIDTH}" height="{smiley.SMILEY_HEIGHT}" alt="{smiley.SMILEY_CODE}" title="{smiley.SMILEY_DESC}" /></a>
 					<!-- END smiley -->
 				<!-- ENDIF -->
-
 				<!-- EVENT posting_editor_smilies_after -->
 				<div>
 					<div class="inner">
@@ -95,15 +91,23 @@
 			<div id="message-box" class="message-box">
 				<textarea <!-- IF S_UCP_ACTION and not S_PRIVMSGS and not S_EDIT_DRAFT -->name="signature" id="signature" style="height: 9em;"<!-- ELSE -->name="message" id="message"<!-- ENDIF --> rows="15" cols="76" tabindex="4" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" onfocus="initInsertions();" class="inputbox">{MESSAGE}{DRAFT_MESSAGE}{SIGNATURE}</textarea>
 			</div>
-
 			<div><label for="attach_sig"><input type="checkbox" name="attach_sig" id="attach_sig"{S_SIGNATURE_CHECKED} /> {L_ATTACH_SIG}</label></div>
-
 		</fieldset>
 	</div>
 </div>
 
 <div class="panel bg2">
 	<div class="inner">
+		<!-- EVENT viewtopic_body_postrow_back2top_before -->
+			<div class="back2top">
+				<!-- EVENT viewtopic_body_postrow_back2top_prepend -->
+					<a href="#top" class="top" title="{L_BACK_TO_TOP}" style="margin-top: 10px;">
+						<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+						<span class="sr-only">{L_BACK_TO_TOP}</span>
+					</a>
+				<!-- EVENT viewtopic_body_postrow_back2top_append -->
+			</div>
+		<!-- EVENT viewtopic_body_postrow_back2top_after -->
 		<fieldset class="submit-buttons">
 			{S_HIDDEN_FIELDS}{S_CAPTCHA_HIDDEN_FIELDS}
 			<input type="reset" accesskey="r" tabindex="200" value="{L_RESET}" class="button2" />&nbsp;

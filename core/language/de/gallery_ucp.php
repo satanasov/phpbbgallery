@@ -66,6 +66,7 @@ $lang = array_merge($lang, array(
 	'NO_PERSONAL_ALBUM'				=> 'Dein persönliches Album existiert noch nicht. Du kannst Dir hier ein privates Album und weitere Subalben erstellen.<br />Nur der Album Besitzer kann in diese persönlichen Alben Bilder hochladen.',
 	'NO_SUBALBUMS'					=> 'Keine Subalben',
 	'NO_SUBSCRIPTIONS'				=> 'Du beobachtest keine Bilder.',
+	'NO_SUBSCRIPTIONS_ALBUM'		=> 'Du beobachtest keine Alben.',
 
 	'PARSE_BBCODE'					=> 'BBCodes erkennen',
 	'PARSE_SMILIES'					=> 'Smilies erkennen',

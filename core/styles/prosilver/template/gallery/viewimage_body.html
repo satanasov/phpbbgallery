@@ -6,19 +6,36 @@
 		<div class="postbody_album" id="image">
 			<!-- IF UC_IMAGE_ACTION --><a href="{UC_IMAGE_ACTION}"><!-- ENDIF --><img src="{UC_IMAGE}" alt="{IMAGE_NAME}" class="postimage"/><!-- IF UC_IMAGE_ACTION --></a><!-- ENDIF -->
 			<!-- IF S_IMAGE_REPORTED --><br /><br /><a href="{U_IMAGE_REPORTED}"><span class="error">{L_IMAGE_REPORTED}</span></a><!-- ENDIF -->
-			<br /><span class="image-description">{IMAGE_DESC}</span>
 		</div>
 	</div>
 </div>
+
+<!-- IF IMAGE_DESC -->
+	<div id="description" class="panel">
+		<div class="inner" style="text-align: center;">
+			<h3>{L_IMAGE_DESC}</h3>
+			<div style="width: 100%; font-size: 1.3em;">
+				{IMAGE_DESC}
+			</div>
+		</div>
+	</div>
+<!-- ENDIF -->
+
 <!-- IF UC_PREV_IMAGE or UC_NEXT_IMAGE -->
 <div class="post bg2">
 	<div class="inner">
-		<div style="text-align: center; overflow: hidden;">
-			<!-- IF UC_PREV_IMAGE --><div class="image_prev_image">{UC_PREV_IMAGE}</div><!-- ENDIF --><!-- IF UC_NEXT_IMAGE --><div class="image_next_image">{UC_NEXT_IMAGE}</div><!-- ENDIF -->
+		<div style="text-align: center;">
+			<div style="vertical-align: middle; display: table-cell; width: 1%;">
+			<!-- IF UC_PREV_IMAGE --><div class="image_prev_image" title="{L_VIEW_IMAGE}">{UC_PREV_IMAGE}</div><!-- ENDIF -->
+			</div>
+			<div style="vertical-align: middle; display: table-cell; width: 1%;">
+			<!-- IF UC_NEXT_IMAGE --><div class="image_next_image" title="{L_VIEW_IMAGE}">{UC_NEXT_IMAGE}</div><!-- ENDIF -->
+			</div>
 		</div>
 	</div>
 </div>
 <!-- ENDIF -->
+
 <div id="details" class="panel post">
 	<div class="inner">
 		<dl class="postprofile<!-- IF S_POSTER_ONLINE --> online<!-- ENDIF -->" id="profile_poster">
@@ -41,7 +58,7 @@
 
 			<!-- IF POSTER_POSTS != '' --><dd class="profile-posts"><strong>{L_POSTS}{L_COLON}</strong> {POSTER_POSTS}</dd><!-- ENDIF -->
 			<!-- IF POSTER_GALLERY_IMAGES != '' --><dd><strong>{L_IMAGES}{L_COLON}</strong> <!-- IF U_POSTER_GALLERY_SEARCH --><a href="{U_POSTER_GALLERY_SEARCH}">{POSTER_GALLERY_IMAGES}</a><!-- ELSE -->{POSTER_GALLERY_IMAGES}<!-- ENDIF --></dd><!-- ENDIF -->
-			<!-- IF POSTER_JOINED --><dd class="profile-joined"><strong>{L_JOINED}{L_COLON}</strong> {POSTER_JOINED}</dd><!-- ENDIF -->
+			<!-- IF POSTER_JOINED --><dd class="profile-joined"><strong>{L_JOINED}{L_COLON} </strong><span style="white-space: nowrap;"> {POSTER_JOINED}</span></dd><!-- ENDIF -->
 			<!-- IF POSTER_WARNINGS --><dd class="profile-warnings"><strong>{L_WARNINGS}{L_COLON}</strong> {POSTER_WARNINGS}</dd><!-- ENDIF -->
 <!-- IF U_ACP -->
 			<!-- IF POSTER_IP --><dd><strong>{L_IP}{L_COLON}</strong> {POSTER_IP} <!-- [ <a href="{U_POSTER_WHOIS}" onclick="popup(this.href, 750, 500); return false;">{L_WHOIS}</a> ]--></dd><!-- ENDIF -->
@@ -88,7 +105,6 @@
 			<!-- ENDIF -->
 			<!-- EVENT viewtopic_body_contact_fields_after -->
 		</dl>
-
 		<div class="postbody">
 			<ul class="post-buttons">
 				<!-- EVENT gallery_viewimage_actions -->
@@ -98,7 +114,6 @@
 				<!-- IF U_REPORT --><li><a href="{U_REPORT}" title="{L_REPORT_IMAGE}" class="button button-icon-only"><i class="icon fa-exclamation fa-fw" aria-hidden="true"></i><span class="sr-only">{L_REPORT_IMAGE}</span></a></li><!-- ENDIF -->
 			</ul>
 			<h2 style= "font-size: 1.5em; font-weight: bold;">{L_IMAGE_NAME}{L_COLON}<a href="{S_ALBUM_ACTION}" style="display: inline; line-height: 1.2em; font-weight: bold;"> {IMAGE_NAME}</a></h2>
-
 			<fieldset class="fields1 anti-postbody">
 				<!-- IF CONTEST_RANK -->
 				<dl>
@@ -156,7 +171,6 @@
 				</form>
 				<!-- ENDIF -->
 			</fieldset>
-
 			<!-- EVENT gallery_viewimage_details -->
 		</div>
 	</div>
@@ -182,67 +196,32 @@
 	<!-- ENDIF -->
 </div>
 
-<!-- IF not S_IS_BOT and S_ALLOWED_TO_COMMENT -->
-	<!-- IF S_ALLOWED_TO_COMMENT and not S_HIDE_COMMENT_INPUT -->
-		<form method="post" action="{S_COMMENT_ACTION}" id="qr_postform">
-		<!-- EVENT quickreply_editor_panel_before -->
-			<div class="panel">
-				<div class="inner">
-						<h2 class="quickreply-title">{L_POST_COMMENT}</h2>
-						<fieldset class="fields1">
-						{L_COMMENT_LENGTH}
-						<!-- IF not S_USER_LOGGED_IN -->
-							<dl>
-								<dt><label>{L_USERNAME}{L_COLON}</label></dt>
-								<dd><input class="inputbox autowidth" type="text" name="username" maxlength="32" /></dd>
-							</dl>
-						<!-- ENDIF -->
-						<!-- IF CAPTCHA_TEMPLATE -->
-							<!-- INCLUDE {CAPTCHA_TEMPLATE} -->
-						<!-- ENDIF -->
-						<!-- EVENT quickreply_editor_message_before -->
-						<div id="message-box" class="message-box">
-							<textarea style="height: 9em;" name="message" rows="7" cols="76" tabindex="3" class="inputbox" name="message" id="message"></textarea>
-						</div>
-						<div><label for="attach_sig"><input type="checkbox" name="attach_sig" id="attach_sig"{S_SIGNATURE_CHECKED} /> {L_ATTACH_SIG}</label></div>
-						<!-- EVENT quickreply_editor_message_after -->
-						</fieldset>
-						<fieldset class="submit-buttons">
-							{S_FORM_TOKEN}
-							{QR_HIDDEN_FIELDS}
-							<input type="submit" accesskey="f" tabindex="6" name="preview" value="{L_FULL_EDITOR_GALLERY}" class="button2" id="qr_full_editor" />&nbsp;
-							<input type="submit" accesskey="s" tabindex="7" name="submit" value="{L_SUBMIT}" class="button1"/>&nbsp;
-						</fieldset>
-				</div>
-			</div>
-		<!-- EVENT quickreply_editor_panel_after -->
-		</form>
-	<!-- ENDIF -->
-<!-- ENDIF -->
-
 <!-- IF S_ALLOWED_READ_COMMENTS -->
-<a name="comments"></a>
+
 <!-- IF not .commentrow or S_COMMENTS_DISABLED -->
-	<div id="comments" class="panel">
-		<div class="inner">
+	<div id="comments" class="panel bg2">
+		<div class="inner" style="text-align: center;">
 			<strong><!-- IF S_COMMENTS_DISABLED -->{L_IMAGE_COMMENTS_DISABLED}<!-- ELSE -->{L_NO_COMMENTS}<!-- ENDIF --></strong>
 		</div>
 	</div>
 <!-- ENDIF -->
+
 <!-- IF .commentrow -->
+	<a id="comment_{commentrow.COMMENT_ID}" class="anchor"></a>
+
 	<!-- IF .pagination or TOTAL_COMMENTS -->
-	<div class="topic-actions">
+	<div class="topic-actions" style="margin-bottom: 4em;">
 		<div class="pagination">
-			{TOTAL_COMMENTS} &bull;
+			{TOTAL_COMMENTS}
 			<!-- IF .pagination -->
 				<!-- INCLUDE pagination.html -->
 			<!-- ELSE -->
-				{PAGE_NUMBER}
+				&bull; {PAGE_NUMBER}
 			<!-- ENDIF -->
 		</div>
 	</div>
 	<!-- ENDIF -->
-<br><br>
+
 	<!-- BEGIN commentrow -->
 	<div class="post has-profile <!-- IF commentrow.S_ROW_COUNT is odd -->bg1<!-- ELSE -->bg2<!-- ENDIF --><!-- IF commentrow.S_ONLINE --> online<!-- ENDIF -->">
 	<a id="comment_{commentrow.COMMENT_ID}" class="anchor"></a>
@@ -267,7 +246,7 @@
 
 				<!-- IF commentrow.POSTER_POSTS != '' --><dd class="profile-posts"><strong>{L_POSTS}{L_COLON}</strong> {commentrow.POSTER_POSTS}</dd><!-- ENDIF -->
 				<!-- IF commentrow.POSTER_GALLERY_IMAGES != '' --><dd><strong>{L_IMAGES}{L_COLON}</strong> <!-- IF commentrow.U_POSTER_GALLERY_SEARCH --><a href="{commentrow.U_POSTER_GALLERY_SEARCH}">{POSTER_GALLERY_IMAGES}</a><!-- ELSE -->{POSTER_GALLERY_IMAGES}<!-- ENDIF --></dd><!-- ENDIF -->
-				<!-- IF commentrow.POSTER_JOINED --><dd class="profile-joined"><strong>{L_JOINED}{L_COLON}</strong> {commentrow.POSTER_JOINED}</dd><!-- ENDIF -->
+				<!-- IF commentrow.POSTER_JOINED --><dd class="profile-joined"><strong>{L_JOINED}{L_COLON} </strong><span style="white-space: nowrap;"> {commentrow.POSTER_JOINED}</span></dd><!-- ENDIF -->
 				<!-- IF commentrow.POSTER_WARNINGS --><dd class="profile-warnings"><strong>{L_WARNINGS}{L_COLON}</strong> {commentrow.POSTER_WARNINGS}</dd><!-- ENDIF -->
 				<!-- IF commentrow.POSTER_IP --><dd><strong>{L_IP}{L_COLON}</strong> {commentrow.POSTER_IP} <!-- [ <a href="{U_POSTER_WHOIS}" onclick="popup(this.href, 750, 500); return false;">{L_WHOIS}</a> ]--></dd><!-- ENDIF -->
 
@@ -283,6 +262,7 @@
 				<!-- EVENT viewtopic_body_postrow_custom_fields_after -->
 
 				<!-- EVENT viewtopic_body_contact_fields_before -->
+
 				<!-- IF not S_IS_BOT and .commentrow.contact -->
 				<dd class="profile-contact">
 					<strong>{L_CONTACT}{L_COLON}</strong>
@@ -313,10 +293,9 @@
 				<!-- ENDIF -->
 				<!-- EVENT viewtopic_body_contact_fields_after -->
 			</dl>
-
 			<div class="postbody" id="post_content{commentrow.COMMENT_ID}">
 				<!-- IF commentrow.U_DELETE or commentrow.U_EDIT or commentrow.U_INFO or commentrow.U_QUOTE -->
-<br>
+					<br />
 					<ul class="post-buttons">
 						<!-- IF commentrow.U_EDIT --><li><a href="{commentrow.U_EDIT}" title="{L_EDIT_COMMENT}" class="button button-icon-only"><i class="icon fa-pencil fa-fw" aria-hidden="true"></i><span class="sr-only">{L_EDIT_COMMENT}</span></a></li><!-- ENDIF -->
 						<!-- IF commentrow.U_DELETE --><li><a href="{commentrow.U_DELETE}" title="{L_DELETE_COMMENT}" class="button button-icon-only"><i class="icon fa-times fa-fw" aria-hidden="true"></i><span class="sr-only">{L_DELETE_COMMENT}</span></a></li><!-- ENDIF -->
@@ -324,38 +303,96 @@
 						<!-- IF commentrow.U_QUOTE --><li><a href="{commentrow.U_QUOTE}" title="{L_QUOTE_COMMENT}" class="button button-icon-only"><i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">{L_QUOTE_COMMENT}</span></a></li><!-- ENDIF -->
 					</ul>
 				<!-- ENDIF -->
-				<p class="author"><!-- IF S_IS_BOT --><i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">{commentrow.MINI_POST}</span><!-- ELSE --><a href="{commentrow.U_COMMENT}"><i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">{commentrow.MINI_POST}</span></a><!-- ENDIF --><span class="responsive-hide"> {L_POST_BY_AUTHOR} <strong>{commentrow.POSTER_FULL}</strong> &raquo; </span>{commentrow.TIME} </p>
+				<p class="author"><!-- IF S_IS_BOT --><i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i>{L_COMMENT}&nbsp;<span class="sr-only">{commentrow.MINI_POST}</span><!-- ELSE --><a href="{commentrow.U_COMMENT}" title="{L_COMMENT}"><i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i>{L_COMMENT}&nbsp;<span class="sr-only">{commentrow.MINI_POST}</span></a><!-- ENDIF --><span style="white-space: nowrap;">{L_POST_BY_AUTHOR}&nbsp;{commentrow.POSTER_FULL}</span> &raquo;<span style="white-space: nowrap;"> {commentrow.TIME}</span></p>
 				<div class="content">{commentrow.TEXT}</div>
 				<!-- IF commentrow.EDIT_INFO --><div class="notice">{commentrow.EDIT_INFO}</div><!-- ENDIF -->
 				<!-- IF commentrow.SIGNATURE --><div id="sig{commentrow.COMMENT_ID}" class="signature">{commentrow.SIGNATURE}</div><!-- ENDIF -->
 			</div>
+			<!-- EVENT viewtopic_body_postrow_back2top_before -->
+				<div class="back2top">
+					<!-- EVENT viewtopic_body_postrow_back2top_prepend -->
+						<a href="#top" class="top" title="{L_BACK_TO_TOP}">
+							<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+							<span class="sr-only">{L_BACK_TO_TOP}</span>
+						</a>
+					<!-- EVENT viewtopic_body_postrow_back2top_append -->
+				</div>
+			<!-- EVENT viewtopic_body_postrow_back2top_after -->
 		</div>
 	</div>
 	<!-- END commentrow -->
-
 	<form action="{S_ALBUM_ACTION}" method="post">
 	<fieldset class="display-options" style="margin-top: 0; ">
 		<label>{L_ORDER}{L_COLON} <select name="sort_order"><option value="ASC"<!-- IF SORT_ASC --> selected="selected"<!-- ENDIF -->>{L_SORT_ASCENDING}</option><option value="DESC"<!-- IF not SORT_ASC --> selected="selected"<!-- ENDIF -->>{L_SORT_DESCENDING}</option></select>&nbsp;<input type="submit" name="submit" value="{L_GO}" class="button2" /></label>
 	</fieldset>
 	</form>
-	<hr />
+<hr />
 
 	<!-- IF .pagination or TOTAL_COMMENTS -->
-	<div class="topic-actions">
+	<div class="topic-actions" style="margin-bottom: 4em;">
 		<div class="pagination">
-			{TOTAL_COMMENTS} &bull;
+			{TOTAL_COMMENTS}
 			<!-- IF .pagination -->
 				<!-- INCLUDE pagination.html -->
 			<!-- ELSE -->
-				{PAGE_NUMBER}
+				&bull; {PAGE_NUMBER}
 			<!-- ENDIF -->
 		</div>
 	</div>
 	<!-- ENDIF -->
+
+<!-- ENDIF -->
+
+<!-- IF not S_IS_BOT and S_ALLOWED_TO_COMMENT -->
+	<!-- IF S_ALLOWED_TO_COMMENT and not S_HIDE_COMMENT_INPUT -->
+		<form method="post" action="{S_COMMENT_ACTION}" id="qr_postform">
+		<!-- EVENT quickreply_editor_panel_before -->
+			<div class="panel">
+				<div class="inner">
+					<h2 class="quickreply-title">{L_POST_COMMENT}</h2>
+					<fieldset class="fields1">
+						{L_COMMENT_LENGTH}
+						<!-- IF not S_USER_LOGGED_IN -->
+							<dl>
+								<dt><label>{L_USERNAME}{L_COLON}</label></dt>
+								<dd><input class="inputbox autowidth" type="text" name="username" maxlength="32" /></dd>
+							</dl>
+						<!-- ENDIF -->
+						<!-- IF CAPTCHA_TEMPLATE -->
+							<!-- INCLUDE {CAPTCHA_TEMPLATE} -->
+						<!-- ENDIF -->
+						<!-- EVENT quickreply_editor_message_before -->
+						<div id="message-box" class="message-box">
+							<textarea style="height: 9em;" name="message" rows="7" cols="76" tabindex="3" class="inputbox" name="message" id="message"></textarea>
+						</div>
+						<div><label for="attach_sig"><input type="checkbox" name="attach_sig" id="attach_sig"{S_SIGNATURE_CHECKED} /> {L_ATTACH_SIG}</label></div>
+						<!-- EVENT quickreply_editor_message_after -->
+					</fieldset>
+					<!-- EVENT viewtopic_body_postrow_back2top_before -->
+						<div class="back2top">
+							<!-- EVENT viewtopic_body_postrow_back2top_prepend -->
+								<a href="#top" class="top" title="{L_BACK_TO_TOP}" style="margin-top: 15px;">
+									<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+									<span class="sr-only">{L_BACK_TO_TOP}</span>
+								</a>
+							<!-- EVENT viewtopic_body_postrow_back2top_append -->
+						</div>
+					<!-- EVENT viewtopic_body_postrow_back2top_after -->
+					<fieldset class="submit-buttons">
+							{S_FORM_TOKEN}
+							{QR_HIDDEN_FIELDS}
+							<input type="submit" accesskey="f" tabindex="6" name="preview" value="{L_FULL_EDITOR_GALLERY}" class="button2" id="qr_full_editor" />&nbsp;
+							<input type="submit" accesskey="s" tabindex="7" name="submit" value="{L_SUBMIT}" class="button1" />&nbsp;
+					</fieldset>
+				</div>
+			</div>
+		<!-- EVENT quickreply_editor_panel_after -->
+		</form>
+	<!-- ENDIF -->
 <!-- ENDIF -->
 <!-- ENDIF -->
 
-<p class="jumpbox-return"><a href="{U_RETURN_LINK}" class="left-box arrow-{S_CONTENT_FLOW_BEGIN}" accesskey="r">{S_RETURN_LINK}</a></p>
+<p class="jumpbox-return"><a href="{U_RETURN_LINK}" class="left-box arrow-{S_CONTENT_FLOW_BEGIN}" accesskey="r"><i class="icon fa-angle-left fa-fw icon-black" aria-hidden="true"></i> {S_RETURN_LINK} {L_ALBUM}</a> </p>
 <!-- IF ALBUM_JUMPBOX -->
 <form method="post" id="jumpbox" action="{S_JUMPBOX_ACTION}" onsubmit="if(document.jumpbox.album_id.value == -1){return false;}">
 	<fieldset class="jumpbox">
@@ -369,5 +406,5 @@
 <!-- ELSE -->
 <br /><br />
 <!-- ENDIF -->
-
+<br />
 <!-- INCLUDE gallery/gallery_footer.html -->

@@ -186,10 +186,11 @@ $lang = array_merge($lang, array(
 
 	'NEW_COMMENT'           => 'New Comment',
 	'NEW_IMAGES'            => 'New images',
-	'NEWEST_PGALLERY'       => 'Our newest personal gallery %s',
-	'NO_ALBUMS'             => 'There are no albums in this gallery.',
+	'NEWEST_PGALLERY'       => 'Our newest personal gallery: %s',
+	'NO_ALBUMS'             => 'There are no shared/public albums in this gallery.',
 	'NO_COMMENTS'           => 'No comments yet',
 	'NO_IMAGES'             => 'No images',
+	'NO_COMMENTS_NO_IMAGES' => 'No comments or own pictures yet',
 	'NO_IMAGES_FOUND'       => 'No images found.',
 	'NO_NEW_IMAGES'         => 'No new images',
 	'NO_IMAGES_LONG'        => 'There are no images in this album.',
@@ -272,9 +273,9 @@ $lang = array_merge($lang, array(
 
 	'THUMBNAIL_SIZE'            => 'Thumbnail size (pixels)',
 	'TOTAL_COMMENTS_SPRINTF'    => array(
-		0 => 'Total comments <strong>0</strong>',
-		1 => 'Total comments <strong>%d</strong>',
-		2 => 'Total comments <strong>%d</strong>',
+		0 => 'Total comments: <strong>0</strong>',
+		1 => 'Total comments: <strong>%d</strong>',
+		2 => 'Total comments: <strong>%d</strong>',
 	),
 	'TOTAL_IMAGES'              => 'Total images',
 	'TOTAL_IMAGES_SPRINTF'      => array(
@@ -288,9 +289,9 @@ $lang = array_merge($lang, array(
 		2 => '%d personal galleries',
 	),
 	'TOTAL_PEGAS_SPRINTF'       => array(
-		0 => 'Total personal galleries <strong>0</strong>',
-		1 => 'Total personal galleries <strong>%d</strong>',
-		2 => 'Total personal galleries <strong>%d</strong>',
+		0 => 'Total personal galleries: <strong>0</strong>',
+		1 => 'Total personal galleries: <strong>%d</strong>',
+		2 => 'Total personal galleries: <strong>%d</strong>',
 	),
 
 	'UNLOCK_IMAGE'              => 'Unlock image',

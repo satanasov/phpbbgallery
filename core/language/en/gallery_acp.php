@@ -31,7 +31,7 @@ $lang = array_merge($lang, array(
 	'ACP_FILES_DIR_STATE'          => '<strong>./files/</strong> state',
 	'ACP_CORE_DIR_STATE'           => '<strong>./files/phpbbgallery/core/</strong> state',
 	'ACP_SOURCE_DIR_STATE'         => '<strong>./files/phpbbgallery/core/source/</strong> state',
-	'ACP_MEDIUM_DIR_STATE'         => '<strong>./files/phpbbgallery/core/meduim/</strong> state',
+	'ACP_MEDIUM_DIR_STATE'         => '<strong>./files/phpbbgallery/core/medium/</strong> state',
 	'ACP_MINI_DIR_STATE'           => '<strong>./files/phpbbgallery/core/mini/</strong> state',
 
 	'ADD_ALBUM_ON_TOP'                  => 'Add album at the top',
@@ -297,7 +297,7 @@ $lang = array_merge($lang, array(
 	'PEGA_ALREADY_EXISTS'      => '%s already has a personal gallery.',
 	'PGALLERIES_PER_PAGE'      => 'Number of personal galleries per page',
 	'ITEMS_PER_PAGE'           => 'Items per page',
-	'ITEMS_PER_PAGE_EXP'       => 'How many images/albums per page',
+	'ITEMS_PER_PAGE_EXP'       => 'How many images/albums/comments per page',
 	'RANDOM_ON_INDEX'          => 'Show random images on index',
 	'RANDOM_ON_INDEX_EXP'      => 'Should there be random images on gallery index page.',
 	'RANDOM_ON_INDEX_COUNT'    => 'Random image count',

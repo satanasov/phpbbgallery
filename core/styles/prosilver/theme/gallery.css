@@ -64,11 +64,11 @@ dd.g_lastimage {
 	padding-left: 5px;
 	width: 30%;
 }
-
+/*
 dd.g_moderation {
 	width: 35%;
 }
-
+*/
 dd.g_rating, dd.g_comments {
 	width: 12%;
 	text-align: center;
@@ -102,10 +102,16 @@ input.autowidth-gallery {
 	max-width: 186px;
 }
 
+.polaroid_img_container {
+	height: 120px;
+	width: 242px;
+	vertical-align: middle;
+	display: table-cell;
+}
+
 .polaroid img {
 	max-height: 120px;
-	min-height: 120px;
-	max-width: 220px;
+	max-width: 230px;
 }
 
 .polaroid
@@ -129,6 +135,7 @@ input.autowidth-gallery {
 	box-shadow: 0 4px 6px rgba(0, 0, 0, .3);
 	transition: all .15s linear;
 	border: 1px solid #EFEFEF;
+	border-radius: 7px;
 }
 
 .image_unapproved
@@ -157,7 +164,7 @@ input.autowidth-gallery {
 	overflow: hidden;
 	background-image: url("./images/lock.png");
 	padding-left: 16px;
-	padding-top: 14px;
+	padding-top: 16px;
 	float: right;
 }
 
@@ -165,7 +172,6 @@ input.autowidth-gallery {
 {
 	float: left; 
 	text-align: left; 
-	max-width: 48%;
 	clip-path: url(#left_arrow);
 }
 
@@ -173,7 +179,6 @@ input.autowidth-gallery {
 {
 	float: right; 
 	text-align: right; 
-	max-width: 48%;
 	clip-path: url(#right_arrow);
 }
 

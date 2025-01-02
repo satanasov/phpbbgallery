@@ -1,5 +1,5 @@
 <!-- BEGIN imageblock -->
-<span class="clear"></span>
+
 <!-- IF imageblock.U_BLOCK --><h2><a href="{imageblock.U_BLOCK}">{imageblock.BLOCK_NAME}</a></h2><!-- ENDIF -->
 <!-- IF imageblock.ERROR --><h2>{imageblock.ERROR}</h2>
 
@@ -16,26 +16,32 @@
 		<!-- IF imageblock.image.U_IMAGE --><a href="{imageblock.image.U_IMAGE}" style="display: inline;"><!-- ENDIF -->{imageblock.image.UC_IMAGE_NAME}<!-- IF imageblock.image.U_IMAGE --></a><!-- ENDIF -->
 	</p>
 	<hr />
-	<div id="thumbnail">
-	<!-- IF imageblock.image.UC_THUMBNAIL_ACTION --><a href="{imageblock.image.UC_THUMBNAIL_ACTION}"><!-- ENDIF --><img src="{imageblock.image.UC_THUMBNAIL}" alt="{imageblock.image.UC_IMAGE_NAME}" title="{imageblock.image.UC_IMAGE_NAME}" /><!-- IF imageblock.image.UC_THUMBNAIL_ACTION --></a><!-- ENDIF -->
-	</div>
+	<!-- IF imageblock.image.S_STATUS_UNAPPROVED -->
+		<form method="post" action="{imageblock.image.S_STATUS_UNAPPROVED_ACTION}" class="polaroid_img_container">
+			<div id="thumbnail">
+				<!-- IF imageblock.image.UC_THUMBNAIL_ACTION --><a href="{imageblock.image.UC_THUMBNAIL_ACTION}" class="polaroid_img_container" style="height: 80px;"><!-- ENDIF --><img src="{imageblock.image.UC_THUMBNAIL}" alt="{imageblock.image.UC_IMAGE_NAME}" title="{L_VIEW_IMAGE}{L_COLON} {imageblock.image.UC_IMAGE_NAME}" style="max-height: 65px;"/><!-- IF imageblock.image.UC_THUMBNAIL_ACTION --></a><!-- ENDIF -->
+					<p class="post-notice unapproved" style="margin-bottom: -5px; margin-top: 4px; border-radius: 4px;">
+						<input class="button2" type="submit" value="{L_DISAPPROVE}" name="action[disapprove]" style="border-radius: 4px;" />
+						<input class="button1" type="submit" value="{L_APPROVE}" name="action[approve]" style="border-radius: 4px;" />
+					</p>
+			</div>
+		</form>
+	<!-- ELSE -->
+			<div id="thumbnail">
+				<!-- IF imageblock.image.UC_THUMBNAIL_ACTION --><a href="{imageblock.image.UC_THUMBNAIL_ACTION}" class="polaroid_img_container"><!-- ENDIF --><img src="{imageblock.image.UC_THUMBNAIL}" alt="{imageblock.image.UC_IMAGE_NAME}" title="{L_VIEW_IMAGE}{L_COLON} {imageblock.image.UC_IMAGE_NAME}" /><!-- IF imageblock.image.UC_THUMBNAIL_ACTION --></a><!-- ENDIF -->
+			</div>
+	<!-- ENDIF -->
 	<hr />
 	<!-- IF imageblock.image.U_ALBUM -->{L_ALBUM_NAME}{L_COLON}<p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: bold; margin-bottom: 0px;"><a href="{imageblock.image.U_ALBUM}" style="display: inline;"><!-- ENDIF --> {imageblock.image.ALBUM_NAME}<!-- IF imageblock.image.U_ALBUM --></a></p><!-- ENDIF -->
 	<!-- IF imageblock.image.POSTER -->{L_UPLOADED_BY_USER}{L_COLON} {imageblock.image.POSTER}<br /><!-- ENDIF -->
-	<!-- IF imageblock.image.TIME -->{L_UPLOADED_ON_DATE}{L_COLON} {imageblock.image.TIME}<br /><!-- ENDIF -->
+	<!-- IF imageblock.image.TIME -->&raquo; {imageblock.image.TIME}<br /><!-- ENDIF -->
 	<!-- IF imageblock.image.IMAGE_VIEWS > -1 -->{L_IMAGE_VIEWS}{L_COLON} {imageblock.image.IMAGE_VIEWS}<br /><!-- ENDIF -->
 	<!-- IF imageblock.image.S_RATINGS -->{L_RATING}{L_COLON} <a href="{imageblock.image.U_RATINGS}">{imageblock.image.S_RATINGS}</a><br /><!-- ENDIF -->
 	<!-- IF imageblock.image.S_COMMENTS -->{imageblock.image.L_COMMENTS}{L_COLON} <a href="{imageblock.image.U_COMMENTS}">{imageblock.image.S_COMMENTS}</a><br /><!-- ENDIF -->
+<!-- IF U_ACP -->
 	<!-- IF imageblock.image.U_USER_IP -->{L_IP}{L_COLON} {imageblock.image.U_USER_IP}<br /><!-- ENDIF -->
-	<!-- IF imageblock.image.S_STATUS_UNAPPROVED -->
-			<br />
-			<form method="post" class="mcp_approve" action="{imageblock.image.S_STATUS_UNAPPROVED_ACTION}">
-				<p class="post-notice unapproved">
-					<input class="button2" type="submit" value="{L_DISAPPROVE}" name="action[disapprove]">
-					<input class="button1" type="submit" value="{L_APPROVE}" name="action[approve]">
-				</p>
-			</form>
-		<!-- ENDIF -->
+<!-- ENDIF -->
+
 </div>
 
 <!-- IF imageblock.image.S_LAST_ROW -->

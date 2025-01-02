@@ -65,6 +65,7 @@ $lang = array_merge($lang, array(
 	'NO_PERSONAL_ALBUM'				=> 'You don’t have a personal album yet. Here you can create your personal album, with some subalbums.<br />In personal albums only the owner can upload images.',
 	'NO_SUBALBUMS'					=> 'No Albums attached',
 	'NO_SUBSCRIPTIONS'				=> 'You didn’t subscribe to any image.',
+	'NO_SUBSCRIPTIONS_ALBUM'		=> 'You are not subscribed to an album.',
 
 	'PARSE_BBCODE'					=> 'Parse BBCode',
 	'PARSE_SMILIES'					=> 'Parse smilies',

@@ -106,10 +106,10 @@ function toggleElement(oElement)
 </ul>
 <!-- ENDIF -->
 <br />
+<br />
 <!-- IF S_PERSONAL_GALLERY and U_USERS_PERSONAL_GALLERIES -->
 	<div class="panel">
 		<div class="inner">
-
 		<ul class="linklist">
 			<li>
 				<strong style="font-size: 0.95em;">
@@ -152,9 +152,9 @@ function toggleElement(oElement)
 	<div class="pagination">
 		{TOTAL_ALBUMS}
 		<!-- IF .pagination -->
-			 &bull; <!-- INCLUDE pagination.html -->
+			<!-- INCLUDE pagination.html -->
 		<!-- ELSE -->
-			 &bull; {PAGE_NUMBER}
+			&bull; {PAGE_NUMBER}
 		<!-- ENDIF -->
 	</div>
 <!-- ENDIF -->
@@ -165,20 +165,20 @@ function toggleElement(oElement)
 	<div class="pagination">
 		{TOTAL_ALBUMS}
 		<!-- IF .pagination -->
-			 &bull; <!-- INCLUDE pagination.html -->
+			<!-- INCLUDE pagination.html -->
 		<!-- ELSE -->
-			 &bull; {PAGE_NUMBER}
+			&bull; {PAGE_NUMBER}
 		<!-- ENDIF -->
 	</div>
 <!-- ENDIF -->
-
+<br />
 <!-- IF S_PERSONAL_GALLERY -->
 	<div class="topic-actions">
 		<div class="pagination">{TOTAL_PGALLERIES_SHORT}<!-- IF PAGINATION --> &bull; <a href="#" onclick="jumpto(); return false;" title="{L_JUMP_TO_PAGE}">{PAGE_NUMBER}</a> &bull; <span>{PAGINATION}</span><!-- ENDIF --></div>
 	</div>
 <!-- ENDIF -->
 
-<!-- IF S_USERS_PERSONAL_GALLERIES -->
+<!-- IF S_USERS_PERSONAL_GALLERIES and TOTAL_PGALLERIES -->
 	<div class="forabg">
 		<div class="inner">
 			<ul class="topiclist">
@@ -186,11 +186,17 @@ function toggleElement(oElement)
 					<dl class="row-item">
 						<dt>
 							<div class="list-inner">
-								{L_GALLERY}
+								<li>
+									<a href="{U_USERS_PERSONAL_GALLERIES}" title="{L_USERS_PERSONAL_ALBUMS}"><i class="icon fa-camera fa-fw" aria-hidden="true"></i> {L_PERSONAL_ALBUMS}</a>
+								</li>
 							</div>
 						</dt>
-						<dd class="topics" style="width: 70px;">{L_GALLERY_IMAGES}</dd>
-						<dd class="lastpost"><span>{L_LAST_IMAGE}</span></dd>
+						<dd class="topics">
+							<a href="{U_G_SEARCH_RECENT}" title="{L_GALLERY} {L_GALLERY_IMAGES}">{L_GALLERY_IMAGES}</a>
+						</dd>
+						<dd class="lastpost" style="width: 330px;">
+							<a href="{U_IMAGE_ACTION}" style="padding-left: 5px;" title="{L_VIEW_LATEST_IMAGE}&colon; {U_IMAGENAME}">{L_LAST_IMAGE}</a>
+						</dd>
 					</dl>
 				</li>
 			</ul>
@@ -198,36 +204,47 @@ function toggleElement(oElement)
 				<li class="row">
 					<dl class="row-item forum_unread">
 						<dt>
-							<a href="{U_USERS_PERSONAL_GALLERIES}" class="icon-link"></a>
 							<div class="list-inner">
-								<a class="forumtitle" href="{U_USERS_PERSONAL_GALLERIES}">{L_USERS_PERSONAL_ALBUMS}</a>
+								<a class="forumtitle" href="{U_USERS_PERSONAL_GALLERIES}" title="{L_USERS_PERSONAL_ALBUMS}"><!-- IF TOTAL_PGALLERIES -->{TOTAL_PGALLERIES}<!-- ENDIF --></a><br />
+								<!-- IF NEWEST_PGALLERIES -->
+									{NEWEST_PGALLERIES}
+								<!-- ENDIF -->
+								<br />
 								<!-- IF S_PERSONAL_ALBUM -->
-									<br />
-									{L_YOUR_PERSONAL_ALBUM}{L_COLON} <a href="{U_PERSONAL_ALBUM}" <!-- IF !U_PERSONAL_ALBUM_COLOR -->class="username"<!-- ELSE -->class="username-coloured" style="color: #{U_PERSONAL_ALBUM_COLOR};"<!-- ENDIF -->>{U_PERSONAL_ALBUM_USER}</a>
+									{L_YOUR_PERSONAL_ALBUM}{L_COLON} <a href="{U_PERSONAL_ALBUM}" title="{L_YOUR_PERSONAL_ALBUM}" <!-- IF !U_PERSONAL_ALBUM_COLOR -->class="username"<!-- ELSE -->class="username-coloured" style="color: #{U_PERSONAL_ALBUM_COLOR};"<!-- ENDIF -->>{U_PERSONAL_ALBUM_USER}</a>
 								<!-- ENDIF -->
 								<div class="responsive-show" style="display: none;">
-									{L_GALLERY_IMAGE}{L_COLON} <strong>{U_PERSONAL_GALLERIES_IMAGES}</strong>
+									{L_GALLERY} {L_GALLERY_IMAGES}{L_COLON} <strong><a href="{U_G_SEARCH_RECENT}" title="{L_GALLERY} {L_GALLERY_IMAGES}">{U_PERSONAL_GALLERIES_IMAGES}</a></strong><br />
+									<div style="float: left;">
+										<dfn>{L_LAST_IMAGES}</dfn>
+										<a href="{U_IMAGE_ACTION}"><img src="{U_PERSONAL_GALLERIES_LAST_IMAGE}" title="{L_VIEW_LATEST_IMAGE}&colon; {U_IMAGENAME}"<!-- IF U_IMAGENAME --> alt="{U_IMAGENAME}"<!-- ENDIF --> style="max-width: 50px; max-height: 50px; padding: 5px;"></a>
+									</div>
+									<div style="margin-bottom: -12px; white-space: normal; overflow: hidden;">
+										<!-- IF U_IMAGENAME -->{L_LAST_IMAGE}{L_COLON} <a href="{U_IMAGENAME_ACTION}" style="font-weight: bold;" title="{L_VIEW_LATEST_IMAGE}&colon; {U_IMAGENAME}">{U_IMAGENAME}</a><br />
+											{L_UPLOADED_BY_USER}{L_COLON} {U_UPLOADER}<br />
+											&raquo; {U_TIME}
+										<!-- ENDIF -->
+									</div>
+									<br />
 								</div>
 							</div>
 						</dt>
-						<dd class="topics" style="width: 70px;">
-							{U_PERSONAL_GALLERIES_IMAGES}
+						<dd class="topics">
 							<dfn>{L_GALLERY_IMAGES}</dfn>
+							<strong><a href="{U_G_SEARCH_RECENT}" title="{L_GALLERY} {L_GALLERY_IMAGES}">{U_PERSONAL_GALLERIES_IMAGES}</a></strong>
 						</dd>
-						<dd class="topics" style="width: 60px;">
-
-
-									<dfn>{L_LAST_IMAGES}</dfn>
-									<a href="{U_IMAGE_ACTION}"><img src="{U_PERSONAL_GALLERIES_LAST_IMAGE}"<!-- IF U_IMAGENAME --> alt="{U_IMAGENAME}"<!-- ENDIF --> style="max-width: 50px; max-height: 50px;"></a>
-
-						</dd>
-						<dd class="lastpost" style="width: 280px;">
-								<span>
-									<!-- IF U_IMAGENAME --><p style="margin-bottom: .1em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><a href="{U_IMAGENAME_ACTION}" style="display: inline; font-weight: bold;">{U_IMAGENAME}</a></p>
-										{U_TIME}<br>
-										{U_UPLOADER}
-									<!-- ENDIF -->
-								</span>
+						<dd class="lastpost" style="width: 330px;">
+							<div style="float: left;">
+								<dfn>{L_LAST_IMAGES}</dfn>
+								<a href="{U_IMAGE_ACTION}"><img src="{U_PERSONAL_GALLERIES_LAST_IMAGE}" title="{L_VIEW_LATEST_IMAGE}&colon; {U_IMAGENAME}"<!-- IF U_IMAGENAME --> alt="{U_IMAGENAME}"<!-- ENDIF --> style="max-width: 50px; max-height: 50px; padding-left: 5px;"></a>
+							</div>
+							<div style="padding-left: 5px; margin-bottom: -12px; white-space: normal; overflow: hidden;">
+								<!-- IF U_IMAGENAME --><a href="{U_IMAGENAME_ACTION}" style="font-weight: bold;" title="{L_VIEW_LATEST_IMAGE}&colon; {U_IMAGENAME}">{U_IMAGENAME}</a><br />
+									{L_UPLOADED_BY_USER}{L_COLON} {U_UPLOADER}<br />
+									&raquo; {U_TIME}
+								<!-- ENDIF -->
+							</div>
+							<br />
 						</dd>
 					</dl>
 				</li>
@@ -239,39 +256,51 @@ function toggleElement(oElement)
 <!-- IF U_RECENT or U_RANDOM-->
 	<!-- INCLUDE gallery/imageblock_polaroid.html -->
 <!-- ENDIF -->
+
 <!-- IF U_RECENT_COMMENTS -->
 	<h2><a href="javascript: toggleElement( getElement('recent-comments'));">{L_SEARCH_RECENT_COMMENTS}</a> </h2>
 	<!-- IF ERROR --><h2>{ERROR}</h2>
 	<!-- ELSE -->
 	<div id="recent-comments" <!-- IF COMMENTS_EXPAND --><!-- ELSE -->style="display: none;"<!-- ENDIF -->>
+		<br />
 		<!-- BEGIN commentrow -->
-		<a id="{commentrow.COMMENT_ID}"></a>
+		<a id="comment{commentrow.COMMENT_ID}" class="anchor"></a>
 		<div class="post <!-- IF commentrow.S_ROW_COUNT is odd -->bg1<!-- ELSE -->bg2<!-- ENDIF -->">
 			<div class="inner">
+				<dl class="postprofile" id="profile{commentrow.COMMENT_ID}">
+					<dt>
+						{L_COMMENT_ON} {L_IMAGE}{L_COLON}
+						{commentrow.UC_IMAGE_NAME}<br /><br />
+						{commentrow.UC_THUMBNAIL}<br /><br />
+						{L_UPLOADED_BY_USER}&nbsp;{commentrow.IMAGE_AUTHOR}<br />
+						&raquo; {commentrow.IMAGE_TIME}
+					</dt>
+				</dl>
 				<div class="postbody">
-						<ul class="post-buttons">
-							<!-- IF commentrow.U_EDIT --><li><a href="{commentrow.U_EDIT}" title="{L_EDIT_COMMENT}" class="button button-icon-only"><i class="icon fa-pencil fa-fw" aria-hidden="true"></i><span class="sr-only">{L_QUOTE_COMMENT}</span></a></li><!-- ENDIF -->
-							<!-- IF commentrow.U_DELETE --><li><a href="{commentrow.U_DELETE}" title="{L_DELETE_COMMENT}" class="button button-icon-only"><i class="icon fa-times fa-fw" aria-hidden="true"></i><span class="sr-only">{L_QUOTE_COMMENT}</span></a></li><!-- ENDIF -->
-							<!-- IF commentrow.U_QUOTE --><li><a href="{commentrow.U_QUOTE" title="{L_QUOTE_COMMENT}" class="button button-icon-only"><i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">{L_QUOTE_COMMENT}</span></a></li><!-- ENDIF -->
-						</ul>
-						<p class="author"><a href="{commentrow.U_COMMENT}">{MINI_POST_IMG}</a>&nbsp;{L_POST_BY_AUTHOR} <strong>{commentrow.POST_AUTHOR_FULL}</strong> &raquo; {commentrow.TIME} </p>
+					<ul class="post-buttons">
+						<!-- IF commentrow.U_EDIT --><li><a href="{commentrow.U_EDIT}" title="{L_EDIT_COMMENT}" class="button button-icon-only"><i class="icon fa-pencil fa-fw" aria-hidden="true"></i><span class="sr-only">{L_EDIT_COMMENT}</span></a></li><!-- ENDIF -->
+						<!-- IF commentrow.U_DELETE --><li><a href="{commentrow.U_DELETE}" title="{L_DELETE_COMMENT}" class="button button-icon-only"><i class="icon fa-times fa-fw" aria-hidden="true"></i><span class="sr-only">{L_DELETE_COMMENT}</span></a></li><!-- ENDIF -->
+						<!-- IF commentrow.U_QUOTE --><li><a href="{commentrow.U_QUOTE}" title="{L_QUOTE_COMMENT}" class="button button-icon-only"><i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">{L_QUOTE_COMMENT}</span></a></li><!-- ENDIF -->
+					</ul>
+					<p class="author" style="clear: inherit; margin-top: 1.5em;"><!-- IF S_IS_BOT --><i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i>{L_COMMENT}<span class="sr-only">{commentrow.MINI_POST}</span><!-- ELSE --><a href="{commentrow.U_COMMENT}" title="{L_COMMENT}"><i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i>{L_COMMENT}&nbsp;<span class="sr-only">{commentrow.MINI_POST}</span></a><!-- ENDIF --><span style="white-space: nowrap;">{L_POST_BY_AUTHOR}&nbsp;{commentrow.POST_AUTHOR_FULL} </span>&raquo;<span style="white-space: nowrap;"> {commentrow.TIME}</span></p>
 					<div class="content">{commentrow.TEXT}</div>
 				</div>
-				<dl class="postprofile" id="profile{commentrow.COMMENT_ID}">
-					<dd>{L_COMMENT_ON}{L_COLON}</dd>
-					<dd>{commentrow.UC_IMAGE_NAME}</dd>
-					<dt>{commentrow.UC_THUMBNAIL}</dt><br />
-
-					<dd>{L_UPLOADED_BY_USER} {commentrow.IMAGE_AUTHOR}</dd>
-					<dd>{commentrow.IMAGE_TIME}</dd>
-				</dl>
+				<!-- EVENT viewtopic_body_postrow_back2top_before -->
+					<div class="back2top">
+						<!-- EVENT viewtopic_body_postrow_back2top_prepend -->
+							<a href="#top" class="top" title="{L_BACK_TO_TOP}">
+								<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+								<span class="sr-only">{L_BACK_TO_TOP}</span>
+							</a>
+						<!-- EVENT viewtopic_body_postrow_back2top_append -->
+					</div>
+				<!-- EVENT viewtopic_body_postrow_back2top_after -->
 			</div>
 		</div>
 		<!-- END commentrow -->
 	</div>
 	<!-- ENDIF -->
 <!-- ENDIF -->
-
 
 <!-- IF not S_USER_LOGGED_IN and not S_IS_BOT and S_DISP_LOGIN -->
 	<form method="post" action="{S_LOGIN_ACTION}" class="headerspace">
