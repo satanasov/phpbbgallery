@@ -75,5 +75,5 @@ $lang = array_merge($lang, array(
 	'MOVE_TO_IMPORT'			=> 'Verschieben von Bildern ins Import Verzeichnis',
 	'MOVE_TO_USER'				=> 'Wechseln zu Benutzer',
 	'MOVE_TO_USER_EXP'			=> 'Bilder und Kommentare werden als diejenigen des Benutzers verschoben werden, die Du definiert hast. Wenn Keine ausgewählt wird - wird Gast verwendet.',
-	'CLEAN_USER_NOT_FOUND'			=> 'The user you selected does not exists!',
+	'CLEAN_USER_NOT_FOUND'		=> 'Der von Ihnen ausgewählte Benutzer existiert nicht!',
 ));

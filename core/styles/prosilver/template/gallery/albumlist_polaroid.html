@@ -17,20 +17,19 @@
 			<!-- IF albumrow.UC_THUMBNAIL -->
 			<a href="{albumrow.U_VIEWALBUM}" class="polaroid_img_container"><img src="{albumrow.UC_THUMBNAIL}" alt="{albumrow.UC_IMAGE_NAME}" title="{L_VIEW_ALBUM}{albumrow.UC_IMAGE_NAME}" /></a>
 			<!-- ENDIF -->
-
 			<hr />
 			{L_IMAGES}{L_COLON} <strong>{albumrow.IMAGES} <!-- IF albumrow.UNAPPROVED_IMAGES --> + <span class="reported-images-number">{albumrow.UNAPPROVED_IMAGES}</span><!-- ENDIF --></strong><br />
 
 			<!-- IF albumrow.LAST_IMAGE_TIME -->
 				<span>
-					<div style="height: 33px; padding-top: 2px;">
+					<div style="height: 23px; padding-top: 2px;">
 						<!-- IF albumrow.UC_IMAGE_NAME -->{albumrow.UC_IMAGE_NAME}<br /><!-- ENDIF -->
 						<p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px;">{L_LAST_IMAGE_BY}{L_COLON} {albumrow.LAST_USER_FULL} {albumrow.UC_LASTIMAGE_ICON}</p>
-						<p>{albumrow.LAST_IMAGE_TIME}</p>
+						<p>&raquo; {albumrow.LAST_IMAGE_TIME}</p>
 					</div>
 				</span>
 			<!-- ELSE -->
-			<span><div style="height: 33px; padding-top: 2px;"></div></span>
+			<span><div style="height: 23px; padding-top: 2px;"></div></span>
 			<!-- ENDIF -->
 
 			<!-- IF EXTENDED_POLAROID and albumrow.MODERATORS -->
@@ -42,19 +41,21 @@
 			<!-- ENDIF -->
 
 			<!-- IF .albumrow.subalbum and albumrow.S_LIST_SUBALBUMS -->
-				<div class="dropdown-container">
+				<div class="dropdown-container"><i class="icon fa-sitemap fa-fw icon-md" aria-hidden="true"></i>
 					<a href="#" class="responsive-menu-link dropdown-trigger">{albumrow.L_SUBALBUM_STR}</a>
 					<div class="dropdown" style="display: none;">
 						<div class="pointer"><div class="pointer-inner"></div></div>
 						<div class="dropdown-contents">
 							<!-- BEGIN subalbum -->
-								<a href="{albumrow.subalbum.U_SUBALBUM}" class="subforum<!-- IF albumrow.subalbum.S_UNREAD --> unread<!-- ELSE --> read<!-- ENDIF -->" title="<!-- IF albumrow.subalbum.UNREAD -->{L_UNREAD_IMAGES}<!-- ELSE -->{L_NO_UNREAD_IMAGES}<!-- ENDIF -->">{albumrow.subalbum.SUBALBUM_NAME}</a><!-- IF not albumrow.subalbum.S_LAST_ROW --><br /><!-- ENDIF -->
-							<!-- END subalbum -->
+							<li>
+								<a href="{albumrow.subalbum.U_SUBALBUM}" class="subforum<!-- IF albumrow.subalbum.S_UNREAD --> unread<!-- ELSE --> read<!-- ENDIF -->" title="<!-- IF albumrow.subalbum.UNREAD -->{L_UNREAD_IMAGES}<!-- ELSE -->{L_NO_UNREAD_IMAGES}<!-- ENDIF -->"><i class="icon fa-image fa-fw icon-md" aria-hidden="true"></i> {albumrow.subalbum.SUBALBUM_NAME}</a><!-- IF not albumrow.subalbum.S_LAST_ROW --><!-- ENDIF -->
+							</li>
+						<!-- END subalbum -->
 						</div>
 					</div>
 				</div>
 			<!-- ELSE -->
-			<br/>
+			<br />
 			<!-- ENDIF -->
 		</div>
 	<!-- ENDIF -->

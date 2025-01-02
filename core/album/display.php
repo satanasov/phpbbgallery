@@ -608,7 +608,7 @@ class display
 					'ALBUM_DESC'			=> generate_text_for_display($row['album_desc'], $row['album_desc_uid'], $row['album_desc_bitfield'], $row['album_desc_options']),
 					'ALBUM_FOLDER_IMG'		=> '',
 					'ALBUM_FOLDER_IMG_SRC'	=> '',
-					// 'ALBUM_IMAGE'			=> ($row['album_image']) ? $row['album_image'] : '',
+					'ALBUM_IMAGE'			=> ($row['album_image']) ? $row['album_image'] : '',
 					'U_VIEWALBUM'			=> $this->helper->route('phpbbgallery_core_album', array('album_id' => (int) $row['album_id'])),
 				));
 
@@ -737,7 +737,7 @@ class display
 				'ALBUM_IMG_STYLE'		=> $folder_image,
 				'ALBUM_FOLDER_IMG'		=> $this->user->img($folder_image, $folder_alt),
 				'ALBUM_FOLDER_IMG_ALT'	=> $this->language->lang($folder_alt) ? $this->language->lang($folder_alt) : '',
-				//'ALBUM_IMAGE'			=> ($row['album_image']) ? $row['album_image'] : '',
+				'ALBUM_IMAGE'			=> ($row['album_image']) ? $row['album_image'] : '',
 				'LAST_IMAGE_TIME'		=> $lastimage_time,
 				'LAST_USER_FULL'		=> ($s_username_hidden) ? $this->language->lang('CONTEST_USERNAME') : get_username_string('full', $row['album_last_user_id'], $row['album_last_username'], $row['album_last_user_colour']),
 				'UC_THUMBNAIL'			=> $this->config['phpbb_gallery_mini_thumbnail_disp'] ? $lastimage_uc_thumbnail : '',
