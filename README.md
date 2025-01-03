@@ -70,7 +70,7 @@ This ext installs as evry other phpBB extension:
 
 ## Upgrading from 1.1.x
 
-This is task that could not be automated. You will have to do some work. Just follow [this guide](lab.anavaro.com/forum/viewtopic.php?f=4&t=4).
+This is task that could not be automated. You will have to do some work. Just follow [this guide](https://www.phpbb.com/customise/db/extension/phpbb_gallery/faq/2181).
 
 Regards,
 Stanislav Atanasov
