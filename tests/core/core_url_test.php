@@ -122,6 +122,8 @@ class core_url_test extends core_base
             ['import', '/files/phpbbgallery/import/'],
             ['upload_noroot', 'files/phpbbgallery/core/source/'],
             ['thumbnail_noroot', 'files/phpbbgallery/core/mini/'],
+            ['medium_noroot', 'files/phpbbgallery/core/medium/'],
+            ['import_noroot', 'files/phpbbgallery/import/'],
         ];
     }
 
@@ -134,12 +136,69 @@ class core_url_test extends core_base
         $this->assertEquals($expected, $result);
     }
 
-    // You may need to adjust this test depending on how append_sid is implemented
     public function test_append_sid()
     {
-        // This is a placeholder. You may need to adjust based on actual implementation.
-        $url = '/gallery/album/5';
-        $result = $this->gallery_url->append_sid($url);
-        $this->assertIsString($result);
+        // Dummy append_sid for test context
+        if (!function_exists('append_sid')) {
+            function append_sid($url, $params = '', $is_amp = true, $session_id = false) {
+                return $url . ($params ? '?' . $params : '');
+            }
+        }
+
+        $result = $this->gallery_url->append_sid('gallery', 'index');
+        $this->assertStringContainsString('gallery', $result);
+        $this->assertStringContainsString('index', $result);
+    }
+
+    public function test_show_image()
+    {
+        // The full path is generated in the constructor, so we reconstruct it here
+        $expected = $this->gallery_url->path('full') . 'image/123/medium';
+        $result = $this->gallery_url->show_image(123, 'medium');
+        $this->assertEquals($expected, $result);
+    }
+
+    public function test_show_album()
+    {
+        $expected = $this->gallery_url->path('full') . 'album/42';
+        $result = $this->gallery_url->show_album(42);
+        $this->assertEquals($expected, $result);
+    }
+
+    public function test_create_link()
+    {
+        // Dummy append_sid for test context
+        if (!function_exists('append_sid')) {
+            function append_sid($url, $params = '', $is_amp = true, $session_id = false) {
+                return $url . ($params ? '?' . $params : '');
+            }
+        }
+
+        $result = $this->gallery_url->create_link('gallery', 'index', 'foo=bar&amp;baz=qux');
+        $this->assertStringContainsString('gallery', $result);
+        $this->assertStringContainsString('index', $result);
+        $this->assertStringContainsString('foo=bar', $result);
+        $this->assertStringContainsString('baz=qux', $result);
+        $this->assertStringNotContainsString('&amp;', $result);
+    }
+
+    public function test_redirect()
+    {
+        // Dummy redirect for test context
+        if (!function_exists('redirect')) {
+            function redirect($url) {
+                throw new \Exception('redirect called: ' . $url);
+            }
+        }
+        // Dummy append_sid for test context
+        if (!function_exists('append_sid')) {
+            function append_sid($url, $params = '', $is_amp = true, $session_id = false) {
+                return $url . ($params ? '?' . $params : '');
+            }
+        }
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('redirect called: /gallery/index.php');
+        $this->gallery_url->redirect('gallery', 'index');
     }
 }
