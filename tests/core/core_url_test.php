@@ -1,5 +1,4 @@
 <?php
-<?php
 
 namespace phpbbgallery\tests\core;
 /**
