@@ -29,7 +29,7 @@ if (!function_exists(__NAMESPACE__ . '\redirect')) {
     }
 }
 
-class core_url_test extends core_base
+class core_url_cp_test extends core_base
 {
     protected $gallery_url;
 
