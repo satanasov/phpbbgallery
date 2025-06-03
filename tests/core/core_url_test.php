@@ -22,10 +22,43 @@ class core_url_test extends core_base
     public function setUp() : void
     {
         parent::setUp();
+
+        // Mock dependencies
+        $this->template = $this->getMockBuilder(\phpbb\template\template::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->request = $this->getMockBuilder(\phpbb\request\request::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->config = [
+            'server_name' => 'localhost',
+            'force_server_vars' => 0,
+            'server_protocol' => 'http://',
+        ];
+
+        $this->configObj = $this->getMockBuilder(\phpbb\config\config::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->configObj->method('offsetGet')->willReturnCallback(function($key) {
+            $defaults = [
+                'server_name' => 'localhost',
+                'force_server_vars' => 0,
+                'server_protocol' => 'http://',
+            ];
+            return $defaults[$key] ?? null;
+        });
+        $this->configObj->method('offsetExists')->willReturn(true);
+
+        $this->phpbb_root_path = '/';
+        $this->php_ext = 'php';
+
         $this->gallery_url = new \phpbbgallery\core\url(
-            $this->config,
-            $this->user,
-            $this->root_path,
+            $this->template,
+            $this->request,
+            $this->configObj,
+            $this->phpbb_root_path,
             $this->php_ext
         );
     }
