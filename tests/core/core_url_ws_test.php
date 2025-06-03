@@ -28,7 +28,7 @@ class core_url_ws_test extends core_base
     /** @var \phpbb\config\config */
     protected $config;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
 
