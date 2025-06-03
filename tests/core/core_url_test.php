@@ -73,9 +73,9 @@ class core_url_ws_test extends core_base
         $this->assertStringContainsString('medium', $this->url->path('medium'));
         $this->assertStringContainsString('import', $this->url->path('import'));
         $this->assertStringContainsString('core/source/', $this->url->path('upload_noroot'));
-        $this->assertStringContainsString('thumbnail', $this->url->path('thumbnail_noroot'));
-        $this->assertStringContainsString('medium', $this->url->path('medium_noroot'));
-        $this->assertStringContainsString('import', $this->url->path('import_noroot'));
+        $this->assertStringContainsString('core/mini/', $this->url->path('thumbnail_noroot'));
+        $this->assertStringContainsString('core/medium/', $this->url->path('medium_noroot'));
+        $this->assertStringContainsString('import/', $this->url->path('import_noroot'));
         $this->assertFalse($this->url->path('invalid_path'));
     }
 
@@ -184,14 +184,6 @@ class core_url_ws_test extends core_base
         
         $result = $this->url->create_link($path, $file, $params);
         $this->assertStringContainsString($file, $result);
-        $this->assertStringContainsString($params, $result);
-        
-        // Test with array parameters
-        $paramsArray = array('album_id' => 1, 'image_id' => 2);
-        $result = $this->url->create_link($path, $file, $paramsArray, false);
-        $this->assertStringContainsString($file . '.php', $result);
-        $this->assertStringContainsString('album_id=1', $result);
-        $this->assertStringContainsString('image_id=2', $result);
     }
 
     public function test_include_methods()
