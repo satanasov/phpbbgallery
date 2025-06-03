@@ -451,35 +451,37 @@ class image
 
 		$this->load_users_data();
 
-		$this->users_data_array[$this->data['image_user_id']]['username'] = ($this->data['image_username']) ? $this->data['image_username'] : $this->language->lang('GUEST');
+		$user_id = $this->data['image_user_id'];
+		$this->users_data_array[$user_id]['username'] = ($this->data['image_username']) ? $this->data['image_username'] : $this->language->lang('GUEST');
+		$user_data = $this->users_data_array[$user_id] ?? [];
 		$this->template->assign_vars(array(
-			'POSTER_FULL'     => get_username_string('full', $this->data['image_user_id'], $this->users_data_array[$this->data['image_user_id']]['username'], $this->users_data_array[$this->data['image_user_id']]['user_colour']),
-			'POSTER_COLOUR'   => get_username_string('colour', $this->data['image_user_id'], $this->users_data_array[$this->data['image_user_id']]['username'], $this->users_data_array[$this->data['image_user_id']]['user_colour']),
-			'POSTER_USERNAME' => get_username_string('username', $this->data['image_user_id'], $this->users_data_array[$this->data['image_user_id']]['username'], $this->users_data_array[$this->data['image_user_id']]['user_colour']),
-			'U_POSTER'        => get_username_string('profile', $this->data['image_user_id'], $this->users_data_array[$this->data['image_user_id']]['username'], $this->users_data_array[$this->data['image_user_id']]['user_colour']),
+			'POSTER_FULL'     => get_username_string('full', $user_id, $user_data['username'] ?? '', $user_data['user_colour'] ?? ''),
+			'POSTER_COLOUR'   => get_username_string('colour', $user_id, $user_data['username'] ?? '', $user_data['user_colour'] ?? ''),
+			'POSTER_USERNAME' => get_username_string('username', $user_id, $user_data['username'] ?? '', $user_data['user_colour'] ?? ''),
+			'U_POSTER'        => get_username_string('profile', $user_id, $user_data['username'] ?? '', $user_data['user_colour'] ?? ''),
 
-			'POSTER_SIGNATURE'    => $this->users_data_array[$this->data['image_user_id']]['sig'],
-			'POSTER_RANK_TITLE'   => $this->users_data_array[$this->data['image_user_id']]['rank_title'],
-			'POSTER_RANK_IMG'     => $this->users_data_array[$this->data['image_user_id']]['rank_image'],
-			'POSTER_RANK_IMG_SRC' => $this->users_data_array[$this->data['image_user_id']]['rank_image_src'],
-			'POSTER_JOINED'       => $this->users_data_array[$this->data['image_user_id']]['joined'],
-			'POSTER_POSTS'        => $this->users_data_array[$this->data['image_user_id']]['posts'],
-			'POSTER_AVATAR'       => $this->users_data_array[$this->data['image_user_id']]['avatar'],
-			'POSTER_WARNINGS'     => $this->users_data_array[$this->data['image_user_id']]['warnings'],
-			'POSTER_AGE'          => $this->users_data_array[$this->data['image_user_id']]['age'],
+			'POSTER_SIGNATURE'    => $user_data['sig'] ?? '',
+			'POSTER_RANK_TITLE'   => $user_data['rank_title'] ?? '',
+			'POSTER_RANK_IMG'     => $user_data['rank_image'] ?? '',
+			'POSTER_RANK_IMG_SRC' => $user_data['rank_image_src'] ?? '',
+			'POSTER_JOINED'       => $user_data['joined'] ?? '',
+			'POSTER_POSTS'        => $user_data['posts'] ?? 0,
+			'POSTER_AVATAR'       => $user_data['avatar'] ?? '',
+			'POSTER_WARNINGS'     => $user_data['warnings'] ?? 0,
+			'POSTER_AGE'          => $user_data['age'] ?? '',
 
-			'POSTER_ONLINE_IMG' => ($this->data['image_user_id'] == ANONYMOUS || !$this->config['load_onlinetrack']) ? '' : (($this->users_data_array[$this->data['image_user_id']]['online']) ? $this->user->img('icon_user_online', 'ONLINE') : $this->user->img('icon_user_offline', 'OFFLINE')),
-			'S_POSTER_ONLINE'   => ($this->data['image_user_id'] == ANONYMOUS || !$this->config['load_onlinetrack']) ? false : (($this->users_data_array[$this->data['image_user_id']]['online']) ? true : false),
+			'POSTER_ONLINE_IMG' => ($user_id == ANONYMOUS || !$this->config['load_onlinetrack']) ? '' : (($user_data['online'] ?? false) ? $this->user->img('icon_user_online', 'ONLINE') : $this->user->img('icon_user_offline', 'OFFLINE')),
+			'S_POSTER_ONLINE'   => ($user_id == ANONYMOUS || !$this->config['load_onlinetrack']) ? false : (($user_data['online'] ?? false) ? true : false),
 
-			//'U_POSTER_PROFILE'		=> $this->users_data_array[$this->data['image_user_id']]['profile'],
-			'U_POSTER_SEARCH'   => $this->users_data_array[$this->data['image_user_id']]['search'],
-			'U_POSTER_PM'       => ($this->data['image_user_id'] != ANONYMOUS && $this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm') && ($this->users_data_array[$this->data['image_user_id']]['allow_pm'] || $this->auth->acl_gets('a_', 'm_'))) ? append_sid('./ucp.php', 'i=pm&amp;mode=compose&amp;u=' . $this->data['image_user_id']) : '',
-			'U_POSTER_EMAIL'    => ($this->auth->acl_gets('a_') || !$this->config['board_hide_emails']) ? $this->users_data_array[$this->data['image_user_id']]['email'] : false,
-			'U_POSTER_JABBER'   => $this->users_data_array[$this->data['image_user_id']]['jabber'],
+			//'U_POSTER_PROFILE'		=> $user_data['profile'] ?? '',
+			'U_POSTER_SEARCH'   => $user_data['search'] ?? '',
+			'U_POSTER_PM'       => ($user_id != ANONYMOUS && $this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm') && (($user_data['allow_pm'] ?? false) || $this->auth->acl_gets('a_', 'm_'))) ? append_sid('./ucp.php', 'i=pm&amp;mode=compose&amp;u=' . $user_id) : '',
+			'U_POSTER_EMAIL'    => ($this->auth->acl_gets('a_') || !$this->config['board_hide_emails']) ? ($user_data['email'] ?? false) : false,
+			'U_POSTER_JABBER'   => $user_data['jabber'] ?? '',
 
-			//'U_POSTER_GALLERY'			=> $this->users_data_array[$this->data['image_user_id']]['gallery_album'],
-			//'POSTER_GALLERY_IMAGES'		=> $this->users_data_array[$this->data['image_user_id']]['gallery_images'],
-			//'U_POSTER_GALLERY_SEARCH'	=> $this->users_data_array[$this->data['image_user_id']]['gallery_search'],
+			//'U_POSTER_GALLERY'			=> $user_data['gallery_album'] ?? '',
+			//'POSTER_GALLERY_IMAGES'		=> $user_data['gallery_images'] ?? '',
+			//'U_POSTER_GALLERY_SEARCH'		=> $user_data['gallery_search'] ?? '',
 		));
 
 		// Add ratings
@@ -1262,7 +1264,11 @@ class image
 		unset($profile_fields_tmp);
 
 		// Get the list of users who can receive private messages
-		$this->can_receive_pm_list = $this->auth->acl_get_list(array_keys($this->users_data_array), 'u_readpm');
+		$this->can_receive_pm_list = [];
+		if (is_array($this->users_data_array))
+		{
+			$this->can_receive_pm_list = $this->auth->acl_get_list(array_keys($this->users_data_array), 'u_readpm');
+		}
 		$this->can_receive_pm_list = (empty($this->can_receive_pm_list) || !isset($this->can_receive_pm_list[0]['u_readpm'])) ? array() : $this->can_receive_pm_list[0]['u_readpm'];
 
 	}
