@@ -6,16 +6,24 @@ namespace phpbbgallery\tests\core;
 */
 require_once dirname(__FILE__) . '/../../../../includes/functions.php';
 
+// Dummy append_sid for test context
 if (!function_exists('append_sid')) {
-    function append_sid($url, $params = '', $is_amp = true, $session_id = false) {
-        // For testing, just return the url and params concatenated
-        if ($params !== '') {
-            return $url . '?' . $params;
+    function append_sid($url, $file = '', $params = '', $is_amp = true, $session_id = false) {
+        // Combine all non-empty parts into a query string
+        $query = [];
+        if ($file !== '') {
+            $query[] = $file;
         }
-        return $url;
+        if ($params !== '') {
+            $query[] = $params;
+        }
+        $qs = implode('&', $query);
+        return $url . ($qs ? '?' . $qs : '');
     }
 }
-if (!function_exists('redirect')) {
+
+// Dummy redirect in the test namespace
+if (!function_exists(__NAMESPACE__ . '\redirect')) {
     function redirect($url) {
         throw new \Exception('redirect called: ' . $url);
     }
