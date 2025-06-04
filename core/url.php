@@ -12,6 +12,15 @@ namespace phpbbgallery\core;
 
 class url
 {
+	/** @var \phpbb\template\template */
+	private $template;
+
+	/** @var \phpbb\request\request */
+	private $request;
+
+	/** @var \phpbb\config\config */
+	private $config;
+
 	/**
 	* Path from the gallery root, back to phpbb's root
 	*/
@@ -31,6 +40,11 @@ class url
 	* Path from the phpbb root, into gallery's root
 	*/
 	private $phpbb_gallery_path = 'gallery/';
+
+	/**
+	* PHP file extension (e.g. .php)
+	*/
+	private $php_ext;
 
 	const IMAGE_PATH = 'images/';
 	const UPLOAD_PATH = 'core/source/';

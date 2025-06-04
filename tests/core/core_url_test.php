@@ -15,7 +15,7 @@ namespace phpbbgallery\tests\core;
 require_once dirname(__FILE__) . '/../../../../includes/functions.php';
 require_once dirname(__FILE__) . '/../../../../includes/functions_compatibility.php';
 
-class core_url_ws_test extends core_base
+class core_url_test extends core_base
 {
     /** @var \phpbbgallery\core\url */
     protected $url;
