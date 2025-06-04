@@ -23,6 +23,9 @@ class albums_module
 {
 	var $u_action;
 	var $parent_id = 0;
+	var $language;
+	var $tpl_name;
+	var $page_title;
 
 	function main($id, $mode)
 	{
