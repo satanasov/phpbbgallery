@@ -16,6 +16,9 @@ namespace phpbbgallery\core\ucp;
 class main_module
 {
 	var $u_action;
+	protected $language;
+	public $tpl_name;
+	public $page_title;
 
 	function main($id, $mode)
 	{

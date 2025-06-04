@@ -13,6 +13,56 @@ namespace phpbbgallery\core;
 class rating
 {
 	/**
+	* @var \phpbb\db\driver\driver_interface
+	*/
+	protected $db;
+
+	/**
+	* @var \phpbb\template\template
+	*/
+	protected $template;
+
+	/**
+	* @var \phpbb\user
+	*/
+	protected $user;
+
+	/**
+	* @var \phpbb\language\language
+	*/
+	protected $language;
+
+	/**
+	* @var \phpbb\request\request
+	*/
+	protected $request;
+
+	/**
+	* @var \phpbbgallery\core\config
+	*/
+	protected $gallery_config;
+
+	/**
+	* @var \phpbbgallery\core\auth\auth
+	*/
+	protected $gallery_auth;
+
+	/**
+	* @var string
+	*/
+	protected $images_table;
+
+	/**
+	* @var string
+	*/
+	protected $albums_table;
+
+	/**
+	* @var string
+	*/
+	protected $rates_table;
+
+	/**
 	* The image ID we want to rate
 	*/
 	public $image_id = 0;

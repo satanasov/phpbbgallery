@@ -16,6 +16,21 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class exif_listener implements EventSubscriberInterface
 {
+	/** @var \phpbb\user */
+	protected $user;
+
+	/** @var \phpbbgallery\core\config */
+	protected $gallery_config;
+
+	/** @var \phpbbgallery\core\auth\auth */
+	protected $gallery_auth;
+
+	/** @var \phpbbgallery\core\url */
+	protected $gallery_url;
+
+	/** @var \phpbbgallery\core\user */
+	protected $gallery_user;
+
 	static public function getSubscribedEvents()
 	{
 		return array(

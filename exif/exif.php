@@ -68,6 +68,11 @@ class exif
 	public $file		= '';
 
 	/**
+	* Original status of the Exif data.
+	*/
+	public $orig_status = null;
+
+	/**
 	* Image-ID, just needed to update the Exif status
 	*/
 	public $image_id	= false;

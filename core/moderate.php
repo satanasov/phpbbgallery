@@ -13,6 +13,86 @@ namespace phpbbgallery\core;
 class moderate
 {
 	/**
+	 * @var \phpbb\db\driver\driver_interface
+	 */
+	protected $db;
+
+	/**
+	 * @var \phpbb\template\template
+	 */
+	protected $template;
+
+	/**
+	 * @var \phpbb\controller\helper
+	 */
+	protected $helper;
+
+	/**
+	 * @var \phpbb\user
+	 */
+	protected $user;
+
+	/**
+	 * @var \phpbb\language\language
+	 */
+	protected $lang;
+
+	/**
+	 * @var \phpbb\user_loader
+	 */
+	protected $user_loader;
+
+	/**
+	 * @var \phpbbgallery\core\album\album
+	 */
+	protected $album;
+
+	/**
+	 * @var \phpbbgallery\core\auth\auth
+	 */
+	protected $gallery_auth;
+
+	/**
+	 * @var \phpbb\pagination
+	 */
+	protected $pagination;
+
+	/**
+	 * @var \phpbbgallery\core\comment
+	 */
+	protected $comment;
+
+	/**
+	 * @var \phpbbgallery\core\report
+	 */
+	protected $report;
+
+	/**
+	 * @var \phpbbgallery\core\image\image
+	 */
+	protected $image;
+
+	/**
+	 * @var \phpbbgallery\core\config
+	 */
+	protected $gallery_config;
+
+	/**
+	 * @var \phpbbgallery\core\notification
+	 */
+	protected $gallery_notification;
+
+	/**
+	 * @var \phpbbgallery\core\rating
+	 */
+	protected $gallery_rating;
+
+	/**
+	 * @var string
+	 */
+	protected $images_table;
+
+	/**
 	 * moderate constructor.
 	 *
 	 * @param \phpbb\db\driver\driver_interface $db

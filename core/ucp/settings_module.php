@@ -46,6 +46,9 @@ class settings_module
 	/** @var \phpbbgallery\core\user */
 	protected $gallery_user;
 
+	/** @var \phpbb\language\language */
+	protected $language;
+
 	public function main($id, $mode)
 	{
 		global $config, $db, $template, $user, $request, $phpbb_dispatcher, $phpbb_container;

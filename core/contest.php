@@ -17,6 +17,26 @@ namespace phpbbgallery\core;
 class contest
 {
 	/**
+	 * @var \phpbb\db\driver\driver_interface
+	 */
+	private $db;
+
+	/**
+	 * @var \phpbbgallery\core\config
+	 */
+	private $gallery_config;
+
+	/**
+	 * @var string
+	 */
+	private $images_table;
+
+	/**
+	 * @var string
+	 */
+	private $contest_table;
+
+	/**
 	 * I will have to see where is contest used except here and make it work
 	 * but for the time being - redefine contest constants here as private
 	 */

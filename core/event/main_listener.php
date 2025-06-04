@@ -44,6 +44,12 @@ class main_listener implements EventSubscriberInterface
 	/** @var \phpbb\db\driver\driver_interface  */
 	protected $db;
 
+	/** @var string */
+	protected $albums_table;
+
+	/** @var string */
+	protected $users_table;
+
 	/* @var string phpEx */
 	protected $php_ext;
 

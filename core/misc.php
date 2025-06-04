@@ -13,6 +13,46 @@ namespace phpbbgallery\core;
 class misc
 {
 	/**
+	 * @var \phpbb\db\driver\driver_interface
+	 */
+	protected $db;
+
+	/**
+	 * @var \phpbb\user
+	 */
+	protected $user;
+
+	/**
+	 * @var \phpbb\language\language
+	 */
+	protected $language;
+
+	/**
+	 * @var \phpbb\config\config
+	 */
+	protected $config;
+
+	/**
+	 * @var \phpbbgallery\core\config
+	 */
+	protected $gallery_config;
+
+	/**
+	 * @var \phpbbgallery\core\user
+	 */
+	protected $gallery_user;
+
+	/**
+	 * @var \phpbbgallery\core\url
+	 */
+	protected $url;
+
+	/**
+	 * @var string
+	 */
+	protected $track_table;
+
+	/**
 	 * misc constructor.
 	 *
 	 * @param \phpbb\db\driver\driver_interface $db

@@ -17,6 +17,21 @@ namespace phpbbgallery\core;
 class notification
 {
 	/**
+	 * @var \phpbb\db\driver\driver_interface
+	 */
+	protected $db;
+
+	/**
+	 * @var \phpbb\user
+	 */
+	protected $user;
+
+	/**
+	 * @var string
+	 */
+	protected $watch_table;
+
+	/**
 	 * notification constructor.
 	 * @param \phpbb\db\driver\driver_interface $db
 	 * @param \phpbb\user $user

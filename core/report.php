@@ -21,6 +21,48 @@ class report
 	const OPEN = 1;
 	const LOCKED = 2;
 
+	/** @var \phpbbgallery\core\log */
+	protected $gallery_log;
+
+	/** @var \phpbbgallery\core\auth\auth */
+	protected $gallery_auth;
+
+	/** @var \phpbb\user */
+	protected $user;
+
+	/** @var \phpbb\language\language */
+	protected $language;
+
+	/** @var \phpbb\db\driver\driver_interface */
+	protected $db;
+
+	/** @var \phpbb\user_loader */
+	protected $user_loader;
+
+	/** @var \phpbbgallery\core\album\album */
+	protected $album;
+
+	/** @var \phpbb\template\template */
+	protected $template;
+
+	/** @var \phpbb\controller\helper */
+	protected $helper;
+
+	/** @var \phpbbgallery\core\config */
+	protected $gallery_config;
+
+	/** @var \phpbb\pagination */
+	protected $pagination;
+
+	/** @var \phpbbgallery\core\notification\helper */
+	protected $notification_helper;
+
+	/** @var string */
+	protected $images_table;
+
+	/** @var string */
+	protected $reports_table;
+
 	public function __construct(\phpbbgallery\core\log $gallery_log, \phpbbgallery\core\auth\auth $gallery_auth, \phpbb\user $user,
 		\phpbb\language\language $language, \phpbb\db\driver\driver_interface $db,	\phpbb\user_loader $user_loader,
 		\phpbbgallery\core\album\album $album, \phpbb\template\template $template, \phpbb\controller\helper $helper,

@@ -59,6 +59,18 @@ class auth
 	protected $user;
 
 	/**
+	* phpBB user object
+	* @var \phpbb\user
+	*/
+	protected $phpbb_user;
+
+	/**
+	* phpBB auth object
+	* @var \phpbb\auth\auth
+	*/
+	protected $auth;
+
+	/**
 	* Gallery permissions table
 	* @var string
 	*/
@@ -75,6 +87,12 @@ class auth
 	* @var string
 	*/
 	protected $table_users;
+
+	/**
+	* Gallery albums table
+	* @var string
+	*/
+	protected $table_albums;
 
 	/**
 	 * Construct

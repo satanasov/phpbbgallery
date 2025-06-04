@@ -22,12 +22,14 @@ class display
 	protected $user;
 	protected $gallery_auth;
 	protected $gallery_user;
+	protected $misc;
 	protected $root_path;
 	protected $php_ext;
 	protected $table_albums;
 	protected $table_contests;
 	protected $table_moderators;
 	protected $table_tracking;
+	protected $language;
 	public $album_start;
 	public $album_limit;
 	public $albums_total;

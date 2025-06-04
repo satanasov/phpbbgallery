@@ -74,6 +74,9 @@ class upload
 	/** @var \phpbbgallery\core\block  */
 	protected $block;
 
+	/** @var \phpbbgallery\core\contest */
+	protected $contest;
+
 	/** @var   */
 	protected $images_table;
 

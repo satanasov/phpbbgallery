@@ -13,6 +13,76 @@ namespace phpbbgallery\core;
 class upload
 {
 	/**
+	* @var \phpbb\user
+	*/
+	protected $user;
+
+	/**
+	* @var \phpbb\language\language
+	*/
+	protected $language;
+
+	/**
+	* @var \phpbb\db\driver\driver_interface
+	*/
+	protected $db;
+
+	/**
+	* @var \phpbb\event\dispatcher_interface
+	*/
+	protected $phpbb_dispatcher;
+
+	/**
+	* @var \phpbb\request\request
+	*/
+	protected $request;
+
+	/**
+	* @var \phpbb\files\upload
+	*/
+	protected $file_upload;
+
+	/**
+	* @var \phpbbgallery\core\image\image
+	*/
+	protected $gallery_image;
+
+	/**
+	* @var \phpbbgallery\core\config
+	*/
+	protected $gallery_config;
+
+	/**
+	* @var \phpbbgallery\core\url
+	*/
+	protected $gallery_url;
+
+	/**
+	* @var \phpbbgallery\core\block
+	*/
+	protected $block;
+
+	/**
+	* @var \phpbbgallery\core\file\file
+	*/
+	protected $tools;
+
+	/**
+	* @var string
+	*/
+	protected $images_table;
+
+	/**
+	* @var string
+	*/
+	protected $root_path;
+
+	/**
+	* @var string
+	*/
+	protected $php_ext;
+
+	/**
 	* Number of Files per Directory
 	*
 	* If this constant is set to a value >0 the gallery will create a new directory,

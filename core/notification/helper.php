@@ -12,9 +12,23 @@ use Symfony\Component\DependencyInjection\Container;
 
 class helper
 {
+	protected $config;
+	protected $db;
+	protected $request;
+	protected $template;
+	protected $user;
+	protected $gallery_auth;
+	protected $album_load;
+	protected $helper;
+	protected $url;
+	protected $phpbb_container;
+	protected $root_path;
+	protected $php_ext;
+	protected $watch_table;
+	protected $image;
 	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user,
 	\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\album\loader $album_load, \phpbb\controller\helper $helper, \phpbbgallery\core\url $url,
-	Container $phpbb_container, $root_path, $php_ext, $watch_table)
+	Container $phpbb_container, $root_path, $php_ext, $watch_table, \phpbbgallery\core\image\image $image)
 	{
 		$this->config = $config;
 		$this->db = $db;
@@ -29,6 +43,7 @@ class helper
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 		$this->watch_table = $watch_table;
+		$this->image = $image;
 	}
 
 	/**

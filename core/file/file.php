@@ -32,6 +32,9 @@ class file
 
 	public $gd_version = 0;
 
+	/** @var \phpbbgallery\core\config */
+	public $gallery_config;
+
 	public $image;
 	public $image_content_type;
 	public $image_name = '';

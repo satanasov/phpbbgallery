@@ -12,6 +12,27 @@ namespace phpbbgallery\core;
 
 class comment
 {
+	/** @var \phpbb\user */
+	protected $user;
+
+	/** @var \phpbb\db\driver\driver_interface */
+	protected $db;
+
+	/** @var \phpbbgallery\core\config */
+	protected $config;
+
+	/** @var \phpbbgallery\core\auth\auth */
+	protected $auth;
+
+	/** @var \phpbbgallery\core\block */
+	protected $block;
+
+	/** @var string */
+	protected $comments_table;
+
+	/** @var string */
+	protected $images_table;
+
 	/**
 	 * Constructor
 	 *

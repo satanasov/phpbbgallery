@@ -45,6 +45,24 @@ class album
 	/* @var \phpbbgallery\core\auth\level */
 	protected $auth_level;
 
+	/** @var \phpbbgallery\core\notification\helper */
+	protected $notifications_helper;
+
+	/** @var \phpbbgallery\core\url */
+	protected $url;
+
+	/** @var \phpbbgallery\core\image\image */
+	protected $image;
+
+	/** @var \phpbbgallery\core\config */
+	protected $gallery_config;
+
+	/** @var \phpbb\request\request */
+	protected $request;
+
+	/** @var \phpbbgallery\core\contest */
+	protected $contest;
+
 	/* @var string */
 	protected $table_images;
 

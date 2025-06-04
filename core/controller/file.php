@@ -39,6 +39,12 @@ class file
 	/* @var string */
 	protected $path_watermark;
 
+	/* @var \phpbbgallery\core\file\file */
+	protected $tool;
+
+	/* @var \phpbb\request\request */
+	protected $request;
+
 	/* @var string */
 	protected $table_albums;
 

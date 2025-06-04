@@ -28,6 +28,72 @@ class manage
 
 	private $u_action = '';
 
+	/** @var \phpbb\user */
+	protected $user;
+
+	/** @var \phpbb\language\language */
+	protected $language;
+
+	/** @var \phpbb\request\request */
+	protected $request;
+
+	/** @var \phpbb\db\driver\driver_interface */
+	protected $db;
+
+	/** @var \phpbb\event\dispatcher */
+	protected $dispatcher;
+
+	/** @var \phpbbgallery\core\auth\auth */
+	protected $gallery_auth;
+
+	/** @var \phpbbgallery\core\album\album */
+	protected $gallery_album;
+
+	/** @var \phpbbgallery\core\album\display */
+	protected $gallery_display;
+
+	/** @var \phpbbgallery\core\image\image */
+	protected $gallery_image;
+
+	/** @var \phpbbgallery\core\cache */
+	protected $gallery_cache;
+
+	/** @var \phpbbgallery\core\user */
+	protected $gallery_user;
+
+	/** @var \phpbbgallery\core\config */
+	protected $gallery_config;
+
+	/** @var \phpbbgallery\core\contest */
+	protected $gallery_contest;
+
+	/** @var \phpbbgallery\core\report */
+	protected $gallery_report;
+
+	/** @var \phpbbgallery\core\log */
+	protected $gallery_log;
+
+	/** @var \phpbbgallery\core\notification */
+	protected $gallery_notification;
+
+	/** @var string */
+	protected $albums_table;
+
+	/** @var string */
+	protected $images_table;
+
+	/** @var string */
+	protected $comments_table;
+
+	/** @var string */
+	protected $permissions_table;
+
+	/** @var string */
+	protected $moderators_table;
+
+	/** @var string */
+	protected $contests_table;
+
 	/**
 	 * manage constructor.
 	 * @param \phpbb\user $user

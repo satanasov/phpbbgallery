@@ -24,6 +24,9 @@ class loader
 	/** @var array */
 	protected $data;
 
+	/** @var \phpbbgallery\core\contest */
+	protected $contest;
+
 	/**
 	 * Constructor
 	 *

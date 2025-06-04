@@ -22,6 +22,9 @@ class config
 	private $phpbb_phpEx;
 	private $phpbb_root_path;
 
+	/** @var \phpbb\config\config */
+	private $config;
+
 	private $configs_array = array(
 		'album_display'		=> 254,
 		'album_images'		=> 2500,

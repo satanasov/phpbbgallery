@@ -23,8 +23,38 @@ class search
 	/* @var \phpbb\user */
 	protected $user;
 
+	/* @var \phpbb\language\language */
+	protected $language;
+
 	/* @var \phpbb\controller\helper */
 	protected $helper;
+
+	/* @var \phpbbgallery\core\config */
+	protected $gallery_config;
+
+	/* @var \phpbbgallery\core\auth\auth */
+	protected $gallery_auth;
+
+	/* @var \phpbbgallery\core\album\album */
+	protected $album;
+
+	/* @var \phpbbgallery\core\image\image */
+	protected $image;
+
+	/* @var \phpbb\pagination */
+	protected $pagination;
+
+	/* @var \phpbb\user_loader */
+	protected $user_loader;
+
+	/* @var string */
+	protected $images_table;
+
+	/* @var string */
+	protected $albums_table;
+
+	/* @var string */
+	protected $comments_table;
 
 	/* @var \phpbbgallery\core\album\display */
 	protected $display;

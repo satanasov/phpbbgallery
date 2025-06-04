@@ -43,7 +43,7 @@ class album
 	protected $watch_table;
 
 	/** @var */
-	protected $contest_table;
+	protected $contests_table;
 
 	/** @var */
 	protected $albums_table;

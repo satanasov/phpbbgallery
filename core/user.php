@@ -20,6 +20,48 @@ class user
 	public $user_id;
 
 	/**
+	 * phpBB user object
+	 *
+	 * @var \phpbb\user
+	 */
+	protected $user;
+
+	/**
+	 * Custom profile fields manager
+	 *
+	 * @var \phpbb\profilefields\manager
+	 */
+	protected $user_cpf;
+
+	/**
+	 * Config object
+	 *
+	 * @var \phpbb\config\config
+	 */
+	protected $config;
+
+	/**
+	 * Auth object
+	 *
+	 * @var \phpbb\auth\auth
+	 */
+	protected $auth;
+
+	/**
+	 * phpBB root path
+	 *
+	 * @var string
+	 */
+	protected $root_path;
+
+	/**
+	 * PHP file extension
+	 *
+	 * @var string
+	 */
+	protected $php_ext;
+
+	/**
 	 * Database object
 	 *
 	 * @var \phpbb\db\driver\driver
