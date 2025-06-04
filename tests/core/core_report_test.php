@@ -108,7 +108,7 @@ class core_report_test extends TestCase
     public function test_close_reports_by_image()
     {
         $this->db->expects($this->atLeastOnce())->method('sql_query');
-        $this->db->expects($this->once())->method('sql_fetchrow')->willReturn(['image_album_id' => 1, 'image_id' => 2]);
+        $this->db->expects($this->any())->method('sql_fetchrow')->willReturn(['image_album_id' => 1, 'image_id' => 2]);
         $this->db->expects($this->once())->method('sql_freeresult');
         $this->gallery_log->expects($this->once())->method('add_log');
         $this->report->close_reports_by_image([2], 99);
