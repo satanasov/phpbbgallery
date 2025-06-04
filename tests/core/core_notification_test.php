@@ -16,6 +16,9 @@ require_once dirname(__FILE__) . '/../../../../includes/functions.php';
 
 class core_notification_test extends core_base
 {
+	/** @var \phpbbgallery\core\notification */
+	protected $notification;
+
 	public function setUp() : void
 	{
 		parent::setUp();

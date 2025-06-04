@@ -28,6 +28,19 @@ class core_base extends \phpbb_database_test_case
 	}
 
 	protected $db;
+	protected $config;
+	protected $dispatcher;
+	protected $template;
+	protected $language;
+	protected $user;
+	protected $auth;
+	protected $controller_helper;
+	protected $cache;
+	protected $gallery_config;
+	protected $pagination;
+	protected $user_loader;
+	protected $request;
+	protected $user_cpf;
 
 	/**
 	* Get data set fixtures

@@ -17,6 +17,11 @@ require_once dirname(__FILE__) . '/../../../../includes/functions.php';
 
 class core_user_test extends core_base
 {
+	/**
+	 * @var \phpbbgallery\core\user
+	 */
+	protected $gallery_user;
+
 	public function setUp() : void
 	{
 		parent::setUp();

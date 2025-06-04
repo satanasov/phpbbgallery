@@ -17,6 +17,19 @@ require_once dirname(__FILE__) . '/../../../../includes/functions.php';
 
 class core_image_test extends core_base
 {
+	protected $gallery_cache;
+	protected $gallery_user;
+	protected $gallery_auth;
+	protected $block;
+	protected $album;
+	protected $url;
+	protected $log;
+	protected $notification_helper;
+	protected $report;
+	protected $file;
+	protected $contest;
+	protected $image;
+
 	public function setUp() : void
 	{
 		parent::setUp();

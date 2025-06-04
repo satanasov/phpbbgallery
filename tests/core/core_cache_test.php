@@ -17,6 +17,9 @@ require_once dirname(__FILE__) . '/../../../../includes/functions.php';
 
 class core_cache_test extends core_base
 {
+	/** @var \phpbbgallery\core\cache */
+	protected $gallery_cache;
+
 	public function setUp() : void
 	{
 		parent::setUp();

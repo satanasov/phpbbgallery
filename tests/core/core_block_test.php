@@ -16,6 +16,11 @@ require_once dirname(__FILE__) . '/../../../../includes/functions.php';
 
 class core_block_test extends core_base
 {
+	/**
+	 * @var \phpbbgallery\core\block
+	 */
+	protected $gallery_block;
+
 	public function setUp() : void
 	{
 		parent::setUp();

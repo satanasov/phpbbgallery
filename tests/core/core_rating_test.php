@@ -17,6 +17,11 @@ require_once dirname(__FILE__) . '/../../../../includes/functions.php';
 
 class core_rating_test extends core_base
 {
+	protected $gallery_cache;
+	protected $gallery_user;
+	protected $gallery_auth;
+	protected $gallery_rating;
+
 	public function setUp() : void
 	{
 		parent::setUp();
