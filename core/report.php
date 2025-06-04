@@ -256,7 +256,7 @@ class report
 		$this->db->sql_freeresult($result);
 		if (!empty($reports))
 		{
-			$reports = self::cast_mixed_int2array($repors);
+			$reports = self::cast_mixed_int2array($reports);
 			$this->notification_helper->delete_notifications('report', $reports);
 		}
 
