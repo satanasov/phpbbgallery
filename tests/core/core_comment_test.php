@@ -183,7 +183,7 @@ class core_comment_test extends core_base
             ->method('sql_query')
             ->with($this->stringContains('DELETE FROM phpbb_gallery_comments'));
 
-        $this->db->expects($this->atLeast(2))
+        $this->db->expects($this->at(2))
             ->method('sql_query')
             ->with($this->stringContains('UPDATE phpbb_gallery_images'));
 
