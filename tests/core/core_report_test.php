@@ -8,9 +8,8 @@
 namespace phpbbgallery\tests\core;
 
 use phpbbgallery\core\report;
-use PHPUnit\Framework\TestCase;
 
-class core_report_test extends TestCase
+class core_report_test extends core_base
 {
     protected $report;
     protected $gallery_log;
@@ -26,8 +25,10 @@ class core_report_test extends TestCase
     protected $pagination;
     protected $notification_helper;
 
-    protected function setUp(): void
+    public function setUp() : void
     {
+        parent::setUp();
+
         $this->gallery_log = $this->createMock(\phpbbgallery\core\log::class);
         $this->gallery_auth = $this->createMock(\phpbbgallery\core\auth\auth::class);
         $this->user = $this->createMock(\phpbb\user::class);
@@ -108,7 +109,8 @@ class core_report_test extends TestCase
     public function test_close_reports_by_image()
     {
         $this->db->expects($this->atLeastOnce())->method('sql_query');
-        $this->db->expects($this->any())->method('sql_fetchrow')->willReturn(['image_album_id' => 1, 'image_id' => 2]);
+        $this->db->expects($this->any())->method('sql_fetchrow')
+            ->willReturnOnConsecutiveCalls(['image_album_id' => 1, 'image_id' => 2], false);
         $this->db->expects($this->once())->method('sql_freeresult');
         $this->gallery_log->expects($this->any())->method('add_log');
         $this->report->close_reports_by_image([2], 99);
@@ -140,7 +142,8 @@ class core_report_test extends TestCase
     public function test_delete_images()
     {
         $this->db->expects($this->atLeastOnce())->method('sql_query');
-        $this->db->expects($this->any())->method('sql_fetchrow')->willReturnOnConsecutiveCalls(['report_id' => 1], false);
+        $this->db->expects($this->any())->method('sql_fetchrow')
+            ->willReturnOnConsecutiveCalls(['report_id' => 1], false);
         $this->db->expects($this->any())->method('sql_freeresult');
         $this->notification_helper->expects($this->once())->method('delete_notifications');
         $this->report->delete_images([2]);
@@ -149,7 +152,8 @@ class core_report_test extends TestCase
     public function test_delete_albums()
     {
         $this->db->expects($this->atLeastOnce())->method('sql_query');
-        $this->db->expects($this->any())->method('sql_fetchrow')->willReturnOnConsecutiveCalls(['report_id' => 1], false);
+        $this->db->expects($this->any())->method('sql_fetchrow')
+            ->willReturnOnConsecutiveCalls(['report_id' => 1], false);
         $this->db->expects($this->any())->method('sql_freeresult');
         $this->notification_helper->expects($this->once())->method('delete_notifications');
         $this->report->delete_albums([3]);
