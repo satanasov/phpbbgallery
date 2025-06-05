@@ -144,7 +144,7 @@ class core_comment_test extends core_base
 
     public function test_sync_image_comments()
     {
-        $this->db->expects($this->once())
+        $this->db->expects($this->at(0))
             ->method('sql_query')
             ->with($this->stringContains('SELECT comment_image_id'));
 
@@ -157,7 +157,7 @@ class core_comment_test extends core_base
 
         $this->db->expects($this->once())->method('sql_freeresult');
 
-        $this->db->expects($this->atLeastOnce())
+        $this->db->expects($this->at(1))
             ->method('sql_query')
             ->with($this->stringContains('UPDATE phpbb_gallery_images'));
 
