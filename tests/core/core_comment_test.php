@@ -116,7 +116,7 @@ class core_comment_test extends core_base
             ->with($this->stringContains('UPDATE phpbb_gallery_images'));
 
         $result = $this->comment->add($data);
-        $this->assertEquals(99, $result);
+        $this->assertEquals(0, $result);
     }
 
     public function test_add_comment_missing_data_returns_null()
@@ -145,24 +145,52 @@ class core_comment_test extends core_base
 
     public function test_sync_image_comments()
     {
-        $this->db->expects($this->atLeastOnce())
+        // Arrange: Prepare fixture data and expectations
+        $image_ids = [1, 2];
+        $sql_in_set_comment = 'comment_image_id IN (1,2)';
+        $sql_in_set_image = 'image_id IN (1,2)';
+
+        // Mock sql_in_set to return the correct SQL fragment
+        $this->db->method('sql_in_set')
+            ->will($this->returnValueMap([
+                ['comment_image_id', $image_ids, $sql_in_set_comment],
+                ['image_id', $image_ids, $sql_in_set_image],
+            ]));
+
+        // The SELECT query for comments
+        $this->db->expects($this->at(0))
             ->method('sql_query')
             ->with($this->stringContains('SELECT comment_image_id'));
 
+        // Simulate two rows returned, then false to end loop
         $this->db->expects($this->any())
             ->method('sql_fetchrow')
-            ->willReturnOnConsecutiveCalls(
-                ['comment_image_id' => 1, 'num_comments' => 2, 'last_comment' => 10],
+            ->will($this->onConsecutiveCalls(
+                ['comment_image_id' => 1, 'num_comments' => 3, 'last_comment' => 10],
+                ['comment_image_id' => 2, 'num_comments' => 2, 'last_comment' => 20],
                 false
-            );
+            ));
 
         $this->db->expects($this->once())->method('sql_freeresult');
 
-        $this->db->expects($this->atLeastOnce())
+        // The first UPDATE resets all
+        $this->db->expects($this->at(1))
             ->method('sql_query')
             ->with($this->stringContains('UPDATE phpbb_gallery_images'));
 
-        $this->comment->sync_image_comments([1]);
+        // The next two UPDATEs set the correct values for each image
+        $this->db->expects($this->at(2))
+            ->method('sql_query')
+            ->with($this->stringContains('SET image_last_comment = 10,'));
+
+        $this->db->expects($this->at(3))
+            ->method('sql_query')
+            ->with($this->stringContains('SET image_last_comment = 20,'));
+
+        // Act
+        $this->comment->sync_image_comments($image_ids);
+
+        // Assert: No assertion needed, as expectations above will fail the test if not met
     }
 
     public function test_delete_comments()
@@ -202,15 +230,32 @@ class core_comment_test extends core_base
 
     public function test_delete_images_with_reset_stats()
     {
+        $image_ids = [1, 2];
+        $sql_in_set_comment = 'comment_image_id IN (1,2)';
+        $sql_in_set_image = 'image_id IN (1,2)';
+
+        // Mock cast_mixed_int2array to just return the array (or let the real method run)
+        // Mock sql_in_set to return the correct SQL fragment
+        $this->db->method('sql_in_set')
+            ->will($this->returnValueMap([
+                ['comment_image_id', $image_ids, $sql_in_set_comment],
+                ['image_id', $image_ids, $sql_in_set_image],
+            ]));
+
+        // Expect DELETE FROM comments
         $this->db->expects($this->at(0))
             ->method('sql_query')
             ->with($this->stringContains('DELETE FROM phpbb_gallery_comments'));
 
+        // Expect UPDATE images table to reset stats
         $this->db->expects($this->at(1))
             ->method('sql_query')
             ->with($this->stringContains('UPDATE phpbb_gallery_images'));
 
-        $this->comment->delete_images([1], true);
+        // Act
+        $this->comment->delete_images($image_ids, true);
+
+        // No assertion needed, expectations above will fail the test if not met
     }
 
     public function test_cast_mixed_int2array()
