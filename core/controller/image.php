@@ -638,8 +638,6 @@ class image
 			}
 			$this->db->sql_freeresult($result);
 
-			$this->load_users_data();
-
 			if ($this->config['load_onlinetrack'] && sizeof($this->users_id_array))
 			{
 				// Load online-information
@@ -656,6 +654,8 @@ class image
 				}
 				$this->db->sql_freeresult($result);
 			}
+
+			$this->load_users_data();
 
 			foreach ($comments as $row)
 			{
