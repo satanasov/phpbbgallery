@@ -599,7 +599,6 @@ class image
 		{
 			$this->display_comments($image_id, $this->data, $album_id, $album_data, ($page - 1) * $this->gallery_config->get('items_per_page'), $this->gallery_config->get('items_per_page'));
 		}
-
 		return $this->helper->render('gallery/viewimage_body.html', $page_title);
 	}
 
@@ -641,9 +640,9 @@ class image
 
 			$this->load_users_data();
 
-			// Load online-information
 			if ($this->config['load_onlinetrack'] && sizeof($this->users_id_array))
 			{
+				// Load online-information
 				$sql = 'SELECT session_user_id, MAX(session_time) as online_time, MIN(session_viewonline) AS viewonline
 					FROM ' . SESSIONS_TABLE . '
 					WHERE ' . $this->db->sql_in_set('session_user_id', $this->users_id_array) . '
