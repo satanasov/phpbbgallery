@@ -250,7 +250,7 @@ class core_search_test extends core_base
 		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
 		$this->template->expects($this->exactly($expected))
 			->method('assign_block_vars');
-		$this->gallery_search->random($limit, $search_user, 'rrc_gindex_display', 'tandom');
+		$this->gallery_search->random($limit, $search_user, 'rrc_gindex_display', 'random');
 	}
 	/**
 	* Test recent images function
