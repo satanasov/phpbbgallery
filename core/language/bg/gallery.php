@@ -26,6 +26,7 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'ADD_UPLOAD_FIELD'                 => 'Добавете още файлове за качване',
 	'ALBUM'                            => 'Албум',
+	'ALBUM_DESC'                       => 'Описание на албума',
 	'ALBUM_IS_CATEGORY'                => 'Албума до който излъгахте е Албум категория.<br />Не можете да качвате в категория.',
 	'ALBUM_LOCKED'                     => 'Заключен',
 	'ALBUM_NAME'                       => 'Име на албум',

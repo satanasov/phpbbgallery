@@ -186,7 +186,7 @@ class search
 			$sort_by_text['lc'] = $this->language->lang('NEW_COMMENT');
 			$sort_by_sql['lc'] = 'image_last_comment';
 		}
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 
 		$s_limit_days = $s_sort_key = $s_sort_dir = $u_sort_param = '';
 		gen_sort_selects($limit_days, $sort_by_text, $sort_days, $sort_key, $sort_dir, $s_limit_days, $s_sort_key, $s_sort_dir, $u_sort_param);
@@ -387,7 +387,7 @@ class search
 			$this->template->assign_var('S_NO_SEARCH', true);
 			trigger_error('NO_SEARCH');
 		}
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$this->template->assign_block_vars('navlinks', array(
 			'FORUM_NAME'	=> $this->language->lang('GALLERY'),
 			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_core_index'),
@@ -425,7 +425,7 @@ class search
 			trigger_error('NO_SEARCH');
 		}
 
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$this->template->assign_block_vars('navlinks', array(
 			'FORUM_NAME'	=> $this->language->lang('GALLERY'),
 			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_core_index'),
@@ -467,7 +467,7 @@ class search
 			trigger_error('NO_SEARCH');
 		}
 
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$this->template->assign_block_vars('navlinks', array(
 			'FORUM_NAME'	=> $this->language->lang('GALLERY'),
 			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_core_index'),
@@ -508,7 +508,7 @@ class search
 			trigger_error('NO_SEARCH');
 		}
 
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$this->template->assign_block_vars('navlinks', array(
 			'FORUM_NAME'	=> $this->language->lang('GALLERY'),
 			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_core_index'),
@@ -549,7 +549,7 @@ class search
 			trigger_error('NO_SEARCH');
 		}
 
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$this->template->assign_block_vars('navlinks', array(
 			'FORUM_NAME'	=> $this->language->lang('GALLERY'),
 			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_core_index'),

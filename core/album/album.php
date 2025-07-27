@@ -199,7 +199,7 @@ class album
 		$padding_store = array('0' => '');
 		$padding = $album_list = '';
 		$check_album_type = ($requested_album_type >= 0) ? true : false;
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 
 		// Sometimes it could happen that albums will be displayed here not be displayed within the index page
 		// This is the result of albums not displayed at index and a parent of a album with no permissions.

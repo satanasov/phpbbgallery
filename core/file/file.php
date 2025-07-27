@@ -362,7 +362,7 @@ class file
 
 	/**
 	 * Rotate the image
-	 * Usage optimized for 0�, 90�, 180� and 270� because of the height and width
+	 * Usage optimized for 0º, 90º, 180º and 270º because of the height and width
 	 *
 	 * @param $angle
 	 * @param $ignore_dimensions

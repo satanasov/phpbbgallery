@@ -23,6 +23,7 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'ADD_UPLOAD_FIELD'				=> 'Добавить несколько файлов',
 	'ALBUM'							=> 'Альбом',
+	'ALBUM_DESC'					=> 'Описание альбома',
 	'ALBUM_IS_CATEGORY'				=> 'Вы обращаетесь не к альбому, а к категории.<br />Нельзя загружать фотографии в категорию.',
 	'ALBUM_LOCKED'					=> 'Альбом закрыт',
 	'ALBUM_NAME'					=> 'Альбом',
