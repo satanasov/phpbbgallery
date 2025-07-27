@@ -385,6 +385,14 @@ class file
 			}
 		}
 
+		if(!$this->tool->image_type) {
+			$this->tool->image_type = $this->tool->extension_by_filename($this->tool->image_source);
+			if (!$this->tool->image_type)
+			{
+				trigger_error('NO_EXTENSION_MATCHED');
+			}
+		}
+
 		$response = new \Symfony\Component\HttpFoundation\BinaryFileResponse($this->tool->image_source);
 
 		$response->headers->set('Pragma', 'public');
