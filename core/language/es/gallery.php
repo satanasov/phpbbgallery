@@ -26,6 +26,7 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'ADD_UPLOAD_FIELD'				=> 'Añadir más campos de subida',
 	'ALBUM'							=> 'Álbum',
+	'ALBUM_DESC'					=> 'Descripción del álbum',
 	'ALBUM_IS_CATEGORY'				=> 'El álbum en el que hiciste trampa, es un álbum de categoría.<br />No puedes subir a categorías.',
 	'ALBUM_LOCKED'					=> 'Bloqueado',
 	'ALBUM_NAME'					=> 'Nombre del álbum',
