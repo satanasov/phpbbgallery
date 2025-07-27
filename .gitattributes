@@ -1,0 +1,9 @@
+.gitattributes	export-ignore
+.idea	export-ignore
+phpunit.xml.dist	export-ignore
+.vscode	export-ignore
+.codegpt	export-ignore
+gallery-core.json
+gallery-cleanup.json
+gallery-exif.json
+gallery-import.json
