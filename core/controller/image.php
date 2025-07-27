@@ -599,7 +599,7 @@ class image
 		}
 
 		// Load online-information
-		if ($this->config['load_onlinetrack'] && sizeof($this->users_id_array))
+		if ($this->config['load_onlinetrack'] && count($this->users_id_array))
 		{
 			$sql = 'SELECT session_user_id, MAX(session_time) as online_time, MIN(session_viewonline) AS viewonline
 				FROM ' . SESSIONS_TABLE . '
@@ -614,7 +614,7 @@ class image
 			}
 			$this->db->sql_freeresult($result);
 		}
-		
+
 		$this->load_users_data();
 
 		return $this->helper->render('gallery/viewimage_body.html', $page_title);
