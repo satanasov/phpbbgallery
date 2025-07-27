@@ -28,7 +28,7 @@ class helper
 	protected $image;
 	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user,
 	\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\album\loader $album_load, \phpbb\controller\helper $helper, \phpbbgallery\core\url $url,
-	Container $phpbb_container, $root_path, $php_ext, $watch_table, \phpbbgallery\core\image\image $image)
+	Container $phpbb_container, $root_path, $php_ext, $watch_table)
 	{
 		$this->config = $config;
 		$this->db = $db;
@@ -43,7 +43,6 @@ class helper
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 		$this->watch_table = $watch_table;
-		$this->image = $image;
 	}
 
 	/**
@@ -298,5 +297,10 @@ class helper
 
 		$data['targets'] = $targets;
 		$this->notify('new_image', $data);
+	}
+	
+	public function set_image(\phpbbgallery\core\image\image $image)
+	{
+		$this->image = $image;
 	}
 }
