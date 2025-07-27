@@ -27,6 +27,7 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'ADD_UPLOAD_FIELD'                 => 'Voeg meer upload velden toe',
 	'ALBUM'                            => 'Album',
+	'ALBUM_DESC'                       => 'Albumbeschrijving',
 	'ALBUM_IS_CATEGORY'                => 'Het album waar je heen gegaan bent is een categoriealbum..<br />Je kan niet uploaden naar categorieën.',
 	'ALBUM_LOCKED'                     => 'Gesloten',
 	'ALBUM_NAME'                       => 'Albumnaam',

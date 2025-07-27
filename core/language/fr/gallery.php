@@ -41,6 +41,7 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'ADD_UPLOAD_FIELD'				=> 'Ajouter une autre image',
 	'ALBUM'							=> 'Album',
+	'ALBUM_DESC'					=> 'Description de l’album',
 	'ALBUM_IS_CATEGORY'				=> 'Vous êtes dans une catégorie d’albums.<br />Vous ne pouvez pas charger d’images dans cette catégorie.',
 	'ALBUM_LOCKED'					=> 'Verrouillé',
 	'ALBUM_NAME'					=> 'Nom de l’album',
