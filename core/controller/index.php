@@ -151,6 +151,14 @@ class index
 					$action_image = false;
 				break;
 			}
+
+			$alphabet = range('a', 'z');
+			$alpha_links = [];
+			foreach ($alphabet as $char) {
+				$alpha_links[] = '<a href="' . append_sid($this->helper->route('phpbbgallery_core_personal'), 'first_char=' . $char) . '">' . strtoupper($char) . '</a>';
+			}
+			$alpha_links[] = '<a href="' . append_sid($this->helper->route('phpbbgallery_core_personal'), 'first_char=other') . '">#</a>';
+
 			$this->template->assign_vars(array(
 				'S_USERS_PERSONAL_GALLERIES'	=> true,
 				'U_USERS_PERSONAL_GALLERIES' => $this->helper->route('phpbbgallery_core_personal'),
@@ -161,6 +169,7 @@ class index
 				'U_IMAGENAME_ACTION'	=> $this->helper->route('phpbbgallery_core_image', array('image_id' => $last_image['image_id'])),
 				'U_TIME'	=> ($last_image['image_id'] > 0) ?  $this->user->format_date($last_image['image_time']) : false,
 				'U_UPLOADER'	=> ($last_image['image_id'] > 0) ? get_username_string('full', $last_image['image_user_id'], $last_image['image_username'], $last_image['image_user_colour']) : false,
+				'ALPHABET_NAVIGATION' => implode('&nbsp;', $alpha_links),
 			));
 			$this->gallery_user->set_user_id($this->user->data['user_id']);
 			$personal_album = $this->gallery_user->get_own_root_album();
