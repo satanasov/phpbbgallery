@@ -449,6 +449,8 @@ class image
 
 		$this->users_id_array[$this->data['image_user_id']] = $this->data['image_user_id'];
 
+		$this->load_users_data();
+
 		$user_id = $this->data['image_user_id'];
 		$this->users_data_array[$user_id]['username'] = ($this->data['image_username']) ? $this->data['image_username'] : $this->language->lang('GUEST');
 		$user_data = $this->users_data_array[$user_id] ?? [];
@@ -598,25 +600,6 @@ class image
 			$this->display_comments($image_id, $this->data, $album_id, $album_data, ($page - 1) * $this->gallery_config->get('items_per_page'), $this->gallery_config->get('items_per_page'));
 		}
 
-		// Load online-information
-		if ($this->config['load_onlinetrack'] && count($this->users_id_array))
-		{
-			$sql = 'SELECT session_user_id, MAX(session_time) as online_time, MIN(session_viewonline) AS viewonline
-				FROM ' . SESSIONS_TABLE . '
-				WHERE ' . $this->db->sql_in_set('session_user_id', $this->users_id_array) . '
-				GROUP BY session_user_id';
-			$result = $this->db->sql_query($sql);
-
-			$update_time = $this->config['load_online_time'] * 60;
-			while ($row = $this->db->sql_fetchrow($result))
-			{
-				$this->users_data_array[$row['session_user_id']]['online'] = (time() - $update_time < $row['online_time'] && (($row['viewonline']) || $this->auth->acl_get('u_viewonline'))) ? true : false;
-			}
-			$this->db->sql_freeresult($result);
-		}
-
-		$this->load_users_data();
-
 		return $this->helper->render('gallery/viewimage_body.html', $page_title);
 	}
 
@@ -655,6 +638,25 @@ class image
 				}
 			}
 			$this->db->sql_freeresult($result);
+
+			$this->load_users_data();
+
+			// Load online-information
+			if ($this->config['load_onlinetrack'] && sizeof($this->users_id_array))
+			{
+				$sql = 'SELECT session_user_id, MAX(session_time) as online_time, MIN(session_viewonline) AS viewonline
+					FROM ' . SESSIONS_TABLE . '
+					WHERE ' . $this->db->sql_in_set('session_user_id', $this->users_id_array) . '
+					GROUP BY session_user_id';
+				$result = $this->db->sql_query($sql);
+
+				$update_time = $this->config['load_online_time'] * 60;
+				while ($row = $this->db->sql_fetchrow($result))
+				{
+					$this->users_data_array[$row['session_user_id']]['online'] = (time() - $update_time < $row['online_time'] && (($row['viewonline']) || $this->auth->acl_get('u_viewonline'))) ? true : false;
+				}
+				$this->db->sql_freeresult($result);
+			}
 
 			foreach ($comments as $row)
 			{

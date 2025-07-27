@@ -612,7 +612,7 @@ class user
 					'username'             => $row['username'],
 					'user_colour'          => $row['user_colour'],
 					'contact_user'         => $this->user->lang('CONTACT_USER', get_username_string('username', $user_id, $row['username'], $row['user_colour'], $row['username'])),
-					'online'               => $user_cache[$user_id]['online'],
+					'online'               => false,
 					'jabber'               => ($this->config['jab_enable'] && $row['user_jabber'] && $this->auth->acl_get('u_sendim')) ? append_sid("{$this->root_path}memberlist.$this->php_ext", "mode=contact&amp;action=jabber&amp;u=$user_id") : '',
 					'search'               => ($this->config['load_search'] && $this->auth->acl_get('u_search')) ? append_sid("{$this->root_path}search.$this->php_ext", "author_id=$user_id&amp;sr=posts") : '',
 					'author_full'          => get_username_string('full', $user_id, $row['username'], $row['user_colour']),
