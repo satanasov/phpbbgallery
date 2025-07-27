@@ -299,7 +299,6 @@ class search
 				$this->comments_table => 'c',
 			),
 			'WHERE'	=> 'i.image_id = c.comment_image_id and ' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('c_read'), false, true),
-			'GROUP_BY'	=> 'c.comment_id, i.image_id',
 			'ORDER_BY'	=> 'comment_time DESC'
 		);
 		$sql_array['WHERE'] .= ' AND ((' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums), false, true) . ' AND image_status <> ' . \phpbbgallery\core\block::STATUS_UNAPPROVED . ')
@@ -363,8 +362,8 @@ class search
 		));
 		$this->pagination->generate_template_pagination(array(
 			'routes' => array(
-				'phpbbgallery_core_search_recent',
-				'phpbbgallery_core_search_recent_page',),
+				'phpbbgallery_core_search_commented',
+				'phpbbgallery_core_search_commented_page',),
 				'params' => array()), 'pagination', 'page', $count, $limit, $start
 		);
 	}
