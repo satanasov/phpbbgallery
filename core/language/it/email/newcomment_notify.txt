@@ -1,0 +1,11 @@
+Subject: Notifica nuovo commento - "{IMAGE_NAME}"
+
+Salve {USERNAME},
+
+Ricevi questa notifica perché stai controllando l'immagine, "{IMAGE_NAME}" su "{SITENAME}". Quest'immagina ha ricevuto un nuovo commento dalla tua ultima visita. Puoi usare il seguente link per leggere il commento.
+
+{U_IMAGE}
+
+Se non vuoi più controllare quest'immagine o album puoi cliccare il link "Annulla sottoscrizione immagine" trovato nel link soprastante.
+
+{EMAIL_SIG}

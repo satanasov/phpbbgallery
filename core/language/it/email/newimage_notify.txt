@@ -1,0 +1,11 @@
+Subject: Notifica nuova immagine - "{ALBUM_NAME}"
+
+Salve {USERNAME},
+
+Ricevi questa notifica perché stati controllando l'album, "{ALBUM_NAME}" su "{SITENAME}". Quest'album ha ricevuto una nuova immagine dalla tua ultima visita, "{IMAGE_NAME}". Puoi usare il seguente link per vedere l'album.
+
+{U_ALBUM}
+
+Se non vuoi più controllare quest'album puoi cliccare sul link "Annulla sottoscrizione album" trovato nel link soprastante.
+
+{EMAIL_SIG}
