@@ -2,9 +2,11 @@
 
 [![Tests](https://github.com/satanasov/phpbbgallery/actions/workflows/tests.yml/badge.svg)](https://github.com/satanasov/phpbbgallery/actions/workflows/tests.yml) [![Code Coverage](https://scrutinizer-ci.com/g/satanasov/phpbbgallery/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/satanasov/phpbbgallery/?branch=master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/satanasov/phpbbgallery/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/satanasov/phpbbgallery/?branch=master)
 
-© 2012 - [nickvergessen](http://www.flying-bits.org)
+© 2012 - [nickvergessen](https://www.flying-bits.org)
 
-© 2014 - 2022 - [Lucifer](http://www.anavaro.com)
+© 2014 - 2025 - [Lucifer](https://www.anavaro.com)
+
+© 2019 - 2025 [Leinad4Mind](https://leinad4mind.top/forum)
 
 Welcome to phpBB Gallery version 3.3.x
 
@@ -31,7 +33,7 @@ MSSQL is not ok. I don't have a MSSQL instance to test different functions. If y
 
 ### Exif
 
-Allows saving and visualization of EXIF (Exchangeable image file format) image information. Basicly a bunch of stuff about the image - F-stop, ISO, appature, speed, usage of flash ... it could hold GPS coordinates ...
+Allows saving and visualization of EXIF (Exchangeable image file format) image information. Basically a bunch of stuff about the image - F-stop, ISO, aperture, speed, usage of flash ... it could hold GPS coordinates ...
 
 ### ACP Import
 
@@ -39,9 +41,9 @@ Allows bulk import of images.
 
 ### ACP cleanup
 
-Bunch of functions related to DB and file system maintenence. Allows you to purge albums, move pictures, clean orphaned images, albums and comments ...
+Bunch of functions related to DB and file system maintenance. Allows you to purge albums, move pictures, clean orphaned images, albums and comments ...
 
-## Adding a new feture?
+## Adding a new feature?
 
 If you can make me think of it as core function I will add it. Such function is going to be the contests, the plupload support and jQuery based visualization libraries.
 
@@ -53,7 +55,7 @@ If you want to contribute to this project do it as you will any other project - 
 
 ## Development roadmap?
 
-As I said the 1.2 version will be primarly targeted as backword compatible with phpBB Gallery 1.1.6 MOD (DB will be the same but you will have to manualy move your images to the new location).
+As I said the 1.2 version will be primarily targeted as backwards compatible with phpBB Gallery 1.1.6 MOD (DB will be the same but you will have to manually move your images to the new location).
 
 3.2.x is providing phpBB 3.2 compatibility and some code optimization. When initial release is done I will start adding features.
 
@@ -61,7 +63,7 @@ Version 3.3.x will be compatible to phpBB 3.3 and will have new features.
 
 ## Installation
 
-This ext installs as evry other phpBB extension:
+This ext installs as every other phpBB extension:
 
  - Clone the repo to ext folder OR download the zip file and copy phpbbgallery to your ext folder
  - Go to ACP -> Customise -> Manage extensions
@@ -75,7 +77,7 @@ This is task that could not be automated. You will have to do some work. Just fo
 Regards,
 Stanislav Atanasov
 
-P.S.: You can get more support here - [Forum](http://lab.anavaro.com/forum/viewforum.php?f=4)
+P.S.: You can get more support here - [Forum](https://www.phpbb.com/customise/db/extension/phpbb_gallery/support)
 
 P.P.S: If you like this extension - you could alway donate:
 
