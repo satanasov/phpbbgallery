@@ -240,8 +240,8 @@ function toggleElement(oElement)
 	<div id="recent-comments" <!-- IF COMMENTS_EXPAND --><!-- ELSE -->style="display: none;"<!-- ENDIF -->>
 		<br />
 		<!-- BEGIN commentrow -->
-		<a id="comment{commentrow.COMMENT_ID}" class="anchor"></a>
 		<div class="post <!-- IF commentrow.S_ROW_COUNT is odd -->bg1<!-- ELSE -->bg2<!-- ENDIF -->">
+			<a id="comment{commentrow.COMMENT_ID}" class="anchor"></a>
 			<div class="inner">
 				<dl class="postprofile" id="profile{commentrow.COMMENT_ID}">
 					<dt>
@@ -253,11 +253,13 @@ function toggleElement(oElement)
 					</dt>
 				</dl>
 				<div class="postbody">
-					<ul class="post-buttons">
-						<!-- IF commentrow.U_EDIT --><li><a href="{commentrow.U_EDIT}" title="{L_EDIT_COMMENT}" class="button button-icon-only"><i class="icon fa-pencil fa-fw" aria-hidden="true"></i><span class="sr-only">{L_EDIT_COMMENT}</span></a></li><!-- ENDIF -->
-						<!-- IF commentrow.U_DELETE --><li><a href="{commentrow.U_DELETE}" title="{L_DELETE_COMMENT}" class="button button-icon-only"><i class="icon fa-times fa-fw" aria-hidden="true"></i><span class="sr-only">{L_DELETE_COMMENT}</span></a></li><!-- ENDIF -->
-						<!-- IF commentrow.U_QUOTE --><li><a href="{commentrow.U_QUOTE}" title="{L_QUOTE_COMMENT}" class="button button-icon-only"><i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">{L_QUOTE_COMMENT}</span></a></li><!-- ENDIF -->
-					</ul>
+					<!-- IF commentrow.U_EDIT or commentrow.U_DELETE or commentrow.U_QUOTE -->
+						<ul class="post-buttons">
+							<!-- IF commentrow.U_EDIT --><li><a href="{commentrow.U_EDIT}" title="{L_EDIT_COMMENT}" class="button button-icon-only"><i class="icon fa-pencil fa-fw" aria-hidden="true"></i><span class="sr-only">{L_EDIT_COMMENT}</span></a></li><!-- ENDIF -->
+							<!-- IF commentrow.U_DELETE --><li><a href="{commentrow.U_DELETE}" title="{L_DELETE_COMMENT}" class="button button-icon-only"><i class="icon fa-times fa-fw" aria-hidden="true"></i><span class="sr-only">{L_DELETE_COMMENT}</span></a></li><!-- ENDIF -->
+							<!-- IF commentrow.U_QUOTE --><li><a href="{commentrow.U_QUOTE}" title="{L_QUOTE_COMMENT}" class="button button-icon-only"><i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">{L_QUOTE_COMMENT}</span></a></li><!-- ENDIF -->
+						</ul>
+					<!-- ENDIF -->
 					<p class="author" style="clear: inherit; margin-top: 1.5em;"><!-- IF S_IS_BOT --><i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i>{L_COMMENT}<span class="sr-only">{commentrow.MINI_POST}</span><!-- ELSE --><a href="{commentrow.U_COMMENT}" title="{L_COMMENT}"><i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i>{L_COMMENT}&nbsp;<span class="sr-only">{commentrow.MINI_POST}</span></a><!-- ENDIF --><span style="white-space: nowrap;">{L_POST_BY_AUTHOR}&nbsp;{commentrow.POST_AUTHOR_FULL} </span>&raquo;<span style="white-space: nowrap;"> {commentrow.TIME}</span></p>
 					<div class="content">{commentrow.TEXT}</div>
 				</div>
