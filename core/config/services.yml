@@ -249,6 +249,8 @@ services:
             - '%core.root_path%'
             - '%core.php_ext%'
             - '%tables.phpbbgallery.watch%'
+        calls:
+            - [set_image, ['@phpbbgallery.core.image']]
     phpbbgallery.core.log:
         class: phpbbgallery\core\log
         arguments:
