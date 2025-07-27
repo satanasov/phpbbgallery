@@ -135,7 +135,7 @@ class log
 		}
 		$this->language->add_lang(array('info_acp_gallery_logs'), 'phpbbgallery/core');
 
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$sql_array = array(
 			'FROM'	=> array(
 				$this->log_table	=> 'l'

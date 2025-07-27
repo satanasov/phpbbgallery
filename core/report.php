@@ -280,7 +280,7 @@ class report
 			$per_page = $this->gallery_config->get('items_per_page');
 		}
 		// Let's get albums that user can moderate
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 
 		// Get albums we can approve in
 		$mod_array = array();

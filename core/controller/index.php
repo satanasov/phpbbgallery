@@ -119,7 +119,7 @@ class index
 	public function base()
 	{
 		// Display login box for guests and an error for users
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$get_albums = $this->gallery_auth->acl_album_ids('a_list');
 		if (empty($get_albums) && !$this->user->data['is_registered'])
 		{
@@ -249,7 +249,7 @@ class index
 	public function personal($page)
 	{
 		// Display login box for guests and an error for users
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$get_albums = $this->gallery_auth->acl_album_ids('a_list');
 		if (empty($get_albums) && !$this->user->data['is_registered'])
 		{
@@ -304,7 +304,7 @@ class index
 
 	protected function assign_dropdown_links($base_route)
 	{
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 
 		// Now let's get display options
 		$show_comments = $show_random = $show_recent = false;

@@ -247,7 +247,7 @@ class core_search_test extends core_base
 	{
 		$this->user->data['user_id'] = $user_id;
 		$this->user->data['group_id'] = $group_id;
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$this->template->expects($this->exactly($expected))
 			->method('assign_block_vars');
 		$this->gallery_search->random($limit, $search_user, 'rrc_gindex_display', 'random');
@@ -263,7 +263,7 @@ class core_search_test extends core_base
 		$this->user->data['username'] = $user_id;
 		$this->gallery_config->set('default_sort_dir', 'a');
 		$this->gallery_config->set('default_sort_key', 't');
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$this->template->expects($this->exactly($expected))
 			->method('assign_block_vars');
 		$this->gallery_search->recent($limit, 0, $search_user, 'rrc_gindex_display', 'recent');
@@ -661,7 +661,7 @@ class core_search_test extends core_base
 		$this->user->data['group_id'] = 5;
 		$this->user->data['username'] = 2;
 		$this->gallery_config->set('rrc_gindex_display', $state);
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$this->template->expects($this->exactly(2))
 			->method('assign_block_vars')
 			->withConsecutive(
@@ -683,7 +683,7 @@ class core_search_test extends core_base
 		$this->user->data['group_id'] = 5;
 		$this->user->data['username'] = 2;
 		$this->gallery_config->set('rrc_profile_display', $state);
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$this->template->expects($this->exactly(2))
 			->method('assign_block_vars')
 			->withConsecutive(
@@ -705,7 +705,7 @@ class core_search_test extends core_base
 		$this->user->data['group_id'] = 5;
 		$this->user->data['username'] = 2;
 		$this->gallery_config->set('rrc_gindex_display', $state);
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$this->template->expects($this->exactly(2))
 			->method('assign_block_vars')
 			->withConsecutive(
@@ -727,7 +727,7 @@ class core_search_test extends core_base
 		$this->user->data['group_id'] = 5;
 		$this->user->data['username'] = 2;
 		$this->gallery_config->set('rrc_profile_display', $state);
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$this->template->expects($this->exactly(2))
 			->method('assign_block_vars')
 			->withConsecutive(
@@ -780,7 +780,7 @@ class core_search_test extends core_base
 		$this->user->data['group_id'] = 5;
 		$this->user->data['username'] = 2;
 		$this->gallery_config->set('link_thumbnail', $state);
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$this->template->expects($this->exactly(2))
 			->method('assign_block_vars')
 			->withConsecutive(
@@ -831,7 +831,7 @@ class core_search_test extends core_base
 		$this->user->data['group_id'] = 5;
 		$this->user->data['username'] = 2;
 		$this->gallery_config->set('link_thumbnail', $state);
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$this->template->expects($this->exactly(2))
 			->method('assign_block_vars')
 			->withConsecutive(
@@ -882,7 +882,7 @@ class core_search_test extends core_base
 		$this->user->data['group_id'] = 5;
 		$this->user->data['username'] = 2;
 		$this->gallery_config->set('link_image_name', $state);
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$this->template->expects($this->exactly(2))
 			->method('assign_block_vars')
 			->withConsecutive(
@@ -933,7 +933,7 @@ class core_search_test extends core_base
 		$this->user->data['group_id'] = 5;
 		$this->user->data['username'] = 2;
 		$this->gallery_config->set('link_image_name', $state);
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$this->template->expects($this->exactly(2))
 			->method('assign_block_vars')
 			->withConsecutive(
@@ -1004,7 +1004,7 @@ class core_search_test extends core_base
 		$this->user->data['user_id'] = $user_id;
 		$this->user->data['group_id'] = $group_id;
 		$this->user->data['username'] = $user_id;
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$this->assertEquals($this->gallery_search->recent_count(), $expected);
 	}
 	// Recent comments testing
@@ -1016,7 +1016,7 @@ class core_search_test extends core_base
 		$this->user->data['user_id'] = 2;
 		$this->user->data['group_id'] = 5;
 		$this->user->data['username'] = 2;
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$this->template->expects($this->exactly(6))
 			->method('assign_block_vars')
 			->withConsecutive(
@@ -1112,7 +1112,7 @@ class core_search_test extends core_base
 		$this->user->data['user_id'] = 2;
 		$this->user->data['group_id'] = 5;
 		$this->user->data['username'] = 2;
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$this->template->expects($this->exactly(2))
 			->method('assign_block_vars')
 			->withConsecutive(
@@ -1152,7 +1152,7 @@ class core_search_test extends core_base
 		$this->user->data['user_id'] = 2;
 		$this->user->data['group_id'] = 5;
 		$this->user->data['username'] = 2;
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$this->template->expects($this->exactly(2))
 			->method('assign_block_vars')
 			->withConsecutive(
@@ -1192,7 +1192,7 @@ class core_search_test extends core_base
 		$this->user->data['user_id'] = 2;
 		$this->user->data['group_id'] = 5;
 		$this->user->data['username'] = 2;
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$this->template->expects($this->exactly(1))
 			->method('assign_vars');
 		$this->gallery_search->recent_comments(2,15);
@@ -1202,7 +1202,7 @@ class core_search_test extends core_base
 		$this->user->data['user_id'] = 52;
 		$this->user->data['group_id'] = 2;
 		$this->user->data['username'] = 2;
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$this->template->expects($this->exactly(3))
 			->method('assign_block_vars')
 			->withConsecutive(
@@ -1256,7 +1256,7 @@ class core_search_test extends core_base
 		$this->user->data['user_id'] = 52;
 		$this->user->data['group_id'] = 2;
 		$this->user->data['username'] = 2;
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$this->template->expects($this->exactly(1))
 			->method('assign_block_vars')
 			->withConsecutive(
@@ -1282,7 +1282,7 @@ class core_search_test extends core_base
 		$this->user->data['user_id'] = 52;
 		$this->user->data['group_id'] = 2;
 		$this->user->data['username'] = 2;
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$this->template->expects($this->exactly(2))
 			->method('assign_block_vars')
 			->withConsecutive(

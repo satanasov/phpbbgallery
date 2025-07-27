@@ -510,7 +510,7 @@ class album
 	 */
 	protected function check_permissions($album_id, $owner_id, $album_auth_level)
 	{
-		$this->auth->load_user_premissions($this->user->data['user_id']);
+		$this->auth->load_user_permissions($this->user->data['user_id']);
 		$zebra_array = $this->auth->get_user_zebra($this->user->data['user_id']);
 		if (!$this->auth->acl_check('i_view', $album_id, $owner_id) || $this->auth->get_zebra_state($zebra_array, (int) $owner_id, (int) $album_id) < (int) $album_auth_level)
 		{

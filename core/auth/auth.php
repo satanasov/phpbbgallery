@@ -141,7 +141,7 @@ class auth
 		return self::OWN_ALBUM;
 	}
 
-	public function load_user_premissions($user_id, $album_id = false)
+	public function load_user_permissions($user_id, $album_id = false)
 	{
 		$cached_permissions = $this->user->get_data('user_permissions');
 		if (($user_id == $this->user->user_id) && !empty($cached_permissions))

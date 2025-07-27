@@ -595,7 +595,7 @@ class image
 	**/
 	public function get_last_image()
 	{
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$public = $this->album->get_public_albums();
 		$sql_order = 'image_id DESC';
 		$sql_limit = 1;

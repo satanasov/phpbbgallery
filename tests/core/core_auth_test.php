@@ -183,7 +183,7 @@ class core_auth_test extends core_base
 	{
 		$this->user->data['user_id'] = $user_id;
 		$this->user->data['group_id'] = $group_id;
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		if ($expected)
 		{
 			$this->assertTrue($this->gallery_auth->acl_check($permission, $album_id, 0));
@@ -234,7 +234,7 @@ class core_auth_test extends core_base
 	{
 		$this->user->data['user_id'] = $user_id;
 		$this->user->data['group_id'] = $group_id;
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$sql = 'SELECT user_permissions FROM phpbb_gallery_users WHERE user_id = ' . $user_id;
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
@@ -294,7 +294,7 @@ class core_auth_test extends core_base
 	{
 		$this->user->data['user_id'] = $user_id;
 		$this->user->data['group_id'] = $group_id;
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		if ($expected)
 		{
 			$this->assertTrue($this->gallery_auth->acl_check_global($acl));
@@ -388,7 +388,7 @@ class core_auth_test extends core_base
 	{
 		$this->user->data['user_id'] = $user_id;
 		$this->user->data['group_id'] = $group_id;
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$actual = $this->gallery_auth->acl_album_ids($acl, $return_type, $rrc);
 		if (is_array($expected))
 		{
@@ -438,7 +438,7 @@ class core_auth_test extends core_base
 	/**
 	* List of functions to be tested:
 	* get_own_album -> test_get_own_album
-	* load_user_premissions -> test_acl_check
+	* load_user_permissions -> test_acl_check
 	* get_user_zebra -> test_get_user_zebra
 	* get_zebra_state
 	* get_usergroups-> test_acl_check

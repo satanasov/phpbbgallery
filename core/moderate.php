@@ -152,7 +152,7 @@ class moderate
 			$per_page = $this->gallery_config->get('items_per_page');
 		}
 		// Let's get albums that user can moderate
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 
 		// Get albums we can approve in
 		$mod_array = array();
@@ -273,7 +273,7 @@ class moderate
 			$per_page = $this->gallery_config->get('items_per_page');
 		}
 		// Let's get albums that user can moderate
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 
 		// we have security in the controller, so no need to be paranoid ...
 		// and we will build queue with only items user can review
@@ -284,7 +284,7 @@ class moderate
 		// Let's see what the user can do?
 		$status[] = 1;
 		$actions = array();
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$album = $this->album->get_info($album_id);
 		if ($this->gallery_auth->acl_check('m_status', $album['album_id'], $album['album_user_id']))
 		{
