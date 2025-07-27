@@ -24,8 +24,9 @@ function toggleElement(oElement)
 	}
 }
 </script>
-<p class="right responsive-center time rightside<!-- IF S_USER_LOGGED_IN --> rightside<!-- ENDIF -->"><!-- IF S_USER_LOGGED_IN -->{LAST_VISIT_DATE}<!-- ELSE -->{CURRENT_TIME}<!-- ENDIF --></p>
-<p class="responsive-center time<!-- IF S_USER_LOGGED_IN -->">{CURRENT_TIME}<!-- ENDIF --></p>
+<p class="{S_CONTENT_FLOW_END} responsive-center time<!-- IF S_USER_LOGGED_IN --> rightside<!-- ENDIF -->"><!-- IF S_USER_LOGGED_IN -->{LAST_VISIT_DATE}<!-- ELSE -->{CURRENT_TIME}<!-- ENDIF --></p>
+<!-- IF S_USER_LOGGED_IN --><p class="responsive-center time">{CURRENT_TIME}</p><!-- ENDIF -->
+
 
 <!-- IF S_USER_LOGGED_IN and not S_IS_BOT -->
 <ul class="linklist right responsive-center rightside">
@@ -105,6 +106,7 @@ function toggleElement(oElement)
 	</li>
 </ul>
 <!-- ENDIF -->
+<br />
 <br />
 <br />
 <!-- IF S_PERSONAL_GALLERY and U_USERS_PERSONAL_GALLERIES -->
