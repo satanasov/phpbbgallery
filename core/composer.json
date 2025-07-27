@@ -3,20 +3,25 @@
 	"type": "phpbb-extension",
 	"description": "phpBB Gallery",
 	"homepage": "https://github.com/satanasov/phpbbgallery",
-	"version": "3.3.0",
-	"time": "2023-05-26",
+	"version": "3.4.0",
+	"time": "2025-07-27",
 	"license": "GPL-2.0",
 	"authors": [
 		{
 			"name": "Joas Schilling",
 			"email": "nickvergessen@gmx.de",
-			"homepage": "http://github.com/nickvergessen",
+			"homepage": "https://github.com/nickvergessen",
 			"role": "Main MOD Author"
 		},
 		{
 			"name": "Stanislav Atanasov",
 			"email": "lucifer@anavaro.com",
-			"homepage": "http://www.anavaro.com",
+			"homepage": "https://www.anavaro.com",
+			"role": "Extension Developer"
+		},
+		{
+			"name": "Leinad4Mind",
+			"homepage": "https://www.leinad4mind.top/forum",
 			"role": "Extension Developer"
 		}
 	],
@@ -30,8 +35,9 @@
 		}
 	},
 	"version-check": {
-		"host": "lab.anavaro.com",
-		"directory": "/phpbb-ext/3.3.x",
-		"filename": "/phpbbgallery_core.json"
+		"host": "raw.githubusercontent.com",
+		"directory": "/satanasov/phpbbgallery/master",
+		"filename": "gallery-core.json",
+		"ssl": true
 	}
 }
