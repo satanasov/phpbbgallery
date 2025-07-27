@@ -1014,7 +1014,7 @@ class manage
 		$this->db->sql_freeresult($result);
 
 		$this->gallery_config->set('num_images', $row['num_images']);
-		$this->gallery_config->set('num_comments', $row['num_comments']);
+		$this->gallery_config->set('num_comments', (int) $row['num_comments']);
 
 		/**
 		* Event delete album content

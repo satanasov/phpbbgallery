@@ -207,7 +207,7 @@ class main_module
 			$db->sql_freeresult($result);
 
 			$gallery_config->set('num_images', $row['num_images']);
-			$gallery_config->set('num_comments', $row['num_comments']);
+			$gallery_config->set('num_comments', (int) $row['num_comments']);
 
 			$cache->destroy('sql', $table_prefix . 'gallery_albums');
 			$cache->destroy('sql', $table_prefix . 'gallery_comments');
@@ -232,23 +232,23 @@ class main_module
 			}
 			else
 			{
-				$user->lang['CLEAN_GALLERY_CONFIRM'] = $user->lang['CONFIRM_CLEAN'];
+				$clean_gallery_confirm = $user->lang['CONFIRM_CLEAN'];
 				if ($missing_sources)
 				{
-					$user->lang['CLEAN_GALLERY_CONFIRM'] = $user->lang['CONFIRM_CLEAN_SOURCES'] . '<br />' . $user->lang['CLEAN_GALLERY_CONFIRM'];
+					$clean_gallery_confirm = $user->lang['CONFIRM_CLEAN_SOURCES'] . '<br />' . $clean_gallery_confirm;
 				}
 				if ($missing_entries)
 				{
-					$user->lang['CLEAN_GALLERY_CONFIRM'] = $user->lang['CONFIRM_CLEAN_ENTRIES'] . '<br />' . $user->lang['CLEAN_GALLERY_CONFIRM'];
+					$clean_gallery_confirm = $user->lang['CONFIRM_CLEAN_ENTRIES'] . '<br />' . $clean_gallery_confirm;
 				}
 				if ($missing_authors)
 				{
 					$core_cleanup->delete_author_images($missing_authors);
-					$user->lang['CLEAN_GALLERY_CONFIRM'] = $user->lang['CONFIRM_CLEAN_AUTHORS'] . '<br />' . $user->lang['CLEAN_GALLERY_CONFIRM'];
+					$clean_gallery_confirm = $user->lang['CONFIRM_CLEAN_AUTHORS'] . '<br />' . $clean_gallery_confirm;
 				}
 				if ($missing_comments)
 				{
-					$user->lang['CLEAN_GALLERY_CONFIRM'] = $user->lang['CONFIRM_CLEAN_COMMENTS'] . '<br />' . $user->lang['CLEAN_GALLERY_CONFIRM'];
+					$clean_gallery_confirm = $user->lang['CONFIRM_CLEAN_COMMENTS'] . '<br />' . $clean_gallery_confirm;
 				}
 				if ($personals_bad || $missing_personals)
 				{
@@ -271,11 +271,11 @@ class main_module
 				}
 				if ($missing_personals)
 				{
-					$user->lang['CLEAN_GALLERY_CONFIRM'] = $user->lang('CONFIRM_CLEAN_PERSONALS', implode(', ', $missing_personals_names)) . '<br />' . $user->lang['CLEAN_GALLERY_CONFIRM'];
+					$clean_gallery_confirm = $user->lang('CONFIRM_CLEAN_PERSONALS', implode(', ', $missing_personals_names)) . '<br />' . $clean_gallery_confirm;
 				}
 				if ($personals_bad)
 				{
-					$user->lang['CLEAN_GALLERY_CONFIRM'] = $user->lang('CONFIRM_CLEAN_PERSONALS_BAD', implode(', ', $personals_bad_names)) . '<br />' . $user->lang['CLEAN_GALLERY_CONFIRM'];
+					$clean_gallery_confirm = $user->lang('CONFIRM_CLEAN_PERSONALS_BAD', implode(', ', $personals_bad_names)) . '<br />' . $clean_gallery_confirm;
 				}
 				if ($prune && empty($prune_pattern))
 				{
@@ -283,9 +283,9 @@ class main_module
 				}
 				else if ($prune && $prune_pattern)
 				{
-					$user->lang['CLEAN_GALLERY_CONFIRM'] = $user->lang('CONFIRM_PRUNE', $core_cleanup->lang_prune_pattern($prune_pattern)) . '<br />' . $user->lang['CLEAN_GALLERY_CONFIRM'];
+					$clean_gallery_confirm = $user->lang('CONFIRM_PRUNE', $core_cleanup->lang_prune_pattern($prune_pattern)) . '<br />' . $clean_gallery_confirm;
 				}
-				confirm_box(false, 'CLEAN_GALLERY', $s_hidden_fields);
+				confirm_box(false, $clean_gallery_confirm, $s_hidden_fields);
 			}
 		}
 

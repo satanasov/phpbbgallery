@@ -708,7 +708,7 @@ class moderate
 		}
 		$action_ary = $this->request->variable('action', array('' => 0));
 		$action_ary = array_keys($action_ary);
-		$action = $action_ary[0];
+		$action = $action_ary[0] ?? 'approve';
 
 		if ($action == 'disapprove')
 		{

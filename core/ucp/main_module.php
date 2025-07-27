@@ -531,6 +531,7 @@ class main_module
 
 			generate_text_for_storage($album_data['album_desc'], $album_data['album_desc_uid'], $album_data['album_desc_bitfield'], $album_data['album_desc_options'], $request->variable('desc_parse_bbcode', false), $request->variable('desc_parse_urls', false), $request->variable('desc_parse_smilies', false));
 			$row = $phpbb_ext_gallery_core_album->get_info($album_id);
+			$parent_id = (int) $album_data['parent_id'];
 			if (!$row['parent_id'])
 			{
 				// do not allow to restrict access on the base-album
@@ -543,18 +544,18 @@ class main_module
 			{
 				$exclude_albums[] = (int) $loop['album_id'];
 			}
-			if (in_array($album_data['parent_id'], $exclude_albums))
+			if (in_array($parent_id, $exclude_albums))
 			{
-				$album_data['parent_id'] = (int) $row['parent_id'];
+				$parent_id = (int) $row['parent_id'];
 			}
 
 			// If the parent is different, the left_id and right_id have changed.
-			if ($row['parent_id'] != $album_data['parent_id'])
+			if ($row['parent_id'] != $parent_id)
 			{
-				if ($album_data['parent_id'])
+				if ($parent_id > 0)
 				{
 					// Get the parent album now, so it throws an error when it does not exist, before we change the database.
-					$parent = $phpbb_ext_gallery_core_album->get_info($album_data['parent_id']);
+					$parent = $phpbb_ext_gallery_core_album->get_info($parent_id);
 				}
 
 				// How many do we have to move and how far.
@@ -581,7 +582,7 @@ class main_module
 				$new['right_id'] = $row['right_id'] + $moving_distance;
 
 				// Close the gap, we produced through moving.
-				if ($album_data['parent_id'] == 0)
+				if ($parent_id == 0)
 				{
 					$sql = 'UPDATE ' . $albums_table . '
 						SET left_id = left_id - ' . $moving_ids . '
@@ -611,6 +612,9 @@ class main_module
 							AND right_id <= ' . (int) $stop_updating;
 					$db->sql_query($sql);
 
+					// We should get new parent again for the case if it has been changed
+					$parent = $phpbb_ext_gallery_core_album->get_info($parent_id);
+
 					$sql = 'UPDATE ' . $albums_table . '
 						SET left_id = left_id + ' . $moving_ids . '
 						WHERE album_user_id = ' . (int) $row['album_user_id'] . '
@@ -625,8 +629,10 @@ class main_module
 							AND right_id <= ' . (int) $stop_updating;
 					$db->sql_query($sql);
 
+					// We should get new parent again for the case if it has been changed
+					$parent = $phpbb_ext_gallery_core_album->get_info($parent_id);
+
 					// Move the albums to the suggested gap.
-					$parent['right_id'] = $parent['right_id'] + $moving_ids;
 					$move_back = ($new['right_id'] - $parent['right_id']) + 1;
 					$sql = 'UPDATE ' . $albums_table . '
 						SET left_id = left_id - ' . $move_back . ',
@@ -760,7 +766,7 @@ class main_module
 			$db->sql_freeresult($result);
 
 			$phpbb_ext_gallery_config->set('num_images', $row['num_images']);
-			$phpbb_ext_gallery_config->set('num_comments', $row['num_comments']);
+			$phpbb_ext_gallery_config->set('num_comments', (int) $row['num_comments']);
 
 			$num_images = sizeof($deleted_images);
 			if ($num_images)
