@@ -396,7 +396,7 @@ class search
 			'SEARCH_MATCHES'	=> $this->language->lang('TOTAL_COMMENTS_SPRINTF', $count),
 			'SEARCH_TITLE'		=> $this->language->lang('RECENT_COMMENTS'),
 		));
-		if($pagination)
+		if ($pagination)
 		{
 			$this->pagination->generate_template_pagination(array(
 				'routes' => array(
@@ -405,12 +405,11 @@ class search
 					'params' => array()), 'pagination', 'page', $count, $limit, $start
 			);
 		}
-		
 	}
 
 	/**
 	 * Generate recent images and populate template
-	 * @param (int)    $limit How many imagese to query
+	 * @param (int)    $limit How many images to query
 	 * @param int $start
 	 * @param int $user
 	 * @param string $fields
