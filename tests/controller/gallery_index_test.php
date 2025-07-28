@@ -100,7 +100,7 @@ class gallery_index_test extends controller_base
 	* Test controller index
 	* function base()
 	* As I can't pass parameters to ->withConsecutive but I want to
-	* will have to make diferent test for each case
+	* will have to make different test for each case
 	*
 	*/
 	public function test_controller_base_case_1()

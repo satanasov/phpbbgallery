@@ -241,7 +241,7 @@ class log
 				'ip'	=> $row['log_ip'],
 				'album'	=> $row['album'],
 				'image'	=> $row['image'],
-				'description'	=> json_decode($row['description'], true)
+				'description'	=> json_decode(stripslashes($row['description']))
 			);
 			$users_array[$row['log_user']] = array('');
 		}
@@ -260,8 +260,7 @@ class log
 					'U_LOG_IP'		=> $var['ip'],
 					'U_ALBUM_LINK'	=> $var['album'] != 0 ? $this->helper->route('phpbbgallery_core_album', array('album_id'	=> $var['album'])) : false,
 					'U_IMAGE_LINK'	=> $var['image'] != 0 ? $this->helper->route('phpbbgallery_core_image', array('image_id'	=> $var['image'])) : false,
-					//'U_LOG_ACTION'	=> $description,
-					'U_LOG_ACTION'	=> $this->language->lang($var['description'][0], isset($var['description'][1]) ? $var['description'][1] : false, isset($var['description'][2]) ? $var['description'][2] : false, isset($var['description'][3]) ? $var['description'][3] : false),
+					'U_LOG_ACTION' => isset($var['description']) && is_array($var['description']) ? $this->language->lang($var['description'][0], $var['description'][1] ?? false, $var['description'][2] ?? false, $var['description'][3] ?? false) : '',
 					'U_TIME'		=> $this->user->format_date($var['time']),
 				));
 			}
