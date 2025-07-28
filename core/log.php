@@ -241,7 +241,7 @@ class log
 				'ip'	=> $row['log_ip'],
 				'album'	=> $row['album'],
 				'image'	=> $row['image'],
-				'description'	=> json_decode(stripslashes($row['description']))
+				'description'	=> json_decode($row['description'], true)
 			);
 			$users_array[$row['log_user']] = array('');
 		}
