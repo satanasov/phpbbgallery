@@ -25,14 +25,14 @@
 		<whitelist processUncoveredFilesFromWhitelist="true">
 			<directory suffix=".php">./</directory>
 			<exclude>
-				<directory suffix=".php">./acpcleanup/language/</directory>
-				<directory suffix=".php">./acpcleanup/migrations/</directory>
-				<directory suffix=".php">./acpimport/language/</directory>
-				<directory suffix=".php">./acpimport/migrations/</directory>
-				<directory suffix=".php">./exif/language/</directory>
-				<directory suffix=".php">./exif/migrations/</directory>
-				<directory suffix=".php">./core/language/</directory>
-				<directory suffix=".php">./core/migrations/</directory>
+				<directory suffix=".php">./ext/phpbbgallery/acpcleanup/language/</directory>
+				<directory suffix=".php">./ext/phpbbgallery/acpcleanup/migrations/</directory>
+				<directory suffix=".php">./ext/phpbbgallery/acpimport/language/</directory>
+				<directory suffix=".php">./ext/phpbbgallery/acpimport/migrations/</directory>
+				<directory suffix=".php">./ext/phpbbgallery/exif/language/</directory>
+				<directory suffix=".php">./ext/phpbbgallery/exif/migrations/</directory>
+				<directory suffix=".php">./ext/phpbbgallery/core/language/</directory>
+				<directory suffix=".php">./ext/phpbbgallery/core/migrations/</directory>
 				<directory suffix=".php">./tests/</directory>
 			</exclude>
 		</whitelist>
