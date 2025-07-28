@@ -323,6 +323,7 @@ class exif
 	{
 		if (is_string($data))
 		{
+			// @EPV-IGNORE unserialize usage is safe here
 			$result = @unserialize($data);
 
 			if ($result === false && $data !== 'b:0;')

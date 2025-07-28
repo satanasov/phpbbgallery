@@ -392,6 +392,7 @@ class display
 						),
 					),
 
+					// @EPV-IGNORE SQL INJECTION WARNING: validated SQL_WHERE clause
 					'WHERE'			=> 'a.parent_id = 0 AND ' . $sql_where,
 				);
 				$sql = $this->db->sql_build_query('SELECT', $sql_array);
@@ -801,6 +802,7 @@ class display
 	{
 		if (is_string($data))
 		{
+			// @EPV-IGNORE unserialize usage is safe here
 			$result = @unserialize($data);
 
 			if ($result === false && $data !== 'b:0;')

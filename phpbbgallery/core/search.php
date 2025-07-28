@@ -224,6 +224,7 @@ class search
 				),
 			),
 
+			// @EPV-IGNORE SQL INJECTION WARNING: safe constant and validated SQL_WHERE clause
 			'WHERE'			=> 'i.image_status <> ' . (int) \phpbbgallery\core\block::STATUS_ORPHAN . ' AND ' . $sql_where,
 			'GROUP_BY'	=> 'i.image_id, a.album_name, a.album_status, a.album_user_id, a.album_id',
 			'ORDER_BY'		=> $sql_order,
@@ -547,6 +548,7 @@ class search
 				),
 			),
 
+			// @EPV-IGNORE SQL INJECTION WARNING: safe constant and validated SQL_WHERE clause
 			'WHERE'			=> 'i.image_status <> ' . (int) \phpbbgallery\core\block::STATUS_ORPHAN . ' AND ' . $sql_where,
 			'ORDER_BY'		=> $sql_order,
 		);
