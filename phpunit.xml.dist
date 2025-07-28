@@ -23,7 +23,7 @@
 
 	<filter>
 		<whitelist processUncoveredFilesFromWhitelist="true">
-			<directory suffix=".php">./</directory>
+			<directory suffix=".php">./ext/phpbbgallery</directory>
 			<exclude>
 				<directory suffix=".php">./ext/phpbbgallery/acpcleanup/language/</directory>
 				<directory suffix=".php">./ext/phpbbgallery/acpcleanup/migrations/</directory>
