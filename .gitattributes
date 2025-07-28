@@ -3,7 +3,7 @@
 phpunit.xml.dist	export-ignore
 .vscode	export-ignore
 .codegpt	export-ignore
-gallery-core.json
-gallery-cleanup.json
-gallery-exif.json
-gallery-import.json
+gallery-core.json	export-ignore
+gallery-cleanup.json	export-ignore
+gallery-exif.json	export-ignore
+gallery-import.json	export-ignore
