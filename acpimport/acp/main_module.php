@@ -215,7 +215,8 @@ class main_module
 						// Put the images into the database
 						$db->sql_query('INSERT INTO ' . $table_prefix . 'gallery_images ' . $db->sql_build_array('INSERT', $sql_ary));
 						// If the source image is imported, we delete it.
-						if (file_exists($image_src_full)) {
+						if (file_exists($image_src_full))
+						{
 							@unlink($image_src_full);
 						}
 					}

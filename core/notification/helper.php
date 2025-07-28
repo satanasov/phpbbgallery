@@ -298,7 +298,7 @@ class helper
 		$data['targets'] = $targets;
 		$this->notify('new_image', $data);
 	}
-	
+
 	public function set_image(\phpbbgallery\core\image\image $image)
 	{
 		$this->image = $image;

@@ -365,8 +365,8 @@ $lang = array_merge($lang, array(
 
 	'QUICK_MOD'	=> 'Seleziona azione di moderazione',
 	'WRONG_FILESIZE'	=> 'L’immagine è più grande del limite!',
-    'UNREAD_IMAGES'		=> 'Immagini non viste',
-    'NO_UNREAD_IMAGES'	=> 'Nessuna immagine non vista',
+	'UNREAD_IMAGES'		=> 'Immagini non viste',
+	'NO_UNREAD_IMAGES'	=> 'Nessuna immagine non vista',
 
 	// Versions 1.2.1 addiotions
 	'GALLERY_DROP'		=> 'Lascia qui le tue immagini',

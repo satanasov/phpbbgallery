@@ -61,7 +61,7 @@ $lang = array_merge($lang, array(
 	'QUEUE_A_UNAPPROVE' 			=> 'No aprobar imagen',
 	'QUEUE_A_UNAPPROVE2' 			=> '¿Aprobar la imagen?',
 	'QUEUE_A_UNAPPROVE2_CONFIRM' 	=> '¿Está seguro de que desea suprimir esta imagen?',
-	
+
 	'QUEUE_STATUS_0' 				=> 'La imagen está a la espera de aprobación.',
 	'QUEUE_STATUS_1' 				=> 'La imagen está aprobada.',
 	'QUEUE_STATUS_2' 				=> 'La imagen está bloqueada.',

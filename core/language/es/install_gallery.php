@@ -79,7 +79,7 @@ $lang = array_merge($lang, array(
 	'MODULES_SELECT_NONE' 			=>	'sin módulo padre',
 
 	'NO_INSTALL_FOUND' 				=>	'No se encontró ninguna instalación!',
-	
+
 	'OPTIONAL_EXIFDATA' 			=>	'Función "exif_read_data" existe',
 	'OPTIONAL_EXIFDATA_EXP' 		=>	'El módulo exif no está cargado o instalado.',
 	'OPTIONAL_EXIFDATA_EXPLAIN' 	=>	'Si la función existe, los datos exif de las imágenes se muestran en la página de imagen.',
