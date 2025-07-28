@@ -321,10 +321,12 @@ class exif
 
 	protected function safe_unserialize($data)
 	{
-		if (is_string($data)) {
+		if (is_string($data))
+		{
 			$result = @unserialize($data);
 
-			if ($result === false && $data !== 'b:0;') {
+			if ($result === false && $data !== 'b:0;')
+			{
 					return [];
 			}
 
