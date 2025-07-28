@@ -13,11 +13,11 @@
 >
 	<testsuites>
 		<testsuite name="Extension Test Suite">
-			<directory suffix="_test.php">./phpbbgallery/tests</directory>
-			<exclude>./phpbbgallery/tests/functional</exclude>
+			<directory suffix="_test.php">./tests</directory>
+			<exclude>./tests/functional</exclude>
 		</testsuite>
 		<testsuite name="Extension Functional Tests">
-			<directory suffix="_test.php" phpVersion="5.3.19" phpVersionOperator=">=">./phpbbgallery/tests/functional/</directory>
+			<directory suffix="_test.php" phpVersion="5.3.19" phpVersionOperator=">=">./tests/functional/</directory>
 		</testsuite>
 	</testsuites>
 
@@ -25,15 +25,15 @@
 		<whitelist processUncoveredFilesFromWhitelist="true">
 			<directory suffix=".php">./</directory>
 			<exclude>
-				<directory suffix=".php">./phpbbgallery/acpcleanup/language/</directory>
-				<directory suffix=".php">./phpbbgallery/acpcleanup/migrations/</directory>
-				<directory suffix=".php">./phpbbgallery/acpimport/language/</directory>
-				<directory suffix=".php">./phpbbgallery/acpimport/migrations/</directory>
-				<directory suffix=".php">./phpbbgallery/exif/language/</directory>
-				<directory suffix=".php">./phpbbgallery/exif/migrations/</directory>
-				<directory suffix=".php">./phpbbgallery/core/language/</directory>
-				<directory suffix=".php">./phpbbgallery/core/migrations/</directory>
-				<directory suffix=".php">./phpbbgallery/tests/</directory>
+				<directory suffix=".php">./acpcleanup/language/</directory>
+				<directory suffix=".php">./acpcleanup/migrations/</directory>
+				<directory suffix=".php">./acpimport/language/</directory>
+				<directory suffix=".php">./acpimport/migrations/</directory>
+				<directory suffix=".php">./exif/language/</directory>
+				<directory suffix=".php">./exif/migrations/</directory>
+				<directory suffix=".php">./core/language/</directory>
+				<directory suffix=".php">./core/migrations/</directory>
+				<directory suffix=".php">./tests/</directory>
 			</exclude>
 		</whitelist>
 	</filter>
