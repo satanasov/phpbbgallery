@@ -109,7 +109,7 @@ class exif
 		$this->status = $status;
 		if ($this->status == self::DBSAVED)
 		{
-			$this->data = unserialize($data);
+			$this->data = $this->safe_unserialize($data);
 		}
 		else if (($this->status == self::AVAILABLE) || ($this->status == self::UNKNOWN))
 		{
@@ -317,6 +317,21 @@ class exif
 			SET image_has_exif = ' . $this->status . $update_data . '
 			WHERE image_id = ' . $this->image_id;
 		$db->sql_query($sql);
+	}
+
+	protected function safe_unserialize($data)
+	{
+		if (is_string($data)) {
+			$result = @unserialize($data);
+
+			if ($result === false && $data !== 'b:0;') {
+					return [];
+			}
+
+			return $result;
+		}
+
+		return [];
 	}
 
 	/**
