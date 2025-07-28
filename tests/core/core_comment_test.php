@@ -30,7 +30,7 @@ class core_comment_test extends core_base
         ];
         $this->user->ip = '127.0.0.1';
 
-        $this->db = $this->createMock(\phpbb\db\driver\driver_interface::class);
+        $this->db = $this->getMockForAbstractClass(\phpbb\db\driver\driver_interface::class);
         $this->config = $this->createMock(\phpbbgallery\core\config::class);
         $this->auth = $this->createMock(\phpbbgallery\core\auth\auth::class);
         $this->block = $this->createMock(\phpbbgallery\core\block::class);
