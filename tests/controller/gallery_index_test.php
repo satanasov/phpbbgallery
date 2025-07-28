@@ -172,7 +172,7 @@ class gallery_index_test extends controller_base
 						'U_IMAGENAME_ACTION' => 'phpbbgallery_core_image',
 						'U_TIME' => false,
 						'U_UPLOADER' => false,
-						'ALPHABET_NAVIGATION' => false,
+						'ALPHABET_NAVIGATION' => assertStringContainsString('#</a>'),
 					)
 				),
 				array(
@@ -463,7 +463,7 @@ class gallery_index_test extends controller_base
 						'U_IMAGENAME_ACTION' => 'phpbbgallery_core_image',
 						'U_TIME' => false,
 						'U_UPLOADER' => false,
-						'ALPHABET_NAVIGATION' => false,
+						'ALPHABET_NAVIGATION' => assertStringContainsString('#</a>'),
 					)
 				),
 				array(
@@ -636,7 +636,7 @@ class gallery_index_test extends controller_base
 						'U_IMAGENAME_ACTION' => 'phpbbgallery_core_image',
 						'U_TIME' => false,
 						'U_UPLOADER' => false,
-						'ALPHABET_NAVIGATION' => false,
+						'ALPHABET_NAVIGATION' => assertStringContainsString('#</a>'),
 					)
 				),
 				array(
