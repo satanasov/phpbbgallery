@@ -199,7 +199,8 @@ class display
 	 */
 	public function get_parents($album_data)
 	{
-		$album_parents = array();
+		$album_parents = [];
+
 		if ($album_data['parent_id'] > 0)
 		{
 			if ($album_data['album_parents'] == '')
@@ -210,29 +211,33 @@ class display
 						AND right_id > ' . (int) $album_data['right_id'] . '
 						AND album_user_id = ' . (int) $album_data['album_user_id'] . '
 					ORDER BY left_id ASC';
+
 				$result = $this->db->sql_query($sql);
 
 				while ($row = $this->db->sql_fetchrow($result))
 				{
-					$album_parents[$row['album_id']] = array($row['album_name'], (int) $row['album_type']);
+					$album_parents[$row['album_id']] = [$row['album_name'], (int) $row['album_type']];
 				}
 				$this->db->sql_freeresult($result);
 
-				$album_data['album_parents'] = serialize($album_parents);
+				$album_data['album_parents'] = json_encode($album_parents);
 
 				$sql = 'UPDATE ' . $this->table_albums . "
 					SET album_parents = '" . $this->db->sql_escape($album_data['album_parents']) . "'
 					WHERE parent_id = " . (int) $album_data['parent_id'];
 				$this->db->sql_query($sql);
-			}
-			else
-			{
-				$album_parents = unserialize($album_data['album_parents']);
+			} else {
+				$album_parents = json_decode($album_data['album_parents'], true);
+				if (!is_array($album_parents))
+				{
+					$album_parents = []; // fallback if corrupted
+				}
 			}
 		}
 
 		return $album_parents;
 	}
+
 
 	/**
 	 * Obtain list of moderators of each album
