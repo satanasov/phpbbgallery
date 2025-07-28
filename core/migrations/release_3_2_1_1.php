@@ -29,4 +29,15 @@ class release_3_2_1_1 extends \phpbb\db\migration\migration
 		);
 	}
 
+	public function revert_schema()
+	{
+		return array(
+			'drop_columns' => array(
+				$this->table_prefix . 'gallery_users' => array(
+					'rrc_zebra',
+				),
+			),
+		);
+	}
+
 }
