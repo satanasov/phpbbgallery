@@ -212,10 +212,12 @@ class exif_listener implements EventSubscriberInterface
 
 	public function ucp_set_settings_submit($event)
 	{
+		global $request;
+
 		$additional_settings = $event['additional_settings'];
 		if (!in_array('user_viewexif', $additional_settings))
 		{
-			$additional_settings['user_viewexif'] = request_var('viewexifs', false);
+			$additional_settings['user_viewexif'] = $request->variable('viewexifs', false);
 			$event['additional_settings'] = $additional_settings;
 		}
 	}
