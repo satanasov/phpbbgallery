@@ -310,10 +310,10 @@ class search
 
 	/**
 	 * recent comments
-	 * @param (int)    $limit How many imagese to query
+	 * @param (int)    $limit How many images to query
 	 * @param int $start
 	 */
-	public function recent_comments($limit, $start = 0)
+	public function recent_comments($limit, $start = 0, $pagination = true)
 	{
 		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$sql_limit = $limit;
@@ -337,7 +337,7 @@ class search
 			'WHERE'	=> 'i.image_id = c.comment_image_id and ' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('c_read'), false, true),
 			'ORDER_BY'	=> 'comment_time DESC'
 		);
-		$sql_array['WHERE'] .= ' AND ((' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums), false, true) . ' AND image_status <> ' . \phpbbgallery\core\block::STATUS_UNAPPROVED . ')
+		$sql_array['WHERE'] .= ' AND ((' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums), false, true) . ' AND image_status <> ' . (int) \phpbbgallery\core\block::STATUS_UNAPPROVED . ')
 					OR ' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('m_status'), $exclude_albums), false, true) . ')';
 
 		$sql_array['SELECT'] = 'COUNT(c.comment_id) as count';
@@ -396,12 +396,16 @@ class search
 			'SEARCH_MATCHES'	=> $this->language->lang('TOTAL_COMMENTS_SPRINTF', $count),
 			'SEARCH_TITLE'		=> $this->language->lang('RECENT_COMMENTS'),
 		));
-		$this->pagination->generate_template_pagination(array(
-			'routes' => array(
-				'phpbbgallery_core_search_commented',
-				'phpbbgallery_core_search_commented_page',),
-				'params' => array()), 'pagination', 'page', $count, $limit, $start
-		);
+		if($pagination)
+		{
+			$this->pagination->generate_template_pagination(array(
+				'routes' => array(
+					'phpbbgallery_core_search_commented',
+					'phpbbgallery_core_search_commented_page',),
+					'params' => array()), 'pagination', 'page', $count, $limit, $start
+			);
+		}
+		
 	}
 
 	/**
