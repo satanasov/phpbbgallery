@@ -662,7 +662,7 @@ class image
 			{
 				$edit_info = '';
 
-				// Let's deply new profile
+				// Let's deploy new profile
 				$poster_id = $row['comment_user_id'];
 
 				if ($row['comment_edit_count'] > 0)

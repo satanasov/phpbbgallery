@@ -145,7 +145,7 @@ $lang = array_merge($lang, array(
 	'FILETYPES_GIF'					=> 'gif',
 	'FILETYPES_JPG'					=> 'jpg',
 	'FILETYPES_PNG'					=> 'png',
-	'FILETYPES_WEBP'				=> 'webp',
+	'FILETYPES_WEBP'					=> 'webp',
 	'FILETYPES_ZIP'					=> 'zip',
 
 	'FULL_EDITOR_GALLERY'					=> 'Éditeur complet',
@@ -206,6 +206,7 @@ $lang = array_merge($lang, array(
 	'NO_ALBUMS'						=> 'Il n’y a aucun album dans cette galerie.',
 	'NO_COMMENTS'					=> 'Aucun commentaire',
 	'NO_IMAGES'						=> 'Aucune image',
+	'NO_COMMENTS_NO_IMAGES' => 'No comments or own pictures yet',
 	'NO_IMAGES_FOUND'				=> 'Aucune image trouvée.',
 	'NO_NEW_IMAGES'					=> 'Aucune nouvelle image',
 	'NO_IMAGES_LONG'				=> 'Il n’y a aucune image dans cet album.',

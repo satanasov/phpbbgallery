@@ -247,7 +247,7 @@ class search
 	* return (int) $images_count
 	*/
 	public function recent_count()
-{
+	{
 		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 
 		$exclude_albums = [];

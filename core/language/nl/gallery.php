@@ -192,6 +192,7 @@ $lang = array_merge($lang, array(
 	'NO_ALBUMS'             => 'Er zijn geen albums in deze galerij.',
 	'NO_COMMENTS'           => 'Nog geen reacties',
 	'NO_IMAGES'             => 'Geen afbeeldingen',
+	'NO_COMMENTS_NO_IMAGES' => 'No comments or own pictures yet',
 	'NO_IMAGES_FOUND'       => 'Geen afbeldingen gevonden.',
 	'NO_NEW_IMAGES'         => 'Geen nieuwe afbeeldingen',
 	'NO_IMAGES_LONG'        => 'Er zijn geen afbeeldingen in dit album.',

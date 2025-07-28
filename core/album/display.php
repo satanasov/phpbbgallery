@@ -357,7 +357,8 @@ class display
 			$sql_where = 'a.album_user_id > ' . \phpbbgallery\core\block::PUBLIC_ALBUM;
 			$num_pegas = $this->config['phpbb_gallery_num_pegas'];
 			$first_char = strtolower($this->request->variable('first_char', ''));
-			if (!preg_match('/^[a-z]$/', $first_char) && $first_char !== 'other') {
+			if (!preg_match('/^[a-z]$/', $first_char) && $first_char !== 'other')
+			{
 				$first_char = '';
 			}
 

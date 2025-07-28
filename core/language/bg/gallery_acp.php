@@ -232,13 +232,9 @@ $lang = array_merge($lang, array(
 	'PERMISSION_YES'     => 'Да',
 
 	'PERMISSION_A_COUNT'          => 'Брой допустими лични подалбуми',
-	'PERMISSION_A_COUNT_EXPLAIN'	=> ' ',
 	'PERMISSION_A_LIST'           => 'Може да вижда албум',
-	'PERMISSION_A_LIST_EXPLAIN'		=> ' ',
 	'PERMISSION_A_RESTRICT'       => 'Може да ограничва достъпа',
-	'PERMISSION_A_RESTRICT_EXPLAIN'	=> ' ',
 	'PERMISSION_A_UNLIMITED'      => 'Не огрничен брой лични подалбуми',
-	'PERMISSION_A_UNLIMITED_EXPLAIN'=> ' ',
 	'PERMISSION_C'                => 'Коментари',
 	'PERMISSION_C_DELETE'         => 'Може да трие собствените си коментари',
 	'PERMISSION_C_DELETE_EXPLAIN'	=> ' ',
