@@ -269,25 +269,40 @@ class search
 		$view_album_ids = array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums);
 		$mod_album_ids = array_diff($this->gallery_auth->acl_album_ids('m_status'), $exclude_albums);
 
-		// Start SQL with placeholder for image_status <> STATUS_ORPHAN
+		if (empty($view_album_ids) && empty($mod_album_ids))
+		{
+			return 0;
+		}
+
 		$sql = 'SELECT COUNT(image_id) AS count
 			FROM ' . $this->images_table . '
-			WHERE image_status <> ?';
+			WHERE image_status <> ' . (int) \phpbbgallery\core\block::STATUS_ORPHAN;
 
-		$params = [\phpbbgallery\core\block::STATUS_ORPHAN];
+		$conditions = [];
 
-		// Add the complex WHERE condition with placeholders for STATUS_UNAPPROVED
-		$sql .= ' AND ((' . $this->db->sql_in_set('image_album_id', $view_album_ids, false, true) . ' AND image_status <> ?) OR ' . $this->db->sql_in_set('image_album_id', $mod_album_ids, false, true) . ')';
+		if (!empty($view_album_ids))
+		{
+			$conditions[] = '(' . $this->db->sql_in_set('image_album_id', $view_album_ids) . '
+				AND image_status <> ' . (int) \phpbbgallery\core\block::STATUS_UNAPPROVED . ')';
+		}
 
-		$params[] = \phpbbgallery\core\block::STATUS_UNAPPROVED;
+		if (!empty($mod_album_ids))
+		{
+			$conditions[] = $this->db->sql_in_set('image_album_id', $mod_album_ids);
+		}
 
-		// Execute query with parameters bound safely
-		$result = $this->db->sql_query($sql, $params);
+		if (!empty($conditions))
+		{
+			$sql .= ' AND (' . implode(' OR ', $conditions) . ')';
+		}
+
+		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 
 		return (int) $row['count'];
 	}
+
 
 
 	/**
