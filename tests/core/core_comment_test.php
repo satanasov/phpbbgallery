@@ -157,41 +157,34 @@ class core_comment_test extends core_base
                 ['image_id', $image_ids, $sql_in_set_image],
             ]));
 
-        // The SELECT query for comments
-        $this->db->expects($this->at(0))
+         // The SELECT query for comments
+        $this->db->expects($this->exactly(4))
             ->method('sql_query')
-            ->with($this->stringContains('SELECT comment_image_id'));
+            ->withConsecutive(
+                [$this->stringContains('SELECT comment_image_id')],
+                [$this->matchesRegularExpression('/UPDATE\s+phpbb_gallery_images\s*SET\s*image_last_comment\s*=\s*0/i')],
+                [$this->matchesRegularExpression('/SET\s+image_last_comment\s*=\s*10\s*,\s*image_comments\s*=\s*3/i')],
+                [$this->matchesRegularExpression('/SET\s+image_last_comment\s*=\s*20\s*,\s*image_comments\s*=\s*2/i')]
+            );
 
         // Simulate two rows returned, then false to end loop
-        $this->db->expects($this->any())
-            ->method('sql_fetchrow')
+        $this->db->method('sql_fetchrow')
             ->will($this->onConsecutiveCalls(
                 ['comment_image_id' => 1, 'num_comments' => 3, 'last_comment' => 10],
                 ['comment_image_id' => 2, 'num_comments' => 2, 'last_comment' => 20],
                 false
             ));
 
-        $this->db->expects($this->once())->method('sql_freeresult');
-
-        // The first UPDATE resets all
-        $this->db->expects($this->at(1))
-            ->method('sql_query')
-            ->with($this->stringContains('UPDATE phpbb_gallery_images'));
-
-        // The next two UPDATEs set the correct values for each image
-        $this->db->expects($this->at(2))
-            ->method('sql_query')
-            ->with($this->stringContains('SET image_last_comment = 10,'));
-
-        $this->db->expects($this->at(3))
-            ->method('sql_query')
-            ->with($this->stringContains('SET image_last_comment = 20,'));
+        // sql_freeresult called only once
+        $this->db->expects($this->once())
+            ->method('sql_freeresult');
 
         // Act
         $this->comment->sync_image_comments($image_ids);
 
         // Assert: No assertion needed, as expectations above will fail the test if not met
     }
+
 
     public function test_delete_comments()
     {
@@ -210,7 +203,8 @@ class core_comment_test extends core_base
                 false
             );
 
-        $this->db->expects($this->once())->method('sql_freeresult');
+        $this->db->expects($this->once())
+            ->method('sql_freeresult');
 
         $this->config->expects($this->once())
             ->method('dec')
@@ -243,14 +237,13 @@ class core_comment_test extends core_base
             ]));
 
         // Expect DELETE FROM comments
-        $this->db->expects($this->at(0))
-            ->method('sql_query')
-            ->with($this->stringContains('DELETE FROM phpbb_gallery_comments'));
-
         // Expect UPDATE images table to reset stats
-        $this->db->expects($this->at(1))
+        $this->db->expects($this->exactly(2))
             ->method('sql_query')
-            ->with($this->stringContains('UPDATE phpbb_gallery_images'));
+            ->withConsecutive(
+                [$this->stringContains('DELETE FROM phpbb_gallery_comments')],
+                [$this->stringContains('UPDATE phpbb_gallery_images')]
+            );
 
         // Act
         $this->comment->delete_images($image_ids, true);
