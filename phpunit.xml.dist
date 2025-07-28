@@ -13,27 +13,27 @@
 >
 	<testsuites>
 		<testsuite name="Extension Test Suite">
-			<directory suffix="_test.php">./ext/phpbbgallery/tests</directory>
-			<exclude>./ext/phpbbgallery/tests/functional</exclude>
+			<directory suffix="_test.php">./tests</directory>
+			<exclude>./tests/functional</exclude>
 		</testsuite>
 		<testsuite name="Extension Functional Tests">
-			<directory suffix="_test.php" phpVersion="5.3.19" phpVersionOperator=">=">./ext/phpbbgallery/tests/functional/</directory>
+			<directory suffix="_test.php" phpVersion="5.3.19" phpVersionOperator=">=">./tests/functional/</directory>
 		</testsuite>
 	</testsuites>
 
 	<filter>
 		<whitelist processUncoveredFilesFromWhitelist="true">
-			<directory suffix=".php">./ext/phpbbgallery</directory>
+			<directory suffix=".php">./</directory>
 			<exclude>
-				<directory suffix=".php">./ext/phpbbgallery/acpcleanup/language/</directory>
-				<directory suffix=".php">./ext/phpbbgallery/acpcleanup/migrations/</directory>
-				<directory suffix=".php">./ext/phpbbgallery/acpimport/language/</directory>
-				<directory suffix=".php">./ext/phpbbgallery/acpimport/migrations/</directory>
-				<directory suffix=".php">./ext/phpbbgallery/exif/language/</directory>
-				<directory suffix=".php">./ext/phpbbgallery/exif/migrations/</directory>
-				<directory suffix=".php">./ext/phpbbgallery/core/language/</directory>
-				<directory suffix=".php">./ext/phpbbgallery/core/migrations/</directory>
-				<directory suffix=".php">./ext/phpbbgallery/tests/</directory>
+				<directory suffix=".php">./acpcleanup/language/</directory>
+				<directory suffix=".php">./acpcleanup/migrations/</directory>
+				<directory suffix=".php">./acpimport/language/</directory>
+				<directory suffix=".php">./acpimport/migrations/</directory>
+				<directory suffix=".php">./exif/language/</directory>
+				<directory suffix=".php">./exif/migrations/</directory>
+				<directory suffix=".php">./core/language/</directory>
+				<directory suffix=".php">./core/migrations/</directory>
+				<directory suffix=".php">./tests/</directory>
 			</exclude>
 		</whitelist>
 	</filter>
