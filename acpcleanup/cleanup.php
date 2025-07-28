@@ -144,16 +144,16 @@ class cleanup
 	}
 
 	/**
-	* Delete unwanted and obsolent personal galleries.
+	* Delete unwanted and obsolete personal galleries.
 	*
 	* @param	array	$unwanted_pegas		User IDs we want to delete the pegas.
-	* @param	array	$obsolent_pegas		User IDs we want to delete the pegas.
+	* @param	array	$obsolete_pegas		User IDs we want to delete the pegas.
 	* @return	array	Language keys for the success messages.
 	*/
-	public function delete_pegas($unwanted_pegas, $obsolent_pegas)
+	public function delete_pegas($unwanted_pegas, $obsolete_pegas)
 	{
 
-		$delete_pegas = array_merge($unwanted_pegas, $obsolent_pegas);
+		$delete_pegas = array_merge($unwanted_pegas, $obsolete_pegas);
 
 		$delete_images = $delete_albums = $user_image_count = array();
 		$num_pegas = 0;
@@ -226,7 +226,7 @@ class cleanup
 						),
 					),
 
-					'WHERE'			=> 'a.album_user_id <> ' . $this->album->get_public() . ' AND a.parent_id = 0',
+					'WHERE'			=> 'a.album_user_id <> ' . (int) $this->album->get_public() . ' AND a.parent_id = 0',
 					'ORDER_BY'		=> 'a.album_id DESC',
 				);
 				$sql = $this->db->sql_build_query('SELECT', $sql_array);
@@ -267,7 +267,7 @@ class cleanup
 		\phpbbgallery\core\user::update_users($delete_pegas, array('personal_album_id' => 0));
 */
 		$return = array();
-		if ($obsolent_pegas)
+		if ($obsolete_pegas)
 		{
 			$return[] = 'CLEAN_PERSONALS_DONE';
 		}

@@ -302,7 +302,7 @@ class main_module
 
 			$sql = 'SELECT username, user_colour, user_id
 				FROM ' . USERS_TABLE . '
-				WHERE user_id = ' . $user_id;
+				WHERE user_id = ' . (int) $user_id;
 			$result = $db->sql_query($sql);
 			$user_row = $db->sql_fetchrow($result);
 			$db->sql_freeresult($result);
@@ -339,7 +339,7 @@ class main_module
 			// Where do we put them to?
 			$sql = 'SELECT album_id, album_name
 				FROM ' . $table_prefix . 'gallery_albums
-				WHERE album_id = ' . $album_id;
+				WHERE album_id = ' . (int) $album_id;
 			$result = $db->sql_query($sql);
 			$album_row = $db->sql_fetchrow($result);
 			$db->sql_freeresult($result);

@@ -209,6 +209,8 @@ class search
 			return;
 		}
 
+		$id_ary = array_map('intval', $id_ary);
+
 		$sql_where = $this->db->sql_in_set('i.image_id', $id_ary);
 
 		$sql_array = array(
@@ -222,7 +224,7 @@ class search
 				),
 			),
 
-			'WHERE'			=> 'i.image_status <> ' . \phpbbgallery\core\block::STATUS_ORPHAN . ' AND ' . $sql_where,
+			'WHERE'			=> 'i.image_status <> ' . (int) \phpbbgallery\core\block::STATUS_ORPHAN . ' AND ' . $sql_where,
 			'GROUP_BY'	=> 'i.image_id, a.album_name, a.album_status, a.album_user_id, a.album_id',
 			'ORDER_BY'		=> $sql_order,
 		);
@@ -530,6 +532,8 @@ class search
 			return;
 		}
 
+		$id_ary = array_map('intval', $id_ary);
+
 		$sql_where = $this->db->sql_in_set('i.image_id', $id_ary);
 
 		$sql_array = array(
@@ -543,7 +547,7 @@ class search
 				),
 			),
 
-			'WHERE'			=> 'i.image_status <> ' . \phpbbgallery\core\block::STATUS_ORPHAN . ' AND ' . $sql_where,
+			'WHERE'			=> 'i.image_status <> ' . (int) \phpbbgallery\core\block::STATUS_ORPHAN . ' AND ' . $sql_where,
 			'ORDER_BY'		=> $sql_order,
 		);
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
