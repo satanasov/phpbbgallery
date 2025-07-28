@@ -220,18 +220,16 @@ class display
 				}
 				$this->db->sql_freeresult($result);
 
-				$album_data['album_parents'] = json_encode($album_parents);
+				$album_data['album_parents'] = serialize($album_parents);
 
 				$sql = 'UPDATE ' . $this->table_albums . "
 					SET album_parents = '" . $this->db->sql_escape($album_data['album_parents']) . "'
 					WHERE parent_id = " . (int) $album_data['parent_id'];
 				$this->db->sql_query($sql);
-			} else {
-				$album_parents = json_decode($album_data['album_parents'], true);
-				if (!is_array($album_parents))
-				{
-					$album_parents = []; // fallback if corrupted
-				}
+			}
+			else
+			{
+				$album_parents = $this->safe_unserialize($album_data['album_parents']);
 			}
 		}
 
@@ -797,5 +795,20 @@ class display
 		$this->albums_total = $visible_albums;
 
 		return array($active_album_ary, array());
+	}
+
+	protected function safe_unserialize($data)
+	{
+		if (is_string($data)) {
+			$result = @unserialize($data);
+
+			if ($result === false && $data !== 'b:0;') {
+					return [];
+			}
+
+			return $result;
+		}
+
+		return [];
 	}
 }
