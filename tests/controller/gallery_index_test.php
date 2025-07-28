@@ -171,7 +171,8 @@ class gallery_index_test extends controller_base
 						'U_IMAGE_ACTION' => 'phpbbgallery_core_image',
 						'U_IMAGENAME_ACTION' => 'phpbbgallery_core_image',
 						'U_TIME' => false,
-						'U_UPLOADER' => false
+						'U_UPLOADER' => false,
+						'ALPHABET_NAVIGATION' => false,
 					)
 				),
 				array(
@@ -461,7 +462,8 @@ class gallery_index_test extends controller_base
 						'U_IMAGE_ACTION' => false,
 						'U_IMAGENAME_ACTION' => 'phpbbgallery_core_image',
 						'U_TIME' => false,
-						'U_UPLOADER' => false
+						'U_UPLOADER' => false,
+						'ALPHABET_NAVIGATION' => false,
 					)
 				),
 				array(
@@ -633,7 +635,8 @@ class gallery_index_test extends controller_base
 						'U_IMAGE_ACTION' => 'phpbbgallery_core_image',
 						'U_IMAGENAME_ACTION' => 'phpbbgallery_core_image',
 						'U_TIME' => false,
-						'U_UPLOADER' => false
+						'U_UPLOADER' => false,
+						'ALPHABET_NAVIGATION' => false,
 					)
 				),
 				array(
