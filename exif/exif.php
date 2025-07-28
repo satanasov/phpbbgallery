@@ -290,7 +290,7 @@ class exif
 			{
 				$template->assign_block_vars($block, array(
 					'EXIF_NAME'			=> $user->lang[strtoupper($exif)],
-					'EXIF_VALUE'		=> htmlspecialchars($value),
+					'EXIF_VALUE'		=> $value,
 				));
 			}
 			$template->assign_vars(array(

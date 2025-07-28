@@ -5,7 +5,7 @@
 	<!-- BEGIN exif_value -->
 		<dl class="<!-- IF exif_value.S_ROW_COUNT is even -->column1<!-- ELSE -->column2<!-- ENDIF -->">
 			<dt><label>{exif_value.EXIF_NAME}{L_COLON}</label></dt>
-			<dd>{exif_value.EXIF_VALUE}</dd>
+			<dd>{exif_value.EXIF_VALUE|escape('html')}</dd>
 		</dl>
 	<!-- END exif_value -->
 	</fieldset>
