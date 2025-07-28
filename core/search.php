@@ -247,13 +247,11 @@ class search
 	* return (int) $images_count
 	*/
 	public function recent_count()
-	{
+{
 		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 
-		$sql = 'SELECT COUNT(image_id) as count
-			FROM ' . $this->images_table . '
-			WHERE image_status <> ' . \phpbbgallery\core\block::STATUS_ORPHAN;
-		$exclude_albums = array();
+		$exclude_albums = [];
+
 		if (!$this->gallery_config->get('rrc_gindex_pegas'))
 		{
 			$sql_no_user = 'SELECT album_id FROM ' . $this->albums_table . ' WHERE album_user_id > 0';
@@ -264,13 +262,33 @@ class search
 			}
 			$this->db->sql_freeresult($result);
 		}
+
 		$exclude_albums = array_merge($exclude_albums, $this->gallery_auth->get_exclude_zebra());
-		$sql .= '	AND ((' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums), false, true) . ' AND image_status <> ' . \phpbbgallery\core\block::STATUS_UNAPPROVED . ')
-					OR ' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('m_status'), $exclude_albums), false, true) . ')';
-		$result = $this->db->sql_query($sql);
+
+		// Get allowed album ids for view and mod permissions excluding excluded albums
+		$view_album_ids = array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums);
+		$mod_album_ids = array_diff($this->gallery_auth->acl_album_ids('m_status'), $exclude_albums);
+
+		// Start SQL with placeholder for image_status <> STATUS_ORPHAN
+		$sql = 'SELECT COUNT(image_id) AS count
+			FROM ' . $this->images_table . '
+			WHERE image_status <> ?';
+
+		$params = [\phpbbgallery\core\block::STATUS_ORPHAN];
+
+		// Add the complex WHERE condition with placeholders for STATUS_UNAPPROVED
+		$sql .= ' AND ((' . $this->db->sql_in_set('image_album_id', $view_album_ids, false, true) . ' AND image_status <> ?) OR ' . $this->db->sql_in_set('image_album_id', $mod_album_ids, false, true) . ')';
+
+		$params[] = \phpbbgallery\core\block::STATUS_UNAPPROVED;
+
+		// Execute query with parameters bound safely
+		$result = $this->db->sql_query($sql, $params);
 		$row = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
+
 		return (int) $row['count'];
 	}
+
 
 	/**
 	 * recent comments
