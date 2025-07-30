@@ -21,7 +21,7 @@ class core_comment_test extends core_base
     public function setUp(): void
     {
         parent::setUp();
-
+    
         $this->user = $this->createMock(\phpbb\user::class);
         $this->user->data = [
             'user_id' => 42,
@@ -29,13 +29,16 @@ class core_comment_test extends core_base
             'user_colour' => 'ABCDEF'
         ];
         $this->user->ip = '127.0.0.1';
-
-        $this->db = $this->createMock(\phpbb\db\driver\driver_interface::class);
+    
+        $this->db = $this->getMockBuilder(\phpbb\db\driver\driver_interface::class)
+            ->onlyMethods(['sql_query', 'sql_nextid', 'sql_build_array', 'sql_fetchrow', 'sql_freeresult', 'sql_in_set'])
+            ->getMock();
+    
         $this->config = $this->createMock(\phpbbgallery\core\config::class);
         $this->auth = $this->createMock(\phpbbgallery\core\auth\auth::class);
         $this->block = $this->createMock(\phpbbgallery\core\block::class);
-
-        $this->comment = new comment(
+    
+        $this->comment = new \phpbbgallery\core\comment(
             $this->user,
             $this->db,
             $this->config,
@@ -96,25 +99,22 @@ class core_comment_test extends core_base
         $data = [
             'comment_image_id' => 5,
             'comment' => 'Nice pic!',
-            'comment_album_id' => 1, // Add any other required fields for the insert to succeed
+            'comment_album_id' => 1,
         ];
-
-        $this->db->expects($this->at(0))
+    
+        $this->db->expects($this->exactly(2))
             ->method('sql_query')
-            ->with($this->stringContains('INSERT INTO phpbb_gallery_comments'));
-
-        $this->db->expects($this->at(1))
-            ->method('sql_nextid')
-            ->willReturn(99);
-
+            ->withConsecutive(
+                [$this->stringContains('INSERT INTO phpbb_gallery_comments')],
+                [$this->stringContains('UPDATE phpbb_gallery_images')]
+            );
+    
+        $this->db->method('sql_nextid')->willReturn(99);
+    
         $this->config->expects($this->once())
             ->method('inc')
             ->with('num_comments', 1);
-
-        $this->db->expects($this->at(2))
-            ->method('sql_query')
-            ->with($this->stringContains('UPDATE phpbb_gallery_images'));
-
+    
         $result = $this->comment->add($data);
         $this->assertEquals(0, $result);
     }
@@ -155,12 +155,14 @@ class core_comment_test extends core_base
                 ['image_id', $image_ids, $sql_in_set_image],
             ]));
     
-        // Оставяме първия SELECT да бъде извикан някъде – не ни пука за поредността
-        $this->db->expects($this->atLeastOnce())
+        $this->db->expects($this->exactly(4))
             ->method('sql_query')
-            ->with($this->callback(function ($query) {
-                return is_string($query); // не филтрираме — просто искаме да мине
-            }));
+            ->withConsecutive(
+                [$this->stringContains('SELECT comment_image_id')],
+                [$this->stringContains('UPDATE phpbb_gallery_images')],
+                [$this->stringContains('SET image_last_comment = 10')],
+                [$this->stringContains('SET image_last_comment = 20')]
+            );
     
         $this->db->method('sql_fetchrow')
             ->will($this->onConsecutiveCalls(
@@ -171,16 +173,6 @@ class core_comment_test extends core_base
     
         $this->db->expects($this->once())->method('sql_freeresult');
     
-        // Следим дали са извикани UPDATE-и с правилното съдържание (но не и в точен ред)
-        $this->db->expects($this->atLeast(2))
-            ->method('sql_query')
-            ->with($this->logicalOr(
-                $this->stringContains('UPDATE phpbb_gallery_images SET image_last_comment = 0'),
-                $this->stringContains('SET image_last_comment = 10'),
-                $this->stringContains('SET image_last_comment = 20')
-            ));
-    
-        // Изпълнение
         $this->comment->sync_image_comments($image_ids);
     }
 
@@ -194,20 +186,19 @@ class core_comment_test extends core_base
                 $this->stringContains('DELETE FROM phpbb_gallery_comments'),
                 $this->stringContains('UPDATE phpbb_gallery_images')
             ));
-
-        $this->db->expects($this->any())
-            ->method('sql_fetchrow')
+    
+        $this->db->expects($this->exactly(2))->method('sql_freeresult');
+    
+        $this->db->method('sql_fetchrow')
             ->willReturnOnConsecutiveCalls(
                 ['comment_image_id' => 1, 'num_comments' => 2],
                 false
             );
-
-        $this->db->expects($this->once())->method('sql_freeresult');
-
+    
         $this->config->expects($this->once())
             ->method('dec')
             ->with('num_comments', 2);
-
+    
         $this->comment->delete_comments([1]);
     }
 
@@ -225,31 +216,22 @@ class core_comment_test extends core_base
         $image_ids = [1, 2];
         $sql_in_set_comment = 'comment_image_id IN (1,2)';
         $sql_in_set_image = 'image_id IN (1,2)';
-
-        // Mock cast_mixed_int2array to just return the array (or let the real method run)
-        // Mock sql_in_set to return the correct SQL fragment
+    
         $this->db->method('sql_in_set')
             ->will($this->returnValueMap([
                 ['comment_image_id', $image_ids, $sql_in_set_comment],
                 ['image_id', $image_ids, $sql_in_set_image],
             ]));
-
-        // Expect DELETE FROM comments
-        $this->db->expects($this->at(0))
+    
+        $this->db->expects($this->exactly(2))
             ->method('sql_query')
-            ->with($this->stringContains('DELETE FROM phpbb_gallery_comments'));
-
-        // Expect UPDATE images table to reset stats
-        $this->db->expects($this->at(1))
-            ->method('sql_query')
-            ->with($this->stringContains('UPDATE phpbb_gallery_images'));
-
-        // Act
+            ->withConsecutive(
+                [$this->stringContains('DELETE FROM phpbb_gallery_comments')],
+                [$this->stringContains('UPDATE phpbb_gallery_images')]
+            );
+    
         $this->comment->delete_images($image_ids, true);
-
-        // No assertion needed, expectations above will fail the test if not met
     }
-
     public function test_cast_mixed_int2array()
     {
         $this->assertEquals([1, 2], $this->comment->cast_mixed_int2array([1, 2]));
