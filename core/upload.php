@@ -336,7 +336,7 @@ class upload
 	 */
 	public function update_image($image_id, $needs_approval = false, $is_in_contest = false)
 	{
-		if ($this->file_limit && ($this->uploaded_files >= $this->file_limit))
+		if ($this->file_limit && ($this->uploaded_files > $this->file_limit))
 		{
 			$this->new_error($this->language->lang('UPLOAD_ERROR', $this->image_data[$image_id]['image_name'], $this->language->lang('QUOTA_REACHED')));
 			return false;
@@ -408,8 +408,6 @@ class upload
 			SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . '
 			WHERE image_id = ' . (int) $image_id;
 		$this->db->sql_query($sql);
-
-		$this->uploaded_files++;
 
 		return true;
 	}

@@ -306,7 +306,7 @@ class main_module
 					while ($row = $db->sql_fetchrow($result))
 					{
 						$total_images += $row['num_images'];
-						$total_comments += $row['num_comments'];
+						$total_comments += (int) $row['num_comments'];
 
 						$image_user = $phpbb_container->get('phpbbgallery.core.user');
 						$image_user->set_user_id($row['user_id'], false);
