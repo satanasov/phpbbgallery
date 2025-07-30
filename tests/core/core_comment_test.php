@@ -31,7 +31,14 @@ class core_comment_test extends core_base
         $this->user->ip = '127.0.0.1';
     
         $this->db = $this->getMockBuilder(\phpbb\db\driver\driver_interface::class)
-            ->onlyMethods(['sql_query', 'sql_nextid', 'sql_build_array', 'sql_fetchrow', 'sql_freeresult', 'sql_in_set'])
+            ->addMethods([
+                'sql_query',
+                'sql_nextid',
+                'sql_fetchrow',
+                'sql_freeresult',
+                'sql_in_set',
+                'sql_build_array',
+            ])
             ->getMock();
     
         $this->config = $this->createMock(\phpbbgallery\core\config::class);
@@ -48,6 +55,7 @@ class core_comment_test extends core_base
             'phpbb_gallery_images'
         );
     }
+
 
     public function test_is_allowed_true()
     {
