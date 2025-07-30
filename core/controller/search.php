@@ -133,7 +133,7 @@ class search
 
 	/**
 	 * Index Controller
-	 *    Route: gallery/search
+	 *    Route: gallery/search/{page}
 	 *
 	 * @param int $page
 	 * @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
@@ -156,9 +156,10 @@ class search
 		$sort_days		= $this->request->variable('st', 0);
 		$sort_key		= $this->request->variable('sk', 't');
 		$sort_dir		= $this->request->variable('sd', 'd');
+		$filtered		= $this->request->variable('filtered', false);
 
 		$start 			= ($page - 1) * $this->gallery_config->get('items_per_page');
-		if ($keywords != '' && $add_keywords ='' )
+		if ($filtered)
 		{
 			$submit = true;
 		}
@@ -329,12 +330,13 @@ class search
 					'username'	=> $username,
 					'user_id'	=> $user_id,
 					'terms'		=> $search_terms,
-					'aid'		=> $search_album,
-					'sc'		=> $search_child,
-					'sf'		=> $search_fields,
-					'st'		=> $sort_days,
-					'sk'		=> $sort_key,
-					'sd'		=> $sort_dir
+					'aid'			=> $search_album,
+					'sc'			=> $search_child,
+					'sf'			=> $search_fields,
+					'st'			=> $sort_days,
+					'sk'			=> $sort_key,
+					'sd'			=> $sort_dir,
+					'filtered'	=> true
 				),
 			), 'pagination', 'page', $search_count, $this->gallery_config->get('items_per_page'), $current_page - 1);
 
