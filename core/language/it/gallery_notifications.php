@@ -39,6 +39,6 @@ $lang = array_merge($lang, array(
 	'NOTIFICATION_TYPE_PHPBBGALLERY_NEW_COMMENT'	=> 'Nuovi commenti',
 	'NOTIFICATION_PHPBBGALLERY_NEW_COMMENT'			=> '<strong>%1$s</strong> ha commentato su un’immagine che stai controllando',
 
-	'NOTIFICATION_TYPE_PHPBBGALLERY_NEW_REPORT'	=> 'Nuova segnalazione immagine',																									  																   
+	'NOTIFICATION_TYPE_PHPBBGALLERY_NEW_REPORT'	=> 'Nuova segnalazione immagine',
 	'NOTIFICATION_PHPBBGALLERY_NEW_REPORT'			=> '<strong>%1$s</strong> ha segnalato un’immagine',
 ));

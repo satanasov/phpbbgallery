@@ -52,18 +52,19 @@ $lang = array_merge($lang, array(
 	'EDITED_SUBALBUM'				=> 'Album modificato con successo',
 
 	'GOTO'							=> 'Torna a',
-								  
+
 	'MANAGE_SUBALBUMS'				=> 'Gestione sotto-albums personali',
 	'MISSING_ALBUM_NAME'			=> 'Scrivi un nome per l’album',
 
 	'NEED_INITIALISE'				=> 'Non hai un tuo album personale.',
-	'NO_ALBUM_STEALING'				=> 'Non sei autorizzato a gestire gli albums di altri utenti.',																			 
+	'NO_ALBUM_STEALING'				=> 'Non sei autorizzato a gestire gli albums di altri utenti.',
 	'NO_MORE_SUBALBUMS_ALLOWED'		=> 'Hai raggiunto il massimo di sotto-albums per il tuo album personale',
 	'NO_PARENT_ALBUM'				=> '&laquo;-- nessun album padre',
 	'NO_PERSALBUM_ALLOWED'			=> 'Non hai i permessi per creare il tuo album personale',
 	'NO_PERSONAL_ALBUM'				=> 'Non hai un album personale. Puoi creare il tuo album personale con alcuni aotto-albums.<br />Negli albums personali solo i proprietare possono inviare immagini.',
 	'NO_SUBALBUMS'					=> 'Non ci sono albums allegati',
 	'NO_SUBSCRIPTIONS'				=> 'Non hai sottoscritto nessuna immagine.',
+	'NO_SUBSCRIPTIONS_ALBUM'		=> 'You are not subscribed to an album.',
 
 	'PARSE_BBCODE'					=> 'Analizza BBCode',
 	'PARSE_SMILIES'					=> 'Analizza faccine',

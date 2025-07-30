@@ -26,6 +26,7 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'ADD_UPLOAD_FIELD'				=> 'Aggiungi altri campi di caricamento',
 	'ALBUM'							=> 'Album',
+	'ALBUM_DESC'					=> 'Descrizione dell’album',
 	'ALBUM_IS_CATEGORY'				=> 'L’album che hai selezionato è un album-categoria.<br />Non puoi caricare sulle categorie.',
 	'ALBUM_LOCKED'					=> 'Bloccato',
 	'ALBUM_NAME'					=> 'Nome album',
@@ -71,7 +72,6 @@ $lang = array_merge($lang, array(
 
 	'CHANGE_AUTHOR'					=> 'Cambia aturoe',
 	'CHANGE_IMAGE_STATUS'			=> 'Cambia status dell’immagine',
-	'CHARACTERS'					=> 'caratteri',
 	'CLICK_RETURN_ALBUM'			=> 'Clicca %squi%s per tornare all’album',
 	'CLICK_RETURN_IMAGE'			=> 'Clicca %squi%s per tornare all’immagine',
 	'CLICK_RETURN_INDEX'			=> 'Clicca %squi%s per tornare all’indice',
@@ -121,8 +121,8 @@ $lang = array_merge($lang, array(
 
 	'EDIT_COMMENT'					=> 'Modifica commento',
 	'EDIT_IMAGE'					=> 'Modifica',
-	'EDITED_TIME_TOTAL'				=> 'Modificato l’ultima volta da %s il %s; modificato %d volta in totale',
-	'EDITED_TIMES_TOTAL'			=> 'Modificato l’ultima volta da %s il %s;  modificato %d volte in totale',
+	'IMAGE_EDITED_TIME_TOTAL'	=> 'Modificato l’ultima volta da %s il %s; modificato %d volta in totale',
+	'IMAGE_EDITED_TIMES_TOTAL'	=> 'Modificato l’ultima volta da %s il %s;  modificato %d volte in totale',
 
 	'FILE'							=> 'File',
 	'FILE_SIZE'						=> 'Dimensione del file',
@@ -130,9 +130,10 @@ $lang = array_merge($lang, array(
 	'FILETYPES_GIF'					=> 'gif',
 	'FILETYPES_JPG'					=> 'jpg',
 	'FILETYPES_PNG'					=> 'png',
+	'FILETYPES_WEBP'					=> 'webp',
 	'FILETYPES_ZIP'					=> 'zip',
 
-	'FULL_EDITOR'					=> 'Editor completo',
+	'FULL_EDITOR_GALLERY'					=> 'Editor completo',
 
 	'GALLERY_IMAGE'					=> 'Immagine',
 	'GALLERY_IMAGES'					=> 'Immagini',
@@ -190,6 +191,7 @@ $lang = array_merge($lang, array(
 	'NO_ALBUMS'						=> 'Non ci sono album in questa galleria.',
 	'NO_COMMENTS'					=> 'Ancora nessun commento',
 	'NO_IMAGES'						=> 'Nessuna immagine',
+	'NO_COMMENTS_NO_IMAGES' => 'No comments or own pictures yet',
 	'NO_IMAGES_FOUND'				=> 'Nessuna immagine trovata.',
 	'NO_NEW_IMAGES'					=> 'Nessuna nuova immagine',
 	'NO_IMAGES_LONG'				=> 'Non ci sono immagini in quest’album.',
@@ -205,7 +207,7 @@ $lang = array_merge($lang, array(
 
 	'PERCENT'						=> '%',
 	'PERSONAL_ALBUMS'				=> 'Album personali',
-	'PIXELS'						=> 'pixel',
+
 	'PLUGIN_CLASS_MISSING'			=> 'Errore nel Plugin della Galleria: la classe “%s“ non è stata trovata!',
 	'POST_COMMENT'					=> 'Scrivi un commento',
 	'POST_COMMENT_RATE_IMAGE'		=> 'Scrivi un commento e valuta l’immagine',
@@ -364,8 +366,8 @@ $lang = array_merge($lang, array(
 
 	'QUICK_MOD'	=> 'Seleziona azione di moderazione',
 	'WRONG_FILESIZE'	=> 'L’immagine è più grande del limite!',
-    'UNREAD_IMAGES'		=> 'Immagini non viste',
-    'NO_UNREAD_IMAGES'	=> 'Nessuna immagine non vista',
+	'UNREAD_IMAGES'		=> 'Immagini non viste',
+	'NO_UNREAD_IMAGES'	=> 'Nessuna immagine non vista',
 
 	// Versions 1.2.1 addiotions
 	'GALLERY_DROP'		=> 'Lascia qui le tue immagini',

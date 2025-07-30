@@ -106,6 +106,7 @@ $lang = array_merge($lang, array(
 	'REPORTS_A_OPEN2_CONFIRM'		=> 'Sei sicuro di voler aprire queste segnalazioni?',
 
 	'REPORT_MOD'					=> 'Modificato da',
+	'REPORT_CLOSED_BY'			=> 'Report closed by',
 	'REPORTED_IMAGES'				=> 'Immagini segnalate',
 	'REPORTER'						=> 'Segnalazione utente',
 	'REPORTER_AND_ALBUM'			=> 'Segnalazione & Album',

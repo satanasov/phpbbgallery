@@ -26,13 +26,13 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'ACP_GALLERY_OVERVIEW'			=> 'phpBB Gallery',
 	'ACP_GALLERY_OVERVIEW_EXPLAIN'	=> 'Qui trovi alcune statistiche sulla tua galleria.',
- 
-   // File dirs states
-    'ACP_FILES_DIR_STATE'           => '<strong>./files/</strong> state',
-    'ACP_CORE_DIR_STATE'    => '<strong>./files/phpbbgallery/core/</strong> state',
-    'ACP_SOURCE_DIR_STATE'    => '<strong>./files/phpbbgallery/core/source/</strong> state',
-    'ACP_MEDIUM_DIR_STATE'    => '<strong>./files/phpbbgallery/core/meduim/</strong> state',
-    'ACP_MINI_DIR_STATE'    => '<strong>./files/phpbbgallery/core/mini/</strong> state',
+
+	// File dirs states
+	'ACP_FILES_DIR_STATE'		=> '<strong>./files/</strong> state',
+	'ACP_CORE_DIR_STATE'			=> '<strong>./files/phpbbgallery/core/</strong> state',
+	'ACP_SOURCE_DIR_STATE'		=> '<strong>./files/phpbbgallery/core/source/</strong> state',
+	'ACP_MEDIUM_DIR_STATE'		=> '<strong>./files/phpbbgallery/core/medium/</strong> state',
+	'ACP_MINI_DIR_STATE'			=> '<strong>./files/phpbbgallery/core/mini/</strong> state',
 
 	'ADD_ALBUM_ON_TOP'				=> 'Aggiungi album in cima',
 	'ADD_PERMISSIONS'				=> 'Aggiungi Permessi',
@@ -142,7 +142,7 @@ $lang = array_merge($lang, array(
 	'DISP_WHOISONLINE'				=> 'Mostra chi c’è “on line“',
 	'DISPLAY_IN_RRC'				=> 'Visualizza immagini di questo album in immagini "Recenti-Casuali"',
 	'DONT_COPY_PERMISSIONS'			=> 'Non copiare permessi',
-															 
+
 	'EDIT_ALBUM'					=> 'Modifica album',
 	'FAKE_THUMB_SIZE'				=> 'Dimensione anteprima',
 	'FAKE_THUMB_SIZE_EXP'			=> 'Se vuoi ridimensionare all’immagine originale, ricorda 16 pixels per la black-info-line',
@@ -187,7 +187,7 @@ $lang = array_merge($lang, array(
 	'LIST_INDEX_EXPLAIN'			=> 'Visualizza questo album sull’indice e altrove come un collegamento all’interno dell’album padre se l’opzione “lista sotto-albums nella legenda” è attivata.',
 	'LIST_SUBALBUMS'				=> 'Lista sotto-album nella legenda',
 	'LIST_SUBALBUMS_EXPLAIN'		=> 'Visualizza questo album sull’indice e altrove come un collegamento all’interno dell’album padre se l’opzione “lista sotto-albums nella legenda” è attivata.',
-	'LOCKED'						=> 'Bloccato',																  
+	'LOCKED'						=> 'Bloccato',
 	'LOOK_UP_ALBUM'					=> 'Seleziona un album',
 	'LOOK_UP_ALBUMS_EXPLAIN'		=> 'Sei in grado di selezionare più di un album.',
 
@@ -210,7 +210,7 @@ $lang = array_merge($lang, array(
 
 	'NEW_ALBUM_CREATED'				=> 'Nuovo album creato con successo',
 	'NO_ALBUM_SELECTED'				=> 'È necessario selezionare almeno un album.',
-	'NO_DESTINATION_ALBUM'			=> 'Non è stato specificato un album di destinazione per lo spostamento del contenuto.',	
+	'NO_DESTINATION_ALBUM'			=> 'Non è stato specificato un album di destinazione per lo spostamento del contenuto.',
 	'NO_PERMISSIONS_SELECTED'		=> 'È necessario selezionare almeno un album o una speciale autorizzazione.',
 	'NO_VICTIM_SELECTED'			=> 'È necessario selezionare almeno un utente o gruppo.',
 	'NO_INHERIT'					=> 'Non copiare permessi',
@@ -225,7 +225,7 @@ $lang = array_merge($lang, array(
 	'PERSONAL_ALBUMS_EXPLAIN'		=> 'Queste autorizzazioni vengono utilizzate, quando un utente A visita un album personale di un utente B. <strong>Se i moderatori non possono moderare le immagini personali, hai bisogno di impostare questi permessi.</strong>',
 
 	'PERMISSION'					=> 'Permessi',
-	'PERMISSION_NEVER'				=> 'Mai',								  
+	'PERMISSION_NEVER'				=> 'Mai',
 	'PERMISSION_NO'					=> 'No',
 	'PERMISSION_SETTING'			=> 'Configurazione',
 	'PERMISSION_YES'				=> 'Si',
@@ -245,7 +245,7 @@ $lang = array_merge($lang, array(
 	'PERMISSION_I_EDIT'				=> 'Può modificare le sue immagini',
 	'PERMISSION_I_LOCK'				=> 'Può bloccare immagini',
 	'PERMISSION_I_RATE'				=> 'Può votare immagini',
-    'PERMISSION_I_RATE_EXPLAIN'		=> 'Gli ospiti e le immagini caricate non possono <strong>mai</strong> votare le immagini.',	
+	'PERMISSION_I_RATE_EXPLAIN'		=> 'Gli ospiti e le immagini caricate non possono <strong>mai</strong> votare le immagini.',
 	'PERMISSION_I_REPORT'			=> 'Può segnalare immagini',
 	'PERMISSION_I_UNLIMITED'		=> 'Può caricare immagini illimitate',
 	'PERMISSION_I_UPLOAD'			=> 'Può caricare immagini',
@@ -264,7 +264,7 @@ $lang = array_merge($lang, array(
 	'PERMISSION_EMPTY'				=> 'Non hai configurato tutti i permessi.',
 	'PERMISSIONS'					=> 'Permessi',
 	'PERMISSIONS_COPY'				=> 'Copia permessi album',
-	'PERMISSIONS_COPY_EXPLAIN'		=> 'Qui è possibile copiare i permessi da un album ad un altro.',	
+	'PERMISSIONS_COPY_EXPLAIN'		=> 'Qui è possibile copiare i permessi da un album ad un altro.',
 	'PERMISSIONS_EXPLAIN'			=> 'Qui è possibile modificare gli album a cui utenti e gruppi possono accedere.',
 	'PERMISSIONS_STORED'			=> 'Permessi salvati con successo.',
 	'PERSONAL_ALBUM_INDEX'			=> 'Vedi albums personali nell’indice',
@@ -282,6 +282,7 @@ $lang = array_merge($lang, array(
 	'RECENT_ON_INDEX_COUNT'			=> 'Conteggio immagini recenti',
 	'PHPBB_INTEGRATION'				=> 'integrazione phpBB',
 	'PNG_ALLOWED'					=> 'Consenti invio di files PNG',
+	'WEBP_ALLOWED'					=> 'Consenti invio di files WEBP',
 	'PURGED_CACHE'					=> 'Svuotata la cache',
 
 	'RATE_SCALE'					=> 'Scala voti',
@@ -372,7 +373,7 @@ $lang = array_merge($lang, array(
 	'UC_LINK_NEXT'					=> 'Prossima Immagine',
 	'UC_LINK_NEWTAB'				=> 'Aperto in una nuova scheda',
 	'UC_LINK_NONE'					=> 'Nessun Link',
-    'UC_LINK_SHADOWBOX'             => 'Apri Shadowbox-Plugin',
+	'UC_LINK_SHADOWBOX'			=> 'Apri Shadowbox-Plugin',
 	'UC_THUMBNAIL'					=> 'Anteprima',
 	'UC_THUMBNAIL_EXP'				=> 'Usato anche per il BBCode.',
 	'UNLOCKED'						=> 'Sbloccato',
@@ -397,7 +398,7 @@ $lang = array_merge($lang, array(
 	'WATERMARK_SOURCE_EXP'		 	=> 'Relativo al percorso root del tuo phpBB',
 	'WATERMARK_WIDTH'				=> 'Larghezza minima per watermark',
 	'WATERMARK_WIDTH_EXP'			=> 'Per evitare che immagini piccole siano contenute in Watermark, è possibile immettere una minimo-larghezza/altezza.',
-										 
+
 	'ZIP_ALLOWED'					=> 'E’ ammesso l’invio di archivi ZIP',
 	'NO_WRITE_ACCESS'				=> 'Nessun accesso di scrittura',
 	'WRITE_ACCESS'					=> 'OK',
