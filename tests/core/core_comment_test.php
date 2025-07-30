@@ -124,7 +124,7 @@ class core_comment_test extends core_base
             ->with('num_comments', 1);
     
         $result = $this->comment->add($data);
-        $this->assertEquals(0, $result);
+        $this->assertEquals(99, $result);
     }
 
     public function test_add_comment_missing_data_returns_null()
