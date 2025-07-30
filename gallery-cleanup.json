@@ -1,0 +1,11 @@
+{
+	"stable": {
+		"1.2": {
+			"current": "1.2.2",
+			"download": "https://github.com/satanasov/phpbbgallery",
+			"announcement": "https://github.com/satanasov/phpbbgallery",
+			"eol": null,
+			"security": false
+		}
+	}
+}
