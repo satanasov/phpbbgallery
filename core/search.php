@@ -299,6 +299,7 @@ class search
 				$this->comments_table => 'c',
 			),
 			'WHERE'	=> 'i.image_id = c.comment_image_id and ' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('c_read'), false, true),
+			'GROUP_BY'	=> 'c.comment_id, c.comment_time',
 			'ORDER_BY'	=> 'comment_time DESC'
 		);
 		$sql_array['WHERE'] .= ' AND ((' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums), false, true) . ' AND image_status <> ' . \phpbbgallery\core\block::STATUS_UNAPPROVED . ')
