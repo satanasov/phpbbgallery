@@ -385,7 +385,8 @@ class file
 			}
 		}
 
-		if(!$this->tool->image_type) {
+		if (!$this->tool->image_type)
+		{
 			$this->tool->image_type = $this->tool->extension_by_filename($this->tool->image_source);
 			if (!$this->tool->image_type)
 			{
