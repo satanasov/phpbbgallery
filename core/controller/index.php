@@ -154,7 +154,7 @@ class index
 
 			$alphabet = range('a', 'z');
 			$alpha_links = [];
-			foreach ($alphabet as $char) 
+			foreach ($alphabet as $char)
 			{
 				$alpha_links[] = '<a href="' . append_sid($this->helper->route('phpbbgallery_core_personal'), 'first_char=' . $char) . '">' . strtoupper($char) . '</a>';
 			}
