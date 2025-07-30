@@ -61,24 +61,24 @@ $lang = array_merge($lang, array(
 	'QUEUE_A_UNAPPROVE' 			=> 'No aprobar imagen',
 	'QUEUE_A_UNAPPROVE2' 			=> '¿Aprobar la imagen?',
 	'QUEUE_A_UNAPPROVE2_CONFIRM' 	=> '¿Está seguro de que desea suprimir esta imagen?',
-	
+
 	'QUEUE_STATUS_0' 				=> 'La imagen está a la espera de aprobación.',
 	'QUEUE_STATUS_1' 				=> 'La imagen está aprobada.',
 	'QUEUE_STATUS_2' 				=> 'La imagen está bloqueada.',
 
 	'QUEUES_A_APPROVE' 				=> 'Aprobar imágenes',
-	'QUEOUT_A_APPROVE2' 			=> '¿Aprobar imágenes?',
+	'QUEUES_A_APPROVE2' 			=> '¿Aprobar imágenes?',
 	'QUEUES_A_APPROVE2_CONFIRM' 	=> '¿Estás seguro de que quieres aprobar estas imágenes?',
 	'QUEUES_A_DELETE' 				=> 'Eliminar imágenes',
 	'QUEUES_A_DELETE2' 				=> '¿Eliminar imágenes?',
-	'QUEOUT_A_DELETE2_CONFIRM' 		=> '¿Está seguro de que desea eliminar estas imágenes?',
+	'QUEUES_A_DELETE2_CONFIRM' 		=> '¿Está seguro de que desea eliminar estas imágenes?',
 	'QUEUES_A_LOCK' 				=> 'Bloquear imágenes',
 	'QUEUES_A_LOCK2' 				=> '¿Bloquear imágenes?',
 	'QUEUES_A_LOCK2_CONFIRM' 		=> '¿Seguro que quieres bloquear estas imágenes?',
 	'QUEUES_A_MOVE' 				=> 'Mover imágenes',
 	'QUEUES_A_UNAPPROVE' 			=> 'No aprobar imágenes',
 	'QUEUES_A_UNAPPROVE2' 			=> '¿Aprobar imágenes?',
-	'QUEOUT_A_UNAPPROVE2_CONFIRM' 	=> '¿Estás seguro de que quieres desautorizar estas imágenes?',
+	'QUEUES_A_UNAPPROVE2_CONFIRM' 	=> '¿Estás seguro de que quieres desautorizar estas imágenes?',
 	'QUEUES_A_DISAPPROVE2_CONFIRM' 	=> '¿Está seguro de que desea desautorizar estas imágenes?',
 
 	'REPORT_A_CLOSE' 				=> 'Cerrar informe',
@@ -106,6 +106,7 @@ $lang = array_merge($lang, array(
 	'REPORTS_A_OPEN2_CONFIRM' 		=> '¿Está seguro de que desea abrir estos informes?',
 
 	'REPORT_MOD' 					=> 'Editado por',
+	'REPORT_CLOSED_BY'				=> 'Report closed by',
 	'REPORTED_IMAGES' 				=> 'Imágenes reportadas',
 	'REPORTER' 						=> 'Usuario de informes',
 	'REPORTER_AND_ALBUM' 			=> 'Reportero y Álbum',

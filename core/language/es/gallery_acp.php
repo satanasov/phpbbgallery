@@ -27,6 +27,13 @@ $lang = array_merge($lang, array(
 	'ACP_GALLERY_OVERVIEW'			=> 'Galería phpBB',
 	'ACP_GALLERY_OVERVIEW_EXPLAIN'	=> 'Aquí hay algunas estadísticas sobre tu galería.',
 
+	// File dirs states
+	'ACP_FILES_DIR_STATE'          => '<strong>./files/</strong> state',
+	'ACP_CORE_DIR_STATE'           => '<strong>./files/phpbbgallery/core/</strong> state',
+	'ACP_SOURCE_DIR_STATE'         => '<strong>./files/phpbbgallery/core/source/</strong> state',
+	'ACP_MEDIUM_DIR_STATE'         => '<strong>./files/phpbbgallery/core/medium/</strong> state',
+	'ACP_MINI_DIR_STATE'           => '<strong>./files/phpbbgallery/core/mini/</strong> state',
+
 	'ADD_ALBUM_ON_TOP'				=> 'Añadir álbum en la parte superior',
 	'ADD_PERMISSIONS'				=> 'Añadir permisos',
 	'ALBUM_ADMIN'					=> 'Administración de álbumes',
@@ -124,7 +131,9 @@ $lang = array_merge($lang, array(
 	'DISP_NEXTPREV_THUMB'			=> 'Mostrar miniatura de la imagen siguiente / anterior',
 	'DISP_NEXTPREV_THUMB_EXPLAIN'	=> 'Si se establece en No, solo habrá el nombre de la imagen como enlace.',
 	'DISP_PERSONAL_ALBUM_PROFILE'	=> 'Mostrar enlace a álbum personal en perfil de usuario',
-	'DISP_STATISTIC'				=> 'Mostrar galería-estadística',
+	'DISP_STATISTIC'					=> 'Mostrar galería-estadística',
+	'DISP_GALLERY_ICON'				=> 'Show gallery link',
+	'DISP_GALLERY_ICON_EXP'			=> 'Show link to the gallery in user menu.',
 	'DISP_TOTAL_IMAGES'				=> 'Mostrar "Total de imágenes" en el índice.' . $phpEx,
 	'DISP_USER_IMAGES_PROFILE'		=> 'Mostrar estadística con imágenes subidas en perfil de usuario',
 	'DISP_VIEWTOPIC_ICON'			=> 'Mostrar el botón del álbum personal en viewtopic.' . $phpEx,
@@ -145,6 +154,9 @@ $lang = array_merge($lang, array(
 	'GALLERY_CONFIG_UPDATED'		=> 'La configuración de la galería se ha actualizado correctamente.',
 	'GALLERY_INDEX'					=> 'Galería-Índice',
 	'GALLERY_PURGE_CACHE_EXPLAIN'	=> 'Si utiliza la función de caché de miniaturas, debe borrar la caché de miniaturas después de cambiar la configuración de las miniaturas en "Configuración de galería" para que se regeneren.',
+	'GALLERY_RESYNC_ALBUMS_TO_CPF'         => 'Resync personal albums to profile fields',
+	'GALLERY_RESYNC_ALBUMS_TO_CPF_EXPAIN'  => 'This action will resync all top level personal albums as contact based custom profile field. <br> WARNING! If you have too many top level personal albums this could take some time!',
+	'GALLERY_RESYNC_ALBUMS_TO_CPF_CONFIRM' => 'Are you sure that you want to resync all top level personal albums as contact CPFs?',
 	'GALLERY_STATS'					=> 'Estadísticas de la galería',
 	'GALLERY_VERSION'				=> 'Versión de la galería',
 	'GD_VERSION'					=> 'Optimizar para la versión GD',
@@ -272,6 +284,7 @@ $lang = array_merge($lang, array(
 	'RECENT_ON_INDEX_COUNT'			=> 'Conteo de imágenes recientes',
 	'PHPBB_INTEGRATION'				=> 'Integración de phpBB',
 	'PNG_ALLOWED'					=> 'Permitido subir archivos PNG',
+	'WEBP_ALLOWED'					=> 'Allowed to upload WEBP files',
 	'PURGED_CACHE'					=> 'Purgó la caché',
 
 	'RATE_SCALE'					=> 'Escala de calificación',
