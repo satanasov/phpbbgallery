@@ -24,8 +24,9 @@ function toggleElement(oElement)
 	}
 }
 </script>
-<p class="right responsive-center time rightside<!-- IF S_USER_LOGGED_IN --> rightside<!-- ENDIF -->"><!-- IF S_USER_LOGGED_IN -->{LAST_VISIT_DATE}<!-- ELSE -->{CURRENT_TIME}<!-- ENDIF --></p>
-<p class="responsive-center time<!-- IF S_USER_LOGGED_IN -->">{CURRENT_TIME}<!-- ENDIF --></p>
+<p class="{S_CONTENT_FLOW_END} responsive-center time<!-- IF S_USER_LOGGED_IN --> rightside<!-- ENDIF -->"><!-- IF S_USER_LOGGED_IN -->{LAST_VISIT_DATE}<!-- ELSE -->{CURRENT_TIME}<!-- ENDIF --></p>
+<!-- IF S_USER_LOGGED_IN --><p class="responsive-center time">{CURRENT_TIME}</p><!-- ENDIF -->
+
 
 <!-- IF S_USER_LOGGED_IN and not S_IS_BOT -->
 <ul class="linklist right responsive-center rightside">
@@ -107,6 +108,7 @@ function toggleElement(oElement)
 <!-- ENDIF -->
 <br />
 <br />
+<br />
 <!-- IF S_PERSONAL_GALLERY and U_USERS_PERSONAL_GALLERIES -->
 	<div class="panel">
 		<div class="inner">
@@ -115,33 +117,7 @@ function toggleElement(oElement)
 				<strong style="font-size: 0.95em;">
 				<!-- IF U_YOUR_PERSONAL_GALLERY --><a href="{U_YOUR_PERSONAL_GALLERY}">{L_YOUR_PERSONAL_ALBUM}</a>&nbsp;&laquo;&nbsp;<!-- ENDIF -->
 				<a href="{U_USERS_PERSONAL_GALLERIES}">{L_ALL}</a>&nbsp;
-				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=a">A</a>&nbsp;
-				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=b">B</a>&nbsp;
-				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=c">C</a>&nbsp;
-				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=d">D</a>&nbsp;
-				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=e">E</a>&nbsp;
-				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=f">F</a>&nbsp;
-				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=g">G</a>&nbsp;
-				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=h">H</a>&nbsp;
-				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=i">I</a>&nbsp;
-				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=j">J</a>&nbsp;
-				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=k">K</a>&nbsp;
-				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=l">L</a>&nbsp;
-				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=m">M</a>&nbsp;
-				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=n">N</a>&nbsp;
-				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=o">O</a>&nbsp;
-				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=p">P</a>&nbsp;
-				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=q">Q</a>&nbsp;
-				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=r">R</a>&nbsp;
-				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=s">S</a>&nbsp;
-				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=t">T</a>&nbsp;
-				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=u">U</a>&nbsp;
-				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=v">V</a>&nbsp;
-				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=w">W</a>&nbsp;
-				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=x">X</a>&nbsp;
-				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=y">Y</a>&nbsp;
-				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=z">Z</a>&nbsp;
-				<a href="{U_USERS_PERSONAL_GALLERIES}&amp;first_char=other">#</a></strong>
+				{ALPHABET_NAVIGATION}
 			</li>
 		</ul>
 		</div>
@@ -264,8 +240,8 @@ function toggleElement(oElement)
 	<div id="recent-comments" <!-- IF COMMENTS_EXPAND --><!-- ELSE -->style="display: none;"<!-- ENDIF -->>
 		<br />
 		<!-- BEGIN commentrow -->
-		<a id="comment{commentrow.COMMENT_ID}" class="anchor"></a>
 		<div class="post <!-- IF commentrow.S_ROW_COUNT is odd -->bg1<!-- ELSE -->bg2<!-- ENDIF -->">
+			<a id="comment{commentrow.COMMENT_ID}" class="anchor"></a>
 			<div class="inner">
 				<dl class="postprofile" id="profile{commentrow.COMMENT_ID}">
 					<dt>
@@ -277,11 +253,13 @@ function toggleElement(oElement)
 					</dt>
 				</dl>
 				<div class="postbody">
-					<ul class="post-buttons">
-						<!-- IF commentrow.U_EDIT --><li><a href="{commentrow.U_EDIT}" title="{L_EDIT_COMMENT}" class="button button-icon-only"><i class="icon fa-pencil fa-fw" aria-hidden="true"></i><span class="sr-only">{L_EDIT_COMMENT}</span></a></li><!-- ENDIF -->
-						<!-- IF commentrow.U_DELETE --><li><a href="{commentrow.U_DELETE}" title="{L_DELETE_COMMENT}" class="button button-icon-only"><i class="icon fa-times fa-fw" aria-hidden="true"></i><span class="sr-only">{L_DELETE_COMMENT}</span></a></li><!-- ENDIF -->
-						<!-- IF commentrow.U_QUOTE --><li><a href="{commentrow.U_QUOTE}" title="{L_QUOTE_COMMENT}" class="button button-icon-only"><i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">{L_QUOTE_COMMENT}</span></a></li><!-- ENDIF -->
-					</ul>
+					<!-- IF commentrow.U_EDIT or commentrow.U_DELETE or commentrow.U_QUOTE -->
+						<ul class="post-buttons">
+							<!-- IF commentrow.U_EDIT --><li><a href="{commentrow.U_EDIT}" title="{L_EDIT_COMMENT}" class="button button-icon-only"><i class="icon fa-pencil fa-fw" aria-hidden="true"></i><span class="sr-only">{L_EDIT_COMMENT}</span></a></li><!-- ENDIF -->
+							<!-- IF commentrow.U_DELETE --><li><a href="{commentrow.U_DELETE}" title="{L_DELETE_COMMENT}" class="button button-icon-only"><i class="icon fa-times fa-fw" aria-hidden="true"></i><span class="sr-only">{L_DELETE_COMMENT}</span></a></li><!-- ENDIF -->
+							<!-- IF commentrow.U_QUOTE --><li><a href="{commentrow.U_QUOTE}" title="{L_QUOTE_COMMENT}" class="button button-icon-only"><i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">{L_QUOTE_COMMENT}</span></a></li><!-- ENDIF -->
+						</ul>
+					<!-- ENDIF -->
 					<p class="author" style="clear: inherit; margin-top: 1.5em;"><!-- IF S_IS_BOT --><i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i>{L_COMMENT}<span class="sr-only">{commentrow.MINI_POST}</span><!-- ELSE --><a href="{commentrow.U_COMMENT}" title="{L_COMMENT}"><i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i>{L_COMMENT}&nbsp;<span class="sr-only">{commentrow.MINI_POST}</span></a><!-- ENDIF --><span style="white-space: nowrap;">{L_POST_BY_AUTHOR}&nbsp;{commentrow.POST_AUTHOR_FULL} </span>&raquo;<span style="white-space: nowrap;"> {commentrow.TIME}</span></p>
 					<div class="content">{commentrow.TEXT}</div>
 				</div>

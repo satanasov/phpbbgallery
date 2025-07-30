@@ -26,6 +26,7 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'ADD_UPLOAD_FIELD'                 => 'Add more upload fields',
 	'ALBUM'                            => 'Album',
+	'ALBUM_DESC'                       => 'Album description',
 	'ALBUM_IS_CATEGORY'                => 'The album you cheated to, is a category-album.<br />You can’t upload to categories.',
 	'ALBUM_LOCKED'                     => 'Locked',
 	'ALBUM_NAME'                       => 'Album name',

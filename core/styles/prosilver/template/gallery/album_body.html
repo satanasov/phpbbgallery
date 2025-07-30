@@ -4,8 +4,7 @@
 
 <!-- IF not S_IN_GALLERY_POPUP and ALBUM_DESC or MODERATORS or U_MCP -->
 <div>
-	<!-- NOTE: remove the style="display: none !important;" when you want to have the album description on the album body -->
-	<!-- IF ALBUM_DESC --><div style="display: none !important;">{ALBUM_DESC}<br /></div><!-- ENDIF -->
+ 	<!-- IF ALBUM_DESC --><div id="description" class="panel" style="font-size: 1.2em;"><h3>{L_ALBUM_DESC}</h3>{ALBUM_DESC}<br /></div><!-- ENDIF -->
 	<!-- IF ALBUM_CONTEST_START --><span>{ALBUM_CONTEST_START}<br /></span><!-- ENDIF -->
 	<!-- IF ALBUM_CONTEST_RATING --><span>{ALBUM_CONTEST_RATING}<br /></span><!-- ENDIF -->
 	<!-- IF ALBUM_CONTEST_END --><span>{ALBUM_CONTEST_END}<br /><br /></span><!-- ENDIF -->

@@ -112,7 +112,7 @@ class file
 	*/
 	public function source($image_id)
 	{
-		$this->auth->load_user_premissions($this->user->data['user_id']);
+		$this->auth->load_user_permissions($this->user->data['user_id']);
 		$this->path = $this->path_source;
 		$this->load_data($image_id);
 		$this->check_auth();
@@ -180,7 +180,7 @@ class file
 			$this->resize($image_id, $this->config['phpbb_gallery_medium_width'], $this->config['phpbb_gallery_medium_height'], 'filesize_medium');
 			$this->generate_image_src();
 		}
-		$this->auth->load_user_premissions($this->user->data['user_id']);
+		$this->auth->load_user_permissions($this->user->data['user_id']);
 		$this->use_watermark = $this->config['phpbb_gallery_watermark_enabled'] && $this->data['album_watermark'] && !$this->auth->acl_check('i_watermark', $this->data['album_id'], $this->data['album_user_id']);
 		$this->tool->set_image_options($this->config['phpbb_gallery_max_filesize'], $this->config['phpbb_gallery_max_height'], $this->config['phpbb_gallery_max_width']);
 		$this->tool->set_image_data($this->image_src, $this->data['image_name']);
@@ -270,7 +270,7 @@ class file
 
 	public function check_auth()
 	{
-		$this->auth->load_user_premissions($this->user->data['user_id']);
+		$this->auth->load_user_permissions($this->user->data['user_id']);
 		$zebra_array = $this->auth->get_user_zebra($this->user->data['user_id']);
 		// Check permissions
 		if (($this->data['image_user_id'] != $this->user->data['user_id']) && ($this->data['image_status'] == \phpbbgallery\core\block::STATUS_ORPHAN))

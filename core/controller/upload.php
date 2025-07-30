@@ -154,7 +154,7 @@ class upload
 		$album_loginlink = 'ucp.php?mode=login';
 		$error = '';
 		//Let's get authorization
-		$this->auth->load_user_premissions($this->user->data['user_id']);
+		$this->auth->load_user_permissions($this->user->data['user_id']);
 		if (!$this->auth->acl_check('i_upload', $album_id, $album_data['album_user_id']) || ($album_data['album_status'] == $this->block->get_album_status_locked()))
 		{
 			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');

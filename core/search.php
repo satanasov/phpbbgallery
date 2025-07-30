@@ -133,7 +133,7 @@ class search
 		// Define some vars
 		$images_per_page = $limit;
 
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 
 		switch ($this->db->get_sql_layer())
 		{
@@ -248,7 +248,7 @@ class search
 	*/
 	public function recent_count()
 	{
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 
 		$sql = 'SELECT COUNT(image_id) as count
 			FROM ' . $this->images_table . '
@@ -279,7 +279,7 @@ class search
 	 */
 	public function recent_comments($limit, $start = 0)
 	{
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$sql_limit = $limit;
 		$exclude_albums = array();
 		if (!$this->gallery_config->get('rrc_gindex_pegas'))
@@ -395,7 +395,7 @@ class search
 			$start = 0;
 			$pagination = false;
 		}
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$sql_order = '';
 		switch ($this->gallery_config->get('default_sort_key'))
 		{
@@ -564,7 +564,7 @@ class search
 	 */
 	public function rating($limit, $start = 0)
 	{
-		$this->gallery_auth->load_user_premissions($this->user->data['user_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$sql_array = array();
 		$sql_array['FROM'] = array(
 			$this->images_table	=> 'i'

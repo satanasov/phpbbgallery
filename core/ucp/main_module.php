@@ -63,7 +63,7 @@ class main_module
 		$mode = $request->variable('mode', 'manage_albums');
 		$action = $request->variable('action', '');
 		$cancel = (isset($_POST['cancel'])) ? true : false;
-		$phpbb_ext_gallery_core_auth->load_user_premissions($user->data['user_id']);
+		$phpbb_ext_gallery_core_auth->load_user_permissions($user->data['user_id']);
 		if ($cancel)
 		{
 			$action = '';
