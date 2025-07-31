@@ -67,6 +67,7 @@ class main_module
 				{
 					$filetype = getimagesize($image_src_full);
 					$filetype_ext = '';
+					$file_link = $gallery_url->path('upload') . $image_filename;
 
 					$error_occured = false;
 					switch ($filetype['mime'])
@@ -122,21 +123,19 @@ class main_module
 					}
 					$image_filename = md5(unique_id()) . $filetype_ext;
 
-					if (!$error_occured || !@move_uploaded_file($image_src_full, $gallery_url->path('upload') . $image_filename))
+					if (!$error_occured || !@move_uploaded_file($image_src_full, $file_link))
 					{
-						if (!@copy($image_src_full, $gallery_url->path('upload') . $image_filename))
+						if (!@copy($image_src_full, $file_link))
 						{
 							$user->add_lang('posting');
-							$this->log_import_error($import_schema, sprintf($user->lang['GENERAL_UPLOAD_ERROR'], $gallery_url->path('upload') . $image_filename));
+							$this->log_import_error($import_schema, sprintf($user->lang['GENERAL_UPLOAD_ERROR'], $file_link));
 							$error_occured = true;
 						}
 					}
 
 					if (!$error_occured)
 					{
-						@chmod($gallery_url->path('upload') . $image_filename, 0777);
-						// The source image is imported, so we delete it.
-						@unlink($image_src_full);
+						@chmod($file_link, 0777);
 
 						$sql_ary = array(
 							'image_filename' 		=> $image_filename,
@@ -154,13 +153,11 @@ class main_module
 							//'image_exif_data'		=> '',
 						);
 
-						unset($image_tools);
 						$image_tools = $phpbb_container->get('phpbbgallery.core.file.tool');
 						$image_tools->set_image_options($gallery_config->get('max_filesize'), $gallery_config->get('max_height'), $gallery_config->get('max_width'));
-						$image_tools->set_image_data($gallery_url->path('upload') . $image_filename);
+						$image_tools->set_image_data($file_link);
 
 						$additional_sql_data = array();
-						$file_link = $gallery_url->path('upload') . $image_filename;
 
 						/**
 						* Event to trigger before mass update
@@ -176,14 +173,14 @@ class main_module
 						if (($filetype[0] > $gallery_config->get('max_width')) || ($filetype[1] > $gallery_config->get('max_height')))
 						{
 							/**
-							* Resize overside images
+							* Resize oversize images
 							*/
 							if ($gallery_config->get('allow_resize'))
 							{
 								$image_tools->resize_image($gallery_config->get('max_width'), $gallery_config->get('max_height'));
 								if ($image_tools->resized)
 								{
-									$image_tools->write_image($gallery_url->path('upload') . $image_filename, $gallery_config->get('jpg_quality'), true);
+									$image_tools->write_image($file_link, $gallery_config->get('jpg_quality'), true);
 								}
 							}
 						}
@@ -203,7 +200,7 @@ class main_module
 						$sql_ary = array_merge($sql_ary, $additional_sql_data);
 
 						// Try to get real filesize from temporary folder (not always working) ;)
-						$sql_ary['filesize_upload'] = (@filesize($gallery_url->path('upload') . $image_filename)) ? @filesize($gallery_url->path('upload') . $image_filename) : 0;
+						$sql_ary['filesize_upload'] = (@filesize($file_link)) ? @filesize($file_link) : 0;
 
 						if ($filename || ($image_name == ''))
 						{
@@ -217,6 +214,11 @@ class main_module
 
 						// Put the images into the database
 						$db->sql_query('INSERT INTO ' . $table_prefix . 'gallery_images ' . $db->sql_build_array('INSERT', $sql_ary));
+						// If the source image is imported, we delete it.
+						if (file_exists($image_src_full))
+						{
+							@unlink($image_src_full);
+						}
 					}
 					$done_images++;
 				}
