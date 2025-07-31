@@ -237,7 +237,7 @@ class index
 			'U_VIEW_FORUM'	=> $this->helper->route('phpbbgallery_core_index'),
 		));
 
-		return $this->helper->render('gallery/index_body.html', $this->language->lang('GALLERY'));
+		return $this->helper->render('gallery/index_body.html', $this->language->lang('GALLERY'), 200, $this->gallery_config->get('disp_whoisonline'));
 	}
 
 	/**
