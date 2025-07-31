@@ -184,6 +184,7 @@ class album
 				array('album_id' => (int) $album_id)
 			));
 		}
+
 		if ((!$album_data['album_user_id'] || $album_data['album_user_id'] == $this->user->data['user_id'])
 			&& ($this->user->data['user_id'] == ANONYMOUS || $this->auth->acl_check('i_upload', $album_id, $album_data['album_user_id'])))
 		{
@@ -240,7 +241,8 @@ class album
 		$sort_key = $this->request->variable('sk', ($album_data['album_sort_key']) ? $album_data['album_sort_key'] : $this->config['phpbb_gallery_default_sort_key']);
 		$sort_dir = $this->request->variable('sd', ($album_data['album_sort_dir']) ? $album_data['album_sort_dir'] : $this->config['phpbb_gallery_default_sort_dir']);
 
-		$image_status_check = ' AND image_status <> ' . \phpbbgallery\core\block::STATUS_UNAPPROVED;
+		$image_status_check = ' AND image_status <> ' . (int) \phpbbgallery\core\block::STATUS_UNAPPROVED;
+
 		$image_counter = $album_data['album_images'];
 		if ($this->auth->acl_check('m_status', $album_id, $album_data['album_user_id']))
 		{
@@ -394,12 +396,12 @@ class album
 
 			$s_username_hidden = $image_data['image_contest'] && !$this->auth->acl_check('m_status', $image_data['image_album_id'], $album_user_id) && ($this->user->data['user_id'] != $image_data['image_user_id'] || $image_data['image_user_id'] == ANONYMOUS);
 			$this->template->assign_block_vars('imageblock.image', array(
-				'IMAGE_ID'            => $image_data['image_id'],
+				'IMAGE_ID'            => (int) $image_data['image_id'],
 				'U_IMAGE'             => $action_image,
 				'UC_IMAGE_NAME'       => $show_imagename ? htmlspecialchars_decode($image_data['image_name'], ENT_COMPAT) : false,
 				'U_ALBUM'             => $show_album ? $this->helper->route('phpbbgallery_core_album', array('album_id' => (int) $album_data['album_id'])) : false,
 				'ALBUM_NAME'          => $show_album ? $album_data['album_name'] : false,
-				'IMAGE_VIEWS'         => $show_views ? $image_data['image_view_count'] : -1,
+				'IMAGE_VIEWS'         => $show_views ? (int) $image_data['image_view_count'] : -1,
 				//'UC_THUMBNAIL'	=> 'self::generate_link('thumbnail', $phpbb_ext_gallery->config->get('link_thumbnail'), $image_data['image_id'], $image_data['image_name'], $image_data['image_album_id']),
 				'UC_THUMBNAIL'        => $this->helper->route('phpbbgallery_core_image_file_mini', array('image_id' => $image_data['image_id'])),
 				'UC_THUMBNAIL_ACTION' => $action,

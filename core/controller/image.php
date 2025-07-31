@@ -258,7 +258,7 @@ class image
 
 		$album_id = (int) $this->data['image_album_id'];
 		$album_data = $this->loader->get($album_id);
-		$this->check_permissions($album_id, $album_data['album_user_id'], $this->data['image_status'], $album_data['album_auth_access']);
+		$this->check_permissions($album_id, $album_data['album_user_id'], $this->data['image_status'], $album_data['album_auth_access'], $this->data);
 		$this->display->generate_navigation($album_data);
 		if (!$this->user->data['is_bot'] && isset($this->user->data['session_page']) && (strpos($this->user->data['session_page'], '&image_id=' . $image_id) === false || isset($this->user->data['session_created'])))
 		{
@@ -349,7 +349,7 @@ class image
 		$sql_sort_order = $sort_by_sql[$sort_key] . ' ' . (($sort_dir == 'd') ? 'DESC' : 'ASC');
 		$sql_sort_order .= $sql_help_sort;
 
-		// Let's see if there is prieveus image
+		// Let's see if there is previous image
 		$sql = 'SELECT *
 			FROM ' . $this->table_images . '
 			WHERE image_album_id = ' . (int) $album_id . "
@@ -1194,7 +1194,7 @@ class image
 	 * @param     $album_auth_level
 	 * @internal param array $album_data
 	 */
-	protected function check_permissions($album_id, $owner_id, $image_status, $album_auth_level)
+	protected function check_permissions($album_id, $owner_id, $image_status, $album_auth_level, $user_data)
 	{
 		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$zebra_array = $this->gallery_auth->get_user_zebra($this->user->data['user_id']);
