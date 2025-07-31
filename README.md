@@ -6,7 +6,7 @@
 
 © 2014 - 2025 - [Lucifer](https://www.anavaro.com)
 
-© 2019 - 2025 [Leinad4Mind](https://leinad4mind.top/forum)
+© 2019 - 2025 - [Leinad4Mind](https://leinad4mind.top/forum)
 
 Welcome to phpBB Gallery version 3.3.x
 
