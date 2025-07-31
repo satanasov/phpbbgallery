@@ -133,6 +133,28 @@ class file
 		return '';
 	}
 
+	static public function extension_by_filename($filename)
+	{
+		switch (utf8_substr(strtolower($filename), -4))
+		{
+			case '.png':
+				return 'png';
+			break;
+			case '.gif':
+				return 'gif';
+			break;
+			case 'jpeg':
+			case '.jpg':
+				return 'jpg';
+			break;
+			case '.webp':
+				return 'webp';
+			break;
+		}
+
+		return '';
+	}
+
 	/**
 	 * Read image
 	 * @param bool $force_filesize
