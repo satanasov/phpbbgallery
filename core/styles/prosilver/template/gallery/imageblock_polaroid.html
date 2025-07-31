@@ -16,6 +16,11 @@
 		<!-- IF imageblock.image.U_IMAGE --><a href="{imageblock.image.U_IMAGE}" style="display: inline;"><!-- ENDIF -->{imageblock.image.UC_IMAGE_NAME}<!-- IF imageblock.image.U_IMAGE --></a><!-- ENDIF -->
 	</p>
 	<hr />
+	<!-- IF imageblock.image.S_STATUS_UNAPPROVED_PERMISSIONS -->
+			<p class="post-notice unapproved">
+				{L_IMAGE_NOT_APPROVED}
+			</p>
+		<!-- ENDIF -->
 	<!-- IF imageblock.image.S_STATUS_UNAPPROVED -->
 			<p class="post-notice unapproved">
 				{L_IMAGE_NOT_APPROVED}
