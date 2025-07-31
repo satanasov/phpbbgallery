@@ -158,7 +158,7 @@ class image
 	}
 
 	/**
-	 * Delete an image completly.
+	 * Delete an image completely.
 	 *
 	 * @param    array $images Array with the image_id(s)
 	 * @param    array $filenames Array with filenames for the image_ids. If a filename is missing it's queried from the database.
@@ -668,6 +668,7 @@ class image
 				$action = false;
 				break;
 		}
+
 		switch ($imagename_link)
 		{
 			case 'image_page':
@@ -680,6 +681,7 @@ class image
 				$action_image = false;
 				break;
 		}
+
 		$this->template->assign_block_vars($image_block_name, array(
 			'IMAGE_ID'		=> $image_data['image_id'],
 			'U_IMAGE'		=> $show_imagename ? $action_image : false,

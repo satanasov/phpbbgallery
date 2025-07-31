@@ -175,6 +175,7 @@ class comment
 			GROUP BY comment_image_id, comment_id
 			ORDER BY comment_id DESC';
 		$result = $this->db->sql_query($sql);
+
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$resync[$row['comment_image_id']] = array(

@@ -528,7 +528,7 @@ class main_module
 		/* Resync stats as per server
 		 * Time: 0.271s
 		 * Queries: 1087
-		 * Peak Memmoty usage: 8.62MB
+		 * Peak Memory usage: 8.62MB
 		 */
 		if (isset($resync_albums_to_cpf_stage))
 		{

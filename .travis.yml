@@ -36,7 +36,7 @@ env:
     - IMAGE_ICC="1"        # Should we run icc profile sniffer on your images?
     - EPV="1"              # Should we run EPV (Extension Pre Validator) on your code?
     - PHPBB_BRANCH="3.3.x"
-    - COVERAGE="1"		   # Should we run covarage?
+    - COVERAGE="1"		   # Should we run coverage?
 
 branches:
   only:
@@ -58,7 +58,7 @@ install:
   - sh -c "if [ '$COVER' != '0' ]; then sed -i '/phpenv/d' travis/setup-php-extensions.sh; fi"
   - travis/prepare-extension.sh $EXTNAME $PHPBB_BRANCH
   - travis/setup-phpbb.sh $DB $TRAVIS_PHP_VERSION
-  - sh -c "if [ '$COVERAGE' != '0' ] && [ '$COVER' != '0' ]; then phpBB/ext/$EXTNAME/travis/prepare-covarage.sh $DB $TRAVIS_PHP_VERSION $EXTNAME; fi"
+  - sh -c "if [ '$COVERAGE' != '0' ] && [ '$COVER' != '0' ]; then phpBB/ext/$EXTNAME/travis/prepare-coverage.sh $DB $TRAVIS_PHP_VERSION $EXTNAME; fi"
   - ../$EXTNAME/travis/prepare-epv.sh $EPV $NOTESTS
 
 before_script:
