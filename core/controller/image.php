@@ -260,6 +260,7 @@ class image
 		$album_data = $this->loader->get($album_id);
 		$this->check_permissions($album_id, $album_data['album_user_id'], $this->data['image_status'], $album_data['album_auth_access']);
 		$this->display->generate_navigation($album_data);
+		$image_status_check = !$this->gallery_auth->acl_check('m_status', $album_id, $album_data['album_user_id']) ? ' AND image_status <> ' . \phpbbgallery\core\block::STATUS_UNAPPROVED : '';
 		if (!$this->user->data['is_bot'] && isset($this->user->data['session_page']) && (strpos($this->user->data['session_page'], '&image_id=' . $image_id) === false || isset($this->user->data['session_created'])))
 		{
 			$sql = 'UPDATE ' . $this->table_images . '
@@ -349,11 +350,11 @@ class image
 		$sql_sort_order = $sort_by_sql[$sort_key] . ' ' . (($sort_dir == 'd') ? 'DESC' : 'ASC');
 		$sql_sort_order .= $sql_help_sort;
 
-		// Let's see if there is prieveus image
+		// Let's see if there is previous image
 		$sql = 'SELECT *
 			FROM ' . $this->table_images . '
-			WHERE image_album_id = ' . (int) $album_id . "
-				AND image_status <> 3
+			WHERE image_album_id = ' . (int) $album_id . $image_status_check . "
+				AND image_status <> " . (int) \phpbbgallery\core\block::STATUS_ORPHAN . "
 			ORDER BY $sql_sort_order" . $sql_help_sort;
 		$result = $this->db->sql_query($sql);
 		$images_array = array();
