@@ -602,8 +602,17 @@ class image
 		$sql = 'SELECT * 
 			FROM ' . $this->table_images . '
 			WHERE image_status <> ' . \phpbbgallery\core\block::STATUS_ORPHAN . '
-				AND ((' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('i_view'), false, true) . ' AND image_status <> ' . \phpbbgallery\core\block::STATUS_UNAPPROVED . ')
-					OR ' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('m_status'), false, true) . ') AND ' . $this->db->sql_in_set('image_album_id', $public, true, true) . '
+				AND (
+					(
+						' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('i_view'), false, true) . '
+						AND (
+							image_status <> ' . \phpbbgallery\core\block::STATUS_UNAPPROVED . '
+							OR image_user_id = ' . (int) $this->user->data['user_id'] . '
+						)
+					)
+					OR ' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('m_status'), false, true) . '
+				)
+				AND ' . $this->db->sql_in_set('image_album_id', $public, true, true) . '
 			ORDER BY ' . $sql_order;
 		$result = $this->db->sql_query_limit($sql, $sql_limit);
 

@@ -287,7 +287,11 @@ class file
 			$this->data['image_filemissing'] = 0;
 			$this->data['album_watermark'] = 0;
 		}
-		if ((!$this->auth->acl_check('i_view', $this->data['album_id'], $this->data['album_user_id'])) || (!$this->auth->acl_check('m_status', $this->data['album_id'], $this->data['album_user_id']) && ($this->data['image_status'] == \phpbbgallery\core\block::STATUS_UNAPPROVED)))
+		if (!$this->auth->acl_check('i_view', $this->data['album_id'], $this->data['album_user_id']) || (
+				!$this->auth->acl_check('m_status', $this->data['album_id'], $this->data['album_user_id']) 
+				&& $this->data['image_status'] == \phpbbgallery\core\block::STATUS_UNAPPROVED
+				&& $this->data['image_user_id'] != $this->user->data['user_id']
+			))
 		{
 			// Missing permissions
 			// trigger_error('NOT_AUTHORISED');
