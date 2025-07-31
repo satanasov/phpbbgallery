@@ -170,22 +170,22 @@ class file
 		switch (utf8_substr(strtolower($this->image_source), -4))
 		{
 			case '.png':
-				$this->image = imagecreatefrompng($this->image_source);
+				$this->image_type = 'png';
+				$this->image = @imagecreatefrompng($this->image_source);
 				imagealphablending($this->image, true); // Set alpha blending on ...
 				imagesavealpha($this->image, true); // ... and save alphablending!
-				$this->image_type = 'png';
 			break;
 			case '.webp':
-				$this->image = imagecreatefromwebp($this->image_source);
 				$this->image_type = 'webp';
+				$this->image = imagecreatefromwebp($this->image_source);
 			break;
 			case '.gif':
-				$this->image = imagecreatefromgif($this->image_source);
 				$this->image_type = 'gif';
+				$this->image = imagecreatefromgif($this->image_source);
 			break;
 			default:
-				$this->image = imagecreatefromjpeg($this->image_source);
 				$this->image_type = 'jpeg';
+				$this->image = imagecreatefromjpeg($this->image_source);
 			break;
 		}
 
