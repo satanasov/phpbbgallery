@@ -137,7 +137,7 @@ class display
 		$album_parents = $this->get_parents($album_data);
 
 		// Display username for personal albums
-		if ($album_data['album_user_id'] > \phpbbgallery\core\block::PUBLIC_ALBUM)
+		if ($album_data['album_user_id'] > (int) \phpbbgallery\core\block::PUBLIC_ALBUM)
 		{
 			$sql = 'SELECT user_id, username, user_colour
 				FROM ' . USERS_TABLE . '
@@ -179,9 +179,9 @@ class display
 			'ALBUM_ID' 		=> $album_data['album_id'],
 			'ALBUM_NAME'	=> $album_data['album_name'],
 			'ALBUM_DESC'	=> generate_text_for_display($album_data['album_desc'], $album_data['album_desc_uid'], $album_data['album_desc_bitfield'], $album_data['album_desc_options']),
-			'ALBUM_CONTEST_START'	=> ($album_data['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST) ? $this->language->lang('CONTEST_START' . ((($album_data['contest_start']) < time())? 'ED' : 'S'), $this->user->format_date(($album_data['contest_start']), false, true)) : '',
-			'ALBUM_CONTEST_RATING'	=> ($album_data['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST) ? $this->language->lang('CONTEST_RATING_START' . ((($album_data['contest_start'] + $album_data['contest_rating']) < time())? 'ED' : 'S'), $this->user->format_date(($album_data['contest_start'] + $album_data['contest_rating']), false, true)) : '',
-			'ALBUM_CONTEST_END'		=> ($album_data['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST) ? $this->language->lang('CONTEST_END' . ((($album_data['contest_start'] + $album_data['contest_end']) < time())? 'ED' : 'S'), $this->user->format_date(($album_data['contest_start'] + $album_data['contest_end']), false, true)) : '',
+			'ALBUM_CONTEST_START'	=> ($album_data['album_type'] == (int) \phpbbgallery\core\block::TYPE_CONTEST) ? $this->language->lang('CONTEST_START' . ((($album_data['contest_start']) < time())? 'ED' : 'S'), $this->user->format_date(($album_data['contest_start']), false, true)) : '',
+			'ALBUM_CONTEST_RATING'	=> ($album_data['album_type'] == (int) \phpbbgallery\core\block::TYPE_CONTEST) ? $this->language->lang('CONTEST_RATING_START' . ((($album_data['contest_start'] + $album_data['contest_rating']) < time())? 'ED' : 'S'), $this->user->format_date(($album_data['contest_start'] + $album_data['contest_rating']), false, true)) : '',
+			'ALBUM_CONTEST_END'		=> ($album_data['album_type'] == (int) \phpbbgallery\core\block::TYPE_CONTEST) ? $this->language->lang('CONTEST_END' . ((($album_data['contest_start'] + $album_data['contest_end']) < time())? 'ED' : 'S'), $this->user->format_date(($album_data['contest_start'] + $album_data['contest_end']), false, true)) : '',
 			'U_VIEW_ALBUM'	=> $this->helper->route('phpbbgallery_core_album', array('album_id' => (int) $album_data['album_id'])),
 		));
 
@@ -199,7 +199,8 @@ class display
 	 */
 	public function get_parents($album_data)
 	{
-		$album_parents = array();
+		$album_parents = [];
+
 		if ($album_data['parent_id'] > 0)
 		{
 			if ($album_data['album_parents'] == '')
@@ -210,11 +211,12 @@ class display
 						AND right_id > ' . (int) $album_data['right_id'] . '
 						AND album_user_id = ' . (int) $album_data['album_user_id'] . '
 					ORDER BY left_id ASC';
+
 				$result = $this->db->sql_query($sql);
 
 				while ($row = $this->db->sql_fetchrow($result))
 				{
-					$album_parents[$row['album_id']] = array($row['album_name'], (int) $row['album_type']);
+					$album_parents[$row['album_id']] = [$row['album_name'], (int) $row['album_type']];
 				}
 				$this->db->sql_freeresult($result);
 
@@ -344,8 +346,8 @@ class display
 			{
 				$mark_read = 'all';
 			}
-			$root_data = array('album_id' => \phpbbgallery\core\block::PUBLIC_ALBUM);
-			$sql_where = 'a.album_user_id = ' . \phpbbgallery\core\block::PUBLIC_ALBUM;
+			$root_data = array('album_id' => (int) \phpbbgallery\core\block::PUBLIC_ALBUM);
+			$sql_where = 'a.album_user_id = ' . (int) \phpbbgallery\core\block::PUBLIC_ALBUM;
 		}
 		else if ($root_data == 'personal')
 		{
@@ -354,7 +356,7 @@ class display
 				$mark_read = 'all';
 			}
 			$root_data = array('album_id' => 0);
-			$sql_where = 'a.album_user_id > ' . \phpbbgallery\core\block::PUBLIC_ALBUM;
+			$sql_where = 'a.album_user_id > ' . (int) \phpbbgallery\core\block::PUBLIC_ALBUM;
 			$num_pegas = $this->config['phpbb_gallery_num_pegas'];
 			$first_char = $this->request->variable('first_char', '');
 			if ($first_char == 'other')
@@ -601,7 +603,7 @@ class display
 		foreach ($album_rows as $row)
 		{
 			// Empty category
-			if (($row['parent_id'] == $root_data['album_id']) && ($row['album_type'] == \phpbbgallery\core\block::TYPE_CAT))
+			if (($row['parent_id'] == $root_data['album_id']) && ($row['album_type'] == (int) \phpbbgallery\core\block::TYPE_CAT))
 			{
 				$this->template->assign_block_vars('albumrow', array(
 					'S_IS_CAT'				=> true,
@@ -676,7 +678,7 @@ class display
 				$folder_alt = ($album_unread) ? 'NEW_IMAGES' : 'NO_NEW_IMAGES';
 				$folder_image = ($album_unread) ? 'forum_unread' : 'forum_read';
 			}
-			if ($row['album_status'] == \phpbbgallery\core\block::ALBUM_LOCKED)
+			if ($row['album_status'] == (int) \phpbbgallery\core\block::ALBUM_LOCKED)
 			{
 				$folder_image = ($album_unread) ? 'forum_unread_locked' : 'forum_read_locked';
 				$folder_alt = 'ALBUM_LOCKED';
@@ -721,12 +723,12 @@ class display
 			$s_subalbums_list = (string) implode(', ', $s_subalbums_list);
 			$catless = ($row['parent_id'] == $root_data['album_id']) ? true : false;
 
-			$s_username_hidden = ($lastimage_album_type == \phpbbgallery\core\block::TYPE_CONTEST) && $lastimage_contest_marked && !$this->gallery_auth->acl_check('m_status', $album_id, $row['album_user_id']) && ($this->user->data['user_id'] != $row['album_last_user_id'] || $row['album_last_user_id'] == ANONYMOUS);
+			$s_username_hidden = ($lastimage_album_type == (int) \phpbbgallery\core\block::TYPE_CONTEST) && $lastimage_contest_marked && !$this->gallery_auth->acl_check('m_status', $album_id, $row['album_user_id']) && ($this->user->data['user_id'] != $row['album_last_user_id'] || $row['album_last_user_id'] == ANONYMOUS);
 
 			$this->template->assign_block_vars('albumrow', array(
 				'S_IS_CAT'			=> false,
 				'S_NO_CAT'			=> $catless && !$last_catless,
-				'S_LOCKED_ALBUM'	=> ($row['album_status'] == \phpbbgallery\core\block::ALBUM_LOCKED) ? true : false,
+				'S_LOCKED_ALBUM'	=> ($row['album_status'] == (int) \phpbbgallery\core\block::ALBUM_LOCKED) ? true : false,
 				'S_UNREAD_ALBUM'	=> ($album_unread) ? true : false,
 				'S_LIST_SUBALBUMS'	=> ($row['display_subalbum_list']) ? true : false,
 				'S_SUBALBUMS'		=> (sizeof($subalbums_list)) ? true : false,

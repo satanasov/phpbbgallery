@@ -315,7 +315,7 @@ class exif
 		$update_data = ($this->status == self::DBSAVED) ? ", image_exif_data = '" . $db->sql_escape($this->serialized) . "'" : '';
 		$sql = 'UPDATE ' . $table_prefix . 'gallery_images 
 			SET image_has_exif = ' . $this->status . $update_data . '
-			WHERE image_id = ' . $this->image_id;
+			WHERE image_id = ' . (int) $this->image_id;
 		$db->sql_query($sql);
 	}
 
