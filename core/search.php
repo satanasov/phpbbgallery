@@ -209,6 +209,8 @@ class search
 			return;
 		}
 
+		$id_ary = array_map('intval', $id_ary);
+
 		$sql_where = $this->db->sql_in_set('i.image_id', $id_ary);
 
 		$sql_array = array(
