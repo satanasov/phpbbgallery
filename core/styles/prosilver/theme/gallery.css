@@ -206,8 +206,9 @@ input.autowidth-gallery {
 }
 
 .polaroid .post-notice.unapproved {
-	background-color: #ffcc66;
 	font-weight: 700;
+	background-color: #ffcc66;
+	color: black;
 }
 
 .trophy-container
