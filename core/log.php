@@ -81,9 +81,9 @@ class log
 	 * Add item to log
 	 *
 	 * @param   string			$log_type    type of action (user/mod/admin/system) max 16 chars
-	 * @param   string			$log_action  action we are loging (add/remove/approve/unaprove/delete) max 32 chars
+	 * @param   string			$log_action  action we are logging (add/remove/approve/unapproved/delete) max 32 chars
 	 * @param 	int				$album
-	 * @param   int				$image       Image we are loging for (can be 0)
+	 * @param   int				$image       Image we are logging for (can be 0)
 	 * @param	array|string 	$description Description string
 	 */
 	public function add_log($log_type, $log_action, $album = 0, $image = 0, $description = array())
@@ -152,7 +152,7 @@ class log
 		{
 			$sql_where[] = "l.log_type = '" . $this->db->sql_escape($type) . "'";
 		}
-		// If album is -1 we are calling it from ACP so ... prority!
+		// If album is -1 we are calling it from ACP so ... priority!
 		// If album is 0 we are calling it from moderator log, so we need album we can access
 		$mod_array = $this->gallery_auth->acl_album_ids('m_status');
 		// Patch for missing album
