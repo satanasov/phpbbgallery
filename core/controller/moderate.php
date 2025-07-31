@@ -701,13 +701,13 @@ class moderate
 		{
 			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 		}
-		$action_ary = $this->request->variable('action', array('' => 0));
+		$action_ary = $this->request->variable('action', []);
 		$action_ary = array_keys($action_ary);
-		$action = $action_ary[0] ?? 'approve';
+		$action = isset($action_ary[0]) ? $action_ary[0] : 'approve';
 
-		if ($action == 'disapprove')
+		if ($action === 'disapprove')
 		{
-			$redirect = new RedirectResponse($this->helper->route('phpbbgallery_core_image_delete', array('image_id'	=> $image_id)));
+			$redirect = new RedirectResponse($this->helper->route('phpbbgallery_core_image_delete', ['image_id' => $image_id]));
 			$redirect->send();
 		}
 		$show_notify = true;
