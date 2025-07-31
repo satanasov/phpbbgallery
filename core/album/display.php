@@ -492,7 +492,7 @@ class display
 				unset($right_id);
 			}
 
-			// if this is invizible due zebra ... make it go away
+			// if this is invisible due zebra ... make it go away
 			if ($this->gallery_auth->get_zebra_state($zebra_array, (int) $row['album_user_id'], (int) $row['album_id']) < (int) $row['album_auth_access'])
 			{
 				continue;

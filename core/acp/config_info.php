@@ -1,7 +1,7 @@
 <?php
 /**
 *
-* @package Gallery - Config ACP Module
+* @package phpBB Gallery - Config ACP Module
 * @copyright (c) 2012 nickvergessen - http://www.flying-bits.org/
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *

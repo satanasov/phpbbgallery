@@ -229,7 +229,7 @@ class index
 			}
 		}
 		$this->display_legend();
-		$this->display_brithdays();
+		$this->display_birthdays();
 		$this->assign_dropdown_links('phpbbgallery_core_index');
 
 		$this->template->assign_block_vars('navlinks', array(
@@ -396,7 +396,7 @@ class index
 		));
 	}
 
-	protected function display_brithdays()
+	protected function display_birthdays()
 	{
 		// Generate birthday list if required ...
 		if ($this->config['load_birthdays'] && $this->config['allow_birthdays'] && $this->config['phpbb_gallery_disp_birthdays'] && $this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel'))

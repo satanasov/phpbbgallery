@@ -330,7 +330,7 @@ class moderate
 
 	/**
 	 * Index Controller
-	 *    Route: gallery/modarate/reports
+	 *    Route: gallery/moderate/reports
 	 *
 	 * @param $page
 	 * @param $album_id
@@ -536,7 +536,7 @@ class moderate
 
 	/**
 	 * Index Controller
-	 *    Route: gallery/modarate/image/{image_id}
+	 *    Route: gallery/moderate/image/{image_id}
 	 *
 	 * @param $image_id
 	 * @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
@@ -687,7 +687,7 @@ class moderate
 
 	/**
 	 * Index Controller
-	 *    Route: gallery/modarate/image/{image_id}/approve
+	 *    Route: gallery/moderate/image/{image_id}/approve
 	 *
 	 * @param $image_id
 	 * @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
@@ -754,7 +754,7 @@ class moderate
 
 	/**
 	 * Index Controller
-	 *    Route: gallery/modarate/image/{image_id}/unapprove
+	 *    Route: gallery/moderate/image/{image_id}/unapprove
 	 *
 	 * @param $image_id
 	 * @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
@@ -794,7 +794,7 @@ class moderate
 
 	/**
 	 * Index Controller
-	 *    Route: gallery/modarate/image/{image_id}/move
+	 *    Route: gallery/moderate/image/{image_id}/move
 	 *
 	 * @param $image_id
 	 * @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
@@ -842,7 +842,7 @@ class moderate
 
 	/**
 	 * Index Controller
-	 *    Route: gallery/modarate/image/{image_id}/lock
+	 *    Route: gallery/moderate/image/{image_id}/lock
 	 *
 	 * @param $image_id
 	 * @return \Symfony\Component\HttpFoundation\Response A Symfony Response object

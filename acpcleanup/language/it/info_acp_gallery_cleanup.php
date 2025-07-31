@@ -1,7 +1,7 @@
 <?php
 /**
 *
-* @package Gallery - ACP CleanUp Extension [English]
+* @package phpBB Gallery - ACP CleanUp Extension [English]
 * @copyright (c) 2012 nickvergessen - http://www.flying-bits.org/
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
