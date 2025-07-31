@@ -229,7 +229,7 @@ class display
 			}
 			else
 			{
-				$album_parents = $this->safe_unserialize($album_data['album_parents']);
+				$album_parents = @unserialize($album_data['album_parents']);
 			}
 		}
 
@@ -360,10 +360,6 @@ class display
 			$sql_where = 'a.album_user_id > ' . (int) \phpbbgallery\core\block::PUBLIC_ALBUM;
 			$num_pegas = $this->config['phpbb_gallery_num_pegas'];
 			$first_char = strtolower($this->request->variable('first_char', ''));
-			if (!preg_match('/^[a-z]$/', $first_char) && $first_char !== 'other')
-			{
-				$first_char = '';
-			}
 
 			if ($first_char == 'other')
 			{
@@ -392,7 +388,6 @@ class display
 						),
 					),
 
-					// @EPV-IGNORE SQL INJECTION WARNING: validated SQL_WHERE clause
 					'WHERE'			=> 'a.parent_id = 0 AND ' . $sql_where,
 				);
 				$sql = $this->db->sql_build_query('SELECT', $sql_array);
@@ -796,23 +791,5 @@ class display
 		$this->albums_total = $visible_albums;
 
 		return array($active_album_ary, array());
-	}
-
-	protected function safe_unserialize($data)
-	{
-		if (is_string($data))
-		{
-			// @EPV-IGNORE unserialize usage is safe here
-			$result = @unserialize($data);
-
-			if ($result === false && $data !== 'b:0;')
-			{
-					return [];
-			}
-
-			return $result;
-		}
-
-		return [];
 	}
 }
