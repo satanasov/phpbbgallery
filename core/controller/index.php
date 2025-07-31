@@ -225,7 +225,7 @@ class index
 					'S_RECENT_COMMENTS' => $this->helper->route('phpbbgallery_core_search_commented'),
 					'COMMENTS_EXPAND'	=> $this->gallery_config->get('rrc_gindex_comments') ? true : false,
 				));
-				$this->gallery_search->recent_comments($this->gallery_config->get('items_per_page'), 0);
+				$this->gallery_search->recent_comments($this->gallery_config->get('items_per_page'), 0, false);
 			}
 		}
 		$this->display_legend();
