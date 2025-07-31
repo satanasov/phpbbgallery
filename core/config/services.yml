@@ -305,7 +305,6 @@ services:
 #######################
 #### Define event #####
 #######################
-
     phpbbgallery.core.listener:
         class: phpbbgallery\core\event\main_listener
         arguments:
@@ -321,4 +320,13 @@ services:
             - '%core.php_ext%'
         tags:
             - { name: event.listener }
-
+# ----- Cron tasks -----
+    phpbbgallery.core.cron.task.cron_cleaner:
+        class: phpbbgallery\core\cron\cron_cleaner
+        arguments:
+            - '@phpbbgallery.core.config'
+            - '@phpbbgallery.core.upload'
+        calls:
+            - [set_name, [cron.task.cron_cleaner]]
+        tags:
+            - { name: cron.task }
