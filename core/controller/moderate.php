@@ -3,7 +3,7 @@
 /**
 *
 * @package phpBB Gallery Core
-* @copyright (c) 2014 nickvergessen
+* @copyright (c) 2014 nickvergessen | 2025 Leinad4Mind
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
