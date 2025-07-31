@@ -591,9 +591,11 @@ class permissions_module
 						));
 						foreach ($permission_values as $permission)
 						{
+							$key = 'PERMISSION_' . strtoupper($permission);
+							$key_explain = $key . '_EXPLAIN';
 							$template->assign_block_vars('c_mask.v_mask.category.mask', array(
-								'PERMISSION'			=> $this->language->lang('PERMISSION_' . strtoupper($permission)),
-								'PERMISSION_EXPLAIN'	=> ($this->language->lang_raw('PERMISSION_' . strtoupper($permission) . '_EXPLAIN') != 'PERMISSION_' . strtoupper($permission) . '_EXPLAIN') ? $this->language->lang('PERMISSION_' . strtoupper($permission) . '_EXPLAIN') : '',
+								'PERMISSION'			=> $this->language->lang($key),
+								'PERMISSION_EXPLAIN' => ($this->language->lang_raw($key_explain) !== $key_explain) ? $this->language->lang($key_explain) : '',
 								'S_FIELD_NAME'			=> 'setting[' . $album_row['album_id'] . '][' . $victim_row['victim_id'] . '][' . $permission . ']',
 								'S_NO'					=> ((isset($roles[$role_id][$permission]) && ($roles[$role_id][$permission] == $phpbb_ext_gallery_core_auth::ACL_NO)) ? true : false),
 								'S_YES'					=> ((isset($roles[$role_id][$permission]) && ($roles[$role_id][$permission] == $phpbb_ext_gallery_core_auth::ACL_YES)) ? true : false),
@@ -629,9 +631,11 @@ class permissions_module
 					));
 					foreach ($permission_values as $permission)
 					{
+						$key = 'PERMISSION_' . strtoupper($permission);
+						$key_explain = $key . '_EXPLAIN';
 						$template->assign_block_vars('c_mask.v_mask.category.mask', array(
-							'PERMISSION'			=> $this->language->lang('PERMISSION_' . strtoupper($permission)),
-							'PERMISSION_EXPLAIN'	=> ($this->language->lang('PERMISSION_' . strtoupper($permission) . '_EXPLAIN')) ? $this->language->lang('PERMISSION_' . strtoupper($permission) . '_EXPLAIN') : '',
+							'PERMISSION'			=> $this->language->lang($key),
+							'PERMISSION_EXPLAIN' => ($this->language->lang_raw($key_explain) !== $key_explain) ? $this->language->lang($key_explain) : '',
 							'S_FIELD_NAME'			=> 'setting[' . $p_system . '][' . $victim_row['victim_id'] . '][' . $permission . ']',
 							'S_NO'					=> ((isset($roles[$role_id][$permission]) && ($roles[$role_id][$permission] == $phpbb_ext_gallery_core_auth::ACL_NO)) ? true : false),
 							'S_YES'					=> ((isset($roles[$role_id][$permission]) && ($roles[$role_id][$permission] == $phpbb_ext_gallery_core_auth::ACL_YES)) ? true : false),
