@@ -226,7 +226,7 @@ class cleanup
 						),
 					),
 
-					'WHERE'			=> 'a.album_user_id <> ' . $this->album->get_public() . ' AND a.parent_id = 0',
+					'WHERE'			=> 'a.album_user_id <> ' . (int) $this->album->get_public() . ' AND a.parent_id = 0',
 					'ORDER_BY'		=> 'a.album_id DESC',
 				);
 				$sql = $this->db->sql_build_query('SELECT', $sql_array);

@@ -127,13 +127,13 @@ class log
 	 * @param		array		$additional
 	 * @internal	param int	$start start count used to build paging
 	 */
-	public function build_list($type, $limit = 0, $page = 1, $album = 0, $image = 0, $additional = array())
+	public function build_list($type, $limit = 0, $page = 1, $album = 0, $image = 0, $additional = [])
 	{
 		if ($limit == 0)
 		{
 			$limit = $this->gallery_config->get('items_per_page');
 		}
-		$this->language->add_lang(array('info_acp_gallery_logs'), 'phpbbgallery/core');
+		$this->language->add_lang(['info_acp_gallery_logs'], 'phpbbgallery/core');
 
 		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$sql_array = array(
@@ -147,7 +147,7 @@ class log
 				)
 			)
 		);
-		$sql_where = array();
+		$sql_where = [];
 		if ($type != 'all')
 		{
 			$sql_where[] = "l.log_type = '" . $this->db->sql_escape($type) . "'";
@@ -261,8 +261,7 @@ class log
 					'U_LOG_IP'		=> $var['ip'],
 					'U_ALBUM_LINK'	=> $var['album'] != 0 ? $this->helper->route('phpbbgallery_core_album', array('album_id'	=> $var['album'])) : false,
 					'U_IMAGE_LINK'	=> $var['image'] != 0 ? $this->helper->route('phpbbgallery_core_image', array('image_id'	=> $var['image'])) : false,
-					//'U_LOG_ACTION'	=> $description,
-					'U_LOG_ACTION'	=> $this->language->lang($var['description'][0], isset($var['description'][1]) ? $var['description'][1] : false, isset($var['description'][2]) ? $var['description'][2] : false, isset($var['description'][3]) ? $var['description'][3] : false),
+					'U_LOG_ACTION' => isset($var['description']) && is_array($var['description']) ? $this->language->lang($var['description'][0], $var['description'][1] ?? false, $var['description'][2] ?? false, $var['description'][3] ?? false) : '',
 					'U_TIME'		=> $this->user->format_date($var['time']),
 				));
 			}

@@ -209,6 +209,8 @@ class search
 			return;
 		}
 
+		$id_ary = array_map('intval', $id_ary);
+
 		$sql_where = $this->db->sql_in_set('i.image_id', $id_ary);
 
 		$sql_array = array(
@@ -223,6 +225,7 @@ class search
 			),
 
 			'WHERE'			=> 'i.image_status <> ' . \phpbbgallery\core\block::STATUS_ORPHAN . ' AND ' . $sql_where,
+			'WHERE'			=> 'i.image_status <> ' . (int) \phpbbgallery\core\block::STATUS_ORPHAN . ' AND ' . $sql_where,
 			'GROUP_BY'	=> 'i.image_id, a.album_name, a.album_status, a.album_user_id, a.album_id',
 			'ORDER_BY'		=> $sql_order,
 		);
@@ -250,10 +253,8 @@ class search
 	{
 		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 
-		$sql = 'SELECT COUNT(image_id) as count
-			FROM ' . $this->images_table . '
-			WHERE image_status <> ' . \phpbbgallery\core\block::STATUS_ORPHAN;
-		$exclude_albums = array();
+		$exclude_albums = [];
+
 		if (!$this->gallery_config->get('rrc_gindex_pegas'))
 		{
 			$sql_no_user = 'SELECT album_id FROM ' . $this->albums_table . ' WHERE album_user_id > 0';
@@ -264,20 +265,55 @@ class search
 			}
 			$this->db->sql_freeresult($result);
 		}
+
 		$exclude_albums = array_merge($exclude_albums, $this->gallery_auth->get_exclude_zebra());
-		$sql .= '	AND ((' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums), false, true) . ' AND image_status <> ' . \phpbbgallery\core\block::STATUS_UNAPPROVED . ')
-					OR ' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('m_status'), $exclude_albums), false, true) . ')';
+
+		// Get allowed album ids for view and mod permissions excluding excluded albums
+		$view_album_ids = array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums);
+		$mod_album_ids = array_diff($this->gallery_auth->acl_album_ids('m_status'), $exclude_albums);
+
+		if (empty($view_album_ids) && empty($mod_album_ids))
+		{
+			return 0;
+		}
+
+		$sql = 'SELECT COUNT(image_id) AS count
+			FROM ' . $this->images_table . '
+			WHERE image_status <> ' . (int) \phpbbgallery\core\block::STATUS_ORPHAN;
+
+		$conditions = [];
+
+		if (!empty($view_album_ids))
+		{
+			$conditions[] = '(' . $this->db->sql_in_set('image_album_id', $view_album_ids) . '
+				AND image_status <> ' . (int) \phpbbgallery\core\block::STATUS_UNAPPROVED . ')';
+		}
+
+		if (!empty($mod_album_ids))
+		{
+			$conditions[] = $this->db->sql_in_set('image_album_id', $mod_album_ids);
+		}
+
+		if (!empty($conditions))
+		{
+			$sql .= ' AND (' . implode(' OR ', $conditions) . ')';
+		}
+
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
+
 		return (int) $row['count'];
 	}
 
+
+
 	/**
 	 * recent comments
-	 * @param (int)    $limit How many imagese to query
+	 * @param (int)    $limit How many images to query
 	 * @param int $start
 	 */
-	public function recent_comments($limit, $start = 0)
+	public function recent_comments($limit, $start = 0, $pagination = true)
 	{
 		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$sql_limit = $limit;
@@ -302,7 +338,7 @@ class search
 			'GROUP_BY'	=> 'c.comment_id, c.comment_time, i.image_id',
 			'ORDER_BY'	=> 'comment_time DESC'
 		);
-		$sql_array['WHERE'] .= ' AND ((' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums), false, true) . ' AND image_status <> ' . \phpbbgallery\core\block::STATUS_UNAPPROVED . ')
+		$sql_array['WHERE'] .= ' AND ((' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums), false, true) . ' AND image_status <> ' . (int) \phpbbgallery\core\block::STATUS_UNAPPROVED . ')
 					OR ' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('m_status'), $exclude_albums), false, true) . ')';
 
 		$sql_array['SELECT'] = 'COUNT(c.comment_id) as count';
@@ -361,17 +397,20 @@ class search
 			'SEARCH_MATCHES'	=> $this->language->lang('TOTAL_COMMENTS_SPRINTF', $count),
 			'SEARCH_TITLE'		=> $this->language->lang('RECENT_COMMENTS'),
 		));
-		$this->pagination->generate_template_pagination(array(
-			'routes' => array(
-				'phpbbgallery_core_search_commented',
-				'phpbbgallery_core_search_commented_page',),
-				'params' => array()), 'pagination', 'page', $count, $limit, $start
-		);
+		if ($pagination)
+		{
+			$this->pagination->generate_template_pagination(array(
+				'routes' => array(
+					'phpbbgallery_core_search_commented',
+					'phpbbgallery_core_search_commented_page',),
+					'params' => array()), 'pagination', 'page', $count, $limit, $start
+			);
+		}
 	}
 
 	/**
 	 * Generate recent images and populate template
-	 * @param (int)    $limit How many imagese to query
+	 * @param (int)    $limit How many images to query
 	 * @param int $start
 	 * @param int $user
 	 * @param string $fields
@@ -498,6 +537,8 @@ class search
 			return;
 		}
 
+		$id_ary = array_map('intval', $id_ary);
+
 		$sql_where = $this->db->sql_in_set('i.image_id', $id_ary);
 
 		$sql_array = array(
@@ -512,6 +553,7 @@ class search
 			),
 
 			'WHERE'			=> 'i.image_status <> ' . \phpbbgallery\core\block::STATUS_ORPHAN . ' AND ' . $sql_where,
+			'WHERE'			=> 'i.image_status <> ' . (int) \phpbbgallery\core\block::STATUS_ORPHAN . ' AND ' . $sql_where,
 			'ORDER_BY'		=> $sql_order,
 		);
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
