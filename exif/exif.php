@@ -109,7 +109,7 @@ class exif
 		$this->status = $status;
 		if ($this->status == self::DBSAVED)
 		{
-			$this->data = $this->safe_unserialize($data);
+			$this->data = @unserialize($data);
 		}
 		else if (($this->status == self::AVAILABLE) || ($this->status == self::UNKNOWN))
 		{
@@ -290,7 +290,7 @@ class exif
 			{
 				$template->assign_block_vars($block, array(
 					'EXIF_NAME'			=> $user->lang[strtoupper($exif)],
-					'EXIF_VALUE'		=> $value,
+					'EXIF_VALUE'		=> htmlspecialchars($value),
 				));
 			}
 			$template->assign_vars(array(
@@ -317,24 +317,6 @@ class exif
 			SET image_has_exif = ' . $this->status . $update_data . '
 			WHERE image_id = ' . (int) $this->image_id;
 		$db->sql_query($sql);
-	}
-
-	protected function safe_unserialize($data)
-	{
-		if (is_string($data))
-		{
-			// @EPV-IGNORE unserialize usage is safe here
-			$result = @unserialize($data);
-
-			if ($result === false && $data !== 'b:0;')
-			{
-					return [];
-			}
-
-			return $result;
-		}
-
-		return [];
 	}
 
 	/**
