@@ -65,6 +65,7 @@ $lang = array_merge($lang, array(
 	'NO_PERSONAL_ALBUM'				=> 'Все още нямате личен албум. Тук можете да създадете личен албум с подалбуми.<br />В личните албуми само собственика може да качва изображения.',
 	'NO_SUBALBUMS'					=> 'Няма свързани албуми',
 	'NO_SUBSCRIPTIONS'				=> 'Не сте се абонирали за никакви изображения.',
+	'NO_SUBSCRIPTIONS_ALBUM'		=> 'You are not subscribed to an album.',
 
 	'PARSE_BBCODE'					=> 'Parse BBCode',
 	'PARSE_SMILIES'					=> 'Parse smilies',

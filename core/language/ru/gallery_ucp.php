@@ -56,6 +56,8 @@ $lang = array_merge($lang, array(
 	'NO_PERSONAL_ALBUM'				=> 'У вас пока нет личного фотоальбома. Здесь можно создать его, а также вложенные альбомы.',
 	'NO_SUBALBUMS'					=> 'Нет вложенных альбомов',
 	'NO_SUBSCRIPTIONS'				=> 'Вы не подписаны ни на одно фото.',
+	'NO_SUBSCRIPTIONS_ALBUM'		=> 'You are not subscribed to an album.',
+
 	'PARSE_BBCODE'					=> 'Разрешить BBCode',
 	'PARSE_SMILIES'					=> 'Разрешить смайлики',
 	'PARSE_URLS'					=> 'Разрешить ссылки',

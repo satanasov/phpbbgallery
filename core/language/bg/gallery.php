@@ -191,6 +191,7 @@ $lang = array_merge($lang, array(
 	'NO_ALBUMS'             => 'В тази галерия няма албуми.',
 	'NO_COMMENTS'           => 'Все още няма коментари',
 	'NO_IMAGES'             => 'Няма изображения',
+	'NO_COMMENTS_NO_IMAGES' => 'No comments or own pictures yet',
 	'NO_IMAGES_FOUND'       => 'Не са намерени изображения.',
 	'NO_NEW_IMAGES'         => 'Няма нови изображения',
 	'NO_IMAGES_LONG'        => 'В този албум няма изображения.',
