@@ -111,10 +111,12 @@ $lang = array_merge($lang, array(
 	'DETAILS'						=> 'Информация',
 	'DISALLOWED_EXTENSION'			=> 'Изображение с таким расширением не разрешено',
 	'DONT_RATE_IMAGE'				=> 'Нет оценки',
+
 	'EDIT_COMMENT'					=> 'Редактировать комментарий',
 	'EDIT_IMAGE'					=> 'Редактировать',
 	'IMAGE_EDITED_TIME_TOTAL'				=> 'Последний раз редактировалось пользователем %s %s; всего редактировалось раз: %d',
 	'IMAGE_EDITED_TIMES_TOTAL'			=> 'Последний раз редактировалось пользователем %s %s; всего редактировалось раз: %d',
+
 	'FILE'							=> 'Файл',
 	'FILE_SIZE'						=> 'Размер файла',
 	'FILETYPE_MIMETYPE_MISMATCH'	=> 'Тип файла «<strong>%1$s</strong>» не соответствует mime-типу (%2$s).',
@@ -123,7 +125,9 @@ $lang = array_merge($lang, array(
 	'FILETYPES_PNG'					=> 'png',
 	'FILETYPES_WEBP'				=> 'webp',
 	'FILETYPES_ZIP'					=> 'zip',
+
 	'FULL_EDITOR_GALLERY'					=> 'Редактировать',
+
 	'GALLERY_IMAGE'					=> 'Фото',
 	'GALLERY_IMAGES'				=> 'Фотографии',
 	'GALLERY_VIEWS'					=> 'Просмотры',
@@ -176,6 +180,7 @@ $lang = array_merge($lang, array(
 	'NO_ALBUMS'						=> 'Нет альбомов',
 	'NO_COMMENTS'					=> 'пока нет',
 	'NO_IMAGES'						=> 'Нет фотографий',
+	'NO_COMMENTS_NO_IMAGES' => 'No comments or own pictures yet',
 	'NO_IMAGES_FOUND'				=> 'Фото не найдены.',
 	'NO_NEW_IMAGES'					=> 'Нет новых фотографий',
 	'NO_IMAGES_LONG'				=> 'Этот альбом пуст.',

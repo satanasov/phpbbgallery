@@ -80,6 +80,7 @@ $lang = array_merge($lang, array(
 	'NO_PERSONAL_ALBUM'				=> 'Aucun album personnel n’a été créé. Il est possible de créer son album personnel, avec plusieurs ses sous-albums.<br />Dans les albums personnels, seul le propriétaire peut charger des images.',
 	'NO_SUBALBUMS'					=> 'Aucun album ajouté',
 	'NO_SUBSCRIPTIONS'				=> 'Aucun abonnement aux images n’a été configuré.',
+	'NO_SUBSCRIPTIONS_ALBUM'		=> 'You are not subscribed to an album.',
 
 	'PARSE_BBCODE'					=> 'Autoriser les BBCodes',
 	'PARSE_SMILIES'					=> 'Autoriser les Smileys',

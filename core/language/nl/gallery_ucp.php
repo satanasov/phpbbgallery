@@ -66,6 +66,7 @@ $lang = array_merge($lang, array(
 	'NO_PERSONAL_ALBUM'				=> 'Je hebt nog geen persoonlijk album. Hier kan je persoonlijke albums creëren, met een aantal subalbums.<br />In persoonlijke albums kan alleen de eigenaar afbeeldingen uploaden.',
 	'NO_SUBALBUMS'					=> 'Geen albums toegevoegd',
 	'NO_SUBSCRIPTIONS'				=> 'Je bent niet geabonneerd op een afbeelding.',
+	'NO_SUBSCRIPTIONS_ALBUM'		=> 'You are not subscribed to an album.',
 
 	'PARSE_BBCODE'					=> 'BBCode gebruiken',
 	'PARSE_SMILIES'					=> 'Smilies gebruiken',
