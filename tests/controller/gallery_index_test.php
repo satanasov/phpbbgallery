@@ -149,7 +149,6 @@ class gallery_index_test extends controller_base
 					'U_VIEW_FORUM' => 'phpbbgallery_core_index',
 				))
 			);
-
 		$this->template->expects($this->exactly(6))
 			->method('assign_vars')
 			->withConsecutive(
