@@ -210,8 +210,9 @@ class log
 			$sql_array['ORDER_BY'] = 'l.log_time ' . (isset($additional['sort_dir']) ? 'ASC' : 'DESC');
 			$sql_array['GROUP_BY'] = 'l.log_time, l.log_id, i.image_id';
 		}
+
 		// So we need count - so define SELECT
-		$sql_array['SELECT'] = 'SUM(l.log_id) as count';
+		$sql_array['SELECT'] = 'COUNT(l.log_id) as count';
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
