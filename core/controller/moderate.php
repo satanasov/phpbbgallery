@@ -3,7 +3,7 @@
 /**
 *
 * @package phpBB Gallery Core
-* @copyright (c) 2014 nickvergessen
+* @copyright (c) 2014 nickvergessen | 2025 Leinad4Mind
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -425,55 +425,50 @@ class moderate
 		{
 			if (confirm_box(true) || $moving_target)
 			{
+				$message = '';
 				switch ($action)
 				{
 					case 'approve':
 						$this->image->approve_images($actions_array, $album_id);
 						$this->album->update_info($album_id);
-
 						$message = $this->language->lang('WAITING_APPROVED_IMAGE', count($actions_array));
-						$this->url->meta_refresh(3, $back_link);
-						trigger_error($message);
 					break;
+
 					case 'unapprove':
 						$this->image->unapprove_images($actions_array, $album_id);
 						$this->album->update_info($album_id);
-
 						$message = $this->language->lang('WAITING_UNAPPROVED_IMAGE', count($actions_array));
-						$this->url->meta_refresh(3, $back_link);
-						trigger_error($message);
 					break;
+
 					case 'lock':
 						$this->image->lock_images($actions_array, $album_id);
 						$this->album->update_info($album_id);
-
 						$message = $this->language->lang('WAITING_LOCKED_IMAGE', count($actions_array));
-						$this->url->meta_refresh(3, $back_link);
-						trigger_error($message);
 					break;
+
 					case 'delete':
 						$this->moderate->delete_images($actions_array);
 						$this->album->update_info($album_id);
-
 						$message = $this->language->lang('DELETED_IMAGES', count($actions_array));
-						$this->url->meta_refresh(3, $back_link);
-						trigger_error($message);
 					break;
+
 					case 'move':
 						$this->image->move_image($actions_array, $moving_target);
 						$this->album->update_info($album_id);
 						$this->album->update_info($moving_target);
-
 						$message = $this->language->lang('MOVED_IMAGES', count($actions_array));
-						$this->url->meta_refresh(3, $back_link);
-						trigger_error($message);
 					break;
+
 					case 'report':
 						$this->report->close_reports_by_image($actions_array);
 						$message = $this->language->lang('WAITING_REPORTED_DONE', count($actions_array));
-						$this->url->meta_refresh(3, $back_link);
-						trigger_error($message);
 					break;
+				}
+
+				if (!empty($message))
+				{
+					$this->url->meta_refresh(3, $back_link);
+					trigger_error($message);
 				}
 			}
 			else
