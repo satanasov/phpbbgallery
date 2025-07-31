@@ -148,7 +148,7 @@ class gallery_logs_module
 				}
 
 				// Build list
-				$log->build_list($filter_log, 25, (int) $page + 1, -1, 0, $additional);
+				$log->build_list($filter_log, 0, (int) $page + 1, -1, 0, $additional);
 				break;
 
 			default:

@@ -127,13 +127,13 @@ class log
 	 * @param		array		$additional
 	 * @internal	param int	$start start count used to build paging
 	 */
-	public function build_list($type, $limit = 0, $page = 1, $album = 0, $image = 0, $additional = array())
+	public function build_list($type, $limit = 0, $page = 1, $album = 0, $image = 0, $additional = [])
 	{
 		if ($limit == 0)
 		{
 			$limit = $this->gallery_config->get('items_per_page');
 		}
-		$this->language->add_lang(array('info_acp_gallery_logs'), 'phpbbgallery/core');
+		$this->language->add_lang(['info_acp_gallery_logs'], 'phpbbgallery/core');
 
 		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$sql_array = array(
@@ -147,7 +147,7 @@ class log
 				)
 			)
 		);
-		$sql_where = array();
+		$sql_where = [];
 		if ($type != 'all')
 		{
 			$sql_where[] = "l.log_type = '" . $this->db->sql_escape($type) . "'";
