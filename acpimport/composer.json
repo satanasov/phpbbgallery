@@ -5,7 +5,7 @@
 	"homepage": "https://github.com/satanasov/phpbbgallery",
 	"version": "1.2.2",
 	"time": "2025-07-27",
-	"license": "GPL-2.0",
+	"license": "GPL-2.0-only",
 	"authors": [
 		{
 			"name": "Joas Schilling",
