@@ -241,7 +241,7 @@ class album
 		$sort_key = $this->request->variable('sk', ($album_data['album_sort_key']) ? $album_data['album_sort_key'] : $this->config['phpbb_gallery_default_sort_key']);
 		$sort_dir = $this->request->variable('sd', ($album_data['album_sort_dir']) ? $album_data['album_sort_dir'] : $this->config['phpbb_gallery_default_sort_dir']);
 
-		$image_status_check = ' AND image_status <> ' . \phpbbgallery\core\block::STATUS_UNAPPROVED;
+		$image_status_check = ' AND image_status <> ' . (int) \phpbbgallery\core\block::STATUS_UNAPPROVED;
 
 		$image_counter = $album_data['album_images'];
 
@@ -255,7 +255,7 @@ class album
 		}
 		else
 		{
-			$image_status_check = " AND (image_status <> " . \phpbbgallery\core\block::STATUS_UNAPPROVED . " OR image_user_id = $user_id)";
+			$image_status_check = " AND (image_status <> " . (int) \phpbbgallery\core\block::STATUS_UNAPPROVED . " OR image_user_id = $user_id)";
 			$image_counter = $album_data['album_images_real'];
 		}
 
