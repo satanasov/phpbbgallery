@@ -3,7 +3,7 @@
 /**
 *
 * @package phpBB Gallery Core
-* @copyright (c) 2014 nickvergessen
+* @copyright (c) 2014 nickvergessen | Leinad4Mind 2025
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -613,50 +613,19 @@ class image
 
 		return $row;
 	}
-	public function assign_block($image_block_name, $image_data, $display_option = 0, $thumbanil_link = 'image_page', $imagename_link = 'image_page')
+	public function assign_block($image_block_name, $image_data, $display_option = 0, $thumbnail_link = 'image_page', $imagename_link = 'image_page')
 	{
 		// Now let's get display options
-		$show_ip = $show_ratings = $show_username = $show_views = $show_time = $show_imagename = $show_comments = $show_album = false;
-		if ($display_option >= self::IMAGE_SHOW_IP)
-		{
-			$show_ip = true;
-			$display_option = $display_option - self::IMAGE_SHOW_IP;
-		}
-		if ($display_option >= self::IMAGE_SHOW_RATINGS)
-		{
-			$show_ratings = true;
-			$display_option = $display_option - self::IMAGE_SHOW_RATINGS;
-		}
-		if ($display_option >= self::IMAGE_SHOW_USERNAME)
-		{
-			$show_username = true;
-			$display_option = $display_option - self::IMAGE_SHOW_USERNAME;
-		}
-		if ($display_option >= self::IMAGE_SHOW_VIEWS)
-		{
-			$show_views = true;
-			$display_option = $display_option - self::IMAGE_SHOW_VIEWS;
-		}
-		if ($display_option >= self::IMAGE_SHOW_TIME)
-		{
-			$show_time = true;
-			$display_option = $display_option - self::IMAGE_SHOW_TIME;
-		}
-		if ($display_option >= self::IMAGE_SHOW_IMAGENAME)
-		{
-			$show_imagename = true;
-			$display_option = $display_option - self::IMAGE_SHOW_IMAGENAME;
-		}
-		if ($display_option >= self::IMAGE_SHOW_COMMENTS)
-		{
-			$show_comments = true;
-			$display_option = $display_option - self::IMAGE_SHOW_COMMENTS;
-		}
-		if ($display_option == self::IMAGE_SHOW_ALBUM)
-		{
-			$show_album = true;
-		}
-		switch ($thumbanil_link)
+		$show_ip         = ($display_option & self::IMAGE_SHOW_IP) !== 0;
+		$show_ratings    = ($display_option & self::IMAGE_SHOW_RATINGS) !== 0;
+		$show_username   = ($display_option & self::IMAGE_SHOW_USERNAME) !== 0;
+		$show_views      = ($display_option & self::IMAGE_SHOW_VIEWS) !== 0;
+		$show_time       = ($display_option & self::IMAGE_SHOW_TIME) !== 0;
+		$show_imagename  = ($display_option & self::IMAGE_SHOW_IMAGENAME) !== 0;
+		$show_comments   = ($display_option & self::IMAGE_SHOW_COMMENTS) !== 0;
+		$show_album      = ($display_option & self::IMAGE_SHOW_ALBUM) !== 0;
+
+		switch ($thumbnail_link)
 		{
 			case 'image_page':
 				$action = $this->helper->route('phpbbgallery_core_image', array('image_id' => (int) $image_data['image_id']));
