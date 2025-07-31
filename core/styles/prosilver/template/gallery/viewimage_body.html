@@ -1,6 +1,16 @@
 <!-- INCLUDE gallery/gallery_header.html -->
 <h2>{L_IMAGE_NAME}{L_COLON}<a href="{S_ALBUM_ACTION}" style="display: inline;"> {IMAGE_NAME}</a></h2>
 
+<!-- IF S_STATUS_UNAPPROVED -->
+<div class="post">
+	<div class="inner">
+		<div class="unapproved">
+			For Approval
+		</div>
+	</div>
+</div>
+<!-- ENDIF -->
+
 <div class="post bg2<!-- IF S_IMAGE_REPORTED --> reported<!-- ENDIF -->">
 	<div class="inner">
 		<div class="postbody_album" id="image">

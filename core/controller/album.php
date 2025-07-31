@@ -242,9 +242,18 @@ class album
 
 		$image_status_check = ' AND image_status <> ' . \phpbbgallery\core\block::STATUS_UNAPPROVED;
 		$image_counter = $album_data['album_images'];
-		if ($this->auth->acl_check('m_status', $album_id, $album_data['album_user_id']))
+
+		$user_id = $this->user->data['user_id'];
+		$album_owner_id = $album_data['album_user_id'];
+
+		if ($this->auth->acl_check('m_status', $album_id, $album_owner_id))
 		{
 			$image_status_check = '';
+			$image_counter = $album_data['album_images_real'];
+		}
+		else if ($user_id == $album_owner_id)
+		{
+			$image_status_check = " AND (image_status <> " . \phpbbgallery\core\block::STATUS_UNAPPROVED . " OR image_user_id = $user_id)";
 			$image_counter = $album_data['album_images_real'];
 		}
 
