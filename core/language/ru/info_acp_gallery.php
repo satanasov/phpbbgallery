@@ -38,7 +38,6 @@ $lang = array_merge($lang, array(
 	'GALLERY_COPYRIGHT'	=> 'Powered by <a href="http://www.anavaro.com/">phpBB Gallery</a> &copy; 2016 <a href="http://www.anavaro.com/">Lucifer</a>',
 
 	// A little line where you can give yourself some credits on the translation.
-	//'GALLERY_TRANSLATION_INFO'			=> 'English "phpBB Gallery"-Translation by <a href="http://www.flying-bits.org/">nickvergessen</a>',
 	'GALLERY_TRANSLATION_INFO'			=> 'Русский перевод phpBB Gallery — <a href="http://www.phpbbguru.net/">www.phpbbguru.net</a>',
 	'IMAGES'							=> 'Фото',
 	'IMG_BUTTON_UPLOAD_IMAGE'			=> 'Загрузка фото',
