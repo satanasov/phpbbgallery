@@ -215,7 +215,7 @@ class album
 			'L_RETURN_LINK'  => $this->language->lang('RETURN_TO_GALLERY'),
 			'S_ALBUM_ACTION' => $this->helper->route('phpbbgallery_core_album', array('album_id' => (int) $album_id)),
 			'S_IS_WATCHED'   => $this->notifications_helper->get_watched_album($album_id) ? true : false,
-			'U_WATCH_TOGLE'  => $this->helper->route('phpbbgallery_core_album_watch', array('album_id' => (int) $album_id)),
+			'U_WATCH_TOGGLE'  => $this->helper->route('phpbbgallery_core_album_watch', array('album_id' => (int) $album_id)),
 		));
 
 		if ($album_data['album_type'] != \phpbbgallery\core\block::TYPE_CAT
