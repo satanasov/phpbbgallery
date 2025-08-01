@@ -320,7 +320,7 @@ class album
 			'BLOCK_NAME' => $album_data['album_name'],
 		));
 
-		$images = array();
+		$images = [];
 		$sql = 'SELECT *
 			FROM ' . $this->table_images . '
 			WHERE image_album_id = ' . (int) $album_id . "
@@ -344,13 +344,6 @@ class album
 		if (!empty($album_data['contest_marked']) && $album_data['contest_marked'])
 		{
 			$show_ratings = false;
-		}
-	
-			$show_options = $show_options - 2;
-		}
-		if ($show_options == 1)
-		{
-			$show_album = true;
 		}
 
 		while ($row = $this->db->sql_fetchrow($result))
