@@ -449,9 +449,9 @@ class main_module
 
 	function log_import_error($import_schema, $error)
 	{
-		global $phpbb_ext_gallery;
+		global $gallery_url;
 
-		$error_file = $phpbb_ext_gallery->url->_return_file($import_schema . '_errors', 'import', '');
+		$error_file = $gallery_url->_return_file($import_schema . '_errors', 'import', '');
 		$content = @file_get_contents($error_file);
 		file_put_contents($error_file, $content .= (($content) ? "\n" : '') . $error);
 	}
