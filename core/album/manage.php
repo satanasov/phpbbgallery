@@ -520,14 +520,14 @@ class manage
 				$contest_id = $contest_data['contest_id'];
 				unset($contest_data['contest_id']);
 
-				$sql = 'UPDATE ' . GALLERY_CONTESTS_TABLE . '
+				$sql = 'UPDATE ' . $this->contests_table . '
 					SET ' . $db->sql_build_array('UPDATE', $contest_data) . '
 					WHERE contest_id = ' . (int) $contest_id;
 				$db->sql_query($sql);
 				if ($reset_marked_images)
 				{
 					// If the old contest is finished, but the new one isn't, we need to remark the images!
-					$sql = 'UPDATE ' . GALLERY_IMAGES_TABLE . '
+					$sql = 'UPDATE ' . $this->images_table . '
 						SET image_contest_rank = 0,
 							image_contest_end = 0,
 							image_contest = ' . phpbb_ext_gallery_core_image::IN_CONTEST . '

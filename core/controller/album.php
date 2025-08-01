@@ -66,6 +66,15 @@ class album
 	/* @var string */
 	protected $table_images;
 
+	const ALBUM_SHOW_IP = 128;
+	const ALBUM_SHOW_RATINGS = 64;
+	const ALBUM_SHOW_USERNAME = 32;
+	const ALBUM_SHOW_VIEWS = 16;
+	const ALBUM_SHOW_TIME = 8;
+	const ALBUM_SHOW_IMAGENAME = 4;
+	const ALBUM_SHOW_COMMENTS = 2;
+	const ALBUM_SHOW_ALBUM = 1;
+
 	/**
 	 * Constructor
 	 *
@@ -256,7 +265,15 @@ class album
 		else
 		{
 			$image_status_check = " AND (image_status <> " . (int) \phpbbgallery\core\block::STATUS_UNAPPROVED . " OR image_user_id = $user_id)";
-			$image_counter = $album_data['album_images_real'];
+
+			$sql = 'SELECT COUNT(*) AS total_images
+				FROM ' . $this->table_images . '
+				WHERE image_album_id = ' . (int) $album_id . "
+					AND (image_status <> " . (int) \phpbbgallery\core\block::STATUS_UNAPPROVED . " OR image_user_id = $user_id)
+					AND image_status <> " . (int) \phpbbgallery\core\block::STATUS_ORPHAN;
+			$result = $this->db->sql_query($sql);
+			$image_counter = (int) $this->db->sql_fetchfield('total_images');
+			$this->db->sql_freeresult($result);
 		}
 
 		if (in_array($sort_key, array('r', 'ra')))
@@ -314,47 +331,21 @@ class album
 
 		// Now let's get display options
 		$show_ip = $show_ratings = $show_username = $show_views = $show_time = $show_imagename = $show_comments = $show_album = false;
-		$show_options = $this->gallery_config->get('album_display');
-		if ($show_options >= 128)
+		$show_options = (int) $this->gallery_config->get('album_display');
+		$show_ip        = ($show_options & self::ALBUM_SHOW_IP) !== 0;
+		$show_ratings   = ($show_options & self::ALBUM_SHOW_RATINGS) !== 0;
+		$show_username  = ($show_options & self::ALBUM_SHOW_USERNAME) !== 0;
+		$show_views     = ($show_options & self::ALBUM_SHOW_VIEWS) !== 0;
+		$show_time      = ($show_options & self::ALBUM_SHOW_TIME) !== 0;
+		$show_imagename = ($show_options & self::ALBUM_SHOW_IMAGENAME) !== 0;
+		$show_comments  = ($show_options & self::ALBUM_SHOW_COMMENTS) !== 0;
+		$show_album     = ($show_options & self::ALBUM_SHOW_ALBUM) !== 0;
+
+		if (!empty($album_data['contest_marked']) && $album_data['contest_marked'])
 		{
-			$show_ip = true;
-			$show_options = $show_options - 128;
+			$show_ratings = false;
 		}
-		if ($show_options >= 64)
-		{
-			$show_ratings = true;
-			$show_options = $show_options - 64;
-		}
-		if (isset($album_data['contest_marked']))
-		{
-			if ($album_data['contest_marked'])
-			{
-				$show_ratings = false;
-			}
-		}
-		if ($show_options >= 32)
-		{
-			$show_username = true;
-			$show_options = $show_options - 32;
-		}
-		if ($show_options >= 16)
-		{
-			$show_views = true;
-			$show_options = $show_options - 16;
-		}
-		if ($show_options >= 8)
-		{
-			$show_time = true;
-			$show_options = $show_options - 8;
-		}
-		if ($show_options >= 4)
-		{
-			$show_imagename = true;
-			$show_options = $show_options - 4;
-		}
-		if ($show_options >= 2)
-		{
-			$show_comments = true;
+	
 			$show_options = $show_options - 2;
 		}
 		if ($show_options == 1)
