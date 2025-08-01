@@ -382,9 +382,11 @@ class main_module
 		ksort($files);
 		foreach ($files as $file)
 		{
-			$template->assign_block_vars('imagerow', array(
-				'FILE_NAME'				=> utf8_encode($file),
-			));
+			// Get file name encoding
+			$encoding = mb_detect_encoding($file, ['UTF-8', 'ISO-8859-1', 'Windows-1252'], true);
+			$template->assign_block_vars('imagerow', [
+				'FILE_NAME'	=> $encoding === 'UTF-8' ? $file : mb_convert_encoding($file, 'UTF-8', $encoding),
+			]);
 		}
 
 		$template->assign_vars(array(
