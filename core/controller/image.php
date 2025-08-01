@@ -360,7 +360,7 @@ class image
 		$sql_sort_order = $sort_by_sql[$sort_key] . ' ' . (($sort_dir == 'd') ? 'DESC' : 'ASC');
 		$sql_sort_order .= $sql_help_sort;
 
-		// Let's see if there is prieveus image
+		// Let's see if there is previous image
 		$sql = 'SELECT *
 			FROM ' . $this->table_images . '
 			WHERE image_album_id = ' . (int) $album_id . '
