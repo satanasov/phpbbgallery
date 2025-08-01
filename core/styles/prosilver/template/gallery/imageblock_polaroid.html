@@ -16,19 +16,14 @@
 		<!-- IF imageblock.image.U_IMAGE --><a href="{imageblock.image.U_IMAGE}" style="display: inline;"><!-- ENDIF -->{imageblock.image.UC_IMAGE_NAME}<!-- IF imageblock.image.U_IMAGE --></a><!-- ENDIF -->
 	</p>
 	<hr />
-	<!-- IF imageblock.image.S_STATUS_UNAPPROVED_PERMISSIONS -->
-			<p class="post-notice unapproved">
-				{L_IMAGE_NOT_APPROVED}
-			</p>
-		<!-- ENDIF -->
-	<!-- IF imageblock.image.S_STATUS_UNAPPROVED -->
-			<p class="post-notice unapproved">
-				{L_IMAGE_NOT_APPROVED}
-			</p>
-		<!-- ENDIF -->
-	<!-- IF imageblock.image.S_PERMISSION_UNAPPROVED -->
+	<!-- IF imageblock.image.S_STATUS_UNAPPROVED or imageblock.image.S_STATUS_UNAPPROVED_PERMISSIONS -->
 		<form method="post" action="{imageblock.image.S_STATUS_UNAPPROVED_ACTION}" class="polaroid_img_container">
 			<div id="thumbnail">
+				<!-- IF imageblock.image.S_STATUS_UNAPPROVED and not imageblock.image.S_STATUS_UNAPPROVED_PERMISSIONS -->
+					<p class="post-notice unapproved">
+						{L_IMAGE_NOT_APPROVED}
+					</p>
+				<!-- ENDIF -->
 				<!-- IF imageblock.image.UC_THUMBNAIL_ACTION --><a href="{imageblock.image.UC_THUMBNAIL_ACTION}" class="polaroid_img_container" style="height: 80px;"><!-- ENDIF --><img src="{imageblock.image.UC_THUMBNAIL}" alt="{imageblock.image.UC_IMAGE_NAME}" title="{L_VIEW_IMAGE}{L_COLON} {imageblock.image.UC_IMAGE_NAME}" style="max-height: 65px;"/><!-- IF imageblock.image.UC_THUMBNAIL_ACTION --></a><!-- ENDIF -->
 					<p class="post-notice" style="margin-bottom: -5px; margin-top: 4px; border-radius: 4px;">
 						<input class="button2" type="submit" value="{L_DISAPPROVE}" name="action[disapprove]" style="border-radius: 4px;" />

@@ -67,7 +67,7 @@ class loader
 		{
 			throw new \OutOfBoundsException('INVALID_ALBUM');
 		}
-		if ($row['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST)
+		if ($row['album_type'] == (int) \phpbbgallery\core\block::TYPE_CONTEST)
 		{
 			$album_contest_data = $this->contest->get_contest($row['album_id'], 'album');
 			$row = array_merge($row, $album_contest_data);

@@ -149,7 +149,7 @@ class albums_module
 					extract($phpbb_dispatcher->trigger_event('phpbbgallery.core.acp.albums.request_data', compact($vars)));
 
 					// Categories are not able to be locked...
-					if ($album_data['album_type'] == \phpbbgallery\core\block::TYPE_CAT)
+					if ($album_data['album_type'] == (int) \phpbbgallery\core\block::TYPE_CAT)
 					{
 						$album_data['album_status'] = \phpbbgallery\core\block::ALBUM_OPEN;
 					}
@@ -330,7 +330,7 @@ class albums_module
 						$album_data['left_id'] = $row['left_id'];
 						$album_data['right_id'] = $row['right_id'];
 					}
-					if ($row['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST)
+					if ($row['album_type'] == (int) \phpbbgallery\core\block::TYPE_CONTEST)
 					{
 						$contest_data = $phpbb_gallery_contest->get_contest($album_id, 'album');
 					}
@@ -454,7 +454,7 @@ class albums_module
 				$album_sort_dir_options .= '<option' . (($album_data['album_sort_dir'] == 'd') ? ' selected="selected"' : '') . " value='d'>" . $this->language->lang('SORT_DESCENDING') . '</option>';
 				$album_sort_dir_options .= '<option' . (($album_data['album_sort_dir'] == 'a') ? ' selected="selected"' : '') . " value='a'>" . $this->language->lang('SORT_ASCENDING') . '</option>';
 
-				$statuslist = '<option value="' . \phpbbgallery\core\block::ALBUM_OPEN . '"' . (($album_data['album_status'] == \phpbbgallery\core\block::ALBUM_OPEN) ? ' selected="selected"' : '') . '>' . $user->lang['UNLOCKED'] . '</option><option value="' . \phpbbgallery\core\block::ALBUM_LOCKED . '"' . (($album_data['album_status'] == \phpbbgallery\core\block::ALBUM_LOCKED) ? ' selected="selected"' : '') . '>' . $user->lang['LOCKED'] . '</option>';
+				$statuslist = '<option value="' . \phpbbgallery\core\block::ALBUM_OPEN . '"' . (($album_data['album_status'] == (int) \phpbbgallery\core\block::ALBUM_OPEN) ? ' selected="selected"' : '') . '>' . $user->lang['UNLOCKED'] . '</option><option value="' . \phpbbgallery\core\block::ALBUM_LOCKED . '"' . (($album_data['album_status'] == (int) \phpbbgallery\core\block::ALBUM_LOCKED) ? ' selected="selected"' : '') . '>' . $user->lang['LOCKED'] . '</option>';
 
 				$sql = 'SELECT album_id
 					FROM ' . $table_prefix . 'gallery_albums
@@ -540,12 +540,12 @@ class albums_module
 					'S_PARENT_OPTIONS'			=> $parents_list,
 					'S_ALBUM_OPTIONS'			=> $phpbb_ext_gallery_core_album->get_albumbox(true, '', ($action == 'add') ? $album_data['parent_id'] : false, false, ($action == 'edit') ? $album_data['album_id'] : false),
 
-					'S_ALBUM_ORIG_UPLOAD'		=> (isset($old_album_type) && $old_album_type == \phpbbgallery\core\block::TYPE_UPLOAD) ? true : false,
-					'S_ALBUM_ORIG_CAT'			=> (isset($old_album_type) && $old_album_type == \phpbbgallery\core\block::TYPE_CAT) ? true : false,
-					'S_ALBUM_ORIG_CONTEST'		=> (isset($old_album_type) && $old_album_type == \phpbbgallery\core\block::TYPE_CONTEST) ? true : false,
-					'S_ALBUM_UPLOAD'			=> ($album_data['album_type'] == \phpbbgallery\core\block::TYPE_UPLOAD) ? true : false,
-					'S_ALBUM_CAT'				=> ($album_data['album_type'] == \phpbbgallery\core\block::TYPE_CAT) ? true : false,
-					'S_ALBUM_CONTEST'			=> ($album_data['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST) ? true : false,
+					'S_ALBUM_ORIG_UPLOAD'		=> (isset($old_album_type) && $old_album_type == (int) \phpbbgallery\core\block::TYPE_UPLOAD) ? true : false,
+					'S_ALBUM_ORIG_CAT'			=> (isset($old_album_type) && $old_album_type == (int) \phpbbgallery\core\block::TYPE_CAT) ? true : false,
+					'S_ALBUM_ORIG_CONTEST'		=> (isset($old_album_type) && $old_album_type == (int) \phpbbgallery\core\block::TYPE_CONTEST) ? true : false,
+					'S_ALBUM_UPLOAD'			=> ($album_data['album_type'] == (int) \phpbbgallery\core\block::TYPE_UPLOAD) ? true : false,
+					'S_ALBUM_CAT'				=> ($album_data['album_type'] == (int) \phpbbgallery\core\block::TYPE_CAT) ? true : false,
+					'S_ALBUM_CONTEST'			=> ($album_data['album_type'] == (int) \phpbbgallery\core\block::TYPE_CONTEST) ? true : false,
 					'ALBUM_UPLOAD'				=> \phpbbgallery\core\block::TYPE_UPLOAD,
 					'ALBUM_CAT'					=> \phpbbgallery\core\block::TYPE_CAT,
 					'ALBUM_CONTEST'				=> \phpbbgallery\core\block::TYPE_CONTEST,
@@ -675,7 +675,7 @@ class albums_module
 			{
 				$album_type = $row['album_type'];
 
-				if ($row['album_status'] == \phpbbgallery\core\block::ALBUM_LOCKED)
+				if ($row['album_status'] == (int) \phpbbgallery\core\block::ALBUM_LOCKED)
 				{
 					$folder_image = '<img src="images/icon_folder_lock.gif" alt="' . $user->lang['LOCKED'] . '" />';
 				}

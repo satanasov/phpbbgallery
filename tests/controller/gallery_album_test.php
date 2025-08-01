@@ -260,7 +260,7 @@ class gallery_album_test extends controller_base
 						'L_RETURN_LINK' => 'RETURN_TO_GALLERY',
 						'S_ALBUM_ACTION' => 'phpbbgallery_core_album',
 						'S_IS_WATCHED' => false,
-						'U_WATCH_TOGLE' => 'phpbbgallery_core_album_watch'
+						'U_WATCH_TOGGLE' => 'phpbbgallery_core_album_watch'
 					)
 				),
 				array(
@@ -487,7 +487,7 @@ class gallery_album_test extends controller_base
 						'L_RETURN_LINK' => 'RETURN_TO_GALLERY',
 						'S_ALBUM_ACTION' => 'phpbbgallery_core_album',
 						'S_IS_WATCHED' => false,
-						'U_WATCH_TOGLE' => 'phpbbgallery_core_album_watch'
+						'U_WATCH_TOGGLE' => 'phpbbgallery_core_album_watch'
 					)
 				),
 				array(

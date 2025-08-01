@@ -601,6 +601,7 @@ class gallery_index_test extends controller_base
 						'S_STATUS_APPROVED' => true,
 						'S_STATUS_UNAPPROVED' => false,
 						'S_STATUS_UNAPPROVED_ACTION' => '',
+						'S_STATUS_UNAPPROVED_PERMISSIONS' => false,
 						'S_STATUS_LOCKED' => false,
 						'U_REPORT' => '',
 						'U_STATUS' => '',
