@@ -1012,7 +1012,7 @@ class main_module
 
 				'UC_IMAGE_NAME'		=> $phpbb_ext_gallery_core_image->generate_link('image_name', $phpbb_ext_gallery_config->get('link_image_name'), $row['album_last_image_id'], $row['album_last_image_name'], $row['album_id']),
 				'UC_FAKE_THUMBNAIL'	=> $phpbb_ext_gallery_core_image->generate_link('fake_thumbnail', $phpbb_ext_gallery_config->get('link_thumbnail'), $row['album_last_image_id'], $row['album_last_image_name'], $row['album_id']),
-				'UPLOADER'			=> (($row['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST) && ($row['contest_marked'] && !$phpbb_ext_gallery_core_auth->acl_check('m_status', $row['album_id'], $row['album_user_id']))) ? $this->language->lang('CONTEST_USERNAME') : get_username_string('full', $row['album_last_user_id'], $row['album_last_username'], $row['album_last_user_colour']),
+				'UPLOADER'			=> (($row['album_type'] == (int) \phpbbgallery\core\block::TYPE_CONTEST) && ($row['contest_marked'] && !$phpbb_ext_gallery_core_auth->acl_check('m_status', $row['album_id'], $row['album_user_id']))) ? $this->language->lang('CONTEST_USERNAME') : get_username_string('full', $row['album_last_user_id'], $row['album_last_username'], $row['album_last_user_colour']),
 				'LAST_IMAGE_TIME'	=> $user->format_date($row['album_last_image_time']),
 				'LAST_IMAGE'		=> $row['album_last_image_id'],
 				'U_IMAGE'			=> $phpbb_gallery_url->show_image($row['image_id']),

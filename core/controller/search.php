@@ -450,7 +450,7 @@ class search
 
 	/**
 	 * Index Controller
-	 *    Route: gallery/search/recent/{page}
+	 *    Route: gallery/search/commented/{page}
 	 *
 	 * @param $page
 	 * @return \Symfony\Component\HttpFoundation\Response A Symfony Response object

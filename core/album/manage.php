@@ -211,7 +211,7 @@ class manage
 			}
 		}*/
 		// Validate the contest timestamps:
-		if ($album_data['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST)
+		if ($album_data['album_type'] == (int) \phpbbgallery\core\block::TYPE_CONTEST)
 		{
 			if ($this->user->data['user_timezone'] == '')
 			{
@@ -386,7 +386,7 @@ class manage
 			$album_data['album_id'] = (int) $this->db->sql_nextid();
 
 			// Type is contest, so create it...
-			if ($album_data['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST)
+			if ($album_data['album_type'] == (int) \phpbbgallery\core\block::TYPE_CONTEST)
 			{
 				$contest_data_sql = $contest_data;
 				$contest_data_sql['contest_album_id'] = $album_data['album_id'];
@@ -408,28 +408,28 @@ class manage
 			$row = $this->gallery_album->get_info($album_data_sql['album_id']);
 			$reset_marked_images = false;
 
-			if ($row['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST && $album_data_sql['album_type'] != \phpbbgallery\core\block::TYPE_CONTEST)
+			if ($row['album_type'] == (int) \phpbbgallery\core\block::TYPE_CONTEST && $album_data_sql['album_type'] != \phpbbgallery\core\block::TYPE_CONTEST)
 			{
 				// Changing a contest to album? No!
 				// Changing a contest to category? No!
 				$errors[] = $this->language->lang('ALBUM_WITH_CONTEST_NO_TYPE_CHANGE');
 				return $errors;
 			}
-			else if ($row['album_type'] != \phpbbgallery\core\block::TYPE_CONTEST && $album_data_sql['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST)
+			else if ($row['album_type'] != \phpbbgallery\core\block::TYPE_CONTEST && $album_data_sql['album_type'] == (int) \phpbbgallery\core\block::TYPE_CONTEST)
 			{
 				// Changing a album to contest? No!
 				// Changing a category to contest? No!
 				$errors[] = $this->language->lang('ALBUM_NO_TYPE_CHANGE_TO_CONTEST');
 				return $errors;
 			}
-			else if ($row['album_type'] == \phpbbgallery\core\block::TYPE_CAT && $album_data_sql['album_type'] == \phpbbgallery\core\block::TYPE_UPLOAD)
+			else if ($row['album_type'] == (int) \phpbbgallery\core\block::TYPE_CAT && $album_data_sql['album_type'] == (int) \phpbbgallery\core\block::TYPE_UPLOAD)
 			{
 				// Changing a category to a album? Yes!
 				// Reset the data (you couldn't upload directly in a cat, you must use a album)
 				$album_data_sql['album_images'] = $album_data_sql['album_images_real'] = $album_data_sql['album_last_image_id'] = $album_data_sql['album_last_user_id'] = $album_data_sql['album_last_image_time'] = $album_data_sql['album_contest'] = 0;
 				$album_data_sql['album_last_username'] = $album_data_sql['album_last_user_colour'] = $album_data_sql['album_last_image_name'] = '';
 			}
-			else if ($row['album_type'] == \phpbbgallery\core\block::TYPE_UPLOAD && $album_data_sql['album_type'] == \phpbbgallery\core\block::TYPE_CAT)
+			else if ($row['album_type'] == (int) \phpbbgallery\core\block::TYPE_UPLOAD && $album_data_sql['album_type'] == (int) \phpbbgallery\core\block::TYPE_CAT)
 			{
 				// Changing a album to a category? Yes!
 				// we're turning a uploadable album into a non-uploadable album
@@ -455,13 +455,13 @@ class manage
 					return array($this->language->lang('NO_ALBUM_ACTION'));
 				}
 			}
-			else if ($row['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST && $album_data_sql['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST)
+			else if ($row['album_type'] == (int) \phpbbgallery\core\block::TYPE_CONTEST && $album_data_sql['album_type'] == (int) \phpbbgallery\core\block::TYPE_CONTEST)
 			{
 				// Changing a contest to contest? Yes!
 				// We need to check for the contest_data
 				$row_contest = $this->gallery_contest->get_contest($album_data['album_id'], 'album');
 				$contest_data['contest_id'] = $row_contest['contest_id'];
-				if ($row_contest['contest_marked'] == \phpbbgallery\core\block::NO_CONTEST)
+				if ($row_contest['contest_marked'] == (int) \phpbbgallery\core\block::NO_CONTEST)
 				{
 					// If the old contest is finished, but the new one isn't, we need to remark the images!
 					// If we change it the other way round, the album.php will do the end on the first visit!
@@ -520,14 +520,14 @@ class manage
 				$contest_id = $contest_data['contest_id'];
 				unset($contest_data['contest_id']);
 
-				$sql = 'UPDATE ' . GALLERY_CONTESTS_TABLE . '
+				$sql = 'UPDATE ' . $this->contests_table . '
 					SET ' . $db->sql_build_array('UPDATE', $contest_data) . '
 					WHERE contest_id = ' . (int) $contest_id;
 				$db->sql_query($sql);
 				if ($reset_marked_images)
 				{
 					// If the old contest is finished, but the new one isn't, we need to remark the images!
-					$sql = 'UPDATE ' . GALLERY_IMAGES_TABLE . '
+					$sql = 'UPDATE ' . $this->images_table . '
 						SET image_contest_rank = 0,
 							image_contest_end = 0,
 							image_contest = ' . phpbb_ext_gallery_core_image::IN_CONTEST . '

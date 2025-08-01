@@ -150,6 +150,7 @@ $lang = array_merge($lang, array(
 	'IMAGE_LOCKED'                 => 'Съжаляваме, но това изображение е заключено. Вече не можете да го коментирате.',
 	'IMAGE_NAME'                   => 'Име на изображение',
 	'IMAGE_NOT_EXIST'              => 'Това изображение не съществува.',
+	'IMAGE_NOT_APPROVED'           => 'For approval',
 	'IMAGE_PCT'                    => '%.2f%% от всички изображения',
 	'IMAGE_STATUS'                 => 'Статус',
 	'IMAGE_URL'                    => 'Image-URL',

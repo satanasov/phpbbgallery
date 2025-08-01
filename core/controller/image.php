@@ -258,8 +258,19 @@ class image
 
 		$album_id = (int) $this->data['image_album_id'];
 		$album_data = $this->loader->get($album_id);
-		$this->check_permissions($album_id, $album_data['album_user_id'], $this->data['image_status'], $album_data['album_auth_access']);
+		$this->check_permissions($album_id, $album_data['album_user_id'], $this->data['image_status'], $album_data['album_auth_access'], $this->data);
 		$this->display->generate_navigation($album_data);
+
+		if ($this->gallery_auth->acl_check('m_status', $album_id, $album_data['album_user_id']))
+		{
+			$image_status_check = '';
+		}
+		else
+		{
+			$user_id = (int) $this->user->data['user_id'];
+			$image_status_check = ' AND (image_status = ' . \phpbbgallery\core\block::STATUS_APPROVED . ' OR image_user_id = ' . $user_id . ')';
+		}
+
 		if (!$this->user->data['is_bot'] && isset($this->user->data['session_page']) && (strpos($this->user->data['session_page'], '&image_id=' . $image_id) === false || isset($this->user->data['session_created'])))
 		{
 			$sql = 'UPDATE ' . $this->table_images . '
@@ -297,9 +308,9 @@ class image
 
 				'S_IMAGE_REPORTED'    => $this->data['image_reported'] ? true : false,
 				'U_IMAGE_REPORTED'    => ($this->data['image_reported']) ? $this->helper->route('phpbbgallery_core_moderate_image', array('image_id' => (int) $image_id)) : '',
-				'S_STATUS_APPROVED'   => ($this->data['image_status'] == \phpbbgallery\core\block::STATUS_APPROVED),
-				'S_STATUS_UNAPPROVED' => ($this->data['image_status'] == \phpbbgallery\core\block::STATUS_UNAPPROVED),
-				'S_STATUS_LOCKED'     => ($this->data['image_status'] == \phpbbgallery\core\block::STATUS_LOCKED),
+				'S_STATUS_APPROVED'   => ($this->data['image_status'] == (int) \phpbbgallery\core\block::STATUS_APPROVED),
+				'S_STATUS_UNAPPROVED' => ($this->data['image_status'] == (int) \phpbbgallery\core\block::STATUS_UNAPPROVED),
+				'S_STATUS_LOCKED'     => ($this->data['image_status'] == (int) \phpbbgallery\core\block::STATUS_LOCKED),
 			));
 		}
 		$image_desc = generate_text_for_display($this->data['image_desc'], $this->data['image_desc_uid'], $this->data['image_desc_bitfield'], 7);
@@ -352,9 +363,10 @@ class image
 		// Let's see if there is prieveus image
 		$sql = 'SELECT *
 			FROM ' . $this->table_images . '
-			WHERE image_album_id = ' . (int) $album_id . "
-				AND image_status <> 3
-			ORDER BY $sql_sort_order" . $sql_help_sort;
+			WHERE image_album_id = ' . (int) $album_id . '
+				AND image_status <> ' . (int) \phpbbgallery\core\block::STATUS_ORPHAN . '
+				' . $image_status_check . '
+			ORDER BY ' . $sql_sort_order . $sql_help_sort;
 		$result = $this->db->sql_query($sql);
 		$images_array = array();
 		while ($row = $this->db->sql_fetchrow($result))
@@ -824,7 +836,7 @@ class image
 		$owner_id = $image_data['image_user_id'];
 		$album_loginlink = './ucp.php?mode=login';
 		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
-		if (!$this->gallery_auth->acl_check('i_edit', $album_id, $album_data['album_user_id']) || ($image_data['image_status'] == \phpbbgallery\core\block::STATUS_ORPHAN))
+		if (!$this->gallery_auth->acl_check('i_edit', $album_id, $album_data['album_user_id']) || ($image_data['image_status'] == (int) \phpbbgallery\core\block::STATUS_ORPHAN))
 		{
 			if (!$this->gallery_auth->acl_check('m_edit', $album_id, $album_data['album_user_id']))
 			{
@@ -1066,7 +1078,7 @@ class image
 		$image_backlink = $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_id));
 		$album_backlink = $this->helper->route('phpbbgallery_core_album', array('album_id' => $image_data['image_album_id']));
 		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
-		if (!$this->gallery_auth->acl_check('i_delete', $album_id, $album_data['album_user_id']) || ($image_data['image_status'] == \phpbbgallery\core\block::STATUS_ORPHAN))
+		if (!$this->gallery_auth->acl_check('i_delete', $album_id, $album_data['album_user_id']) || ($image_data['image_status'] == (int) \phpbbgallery\core\block::STATUS_ORPHAN))
 		{
 			if (!$this->gallery_auth->acl_check('m_delete', $album_id, $album_data['album_user_id']))
 			{
@@ -1194,11 +1206,11 @@ class image
 	 * @param     $album_auth_level
 	 * @internal param array $album_data
 	 */
-	protected function check_permissions($album_id, $owner_id, $image_status, $album_auth_level)
+	protected function check_permissions($album_id, $owner_id, $image_status, $album_auth_level, $user_data)
 	{
 		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		$zebra_array = $this->gallery_auth->get_user_zebra($this->user->data['user_id']);
-		if (!$this->gallery_auth->acl_check('i_view', $album_id, $owner_id) || ($image_status == \phpbbgallery\core\block::STATUS_ORPHAN) || $this->gallery_auth->get_zebra_state($zebra_array, (int) $owner_id, (int) $album_id) < (int) $album_auth_level)
+		if (!$this->gallery_auth->acl_check('i_view', $album_id, $owner_id) || ($image_status == (int) \phpbbgallery\core\block::STATUS_ORPHAN) || $this->gallery_auth->get_zebra_state($zebra_array, (int) $owner_id, (int) $album_id) < (int) $album_auth_level)
 		{
 			if ($this->user->data['is_bot'])
 			{
@@ -1215,13 +1227,13 @@ class image
 			else
 			{
 				//return $this->error('NOT_AUTHORISED', 403);
-				redirect('/gallery/album/' . $album_id);
+				redirect('gallery/album/' . $album_id);
 			}
 		}
-		if (!$this->gallery_auth->acl_check('m_status', $album_id, $owner_id) && ($image_status == \phpbbgallery\core\block::STATUS_UNAPPROVED))
+		if (!$this->gallery_auth->acl_check('m_status', $album_id, $owner_id) && $user_data['image_user_id'] != $this->user->data['user_id'] && ($image_status == (int) \phpbbgallery\core\block::STATUS_UNAPPROVED))
 		{
 			//return $this->error('NOT_AUTHORISED', 403);
-			redirect('/gallery/album/' . $album_id);
+			redirect('gallery/album/' . $album_id);
 		}
 	}
 
