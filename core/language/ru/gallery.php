@@ -142,6 +142,7 @@ $lang = array_merge($lang, array(
 	'IMAGE_LOCKED'					=> 'Фото блокировано. Вы не можете оставлять к нему комментарии.',
 	'IMAGE_NAME'					=> 'Название',
 	'IMAGE_NOT_EXIST'				=> 'Фото не найдено.',
+	'IMAGE_NOT_APPROVED'			=> 'For approval',
 	'IMAGE_PCT'						=> '%.2f%% всех фотографий',
 	'IMAGE_STATUS'					=> 'Статус',
 	'IMAGE_URL'						=> 'Ссылка на фото',

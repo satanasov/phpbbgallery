@@ -62,7 +62,7 @@ class level
 	}
 
 	/**
-	* User authorisation levels output
+	* User authorization levels output
 	*
 	* @param	int		$album_id		The current album the user is in.
 	* @param	int		$album_status	The albums status bit.

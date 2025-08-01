@@ -159,7 +159,7 @@ class upload
 		{
 			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 		}
-		if ($album_data['album_type'] == \phpbbgallery\core\block::TYPE_CONTEST)
+		if ($album_data['album_type'] == (int) \phpbbgallery\core\block::TYPE_CONTEST)
 		{
 			$contest = array();
 			$contest = $this->contest->get_contest($album_id, 'album');

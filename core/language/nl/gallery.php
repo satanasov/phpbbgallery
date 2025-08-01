@@ -151,6 +151,7 @@ $lang = array_merge($lang, array(
 	'IMAGE_LOCKED'                 => 'Sorry, deze afbeelding is gesloten. Je kan geen reacties meer plaatsen op deze afbeelding.',
 	'IMAGE_NAME'                   => 'Afbeeldingsnaam',
 	'IMAGE_NOT_EXIST'              => 'Deze afbeelding bestaat niet.',
+	'IMAGE_NOT_APPROVED'           => 'For approval',
 	'IMAGE_PCT'                    => '%.2f%% van alle afbeeldingen',
 	'IMAGE_STATUS'                 => 'Status',
 	'IMAGE_URL'                    => 'Afbeeldingslink',

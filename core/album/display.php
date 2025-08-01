@@ -229,12 +229,13 @@ class display
 			}
 			else
 			{
-				$album_parents = unserialize($album_data['album_parents']);
+				$album_parents = @unserialize($album_data['album_parents']);
 			}
 		}
 
 		return $album_parents;
 	}
+
 
 	/**
 	 * Obtain list of moderators of each album
@@ -358,7 +359,8 @@ class display
 			$root_data = array('album_id' => 0);
 			$sql_where = 'a.album_user_id > ' . (int) \phpbbgallery\core\block::PUBLIC_ALBUM;
 			$num_pegas = $this->config['phpbb_gallery_num_pegas'];
-			$first_char = $this->request->variable('first_char', '');
+			$first_char = strtolower($this->request->variable('first_char', ''));
+
 			if ($first_char == 'other')
 			{
 				// Loop the ASCII: a-z

@@ -440,7 +440,7 @@ class search
 		));
 
 		$limit = $this->gallery_config->get('items_per_page');
-		$start = ($page - 1) * $this->gallery_config->get('items_per_page');
+		$start = ($page - 1) * $limit;
 		$image_counter = $this->gallery_search->recent_count();
 
 		$this->gallery_search->recent($limit, $start);
@@ -450,7 +450,7 @@ class search
 
 	/**
 	 * Index Controller
-	 *    Route: gallery/search/recent/{page}
+	 *    Route: gallery/search/commented/{page}
 	 *
 	 * @param $page
 	 * @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
@@ -482,7 +482,7 @@ class search
 		));
 
 		$limit = $this->gallery_config->get('items_per_page');
-		$start = ($page - 1) * $this->gallery_config->get('items_per_page');
+		$start = ($page - 1) * $limit;
 
 		$this->gallery_search->recent_comments($limit, $start);
 
@@ -523,7 +523,7 @@ class search
 		));
 
 		$limit = $this->gallery_config->get('items_per_page');
-		$start = ($page - 1) * $this->gallery_config->get('items_per_page');
+		$start = ($page - 1) * $limit;
 
 		$this->gallery_search->recent($limit, $start, $this->user->data['user_id']);
 
@@ -564,7 +564,7 @@ class search
 		));
 
 		$limit = $this->gallery_config->get('items_per_page');
-		$start = ($page - 1) * $this->gallery_config->get('items_per_page');
+		$start = ($page - 1) * $limit;
 
 		$this->gallery_search->rating($limit, $start);
 

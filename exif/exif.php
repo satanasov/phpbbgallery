@@ -109,7 +109,7 @@ class exif
 		$this->status = $status;
 		if ($this->status == self::DBSAVED)
 		{
-			$this->data = unserialize($data);
+			$this->data = @unserialize($data);
 		}
 		else if (($this->status == self::AVAILABLE) || ($this->status == self::UNKNOWN))
 		{
