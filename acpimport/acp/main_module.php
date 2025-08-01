@@ -67,7 +67,6 @@ class main_module
 				{
 					$filetype = getimagesize($image_src_full);
 					$filetype_ext = '';
-					$file_link = $gallery_url->path('upload') . $image_filename;
 
 					$error_occured = false;
 					switch ($filetype['mime'])
@@ -122,6 +121,7 @@ class main_module
 						break;
 					}
 					$image_filename = md5(unique_id()) . $filetype_ext;
+					$file_link = $gallery_url->path('upload') . $image_filename;
 
 					if (!$error_occured || !@move_uploaded_file($image_src_full, $file_link))
 					{
