@@ -622,7 +622,7 @@ class moderate
 				$select_select .= '<option value="images_approve">' . $this->language->lang('QUEUE_A_APPROVE') . '</option>';
 				$select_select .= '<option value="images_lock">' . $this->language->lang('QUEUE_A_LOCK') . '</option>';
 			}
-			else if ($image_data['image_status'] == 1)
+			if ($image_data['image_status'] == 1)
 			{
 				$select_select .= '<option value="images_unapprove">' . $this->language->lang('QUEUE_A_UNAPPROVE') . '</option>';
 				$select_select .= '<option value="images_lock">' . $this->language->lang('QUEUE_A_LOCK') . '</option>';
