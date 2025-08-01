@@ -16,10 +16,10 @@
 		<!-- IF imageblock.image.U_IMAGE --><a href="{imageblock.image.U_IMAGE}" style="display: inline;"><!-- ENDIF -->{imageblock.image.UC_IMAGE_NAME}<!-- IF imageblock.image.U_IMAGE --></a><!-- ENDIF -->
 	</p>
 	<hr />
-	<!-- IF imageblock.image.S_STATUS_UNAPPROVED or imageblock.image.S_STATUS_UNAPPROVED_PERMISSIONS -->
+	<!-- IF imageblock.image.S_STATUS_UNAPPROVED or imageblock.image.S_UNAPPROVED -->
 		<form method="post" action="{imageblock.image.S_STATUS_UNAPPROVED_ACTION}" class="polaroid_img_container">
 			<div id="thumbnail">
-				<!-- IF imageblock.image.S_STATUS_UNAPPROVED and not imageblock.image.S_STATUS_UNAPPROVED_PERMISSIONS -->
+				<!-- IF imageblock.image.S_STATUS_UNAPPROVED and not imageblock.image.S_UNAPPROVED -->
 					<p class="post-notice unapproved">
 						{L_IMAGE_NOT_APPROVED}
 					</p>
