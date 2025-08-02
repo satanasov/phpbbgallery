@@ -62,9 +62,6 @@ class moderate
 	/** @var \phpbbgallery\core\url  */
 	protected $url;
 
-	/** @var \phpbbgallery\core\config  */
-	protected $gallery_config;
-
 	/** @var \phpbbgallery\core\log  */
 	protected $gallery_log;
 
@@ -97,7 +94,6 @@ class moderate
 	 * @param \phpbbgallery\core\image\image         $image
 	 * @param \phpbbgallery\core\notification\helper $notification_helper
 	 * @param \phpbbgallery\core\url                 $url
-	 * @param \phpbbgallery\core\config              $gallery_config
 	 * @param \phpbbgallery\core\log                 $gallery_log
 	 * @param \phpbbgallery\core\report              $report
 	 * @param \phpbb\user_loader                     $user_loader
@@ -110,7 +106,7 @@ class moderate
 		\phpbb\template\template $template, \phpbb\user $user, \phpbb\language\language $language,
 		\phpbb\controller\helper $helper, \phpbbgallery\core\album\display $display, \phpbbgallery\core\moderate $moderate,
 		\phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\misc $misc, \phpbbgallery\core\album\album $album, \phpbbgallery\core\image\image $image,
-		\phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\url $url, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\log $gallery_log,
+		\phpbbgallery\core\notification\helper $notification_helper, \phpbbgallery\core\url $url, \phpbbgallery\core\log $gallery_log,
 		\phpbbgallery\core\report $report, \phpbb\user_loader $user_loader,
 		$root_path, $php_ext)
 	{
@@ -128,7 +124,6 @@ class moderate
 		$this->image = $image;
 		$this->notification_helper = $notification_helper;
 		$this->url = $url;
-		$this->gallery_config = $gallery_config;
 		$this->gallery_log = $gallery_log;
 		$this->report = $report;
 		$this->user_loader = $user_loader;
@@ -329,8 +324,8 @@ class moderate
 			'U_GALLERY_MCP_LOGS'			=> $album_id > 0 ? $this->helper->route('phpbbgallery_core_moderate_action_log_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_core_moderate_action_log'),
 			'U_ALBUM_NAME'					=> $album_id > 0 ? $album['album_name'] : false,
 		));
-		$limit = $this->gallery_config->get('items_per_page');
-		$this->gallery_log->build_list('moderator', $limit, $page, $album_id);
+
+		$this->gallery_log->build_list('moderator', 0, $page, $album_id);
 		return $this->helper->render('gallery/moderate_actions.html', $this->language->lang('GALLERY'));
 	}
 

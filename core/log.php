@@ -132,7 +132,11 @@ class log
 		if ($limit == 0)
 		{
 			$limit = $this->gallery_config->get('items_per_page');
-			$page = (int) ($page / $limit) + 1;
+			// If its called from ACP album is -1, if from MCP then is not
+			if ($album == -1)
+			{
+				$page = (int) ($page / $limit) + 1;
+			}
 		}
 		$this->language->add_lang(['info_acp_gallery_logs'], 'phpbbgallery/core');
 

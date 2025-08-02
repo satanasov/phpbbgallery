@@ -193,7 +193,6 @@ services:
             - '@phpbbgallery.core.image'
             - '@phpbbgallery.core.notification.helper'
             - '@phpbbgallery.core.url'
-            - '@phpbbgallery.core.config'
             - '@phpbbgallery.core.log'
             - '@phpbbgallery.core.report'
             - '@user_loader'
