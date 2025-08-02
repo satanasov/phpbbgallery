@@ -183,7 +183,7 @@ class comment
 		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		if (!$this->gallery_auth->acl_check('c_post', $album_id, $album_data['album_user_id']))
 		{
-			$this->misc->not_authorized($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 		}
 		add_form_key('gallery');
 		$this->language->add_lang('posting');
@@ -442,19 +442,19 @@ class comment
 		}
 		else
 		{
-			$this->misc->not_authorized($image_backlink, $image_loginlink);
+			$this->misc->not_authorised($image_backlink, $image_loginlink);
 		}
 		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		if (!$this->gallery_auth->acl_check('c_edit', $album_id, $album_data['album_user_id']) /*&& $mode == 'add'*/)
 		{
 			if (!$this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']))
 			{
-				$this->misc->not_authorized($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 			}
 		}
 		else if (($comment_data['comment_user_id'] != $this->user->data['user_id']) && !$this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']))
 		{
-			$this->misc->not_authorized($image_backlink, $image_loginlink);
+			$this->misc->not_authorised($image_backlink, $image_loginlink);
 		}
 
 		$this->language->add_lang('posting');
@@ -656,19 +656,19 @@ class comment
 		}
 		else
 		{
-			$this->misc->not_authorized($image_backlink, $image_loginlink);
+			$this->misc->not_authorised($image_backlink, $image_loginlink);
 		}
 		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		if (!$this->gallery_auth->acl_check('c_edit', $album_id, $album_data['album_user_id']) /*&& $mode == 'add'*/)
 		{
 			if (!$this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']))
 			{
-				$this->misc->not_authorized($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 			}
 		}
 		else if (($comment_data['comment_user_id'] != $this->user->data['user_id']) && !$this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']))
 		{
-			$this->misc->not_authorized($image_backlink, $image_loginlink);
+			$this->misc->not_authorised($image_backlink, $image_loginlink);
 		}
 
 		$this->language->add_lang('posting');
@@ -798,7 +798,7 @@ class comment
 		if (!($this->gallery_config->get('allow_rates') && $rating->is_able()))
 		{
 			// The user is unable to rate.
-			$this->misc->not_authorized($image_backlink, $image_loginlink);
+			$this->misc->not_authorised($image_backlink, $image_loginlink);
 		}
 
 		$this->language->add_lang('posting');

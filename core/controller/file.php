@@ -254,8 +254,8 @@ class file
 			{
 				// Image or album does not exist
 				// trigger_error('INVALID_IMAGE');
-				$this->error = 'not_authorized.jpg';
-				$this->data['image_filename'] = 'not_authorized.jpg';
+				$this->error = 'not_authorised.jpg';
+				$this->data['image_filename'] = 'not_authorised.jpg';
 				$this->data['image_name'] = 'You are not authorized!';
 				$this->data['image_user_id'] = 1;
 				$this->data['image_status'] = 2;
@@ -276,9 +276,9 @@ class file
 		if (($this->data['image_user_id'] != $this->user->data['user_id']) && ($this->data['image_status'] == (int) \phpbbgallery\core\block::STATUS_ORPHAN))
 		{
 			// The image is currently being uploaded
-			// trigger_error('NOT_AUTHORIZED');
-			$this->error = 'not_authorized.jpg';
-			$this->data['image_filename'] = 'not_authorized.jpg';
+			// trigger_error('NOT_AUTHORISED');
+			$this->error = 'not_authorised.jpg';
+			$this->data['image_filename'] = 'not_authorised.jpg';
 			$this->data['image_name'] = 'You are not authorized!';
 			$this->data['image_user_id'] = 1;
 			$this->data['image_status'] = 2;
@@ -294,9 +294,9 @@ class file
 			))
 		{
 			// Missing permissions
-			// trigger_error('NOT_AUTHORIZED');
-			$this->error = 'not_authorized.jpg';
-			$this->data['image_filename'] = 'not_authorized.jpg';
+			// trigger_error('NOT_AUTHORISED');
+			$this->error = 'not_authorised.jpg';
+			$this->data['image_filename'] = 'not_authorised.jpg';
 			$this->data['image_name'] = 'You are not authorized!';
 			$this->data['image_user_id'] = 1;
 			$this->data['image_status'] = 2;
@@ -308,9 +308,9 @@ class file
 		if (($this->auth->get_zebra_state($zebra_array, (int) $this->data['album_user_id'], $this->data['album_id']) < (int) $this->data['album_auth_access'] && !$this->error))
 		{
 			// Zebra parameters not met
-			// trigger_error('NOT_AUTHORIZED');
-			$this->error = 'not_authorized.jpg';
-			$this->data['image_filename'] = 'not_authorized.jpg';
+			// trigger_error('NOT_AUTHORISED');
+			$this->error = 'not_authorised.jpg';
+			$this->data['image_filename'] = 'not_authorised.jpg';
 			$this->data['image_name'] = 'You are not authorized!';
 			$this->data['image_user_id'] = 1;
 			$this->data['image_status'] = 2;

@@ -105,7 +105,7 @@ class misc
 	 * @param string $loginlink
 	 * @param string $login_explain
 	 */
-	public function not_authorized($backlink, $loginlink = '', $login_explain = '')
+	public function not_authorised($backlink, $loginlink = '', $login_explain = '')
 	{
 		if (!$this->user->data['is_registered'] && $loginlink)
 		{
@@ -122,7 +122,7 @@ class misc
 		else
 		{
 			$this->url->meta_refresh(3, $backlink);
-			trigger_error('NOT_AUTHORIZED');
+			trigger_error('NOT_AUTHORISED');
 		}
 	}
 

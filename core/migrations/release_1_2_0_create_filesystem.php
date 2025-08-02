@@ -80,7 +80,7 @@ class release_1_2_0_create_filesystem extends \phpbb\db\migration\migration
 		$phpbbgallery_core_images_source = $phpbb_root_path . 'ext/phpbbgallery/core/images';
 		copy($phpbbgallery_core_images_source . '/upload/image_not_exist.jpg', $phpbbgallery_core_file_source . '/image_not_exist.jpg');
 		copy($phpbbgallery_core_images_source . '/upload/no_hotlinking.jpg', $phpbbgallery_core_file_source . '/no_hotlinking.jpg');
-		copy($phpbbgallery_core_images_source . '/upload/not_authorized.jpg', $phpbbgallery_core_file_source . '/not_authorized.jpg');
+		copy($phpbbgallery_core_images_source . '/upload/not_authorised.jpg', $phpbbgallery_core_file_source . '/not_authorised.jpg');
 	}
 	function recursiveRemoveDirectory($directory)
 	{

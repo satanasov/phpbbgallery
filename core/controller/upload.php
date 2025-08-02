@@ -157,7 +157,7 @@ class upload
 		$this->auth->load_user_permissions($this->user->data['user_id']);
 		if (!$this->auth->acl_check('i_upload', $album_id, $album_data['album_user_id']) || ($album_data['album_status'] == $this->block->get_album_status_locked()))
 		{
-			$this->misc->not_authorized($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 		}
 		if ($album_data['album_type'] == (int) \phpbbgallery\core\block::TYPE_CONTEST)
 		{
@@ -165,7 +165,7 @@ class upload
 			$contest = $this->contest->get_contest($album_id, 'album');
 			if ($contest['contest_start'] + $contest['contest_rating'] <= time())
 			{
-				$this->misc->not_authorized($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 			}
 		}
 		$page_title = 'Upload to "' . $album_data['album_name'] . '"';

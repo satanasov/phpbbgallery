@@ -523,8 +523,8 @@ class album
 			}
 			else
 			{
-				//return $this->error('NOT_AUTHORIZED', 403);
-				trigger_error($this->language->lang('NOT_AUTHORIZED'));
+				//return $this->error('NOT_AUTHORISED', 403);
+				trigger_error($this->language->lang('NOT_AUTHORISED'));
 			}
 		}
 	}
