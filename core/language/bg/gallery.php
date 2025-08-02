@@ -369,6 +369,6 @@ $lang = array_merge($lang, array(
 	'UNREAD_IMAGES'    => 'непрегледани изображения',
 	'NO_UNREAD_IMAGES' => 'Няма непрегледани изображения',
 
-	// Versions 1.2.1 addiotions
+	// Versions 1.2.1 additions
 	'GALLERY_DROP'     => 'Пуснете изображенията си тук',
 ));

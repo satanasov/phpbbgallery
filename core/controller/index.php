@@ -408,7 +408,7 @@ class index
 			$time = $this->user->create_datetime();
 			$now = phpbb_gmgetdate($time->getTimestamp() + $time->getOffset());
 
-			// Display birthdays of 29th february on 28th february in non-leap-years
+			// Display birthdays of 29th February on 28th February in non-leap-years
 			$leap_year_birthdays = '';
 			if ($now['mday'] == 28 && $now['mon'] == 2 && !$time->format('L'))
 			{

@@ -344,6 +344,6 @@ $lang = array_merge($lang, array(
 	'UNREAD_IMAGES'		=> 'Непросмотренные фото',
 	'NO_UNREAD_IMAGES'	=> 'Нет непросмотренных фото',
 
-	// Versions 1.2.1 addiotions
+	// Versions 1.2.1 additions
 	'GALLERY_DROP'		=> 'Перетащите сюда ваши фото',
 ));
