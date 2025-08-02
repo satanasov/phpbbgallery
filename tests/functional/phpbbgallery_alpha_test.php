@@ -57,7 +57,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 			// This is core, now extensions
 			'exif'	=> array(
 				'phpbbgallery/exif',
-				'exif',
+				'info_exif',
 				'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main',
 				'DISP_EXIF_DATA'
 			),
