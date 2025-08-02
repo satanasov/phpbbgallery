@@ -81,7 +81,7 @@ class log
 	 * Add item to log
 	 *
 	 * @param   string			$log_type    type of action (user/mod/admin/system) max 16 chars
-	 * @param   string			$log_action  action we are logging (add/remove/approve/unapproved/delete) max 32 chars
+	 * @param   string			$log_action  action we are logging (add/remove/approve/unapprove/delete) max 32 chars
 	 * @param 	int				$album
 	 * @param   int				$image       Image we are logging for (can be 0)
 	 * @param	array|string 	$description Description string
@@ -132,6 +132,7 @@ class log
 		if ($limit == 0)
 		{
 			$limit = $this->gallery_config->get('items_per_page');
+			$page = (int) ($page / $limit) + 1;
 		}
 		$this->language->add_lang(['info_acp_gallery_logs'], 'phpbbgallery/core');
 
@@ -210,21 +211,21 @@ class log
 			$sql_array['ORDER_BY'] = 'l.log_time ' . (isset($additional['sort_dir']) ? 'ASC' : 'DESC');
 			$sql_array['GROUP_BY'] = 'l.log_time, l.log_id, i.image_id';
 		}
-
 		// So we need count - so define SELECT
-		$sql_array['SELECT'] = 'SUM(l.log_id) as count';
-		$sql = $this->db->sql_build_query('SELECT', $sql_array);
+		$count_sql_array = $sql_array;
+
+		// Remove SELECT for correct count
+		$count_sql_array['SELECT'] = 'COUNT(DISTINCT l.log_id) as count';
+		unset($count_sql_array['GROUP_BY']);
+		unset($count_sql_array['ORDER_BY']);
+		unset($count_sql_array['LEFT_JOIN']);
+
+		$sql = $this->db->sql_build_query('SELECT', $count_sql_array);
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
-		if ($row)
-		{
-			$count = $row['count'];
-		}
-		else
-		{
-			$count = 0;
-		}
+
+		$count = $row ? $row['count'] : 0;
 
 		$sql_array['SELECT'] = '*';
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
@@ -249,6 +250,7 @@ class log
 		$this->db->sql_freeresult($result);
 
 		$this->user_loader->load_users(array_keys($users_array));
+
 		// Let's build template vars
 		if (!empty($logoutput))
 		{
@@ -287,6 +289,7 @@ class log
 			$url_array = array(
 				'i' => '-phpbbgallery-core-acp-gallery_logs_module',
 				'mode' => 'main',
+				'lf' => $type
 			);
 			if (isset($additional['sort_days']))
 			{
