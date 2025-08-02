@@ -48,7 +48,7 @@ $lang = array_merge($lang, array(
 	),
 	'ALLOWED_FILETYPES'                => 'Toegestane bestandsformaten',
 	'APPROVE'                          => 'Goedkeuren',
-	'DISAPPROVE'                       => 'Afkeuren',
+	'DISAPPROVED'                       => 'Afkeuren',
 	'APPROVE_IMAGE'                    => 'Afbeelding goedkeuren',
 
 	//@todo
@@ -118,7 +118,7 @@ $lang = array_merge($lang, array(
 	'DESCRIPTION_LENGTH'      => 'Je kan hier een omschrijving invoeren, deze mag niet meer dan <strong>%d</strong> karakters bevatten.',
 	'DETAILS'                 => 'Details',
 	'DISALLOWED_EXTENSION'    => 'De afbeeldingsextensie is niet toegestaan',
-	'DONT_RATE_IMAGE'         => 'Beoordeel afbeeldingen niet',
+	'DO_NOT_RATE_IMAGE'         => 'Beoordeel afbeeldingen niet',
 
 	'EDIT_COMMENT'             => 'Wijzig reactie',
 	'EDIT_IMAGE'               => 'Wijzig',

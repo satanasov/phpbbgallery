@@ -258,7 +258,7 @@ class core_image_test extends core_base
 	 */
 
 	/**
-	 * TODO: Add test for unapprove_images
+	 * TODO: Add test for unapproved_images
 	 */
 
 	/**

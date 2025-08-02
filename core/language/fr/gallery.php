@@ -62,7 +62,7 @@ $lang = array_merge($lang, array(
 	),
 	'ALLOWED_FILETYPES'				=> 'Types de fichiers autorisés',
 	'APPROVE'						=> 'Valider',
-	'DISAPPROVE'					=> 'Refuser',
+	'DISAPPROVED'					=> 'Refuser',
 	'APPROVE_IMAGE'					=> 'Valider l’image',
 
 	//@todo
@@ -132,7 +132,7 @@ $lang = array_merge($lang, array(
 	'DESCRIPTION_LENGTH'			=> 'Saisissez votre description ici. Elle ne peut pas contenir plus de <strong>%d</strong> caractères.',
 	'DETAILS'						=> 'Détails',
 	'DISALLOWED_EXTENSION'			=> 'L’extension de cette image n’est pas autorisée.',
-	'DONT_RATE_IMAGE'				=> 'Ne pas noter l’image',
+	'DO_NOT_RATE_IMAGE'				=> 'Ne pas noter l’image',
 
 	'EDIT_COMMENT'					=> 'Modifier le commentaire',
 	'EDIT_IMAGE'					=> 'Modifier',

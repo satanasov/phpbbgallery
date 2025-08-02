@@ -59,9 +59,9 @@ $lang = array_merge($lang, array(
 	'QUEUE_A_LOCK2'					=> 'Afbeelding sluiten?',
 	'QUEUE_A_LOCK2_CONFIRM'			=> 'Weet je zeker dat je deze afbeelding wilt sluiten?',
 	'QUEUE_A_MOVE'					=> 'Verplaats afbeelding',
-	'QUEUE_A_UNAPPROVE'				=> 'Afbeelding afkeuren',
-	'QUEUE_A_UNAPPROVE2'			=> 'Afbeelding afkeuren?',
-	'QUEUE_A_UNAPPROVE2_CONFIRM'	=> 'Weet je zeker dat je deze afbeelding wilt afkeuren?',
+	'QUEUE_A_UNAPPROVED'				=> 'Afbeelding afkeuren',
+	'QUEUE_A_UNAPPROVED2'			=> 'Afbeelding afkeuren?',
+	'QUEUE_A_UNAPPROVED2_CONFIRM'	=> 'Weet je zeker dat je deze afbeelding wilt afkeuren?',
 
 	'QUEUE_STATUS_0'				=> 'De afbeelding wacht op goedkeuring.',
 	'QUEUE_STATUS_1'				=> 'De afbeelding is goedgekeurd.',
@@ -77,10 +77,10 @@ $lang = array_merge($lang, array(
 	'QUEUES_A_LOCK2'				=> 'Afbeeldingen sluiten?',
 	'QUEUES_A_LOCK2_CONFIRM'		=> 'Weet je zeker dat je deze afbeeldingen wilt sluiten?',
 	'QUEUES_A_MOVE'					=> 'Verplaats afbeeldingen',
-	'QUEUES_A_UNAPPROVE'			=> 'Afbeeldingen afkeuren',
-	'QUEUES_A_UNAPPROVE2'			=> 'Afbeeldingen afkeuren?',
-	'QUEUES_A_UNAPPROVE2_CONFIRM'	=> 'Weet je zeker dat je deze afbeeldingen wilt afkeuren?',
-	'QUEUES_A_DISAPPROVE2_CONFIRM'	=> 'Weet je zeker dat je deze afbeeldingen wilt afkeuren?',
+	'QUEUES_A_UNAPPROVED'			=> 'Afbeeldingen afkeuren',
+	'QUEUES_A_UNAPPROVED2'			=> 'Afbeeldingen afkeuren?',
+	'QUEUES_A_UNAPPROVED2_CONFIRM'	=> 'Weet je zeker dat je deze afbeeldingen wilt afkeuren?',
+	'QUEUES_A_DISAPPROVED2_CONFIRM'	=> 'Weet je zeker dat je deze afbeeldingen wilt afkeuren?',
 
 	'REPORT_A_CLOSE'				=> 'Sluit melding',
 	'REPORT_A_CLOSE2'				=> 'Melding sluiten?',
@@ -117,7 +117,7 @@ $lang = array_merge($lang, array(
 		1			=> 'In totaal is er <span style="font-weight: bold;">1</span> afbeelding goedgekeurd.',
 		2			=> 'In totaal zijn er <span style="font-weight: bold;">%s</span> afbeeldingen goedgekeurd.',
 	),
-	'WAITING_DISPPROVED_IMAGE'		=> array(
+	'WAITING_DISAPPROVED_IMAGE'		=> array(
 		0			=> 'Geen afgekeurde afbeeldingen.',
 		1			=> 'In totaal is er <span style="font-weight: bold;">1</span> afbeelding afgekleurd.',
 		2			=> 'In totaal zijn er <span style="font-weight: bold;">%s</span> afbeeldingen afgekeurd.',

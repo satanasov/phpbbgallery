@@ -567,7 +567,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 
 		$image = $crawler->filter('a:contains("Valid but needs delete")')->parents()->parents();
 
-		$form = $image->selectButton($this->lang('DISAPPROVE'))->form();
+		$form = $image->selectButton($this->lang('DISAPPROVED'))->form();
 		$crawler = self::submit($form);
 
 

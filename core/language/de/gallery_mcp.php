@@ -59,9 +59,9 @@ $lang = array_merge($lang, array(
 	'QUEUE_A_LOCK2'					=> 'Bild sperren?',
 	'QUEUE_A_LOCK2_CONFIRM'			=> 'Bist du dir sicher, dass du das Bild sperren möchtest?',
 	'QUEUE_A_MOVE'					=> 'Bild verschieben',
-	'QUEUE_A_UNAPPROVE'				=> 'erneute Freischaltung erzwingen',
-	'QUEUE_A_UNAPPROVE2'			=> 'erneute Freischaltung erzwingen?',
-	'QUEUE_A_UNAPPROVE2_CONFIRM'	=> 'Bist du dir sicher, dass eine erneute Freischaltung erzwungen werden soll?',
+	'QUEUE_A_UNAPPROVED'				=> 'erneute Freischaltung erzwingen',
+	'QUEUE_A_UNAPPROVED2'			=> 'erneute Freischaltung erzwingen?',
+	'QUEUE_A_UNAPPROVED2_CONFIRM'	=> 'Bist du dir sicher, dass eine erneute Freischaltung erzwungen werden soll?',
 
 	'QUEUE_STATUS_0'				=> 'Das Bild wartet auf Freigabe.',
 	'QUEUE_STATUS_1'				=> 'Das Bild ist freigeschaltet.',
@@ -77,10 +77,10 @@ $lang = array_merge($lang, array(
 	'QUEUES_A_LOCK2'				=> 'Bilder sperren?',
 	'QUEUES_A_LOCK2_CONFIRM'		=> 'Bist du dir sicher, dass du die Bilder sperren möchtest?',
 	'QUEUES_A_MOVE'					=> 'Bilder verschieben',
-	'QUEUES_A_UNAPPROVE'			=> 'erneute Freischaltung erzwingen',
-	'QUEUES_A_UNAPPROVE2'			=> 'erneute Freischaltung erzwingen?',
-	'QUEUES_A_UNAPPROVE2_CONFIRM'	=> 'Bist du dir sicher, dass eine erneute Freischaltung erzwungen werden soll?',
-	'QUEUES_A_DISAPPROVE2_CONFIRM'	=> 'Bist du dir sicher, dass eine erneute Freischaltung erzwungen werden soll?',
+	'QUEUES_A_UNAPPROVED'			=> 'erneute Freischaltung erzwingen',
+	'QUEUES_A_UNAPPROVED2'			=> 'erneute Freischaltung erzwingen?',
+	'QUEUES_A_UNAPPROVED2_CONFIRM'	=> 'Bist du dir sicher, dass eine erneute Freischaltung erzwungen werden soll?',
+	'QUEUES_A_DISAPPROVED2_CONFIRM'	=> 'Bist du dir sicher, dass eine erneute Freischaltung erzwungen werden soll?',
 
 	'REPORT_A_CLOSE'				=> 'Meldung schliessen',
 	'REPORT_A_CLOSE2'				=> 'Meldung schliessen?',
@@ -117,7 +117,7 @@ $lang = array_merge($lang, array(
 		1			=> 'Insgesamt ist <span style="font-weight: bold;">1</span> Bild freigeschaltet.',
 		2			=> 'Insgesamt sind <span style="font-weight: bold;">%s</span> Bilder freigeschaltet.',
 	),
-	'WAITING_DISPPROVED_IMAGE'		=> array(
+	'WAITING_DISAPPROVED_IMAGE'		=> array(
 		0			=> 'Keine Bilder abgelehnt.',
 		1			=> 'Insgesamt ist <span style="font-weight: bold;">1</span> Bild abgelehnt.',
 		2			=> 'Insgesamt sind <span style="font-weight: bold;">%s</span> Bilder abgelehnt.',

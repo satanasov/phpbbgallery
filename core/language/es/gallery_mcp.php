@@ -58,9 +58,9 @@ $lang = array_merge($lang, array(
 	'QUEUE_A_LOCK2' 				=> '¿Bloquear imagen?',
 	'QUEUE_A_LOCK2_CONFIRM' 		=> '¿Seguro que quieres bloquear esta imagen?',
 	'QUEUE_A_MOVE' 					=> 'Mover imagen',
-	'QUEUE_A_UNAPPROVE' 			=> 'No aprobar imagen',
-	'QUEUE_A_UNAPPROVE2' 			=> '¿Aprobar la imagen?',
-	'QUEUE_A_UNAPPROVE2_CONFIRM' 	=> '¿Está seguro de que desea suprimir esta imagen?',
+	'QUEUE_A_UNAPPROVED' 			=> 'No aprobar imagen',
+	'QUEUE_A_UNAPPROVED2' 			=> '¿Aprobar la imagen?',
+	'QUEUE_A_UNAPPROVED2_CONFIRM' 	=> '¿Está seguro de que desea suprimir esta imagen?',
 
 	'QUEUE_STATUS_0' 				=> 'La imagen está a la espera de aprobación.',
 	'QUEUE_STATUS_1' 				=> 'La imagen está aprobada.',
@@ -76,10 +76,10 @@ $lang = array_merge($lang, array(
 	'QUEUES_A_LOCK2' 				=> '¿Bloquear imágenes?',
 	'QUEUES_A_LOCK2_CONFIRM' 		=> '¿Seguro que quieres bloquear estas imágenes?',
 	'QUEUES_A_MOVE' 				=> 'Mover imágenes',
-	'QUEUES_A_UNAPPROVE' 			=> 'No aprobar imágenes',
-	'QUEUES_A_UNAPPROVE2' 			=> '¿Aprobar imágenes?',
-	'QUEUES_A_UNAPPROVE2_CONFIRM' 	=> '¿Estás seguro de que quieres desautorizar estas imágenes?',
-	'QUEUES_A_DISAPPROVE2_CONFIRM' 	=> '¿Está seguro de que desea desautorizar estas imágenes?',
+	'QUEUES_A_UNAPPROVED' 			=> 'No aprobar imágenes',
+	'QUEUES_A_UNAPPROVED2' 			=> '¿Aprobar imágenes?',
+	'QUEUES_A_UNAPPROVED2_CONFIRM' 	=> '¿Estás seguro de que quieres desautorizar estas imágenes?',
+	'QUEUES_A_DISAPPROVED2_CONFIRM' 	=> '¿Está seguro de que desea desautorizar estas imágenes?',
 
 	'REPORT_A_CLOSE' 				=> 'Cerrar informe',
 	'REPORT_A_CLOSE2' 				=> 'Cerrar informe?',
@@ -116,7 +116,7 @@ $lang = array_merge($lang, array(
 		1 			=> 'En total hay <span style="font-weight: bold;">1</span> imagen aprobada.',
 		2 			=> 'En total se han aprobado <span style="font-weight: bold;">%s</span> imágenes aprobadas.',
 	),
-	'WAITING_DISPPROVED_IMAGE'		=> array(
+	'WAITING_DISAPPROVED_IMAGE'		=> array(
 		0 			=> 'No hay imágenes rechazadas.',
 		1 			=> 'En total hay <span style="font-weight: bold;">1</span> imagen rechazada.',
 		2 			=> 'En total hay <span style="font-weight: bold;">%s </span> imágenes rechazadas.',

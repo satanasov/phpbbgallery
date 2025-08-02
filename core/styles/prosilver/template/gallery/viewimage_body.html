@@ -168,7 +168,7 @@
 						<!-- IF .rate_scale -->
 							<select name="rating" onchange="this.form.submit();">
 							<!-- BEGIN rate_scale -->
-								<!-- IF rate_scale.RATE_POINT == 1 --><option value="0">{L_DONT_RATE_IMAGE}</option><!-- ENDIF -->
+								<!-- IF rate_scale.RATE_POINT == 1 --><option value="0">{L_DO_NOT_RATE_IMAGE}</option><!-- ENDIF -->
 								<option value="{rate_scale.RATE_POINT}">{rate_scale.RATE_POINT}</option>
 							<!-- END rate_scale -->
 							</select>
@@ -192,7 +192,7 @@
 			<!-- IF S_QM_MOVE --><option value="images_move">{L_QUEUE_A_MOVE}</option><!-- ENDIF -->
 			<!-- IF S_QM_EDIT --><option value="image_edit">{L_EDIT_IMAGE}</option><!-- ENDIF -->
 			<!-- IF S_QM_STATUS -->
-				<!-- IF not S_STATUS_UNAPPROVED --><option value="images_unapprove">{L_QUEUE_A_UNAPPROVE}</option><!-- ENDIF -->
+				<!-- IF not S_STATUS_UNAPPROVED --><option value="images_unapproved">{L_QUEUE_A_UNAPPROVED}</option><!-- ENDIF -->
 				<!-- IF not S_STATUS_APPROVED --><option value="images_approve">{L_QUEUE_A_APPROVE}</option><!-- ENDIF -->
 				<!-- IF not S_STATUS_LOCKED --><option value="images_lock">{L_QUEUE_A_LOCK}</option><!-- ENDIF -->
 			<!-- ENDIF -->

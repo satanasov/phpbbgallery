@@ -58,9 +58,9 @@ $lang = array_merge($lang, array(
 	'QUEUE_A_LOCK2'					=> 'Blocca immagine?',
 	'QUEUE_A_LOCK2_CONFIRM'			=> 'Sei sicuro di voler bloccare questa immagine?',
 	'QUEUE_A_MOVE'					=> 'Sposta immagine',
-	'QUEUE_A_UNAPPROVE'				=> 'Disapprova immagine',
-	'QUEUE_A_UNAPPROVE2'			=> 'Disapprova immagine?',
-	'QUEUE_A_UNAPPROVE2_CONFIRM'	=> 'Sei sicuro di voler disapprovare questa immagine?',
+	'QUEUE_A_UNAPPROVED'				=> 'Disapprova immagine',
+	'QUEUE_A_UNAPPROVED2'			=> 'Disapprova immagine?',
+	'QUEUE_A_UNAPPROVED2_CONFIRM'	=> 'Sei sicuro di voler disapprovare questa immagine?',
 
 	'QUEUE_STATUS_0'				=> 'Questa immagine è in attesa di approvazione.',
 	'QUEUE_STATUS_1'				=> 'Questa immagine è stata approvata.',
@@ -76,10 +76,10 @@ $lang = array_merge($lang, array(
 	'QUEUES_A_LOCK2'				=> 'Blocca immagini?',
 	'QUEUES_A_LOCK2_CONFIRM'		=> 'Sei sicuro di voler bloccare queste immagini?',
 	'QUEUES_A_MOVE'					=> 'Sposta immagini',
-	'QUEUES_A_UNAPPROVE'			=> 'Disapprova immagini',
-	'QUEUES_A_UNAPPROVE2'			=> 'Disapprova immagini?',
-	'QUEUES_A_UNAPPROVE2_CONFIRM'	=> 'Sei sicuro di voler disapprovare queste immagini?',
-	'QUEUES_A_DISAPPROVE2_CONFIRM'	=> 'Sei sicuro di voler disapprovare queste immagini?',
+	'QUEUES_A_UNAPPROVED'			=> 'Disapprova immagini',
+	'QUEUES_A_UNAPPROVED2'			=> 'Disapprova immagini?',
+	'QUEUES_A_UNAPPROVED2_CONFIRM'	=> 'Sei sicuro di voler disapprovare queste immagini?',
+	'QUEUES_A_DISAPPROVED2_CONFIRM'	=> 'Sei sicuro di voler disapprovare queste immagini?',
 
 	'REPORT_A_CLOSE'				=> 'Chiudi segnalazione',
 	'REPORT_A_CLOSE2'				=> 'Chiudi segnalazione?',
@@ -116,7 +116,7 @@ $lang = array_merge($lang, array(
 		1			=> 'In totale c’è <span style="font-weight: bold;">1</span> immagine approvata.',
 		2			=> 'In totale ci sono <span style="font-weight: bold;">%s</span> imamagini approvate.',
 	),
-	'WAITING_DISPPROVED_IMAGE'		=> array(
+	'WAITING_DISAPPROVED_IMAGE'		=> array(
 		0			=> 'Nessuna immagine disapprovata.',
 		1			=> 'In totale c’è <span style="font-weight: bold;">1</span> immagine disapprovata.',
 		2			=> 'In totale ci sono <span style="font-weight: bold;">%s</span> immagini disapprovate.',

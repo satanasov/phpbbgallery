@@ -209,7 +209,7 @@ class moderate
 		foreach ($waiting_images as $VAR)
 		{
 			$album_tmp = $this->album->get_info($VAR['image_album_id']);
-			$this->template->assign_block_vars('unaproved', array(
+			$this->template->assign_block_vars('unapproved_image', array(
 				'U_IMAGE_ID'           => $VAR['image_id'],
 				'U_IMAGE'              => $this->helper->route('phpbbgallery_core_image_file_mini', array('image_id' => $VAR['image_id'])),
 				'U_IMAGE_URL'          => $this->helper->route('phpbbgallery_core_image', array('image_id' => $VAR['image_id'])),
@@ -291,7 +291,7 @@ class moderate
 			$status[] = 0;
 			$status[] = 2;
 			$actions['approve'] = 'QUEUES_A_APPROVE';
-			$actions['unapprove'] = 'QUEUES_A_UNAPPROVE';
+			$actions['unapproved'] = 'QUEUES_A_UNAPPROVED';
 			$actions['lock'] = 'QUEUES_A_LOCK';
 		}
 		if ($this->gallery_auth->acl_check('m_delete', $album['album_id'], $album['album_user_id']))
