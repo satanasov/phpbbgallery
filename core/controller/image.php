@@ -268,7 +268,7 @@ class image
 		else
 		{
 			$user_id = (int) $this->user->data['user_id'];
-			$image_status_check = ' AND (image_status = ' . \phpbbgallery\core\block::STATUS_APPROVED . ' OR image_user_id = ' . $user_id . ')';
+			$image_status_check = ' AND (image_status = ' . (int) \phpbbgallery\core\block::STATUS_APPROVED . ' OR image_user_id = ' . $user_id . ')';
 		}
 
 		if (!$this->user->data['is_bot'] && isset($this->user->data['session_page']) && (strpos($this->user->data['session_page'], '&image_id=' . $image_id) === false || isset($this->user->data['session_created'])))
