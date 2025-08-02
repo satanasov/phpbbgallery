@@ -253,7 +253,7 @@ class moderate
 						$this->moderate->delete_images($delete_array);
 						$count = $count + count($delete_array);
 					}
-					$message = $this->language->lang('WAITING_DISPPROVED_IMAGE', $count);
+					$message = $this->language->lang('WAITING_DISAPPROVED_IMAGE', $count);
 					$this->url->meta_refresh(3, $back_link);
 					trigger_error($message);
 				}

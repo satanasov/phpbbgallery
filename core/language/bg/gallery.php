@@ -117,7 +117,7 @@ $lang = array_merge($lang, array(
 	'DESCRIPTION_LENGTH'      => 'Enter your descriptions here, it may contain no more than <strong>%d</strong> characters.',
 	'DETAILS'                 => 'Details',
 	'DISALLOWED_EXTENSION'    => 'Не разрешено разширение на изборажението',
-	'DONT_RATE_IMAGE'         => 'Don’t rate image',
+	'DO_NOT_RATE_IMAGE'         => 'Don’t rate image',
 
 	'EDIT_COMMENT'             => 'Edit comment',
 	'EDIT_IMAGE'               => 'Edit',

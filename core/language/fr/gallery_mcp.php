@@ -131,7 +131,7 @@ $lang = array_merge($lang, array(
 		1			=> 'Il y a au total <span style="font-weight: bold;">1</span> image validée.',
 		2			=> 'Il y a au total <span style="font-weight: bold;">%s</span> images approved.',
 	),
-	'WAITING_DISPPROVED_IMAGE'		=> array(
+	'WAITING_DISAPPROVED_IMAGE'		=> array(
 		0			=> 'Aucune image désapprouvé.',
 		1			=> 'Il y a au total <span style="font-weight: bold;">1</span> image désapprouvée.',
 		2			=> 'Il y a au total <span style="font-weight: bold;">%s</span> images désapprouvées.',
