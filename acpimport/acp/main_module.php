@@ -68,7 +68,7 @@ class main_module
 					$filetype = getimagesize($image_src_full);
 					$filetype_ext = '';
 
-					$error_occured = false;
+					$error_occurred = false;
 					switch ($filetype['mime'])
 					{
 						case 'image/jpeg':
@@ -79,7 +79,7 @@ class main_module
 							if ((substr(strtolower($image_src), -4) != '.jpg') && (substr(strtolower($image_src), -5) != '.jpeg'))
 							{
 								$this->log_import_error($import_schema, sprintf($user->lang['FILETYPE_MIMETYPE_MISMATCH'], $image_src, $filetype['mime']));
-								$error_occured = true;
+								$error_occurred = true;
 							}
 						break;
 
@@ -90,7 +90,7 @@ class main_module
 							if (substr(strtolower($image_src), -4) != '.png')
 							{
 								$this->log_import_error($import_schema, sprintf($user->lang['FILETYPE_MIMETYPE_MISMATCH'], $image_src, $filetype['mime']));
-								$error_occured = true;
+								$error_occurred = true;
 							}
 						break;
 
@@ -101,7 +101,7 @@ class main_module
 							if (substr(strtolower($image_src), -4) != '.gif')
 							{
 								$this->log_import_error($import_schema, sprintf($user->lang['FILETYPE_MIMETYPE_MISMATCH'], $image_src, $filetype['mime']));
-								$error_occured = true;
+								$error_occurred = true;
 							}
 						break;
 
@@ -111,29 +111,29 @@ class main_module
 							if (substr(strtolower($image_src), -5) != '.webp')
 							{
 								$this->log_import_error($import_schema, sprintf($user->lang['FILETYPE_MIMETYPE_MISMATCH'], $image_src, $filetype['mime']));
-								$error_occured = true;
+								$error_occurred = true;
 							}
 						break;
 
 						default:
 							$this->log_import_error($import_schema, $user->lang['NOT_ALLOWED_FILE_TYPE']);
-							$error_occured = true;
+							$error_occurred = true;
 						break;
 					}
 					$image_filename = md5(unique_id()) . $filetype_ext;
 					$file_link = $gallery_url->path('upload') . $image_filename;
 
-					if (!$error_occured || !@move_uploaded_file($image_src_full, $file_link))
+					if (!$error_occurred || !@move_uploaded_file($image_src_full, $file_link))
 					{
 						if (!@copy($image_src_full, $file_link))
 						{
 							$user->add_lang('posting');
 							$this->log_import_error($import_schema, sprintf($user->lang['GENERAL_UPLOAD_ERROR'], $file_link));
-							$error_occured = true;
+							$error_occurred = true;
 						}
 					}
 
-					if (!$error_occured)
+					if (!$error_occurred)
 					{
 						@chmod($file_link, 0777);
 
@@ -149,7 +149,7 @@ class main_module
 							'image_user_ip'			=> $user->ip,
 							'image_time'			=> $start_time + $done_images,
 							'image_album_id'		=> $album_id,
-							'image_status'			=> \phpbbgallery\core\block::STATUS_APPROVED,
+							'image_status'			=> (int) \phpbbgallery\core\block::STATUS_APPROVED,
 							//'image_exif_data'		=> '',
 						);
 
@@ -157,7 +157,7 @@ class main_module
 						$image_tools->set_image_options($gallery_config->get('max_filesize'), $gallery_config->get('max_height'), $gallery_config->get('max_width'));
 						$image_tools->set_image_data($file_link);
 
-						$additional_sql_data = array();
+						$additional_sql_data = [];
 
 						/**
 						* Event to trigger before mass update
@@ -395,7 +395,7 @@ class main_module
 			'ACP_GALLERY_TITLE_EXPLAIN'		=> $user->lang['ACP_IMPORT_ALBUMS_EXPLAIN'],
 			'L_IMPORT_DIR_EMPTY'			=> sprintf($user->lang['IMPORT_DIR_EMPTY'], $gallery_url->path('import')),
 			'S_ALBUM_IMPORT_ACTION'			=> $this->u_action,
-			'S_SELECT_IMPORT' 				=> $gallery_album->get_albumbox(false, 'album_id', false, false, false, \phpbbgallery\core\block::PUBLIC_ALBUM, \phpbbgallery\core\block::TYPE_UPLOAD),
+			'S_SELECT_IMPORT' 				=> $gallery_album->get_albumbox(false, 'album_id', false, false, false, (int) \phpbbgallery\core\block::PUBLIC_ALBUM, (int) \phpbbgallery\core\block::TYPE_UPLOAD),
 			'U_FIND_USERNAME'				=> $gallery_url->append_sid('phpbb', 'memberlist', 'mode=searchuser&amp;form=acp_gallery&amp;field=username&amp;select_single=true'),
 		));
 	}

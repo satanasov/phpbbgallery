@@ -157,7 +157,7 @@ class album
 				$contest_end_time = $album_data['contest_start'] + $album_data['contest_end'];
 				$this->contest->end($album_id, $album_data['contest_id'], $contest_end_time);
 
-				$album_contest_data['contest_marked'] = \phpbbgallery\core\block::NO_CONTEST;
+				$album_contest_data['contest_marked'] = (int) \phpbbgallery\core\block::NO_CONTEST;
 			}
 		}
 		$this->check_permissions($album_id, $album_data['album_user_id'], $album_data['album_auth_access']);
@@ -217,7 +217,7 @@ class album
 		}
 
 		$this->template->assign_vars(array(
-			'S_IS_POSTABLE' => $album_data['album_type'] != \phpbbgallery\core\block::TYPE_CAT,
+			'S_IS_POSTABLE' => $album_data['album_type'] != (int) \phpbbgallery\core\block::TYPE_CAT,
 			'S_IS_LOCKED'   => $album_data['album_status'] == (int) \phpbbgallery\core\block::ALBUM_LOCKED,
 
 			'U_RETURN_LINK'  => $this->helper->route('phpbbgallery_core_index'),
@@ -227,7 +227,7 @@ class album
 			'U_WATCH_TOGGLE'  => $this->helper->route('phpbbgallery_core_album_watch', array('album_id' => (int) $album_id)),
 		));
 
-		if ($album_data['album_type'] != \phpbbgallery\core\block::TYPE_CAT
+		if ($album_data['album_type'] != (int) \phpbbgallery\core\block::TYPE_CAT
 			&& $album_data['album_images_real'] > 0)
 		{
 			$this->display_images($album_id, $album_data, ($page - 1) * (int) $this->config['phpbb_gallery_items_per_page'], (int) $this->config['phpbb_gallery_items_per_page']);
@@ -325,7 +325,7 @@ class album
 			FROM ' . $this->table_images . '
 			WHERE image_album_id = ' . (int) $album_id . "
 				$image_status_check
-				AND image_status <> " . \phpbbgallery\core\block::STATUS_ORPHAN . "
+				AND image_status <> " . (int) \phpbbgallery\core\block::STATUS_ORPHAN . "
 			ORDER BY $sql_sort_order" . $sql_help_sort;
 		$result = $this->db->sql_query_limit($sql, $limit, $start);
 
@@ -357,7 +357,7 @@ class album
 			$image_data['rating'] = '0';//@todo: $rating->get_image_rating(false, false);
 			//@todo: unset($rating);
 
-			$s_user_allowed = (($image_data['image_user_id'] == $this->user->data['user_id']) && ($album_status != \phpbbgallery\core\block::ALBUM_LOCKED));
+			$s_user_allowed = (($image_data['image_user_id'] == $this->user->data['user_id']) && ($album_status != (int) \phpbbgallery\core\block::ALBUM_LOCKED));
 
 			switch ($this->gallery_config->get('link_thumbnail'))
 			{
