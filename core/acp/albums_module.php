@@ -413,7 +413,7 @@ class albums_module
 					'allow_urls'	=> true
 				);
 
-				// Parse desciption if specified
+				// Parse description if specified
 				if ($album_data['album_desc'])
 				{
 					if (!isset($album_data['album_desc_uid']))
@@ -564,7 +564,7 @@ class albums_module
 				));
 
 				/**
-				* Event after assigning data to templete
+				* Event after assigning data to template
 				*
 				* @event phpbbgallery.core.acp.albums.send_to_template
 				* @var	action	action		Action taken
@@ -734,7 +734,7 @@ class albums_module
 	}
 
 	/**
-	 * Display progress bar for syncinc albums
+	 * Display progress bar for syncing albums
 	 *
 	 * borrowed from phpBB3
 	 * @author: phpBB Group

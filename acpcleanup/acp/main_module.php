@@ -161,9 +161,9 @@ class main_module
 			{
 				if ($acp_import_installed && $move_to_import)
 				{
-					foreach ($missing_entries as $entrie)
+					foreach ($missing_entries as $entry)
 					{
-						copy($gallery_url->path('upload') . '/' . $entrie, $gallery_url->path('import') . '/' . $entrie);
+						copy($gallery_url->path('upload') . '/' . $entry, $gallery_url->path('import') . '/' . $entry);
 					}
 				}
 				$message[] = $core_cleanup->delete_files($missing_entries);

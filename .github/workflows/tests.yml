@@ -109,7 +109,7 @@ jobs:
               run: phpBB/vendor/bin/EPV.php run --dir="phpBB/ext/phpbbgallery/core/"
               working-directory: ./phpBB3
 
-            - name: Run EPV on ACP ECIF
+            - name: Run EPV on ACP EXIF
               if: ${{ env.EPV != 0 }}
               run: phpBB/vendor/bin/EPV.php run --dir="phpBB/ext/phpbbgallery/exif/"
               working-directory: ./phpBB3

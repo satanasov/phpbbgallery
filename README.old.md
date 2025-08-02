@@ -4,7 +4,7 @@
 
 With phpBB 3.1 MODs will mostly be replaced with Extensions. The main difference is, that extensions are designed (by code) in a different way and won't require code edits. So I started to port the Gallery MOD to a Gallery Extension. While refactoring the code, I also split it into several Extensions.
 
-The aim behind this splitting is, to make it easily possible to disable some features and also be able to remove their code completly from the forum.
+The aim behind this splitting is, to make it easily possible to disable some features and also be able to remove their code completely from the forum.
 
 So which Extensions will the Gallery include?
 
@@ -17,7 +17,7 @@ So which Extensions will the Gallery include?
 * Exif Data
 * Favorite
 * Feed
-    * todo: _Add links back to overall_header.html when the template event is commited._
+    * todo: _Add links back to overall_header.html when the template event is committed._
 
 ###Planned
 

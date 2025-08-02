@@ -141,7 +141,7 @@ $lang = array_merge($lang, array(
 	'DISP_VIEWTOPIC_LINK'          => 'Link image-counter to user´s images',
 	'DISP_WHOISONLINE'             => 'Show “Who is online“',
 	'DISPLAY_IN_RRC'               => 'Display images of this album in “Recent-Random“-images',
-	'DONT_COPY_PERMISSIONS'        => 'Do not copy permissions',
+	'DO_NOT_COPY_PERMISSIONS'      => 'Do not copy permissions',
 
 	'EDIT_ALBUM' => 'Edit album',
 
@@ -155,7 +155,7 @@ $lang = array_merge($lang, array(
 	'GALLERY_INDEX'                        => 'Gallery-Index',
 	'GALLERY_PURGE_CACHE_EXPLAIN'          => 'If you use the Thumbnail Cache feature you must clear your thumbnail cache after changing your thumbnail settings in “Gallery configuration“ to make them regenerated.',
 	'GALLERY_RESYNC_ALBUMS_TO_CPF'         => 'Resync personal albums to profile fields',
-	'GALLERY_RESYNC_ALBUMS_TO_CPF_EXPAIN'  => 'This action will resync all top level personal albums as contact based custom profile field. <br> WARNING! If you have too many top level personal albums this could take some time!',
+	'GALLERY_RESYNC_ALBUMS_TO_CPF_EXPLAIN'  => 'This action will resync all top level personal albums as contact based custom profile field. <br> WARNING! If you have too many top level personal albums this could take some time!',
 	'GALLERY_RESYNC_ALBUMS_TO_CPF_CONFIRM' => 'Are you sure that you want to resync all top level personal albums as contact CPFs?',
 	'GALLERY_STATS'                        => 'Gallery statistics',
 	'GALLERY_VERSION'                      => 'Gallery version',
@@ -168,7 +168,7 @@ $lang = array_merge($lang, array(
 	'HANDLE_IMAGES'       => 'What to do with the images',
 	'HANDLE_SUBS'         => 'What to do with the subalbums',
 	'HOTLINK_ALLOWED'     => 'Link whitelist',
-	'HOTLINK_ALLOWED_EXP' => 'Links to images from this domains are always allowed. The domains must be seperated by comma only (no space). Exp: “flying-bits.org,phpbb.com“',
+	'HOTLINK_ALLOWED_EXP' => 'Links to images from this domains are always allowed. The domains must be separated by comma only (no space). Exp: “flying-bits.org,phpbb.com“',
 	'HOTLINK_PREVENT'     => 'Allow links to images from all sites',
 
 	'IMAGE_DESC_MAX_LENGTH'      => 'Maximum length for descriptions',
@@ -270,7 +270,7 @@ $lang = array_merge($lang, array(
 	'PERMISSIONS_EXPLAIN'      => 'Here you can alter which users and groups can access which albums.',
 	'PERMISSIONS_STORED'       => 'Permissions were stored successful.',
 	'PERSONAL_ALBUM_INDEX'     => 'View personal albums as album on the index',
-	'PERSONAL_ALBUM_INDEX_EXP' => 'If choosen “No“, there will be the link, right beneath.',
+	'PERSONAL_ALBUM_INDEX_EXP' => 'If chosen “No“, there will be the link, right beneath.',
 	'PEGA_CREATED'             => 'Created personal gallery for %s.',
 	'PEGA_ALREADY_EXISTS'      => '%s already has a personal gallery.',
 	'PGALLERIES_PER_PAGE'      => 'Number of personal galleries per page',
@@ -418,7 +418,7 @@ $lang = array_merge($lang, array(
 	'LATEST_VERSION'       => 'Latest Version',
 	'NO_INFO'              => 'Version server could not be contacted',
 	'NOT_UP_TO_DATE'       => '%s is not up to date',
-	'RELEASE_ANNOUNCEMENT' => 'Annoucement Topic',
+	'RELEASE_ANNOUNCEMENT' => 'Announcement Topic',
 	'UP_TO_DATE'           => '%s is up to date',
 	'VERSION_CHECK'        => 'MOD Version Check',
 ));

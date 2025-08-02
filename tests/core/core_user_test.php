@@ -88,7 +88,7 @@ class core_user_test extends core_base
 		}
 	}
 	/**
-	* Test data for the test_udpate_data test
+	* Test data for the test_update_data test
 	*
 	* @return array Test data
 	*/
@@ -109,7 +109,7 @@ class core_user_test extends core_base
 	* Test Update Data
 	* @dataProvider data_update_data
 	*/
-	public function test_udpate_data($user_id, $new_var)
+	public function test_update_data($user_id, $new_var)
 	{
 		$this->gallery_user->set_user_id($user_id, false);
 		$this->assertTrue($this->gallery_user->update_data(array('personal_album_id' => $new_var)));

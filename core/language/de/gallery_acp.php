@@ -142,7 +142,7 @@ $lang = array_merge($lang, array(
 	'DISP_VIEWTOPIC_LINK'          => 'Die Anzahl der Bilder auf die Benutzer Bilder verlinken',
 	'DISP_WHOISONLINE'             => '„Wer ist online“ anzeigen',
 	'DISPLAY_IN_RRC'               => 'Bilder aus diesem Album in den „Neusten &amp; Zufälligen“-Bildern anzeigen',
-	'DONT_COPY_PERMISSIONS'        => 'Berechtigungen nicht kopieren',
+	'DO_NOT_COPY_PERMISSIONS'      => 'Berechtigungen nicht kopieren',
 
 	'EDIT_ALBUM' => 'Album bearbeiten',
 
@@ -156,7 +156,7 @@ $lang = array_merge($lang, array(
 	'GALLERY_INDEX'                        => 'Galerie-Index',
 	'GALLERY_PURGE_CACHE_EXPLAIN'          => 'Wenn du den Cache Feature für das Vorschaubild benutzt, musst du nach einer Änderungen an den Einstellungen in „Gallery konfigurieren“ den Cache deiner Vorschaubilder leeren, um sie neu generieren zu lassen.',
 	'GALLERY_RESYNC_ALBUMS_TO_CPF'         => 'Neu synchronisieren der persönlicher Alben mit den Profilfeldern',
-	'GALLERY_RESYNC_ALBUMS_TO_CPF_EXPAIN'  => 'Diese Aktion wird alle persönlichen Alben auf dem Toplevel als kontaktbasierte selbsterstellt Profilfelder resynchronisieren . <br> WARNUNG! Dies kann beim Vorhandensein sehr vieler solcher Alben sehr lange dauern!',
+	'GALLERY_RESYNC_ALBUMS_TO_CPF_EXPLAIN'  => 'Diese Aktion wird alle persönlichen Alben auf dem Toplevel als kontaktbasierte selbsterstellt Profilfelder resynchronisieren . <br> WARNUNG! Dies kann beim Vorhandensein sehr vieler solcher Alben sehr lange dauern!',
 	'GALLERY_RESYNC_ALBUMS_TO_CPF_CONFIRM' => 'Bist Du sicher, dass Du den Resync aller persönlichen Alben auf dem Toplevel als kontaktbasierte selbsterstellte Profilfelder durchführen willst?',
 	'GALLERY_STATS'                        => 'Galerie Statistik',
 	'GALLERY_VERSION'                      => 'Version der phpBB Gallery',//ja mit ll und y, da es sich um den MOD-Namen handelt
