@@ -138,7 +138,8 @@ input.autowidth-gallery {
 	border-radius: 7px;
 }
 
-.image_unapproved
+.image_unapproved,
+.image_reported
 {
 	display: inline-block !important;
 	background: transparent none 0 0 no-repeat;
