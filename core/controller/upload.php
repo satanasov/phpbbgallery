@@ -153,7 +153,7 @@ class upload
 		$album_backlink = $this->helper->route('phpbbgallery_core_album', array('album_id'	=> $album_id));
 		$album_loginlink = 'ucp.php?mode=login';
 		$error = '';
-		//Let's get authorization
+		//Let's get authorisation
 		$this->auth->load_user_permissions($this->user->data['user_id']);
 		if (!$this->auth->acl_check('i_upload', $album_id, $album_data['album_user_id']) || ($album_data['album_status'] == $this->block->get_album_status_locked()))
 		{
@@ -178,7 +178,7 @@ class upload
 		$submit = $this->request->variable('submit', false);
 		$mode = $this->request->variable('mode', 'upload');
 		// So let's see if we have AJAX and use jQuery shit.
-		// We are going to use ajax uplaod only for registered users.
+		// We are going to use ajax upload only for registered users.
 		// Anons should suffer.
 		if ($this->request->is_ajax() && $this->user->data['is_registered'])
 		{
