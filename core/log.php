@@ -198,22 +198,22 @@ class log
 			{
 				case 'u':
 					$sql_array['ORDER_BY'] = 'l.log_user ' . (isset($additional['sort_dir']) ? 'ASC' : 'DESC');
-					$sql_array['GROUP_BY'] = 'l.log_user, l.log_id, i.image_id';
+					$sql_array['GROUP_BY'] = 'l.log_user, l.log_id, i.image_id, i.image_album_id';
 				break;
 				case 'i':
 					$sql_array['ORDER_BY'] = 'l.log_ip ' . (isset($additional['sort_dir']) ? 'ASC' : 'DESC');
-					$sql_array['GROUP_BY'] = 'l.log_ip, l.log_id, i.image_id';
+					$sql_array['GROUP_BY'] = 'l.log_ip, l.log_id, i.image_id, i.image_album_id';
 				break;
 				case 'o':
 					$sql_array['ORDER_BY'] = 'l.description ' . (isset($additional['sort_dir']) ? 'ASC' : 'DESC');
-					$sql_array['GROUP_BY'] = 'l.description, l.log_id, i.image_id';
+					$sql_array['GROUP_BY'] = 'l.description, l.log_id, i.image_id, i.image_album_id';
 				break;
 			}
 		}
 		else
 		{
 			$sql_array['ORDER_BY'] = 'l.log_time ' . (isset($additional['sort_dir']) ? 'ASC' : 'DESC');
-			$sql_array['GROUP_BY'] = 'l.log_time, l.log_id, i.image_id';
+			$sql_array['GROUP_BY'] = 'l.log_time, l.log_id, i.image_id, i.image_album_id';
 		}
 		// So we need count - so define SELECT
 		$count_sql_array = $sql_array;
@@ -222,7 +222,19 @@ class log
 		$count_sql_array['SELECT'] = 'COUNT(DISTINCT l.log_id) as count';
 		unset($count_sql_array['GROUP_BY']);
 		unset($count_sql_array['ORDER_BY']);
-		unset($count_sql_array['LEFT_JOIN']);
+		$filtering_on_image_album = false;
+		foreach ($sql_where as $where_clause)
+		{
+			if (strpos($where_clause, 'i.image_album_id') !== false)
+			{
+				$filtering_on_image_album = true;
+				break;
+			}
+		}
+		if (!$filtering_on_image_album)
+		{
+			unset($count_sql_array['LEFT_JOIN']);
+		}
 
 		$sql = $this->db->sql_build_query('SELECT', $count_sql_array);
 		$result = $this->db->sql_query($sql);
