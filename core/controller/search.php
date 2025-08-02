@@ -199,6 +199,7 @@ class search
 		);
 		if ($keywords || $username || $user_id || $search_id || $submit)
 		{
+			$user_id_ary[] = (int) ANONYMOUS;
 			// Let's resolve username to user id ... or array of them.
 			if ($username)
 			{
@@ -218,9 +219,9 @@ class search
 					$user_id_ary[] = (int) $row['user_id'];
 				}
 				$this->db->sql_freeresult($result);
-				$user_id_ary[] = (int) ANONYMOUS;
-				$user_id = $user_id_ary;
 			}
+
+			$user_id = $user_id_ary;
 
 			if (!empty($user_id))
 			{
