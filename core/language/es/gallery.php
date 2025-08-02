@@ -370,6 +370,6 @@ $lang = array_merge($lang, array(
 	'UNREAD_IMAGES'    => 'Unviewed images',
 	'NO_UNREAD_IMAGES' => 'No unviewed images',
 
-	// Versions 1.2.1 addiotions
+	// Versions 1.2.1 additions
 	'GALLERY_DROP'		=> 'Deja tus imágenes aquí',
 ));
