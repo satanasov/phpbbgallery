@@ -17,10 +17,10 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang, [
 	'ACP_IMPORT_ALBUMS'				=> 'Importa Immagini',
 	'ACP_IMPORT_ALBUMS_EXPLAIN'		=> 'Da qui puoi importare in massa immagini dal file system. Prima di importare le immagini assicurati di ridimensionarle manualmente.',
 
@@ -39,4 +39,7 @@ $lang = array_merge($lang, array(
 	'MISSING_IMPORT_SCHEMA'			=> 'Lo schema di importazione specificato (%s) non e\' stato trovato.',
 
 	'NO_FILE_SELECTED'				=> 'Devi selezionare almeno un file.',
-));
+
+	'GALLERY_CORE_NOT_FOUND'		=> 'phpBB Gallery Core extension must be installed and enabled first.',
+	'EXTENSION_ENABLE_SUCCESS'		=> 'The extension has been enabled successfully.',
+]);
