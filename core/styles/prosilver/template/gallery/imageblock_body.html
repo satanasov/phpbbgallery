@@ -32,9 +32,9 @@
 											<!-- IF imageblock.imagerow.image.VIEW > -1 -->{L_GALLERY_VIEWS}{L_COLON} {imageblock.imagerow.image.VIEW}<br /><!-- ENDIF -->
 											<!-- IF imageblock.imagerow.image.S_RATINGS -->{L_RATING}{L_COLON} <a href="{imageblock.imagerow.image.U_RATINGS}">{imageblock.imagerow.image.S_RATINGS}</a><br /><!-- ENDIF -->
 											<!-- IF imageblock.imagerow.image.S_COMMENTS -->{imageblock.imagerow.image.L_COMMENTS}{L_COLON} <a href="{imageblock.imagerow.image.U_COMMENTS}">{imageblock.imagerow.image.S_COMMENTS}</a><br /><!-- ENDIF -->
-<!-- IF U_ACP -->
-											<!-- IF imageblock.imagerow.image.S_IP -->{L_IP}{L_COLON} {imageblock.imagerow.image.S_IP} &#187; <a href="{imageblock.imagerow.image.U_WHOIS}" onclick="popup(this.href, 750, 500); return false;">{L_WHOIS}</a><br /><!-- ENDIF -->
-<!-- ENDIF -->
+											<!-- IF U_ACP -->
+												<!-- IF imageblock.imagerow.image.S_IP -->{L_IP}{L_COLON} {imageblock.imagerow.image.S_IP} &#187; <a href="{imageblock.imagerow.image.U_WHOIS}" onclick="popup(this.href, 750, 500); return false;">{L_WHOIS}</a><br /><!-- ENDIF -->
+											<!-- ENDIF -->
 											<!-- IF imageblock.imagerow.image.U_REPORT or imageblock.imagerow.image.U_STATUS or imageblock.imagerow.image.U_MOVE or  imageblock.imagerow.image.U_EDIT or imageblock.imagerow.image.U_DELETE -->
 											<div id="moderate_imageblock_{imageblock.S_ROW_COUNT}_imagerow_{imageblock.imagerow.image.IMAGE_ID}" style="display: none;">
 												<!-- IF imageblock.imagerow.image.U_REPORT -->&#187; <a href="{imageblock.imagerow.image.U_REPORT}" class="reported-images-number">{L_READ_REPORT}</a><br /><!-- ENDIF -->

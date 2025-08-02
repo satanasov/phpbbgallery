@@ -63,6 +63,9 @@ class index
 	/* @var string */
 	protected $php_ext;
 
+	const RRC_MODE_RECENT_COMMENTS = 4;
+	const RRC_MODE_RANDOM_IMAGES   = 2;
+	const RRC_MODE_RECENT_IMAGES   = 1;
 	/**
 	 * Constructor
 	 *
@@ -188,21 +191,11 @@ class index
 		if ($this->gallery_config->get('rrc_gindex_mode'))
 		{
 			$config_value = $this->gallery_config->get('rrc_gindex_mode');
-			$recent_comments = $random_images = $recent_images = false;
-			if ($config_value >= 4)
-			{
-				$recent_comments = true;
-				$config_value = $config_value - 4;
-			}
-			if ($config_value >= 2)
-			{
-				$random_images = true;
-				$config_value = $config_value - 2;
-			}
-			if ($config_value == 1)
-			{
-				$recent_images = true;
-			}
+
+			$recent_comments = ($config_value & self::RRC_MODE_RECENT_COMMENTS) !== 0;
+			$random_images   = ($config_value & self::RRC_MODE_RANDOM_IMAGES) !== 0;
+			$recent_images   = ($config_value & self::RRC_MODE_RECENT_IMAGES) !== 0;
+
 			// Now before build random and recent ... let's check if we have images that can build it
 			if ($recent_images)
 			{

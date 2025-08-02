@@ -67,7 +67,6 @@ class main_module
 				{
 					$filetype = getimagesize($image_src_full);
 					$filetype_ext = '';
-					$file_link = $gallery_url->path('upload') . $image_filename;
 
 					$error_occured = false;
 					switch ($filetype['mime'])
@@ -122,6 +121,7 @@ class main_module
 						break;
 					}
 					$image_filename = md5(unique_id()) . $filetype_ext;
+					$file_link = $gallery_url->path('upload') . $image_filename;
 
 					if (!$error_occured || !@move_uploaded_file($image_src_full, $file_link))
 					{
@@ -382,9 +382,11 @@ class main_module
 		ksort($files);
 		foreach ($files as $file)
 		{
-			$template->assign_block_vars('imagerow', array(
-				'FILE_NAME'				=> utf8_encode($file),
-			));
+			// Get file name encoding
+			$encoding = mb_detect_encoding($file, ['UTF-8', 'ISO-8859-1', 'Windows-1252'], true);
+			$template->assign_block_vars('imagerow', [
+				'FILE_NAME'	=> $encoding === 'UTF-8' ? $file : mb_convert_encoding($file, 'UTF-8', $encoding),
+			]);
 		}
 
 		$template->assign_vars(array(
@@ -447,9 +449,9 @@ class main_module
 
 	function log_import_error($import_schema, $error)
 	{
-		global $phpbb_ext_gallery;
+		global $gallery_url;
 
-		$error_file = $phpbb_ext_gallery->url->_return_file($import_schema . '_errors', 'import', '');
+		$error_file = $gallery_url->_return_file($import_schema . '_errors', 'import', '');
 		$content = @file_get_contents($error_file);
 		file_put_contents($error_file, $content .= (($content) ? "\n" : '') . $error);
 	}
