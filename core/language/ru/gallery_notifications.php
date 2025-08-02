@@ -18,7 +18,7 @@ if (!defined('IN_PHPBB'))
 }
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 $lang = array_merge($lang, array(
 	'NOTIFICATION_PHPBBGALLERY_IMAGE_FOR_APPROVAL'	=> '%2$s фото загружено для утверждения в альбоме <strong>%1$s</strong>',

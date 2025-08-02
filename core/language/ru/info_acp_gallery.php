@@ -18,7 +18,7 @@ if (!defined('IN_PHPBB'))
 }
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 $lang = array_merge($lang, array(
 	'ACP_GALLERY_ALBUM_MANAGEMENT'		=> 'Управление альбомом',
