@@ -467,13 +467,13 @@ class file
 	{
 		if (!$this->config['phpbb_gallery_allow_hotlinking'])
 		{
-			$haystack = array();
-			$haystack = explode(',', $this->config['phpbb_gallery_hotlinking_domains']);
+			$haystak = array();
+			$haystak = explode(',', $this->config['phpbb_gallery_hotlinking_domains']);
 			//add one extra array - current phpbb domain
-			$haystack[] = $this->config['server_name'];
+			$haystak[] = $this->config['server_name'];
 			$referrer = $this->request->server('HTTP_REFERER', '');
 			$not_hl = false;
-			foreach ($haystack as $var)
+			foreach ($haystak as $var)
 			{
 				if (!empty($var))
 				{

@@ -511,7 +511,7 @@ class image
 	* @param (array)	$image_id_ary	The image ID array to be unapproved
 	* @param (int)		$album_id	The album image is approved to (just save some queries for log)
 	*/
-	public function unapproved_images($image_id_ary, $album_id)
+	public function unapprove_images($image_id_ary, $album_id)
 	{
 		self::handle_counter($image_id_ary, false);
 
@@ -528,7 +528,7 @@ class image
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$this->gallery_log->add_log('moderator', 'unapproved', $album_id, $row['image_id'], array('LOG_GALLERY_UNAPPROVED', $row['image_name']));
+			$this->gallery_log->add_log('moderator', 'unapprove', $album_id, $row['image_id'], array('LOG_GALLERY_UNAPPROVED', $row['image_name']));
 		}
 		$this->db->sql_freeresult($result);
 	}

@@ -44,7 +44,7 @@ $lang = array_merge($lang, array(
 	),
 	'ALLOWED_FILETYPES'				=> 'Разрешённые типы файлов',
 	'APPROVE'						=> 'Одобрить',
-	'DISAPPROVED'					=> 'Не одобрять',
+	'DISAPPROVE'					=> 'Не одобрять',
 	'APPROVE_IMAGE'					=> 'Одобрить фото',
 	//@todo
 	'ALBUM_COMMENT_CAN'				=> 'Вы <strong>можете</strong> оставлять комментарии',
@@ -110,7 +110,7 @@ $lang = array_merge($lang, array(
 	'DESCRIPTION_LENGTH'			=> 'Введите описание (не более <strong>%d</strong> символов).',
 	'DETAILS'						=> 'Информация',
 	'DISALLOWED_EXTENSION'			=> 'Изображение с таким расширением не разрешено',
-	'DO_NOT_RATE_IMAGE'				=> 'Нет оценки',
+	'DONT_RATE_IMAGE'				=> 'Нет оценки',
 
 	'EDIT_COMMENT'					=> 'Редактировать комментарий',
 	'EDIT_IMAGE'					=> 'Редактировать',

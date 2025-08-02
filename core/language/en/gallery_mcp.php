@@ -58,9 +58,9 @@ $lang = array_merge($lang, array(
 	'QUEUE_A_LOCK2'					=> 'Lock image?',
 	'QUEUE_A_LOCK2_CONFIRM'			=> 'Are you sure, you want to lock this image?',
 	'QUEUE_A_MOVE'					=> 'Move image',
-	'QUEUE_A_UNAPPROVED'				=> 'Unapprove image',
-	'QUEUE_A_UNAPPROVED2'			=> 'Unapprove image?',
-	'QUEUE_A_UNAPPROVED2_CONFIRM'	=> 'Are you sure, you want to unapprove this image?',
+	'QUEUE_A_UNAPPROVE'				=> 'Unapprove image',
+	'QUEUE_A_UNAPPROVE2'			=> 'Unapprove image?',
+	'QUEUE_A_UNAPPROVE2_CONFIRM'	=> 'Are you sure, you want to unapprove this image?',
 
 	'QUEUE_STATUS_0'				=> 'The image is waiting for approval.',
 	'QUEUE_STATUS_1'				=> 'The image is approved.',
@@ -76,10 +76,10 @@ $lang = array_merge($lang, array(
 	'QUEUES_A_LOCK2'				=> 'Lock images?',
 	'QUEUES_A_LOCK2_CONFIRM'		=> 'Are you sure, you want to lock these images?',
 	'QUEUES_A_MOVE'					=> 'Move images',
-	'QUEUES_A_UNAPPROVED'			=> 'Unapprove images',
-	'QUEUES_A_UNAPPROVED2'			=> 'Unapprove images?',
-	'QUEUES_A_UNAPPROVED2_CONFIRM'	=> 'Are you sure, you want to unapprove these images?',
-	'QUEUES_A_DISAPPROVED2_CONFIRM'	=> 'Are you sure, you want to unapprove these images?',
+	'QUEUES_A_UNAPPROVE'			=> 'Unapprove images',
+	'QUEUES_A_UNAPPROVE2'			=> 'Unapprove images?',
+	'QUEUES_A_UNAPPROVE2_CONFIRM'	=> 'Are you sure, you want to unapprove these images?',
+	'QUEUES_A_DISAPPROVE2_CONFIRM'	=> 'Are you sure, you want to unapprove these images?',
 
 	'REPORT_A_CLOSE'				=> 'Close report',
 	'REPORT_A_CLOSE2'				=> 'Close report?',
@@ -116,7 +116,7 @@ $lang = array_merge($lang, array(
 		1			=> 'In total there is <span style="font-weight: bold;">1</span> image approved.',
 		2			=> 'In total there are <span style="font-weight: bold;">%s</span> images approved.',
 	),
-	'WAITING_DISAPPROVED_IMAGE'		=> array(
+	'WAITING_DISPPROVED_IMAGE'		=> array(
 		0			=> 'No images disapproved.',
 		1			=> 'In total there is <span style="font-weight: bold;">1</span> image disapproved.',
 		2			=> 'In total there are <span style="font-weight: bold;">%s</span> images disapproved.',

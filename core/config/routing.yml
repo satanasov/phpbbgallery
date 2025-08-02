@@ -230,9 +230,9 @@ phpbbgallery_core_moderate_image_approve:
     defaults: { _controller: phpbbgallery.core.controller.moderate:approve }
     requirements:
         image_id: \d+
-phpbbgallery_core_moderate_image_unapproved:
-    path: /gallery/moderate/image/{image_id}/unapproved
-    defaults: { _controller: phpbbgallery.core.controller.moderate:unapproved }
+phpbbgallery_core_moderate_image_unapprove:
+    path: /gallery/moderate/image/{image_id}/unapprove
+    defaults: { _controller: phpbbgallery.core.controller.moderate:unapprove }
     requirements:
         image_id: \d+
 phpbbgallery_core_moderate_image_move:

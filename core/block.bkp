@@ -377,7 +377,7 @@ class block
 		}
 
 		$this->sql_where_auth = '(';
-		$this->sql_where_auth .= ((!empty($this->auth_view)) ? '(' . $this->db->sql_in_set('image_album_id', $this->auth_view) . ' AND image_status <> ' . $this->gallery_image->get_status_unapproved_image() . ((!empty($this->users)) ? ' AND image_contest = ' . $this->gallery_image->get_no_contest() : '') . ')' : '');
+		$this->sql_where_auth .= ((!empty($this->auth_view)) ? '(' . $this->db->sql_in_set('image_album_id', $this->auth_view) . ' AND image_status <> ' . $this->gallery_image->get_status_unaproved() . ((!empty($this->users)) ? ' AND image_contest = ' . $this->gallery_image->get_no_contest() : '') . ')' : '');
 		$this->sql_where_auth .= ((!empty($this->auth_moderate)) ? ((!empty($this->auth_view)) ? ' OR ' : '') . '(' . $this->db->sql_in_set('image_album_id', $this->auth_moderate, false, true) . ')' : '');
 
 		if ($this->sql_where_auth == '(')

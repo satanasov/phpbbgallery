@@ -58,9 +58,9 @@ $lang = array_merge($lang, array(
 	'QUEUE_A_LOCK2'					=> 'Заключи изображение?',
 	'QUEUE_A_LOCK2_CONFIRM'			=> 'Сигурен ли сте, че искате да заключите това изображение?',
 	'QUEUE_A_MOVE'					=> 'Премести изображение',
-	'QUEUE_A_UNAPPROVED'				=> 'Махни одобрение на изборажение',
-	'QUEUE_A_UNAPPROVED2'			=> 'Махни одобрение на изборажение?',
-	'QUEUE_A_UNAPPROVED2_CONFIRM'	=> 'Сиигирен ли сте, че искате да махнете одобрението на това изборажение?',
+	'QUEUE_A_UNAPPROVE'				=> 'Махни одобрение на изборажение',
+	'QUEUE_A_UNAPPROVE2'			=> 'Махни одобрение на изборажение?',
+	'QUEUE_A_UNAPPROVE2_CONFIRM'	=> 'Сиигирен ли сте, че искате да махнете одобрението на това изборажение?',
 
 	'QUEUE_STATUS_0'				=> 'Изображението чака одобрение.',
 	'QUEUE_STATUS_1'				=> 'Изображението е одобрено.',
@@ -76,10 +76,10 @@ $lang = array_merge($lang, array(
 	'QUEUES_A_LOCK2'				=> 'Заключи избораженията?',
 	'QUEUES_A_LOCK2_CONFIRM'		=> 'Сигурни ли сте, че искате да заключите тези изображения?',
 	'QUEUES_A_MOVE'					=> 'Премести избораженията',
-	'QUEUES_A_UNAPPROVED'			=> 'Махни одобрението на изборажения',
-	'QUEUES_A_UNAPPROVED2'			=> 'Махни одобрението на изборажения?',
-	'QUEUES_A_UNAPPROVED2_CONFIRM'	=> 'Сигурни ли сте, че искате да премахнете одобрението на тези избражения?',
-	'QUEUES_A_DISAPPROVED2_CONFIRM'	=> 'Сигурни ли сте, че искате да премахнете одобрението на тези избражения?',
+	'QUEUES_A_UNAPPROVE'			=> 'Махни одобрението на изборажения',
+	'QUEUES_A_UNAPPROVE2'			=> 'Махни одобрението на изборажения?',
+	'QUEUES_A_UNAPPROVE2_CONFIRM'	=> 'Сигурни ли сте, че искате да премахнете одобрението на тези избражения?',
+	'QUEUES_A_DISAPPROVE2_CONFIRM'	=> 'Сигурни ли сте, че искате да премахнете одобрението на тези избражения?',
 
 	'REPORT_A_CLOSE'				=> 'Затвори доклад',
 	'REPORT_A_CLOSE2'				=> 'Затвори доклад?',
@@ -116,7 +116,7 @@ $lang = array_merge($lang, array(
 		1			=> 'Общо <span style="font-weight: bold;">1</span> изображение беше одобрено.',
 		2			=> 'Общо <span style="font-weight: bold;">%s</span> изображения бяха одобрени.',
 	),
-	'WAITING_DISAPPROVED_IMAGE'		=> array(
+	'WAITING_DISPPROVED_IMAGE'		=> array(
 		0			=> 'Не са отхвърлени изображения.',
 		1			=> 'Общо <span style="font-weight: bold;">1</span> изображение е отхвърлено.',
 		2			=> 'Общо <span style="font-weight: bold;">%s</span> изображения са отхвърлени.',

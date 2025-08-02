@@ -281,7 +281,7 @@ class gallery_album_test extends controller_base
 	* Let's test for base with some options
 	* so we can get some more coveralls to go cover
 	*/
-	public function test_for_base_load_moderators_allow_rates_and_comments()
+	public function test_for_base_load_modreators_allow_rates_and_comments()
 	{
 		$this->template->expects($this->exactly(12))
 			->method('assign_block_vars')

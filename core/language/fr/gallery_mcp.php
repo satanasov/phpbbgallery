@@ -73,9 +73,9 @@ $lang = array_merge($lang, array(
 	'QUEUE_A_LOCK2'					=> 'Verrouiller l’image ?',
 	'QUEUE_A_LOCK2_CONFIRM'			=> 'Êtes-vous sûr de vouloir verrouiller cette image ?',
 	'QUEUE_A_MOVE'					=> 'Déplacer l’image',
-	'QUEUE_A_UNAPPROVED'				=> 'Refuser l’image',
-	'QUEUE_A_UNAPPROVED2'			=> 'Refuser l’image ?',
-	'QUEUE_A_UNAPPROVED2_CONFIRM'	=> 'Êtes-vous sûr de vouloir refuser cette image ?',
+	'QUEUE_A_UNAPPROVE'				=> 'Refuser l’image',
+	'QUEUE_A_UNAPPROVE2'			=> 'Refuser l’image ?',
+	'QUEUE_A_UNAPPROVE2_CONFIRM'	=> 'Êtes-vous sûr de vouloir refuser cette image ?',
 
 	'QUEUE_STATUS_0'				=> 'L’image est attente de validation.',
 	'QUEUE_STATUS_1'				=> 'L’image est validée.',
@@ -91,10 +91,10 @@ $lang = array_merge($lang, array(
 	'QUEUES_A_LOCK2'				=> 'Verrouiller les images ?',
 	'QUEUES_A_LOCK2_CONFIRM'		=> 'Êtes-vous sûr de vouloir verrouiller ces images ?',
 	'QUEUES_A_MOVE'					=> 'Déplacer les images',
-	'QUEUES_A_UNAPPROVED'			=> 'Refuser les images',
-	'QUEUES_A_UNAPPROVED2'			=> 'Refuser les images ?',
-	'QUEUES_A_UNAPPROVED2_CONFIRM'	=> 'Êtes-vous sûr de vouloir refuser ces images ?',
-	'QUEUES_A_DISAPPROVED2_CONFIRM'	=> 'Êtes-vous sûr de vouloir refuser ces images ?',
+	'QUEUES_A_UNAPPROVE'			=> 'Refuser les images',
+	'QUEUES_A_UNAPPROVE2'			=> 'Refuser les images ?',
+	'QUEUES_A_UNAPPROVE2_CONFIRM'	=> 'Êtes-vous sûr de vouloir refuser ces images ?',
+	'QUEUES_A_DISAPPROVE2_CONFIRM'	=> 'Êtes-vous sûr de vouloir refuser ces images ?',
 
 	'REPORT_A_CLOSE'				=> 'Fermer le rapport',
 	'REPORT_A_CLOSE2'				=> 'Fermer le rapport ?',
@@ -131,7 +131,7 @@ $lang = array_merge($lang, array(
 		1			=> 'Il y a au total <span style="font-weight: bold;">1</span> image validée.',
 		2			=> 'Il y a au total <span style="font-weight: bold;">%s</span> images approved.',
 	),
-	'WAITING_DISAPPROVED_IMAGE'		=> array(
+	'WAITING_DISPPROVED_IMAGE'		=> array(
 		0			=> 'Aucune image désapprouvé.',
 		1			=> 'Il y a au total <span style="font-weight: bold;">1</span> image désapprouvée.',
 		2			=> 'Il y a au total <span style="font-weight: bold;">%s</span> images désapprouvées.',
