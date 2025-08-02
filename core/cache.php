@@ -164,7 +164,7 @@ class cache
 
 	/**
 	* Destroy album cache
-	* Basicly some tests fail due album cache not destroyed ...
+	* Basically some tests fail due album cache not destroyed ...
 	* So lets try it now?
 	*/
 	public function destroy_albums()

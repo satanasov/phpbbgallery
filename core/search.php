@@ -2,7 +2,7 @@
 /**
 *
 * @package phpBB Gallery Core
-* @copyright (c) 2014 Luifer
+* @copyright (c) 2014 Lucifer
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */

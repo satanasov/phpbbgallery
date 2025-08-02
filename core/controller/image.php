@@ -592,7 +592,7 @@ class image
 
 			}
 
-			// Different link, when we rate and dont comment
+			// Different link, when we rate and don't comment
 			if (!$s_hide_comment_input)
 			{
 				//$this->template->assign_var('S_COMMENT_ACTION', append_sid($this->url->path('full') . 'comment/' . $image_id . '/add/0'));

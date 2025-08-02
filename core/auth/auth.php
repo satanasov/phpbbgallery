@@ -495,7 +495,7 @@ class auth
 	public function get_zebra_state($zebra_array, $album_author, $album_id)
 	{
 		$state = 0;
-		// if we check for ourselves or user is mod or admin - make bigest possible step
+		// if we check for ourselves or user is mod or admin - make biggest possible step
 		if ($this->phpbb_user->data['user_id'] == $album_author || $this->acl_check('m_', $album_author, $album_id) || $this->auth->acl_get('a_user'))
 		{
 			$state = 5;
@@ -791,7 +791,7 @@ class auth
 		}
 		$this->db->sql_freeresult($result);
 
-		// Now we will select the roles that have the setted ACL
+		// Now we will select the roles that have the set ACL
 		$sql = 'SELECT role_id FROM ' . $this->table_roles . ' WHERE ' . $acl . ' = 1 and ' . $this->db->sql_in_set('role_id', $roles_id['roles'], false, true);
 		$result = $this->db->sql_query($sql);
 		$roles = array();

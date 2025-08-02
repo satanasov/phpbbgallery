@@ -387,7 +387,7 @@ class core_search_test extends core_base
 					'U_STATUS' => '',
 					'L_STATUS' => 'CHANGE_IMAGE_STATUS',
 				)
-			), Skip 128 as auth witll not allow admin IDin */
+			), Skip 128 as auth will not allow admin ID in */
 			'64'	=> array(
 				64, //rrc_gindex_display state
 				array(
@@ -753,7 +753,7 @@ class core_search_test extends core_base
 
 
 	/**
-	* TEST LINK GENERATION FOR THUMBAIL AND IMAGE NAME
+	* TEST LINK GENERATION FOR THUMBNAIL AND IMAGE NAME
 	* - link_thumbnail in recent()
 	* - link_thumbnail in random()
 	* + link_thumbnail in rating()

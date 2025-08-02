@@ -469,7 +469,7 @@ class file
 		{
 			$haystak = array();
 			$haystak = explode(',', $this->config['phpbb_gallery_hotlinking_domains']);
-			//add one extra array - current phpbbdomain
+			//add one extra array - current phpbb domain
 			$haystak[] = $this->config['server_name'];
 			$referrer = $this->request->server('HTTP_REFERER', '');
 			$not_hl = false;

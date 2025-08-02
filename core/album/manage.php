@@ -275,7 +275,7 @@ class manage
 		unset($album_data_sql['album_password_confirm']);
 		*/
 
-		// What are we going to do tonight Brain? The same thing we do everynight,
+		// What are we going to do tonight Brain? The same thing we do every night,
 		// try to take over the world ... or decide whether to continue update
 		// and if so, whether it's a new album/cat/contest or an existing one
 		if (sizeof($errors))
@@ -593,7 +593,7 @@ class manage
 				AND right_id > " . (int) $from_data['right_id'];
 		$this->db->sql_query($sql);
 
-		// Resync righthand side of tree
+		// Resync right-hand side of tree
 		$sql = 'UPDATE ' . $this->albums_table . " 
 			SET left_id = left_id - $diff, right_id = right_id - $diff, album_parents = ''
 			WHERE album_user_id = " . (int) $this->user_id . '
@@ -613,7 +613,7 @@ class manage
 					AND ' . $this->db->sql_in_set('album_id', $moved_ids, true);
 			$this->db->sql_query($sql);
 
-			// Resync the righthand side of the tree
+			// Resync the right-hand side of the tree
 			$sql = 'UPDATE ' . $this->albums_table . ' 
 				SET left_id = left_id + ' . (int) $diff . ', right_id = right_id + ' . (int) $diff . ', album_parents = \'\'
 				WHERE album_user_id = ' . (int) $this->user_id . '

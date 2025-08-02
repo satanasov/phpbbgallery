@@ -173,7 +173,7 @@ class file
 				$this->image_type = 'png';
 				$this->image = @imagecreatefrompng($this->image_source);
 				imagealphablending($this->image, true); // Set alpha blending on ...
-				imagesavealpha($this->image, true); // ... and save alphablending!
+				imagesavealpha($this->image, true); // ... and save alpha blending!
 			break;
 			case '.webp':
 				$this->image_type = 'webp';
