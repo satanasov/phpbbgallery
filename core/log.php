@@ -81,7 +81,7 @@ class log
 	 * Add item to log
 	 *
 	 * @param   string			$log_type    type of action (user/mod/admin/system) max 16 chars
-	 * @param   string			$log_action  action we are logging (add/remove/approve/unapproved/delete) max 32 chars
+	 * @param   string			$log_action  action we are logging (add/remove/approve/unapprove/delete) max 32 chars
 	 * @param 	int				$album
 	 * @param   int				$image       Image we are logging for (can be 0)
 	 * @param	array|string 	$description Description string
