@@ -74,9 +74,9 @@ class gallery_logs_module
 					'page'		=> $page,
 					'delmarked'	=> $deletemark,
 					'mark'		=> $marked,
-					'st'			=> $sort_days,
-					'sk'			=> $sort_key,
-					'sd'			=> $sort_dir,
+					'st'		=> $sort_days,
+					'sk'		=> $sort_key,
+					'sd'		=> $sort_dir,
 					'i'			=> $id,
 					'mode'		=> $mode,
 					'action'		=> $this->u_action,
@@ -128,7 +128,7 @@ class gallery_logs_module
 					'S_SORT_KEY'	=> $s_sort_key,
 					'S_SORT_DIR'	=> $s_sort_dir,
 					'S_CLEARLOGS'	=> $auth->acl_get('a_clearlogs'),
-					'U_ACTION'	=> $this->u_action . "&amp;$u_sort_param&amp;page=$page",
+					'U_ACTION'		=> $this->u_action . "&amp;$u_sort_param&amp;page=$page",
 				));
 				$this->page_title = $this->language->lang($title);
 
@@ -147,8 +147,7 @@ class gallery_logs_module
 					$additional['sort_dir'] = $sort_dir;
 				}
 
-				// Build list
-				$log->build_list($filter_log, 0, (int) $page + 1, -1, 0, $additional);
+				$log->build_list($filter_log, 0, $page, -1, 0, $additional);
 				break;
 
 			default:
