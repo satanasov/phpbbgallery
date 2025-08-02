@@ -63,6 +63,7 @@ class gallery_moderate_test extends controller_base
 			$this->gallery_image,
 			$this->gallery_notification_helper,
 			$this->gallery_url,
+			$this->gallery_config,
 			$this->log,
 			$this->gallery_report,
 			$this->user_loader,
