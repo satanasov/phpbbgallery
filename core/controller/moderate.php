@@ -324,6 +324,7 @@ class moderate
 			'U_GALLERY_MCP_LOGS'			=> $album_id > 0 ? $this->helper->route('phpbbgallery_core_moderate_action_log_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_core_moderate_action_log'),
 			'U_ALBUM_NAME'					=> $album_id > 0 ? $album['album_name'] : false,
 		));
+
 		$this->gallery_log->build_list('moderator', 0, $page, $album_id);
 		return $this->helper->render('gallery/moderate_actions.html', $this->language->lang('GALLERY'));
 	}

@@ -147,11 +147,13 @@ class gallery_logs_module
 					$additional['sort_dir'] = $sort_dir;
 				}
 
+				// Build list
 				$log->build_list($filter_log, 0, $page, -1, 0, $additional);
-				break;
+			break;
 
 			default:
-			trigger_error('NO_MODE', E_USER_ERROR);
+				trigger_error('NO_MODE', E_USER_ERROR);
+			break;
 		}
 	}
 }
