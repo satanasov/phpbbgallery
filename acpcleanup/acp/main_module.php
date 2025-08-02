@@ -366,7 +366,7 @@ class main_module
 				 && !in_array($file, $requested_source)
 				)
 				{
-					if ((strpos($file, 'image_not_exist') !== false) || (strpos($file, 'not_authorised') !== false) || (strpos($file, 'no_hotlinking') !== false))
+					if ((strpos($file, 'image_not_exist') !== false) || (strpos($file, 'not_authorized') !== false) || (strpos($file, 'no_hotlinking') !== false))
 					{
 						continue;
 					}

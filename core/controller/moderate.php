@@ -147,7 +147,7 @@ class moderate
 		{
 			if (!$this->gallery_auth->acl_check_global('m_'))
 			{
-				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+				$this->misc->not_authorized($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 			}
 		}
 		else
@@ -155,7 +155,7 @@ class moderate
 			$album = $this->album->get_info($album_id);
 			if (!$this->gallery_auth->acl_check('m_', $album['album_id'], $album['album_user_id']))
 			{
-				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+				$this->misc->not_authorized($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 			}
 		}
 		$this->language->add_lang(array('gallery_mcp', 'gallery'), 'phpbbgallery/core');
@@ -209,7 +209,7 @@ class moderate
 		{
 			if (!$this->gallery_auth->acl_check_global('m_status'))
 			{
-				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+				$this->misc->not_authorized($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 			}
 		}
 		else
@@ -217,7 +217,7 @@ class moderate
 			$album = $this->album->get_info($album_id);
 			if (!$this->gallery_auth->acl_check('m_status', $album['album_id'], $album['album_user_id']))
 			{
-				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+				$this->misc->not_authorized($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 			}
 		}
 		if (!empty($approve_ary))
@@ -305,7 +305,7 @@ class moderate
 		{
 			if (!$this->gallery_auth->acl_check_global('m_'))
 			{
-				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+				$this->misc->not_authorized($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 			}
 		}
 		else
@@ -313,7 +313,7 @@ class moderate
 			$album = $this->album->get_info($album_id);
 			if (!$this->gallery_auth->acl_check('m_', $album['album_id'], $album['album_user_id']))
 			{
-				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+				$this->misc->not_authorized($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 			}
 		}
 		$this->template->assign_vars(array(
@@ -377,7 +377,7 @@ class moderate
 		{
 			if (!$this->gallery_auth->acl_check_global('m_report'))
 			{
-				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+				$this->misc->not_authorized($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 			}
 		}
 		else
@@ -385,7 +385,7 @@ class moderate
 			$album = $this->album->get_info($album_id);
 			if (!$this->gallery_auth->acl_check('m_report', $album['album_id'], $album['album_user_id']))
 			{
-				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+				$this->misc->not_authorized($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 			}
 		}
 
@@ -506,7 +506,7 @@ class moderate
 		{
 			if (!$this->gallery_auth->acl_check_global('m_'))
 			{
-				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+				$this->misc->not_authorized($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 			}
 		}
 		else
@@ -514,7 +514,7 @@ class moderate
 			$album = $this->album->get_info($album_id);
 			if (!$this->gallery_auth->acl_check('m_', $album['album_id'], $album['album_user_id']))
 			{
-				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+				$this->misc->not_authorized($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 			}
 		}
 		$this->template->assign_vars(array(
@@ -699,7 +699,7 @@ class moderate
 		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		if (!$this->gallery_auth->acl_check('m_status', $image_data['image_album_id'], $album_data['album_user_id']))
 		{
-			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+			$this->misc->not_authorized($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 		}
 		$action_ary = $this->request->variable('action', []);
 		$action_ary = array_keys($action_ary);
@@ -762,7 +762,7 @@ class moderate
 		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		if (!$this->gallery_auth->acl_check('m_status', $image_data['image_album_id'], $album_data['album_user_id']))
 		{
-			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+			$this->misc->not_authorized($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 		}
 
 		$this->language->add_lang(array('gallery_mcp', 'gallery'), 'phpbbgallery/core');
@@ -804,7 +804,7 @@ class moderate
 		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		if (!$this->gallery_auth->acl_check('m_move', $image_data['image_album_id'], $album_data['album_user_id']))
 		{
-			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+			$this->misc->not_authorized($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 		}
 		$moving_target = $this->request->variable('moving_target', '');
 
@@ -852,7 +852,7 @@ class moderate
 		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		if (!$this->gallery_auth->acl_check('m_status', $image_data['image_album_id'], $album_data['album_user_id']))
 		{
-			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+			$this->misc->not_authorized($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 		}
 		if (confirm_box(true))
 		{

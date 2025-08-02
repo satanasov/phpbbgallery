@@ -840,7 +840,7 @@ class image
 		{
 			if (!$this->gallery_auth->acl_check('m_edit', $album_id, $album_data['album_user_id']))
 			{
-				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+				$this->misc->not_authorized($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 			}
 		}
 		if ($submit)
@@ -1082,7 +1082,7 @@ class image
 		{
 			if (!$this->gallery_auth->acl_check('m_delete', $album_id, $album_data['album_user_id']))
 			{
-				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+				$this->misc->not_authorized($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 			}
 		}
 		$s_hidden_fields = build_hidden_fields(array(
@@ -1138,7 +1138,7 @@ class image
 		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		if (!$this->gallery_auth->acl_check('i_report', $album_id, $album_data['album_user_id']) || ($image_data['image_user_id'] == $this->user->data['user_id']))
 		{
-			$this->misc->not_authorised($image_backlink, '');
+			$this->misc->not_authorized($image_backlink, '');
 		}
 		add_form_key('gallery');
 		$submit = $this->request->variable('submit', false);
@@ -1226,13 +1226,13 @@ class image
 			}
 			else
 			{
-				//return $this->error('NOT_AUTHORISED', 403);
+				//return $this->error('NOT_AUTHORIZED', 403);
 				redirect('gallery/album/' . $album_id);
 			}
 		}
 		if (!$this->gallery_auth->acl_check('m_status', $album_id, $owner_id) && $user_data['image_user_id'] != $this->user->data['user_id'] && ($image_status == (int) \phpbbgallery\core\block::STATUS_UNAPPROVED))
 		{
-			//return $this->error('NOT_AUTHORISED', 403);
+			//return $this->error('NOT_AUTHORIZED', 403);
 			redirect('gallery/album/' . $album_id);
 		}
 	}
