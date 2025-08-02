@@ -238,7 +238,7 @@ class moderate
 					$this->url->meta_refresh(3, $back_link);
 					trigger_error($message);
 				}
-				if ($action == 'disapprove')
+				if ($action == 'disapproved')
 				{
 					$count = 0;
 					foreach ($approve_ary as $album_id => $delete_array)
@@ -248,12 +248,12 @@ class moderate
 						// Let's log the action
 						foreach ($filenames as $name)
 						{
-							$this->gallery_log->add_log('moderator', 'disapprove', $album_id, 0, array('LOG_GALLERY_DISAPPROVED', $name));
+							$this->gallery_log->add_log('moderator', 'disapproved', $album_id, 0, array('LOG_GALLERY_DISAPPROVED', $name));
 						}
 						$this->moderate->delete_images($delete_array);
 						$count = $count + count($delete_array);
 					}
-					$message = $this->language->lang('WAITING_DISPPROVED_IMAGE', $count);
+					$message = $this->language->lang('WAITING_DISAPPROVED_IMAGE', $count);
 					$this->url->meta_refresh(3, $back_link);
 					trigger_error($message);
 				}
@@ -434,8 +434,8 @@ class moderate
 						$message = $this->language->lang('WAITING_APPROVED_IMAGE', count($actions_array));
 					break;
 
-					case 'unapprove':
-						$this->image->unapprove_images($actions_array, $album_id);
+					case 'unapproved':
+						$this->image->unapproved_images($actions_array, $album_id);
 						$this->album->update_info($album_id);
 						$message = $this->language->lang('WAITING_UNAPPROVED_IMAGE', count($actions_array));
 					break;
@@ -555,8 +555,8 @@ class moderate
 				$redirect = new RedirectResponse($route);
 				$redirect->send();
 			break;
-			case 'images_unapprove':
-				$route = $this->helper->route('phpbbgallery_core_moderate_image_unapprove', array('image_id'	=> $image_id));
+			case 'images_unapproved':
+				$route = $this->helper->route('phpbbgallery_core_moderate_image_unapproved', array('image_id'	=> $image_id));
 				$redirect = new RedirectResponse($route);
 				$redirect->send();
 			break;
@@ -624,13 +624,13 @@ class moderate
 			}
 			else if ($image_data['image_status'] == 1)
 			{
-				$select_select .= '<option value="images_unapprove">' . $this->language->lang('QUEUE_A_UNAPPROVE') . '</option>';
+				$select_select .= '<option value="images_unapproved">' . $this->language->lang('QUEUE_A_UNAPPROVED') . '</option>';
 				$select_select .= '<option value="images_lock">' . $this->language->lang('QUEUE_A_LOCK') . '</option>';
 			}
 			else
 			{
 				$select_select .= '<option value="images_approve">' . $this->language->lang('QUEUE_A_APPROVE') . '</option>';
-				$select_select .= '<option value="images_unapprove">' . $this->language->lang('QUEUE_A_UNAPPROVE') . '</option>';
+				$select_select .= '<option value="images_unapproved">' . $this->language->lang('QUEUE_A_UNAPPROVED') . '</option>';
 			}
 		}
 		if ($this->gallery_auth->acl_check('m_delete', $album_data['album_id'], $album_data['album_user_id']))
@@ -705,7 +705,7 @@ class moderate
 		$action_ary = array_keys($action_ary);
 		$action = isset($action_ary[0]) ? $action_ary[0] : 'approve';
 
-		if ($action === 'disapprove')
+		if ($action === 'disapproved')
 		{
 			$redirect = new RedirectResponse($this->helper->route('phpbbgallery_core_image_delete', ['image_id' => $image_id]));
 			$redirect->send();
@@ -745,12 +745,12 @@ class moderate
 
 	/**
 	 * Index Controller
-	 *    Route: gallery/moderate/image/{image_id}/unapprove
+	 *    Route: gallery/moderate/image/{image_id}/unapproved
 	 *
 	 * @param $image_id
 	 * @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
 	 */
-	public function unapprove($image_id)
+	public function unapproved($image_id)
 	{
 		$image_data = $this->image->get_image_data($image_id);
 		$album_data = $this->album->get_info($image_data['image_album_id']);
@@ -770,7 +770,7 @@ class moderate
 		if (confirm_box(true))
 		{
 			$image_id_ary = array($image_id);
-			$this->image->unapprove_images($image_id_ary, $album_data['album_id']);
+			$this->image->unapproved_images($image_id_ary, $album_data['album_id']);
 			// To DO - add notification
 			$message = sprintf($this->language->lang('WAITING_UNAPPROVED_IMAGE', 1));
 			meta_refresh($meta_refresh_time, $image_backlink);
@@ -779,7 +779,7 @@ class moderate
 		else
 		{
 			$s_hidden_fields = '';
-			confirm_box(false, 'QUEUE_A_UNAPPROVE2', $s_hidden_fields);
+			confirm_box(false, 'QUEUE_A_UNAPPROVED2', $s_hidden_fields);
 		}
 	}
 
