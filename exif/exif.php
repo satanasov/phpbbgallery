@@ -98,7 +98,7 @@ class exif
 	}
 
 	/**
-	* Intepret the values from the database, and read the data if we don't have it.
+	* Interpret the values from the database, and read the data if we don't have it.
 	*
 	* @param	int		$status		Value of a status constant (see beginning of the class)
 	* @param	mixed	$data		Either an empty string or the serialized array of the Exif from the database
@@ -131,7 +131,7 @@ class exif
 
 		if (!empty($this->data["EXIF"]))
 		{
-			// Unset invalid Exifs
+			// Unset invalid Exif's
 			foreach ($this->data as $key => $array)
 			{
 				if (!in_array($key, self::$allowed_groups))
@@ -276,7 +276,7 @@ class exif
 	* Sends the Exif into the template
 	*
 	* @param	bool	$expand_view	Shall we expand the Exif data on page view or collapse?
-	* @param	string	$block			Name of the template loop the Exifs are displayed in.
+	* @param	string	$block			Name of the template loop the Exif's are displayed in.
 	*/
 	public function send_to_template($expand_view = true, $block = 'exif_value')
 	{

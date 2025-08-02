@@ -3,7 +3,7 @@
 /**
 *
 * @package phpBB Gallery Core
-* @copyright (c) 2014 Luifer
+* @copyright (c) 2014 Lucifer
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -192,7 +192,7 @@ class search
 		gen_sort_selects($limit_days, $sort_by_text, $sort_days, $sort_key, $sort_dir, $s_limit_days, $s_sort_key, $s_sort_dir, $u_sort_param);
 		$sql_order = $sort_by_sql[$sort_key] . ' ' . (($sort_dir == 'd') ? 'DESC' : 'ASC');
 
-		// We will build SQL array and then build query (easely change count with rq)
+		// We will build SQL array and then build query (easily change count with rq)
 		$sql_array = $sql_where = array();
 		$sql_array['FROM'] = array(
 			$this->images_table => 'i',

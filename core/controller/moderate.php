@@ -133,7 +133,7 @@ class moderate
 
 	/**
 	 * Index Controller
-	 *    Route: gallery/modarate
+	 *    Route: gallery/moderate
 	 *
 	 * @param int $album_id
 	 * @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
@@ -183,7 +183,7 @@ class moderate
 
 	/**
 	 * Index Controller
-	 *    Route: gallery/modarate/approve
+	 *    Route: gallery/moderate/approve
 	 *
 	 * @param $page
 	 * @param $album_id
@@ -287,7 +287,7 @@ class moderate
 
 	/**
 	 * Index Controller
-	 *    Route: gallery/modarate/actions
+	 *    Route: gallery/moderate/actions
 	 *
 	 * @param $page
 	 * @param $album_id

@@ -139,7 +139,7 @@ class permissions_module
 		// Init album
 		$gallery_album = $phpbb_container->get('phpbbgallery.core.album');
 
-		// Send contants to the template
+		// Send constants to the template
 		$template->assign_vars(array(
 			'C_OWN_PERSONAL_ALBUMS'	=> $gallery_auth::OWN_ALBUM,
 			'C_PERSONAL_ALBUMS'		=> $gallery_auth::PERSONAL_ALBUM,
@@ -676,7 +676,7 @@ class permissions_module
 		$gallery_user = $phpbb_container->get('phpbbgallery.core.user');
 		$phpbb_ext_gallery_core_auth = $phpbb_container->get('phpbbgallery.core.auth');
 
-		// Send contants to the template
+		// Send constants to the template
 		$submit = (isset($_POST['submit'])) ? true : false;
 		$album_id = $request->variable('album_id', array(0));
 		$group_id = $request->variable('group_id', array(0));
@@ -795,7 +795,7 @@ class permissions_module
 							}
 							else
 							{
-								// The choosen option was disabled: Hacking attempt?!
+								// The chosen option was disabled: Hacking attempt?!
 								trigger_error('HACKING_ATTEMPT', E_USER_WARNING);
 							}
 						}
@@ -824,7 +824,7 @@ class permissions_module
 							}
 							else
 							{
-								// The choosen option was disabled: Hacking attempt?!
+								// The chosen option was disabled: Hacking attempt?!
 								trigger_error('HACKING_ATTEMPT', E_USER_WARNING);
 							}
 						}
@@ -921,7 +921,7 @@ class permissions_module
 				{
 					$sql_where .= (($sql_where) ? ' AND ' : '') . $p_mask . ' = ' . $value;
 				}
-				// Check back, so we dont give more permissions than the admin wants to
+				// Check back, so we don't give more permissions than the admin wants to
 				$check_permissions_to_default = array_diff($permissions->p_masks_anti[$p_system], $p_set['p_mask']);
 				foreach ($check_permissions_to_default as $p_mask)
 				{
@@ -1120,7 +1120,7 @@ class permissions_module
 
 	/**
 	 * Create the drop-down-options to inherit the c_masks
-	 * or check, whether the choosen option is valid
+	 * or check, whether the chosen option is valid
 	 * @param $cache_obtain_album_list
 	 * @param $allowed_albums
 	 * @param $album_id
@@ -1173,7 +1173,7 @@ class permissions_module
 
 	/**
 	 * Create the drop-down-options to inherit the v_masks
-	 * or check, whether the choosen option is valid
+	 * or check, whether the chosen option is valid
 	 * @param $cache_obtain_album_list
 	 * @param $allowed_albums
 	 * @param $allowed_victims
@@ -1246,7 +1246,7 @@ class permissions_module
 
 	/**
 	 * Create the drop-down-options to inherit the v_masks
-	 * or check, whether the choosen option is valid
+	 * or check, whether the chosen option is valid
 	 * @param $p_system
 	 * @param $allowed_victims
 	 * @param $victim_id

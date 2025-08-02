@@ -465,7 +465,7 @@ class display
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$album_id = $row['album_id'];
-			//if user has no right to see the album - scip it here!
+			//if user has no right to see the album - skip it here!
 			if (!in_array($album_id, $listable))
 			{
 				continue;

@@ -228,7 +228,7 @@ class helper
 		$album_ids = $this->cast_mixed_int2array($album_ids);
 		$user_id = (int) (($user_id) ? $user_id : $this->user->data['user_id']);
 
-		// First check if we are not subscribed alredy for some
+		// First check if we are not subscribed already for some
 		$sql = 'SELECT * FROM ' . $this->watch_table . ' WHERE user_id = ' . $user_id . ' and ' . $this->db->sql_in_set('album_id', $album_ids);
 		$result = $this->db->sql_query($sql);
 		$exclude = array();
@@ -292,7 +292,7 @@ class helper
 	public function new_image($data)
 	{
 		$get_watchers = $this->get_album_watchers($data['album_id']);
-		// let's exclude all users that are uploadoing something and are approved
+		// let's exclude all users that are uploading something and are approved
 		$targets = array_diff($get_watchers, $data['targets']);
 
 		$data['targets'] = $targets;
