@@ -17,10 +17,10 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang, [
 	'ACP_GALLERY_CLEANUP'				=> 'Pulisci galleria',
 
 	'ACP_GALLERY_CLEANUP_EXPLAIN'	=> 'Puoi cancellare alcuni rimasugli, da qui.',
@@ -75,4 +75,7 @@ $lang = array_merge($lang, array(
 	'MOVE_TO_USER'		=> 'Sposta all\'utente',
 	'MOVE_TO_USER_EXP'	=> 'Immagini e commenti verranno spostati come fossero dell\'utente che hai definito. Se non ne vengono selezionati verra\' usato l\'utente anonimo.',
 	'CLEAN_USER_NOT_FOUND'	=> 'L\'utente selezionato non esiste!',
-));
+	
+	'GALLERY_CORE_NOT_FOUND'		=> 'phpBB Gallery Core extension must be installed and enabled first.',
+	'EXTENSION_ENABLE_SUCCESS'		=> 'The extension has been enabled successfully.',
+]);

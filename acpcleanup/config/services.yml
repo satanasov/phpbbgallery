@@ -1,6 +1,6 @@
 parameters:
-    tables.phpbbgallery.albums: '%core.table_prefix%gallery_albums'
-    tables.phpbbgallery.images: '%core.table_prefix%gallery_images'
+    phpbbgallery.acpcleanup.tables.albums: '%core.table_prefix%gallery_albums'
+    phpbbgallery.acpcleanup.tables.images: '%core.table_prefix%gallery_images'
 
 services:
     phpbbgallery.acpcleanup.cleanup:
@@ -16,5 +16,5 @@ services:
             - '@phpbbgallery.core.config'
             - '@phpbbgallery.core.log'
             - '@phpbbgallery.core.moderate'
-            - '%tables.phpbbgallery.albums%'
-            - '%tables.phpbbgallery.images%'
+            - '%phpbbgallery.acpcleanup.tables.albums%'
+            - '%phpbbgallery.acpcleanup.tables.images%'
