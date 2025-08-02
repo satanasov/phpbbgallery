@@ -697,7 +697,7 @@ class gallery_index_test extends controller_base
 	* Test controller index
 	* function personal()
 	* As I can't pass parameters to ->withConsecutive but I want to
-	* will have to make diferent test for each case
+	* will have to make different test for each case
 	* Default case -> admin see all personal albums with default per page
 	*/
 	public function test_index_personal_case_1()

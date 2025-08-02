@@ -21,7 +21,7 @@ class main_listener implements EventSubscriberInterface
 			'core.user_setup'						=> 'load_language_on_setup',
 			'core.page_header'						=> 'add_page_header_link',
 			'core.memberlist_view_profile'	       => 'user_profile_galleries',
-			//'core.generate_profile_fields_template_data_before'	       => 'profile_fileds',
+			//'core.generate_profile_fields_template_data_before'	       => 'profile_fields',
 			'core.grab_profile_fields_data'	       => 'get_user_ids',
 			//'core.viewonline_overwrite_location'	=> 'add_newspage_viewonline',
 		);

@@ -3,7 +3,7 @@
 /**
  *
  * @package       PhpBB Gallery
- * @copyright (c) 2017 satanasov
+ * @copyright (c) 2017 Lucifer
  * @license       http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */

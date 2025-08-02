@@ -116,7 +116,7 @@ $lang = array_merge($lang, array(
 		1			=> 'Общо <span style="font-weight: bold;">1</span> изображение беше одобрено.',
 		2			=> 'Общо <span style="font-weight: bold;">%s</span> изображения бяха одобрени.',
 	),
-	'WAITING_DISPPROVED_IMAGE'		=> array(
+	'WAITING_DISAPPROVED_IMAGE'		=> array(
 		0			=> 'Не са отхвърлени изображения.',
 		1			=> 'Общо <span style="font-weight: bold;">1</span> изображение е отхвърлено.',
 		2			=> 'Общо <span style="font-weight: bold;">%s</span> изображения са отхвърлени.',

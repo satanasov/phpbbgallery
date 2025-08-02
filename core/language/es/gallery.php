@@ -117,7 +117,7 @@ $lang = array_merge($lang, array(
 	'DESCRIPTION_LENGTH'			=> 'Introduzca sus descripciones aquí, puede contener no más de <strong>%d</strong> caracteres.',
 	'DETAILS'						=> 'Detalles',
 	'DISALLOWED_EXTENSION'			=> 'Esta extensión de imagen no está permitida',
-	'DONT_RATE_IMAGE'				=> 'No valorar la imagen',
+	'DO_NOT_RATE_IMAGE'				=> 'No valorar la imagen',
 
 	'EDIT_COMMENT'					=> 'Editar comentario',
 	'EDIT_IMAGE'					=> 'Editar',
@@ -370,6 +370,6 @@ $lang = array_merge($lang, array(
 	'UNREAD_IMAGES'    => 'Unviewed images',
 	'NO_UNREAD_IMAGES' => 'No unviewed images',
 
-	// Versions 1.2.1 addiotions
+	// Versions 1.2.1 additions
 	'GALLERY_DROP'		=> 'Deja tus imágenes aquí',
 ));

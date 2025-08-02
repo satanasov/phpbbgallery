@@ -249,7 +249,7 @@ class block
 	}
 
 	/**
-	* @param	array	$nums	Array of ints for:
+	* @param	array	$nums	Array of int for:
 	*							# of rows, # of columns, # of comments, # of contests
 	*/
 	public function set_num($nums)
@@ -377,12 +377,12 @@ class block
 		}
 
 		$this->sql_where_auth = '(';
-		$this->sql_where_auth .= ((!empty($this->auth_view)) ? '(' . $this->db->sql_in_set('image_album_id', $this->auth_view) . ' AND image_status <> ' . $this->gallery_image->get_status_unaproved() . ((!empty($this->users)) ? ' AND image_contest = ' . $this->gallery_image->get_no_contest() : '') . ')' : '');
+		$this->sql_where_auth .= ((!empty($this->auth_view)) ? '(' . $this->db->sql_in_set('image_album_id', $this->auth_view) . ' AND image_status <> ' . $this->gallery_image->get_image_status_unapproved() . ((!empty($this->users)) ? ' AND image_contest = ' . $this->gallery_image->get_no_contest() : '') . ')' : '');
 		$this->sql_where_auth .= ((!empty($this->auth_moderate)) ? ((!empty($this->auth_view)) ? ' OR ' : '') . '(' . $this->db->sql_in_set('image_album_id', $this->auth_moderate, false, true) . ')' : '');
 
 		if ($this->sql_where_auth == '(')
 		{
-			// User does not have permissions for any album, so we jsut return with 1=0 so there is no result:
+			// User does not have permissions for any album, so we just return with 1=0 so there is no result:
 			$this->sql_where_auth = '0 = 1';
 			return;
 		}

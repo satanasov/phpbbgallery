@@ -6,7 +6,7 @@
 				<!-- ELSE -->
 				<p> {TOTAL_IMAGES_WAITING} </p>
 			<!-- ENDIF -->
-			<!-- IF .unaproved -->
+			<!-- IF .image_unapproved -->
 				<ul class="topiclist two-long-columns">
 					<li class="header">
 						<dl class="row-item">
@@ -17,36 +17,36 @@
 					</li>
 				</ul>
 				<ul class="topiclist cplist missing-column responsive-show-all">
-					<!-- BEGIN unaproved -->
-					<li class="row<!-- IF unaproved.S_ROW_COUNT is odd --> bg1<!-- ELSE --> bg2<!-- ENDIF -->">
+					<!-- BEGIN image_unapproved -->
+					<li class="row<!-- IF image_unapproved.S_ROW_COUNT is odd --> bg1<!-- ELSE --> bg2<!-- ENDIF -->">
 						<dl>
 							<dt>
 								<div style="float: left; padding: 5px; width: 70px;" align="middle">
-									<a href="{unaproved.U_IMAGE_MODERATE_URL}"><img style="max-width: 70px; max-height: 70px;" src="{unaproved.U_IMAGE}" alt="{unaproved.U_IMAGE_NAME}"></a>
+									<a href="{image_unapproved.U_IMAGE_MODERATE_URL}"><img style="max-width: 70px; max-height: 70px;" src="{image_unapproved.U_IMAGE}" alt="{image_unapproved.U_IMAGE_NAME}"></a>
 								</div>
 								<div class="list-inner" style="margin-bottom: -12px; white-space: normal; overflow: hidden;">
-									{L_IMAGE_NAME}{L_COLON} <a href="{unaproved.U_IMAGE_MODERATE_URL}" class="topictitle">{unaproved.U_IMAGE_NAME}</a><br />
-									{L_UPLOADED_BY_USER}{L_COLON} {unaproved.IMAGE_AUTHOR}<br />
-									&raquo; {unaproved.IMAGE_TIME}<br /><br />
+									{L_IMAGE_NAME}{L_COLON} <a href="{image_unapproved.U_IMAGE_MODERATE_URL}" class="topictitle">{image_unapproved.U_IMAGE_NAME}</a><br />
+									{L_UPLOADED_BY_USER}{L_COLON} {image_unapproved.IMAGE_AUTHOR}<br />
+									&raquo; {image_unapproved.IMAGE_TIME}<br /><br />
 								</div><br />
 							</dt>
 							<dd class="lastpost">
 								<span>
-									{L_ALBUM_NAME}{L_COLON} <a href="{unaproved.IMAGE_ALBUM_URL}">{unaproved.IMAGE_ALBUM}</a>
+									{L_ALBUM_NAME}{L_COLON} <a href="{image_unapproved.IMAGE_ALBUM_URL}">{image_unapproved.IMAGE_ALBUM}</a>
 								</span>
 							</dd>
 							<dd class="mark" style="padding-left: 8px;">
-								<input name="approval[{unaproved.IMAGE_ALBUM_ID}][]" value="{unaproved.U_IMAGE_ID}" type="checkbox" />
+								<input name="approval[{image_unapproved.IMAGE_ALBUM_ID}][]" value="{image_unapproved.U_IMAGE_ID}" type="checkbox" />
 							</dd>
 						</dl>
 					</li>
-					<!-- END unaproved -->
+					<!-- END image_unapproved -->
 				</ul>
 			<!-- ELSE -->
 				<p>{L_NO_WAITING_UNAPPROVED_IMAGE}</p>
 			<!-- ENDIF -->
 		</div>
-		<!-- IF .unaproved -->
+		<!-- IF .image_unapproved -->
 		<fieldset class="display-actions">
 			<input class="button2" name="action[disapprove]" value="{L_DISAPPROVE}" type="submit" />&nbsp;
 			<input class="button1" name="action[approve]" value="{L_APPROVE}" type="submit" />

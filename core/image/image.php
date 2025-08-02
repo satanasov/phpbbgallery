@@ -286,7 +286,7 @@ class image
 	 * Generate link to image
 	 *
 	 * @param    string $content what's in the link: image_name, thumbnail, fake_thumbnail, medium or lastimage_icon
-	 * @param    string $mode where does the link leed to: highslide, lytebox, lytebox_slide_show, image_page, image, none
+	 * @param    string $mode where does the link lead to: highslide, lytebox, lytebox_slide_show, image_page, image, none
 	 * @param    int $image_id
 	 * @param    string $image_name
 	 * @param    int $album_id
@@ -326,7 +326,7 @@ class image
 			case 'medium':
 				$content = '<img src="{U_MEDIUM}" alt="{IMAGE_NAME}" title="{IMAGE_NAME}" class="postimage" />';
 				$content = str_replace(array('{U_MEDIUM}', '{IMAGE_NAME}'), array($medium_url, $image_name), $content);
-				//cheat for animated/transparent gifs
+				//cheat for animated/transparent gif
 				if ($is_gif)
 				{
 					$content = '<img src="{U_MEDIUM}" alt="{IMAGE_NAME}" title="{IMAGE_NAME}" style="max-width: {MEDIUM_WIDTH_SIZE}px; max-height: {MEDIUM_HEIGHT_SIZE}px;" />';
@@ -379,7 +379,7 @@ class image
 				*
 				* @event phpbbgallery.core.image.generate_link
 				* @var	string	mode	type of link
-				* @var	string	tpl		html to be outputed
+				* @var	string	tpl		html to be outputted
 				* @since 1.2.0
 				*/
 				$vars = array('mode', 'tpl');
@@ -535,7 +535,7 @@ class image
 
 	/**
 	 * Move image
-	 * @oaram (int)    $image_id    The image that we want to move_uploaded_file
+	 * @param (int)    $image_id    The image that we want to move_uploaded_file
 	 * @param $image_id_ary
 	 * @param $album_id
 	 * @internal param $ (int)    $album_id    The album we want to move image to

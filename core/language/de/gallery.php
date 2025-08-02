@@ -27,7 +27,7 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'ADD_UPLOAD_FIELD'                 => 'Weitere Felder zum Hochladen hinzufügen',
 	'ALBUM'                            => 'Album',
-	'ALBUM_DESC'					   => 'Albumbeschreibung',
+	'ALBUM_DESC'                       => 'Albumbeschreibung',
 	'ALBUM_IS_CATEGORY'                => 'Das Album, in welches du dich gemogelt hast, ist eine Kategorie.<br />In Kategorien können keine Bilder hochgeladen werden.',
 	'ALBUM_LOCKED'                     => 'Gesperrt',
 	'ALBUM_NAME'                       => 'Name des Albums',
@@ -118,7 +118,7 @@ $lang = array_merge($lang, array(
 	'DESCRIPTION_LENGTH'      => 'Gib deine Beschreibung hier ein. Sie darf nicht mehr als <strong>%d</strong> Zeichen enthalten.',
 	'DETAILS'                 => 'Details',
 	'DISALLOWED_EXTENSION'    => 'Diese Bilderweiterung ist nicht erlaubt',
-	'DONT_RATE_IMAGE'         => 'Bild nicht bewerten',
+	'DO_NOT_RATE_IMAGE'         => 'Bild nicht bewerten',
 
 	'EDIT_COMMENT'             => 'Kommentar ändern',
 	'EDIT_IMAGE'               => 'Bearbeiten',
@@ -369,6 +369,6 @@ $lang = array_merge($lang, array(
 	'UNREAD_IMAGES'    => 'Unbewertete Bilder',
 	'NO_UNREAD_IMAGES' => 'Es gibt keine ungeprüften Bilder',
 
-	// Versions 1.2.1 addiotions
+	// Versions 1.2.1 additions
 	'GALLERY_DROP'     => 'Lege Dein Bild hier rein',
 ));

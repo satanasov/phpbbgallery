@@ -133,7 +133,7 @@ class moderate
 
 	/**
 	 * Index Controller
-	 *    Route: gallery/modarate
+	 *    Route: gallery/moderate
 	 *
 	 * @param int $album_id
 	 * @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
@@ -183,7 +183,7 @@ class moderate
 
 	/**
 	 * Index Controller
-	 *    Route: gallery/modarate/approve
+	 *    Route: gallery/moderate/approve
 	 *
 	 * @param $page
 	 * @param $album_id
@@ -253,7 +253,7 @@ class moderate
 						$this->moderate->delete_images($delete_array);
 						$count = $count + count($delete_array);
 					}
-					$message = $this->language->lang('WAITING_DISPPROVED_IMAGE', $count);
+					$message = $this->language->lang('WAITING_DISAPPROVED_IMAGE', $count);
 					$this->url->meta_refresh(3, $back_link);
 					trigger_error($message);
 				}
@@ -287,7 +287,7 @@ class moderate
 
 	/**
 	 * Index Controller
-	 *    Route: gallery/modarate/actions
+	 *    Route: gallery/moderate/actions
 	 *
 	 * @param $page
 	 * @param $album_id
