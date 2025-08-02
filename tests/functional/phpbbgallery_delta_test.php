@@ -256,7 +256,7 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 
 		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
-		$this->add_lang_ext('phpbbgallery/exif', 'exif');
+		$this->add_lang_ext('phpbbgallery/exif', 'info_exif');
 
 		$this->set_option('disp_exifdata', $state);
 		if ($image == 'first')

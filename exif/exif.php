@@ -171,7 +171,7 @@ class exif
 	{
 		global $user;
 
-		$user->add_lang_ext('phpbbgallery/exif', 'exif');
+		$user->add_lang_ext('phpbbgallery/exif', 'info_exif');
 
 		$this->prepared_data = array();
 		if (isset($this->data["EXIF"]["DateTimeOriginal"]))

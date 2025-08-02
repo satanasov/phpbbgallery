@@ -78,7 +78,7 @@ class exif_listener implements EventSubscriberInterface
 			$return_ary = $event['return_ary'];
 			if (isset($return_ary['vars']['IMAGE_SETTINGS']))
 			{
-				$this->user->add_lang_ext('phpbbgallery/exif', 'exif');
+				$this->user->add_lang_ext('phpbbgallery/exif', 'info_exif');
 
 				$return_ary['vars']['IMAGE_SETTINGS']['disp_exifdata'] = array('lang' => 'DISP_EXIF_DATA',		'validate' => 'bool',	'type' => 'radio:yes_no');
 				$event['return_ary'] = $return_ary;
@@ -141,7 +141,7 @@ class exif_listener implements EventSubscriberInterface
 	public function ucp_set_settings_nosubmit()
 	{
 		global $template, $phpbb_ext_gallery;
-		$this->user->add_lang_ext('phpbbgallery/exif', 'exif');
+		$this->user->add_lang_ext('phpbbgallery/exif', 'info_exif');
 
 		$template->assign_vars(array(
 			'S_VIEWEXIFS'		=> $this->gallery_user->get_data('user_viewexif'),
@@ -233,7 +233,7 @@ class exif_listener implements EventSubscriberInterface
 
 	public function viewimage($event)
 	{
-		$this->user->add_lang_ext('phpbbgallery/exif', 'exif');
+		$this->user->add_lang_ext('phpbbgallery/exif', 'info_exif');
 
 		// To do (test contests)
 		if ($this->gallery_config->get('disp_exifdata') && ($event['image_data']['image_has_exif'] != \phpbbgallery\exif\exif::UNAVAILABLE) && (substr($event['image_data']['image_filename'], -4) == '.jpg') && function_exists('exif_read_data') /*&& ($this->gallery_auth->acl_check('m_status', $event['image_data']['image_album_id'], $event['album_data']['album_user_id']) || ($event['image_data']['image_contest'] != phpbb_ext_gallery_core_image::IN_CONTEST))*/)
