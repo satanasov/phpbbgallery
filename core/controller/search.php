@@ -148,7 +148,7 @@ class search
 		$keywords		= utf8_normalize_nfc($this->request->variable('keywords', '', true));
 		$add_keywords	= utf8_normalize_nfc($this->request->variable('add_keywords', '', true));
 		$username		= $this->request->variable('username', '', true);
-		$user_id		= $this->request->variable('user_id', array(0));
+		$user_id			= $this->request->variable('user_id', array(0));
 		$search_terms	= $this->request->variable('terms', 'all');
 		$search_album	= $this->request->variable('aid', array(0));
 		$search_child	= $this->request->variable('sc', true);
@@ -199,7 +199,6 @@ class search
 		);
 		if ($keywords || $username || $user_id || $search_id || $submit)
 		{
-			$user_id_ary[] = (int) ANONYMOUS;
 			// Let's resolve username to user id ... or array of them.
 			if ($username)
 			{
@@ -219,9 +218,9 @@ class search
 					$user_id_ary[] = (int) $row['user_id'];
 				}
 				$this->db->sql_freeresult($result);
+				$user_id_ary[] = (int) ANONYMOUS;
+				$user_id = $user_id_ary;
 			}
-
-			$user_id = $user_id_ary;
 
 			if (!empty($user_id))
 			{
