@@ -140,8 +140,8 @@ $lang = array_merge($lang, array(
 	'DISP_VIEWTOPIC_IMAGES'			=> 'Mostrar el contador de imágenes en viewtopic.' . $phpEx,
 	'DISP_VIEWTOPIC_LINK'			=> 'Vincular imagen-contador a las imágenes del usuario',
 	'DISP_WHOISONLINE'				=> 'Mostrar "Quién está en línea"',
-	'DISPLAY_IN_RRC'				=> 'Muestra las imágenes de este álbum en imágenes “Recientes-Aleatorias“',
-	'DONT_COPY_PERMISSIONS'			=> 'No copiar permisos',
+	'DISPLAY_IN_RRC'					=> 'Muestra las imágenes de este álbum en imágenes “Recientes-Aleatorias“',
+	'DO_NOT_COPY_PERMISSIONS'		=> 'No copiar permisos',
 
 	'EDIT_ALBUM'					=> 'Editar álbum',
 
@@ -155,7 +155,7 @@ $lang = array_merge($lang, array(
 	'GALLERY_INDEX'					=> 'Galería-Índice',
 	'GALLERY_PURGE_CACHE_EXPLAIN'	=> 'Si utiliza la función de caché de miniaturas, debe borrar la caché de miniaturas después de cambiar la configuración de las miniaturas en "Configuración de galería" para que se regeneren.',
 	'GALLERY_RESYNC_ALBUMS_TO_CPF'         => 'Resync personal albums to profile fields',
-	'GALLERY_RESYNC_ALBUMS_TO_CPF_EXPAIN'  => 'This action will resync all top level personal albums as contact based custom profile field. <br> WARNING! If you have too many top level personal albums this could take some time!',
+	'GALLERY_RESYNC_ALBUMS_TO_CPF_EXPLAIN'  => 'This action will resync all top level personal albums as contact based custom profile field. <br> WARNING! If you have too many top level personal albums this could take some time!',
 	'GALLERY_RESYNC_ALBUMS_TO_CPF_CONFIRM' => 'Are you sure that you want to resync all top level personal albums as contact CPFs?',
 	'GALLERY_STATS'					=> 'Estadísticas de la galería',
 	'GALLERY_VERSION'				=> 'Versión de la galería',
