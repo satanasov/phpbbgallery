@@ -20,7 +20,7 @@ class ext extends \phpbb\extension\base
 	public function is_enableable()
 	{
 		$manager = $this->container->get('ext.manager');
-		
+
 		// Check if phpbbgallery/core is enabled
 		if (!$manager->is_enabled('phpbbgallery/core'))
 		{
@@ -43,9 +43,7 @@ class ext extends \phpbb\extension\base
 		if (empty($old_state))
 		{
 			$this->container->get('user')->add_lang_ext('phpbbgallery/acpimport', 'info_acp_gallery_import');
-			$this->container->get('template')->assign_var('L_EXTENSION_ENABLE_SUCCESS', 
-				$this->container->get('user')->lang['EXTENSION_ENABLE_SUCCESS']
-			);
+			$this->container->get('template')->assign_var('L_EXTENSION_ENABLE_SUCCESS', $this->container->get('user')->lang['EXTENSION_ENABLE_SUCCESS']);
 		}
 
 		return parent::enable_step($old_state);

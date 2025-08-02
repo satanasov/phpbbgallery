@@ -74,7 +74,7 @@ $lang = array_merge($lang, [
 	'MOVE_TO_USER'		=> 'Премести при потребител',
 	'MOVE_TO_USER_EXP'	=> 'Изображенията и коментарите ще бъдат преместеи като такива на посочения потребител. Ако не посочите потребител - Гост е зададен по-подразбиране',
 	'CLEAN_USER_NOT_FOUND'	=> 'Желаният от вас потребител не е открит!',
-	
+
 	'GALLERY_CORE_NOT_FOUND'		=> 'phpBB Gallery Core extension must be installed and enabled first.',
 	'EXTENSION_ENABLE_SUCCESS'		=> 'The extension has been enabled successfully.',
 ]);

@@ -188,7 +188,7 @@ class album
 	 * @internal param $ (string || array)    $ignore_id                disabled albums, Exp: on moving: the album
 	 *           where the image is now
 	 */
-	public function get_albumbox($ignore_personals, $select_name, $select_id = false, $requested_permission = false, $ignore_id = false, $album_user_id = (int) \phpbbgallery\core\block::PUBLIC_ALBUM, $requested_album_type = -1)
+	public function get_albumbox($ignore_personals, $select_name, $select_id = false, $requested_permission = false, $ignore_id = false, $album_user_id = \phpbbgallery\core\block::PUBLIC_ALBUM, $requested_album_type = -1)
 	{
 		// Instead of the query we use the cache
 		$album_data = $this->gallery_cache->get('albums');

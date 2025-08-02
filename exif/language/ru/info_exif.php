@@ -93,7 +93,7 @@ $lang = array_merge($lang, [
 	'DISP_EXIF_DATA_EXP'		=> 'Эта функция не может использоваться на данный момент, т.к. функция "exif_read_data" не входит в установке PHP',
 	'SHOW_EXIF'					=> 'Показать / Скрыть',
 	'VIEWEXIFS_DEFAULT'			=> 'Просмотр EXIF-Данных по умолчанию',
-	
+
 	'GALLERY_CORE_NOT_FOUND'		=> 'phpBB Gallery Core extension must be installed and enabled first.',
 	'EXTENSION_ENABLE_SUCCESS'		=> 'The extension has been enabled successfully.',
 ]);

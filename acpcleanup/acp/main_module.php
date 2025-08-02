@@ -23,7 +23,7 @@ class main_module
 		add_form_key('acp_gallery');
 
 		$submit = $request->is_set_post('submit');
-		
+
 		if ($submit && !check_form_key('acp_gallery'))
 		{
 			trigger_error($user->lang('FORM_INVALID') . adm_back_link($this->u_action), E_USER_WARNING);
@@ -46,7 +46,7 @@ class main_module
 		global $auth, $cache, $db, $template, $user, $phpbb_ext_gallery, $table_prefix, $phpbb_container, $request;
 
 		$delete = $request->is_set_post('delete');
-		$prune = $request->is_set_post('prune'); 
+		$prune = $request->is_set_post('prune');
 
 		$missing_sources = $request->variable('source', array(0));
 		$missing_entries = $request->variable('entry', array(''), true);

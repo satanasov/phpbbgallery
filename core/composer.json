@@ -31,7 +31,7 @@
 	"extra": {
 		"display-name": "phpBB Gallery",
 		"soft-require": {
-			"phpbb/phpbb": ">=3.3.0@dev"
+			"phpbb/phpbb": ">=3.3.0,<4.0.0@dev"
 		}
 	},
 	"version-check": {

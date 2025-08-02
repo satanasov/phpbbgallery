@@ -69,7 +69,8 @@ class m1_init extends migration
 
 		$phpbbgallery_core_file_import = $phpbb_root_path . 'files/phpbbgallery/import';
 
-		if (!is_dir($phpbbgallery_core_file_import)) {
+		if (!is_dir($phpbbgallery_core_file_import))
+		{
 			if (is_writable($phpbb_root_path . 'files'))
 			{
 				@mkdir($phpbbgallery_core_file_import, 0755, true);
@@ -89,7 +90,8 @@ class m1_init extends migration
 		$phpbbgallery_core_file_import = $phpbb_root_path . 'files/phpbbgallery/import';
 
 		// Clean dirs
-		if (is_dir($phpbbgallery_core_file_import)) {
+		if (is_dir($phpbbgallery_core_file_import))
+		{
 			$this->recursiveRemoveDirectory($phpbbgallery_core_file_import);
 		}
 	}
@@ -102,15 +104,20 @@ class m1_init extends migration
 	 */
 	private function recursiveRemoveDirectory(string $directory): void
 	{
-		if (!is_dir($directory)) {
+		if (!is_dir($directory))
+		{
 				return;
 		}
 
 		$files = new \FilesystemIterator($directory);
-		foreach ($files as $file) {
-				if ($file->isDir()) {
+		foreach ($files as $file)
+		{
+				if ($file->isDir())
+				{
 					$this->recursiveRemoveDirectory($file->getPathname());
-				} else {
+				}
+				else
+				{
 					@unlink($file->getPathname());
 				}
 		}
