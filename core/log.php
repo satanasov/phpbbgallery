@@ -132,6 +132,11 @@ class log
 		if ($limit == 0)
 		{
 			$limit = $this->gallery_config->get('items_per_page');
+			// If its called from ACP album is -1, if from MCP then is not
+			if ($album == -1)
+			{
+				$page = (int) ($page / $limit) + 1;
+			}
 		}
 		$this->language->add_lang(['info_acp_gallery_logs'], 'phpbbgallery/core');
 
@@ -193,38 +198,50 @@ class log
 			{
 				case 'u':
 					$sql_array['ORDER_BY'] = 'l.log_user ' . (isset($additional['sort_dir']) ? 'ASC' : 'DESC');
-					$sql_array['GROUP_BY'] = 'l.log_user, l.log_id, i.image_id';
+					$sql_array['GROUP_BY'] = 'l.log_user, l.log_id, i.image_id, i.image_album_id';
 				break;
 				case 'i':
 					$sql_array['ORDER_BY'] = 'l.log_ip ' . (isset($additional['sort_dir']) ? 'ASC' : 'DESC');
-					$sql_array['GROUP_BY'] = 'l.log_ip, l.log_id, i.image_id';
+					$sql_array['GROUP_BY'] = 'l.log_ip, l.log_id, i.image_id, i.image_album_id';
 				break;
 				case 'o':
 					$sql_array['ORDER_BY'] = 'l.description ' . (isset($additional['sort_dir']) ? 'ASC' : 'DESC');
-					$sql_array['GROUP_BY'] = 'l.description, l.log_id, i.image_id';
+					$sql_array['GROUP_BY'] = 'l.description, l.log_id, i.image_id, i.image_album_id';
 				break;
 			}
 		}
 		else
 		{
 			$sql_array['ORDER_BY'] = 'l.log_time ' . (isset($additional['sort_dir']) ? 'ASC' : 'DESC');
-			$sql_array['GROUP_BY'] = 'l.log_time, l.log_id, i.image_id';
+			$sql_array['GROUP_BY'] = 'l.log_time, l.log_id, i.image_id, i.image_album_id';
+		}
+		// So we need count - so define SELECT
+		$count_sql_array = $sql_array;
+
+		// Remove SELECT for correct count
+		$count_sql_array['SELECT'] = 'COUNT(DISTINCT l.log_id) as count';
+		unset($count_sql_array['GROUP_BY']);
+		unset($count_sql_array['ORDER_BY']);
+		$filtering_on_image_album = false;
+		foreach ($sql_where as $where_clause)
+		{
+			if (strpos($where_clause, 'i.image_album_id') !== false)
+			{
+				$filtering_on_image_album = true;
+				break;
+			}
+		}
+		if (!$filtering_on_image_album)
+		{
+			unset($count_sql_array['LEFT_JOIN']);
 		}
 
-		// So we need count - so define SELECT
-		$sql_array['SELECT'] = 'SUM(l.log_id) as count';
-		$sql = $this->db->sql_build_query('SELECT', $sql_array);
+		$sql = $this->db->sql_build_query('SELECT', $count_sql_array);
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
-		if ($row)
-		{
-			$count = $row['count'];
-		}
-		else
-		{
-			$count = 0;
-		}
+
+		$count = $row ? $row['count'] : 0;
 
 		$sql_array['SELECT'] = '*';
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
@@ -249,6 +266,7 @@ class log
 		$this->db->sql_freeresult($result);
 
 		$this->user_loader->load_users(array_keys($users_array));
+
 		// Let's build template vars
 		if (!empty($logoutput))
 		{
@@ -287,6 +305,7 @@ class log
 			$url_array = array(
 				'i' => '-phpbbgallery-core-acp-gallery_logs_module',
 				'mode' => 'main',
+				'lf' => $type
 			);
 			if (isset($additional['sort_days']))
 			{
