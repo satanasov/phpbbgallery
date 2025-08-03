@@ -213,11 +213,13 @@ class search
 					AND user_type IN (' . USER_NORMAL . ', ' . USER_FOUNDER . ')';
 				$result = $this->db->sql_query_limit($sql, 100);
 
+				$user_id_ary = [];
 				while ($row = $this->db->sql_fetchrow($result))
 				{
 					$user_id_ary[] = (int) $row['user_id'];
 				}
 				$this->db->sql_freeresult($result);
+
 				$user_id_ary[] = (int) ANONYMOUS;
 				$user_id = $user_id_ary;
 			}
