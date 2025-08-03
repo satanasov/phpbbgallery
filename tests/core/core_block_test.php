@@ -30,39 +30,39 @@ class core_block_test extends core_base
 
 	public function test_get_album_status_locked()
 	{
-		$this->assertEquals($this->gallery_block->get_album_status_locked(), \phpbbgallery\core\block::ALBUM_LOCKED);
+		$this->assertEquals($this->gallery_block->get_album_status_locked(), (int) \phpbbgallery\core\block::ALBUM_LOCKED);
 	}
 	public function test_get_album_public()
 	{
-		$this->assertEquals($this->gallery_block->get_album_public(), \phpbbgallery\core\block::PUBLIC_ALBUM);
+		$this->assertEquals($this->gallery_block->get_album_public(), (int) \phpbbgallery\core\block::PUBLIC_ALBUM);
 	}
 	public function test_get_album_type_upload()
 	{
-		$this->assertEquals($this->gallery_block->get_album_type_upload(), \phpbbgallery\core\block::TYPE_UPLOAD);
+		$this->assertEquals($this->gallery_block->get_album_type_upload(), (int) \phpbbgallery\core\block::TYPE_UPLOAD);
 	}
 
 	public function test_get_image_status_unapproved()
 	{
-		$this->assertEquals($this->gallery_block->get_image_status_unapproved(), \phpbbgallery\core\block::STATUS_UNAPPROVED);
+		$this->assertEquals($this->gallery_block->get_image_status_unapproved(), (int) \phpbbgallery\core\block::STATUS_UNAPPROVED);
 	}
 	public function test_get_image_status_approved()
 	{
-		$this->assertEquals($this->gallery_block->get_image_status_approved(), \phpbbgallery\core\block::STATUS_APPROVED);
+		$this->assertEquals($this->gallery_block->get_image_status_approved(), (int) \phpbbgallery\core\block::STATUS_APPROVED);
 	}
 	public function test_get_image_status_locked()
 	{
-		$this->assertEquals($this->gallery_block->get_image_status_locked(), \phpbbgallery\core\block::STATUS_LOCKED);
+		$this->assertEquals($this->gallery_block->get_image_status_locked(), (int) \phpbbgallery\core\block::STATUS_LOCKED);
 	}
 	public function test_get_image_status_orphan()
 	{
-		$this->assertEquals($this->gallery_block->get_image_status_orphan(), \phpbbgallery\core\block::STATUS_ORPHAN);
+		$this->assertEquals($this->gallery_block->get_image_status_orphan(), (int) \phpbbgallery\core\block::STATUS_ORPHAN);
 	}
 	public function test_get_no_contest()
 	{
-		$this->assertEquals($this->gallery_block->get_no_contest(), \phpbbgallery\core\block::NO_CONTEST);
+		$this->assertEquals($this->gallery_block->get_no_contest(), (int) \phpbbgallery\core\block::NO_CONTEST);
 	}
 	public function test_get_in_contest()
 	{
-		$this->assertEquals($this->gallery_block->get_in_contest(), \phpbbgallery\core\block::IN_CONTEST);
+		$this->assertEquals($this->gallery_block->get_in_contest(), (int) \phpbbgallery\core\block::IN_CONTEST);
 	}
 }

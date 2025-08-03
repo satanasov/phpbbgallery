@@ -407,7 +407,7 @@ class image
 		$num_images = $num_comments = 0;
 		$sql = 'SELECT SUM(image_comments) as comments
 			FROM ' . $this->table_images .'
-			WHERE image_status ' . (($readd) ? '=' : '<>') . ' ' . \phpbbgallery\core\block::STATUS_UNAPPROVED . '
+			WHERE image_status ' . (($readd) ? '=' : '<>') . ' ' . (int) \phpbbgallery\core\block::STATUS_UNAPPROVED . '
 				AND ' . $this->db->sql_in_set('image_id', $image_id_ary) . '
 			GROUP BY image_user_id';
 		$result = $this->db->sql_query($sql);
@@ -416,7 +416,7 @@ class image
 
 		$sql = 'SELECT COUNT(image_id) images, image_user_id
 			FROM ' . $this->table_images .' 
-			WHERE image_status ' . (($readd) ? '=' : '<>') . ' ' . \phpbbgallery\core\block::STATUS_UNAPPROVED . '
+			WHERE image_status ' . (($readd) ? '=' : '<>') . ' ' . (int) \phpbbgallery\core\block::STATUS_UNAPPROVED . '
 				AND ' . $this->db->sql_in_set('image_id', $image_id_ary) . '
 			GROUP BY image_user_id';
 		$result = $this->db->sql_query($sql);
@@ -500,8 +500,8 @@ class image
 		$this->handle_counter($image_id_ary, true, true);
 
 		$sql = 'UPDATE ' . $this->table_images . '
-			SET image_status = ' . \phpbbgallery\core\block::STATUS_APPROVED . '
-			WHERE image_status <> ' . \phpbbgallery\core\block::STATUS_ORPHAN . '
+			SET image_status = ' . (int) \phpbbgallery\core\block::STATUS_APPROVED . '
+			WHERE image_status <> ' . (int) \phpbbgallery\core\block::STATUS_ORPHAN . '
 				AND ' . $this->db->sql_in_set('image_id', $image_id_ary);
 		$this->db->sql_query($sql);
 	}
@@ -516,14 +516,14 @@ class image
 		self::handle_counter($image_id_ary, false);
 
 		$sql = 'UPDATE ' . $this->table_images .' 
-			SET image_status = ' . \phpbbgallery\core\block::STATUS_UNAPPROVED . '
-			WHERE image_status <> ' . \phpbbgallery\core\block::STATUS_ORPHAN . '
+			SET image_status = ' . (int) \phpbbgallery\core\block::STATUS_UNAPPROVED . '
+			WHERE image_status <> ' . (int) \phpbbgallery\core\block::STATUS_ORPHAN . '
 				AND ' . $this->db->sql_in_set('image_id', $image_id_ary);
 		$this->db->sql_query($sql);
 
 		$sql = 'SELECT image_id, image_name
 			FROM ' . $this->table_images .' 
-			WHERE image_status <> ' . \phpbbgallery\core\block::STATUS_ORPHAN . '
+			WHERE image_status <> ' . (int) \phpbbgallery\core\block::STATUS_ORPHAN . '
 				AND ' . $this->db->sql_in_set('image_id', $image_id_ary);
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
@@ -572,14 +572,14 @@ class image
 		self::handle_counter($image_id_ary, false);
 
 		$sql = 'UPDATE ' . $this->table_images . ' 
-			SET image_status = ' . \phpbbgallery\core\block::STATUS_LOCKED . '
-			WHERE image_status <> ' . \phpbbgallery\core\block::STATUS_ORPHAN . '
+			SET image_status = ' . (int) \phpbbgallery\core\block::STATUS_LOCKED . '
+			WHERE image_status <> ' . (int) \phpbbgallery\core\block::STATUS_ORPHAN . '
 				AND ' . $this->db->sql_in_set('image_id', $image_id_ary);
 		$this->db->sql_query($sql);
 
 		$sql = 'SELECT image_id, image_name
 			FROM ' . $this->table_images . ' 
-			WHERE image_status <> ' . \phpbbgallery\core\block::STATUS_ORPHAN . '
+			WHERE image_status <> ' . (int) \phpbbgallery\core\block::STATUS_ORPHAN . '
 				AND ' . $this->db->sql_in_set('image_id', $image_id_ary);
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
@@ -601,12 +601,12 @@ class image
 		$sql_limit = 1;
 		$sql = 'SELECT * 
 			FROM ' . $this->table_images . '
-			WHERE image_status <> ' . \phpbbgallery\core\block::STATUS_ORPHAN . '
+			WHERE image_status <> ' . (int) \phpbbgallery\core\block::STATUS_ORPHAN . '
 				AND (
 					(
 						' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('i_view'), false, true) . '
 						AND (
-							image_status <> ' . \phpbbgallery\core\block::STATUS_UNAPPROVED . '
+							image_status <> ' . (int) \phpbbgallery\core\block::STATUS_UNAPPROVED . '
 							OR image_user_id = ' . (int) $this->user->data['user_id'] . '
 						)
 					)
