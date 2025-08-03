@@ -168,7 +168,7 @@ input.autowidth-gallery {
 	width: 0;
 	height: 0;
 	overflow: hidden;
-	background-image: url("./images/icon_topic_unapproved.png");
+	background-image: url("./images/icon_topic_unapproved.gif");
 	padding-left: 16px;
 	padding-top: 14px;
 	float: right;

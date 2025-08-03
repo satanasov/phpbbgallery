@@ -148,7 +148,7 @@ class search
 		$keywords		= utf8_normalize_nfc($this->request->variable('keywords', '', true));
 		$add_keywords	= utf8_normalize_nfc($this->request->variable('add_keywords', '', true));
 		$username		= $this->request->variable('username', '', true);
-		$user_id		= $this->request->variable('user_id', array(0));
+		$user_id			= $this->request->variable('user_id', array(0));
 		$search_terms	= $this->request->variable('terms', 'all');
 		$search_album	= $this->request->variable('aid', array(0));
 		$search_child	= $this->request->variable('sc', true);
