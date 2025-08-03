@@ -3,7 +3,7 @@
 *
 * @package phpBB Gallery
 * @version $Id$
-* @copyright (c) 2025 Leinad4Mind https://leinad4mind.top/forum
+* @copyright (c) 2007 nickvergessen | 2025 Leinad4Mind https://leinad4mind.top/forum
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
 */
