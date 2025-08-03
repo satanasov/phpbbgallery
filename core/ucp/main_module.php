@@ -137,7 +137,7 @@ class main_module
 		$phpbb_ext_gallery_user->set_user_id($user->data['user_id']);
 		if (!$phpbb_ext_gallery_user->get_data('personal_album_id'))
 		{
-			// User will probally go to initialise_album()
+			// User will probably go to initialise_album()
 			$template->assign_vars(array(
 				'S_INFO_CREATE'				=> true,
 				'S_UCP_ACTION'		=> $this->u_action . '&amp;action=initialise',
@@ -157,7 +157,7 @@ class main_module
 		global $cache, $db,  $user, $phpbb_ext_gallery_core_auth, $phpbb_ext_gallery_core_album, $phpbb_ext_gallery_config, $albums_table, $phpbb_ext_gallery_user;
 		global $request, $users_table, $phpbb_container;
 
-		// we will have to initialse $phpbb_ext_gallery_user
+		// we will have to initialise $phpbb_ext_gallery_user
 		$phpbb_ext_gallery_user->set_user_id($user->data['user_id']);
 		if (!$phpbb_ext_gallery_user->get_data('personal_album_id'))
 		{

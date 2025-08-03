@@ -61,7 +61,7 @@ class multiform extends \phpbb\files\types\base
 	}
 	/**
 	 * Form upload method
-	 * Upload file from users harddisk
+	 * Upload file from users hard disk
 	 *
 	 * @param string $form_name Form name assigned to the file input field (if it is an array, the key has to be specified)
 	 *
@@ -72,10 +72,10 @@ class multiform extends \phpbb\files\types\base
 	{
 
 		$uploads = ($this->request->variable($form_name, array('name'=> array('' => ''), 'type' => array('' => ''), 'tmp_name' => array('' => ''), 'error' =>  array('' => ''), 'size' => array('' => '')), true, $this->request::FILES));
-		$upload_redy = array();
+		$upload_ready = array();
 		for ($i = 0; $i < count($uploads['name']); $i++)
 		{
-			$upload_redy[$i] = array(
+			$upload_ready[$i] = array(
 				'name' => $uploads['name'][$i],
 				'type' => $uploads['type'][$i],
 				'tmp_name' => $uploads['tmp_name'][$i],
@@ -84,7 +84,7 @@ class multiform extends \phpbb\files\types\base
 			);
 		}
 		$files = array();
-		foreach ($upload_redy as $ID => $VAR)
+		foreach ($upload_ready as $ID => $VAR)
 		{
 			$upload = array(
 				'name' => $VAR['name'],

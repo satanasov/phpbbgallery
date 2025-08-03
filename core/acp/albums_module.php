@@ -564,7 +564,7 @@ class albums_module
 				));
 
 				/**
-				* Event after assigning data to templete
+				* Event after assigning data to template
 				*
 				* @event phpbbgallery.core.acp.albums.send_to_template
 				* @var	action	action		Action taken
