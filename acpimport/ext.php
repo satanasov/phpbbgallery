@@ -2,9 +2,10 @@
 /**
  * phpBB Gallery - ACP Import Extension
  *
- * @package	phpBB Gallery
- * @copyright (c) 2012 nickvergessen | 2025 Leinad4Mind
- * @license	GNU General Public License v2
+ * @package   phpbbgallery/acpimport
+ * @author    Leinad4Mind
+ * @copyright 2018- Leinad4Mind
+ * @license   GPL-2.0-only
  */
 
 namespace phpbbgallery\acpimport;

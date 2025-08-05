@@ -1,18 +1,21 @@
 <?php
 /**
-*
-* @package phpBB Gallery
-* @version $Id$
-* @copyright (c) 2007 nickvergessen nickvergessen@gmx.de http://www.flying-bits.org
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*
-* mostly borrowed from phpBB3
-* @author: phpBB Group
-* @location: includes/acp/acp_forums.php
-*
-* Note: There are several code parts commented out, for example the album/forum_password.
-*       I didn't remove them, to have it easier when I implement this feature one day. I hope it's okay.
-*/
+ * phpBB Gallery - Core Extension
+ *
+ * @package   phpbbgallery/core
+ * @author    nickvergessen
+ * @author    satanasov
+ * @author    Leinad4Mind
+ * @copyright 2007-2012 nickvergessen, 2014- satanasov, 2018- Leinad4Mind
+ * @license   GPL-2.0-only
+ *
+ * mostly borrowed from phpBB3
+ * @author: phpBB Group
+ * @location: includes/acp/acp_forums.php
+ *
+ * Note: There are several code parts commented out, for example the album/forum_password.
+ *       I didn't remove them, to have it easier when I implement this feature one day. I hope it's okay.
+ */
 
 namespace phpbbgallery\core\acp;
 

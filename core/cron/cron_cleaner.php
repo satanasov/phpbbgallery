@@ -1,12 +1,15 @@
 <?php
-
 /**
-*
-* @package phpBB Gallery Core
-* @copyright (c) 2022 DreadDendy
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
-*/
+ * phpBB Gallery - Core Extension
+ *
+ * @package   phpbbgallery/core
+ * @author    nickvergessen
+ * @author    satanasov
+ * @author    Leinad4Mind
+ * @author    DreadDendy
+ * @copyright 2018- Leinad4Mind, 2022 DreadDendy
+ * @license   GPL-2.0-only
+ */
 
 namespace phpbbgallery\core\cron;
 

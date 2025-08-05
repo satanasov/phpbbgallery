@@ -1,11 +1,14 @@
 <?php
 /**
-*
-* @package phpBB Gallery - Exif Extension
-* @copyright (c) 2012 nickvergessen - http://www.flying-bits.org/
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
-*/
+ * phpBB Gallery - ACP Exif Extension
+ *
+ * @package   phpbbgallery/exif
+ * @author    nickvergessen
+ * @author    satanasov
+ * @author    Leinad4Mind
+ * @copyright 2007-2012 nickvergessen, 2014- satanasov, 2018- Leinad4Mind
+ * @license   GPL-2.0-only
+ */
 
 namespace phpbbgallery\exif\event;
 
@@ -59,7 +62,7 @@ class exif_listener implements EventSubscriberInterface
 	* @param \phpbbgallery\core\config		$gallery_config	Core gallery config object
 	* @param \phpbbgallery\core\auth\auth	$gallery_auth	Core gallery auth object
 	* @param \phpbbgallery\core\url			$gallery_url	Core gallery url object
-	* @param \phpbbgallery\core\user		$gallery_user	Core gallery user wraper
+	* @param \phpbbgallery\core\user		$gallery_user	Core gallery user wrapper
 	*/
 
 	public function __construct(\phpbb\user $user, \phpbbgallery\core\config $gallery_config, \phpbbgallery\core\auth\auth $gallery_auth, \phpbbgallery\core\url $gallery_url, \phpbbgallery\core\user $gallery_user)

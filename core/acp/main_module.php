@@ -1,12 +1,14 @@
 <?php
 /**
-*
-* @package phpBB Gallery
-* @version $Id$
-* @copyright (c) 2007 nickvergessen nickvergessen@gmx.de http://www.flying-bits.org
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*
-*/
+ * phpBB Gallery - Core Extension
+ *
+ * @package   phpbbgallery/core
+ * @author    nickvergessen
+ * @author    satanasov
+ * @author    Leinad4Mind
+ * @copyright 2007-2012 nickvergessen, 2014- satanasov, 2018- Leinad4Mind
+ * @license   GPL-2.0-only
+ */
 
 namespace phpbbgallery\core\acp;
 

@@ -1,18 +1,18 @@
 <?php
 /**
-*
-* gallery_mcp [Bulgarian]
-*
-* @package phpBB Gallery
-* @version $Id$
-* @copyright (c) 2015 Lucifer lucifer@anavaro.com http://www.anavaro.com
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*
-**/
+ * phpBB Gallery - ACP Core Extension [Bulgarian Translation]
+ *
+ * @package   phpbbgallery/core
+ * @author    satanasov
+ * @author    Leinad4Mind
+ * @copyright 2014- satanasov, 2018- Leinad4Mind
+ * @license   GPL-2.0-only
+ * @translator Lucifer <https://www.anavaro.com>
+ */
 
 /**
-* DO NOT CHANGE
-*/
+ * DO NOT CHANGE
+ */
 if (!defined('IN_PHPBB'))
 {
 	exit;
