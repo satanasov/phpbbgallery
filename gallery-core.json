@@ -1,9 +1,9 @@
 {
 	"stable": {
-		"3.0": {
+		"3.3": {
 			"current": "3.4.0",
 			"download": "https://github.com/satanasov/phpbbgallery",
-			"announcement": "https://github.com/satanasov/phpbbgallery",
+			"announcement": "https://www.phpbb.com/customise/db/extension/phpbb_gallery",
 			"eol": null,
 			"security": false
 		}
