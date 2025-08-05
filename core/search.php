@@ -230,7 +230,6 @@ class search
 		);
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query($sql);
-		$rowset = array();
 
 		$show_options = $this->gallery_config->get($fields);
 		$thumbnail_link = $this->gallery_config->get('link_thumbnail');
@@ -340,22 +339,22 @@ class search
 		$sql_array['WHERE'] .= ' AND ((' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums), false, true) . ' AND image_status <> ' . (int) \phpbbgallery\core\block::STATUS_UNAPPROVED . ')
 					OR ' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('m_status'), $exclude_albums), false, true) . ')';
 
-		$sql_array['SELECT'] = 'COUNT(c.comment_id) as count';
-		$sql = $this->db->sql_build_query('SELECT', $sql_array);
+		$sql_array_count = $sql_array;
+		$sql_array_count['SELECT'] = 'COUNT(c.comment_id) as count';
+		unset($sql_array_count['GROUP_BY'], $sql_array_count['ORDER_BY']);
+		$sql = $this->db->sql_build_query('SELECT', $sql_array_count);
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
-		$count = 0;
-		if ($row)
-		{
-			$count = $row['count'];
-		}
+
+		$count = ($row) ? (int) $row['count'] : 0;
+
 		$sql_array['SELECT'] = '*';
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query_limit($sql, $sql_limit, $start);
-		$rowset = array();
+		$rowset = [];
 
-		$users_array = array();
+		$users_array = [];
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$rowset[] = $row;
@@ -374,7 +373,6 @@ class search
 		$this->user_loader->load_users(array_keys($users_array));
 		foreach ($rowset as $var)
 		{
-
 			$album_tmp = $this->album->get_info($var['image_album_id']);
 			$this->template->assign_block_vars('commentrow', array(
 				'COMMENT_ID'	=> (int) $var['comment_id'],
@@ -392,17 +390,19 @@ class search
 				'IMAGE_TIME'		=> $this->user->format_date($var['image_time']),
 			));
 		}
-		$this->template->assign_vars(array(
+		$this->template->assign_vars([
 			'SEARCH_MATCHES'	=> $this->language->lang('TOTAL_COMMENTS_SPRINTF', $count),
 			'SEARCH_TITLE'		=> $this->language->lang('RECENT_COMMENTS'),
-		));
+		]);
 		if ($pagination)
 		{
-			$this->pagination->generate_template_pagination(array(
-				'routes' => array(
-					'phpbbgallery_core_search_commented',
-					'phpbbgallery_core_search_commented_page',),
-					'params' => array()), 'pagination', 'page', $count, $limit, $start
+			$this->pagination->generate_template_pagination([
+				'routes' => [
+						'phpbbgallery_core_search_commented',
+						'phpbbgallery_core_search_commented_page'
+					],
+					'params' => []
+				], 'pagination', 'page', $count, $limit, $start
 			);
 		}
 	}
@@ -501,7 +501,7 @@ class search
 		$sql_ary['ORDER_BY'] = $sql_order;
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 		$result = $this->db->sql_query_limit($sql, $sql_limit, $start);
-		$id_ary = array();
+		$id_ary = [];
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$id_ary[] = $row['image_id'];
@@ -627,7 +627,7 @@ class search
 		$sql_array['ORDER_BY'] = 'image_rate_avg DESC, image_rates DESC';
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query_limit($sql, $limit, $start);
-		$rowset = array();
+		$rowset = [];
 
 		while ($row = $this->db->sql_fetchrow($result))
 		{
