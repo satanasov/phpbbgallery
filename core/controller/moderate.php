@@ -704,7 +704,7 @@ class moderate
 		}
 		$action_keys = array_keys($this->request->variable('action', ['approve' => 1]));
 		$action = $action_keys[0] ?? 'approve';
-		
+
 		if ($action === 'disapprove')
 		{
 			$redirect = new RedirectResponse($this->helper->route('phpbbgallery_core_image_delete', ['image_id' => $image_id]));
