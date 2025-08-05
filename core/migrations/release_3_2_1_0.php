@@ -1,9 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: lucifer
- * Date: 17.9.2017 г.
- * Time: 0:44
+ * phpBB Gallery - Core Extension
+ *
+ * @package   phpbbgallery/core
+ * @author    satanasov
+ * @author    Leinad4Mind
+ * @copyright 2014- satanasov, 2018- Leinad4Mind
+ * @license   GPL-2.0-only
  */
 
 namespace phpbbgallery\core\migrations;

@@ -1,11 +1,14 @@
 <?php
 /**
-*
-* @package phpBB Gallery Core
-* @copyright (c) 2013 nickvergessen
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License v2
-*
-*/
+ * phpBB Gallery - Core Extension
+ *
+ * @package   phpbbgallery/core
+ * @author    nickvergessen
+ * @author    satanasov
+ * @author    Leinad4Mind
+ * @copyright 2013 nickvergessen, 2014- satanasov, 2018- Leinad4Mind
+ * @license   GPL-2.0-only
+ */
 
 namespace phpbbgallery\core\migrations;
 

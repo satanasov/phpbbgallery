@@ -1,19 +1,18 @@
 <?php
 /**
-*
-* Gallery Notifications [Dutch]
-*
-* @package phpBB Gallery
-* @version $Id$
-* @copyright (c) 2007 Lucifer Lucifer@anavaro.com http://www.anavaro.com
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-* [Dutch] translated by Dutch Translators (https://github.com/dutch-translators)
-*
-**/
+ * phpBB Gallery - ACP Core Extension [Dutch Translation]
+ *
+ * @package   phpbbgallery/core
+ * @author    satanasov
+ * @author    Leinad4Mind
+ * @copyright 2014- satanasov, 2018- Leinad4Mind
+ * @license   GPL-2.0-only
+ * @translator Dutch Translators <https://github.com/dutch-translators>
+ */
 
 /**
-* DO NOT CHANGE
-*/
+ * DO NOT CHANGE
+ */
 if (!defined('IN_PHPBB'))
 {
 	exit;

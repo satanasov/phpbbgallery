@@ -1,11 +1,15 @@
 <?php
 /**
-*
-* @package phpBB Gallery - ACP Import Extension [Bulgarian]
-* @copyright (c) 2014 Lucifer - http://www.anavaro.com/
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
-*/
+ * phpBB Gallery - ACP Import Extension [Bulgarian Translation]
+ *
+ * @package   phpbbgallery/acpimport
+ * @author    nickvergessen
+ * @author    satanasov
+ * @author    Leinad4Mind
+ * @copyright 2007-2012 nickvergessen, 2014- satanasov, 2018- Leinad4Mind
+ * @license   GPL-2.0-only
+ * @translator Lucifer <https://www.anavaro.com>
+ */
 
 /**
 * DO NOT CHANGE

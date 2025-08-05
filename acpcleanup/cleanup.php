@@ -1,12 +1,14 @@
 <?php
 /**
-*
-* @package phpBB Gallery
-* @version $Id$
-* @copyright (c) 2007 nickvergessen nickvergessen@gmx.de http://www.flying-bits.org
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*
-*/
+ * phpBB Gallery - ACP CleanUp Extension
+ *
+ * @package   phpbbgallery/acpcleanup
+ * @author    nickvergessen
+ * @author    satanasov
+ * @author    Leinad4Mind
+ * @copyright 2007 nickvergessen, 2014 satanasov, 2025 Leinad4Mind
+ * @license   GPL-2.0-only
+ */
 
 namespace phpbbgallery\acpcleanup;
 

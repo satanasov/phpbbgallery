@@ -1,11 +1,15 @@
 <?php
 /**
+ * phpBB Gallery - Core Extension
  *
- * @package phpBB Gallery
- * @copyright (c) 2014 nickvergessen
- * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
- *
+ * @package   phpbbgallery/core
+ * @author    nickvergessen
+ * @author    satanasov
+ * @author    Leinad4Mind
+ * @copyright 2014 nickvergessen, 2014- satanasov, 2018- Leinad4Mind
+ * @license   GPL-2.0-only
  */
+
 namespace phpbbgallery\core\event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
