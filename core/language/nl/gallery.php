@@ -1,15 +1,14 @@
 <?php
 /**
+ * phpBB Gallery - ACP Core Extension [Dutch Translation]
  *
- * gallery [Dutch]
- *
- * @package       phpBB Gallery
- * @version       $Id$
- * @copyright (c) 2007 nickvergessen nickvergessen@gmx.de http://www.flying-bits.org
- * @license       http://opensource.org/licenses/gpl-license.php GNU Public License
- * [Dutch] translated by Dutch Translators (https://github.com/dutch-translators)
- *
- **/
+ * @package   phpbbgallery/core
+ * @author    satanasov
+ * @author    Leinad4Mind
+ * @copyright 2014- satanasov, 2018- Leinad4Mind
+ * @license   GPL-2.0-only
+ * @translator Dutch Translators <https://github.com/dutch-translators>
+ */
 
 /**
  * DO NOT CHANGE
