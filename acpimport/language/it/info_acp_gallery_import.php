@@ -8,7 +8,7 @@
  * @author    Leinad4Mind
  * @copyright 2007-2012 nickvergessen, 2014- satanasov, 2018- Leinad4Mind
  * @license   GPL-2.0-only
- * @translator 
+ * @translator
  */
 
 /**
