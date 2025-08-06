@@ -36,7 +36,7 @@
 	},
 	"version-check": {
 		"host": "raw.githubusercontent.com",
-		"directory": "/satanasov/phpbbgallery/master",
+		"directory": "/satanasov/phpbbgallery/master/",
 		"filename": "gallery-import.json",
 		"ssl": true
 	}
