@@ -148,7 +148,7 @@ input.autowidth-gallery {
 	width: 0;
 	height: 0;
 	overflow: hidden;
-	background-image: url("./images/icon_topic_unapproved.gif");
+	background-image: url("./images/icon_topic_unapproved.png");
 	padding-left: 16px;
 	padding-top: 14px;
 	float: right;
@@ -203,13 +203,14 @@ input.autowidth-gallery {
 	font-weight: 700;
 	background-color: #ffcc66;
 	color: black;
-	border-radius: 10px;
+	border-radius: 7px;
 }
 
 .polaroid .post-notice.unapproved {
 	font-weight: 700;
 	background-color: #ffcc66;
 	color: black;
+	border-radius: 5px;
 }
 
 .trophy-container
