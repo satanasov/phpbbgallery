@@ -80,6 +80,6 @@ $lang = array_merge($lang, [
 	'MOVE_TO_USER_EXP'	=> 'Images and comments will be moved as those of user you have defined. If none is selected - Anonymous will be used.',
 	'CLEAN_USER_NOT_FOUND'	=> 'The user you selected does not exists!',
 
-	'GALLERY_CORE_NOT_FOUND'		=> 'phpBB Gallery Core extension must be installed and enabled first.',
-	'EXTENSION_ENABLE_SUCCESS'		=> 'The extension has been enabled successfully.',
+	'GALLERY_CORE_NOT_FOUND'		=> 'Сначала необходимо установить и включить расширение phpBB Gallery Core.',
+	'EXTENSION_ENABLE_SUCCESS'		=> 'Расширение успешно включено.',
 ]);

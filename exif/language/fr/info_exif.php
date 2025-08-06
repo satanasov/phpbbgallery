@@ -97,6 +97,6 @@ $lang = array_merge($lang, [
 	'SHOW_EXIF'					=> 'Afficher/Cacher',
 	'VIEWEXIFS_DEFAULT'			=> 'Voir les informations des images par défaut',
 
-	'GALLERY_CORE_NOT_FOUND'		=> 'phpBB Gallery Core extension must be installed and enabled first.',
-	'EXTENSION_ENABLE_SUCCESS'		=> 'The extension has been enabled successfully.',
+	'GALLERY_CORE_NOT_FOUND'		=> 'L’extension phpBB Gallery Core doit d’abord être installée et activée.',
+	'EXTENSION_ENABLE_SUCCESS'		=> 'L’extension a été activée avec succès.',
 ]);

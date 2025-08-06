@@ -97,6 +97,6 @@ $lang = array_merge($lang, [
 	'SHOW_EXIF'					=> 'Показать / Скрыть',
 	'VIEWEXIFS_DEFAULT'			=> 'Просмотр EXIF-Данных по умолчанию',
 
-	'GALLERY_CORE_NOT_FOUND'		=> 'phpBB Gallery Core extension must be installed and enabled first.',
-	'EXTENSION_ENABLE_SUCCESS'		=> 'The extension has been enabled successfully.',
+	'GALLERY_CORE_NOT_FOUND'		=> 'Сначала необходимо установить и включить расширение phpBB Gallery Core.',
+	'EXTENSION_ENABLE_SUCCESS'		=> 'Расширение успешно включено.',
 ]);

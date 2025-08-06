@@ -44,6 +44,6 @@ $lang = array_merge($lang, [
 
 	'NO_FILE_SELECTED'				=> 'Vous devez sélectionner au moins un fichier.',
 
-	'GALLERY_CORE_NOT_FOUND'		=> 'phpBB Gallery Core extension must be installed and enabled first.',
-	'EXTENSION_ENABLE_SUCCESS'		=> 'The extension has been enabled successfully.',
+	'GALLERY_CORE_NOT_FOUND'		=> 'L’extension phpBB Gallery Core doit d’abord être installée et activée.',
+	'EXTENSION_ENABLE_SUCCESS'		=> 'L’extension a été activée avec succès.',
 ]);
