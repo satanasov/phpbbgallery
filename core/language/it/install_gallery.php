@@ -130,5 +130,7 @@ $lang = array_merge($lang, array(
 
 	'UPDATE_INSTALLATION_EXPLAIN'	=> 'Puoi aggiornare la tua versione di phpBB Gallery.',
 
-	'VERSION_NOT_SUPPORTED'		=> 'Spiacente, ma gli aggiornamenti dalle versioni inferiori a < 0.2.0 non sono supportate con questo processo di installazione.',
+	'VERSION_NOT_SUPPORTED'			=> 'Spiacente, ma gli aggiornamenti dalle versioni inferiori a < 0.2.0 non sono supportate con questo processo di installazione.',
+
+	'GALLERY_SUB_EXT_UNINSTALL'	=> 'È necessario disinstallare l’estensione <strong>%s</strong> prima di disinstallare l’estensione principale.',
 ));

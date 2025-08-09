@@ -130,5 +130,7 @@ $lang = array_merge($lang, array(
 
 	'UPDATE_INSTALLATION_EXPLAIN'	=> 'Hier kan je de phpBB galerij updaten.',
 
-	'VERSION_NOT_SUPPORTED'		=> 'Sorry, maar updates van voor versie 1.0.6 worden door deze installatie niet ondersteund.',
+	'VERSION_NOT_SUPPORTED'			=> 'Sorry, maar updates van voor versie 1.0.6 worden door deze installatie niet ondersteund.',
+
+	'GALLERY_SUB_EXT_UNINSTALL'	=> 'U moet de extensie <strong>%s</strong> verwijderen voordat u de kern-extensie verwijdert.',
 ));

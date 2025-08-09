@@ -131,4 +131,6 @@ $lang = array_merge($lang, array(
 	'UPDATE_INSTALLATION_EXPLAIN' 	=>	'Aquí puedes actualizar tu versión de la galería de phpBB.',
 
 	'VERSION_NOT_SUPPORTED' 		=>	'Lo sentimos, pero sus actualizaciones anteriores a 1.0.6 no son compatibles con este sistema de instalación / actualización.',
+
+	'GALLERY_SUB_EXT_UNINSTALL'	=> 'Debe desinstalar la extensión <strong>%s</strong> antes de desinstalar la extensión principal.',
 ));
