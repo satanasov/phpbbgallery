@@ -9,7 +9,7 @@
  * @license   GPL-2.0-only
  */
 
-// this file is not really needed, when empty it can be ommitted
+// this file is not really needed, when empty it can be omitted
 // however you can override the default methods and add custom
 // installation logic
 
@@ -17,11 +17,12 @@ namespace phpbbgallery\core;
 
 class ext extends \phpbb\extension\base
 {
-	protected $add_ons = array(
+	protected $sub_extensions = [
+		'phpbbgallery/acpcleanup',
 		'phpbbgallery/acpimport',
 		'phpbbgallery/exif',
-		'phpbbgallery/acpcleanup',
-	);
+	];
+
 	/**
 	* Single enable step that installs any included migrations
 	*
@@ -36,12 +37,12 @@ class ext extends \phpbb\extension\base
 				// Disable list of official extensions
 				$extensions = $this->container->get('ext.manager');
 				$configured = $extensions->all_disabled();
-				//var_dump($configured);
-				foreach ($this->add_ons as $var)
+
+				foreach ($this->sub_extensions as $sub_ext)
 				{
-					if (array_key_exists($var, $configured))
+					if (array_key_exists($sub_ext, $configured))
 					{
-						$extensions->enable($var);
+						$extensions->enable($sub_ext);
 					}
 				}
 				// Enable board rules notifications
@@ -68,6 +69,21 @@ class ext extends \phpbb\extension\base
 	*/
 	function disable_step($old_state)
 	{
+		$extensions = $this->container->get('ext.manager');
+
+		// Check if any sub-extension is enabled - if yes, block disabling core
+		foreach ($this->$sub_extensions as $sub_ext)
+		{
+			if ($extensions->is_enabled($sub_ext))
+			{
+				$this->container->get('user')->add_lang_ext('phpbbgallery/core', 'install_gallery');
+				$error_msg = sprintf(
+					$this->container->get('user')->lang('GALLERY_SUB_EXT_FOUND'), 
+					$sub_ext
+				);
+				trigger_error($error_msg, E_USER_WARNING);
+			}
+		}
 		switch ($old_state)
 		{
 			case '': // Empty means nothing has run yet
