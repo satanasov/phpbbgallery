@@ -109,6 +109,10 @@ $lang = array_merge($lang, array(
 	'UNINSTALL_START'					=> 'Удаление',
 	'UNINSTALL_FINISHED'				=> 'Удаление почти закончено',
 	'UNINSTALL_FINISHED_EXPLAIN'		=> 'Вы успешно удалили phpBB Gallery.<br/><br/><strong>Теперь вам осталось откатить изменения в файлах конференции, описанные в <em>install.xml</em>, и удалить файлы галереи. После этого ваша конференция будет полностью очищена от галереи.</strong>',
+
 	'UPDATE_INSTALLATION_EXPLAIN'	=> 'Обновление phpBB Gallery.',
+
 	'VERSION_NOT_SUPPORTED'		=> 'Извините, но обновление галереи с версий < 1.0.6 не поддерживаются данной версией инсталятора.',
+
+	'GALLERY_SUB_EXT_FOUND'		=> 'Перед отключением основного расширения необходимо отключить/удалить расширение <strong>%s</strong>.',
 ));

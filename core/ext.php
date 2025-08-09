@@ -68,6 +68,28 @@ class ext extends \phpbb\extension\base
 	*/
 	function disable_step($old_state)
 	{
+		$extensions = $this->container->get('ext.manager');
+
+		// List of dependent sub-extensions that must be disabled/uninstalled first
+		$sub_extensions = [
+			'phpbbgallery/exif',
+			'phpbbgallery/acpcleanup',
+			'phpbbgallery/acpimport',
+		];
+
+		// Check if any sub-extension is enabled - if yes, block disabling core
+		foreach ($sub_extensions as $sub_ext)
+		{
+			if ($extensions->is_enabled($sub_ext))
+			{
+				$this->container->get('user')->add_lang_ext('phpbbgallery/core', 'install_gallery');
+				$error_msg = sprintf(
+					$this->container->get('user')->lang('GALLERY_SUB_EXT_FOUND'), 
+					$sub_ext
+				);
+				trigger_error($error_msg, E_USER_WARNING);
+			}
+		}
 		switch ($old_state)
 		{
 			case '': // Empty means nothing has run yet

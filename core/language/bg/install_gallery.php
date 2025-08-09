@@ -131,4 +131,6 @@ $lang = array_merge($lang, array(
 	'UPDATE_INSTALLATION_EXPLAIN'	=> 'Here you can Update your phpBB Gallery-Version.',
 
 	'VERSION_NOT_SUPPORTED'		=> 'Sorry, but your updates prior to 1.0.6 are not supported from this install/update-system.',
+
+	'GALLERY_SUB_EXT_FOUND'		=> 'Трябва да деактивирате/деинсталирате разширението <strong>%s</strong>, преди да деактивирате основното разширение.',
 ));
