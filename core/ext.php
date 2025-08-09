@@ -113,7 +113,7 @@ class ext extends \phpbb\extension\base
 			{
 				$this->container->get('user')->add_lang_ext('phpbbgallery/core', 'install_gallery');
 				$error_msg = sprintf(
-					$this->container->get('user')->lang('GALLERY_SUB_EXT_UNINSTALL'), 
+					$this->container->get('user')->lang('GALLERY_SUB_EXT_UNINSTALL'),
 					$sub_ext
 				);
 				trigger_error($error_msg, E_USER_WARNING);
