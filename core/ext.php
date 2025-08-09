@@ -17,11 +17,12 @@ namespace phpbbgallery\core;
 
 class ext extends \phpbb\extension\base
 {
-	protected $add_ons = array(
+	protected $sub_extensions = [
+		'phpbbgallery/acpcleanup',
 		'phpbbgallery/acpimport',
 		'phpbbgallery/exif',
-		'phpbbgallery/acpcleanup',
-	);
+	];
+
 	/**
 	* Single enable step that installs any included migrations
 	*
@@ -36,12 +37,12 @@ class ext extends \phpbb\extension\base
 				// Disable list of official extensions
 				$extensions = $this->container->get('ext.manager');
 				$configured = $extensions->all_disabled();
-				//var_dump($configured);
-				foreach ($this->add_ons as $var)
+
+				foreach ($this->sub_extensions as $sub_ext)
 				{
-					if (array_key_exists($var, $configured))
+					if (array_key_exists($sub_ext, $configured))
 					{
-						$extensions->enable($var);
+						$extensions->enable($sub_ext);
 					}
 				}
 				// Enable board rules notifications
@@ -95,9 +96,9 @@ class ext extends \phpbb\extension\base
 			case '': // Empty means nothing has run yet
 				// Disable list of official extensions
 				$extensions = $this->container->get('ext.manager');
-				foreach ($this->add_ons as $var)
+				foreach ($this->sub_extensions as $sub_ext)
 				{
-					$extensions->disable($var);
+					$extensions->disable($sub_ext);
 				}
 
 				// Disable board rules notifications

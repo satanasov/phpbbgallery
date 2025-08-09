@@ -129,7 +129,7 @@ $lang = array_merge($lang, array(
 
 	'UPDATE_INSTALLATION_EXPLAIN'	=> 'Here you can Update your phpBB Gallery-Version.',
 
-	'VERSION_NOT_SUPPORTED'		=> 'Sorry, but your updates prior to 1.0.6 are not supported from this install/update-system.',
+	'VERSION_NOT_SUPPORTED'			=> 'Sorry, but your updates prior to 1.0.6 are not supported from this install/update-system.',
 
-	'GALLERY_SUB_EXT_FOUND'		=> 'You must disable/uninstall the extension <strong>%s</strong> before disabling the core extension.',
+	'GALLERY_SUB_EXT_UNINSTALL'	=> 'You must uninstall the extension <strong>%s</strong> before uninstalling the core extension.',
 ));

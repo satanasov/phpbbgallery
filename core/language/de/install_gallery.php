@@ -132,5 +132,5 @@ $lang = array_merge($lang, array(
 
 	'VERSION_NOT_SUPPORTED'			=> 'Leider konnte das Update-Schema für Versionen < 1.0.6 nicht übernommen werden.',
 
-	'GALLERY_SUB_EXT_FOUND'		=> 'Sie müssen die Erweiterung <strong>%s</strong> deaktivieren/deinstallieren, bevor Sie die Kern-Erweiterung deaktivieren können.',
+	'GALLERY_SUB_EXT_UNINSTALL'	=> 'Sie müssen die Erweiterung <strong>%s</strong> deinstallieren, bevor Sie die Kern-Erweiterung deinstallieren können.',
 ));
