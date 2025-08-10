@@ -88,16 +88,29 @@ class release_1_2_0 extends migration
 				'module_auth'		=> 'ext_phpbbgallery/core',
 			))),
 			//@todo move
-/*			array('module.add', array('ucp', 'UCP_GALLERY', array(
-				'module_basename'	=> '\phpbbgallery\core\ucp\main_module',
-				'module_langname'	=> 'UCP_GALLERY_FAVORITES',
-				'module_mode'		=> 'manage_favorites',
-				'module_auth'		=> 'ext_phpbbgallery/core',
-			))),
-*/
+			/*			array('module.add', array('ucp', 'UCP_GALLERY', array(
+							'module_basename'	=> '\phpbbgallery\core\ucp\main_module',
+							'module_langname'	=> 'UCP_GALLERY_FAVORITES',
+							'module_mode'		=> 'manage_favorites',
+							'module_auth'		=> 'ext_phpbbgallery/core',
+						))),
+			*/
 
 			// @todo: ADD BBCODE
 			array('custom', array(array(&$this, 'install_config'))),
+		);
+	}
+
+	public function revert_data()
+	{
+		return array(
+			// Remove permissions added
+			array('permission.remove', array('a_gallery_manage')),
+			array('permission.remove', array('a_gallery_albums')),
+			array('permission.remove', array('a_gallery_cleanup')),
+
+			// Remove config keys you installed
+			array('custom', array(array($this, 'uninstall_config'))),
 		);
 	}
 
@@ -115,6 +128,18 @@ class release_1_2_0 extends migration
 			{
 				$config->set('phpbb_gallery_' . $name, $value);
 			}
+		}
+
+		return true;
+	}
+
+	public function uninstall_config()
+	{
+		global $config;
+
+		foreach (self::$configs as $name => $value)
+		{
+			$config->delete('phpbb_gallery_' . $name);
 		}
 
 		return true;
@@ -238,3 +263,4 @@ class release_1_2_0 extends migration
 		'version'				=> '1.2.0',
 	);
 }
+
