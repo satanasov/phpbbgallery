@@ -1,9 +1,10 @@
 <?php
 /**
- * phpBB Gallery - Fix EXIF Field Migration
+ * phpBB Gallery - Exif Extension
  *
  * @package   phpbbgallery/exif
  * @author    Leinad4Mind
+ * @copyright 2018- Leinad4Mind
  * @license   GPL-2.0-only
  */
 
