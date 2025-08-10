@@ -735,7 +735,7 @@ class image
 
 					'S_CUSTOM_FIELDS' => (isset($cp_row['row']) && count($cp_row['row'])) ? true : false,
 				);
-					var_dump($user_data['online']);
+
 				if (isset($cp_row['row']) && count($cp_row['row']))
 				{
 					$comment_row = array_merge($comment_row, $cp_row['row']);
