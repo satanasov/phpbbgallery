@@ -1188,6 +1188,7 @@ class image
 		$this->template->assign_vars(array(
 			'ERROR'            => $error,
 			'U_IMAGE'          => ($image_id) ? $this->helper->route('phpbbgallery_core_image_file_medium', array('image_id' => $image_id)) : '',
+			'IMAGE_NAME'       => $image_data['image_name'],
 			'U_VIEW_IMAGE'     => ($image_id) ? $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_id)) : '',
 			'IMAGE_RSZ_WIDTH'  => $this->gallery_config->get('medium_width'),
 			'IMAGE_RSZ_HEIGHT' => $this->gallery_config->get('medium_height'),
