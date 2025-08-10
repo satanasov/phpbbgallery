@@ -27,7 +27,7 @@ class main_info
 		return [
 				'filename' => '\phpbbgallery\acpimport\acp\main_module',
 				'title'    => 'PHPBB_GALLERY',
-				'version'  => '1.2.2',
+				'version' => '1.0.0',
 				'modes'    => [
 					'import_images' => [
 						'title' => 'ACP_IMPORT_ALBUMS',
