@@ -202,7 +202,7 @@ class upload
 		$this->file_count = (int) $file_count;
 
 		//$this->files = $this->form_upload('files');
-		$files = $this->file_upload->handle_upload('phpbbgallery.core.file.types.multiform', 'files');
+		$files = $this->file_upload->handle_upload('phpbbgallery.core.files.types.multiform', 'files');
 
 		foreach ($files as $var)
 		{
