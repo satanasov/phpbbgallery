@@ -38,8 +38,9 @@ class ext extends \phpbb\extension\base
 				$phpbb_notifications = $this->container->get('notification_manager');
 				$phpbb_notifications->enable_notifications('phpbbgallery.core.notification.image_for_approval');
 				$phpbb_notifications->enable_notifications('phpbbgallery.core.notification.image_approved');
-				$phpbb_notifications->enable_notifications('phpbbgallery.core.notification.new_image');
+				$phpbb_notifications->enable_notifications('phpbbgallery.core.notification.image_not_approved');
 				$phpbb_notifications->enable_notifications('phpbbgallery.core.notification.new_comment');
+				$phpbb_notifications->enable_notifications('phpbbgallery.core.notification.new_image');
 				$phpbb_notifications->enable_notifications('phpbbgallery.core.notification.new_report');
 				return 'notifications';
 			break;
@@ -73,8 +74,9 @@ class ext extends \phpbb\extension\base
 				$phpbb_notifications = $this->container->get('notification_manager');
 				$phpbb_notifications->disable_notifications('phpbbgallery.core.notification.image_for_approval');
 				$phpbb_notifications->disable_notifications('phpbbgallery.core.notification.image_approved');
-				$phpbb_notifications->disable_notifications('phpbbgallery.core.notification.new_image');
+				$phpbb_notifications->disable_notifications('phpbbgallery.core.notification.image_not_approve');
 				$phpbb_notifications->disable_notifications('phpbbgallery.core.notification.new_comment');
+				$phpbb_notifications->disable_notifications('phpbbgallery.core.notification.new_image');
 				$phpbb_notifications->disable_notifications('phpbbgallery.core.notification.new_report');
 				return 'notifications';
 
