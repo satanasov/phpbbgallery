@@ -17,7 +17,7 @@ class release_3_3_0 extends migration
 {
 	static public function depends_on()
 	{
-		return ['\phpbbgallery\core\migrations\release_3_2_1_1'];
+		return ['\phpbbgallery\core\migrations\release_1_2_0_db_create'];
 	}
 
 	public function update_data()

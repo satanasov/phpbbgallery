@@ -17,7 +17,7 @@ class release_3_2_1_0 extends profilefield_base_migration
 {
 	static public function depends_on()
 	{
-		return array('\phpbbgallery\core\migrations\split_ucp_module_settings');
+		return array('\phpbbgallery\core\migrations\release_1_2_0');
 	}
 
 	public function update_data()

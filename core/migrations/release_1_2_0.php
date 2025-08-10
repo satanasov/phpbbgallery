@@ -20,6 +20,7 @@ class release_1_2_0 extends migration
 	{
 		return array('\phpbb\db\migration\data\v310\gold');
 	}
+
 	public function update_data()
 	{
 		return array(
@@ -27,7 +28,7 @@ class release_1_2_0 extends migration
 			array('permission.add', array('a_gallery_albums', true, 'a_board')),
 			array('permission.add', array('a_gallery_cleanup', true, 'a_board')),
 
-			// ACP
+			// ACP	
 			array('module.add', array('acp', 'ACP_CAT_DOT_MODS', 'PHPBB_GALLERY')),
 			array('module.add', array('acp', 'PHPBB_GALLERY', array(
 				'module_basename'	=> '\phpbbgallery\core\acp\main_module',

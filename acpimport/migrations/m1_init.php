@@ -70,13 +70,13 @@ class m1_init extends migration
 	{
 		global $phpbb_root_path;
 
-		$phpbbgallery_core_file_import = $phpbb_root_path . 'files/phpbbgallery/import';
+		$phpbbgallery_import_file = $phpbb_root_path . 'files/phpbbgallery/import';
 
-		if (!is_dir($phpbbgallery_core_file_import))
+		if (!is_dir($phpbbgallery_import_file))
 		{
 			if (is_writable($phpbb_root_path . 'files'))
 			{
-				@mkdir($phpbbgallery_core_file_import, 0755, true);
+				@mkdir($phpbbgallery_import_file, 0755, true);
 			}
 		}
 	}
@@ -90,12 +90,12 @@ class m1_init extends migration
 	{
 		global $phpbb_root_path;
 
-		$phpbbgallery_core_file_import = $phpbb_root_path . 'files/phpbbgallery/import';
+		$phpbbgallery_import_file = $phpbb_root_path . 'files/phpbbgallery/import';
 
 		// Clean dirs
-		if (is_dir($phpbbgallery_core_file_import))
+		if (is_dir($phpbbgallery_import_file))
 		{
-			$this->recursiveRemoveDirectory($phpbbgallery_core_file_import);
+			$this->recursiveRemoveDirectory($phpbbgallery_import_file);
 		}
 	}
 
