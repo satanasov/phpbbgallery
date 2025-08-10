@@ -70,9 +70,8 @@
 			<!-- IF POSTER_GALLERY_IMAGES != '' --><dd><strong>{L_IMAGES}{L_COLON}</strong> <!-- IF U_POSTER_GALLERY_SEARCH --><a href="{U_POSTER_GALLERY_SEARCH}">{POSTER_GALLERY_IMAGES}</a><!-- ELSE -->{POSTER_GALLERY_IMAGES}<!-- ENDIF --></dd><!-- ENDIF -->
 			<!-- IF POSTER_JOINED --><dd class="profile-joined"><strong>{L_JOINED}{L_COLON} </strong><span style="white-space: nowrap;"> {POSTER_JOINED}</span></dd><!-- ENDIF -->
 			<!-- IF POSTER_WARNINGS --><dd class="profile-warnings"><strong>{L_WARNINGS}{L_COLON}</strong> {POSTER_WARNINGS}</dd><!-- ENDIF -->
-			<!-- IF U_ACP -->
-				<!-- IF POSTER_IP --><dd><strong>{L_IP}{L_COLON}</strong> {POSTER_IP} <!-- [ <a href="{U_POSTER_WHOIS}" onclick="popup(this.href, 750, 500); return false;">{L_WHOIS}</a> ]--></dd><!-- ENDIF -->
-			<!-- ENDIF -->
+			<!-- IF U_ACP and POSTER_IP --><dd><strong>{L_IP}{L_COLON}</strong> {POSTER_IP} <!-- [ <a href="{U_POSTER_WHOIS}" onclick="popup(this.href, 750, 500); return false;">{L_WHOIS}</a> ]--></dd><!-- ENDIF -->
+
 			<!-- IF S_PROFILE_FIELD1 -->
 				<!-- Use a construct like this to include admin defined profile fields. Replace FIELD1 with the name of your field. -->
 				<dd><strong>{PROFILE_FIELD1_NAME}{L_COLON}</strong> {PROFILE_FIELD1_VALUE}</dd>
@@ -241,7 +240,7 @@
 					<div class="avatar-container">
 						<!-- EVENT viewtopic_body_avatar_before -->
 						<!-- IF commentrow.POSTER_AVATAR -->
-						<!-- IF commentrow.U_POSTER --><a href="{commentrow.U_POSTER}" class="avatar">{commentrow.POSTER_AVATAR}</a><!-- ELSE --><span class="avatar">{commentrow.POSTER_AVATAR}</span><!-- ENDIF -->
+							<!-- IF commentrow.U_POSTER --><a href="{commentrow.U_POSTER}" class="avatar">{commentrow.POSTER_AVATAR}</a><!-- ELSE --><span class="avatar">{commentrow.POSTER_AVATAR}</span><!-- ENDIF -->
 						<!-- ENDIF -->
 						<!-- EVENT viewtopic_body_avatar_after -->
 					</div>
@@ -258,7 +257,7 @@
 				<!-- IF commentrow.POSTER_GALLERY_IMAGES != '' --><dd><strong>{L_IMAGES}{L_COLON}</strong> <!-- IF commentrow.U_POSTER_GALLERY_SEARCH --><a href="{commentrow.U_POSTER_GALLERY_SEARCH}">{POSTER_GALLERY_IMAGES}</a><!-- ELSE -->{POSTER_GALLERY_IMAGES}<!-- ENDIF --></dd><!-- ENDIF -->
 				<!-- IF commentrow.POSTER_JOINED --><dd class="profile-joined"><strong>{L_JOINED}{L_COLON} </strong><span style="white-space: nowrap;"> {commentrow.POSTER_JOINED}</span></dd><!-- ENDIF -->
 				<!-- IF commentrow.POSTER_WARNINGS --><dd class="profile-warnings"><strong>{L_WARNINGS}{L_COLON}</strong> {commentrow.POSTER_WARNINGS}</dd><!-- ENDIF -->
-				<!-- IF commentrow.POSTER_IP --><dd><strong>{L_IP}{L_COLON}</strong> {commentrow.POSTER_IP} <!-- [ <a href="{U_POSTER_WHOIS}" onclick="popup(this.href, 750, 500); return false;">{L_WHOIS}</a> ]--></dd><!-- ENDIF -->
+				<!-- IF U_ACP and commentrow.POSTER_IP --><dd><strong>{L_IP}{L_COLON}</strong> {commentrow.POSTER_IP} <!-- [ <a href="{U_POSTER_WHOIS}" onclick="popup(this.href, 750, 500); return false;">{L_WHOIS}</a> ]--></dd><!-- ENDIF -->
 
 				<!-- IF commentrow.S_PROFILE_FIELD1 -->
 				<!-- Use a construct like this to include admin defined profile fields. Replace FIELD1 with the name of your field. -->
@@ -267,12 +266,11 @@
 
 				<!-- EVENT viewtopic_body_postrow_custom_fields_before -->
 				<!-- BEGIN commentrow.custom_fields -->
-				<dd class="profile-custom-field profile-{commentrow.custom_fields.PROFILE_FIELD_IDENT}"><strong>{commentrow.custom_fields.PROFILE_FIELD_NAME}{L_COLON}</strong> {commentrow.custom_fields.PROFILE_FIELD_VALUE}</dd>
+					<dd class="profile-custom-field profile-{commentrow.custom_fields.PROFILE_FIELD_IDENT}"><strong>{commentrow.custom_fields.PROFILE_FIELD_NAME}{L_COLON}</strong> {commentrow.custom_fields.PROFILE_FIELD_VALUE}</dd>
 				<!-- END commentrow.custom_fields -->
 				<!-- EVENT viewtopic_body_postrow_custom_fields_after -->
 
 				<!-- EVENT viewtopic_body_contact_fields_before -->
-
 				<!-- IF not S_IS_BOT and .commentrow.contact -->
 				<dd class="profile-contact">
 					<strong>{L_CONTACT}{L_COLON}</strong>
