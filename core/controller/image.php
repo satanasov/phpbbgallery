@@ -725,12 +725,13 @@ class image
 					'U_QUOTE'    => ($this->gallery_auth->acl_check('c_post', $album_id, $album_data['album_user_id'])) ? $this->helper->route('phpbbgallery_core_comment_add', array('image_id' => $image_id, 'comment_id' => $row['comment_id'])) : '',
 					'U_EDIT'     => ($this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']) || ($this->gallery_auth->acl_check('c_edit', $album_id, $album_data['album_user_id']) && ($row['comment_user_id'] == $this->user->data['user_id']) && $this->user->data['is_registered'])) ? $this->helper->route('phpbbgallery_core_comment_edit', array('image_id' => $image_id, 'comment_id' => $row['comment_id'])) : '',
 					// TODO Whois link
-					// 'U_INFO'     => ($this->auth->acl_get('a_')) ? $this->url->append_sid('mcp', 'mode=whois&amp;ip=' . $row['comment_user_ip']) : '',
+					// 'U_WHOIS'     => ($this->auth->acl_get('a_')) ? $this->url->append_sid('mcp', 'mode=whois&amp;ip=' . $row['comment_user_ip']) : '',
 
 					'POSTER_FULL'     => get_username_string('full', $poster_id, $this->users_data_array[$poster_id]['username'], $this->users_data_array[$poster_id]['user_colour']),
 					'POSTER_COLOUR'   => get_username_string('colour', $poster_id, $this->users_data_array[$poster_id]['username'], $this->users_data_array[$poster_id]['user_colour']),
 					'POSTER_USERNAME' => get_username_string('username', $poster_id, $this->users_data_array[$poster_id]['username'], $this->users_data_array[$poster_id]['user_colour']),
 					'U_POSTER'        => get_username_string('profile', $poster_id, $this->users_data_array[$poster_id]['username'], $this->users_data_array[$poster_id]['user_colour']),
+					'POSTER_IP'       => ($this->auth->acl_get('a_')) ? $row['comment_user_ip'] : '',
 
 					'SIGNATURE'       => ($row['comment_signature'] && !$user_deleted) ? generate_text_for_display($this->users_data_array[$poster_id]['sig'], $row['comment_uid'], $row['comment_bitfield'], 7) : '',
 					'RANK_TITLE'      => $user_deleted ? '' : $this->users_data_array[$poster_id]['rank_title'],
