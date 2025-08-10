@@ -14,11 +14,11 @@ namespace phpbbgallery\acpcleanup\acp;
 
 class main_module
 {
-	protected string $u_action;
+	public string $u_action;
 
-	public function main(int $id, string $mode): void
+	public function main(string $id, string $mode): void
 	{
-		global $auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path, $phpbb_ext_gallery;
+		global $auth, $cache, $config, $db, $template, $request, $user, $phpEx, $phpbb_root_path, $phpbb_ext_gallery;
 
 		$user->add_lang_ext('phpbbgallery/core', array('gallery_acp', 'gallery'));
 		$this->tpl_name = 'gallery_cleanup';
