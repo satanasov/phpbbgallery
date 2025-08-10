@@ -13,32 +13,32 @@ use phpbb\db\migration\migration;
 
 class m2_fix_exif_field extends migration
 {
-    public static function depends_on(): array
-    {
-        return [
-            '\phpbbgallery\exif\migrations\m1_init',
-        ];
-    }
+	public static function depends_on(): array
+	{
+		return [
+				'\phpbbgallery\exif\migrations\m1_init',
+		];
+	}
 
-    public function update_schema(): array
-    {
-        return [
-            'change_columns' => [
-                $this->table_prefix . 'gallery_images' => [
-                    'image_exif_data' => ['TEXT', null],
-                ],
-            ],
-        ];
-    }
+	public function update_schema(): array
+	{
+		return [
+				'change_columns' => [
+					$this->table_prefix . 'gallery_images' => [
+						'image_exif_data' => ['TEXT', null],
+					],
+				],
+		];
+	}
 
-    public function revert_schema(): array
-    {
-        return [
-            'change_columns' => [
-                $this->table_prefix . 'gallery_images' => [
-                    'image_exif_data' => ['TEXT', ''],
-                ],
-            ],
-        ];
-    }
+	public function revert_schema(): array
+	{
+		return [
+				'change_columns' => [
+					$this->table_prefix . 'gallery_images' => [
+						'image_exif_data' => ['TEXT', ''],
+					],
+				],
+		];
+	}
 }
