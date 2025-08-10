@@ -263,4 +263,3 @@ class release_1_2_0 extends migration
 		'version'				=> '1.2.0',
 	);
 }
-
