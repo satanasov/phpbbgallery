@@ -697,7 +697,9 @@ class comment
 		// Build smilies array
 		generate_smilies('inline', 0);
 
-		$s_hide_comment_input = (time() < ($album_data['contest_start'] + $album_data['contest_end'])) ? true : false;
+		$contest_start = $album_data['contest_start'] ?? 0;
+		$contest_end = $album_data['contest_end'] ?? 0;
+		$s_hide_comment_input = (time() < ($contest_start + $contest_end)) ? true : false;
 
 		$this->template->assign_vars(array(
 			'BBCODE_STATUS'			=> ($bbcode_status) ? sprintf($this->language->lang('BBCODE_IS_ON'), '<a href="' . $this->url->append_sid('phpbb', 'faq', 'mode=bbcode') . '">', '</a>') : sprintf($this->language->lang('BBCODE_IS_OFF'), '<a href="' . $this->url->append_sid('phpbb', 'faq', 'mode=bbcode') . '">', '</a>'),
