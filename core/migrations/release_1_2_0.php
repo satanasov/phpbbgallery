@@ -230,7 +230,6 @@ class release_1_2_0 extends migration
 		'pegas_index_rnd_count'	=> 4,
 		//'pegas_index_recent'	=> true,
 		'pegas_index_rct_count'	=> 4,
-		
 		'profile_user_images'	=> true,
 		'profile_pega'			=> true,
 		'prune_orphan_time'		=> 0,
