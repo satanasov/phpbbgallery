@@ -164,6 +164,7 @@ class release_1_2_0 extends migration
 		'allow_hotlinking'	=> true,
 		'allow_jpg'			=> true,
 		'allow_png'			=> true,
+		'allow_webp'		=> true,
 		'allow_rates'		=> true,
 		'allow_resize'		=> true,
 		'allow_rotate'		=> true,
@@ -187,10 +188,13 @@ class release_1_2_0 extends migration
 		'disp_statistic'			=> true,
 		'disp_total_images'			=> true,
 		'disp_whoisonline'			=> true,
+		'disp_gallery_icon'			=> true,
 
 		'gdlib_version'		=> 2,
 
 		'hotlinking_domains'	=> 'anavaro.com',
+
+		'items_per_page'		=> 15,
 
 		'jpg_quality'			=> 100,
 
@@ -226,18 +230,20 @@ class release_1_2_0 extends migration
 		'pegas_index_rnd_count'	=> 4,
 		//'pegas_index_recent'	=> true,
 		'pegas_index_rct_count'	=> 4,
+		
 		'profile_user_images'	=> true,
 		'profile_pega'			=> true,
 		'prune_orphan_time'		=> 0,
 
 		'rrc_gindex_comments'	=> false,
+		//'rrc_gindex_contests'	=> 1,
 		'rrc_gindex_display'	=> 173,
 		'rrc_gindex_mode'		=> 7,
 		'rrc_gindex_pegas'		=> true,
 		'rrc_profile_display'	=> 141,
+		'rrc_profile_items'		=> 4,
 		'rrc_profile_mode'		=> 3,
 		//'rrc_profile_pegas'		=> true,
-		'rrc_profile_items'		=> 4,
 
 		'search_display'		=> 45,
 
@@ -257,9 +263,6 @@ class release_1_2_0 extends migration
 		'watermark_source'		=> 'ext/phpbbgallery/core/images/watermark.png',
 		'watermark_width'		=> 200,
 
-		'items_per_page'		=> 15,
-
-		//Version
 		'version'				=> '1.2.0',
 	);
 }

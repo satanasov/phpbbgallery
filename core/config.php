@@ -64,6 +64,8 @@ class config
 
 		'hotlinking_domains'	=> 'anavaro.com',
 
+		'items_per_page'		=> 15,
+
 		'jpg_quality'			=> 100,
 
 		'link_thumbnail'		=> 'image_page',
@@ -98,7 +100,6 @@ class config
 		'pegas_index_rnd_count'	=> 4,
 		//'pegas_index_recent'	=> true,
 		'pegas_index_rct_count'	=> 4,
-		'items_per_page'		=> 15,
 		'profile_user_images'	=> true,
 		'profile_pega'			=> true,
 		'prune_orphan_time'		=> 0,
@@ -108,8 +109,8 @@ class config
 		'rrc_gindex_display'	=> 173,
 		'rrc_gindex_mode'		=> 7,
 		'rrc_gindex_pegas'		=> true,
-		'rrc_profile_items'	=> 4,
 		'rrc_profile_display'	=> 141,
+		'rrc_profile_items'	=> 4,
 		'rrc_profile_mode'		=> 3,
 		//'rrc_profile_pegas'		=> true,
 
@@ -121,7 +122,6 @@ class config
 		'thumbnail_quality'		=> 50,
 		'thumbnail_width'		=> 240,
 
-		'version'				=> '',
 		//'viewtopic_icon'		=> true,
 		//'viewtopic_images'		=> true,
 		//'viewtopic_link'		=> false,
@@ -132,6 +132,8 @@ class config
 		'watermark_position'	=> 20,
 		'watermark_source'		=> 'gallery/images/watermark.png',
 		'watermark_width'		=> 200,
+
+		'version'				=> '',
 	);
 
 	/**
