@@ -12,7 +12,9 @@
 
 namespace phpbbgallery\acpcleanup\migrations;
 
-class m1_init extends \phpbb\db\migration\migration
+use phpbb\db\migration\migration;
+
+class m1_init extends migration
 {
 	static public function depends_on()
 	{

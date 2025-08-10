@@ -11,18 +11,20 @@
 
 namespace phpbbgallery\core\migrations;
 
-class release_3_2_1_1 extends \phpbb\db\migration\migration
+use phpbb\db\migration\migration;
+
+class release_3_2_1_1 extends migration
 {
 	static public function depends_on()
 	{
-		return array('\phpbbgallery\core\migrations\release_1_2_0_db_create');
+		return ['\phpbbgallery\core\migrations\release_3_2_1_0'];
 	}
 
 	public function update_data()
 	{
-		return array(
-			array('config.update', array('phpbb_gallery_version', '3.2.2'))
-		);
+		return [
+			['config.update', ['phpbb_gallery_version', '3.2.2']]
+		];
 	}
 
 	public function update_schema()

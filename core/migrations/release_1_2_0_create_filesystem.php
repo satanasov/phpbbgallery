@@ -11,7 +11,9 @@
 
 namespace phpbbgallery\core\migrations;
 
-class release_1_2_0_create_filesystem extends \phpbb\db\migration\migration
+use phpbb\db\migration\migration;
+
+class release_1_2_0_create_filesystem extends migration
 {
 	static public function depends_on()
 	{

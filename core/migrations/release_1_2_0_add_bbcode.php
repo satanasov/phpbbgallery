@@ -12,11 +12,13 @@
 
 namespace phpbbgallery\core\migrations;
 
-class release_1_2_0_add_bbcode extends \phpbb\db\migration\migration
+use phpbb\db\migration\migration;
+
+class release_1_2_0_add_bbcode extends migration
 {
 	static public function depends_on()
 	{
-		return array('\phpbbgallery\core\migrations\release_1_2_0');
+		return array('\phpbbgallery\core\migrations\release_1_2_0_db_create');
 	}
 
 	public function update_data()

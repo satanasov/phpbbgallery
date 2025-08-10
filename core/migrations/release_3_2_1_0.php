@@ -11,11 +11,13 @@
 
 namespace phpbbgallery\core\migrations;
 
-class release_3_2_1_0 extends \phpbb\db\migration\profilefield_base_migration
+use phpbb\db\migration\profilefield_base_migration;
+
+class release_3_2_1_0 extends profilefield_base_migration
 {
 	static public function depends_on()
 	{
-		return array('\phpbbgallery\core\migrations\release_1_2_0');
+		return array('\phpbbgallery\core\migrations\split_ucp_module_settings');
 	}
 
 	public function update_data()
