@@ -132,5 +132,8 @@ $lang = array_merge($lang, array(
 
 	'VERSION_NOT_SUPPORTED'			=> 'Sorry, maar updates van voor versie 1.0.6 worden door deze installatie niet ondersteund.',
 
-	'GALLERY_SUB_EXT_UNINSTALL'	=> 'U moet de extensie <strong>%s</strong> verwijderen voordat u de kern-extensie verwijdert.',
+	'GALLERY_SUB_EXT_UNINSTALL' => array(
+		1 => 'U moet de extensie: <br /><strong>%s</strong><br /> verwijderen voordat u de kern-extensie verwijdert.',
+		2 => 'U moet de extensies: <br /><strong>%s</strong><br /> verwijderen voordat u de kern-extensie verwijdert.',
+	),
 ));

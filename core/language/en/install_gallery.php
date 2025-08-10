@@ -131,5 +131,8 @@ $lang = array_merge($lang, array(
 
 	'VERSION_NOT_SUPPORTED'			=> 'Sorry, but your updates prior to 1.0.6 are not supported from this install/update-system.',
 
-	'GALLERY_SUB_EXT_UNINSTALL'	=> 'You must uninstall the extension <strong>%s</strong> before uninstalling the core extension.',
+	'GALLERY_SUB_EXT_UNINSTALL' => array(
+		1 => 'You must uninstall the extension: <br /><strong>%s</strong><br /> before uninstalling the core extension.',
+		2 => 'You must uninstall the extensions: <br /><strong>%s</strong><br /> before uninstalling the core extension.',
+	),
 ));

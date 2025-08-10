@@ -132,5 +132,8 @@ $lang = array_merge($lang, array(
 
 	'VERSION_NOT_SUPPORTED'			=> 'Spiacente, ma gli aggiornamenti dalle versioni inferiori a < 0.2.0 non sono supportate con questo processo di installazione.',
 
-	'GALLERY_SUB_EXT_UNINSTALL'	=> 'È necessario disinstallare l’estensione <strong>%s</strong> prima di disinstallare l’estensione principale.',
+	'GALLERY_SUB_EXT_UNINSTALL' => array(
+		1 => 'È necessario disinstallare l’estensione: <br /><strong>%s</strong><br /> prima di disinstallare l’estensione principale.',
+		2 => 'È necessario disinstallare le estensioni: <br /><strong>%s</strong><br /> prima di disinstallare l’estensione principale.',
+	),
 ));

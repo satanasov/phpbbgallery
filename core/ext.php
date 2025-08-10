@@ -34,17 +34,6 @@ class ext extends \phpbb\extension\base
 		switch ($old_state)
 		{
 			case '': // Empty means nothing has run yet
-				// Disable list of official extensions
-				$extensions = $this->container->get('ext.manager');
-				$configured = $extensions->all_disabled();
-
-				foreach ($this->sub_extensions as $sub_ext)
-				{
-					if (array_key_exists($sub_ext, $configured))
-					{
-						$extensions->enable($sub_ext);
-					}
-				}
 				// Enable board rules notifications
 				$phpbb_notifications = $this->container->get('notification_manager');
 				$phpbb_notifications->enable_notifications('phpbbgallery.core.notification.image_for_approval');
@@ -54,6 +43,7 @@ class ext extends \phpbb\extension\base
 				$phpbb_notifications->enable_notifications('phpbbgallery.core.notification.new_report');
 				return 'notifications';
 			break;
+
 			default:
 				// Run parent enable step method
 				return parent::enable_step($old_state);
@@ -105,19 +95,24 @@ class ext extends \phpbb\extension\base
 	function purge_step($old_state)
 	{
 		$extensions = $this->container->get('ext.manager');
+		$configured = $extensions->all_disabled();
 
-		// Check if any sub-extension is enabled - if yes, block purging core
+		$disabled_sub_exts = [];
+
 		foreach ($this->sub_extensions as $sub_ext)
 		{
-			if ($extensions->is_enabled($sub_ext))
+			if (isset($configured[$sub_ext]))
 			{
-				$this->container->get('user')->add_lang_ext('phpbbgallery/core', 'install_gallery');
-				$error_msg = sprintf(
-					$this->container->get('user')->lang('GALLERY_SUB_EXT_UNINSTALL'),
-					$sub_ext
-				);
-				trigger_error($error_msg, E_USER_WARNING);
+				$disabled_sub_exts[] = '» ' . $sub_ext;
 			}
+		}
+
+		if (!empty($disabled_sub_exts))
+		{
+			$this->container->get('user')->add_lang_ext('phpbbgallery/core', 'install_gallery');
+			$error_msg = sprintf($this->container->get('user')->lang(
+				'GALLERY_SUB_EXT_UNINSTALL', implode('<br />', $disabled_sub_exts),count($disabled_sub_exts)));
+			trigger_error($error_msg, E_USER_WARNING);
 		}
 
 		switch ($old_state)

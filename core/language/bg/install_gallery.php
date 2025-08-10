@@ -132,5 +132,8 @@ $lang = array_merge($lang, array(
 
 	'VERSION_NOT_SUPPORTED'			=> 'Sorry, but your updates prior to 1.0.6 are not supported from this install/update-system.',
 
-	'GALLERY_SUB_EXT_UNINSTALL'	=> 'Трябва да деинсталирате разширението <strong>%s</strong>, преди да деинсталирате основното разширение.',
+	'GALLERY_SUB_EXT_UNINSTALL' => array(
+		1 => 'Трябва да деинсталирате разширението: <br /><strong>%s</strong><br /> преди да деинсталирате основното разширение.',
+		2 => 'Трябва да деинсталирате разширенията: <br /><strong>%s</strong><br /> преди да деинсталирате основното разширение.',
+	),
 ));

@@ -148,5 +148,8 @@ $lang = array_merge($lang, array(
 
 	'VERSION_NOT_SUPPORTED'			=> 'Désolé, mais les mises à jour inférieures à la version 1.0.6 ne sont pas supportées par cette version d’installation.',
 
-	'GALLERY_SUB_EXT_UNINSTALL'	=> 'Vous devez désinstaller l’extension <strong>%s</strong> avant de désinstaller l’extension principale.',
+	'GALLERY_SUB_EXT_UNINSTALL' => array(
+		1 => 'Vous devez désinstaller l’extension: <br /><strong>%s</strong><br /> avant de désinstaller l’extension principale.',
+		2 => 'Vous devez désinstaller les extensions: <br /><strong>%s</strong><br /> avant de désinstaller l’extension principale.',
+	),
 ));

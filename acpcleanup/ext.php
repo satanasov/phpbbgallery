@@ -21,15 +21,29 @@ class ext extends \phpbb\extension\base
 	public function is_enableable()
 	{
 		$manager = $this->container->get('ext.manager');
+		$user = $this->container->get('user');
 
-		// Check if phpbbgallery/core is enabled
-		if (!$manager->is_enabled('phpbbgallery/core'))
+		$core_ext = 'phpbbgallery/core';
+
+		// Check if core is installed (enabled or disabled)
+		$is_enabled = $manager->is_enabled($core_ext);
+		$is_disabled = $manager->is_disabled($core_ext);
+
+		if (!$is_enabled && !$is_disabled)
 		{
-			$this->container->get('user')->add_lang_ext('phpbbgallery/acpcleanup', 'info_acp_gallery_cleanup');
-			trigger_error($this->container->get('user')->lang('GALLERY_CORE_NOT_FOUND'), E_USER_WARNING);
+			// Core not installed at all
+			$user->add_lang_ext('phpbbgallery/acpcleanup', 'info_acp_gallery_cleanup');
+			trigger_error($user->lang('GALLERY_CORE_NOT_FOUND'), E_USER_WARNING);
 			return false;
 		}
 
+		if ($is_disabled)
+		{
+			// Core installed but disabled — enable it automatically
+			$manager->enable($core_ext);
+		}
+
+		// If here, core is either enabled or just enabled now
 		return true;
 	}
 
