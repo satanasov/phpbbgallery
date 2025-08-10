@@ -613,7 +613,7 @@ class upload
 			return 0;
 		}
 
-		// This code is never invoced. It's left here for future implementation.
+		// This code is never invoked. It's left here for future implementation.
 		$this->gallery_config->inc('current_upload_dir_size', 1);
 		if ($this->gallery_config->get('current_upload_dir_size') >= self::NUM_FILES_PER_DIR)
 		{
@@ -804,7 +804,7 @@ class upload
 	}
 
 	/**
-	* Generate some kind of check so users only complete the uplaod for their images
+	* Generate some kind of check so users only complete the upload for their images
 	*/
 	public function generate_hidden_fields()
 	{
