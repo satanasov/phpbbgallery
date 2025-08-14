@@ -26,7 +26,7 @@ services:
             - '@phpbbgallery.core.upload'
             - '@phpbbgallery.core.block'
             - '@phpbbgallery.core.contest'
-            - '%phpbbgallery.tables.images%'
+            - '%phpbbgallery.tables.gallery_images%'
             - '%core.root_path%'
     phpbbgallery.core.controller.album:
         class: phpbbgallery\core\controller\album
@@ -48,7 +48,7 @@ services:
             - '@phpbbgallery.core.image'
             - '@request'
             - '@phpbbgallery.core.contest'
-            - '%phpbbgallery.tables.images%'
+            - '%phpbbgallery.tables.gallery_images%'
     phpbbgallery.core.controller.file:
         class: phpbbgallery\core\controller\file
         arguments:
@@ -63,8 +63,8 @@ services:
             - '%phpbbgallery.core.file.medium%'
             - '%phpbbgallery.core.file.mini%'
             - '%phpbbgallery.core.file.watermark%'
-            - '%phpbbgallery.tables.albums%'
-            - '%phpbbgallery.tables.images%'
+            - '%phpbbgallery.tables.gallery_albums%'
+            - '%phpbbgallery.tables.gallery_images%'
     phpbbgallery.core.controller.image:
         class: phpbbgallery\core\controller\image
         arguments:
@@ -97,10 +97,10 @@ services:
             - '@phpbbgallery.core.rating'
             - '@phpbbgallery.core.block'
             - '@service_container'
-            - '%phpbbgallery.tables.albums%'
-            - '%phpbbgallery.tables.images%'
-            - '%phpbbgallery.tables.users%'
-            - '%phpbbgallery.tables.comments%'
+            - '%phpbbgallery.tables.gallery_albums%'
+            - '%phpbbgallery.tables.gallery_images%'
+            - '%phpbbgallery.tables.gallery_users%'
+            - '%phpbbgallery.tables.gallery_comments%'
             - '%core.root_path%'
             - '%core.php_ext%'
     phpbbgallery.core.controller.index:
@@ -142,9 +142,9 @@ services:
             - '@phpbbgallery.core.image'
             - '@phpbbgallery.core.url'
             - '@phpbbgallery.core.search'
-            - '%phpbbgallery.tables.images%'
-            - '%phpbbgallery.tables.albums%'
-            - '%phpbbgallery.tables.comments%'
+            - '%phpbbgallery.tables.gallery_images%'
+            - '%phpbbgallery.tables.gallery_albums%'
+            - '%phpbbgallery.tables.gallery_comments%'
             - '%core.root_path%'
             - '%core.php_ext%'
     phpbbgallery.core.controller.comment:
@@ -173,7 +173,7 @@ services:
             - '@phpbbgallery.core.notification'
             - '@phpbbgallery.core.rating'
             - '@service_container'
-            - '%phpbbgallery.tables.comments%'
+            - '%phpbbgallery.tables.gallery_comments%'
             - '%core.root_path%'
             - '%core.php_ext%'
     phpbbgallery.core.controller.moderate:
