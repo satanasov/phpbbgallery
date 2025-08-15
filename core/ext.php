@@ -9,7 +9,7 @@
  * @license   GPL-2.0-only
  */
 
-// this file is not really needed, when empty it can be ommitted
+// this file is not really needed, when empty it can be omitted
 // however you can override the default methods and add custom
 // installation logic
 
@@ -17,11 +17,12 @@ namespace phpbbgallery\core;
 
 class ext extends \phpbb\extension\base
 {
-	protected $add_ons = array(
+	protected $sub_extensions = [
+		'phpbbgallery/acpcleanup',
 		'phpbbgallery/acpimport',
 		'phpbbgallery/exif',
-		'phpbbgallery/acpcleanup',
-	);
+	];
+
 	/**
 	* Single enable step that installs any included migrations
 	*
@@ -33,26 +34,17 @@ class ext extends \phpbb\extension\base
 		switch ($old_state)
 		{
 			case '': // Empty means nothing has run yet
-				// Disable list of official extensions
-				$extensions = $this->container->get('ext.manager');
-				$configured = $extensions->all_disabled();
-				//var_dump($configured);
-				foreach ($this->add_ons as $var)
-				{
-					if (array_key_exists($var, $configured))
-					{
-						$extensions->enable($var);
-					}
-				}
 				// Enable board rules notifications
 				$phpbb_notifications = $this->container->get('notification_manager');
 				$phpbb_notifications->enable_notifications('phpbbgallery.core.notification.image_for_approval');
 				$phpbb_notifications->enable_notifications('phpbbgallery.core.notification.image_approved');
-				$phpbb_notifications->enable_notifications('phpbbgallery.core.notification.new_image');
+				$phpbb_notifications->enable_notifications('phpbbgallery.core.notification.image_not_approved');
 				$phpbb_notifications->enable_notifications('phpbbgallery.core.notification.new_comment');
+				$phpbb_notifications->enable_notifications('phpbbgallery.core.notification.new_image');
 				$phpbb_notifications->enable_notifications('phpbbgallery.core.notification.new_report');
 				return 'notifications';
 			break;
+
 			default:
 				// Run parent enable step method
 				return parent::enable_step($old_state);
@@ -73,17 +65,18 @@ class ext extends \phpbb\extension\base
 			case '': // Empty means nothing has run yet
 				// Disable list of official extensions
 				$extensions = $this->container->get('ext.manager');
-				foreach ($this->add_ons as $var)
+				foreach ($this->sub_extensions as $sub_ext)
 				{
-					$extensions->disable($var);
+					$extensions->disable($sub_ext);
 				}
 
 				// Disable board rules notifications
 				$phpbb_notifications = $this->container->get('notification_manager');
 				$phpbb_notifications->disable_notifications('phpbbgallery.core.notification.image_for_approval');
 				$phpbb_notifications->disable_notifications('phpbbgallery.core.notification.image_approved');
-				$phpbb_notifications->disable_notifications('phpbbgallery.core.notification.new_image');
+				$phpbb_notifications->disable_notifications('phpbbgallery.core.notification.image_not_approve');
 				$phpbb_notifications->disable_notifications('phpbbgallery.core.notification.new_comment');
+				$phpbb_notifications->disable_notifications('phpbbgallery.core.notification.new_image');
 				$phpbb_notifications->disable_notifications('phpbbgallery.core.notification.new_report');
 				return 'notifications';
 
@@ -103,6 +96,27 @@ class ext extends \phpbb\extension\base
 	*/
 	function purge_step($old_state)
 	{
+		$extensions = $this->container->get('ext.manager');
+		$configured = $extensions->all_disabled();
+
+		$disabled_sub_exts = [];
+
+		foreach ($this->sub_extensions as $sub_ext)
+		{
+			if (isset($configured[$sub_ext]))
+			{
+				$disabled_sub_exts[] = '» ' . $sub_ext;
+			}
+		}
+
+		if (!empty($disabled_sub_exts))
+		{
+			$this->container->get('user')->add_lang_ext('phpbbgallery/core', 'install_gallery');
+			$error_msg = sprintf($this->container->get('user')->lang(
+				'GALLERY_SUB_EXT_UNINSTALL', implode('<br />', $disabled_sub_exts),count($disabled_sub_exts)));
+			trigger_error($error_msg, E_USER_WARNING);
+		}
+
 		switch ($old_state)
 		{
 			case '': // Empty means nothing has run yet

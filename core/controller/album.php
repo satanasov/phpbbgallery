@@ -332,7 +332,6 @@ class album
 		$result = $this->db->sql_query_limit($sql, $limit, $start);
 
 		// Now let's get display options
-		$show_ip = $show_ratings = $show_username = $show_views = $show_time = $show_imagename = $show_comments = $show_album = false;
 		$show_options = (int) $this->gallery_config->get('album_display');
 		$show_ip        = ($show_options & self::ALBUM_SHOW_IP) !== 0;
 		$show_ratings   = ($show_options & self::ALBUM_SHOW_RATINGS) !== 0;

@@ -8,12 +8,59 @@
  * @license   GPL-2.0-only
  */
 
-// this file is not really needed, when empty it can be omitted
-// however you can override the default methods and add custom
-// installation logic
-
 namespace phpbbgallery\exif;
 
 class ext extends \phpbb\extension\base
 {
+	/**
+	 * Check whether or not the extension can be enabled.
+	 * Checks dependencies and requirements.
+	 *
+	 * @return bool
+	 */
+	public function is_enableable()
+	{
+		$manager = $this->container->get('ext.manager');
+		$user = $this->container->get('user');
+
+		$core_ext = 'phpbbgallery/core';
+
+		// Check if core is installed (enabled or disabled)
+		$is_enabled = $manager->is_enabled($core_ext);
+		$is_disabled = $manager->is_disabled($core_ext);
+
+		if (!$is_enabled && !$is_disabled)
+		{
+			// Core not installed at all
+			$user->add_lang_ext('phpbbgallery/exif', 'info_exif');
+			trigger_error($user->lang('GALLERY_CORE_NOT_FOUND'), E_USER_WARNING);
+			return false;
+		}
+
+		if ($is_disabled)
+		{
+			// Core installed but disabled — enable it automatically
+			$manager->enable($core_ext);
+		}
+
+		// If here, core is either enabled or just enabled now
+		return true;
+	}
+
+	/**
+	* Perform additional tasks on extension enable
+	*
+	* @param mixed $old_state State returned by previous call of this method
+	* @return mixed Returns false after last step, otherwise temporary state
+	*/
+	public function enable_step($old_state)
+	{
+		if (empty($old_state))
+		{
+			$this->container->get('user')->add_lang_ext('phpbbgallery/exif', 'info_exif');
+			$this->container->get('template')->assign_var('L_EXTENSION_ENABLE_SUCCESS', $this->container->get('user')->lang['EXTENSION_ENABLE_SUCCESS']);
+		}
+
+		return parent::enable_step($old_state);
+	}
 }

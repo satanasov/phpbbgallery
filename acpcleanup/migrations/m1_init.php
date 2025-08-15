@@ -12,27 +12,29 @@
 
 namespace phpbbgallery\acpcleanup\migrations;
 
-class m1_init extends \phpbb\db\migration\migration
+use phpbb\db\migration\migration;
+
+class m1_init extends migration
 {
 	static public function depends_on()
 	{
-		return array('\phpbbgallery\core\migrations\release_1_2_0');
+		return ['\phpbbgallery\core\migrations\release_1_2_0'];
 	}
 
 	public function update_data()
 	{
-		return array(
-			array('permission.add', array('a_gallery_cleanup', true, 'a_board')),
-			array('module.add', array(
-				'acp',
-				'PHPBB_GALLERY',
-				array(
-					'module_basename'	=> '\phpbbgallery\acpcleanup\acp\main_module',
-					'module_langname'	=> 'ACP_GALLERY_CLEANUP',
-					'module_mode'		=> 'cleanup',
-					'module_auth'		=> 'ext_phpbbgallery/acpcleanup && acl_a_gallery_cleanup',
-				)
-			)),
-		);
+		return [
+				['permission.add', ['a_gallery_cleanup', true, 'a_board']],
+				['module.add', [
+					'acp',
+					'PHPBB_GALLERY',
+					[
+						'module_basename' => '\phpbbgallery\acpcleanup\acp\main_module',
+						'module_langname' => 'ACP_GALLERY_CLEANUP',
+						'module_mode'     => 'cleanup',
+						'module_auth'     => 'ext_phpbbgallery/acpcleanup && acl_a_gallery_cleanup',
+					]
+				]],
+		];
 	}
 }

@@ -2,7 +2,7 @@
 #### Define file Types             #####
 ########################################
 services:
-    phpbbgallery.core.files.type.multiform:
+    phpbbgallery.core.files.types.multiform:
         class: phpbbgallery\core\file\types\multiform
         shared: false
         arguments:

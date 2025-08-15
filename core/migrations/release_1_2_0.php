@@ -12,12 +12,15 @@
 
 namespace phpbbgallery\core\migrations;
 
-class release_1_2_0 extends \phpbb\db\migration\migration
+use phpbb\db\migration\migration;
+
+class release_1_2_0 extends migration
 {
 	static public function depends_on()
 	{
 		return array('\phpbb\db\migration\data\v310\gold');
 	}
+
 	public function update_data()
 	{
 		return array(
@@ -63,13 +66,6 @@ class release_1_2_0 extends \phpbb\db\migration\migration
 				'module_mode'		=> 'main',
 				'module_auth'		=> 'ext_phpbbgallery/core && acl_a_viewlogs',
 			))),
-			// Todo CLEANUP Add-on
-			/*array('module.add', array('acp', 'PHPBB_GALLERY', array(
-				'module_basename'	=> '\phpbbgallery\core\acp\gallery_module',
-				'module_langname'	=> 'ACP_GALLERY_CLEANUP',
-				'module_mode'		=> 'cleanup',
-				'module_auth'		=> 'ext_phpbbgallery/core && acl_a_gallery_cleanup',
-			))),*/
 
 			// UCP
 			array('module.add', array('ucp', '', 'UCP_GALLERY')),
@@ -92,23 +88,29 @@ class release_1_2_0 extends \phpbb\db\migration\migration
 				'module_auth'		=> 'ext_phpbbgallery/core',
 			))),
 			//@todo move
-/*			array('module.add', array('ucp', 'UCP_GALLERY', array(
-				'module_basename'	=> '\phpbbgallery\core\ucp\main_module',
-				'module_langname'	=> 'UCP_GALLERY_FAVORITES',
-				'module_mode'		=> 'manage_favorites',
-				'module_auth'		=> 'ext_phpbbgallery/core',
-			))),
-
-			// Logs
-			array('module.add', array('acp', 'ACP_FORUM_LOGS', array(
-				'module_basename'	=> '\phpbbgallery\core\acp\gallery_logs_module',
-				'module_langname'	=> 'ACP_GALLERY_LOGS',
-				'module_mode'		=> 'main',
-				'module_auth'		=> 'ext_phpbbgallery/core && acl_a_viewlogs',
-			))),*/
+			/*			array('module.add', array('ucp', 'UCP_GALLERY', array(
+							'module_basename'	=> '\phpbbgallery\core\ucp\main_module',
+							'module_langname'	=> 'UCP_GALLERY_FAVORITES',
+							'module_mode'		=> 'manage_favorites',
+							'module_auth'		=> 'ext_phpbbgallery/core',
+						))),
+			*/
 
 			// @todo: ADD BBCODE
 			array('custom', array(array(&$this, 'install_config'))),
+		);
+	}
+
+	public function revert_data()
+	{
+		return array(
+			// Remove permissions added
+			array('permission.remove', array('a_gallery_manage')),
+			array('permission.remove', array('a_gallery_albums')),
+			array('permission.remove', array('a_gallery_cleanup')),
+
+			// Remove config keys you installed
+			array('custom', array(array($this, 'uninstall_config'))),
 		);
 	}
 
@@ -126,6 +128,18 @@ class release_1_2_0 extends \phpbb\db\migration\migration
 			{
 				$config->set('phpbb_gallery_' . $name, $value);
 			}
+		}
+
+		return true;
+	}
+
+	public function uninstall_config()
+	{
+		global $config;
+
+		foreach (self::$configs as $name => $value)
+		{
+			$config->delete('phpbb_gallery_' . $name);
 		}
 
 		return true;
@@ -150,6 +164,7 @@ class release_1_2_0 extends \phpbb\db\migration\migration
 		'allow_hotlinking'	=> true,
 		'allow_jpg'			=> true,
 		'allow_png'			=> true,
+		'allow_webp'		=> true,
 		'allow_rates'		=> true,
 		'allow_resize'		=> true,
 		'allow_rotate'		=> true,
@@ -173,10 +188,13 @@ class release_1_2_0 extends \phpbb\db\migration\migration
 		'disp_statistic'			=> true,
 		'disp_total_images'			=> true,
 		'disp_whoisonline'			=> true,
+		'disp_gallery_icon'			=> true,
 
 		'gdlib_version'		=> 2,
 
 		'hotlinking_domains'	=> 'anavaro.com',
+
+		'items_per_page'		=> 15,
 
 		'jpg_quality'			=> 100,
 
@@ -217,13 +235,14 @@ class release_1_2_0 extends \phpbb\db\migration\migration
 		'prune_orphan_time'		=> 0,
 
 		'rrc_gindex_comments'	=> false,
+		//'rrc_gindex_contests'	=> 1,
 		'rrc_gindex_display'	=> 173,
 		'rrc_gindex_mode'		=> 7,
 		'rrc_gindex_pegas'		=> true,
 		'rrc_profile_display'	=> 141,
+		'rrc_profile_items'		=> 4,
 		'rrc_profile_mode'		=> 3,
 		//'rrc_profile_pegas'		=> true,
-		'rrc_profile_items'		=> 4,
 
 		'search_display'		=> 45,
 
@@ -243,9 +262,6 @@ class release_1_2_0 extends \phpbb\db\migration\migration
 		'watermark_source'		=> 'ext/phpbbgallery/core/images/watermark.png',
 		'watermark_width'		=> 200,
 
-		'items_per_page'		=> 15,
-
-		//Version
 		'version'				=> '1.2.0',
 	);
 }

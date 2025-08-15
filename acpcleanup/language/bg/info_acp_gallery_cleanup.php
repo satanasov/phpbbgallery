@@ -21,10 +21,10 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang, [
 	'ACP_GALLERY_CLEANUP'			=> 'Почистване на галерия',
 	'ACP_GALLERY_CLEANUP_EXPLAIN'	=> 'Тук можете да изтриете малко останки.',
 
@@ -78,4 +78,7 @@ $lang = array_merge($lang, array(
 	'MOVE_TO_USER'		=> 'Премести при потребител',
 	'MOVE_TO_USER_EXP'	=> 'Изображенията и коментарите ще бъдат преместеи като такива на посочения потребител. Ако не посочите потребител - Гост е зададен по-подразбиране',
 	'CLEAN_USER_NOT_FOUND'	=> 'Желаният от вас потребител не е открит!',
-));
+
+	'GALLERY_CORE_NOT_FOUND'		=> 'Първо трябва да бъде инсталирано и активирано разширението phpBB Gallery Core.',
+	'EXTENSION_ENABLE_SUCCESS'		=> 'Разширението е активирано успешно.',
+]);

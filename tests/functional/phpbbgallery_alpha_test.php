@@ -57,7 +57,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 			// This is core, now extensions
 			'exif'	=> array(
 				'phpbbgallery/exif',
-				'exif',
+				'info_exif',
 				'adm/index.php?i=-phpbbgallery-core-acp-config_module&mode=main',
 				'DISP_EXIF_DATA'
 			),
@@ -69,7 +69,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 			),
 			'acp_import'	=> array(
 				'phpbbgallery/acpimport',
-				'info_acp_gallery_acpimport',
+				'info_acp_gallery_import',
 				'adm/index.php?i=-phpbbgallery-acpimport-acp-main_module&mode=import_images',
 				'ACP_IMPORT_ALBUMS'
 			),
@@ -91,7 +91,7 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		$this->logout();
 	}
 	// Stop core so we can test if all works with all add-ons off
-	public function togle_data()
+	public function toggle_data()
 	{
 		return array(
 			'core'	=> array('phpbbgallery/core'),
@@ -101,9 +101,9 @@ class phpbbgallery_alpha_test extends phpbbgallery_base
 		);
 	}
 	/**
-	* @dataProvider togle_data
+	* @dataProvider toggle_data
 	*/
-	public function togle_core($ext)
+	public function toggle_core($ext)
 	{
 		$this->get_db();
 		if (strpos($this->db->get_sql_layer(), 'sqlite3') === 0)

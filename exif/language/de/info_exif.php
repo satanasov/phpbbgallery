@@ -22,13 +22,13 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 /**
 * Language for Exif data
 */
-$lang = array_merge($lang, array(
+$lang = array_merge($lang, [
 	'EXIF_DATA'					=> 'EXIF-Daten',
 	'EXIF_APERTURE'				=> 'Blende',
 	'EXIF_CAM_MODEL'			=> 'Kamera-Modell',
@@ -96,4 +96,7 @@ $lang = array_merge($lang, array(
 	'DISP_EXIF_DATA_EXP'		=> 'Diese Funktion kann im Moment nicht verwendet werden, da die Funktion “exif_read_data“ nicht in Deiner PHP-Installation enthalten ist.',
 	'SHOW_EXIF'					=> 'ein-/ausblenden',
 	'VIEWEXIFS_DEFAULT'			=> 'Ansicht Exif-Daten standardmäßig',
-));
+
+	'GALLERY_CORE_NOT_FOUND'		=> 'Die phpBB Gallery Core-Erweiterung muss zuerst installiert und aktiviert werden.',
+	'EXTENSION_ENABLE_SUCCESS'		=> 'Die Erweiterung wurde erfolgreich aktiviert.',
+]);

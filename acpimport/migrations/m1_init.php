@@ -12,72 +12,118 @@
 
 namespace phpbbgallery\acpimport\migrations;
 
-class m1_init extends \phpbb\db\migration\migration
+use phpbb\db\migration\migration;
+
+class m1_init extends migration
 {
-	static public function depends_on()
+	/**
+	 * Migration dependencies
+	 *
+	 * @return array Array of migration dependencies
+	 */
+	public static function depends_on(): array
 	{
-		return array('\phpbbgallery\core\migrations\release_1_2_0');
+		return ['\phpbbgallery\core\migrations\release_1_2_0'];
 	}
 
-	public function revert_data()
+	/**
+	 * Revert the changes
+	 *
+	 * @return array Array of update data
+	 */
+	public function revert_data(): array
 	{
-		return array(
-			array('custom', array(array(&$this, 'remove_file_system'))),
-		);
+		return [
+				['custom', [[&$this, 'remove_file_system']]],
+		];
 	}
 
-	public function update_data()
+	/**
+	 * Update data
+	 *
+	 * @return array Array of update data
+	 */
+	public function update_data(): array
 	{
-		return array(
-			array('permission.add', array('a_gallery_import', true, 'a_board')),
-			array('module.add', array(
-				'acp',
-				'PHPBB_GALLERY',
-				array(
-					'module_basename'	=> '\phpbbgallery\acpimport\acp\main_module',
-					'module_langname'	=> 'ACP_IMPORT_ALBUMS',
-					'module_mode'		=> 'import_images',
-					'module_auth'		=> 'ext_phpbbgallery/acpimport && acl_a_gallery_import',
-				)
-			)),
-			array('custom', array(array(&$this, 'create_file_system'))),
-		);
+		return [
+				['permission.add', ['a_gallery_import', true, 'a_board']],
+				['module.add', [
+					'acp',
+					'PHPBB_GALLERY',
+					[
+						'module_basename' => '\phpbbgallery\acpimport\acp\main_module',
+						'module_langname' => 'ACP_IMPORT_ALBUMS',
+						'module_mode'     => 'import_images',
+						'module_auth'     => 'ext_phpbbgallery/acpimport && acl_a_gallery_import',
+					]
+				]],
+				['custom', [[&$this, 'create_file_system']]],
+		];
 	}
 
-	public function create_file_system()
+	/**
+	 * Create import directory
+	 *
+	 * @return void
+	 */
+	public function create_file_system(): void
 	{
 		global $phpbb_root_path;
 
-		$phpbbgallery_core_file_import = $phpbb_root_path . 'files/phpbbgallery/import';
+		$phpbbgallery_import_file = $phpbb_root_path . 'files/phpbbgallery/import';
 
-		if (is_writable($phpbb_root_path . 'files'))
+		if (!is_dir($phpbbgallery_import_file))
 		{
-			@mkdir($phpbbgallery_core_file_import, 0755, true);
+			if (is_writable($phpbb_root_path . 'files'))
+			{
+				@mkdir($phpbbgallery_import_file, 0755, true);
+			}
 		}
 	}
 
-	public function remove_file_system()
+	/**
+	 * Remove import directory
+	 *
+	 * @return void
+	 */
+	public function remove_file_system(): void
 	{
 		global $phpbb_root_path;
 
-		$phpbbgallery_core_file_import = $phpbb_root_path . 'files/phpbbgallery/import';
+		$phpbbgallery_import_file = $phpbb_root_path . 'files/phpbbgallery/import';
 
 		// Clean dirs
-		$this->recursiveRemoveDirectory($phpbbgallery_core_file_import);
-	}
-	function recursiveRemoveDirectory($directory)
-	{
-		foreach (glob("{$directory}/*") as $file)
+		if (is_dir($phpbbgallery_import_file))
 		{
-			if (is_dir($file))
-			{
-				recursiveRemoveDirectory($file);
-			}
-			else
-			{
-				unlink($file);
-			}
+			$this->recursiveRemoveDirectory($phpbbgallery_import_file);
 		}
-		rmdir($directory);
+	}
+
+	/**
+	 * Recursively remove a directory
+	 *
+	 * @param string $directory Directory path
+	 * @return void
+	 */
+	private function recursiveRemoveDirectory(string $directory): void
+	{
+		if (!is_dir($directory))
+		{
+				return;
+		}
+
+		$files = new \FilesystemIterator($directory);
+		foreach ($files as $file)
+		{
+				if ($file->isDir())
+				{
+					$this->recursiveRemoveDirectory($file->getPathname());
+				}
+				else
+				{
+					@unlink($file->getPathname());
+				}
+		}
+		@rmdir($directory);
 	}
 }

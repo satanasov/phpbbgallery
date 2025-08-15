@@ -21,10 +21,10 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang, [
 	'ACP_GALLERY_CLEANUP'			=> 'Galerie bereinigen',
 
 	'ACP_GALLERY_CLEANUP_EXPLAIN'	=> 'Hier kannst Du einige Reste löschen.',
@@ -79,4 +79,7 @@ $lang = array_merge($lang, array(
 	'MOVE_TO_USER'				=> 'Wechseln zu Benutzer',
 	'MOVE_TO_USER_EXP'			=> 'Bilder und Kommentare werden als diejenigen des Benutzers verschoben werden, die Du definiert hast. Wenn Keine ausgewählt wird - wird Gast verwendet.',
 	'CLEAN_USER_NOT_FOUND'		=> 'Der von Ihnen ausgewählte Benutzer existiert nicht!',
-));
+
+	'GALLERY_CORE_NOT_FOUND'		=> 'Die phpBB Gallery Core-Erweiterung muss zuerst installiert und aktiviert werden.',
+	'EXTENSION_ENABLE_SUCCESS'		=> 'Die Erweiterung wurde erfolgreich aktiviert.',
+]);

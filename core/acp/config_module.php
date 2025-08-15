@@ -215,10 +215,15 @@ class config_module
 
 			if (strpos($config_key, 'legend') !== false)
 			{
-				$template->assign_block_vars('options', array(
-					'S_LEGEND'		=> true,
-					'LEGEND'		=> ($this->language->is_set($vars)) ? $this->language->lang($vars) : $vars)
-				);
+				$legend_text = ($this->language->is_set($vars)) ? $this->language->lang($vars) : $vars;
+
+				if (!empty($legend_text))
+				{
+					$template->assign_block_vars('options', array(
+						'S_LEGEND' => true,
+						'LEGEND'   => $legend_text
+					));
+				}
 
 				continue;
 			}

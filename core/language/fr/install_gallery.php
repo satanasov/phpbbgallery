@@ -20,7 +20,7 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -146,5 +146,10 @@ $lang = array_merge($lang, array(
 
 	'UPDATE_INSTALLATION_EXPLAIN'	=> 'Ici, vous pouvez mettre à jour la Galerie phpBB.',
 
-	'VERSION_NOT_SUPPORTED'		=> 'Désolé, mais les mises à jour inférieures à la version 1.0.6 ne sont pas supportées par cette version d’installation.',
+	'VERSION_NOT_SUPPORTED'			=> 'Désolé, mais les mises à jour inférieures à la version 1.0.6 ne sont pas supportées par cette version d’installation.',
+
+	'GALLERY_SUB_EXT_UNINSTALL' => array(
+		1 => 'Vous devez désinstaller l’extension: <br /><strong>%s</strong><br /> avant de désinstaller l’extension principale.',
+		2 => 'Vous devez désinstaller les extensions: <br /><strong>%s</strong><br /> avant de désinstaller l’extension principale.',
+	),
 ));

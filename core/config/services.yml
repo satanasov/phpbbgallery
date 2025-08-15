@@ -17,10 +17,10 @@ services:
             - '@phpbbgallery.core.cache'
             - '@phpbbgallery.core.block'
             - '@phpbbgallery.core.config'
-            - '%tables.phpbbgallery.albums%'
-            - '%tables.phpbbgallery.images%'
-            - '%tables.phpbbgallery.watch%'
-            - '%tables.phpbbgallery.contests%'
+            - '%phpbbgallery.tables.gallery_albums%'
+            - '%phpbbgallery.tables.gallery_images%'
+            - '%phpbbgallery.tables.gallery_watch%'
+            - '%phpbbgallery.tables.gallery_contests%'
     phpbbgallery.core.album.display:
         class: phpbbgallery\core\album\display
         arguments:
@@ -38,17 +38,17 @@ services:
             - '@phpbbgallery.core.misc'
             - '%core.root_path%'
             - '%core.php_ext%'
-            - '%tables.phpbbgallery.albums%'
-            - '%tables.phpbbgallery.contests%'
-            - '%tables.phpbbgallery.tracking%'
-            - '%tables.phpbbgallery.moderators%'
+            - '%phpbbgallery.tables.gallery_albums%'
+            - '%phpbbgallery.tables.gallery_contests%'
+            - '%phpbbgallery.tables.gallery_tracking%'
+            - '%phpbbgallery.tables.gallery_moderators%'
     phpbbgallery.core.album.loader:
         class: phpbbgallery\core\album\loader
         arguments:
             - '@dbal.conn'
             - '@user'
             - '@phpbbgallery.core.contest'
-            - '%tables.phpbbgallery.albums%'
+            - '%phpbbgallery.tables.gallery_albums%'
     phpbbgallery.core.album.manage:
         class: phpbbgallery\core\album\manage
         arguments:
@@ -68,12 +68,12 @@ services:
             - '@phpbbgallery.core.report'
             - '@phpbbgallery.core.log'
             - '@phpbbgallery.core.notification'
-            - '%tables.phpbbgallery.albums%'
-            - '%tables.phpbbgallery.images%'
-            - '%tables.phpbbgallery.comments%'
-            - '%tables.phpbbgallery.permissions%'
-            - '%tables.phpbbgallery.moderators%'
-            - '%tables.phpbbgallery.contests%'
+            - '%phpbbgallery.tables.gallery_albums%'
+            - '%phpbbgallery.tables.gallery_images%'
+            - '%phpbbgallery.tables.gallery_comments%'
+            - '%phpbbgallery.tables.gallery_permissions%'
+            - '%phpbbgallery.tables.gallery_moderators%'
+            - '%phpbbgallery.tables.gallery_contests%'
     phpbbgallery.core.misc:
         class: phpbbgallery\core\misc
         arguments:
@@ -84,7 +84,7 @@ services:
             - '@phpbbgallery.core.config'
             - '@phpbbgallery.core.user'
             - '@phpbbgallery.core.url'
-            - '%tables.phpbbgallery.tracking%'
+            - '%phpbbgallery.tables.gallery_tracking%'
     phpbbgallery.core.auth:
         class: phpbbgallery\core\auth\auth
         arguments:
@@ -93,10 +93,10 @@ services:
             - '@phpbbgallery.core.user'
             - '@user'
             - '@auth'
-            - '%tables.phpbbgallery.permissions%'
-            - '%tables.phpbbgallery.roles%'
-            - '%tables.phpbbgallery.users%'
-            - '%tables.phpbbgallery.albums%'
+            - '%phpbbgallery.tables.gallery_permissions%'
+            - '%phpbbgallery.tables.gallery_roles%'
+            - '%phpbbgallery.tables.gallery_users%'
+            - '%phpbbgallery.tables.gallery_albums%'
     phpbbgallery.core.auth.level:
         class: phpbbgallery\core\auth\level
         arguments:
@@ -110,8 +110,8 @@ services:
         arguments:
             - '@cache'
             - '@dbal.conn'
-            - '%tables.phpbbgallery.albums%'
-            - '%tables.phpbbgallery.images%'
+            - '%phpbbgallery.tables.gallery_albums%'
+            - '%phpbbgallery.tables.gallery_images%'
     phpbbgallery.core.file.tool:
         class: phpbbgallery\core\file\file
         arguments:
@@ -139,7 +139,7 @@ services:
             - '@phpbbgallery.core.user'
             - '@phpbbgallery.core.contest'
             - '@phpbbgallery.core.file.tool'
-            - '%tables.phpbbgallery.images%'
+            - '%phpbbgallery.tables.gallery_images%'
     phpbbgallery.core.user:
         class: phpbbgallery\core\user
         arguments:
@@ -149,7 +149,7 @@ services:
             - '@profilefields.manager'
             - '@config'
             - '@auth'
-            - '%tables.phpbbgallery.users%'
+            - '%phpbbgallery.tables.gallery_users%'
             - '%core.root_path%'
             - '%core.php_ext%'
     phpbbgallery.core.config:
@@ -171,8 +171,8 @@ services:
             - '@phpbbgallery.core.config'
             - '@pagination'
             - '@phpbbgallery.core.notification.helper'
-            - '%tables.phpbbgallery.images%'
-            - '%tables.phpbbgallery.reports%'
+            - '%phpbbgallery.tables.gallery_images%'
+            - '%phpbbgallery.tables.gallery_reports%'
     phpbbgallery.core.comment:
         class: phpbbgallery\core\comment
         arguments:
@@ -181,8 +181,8 @@ services:
             - '@phpbbgallery.core.config'
             - '@phpbbgallery.core.auth'
             - '@phpbbgallery.core.block'
-            - '%tables.phpbbgallery.comments%'
-            - '%tables.phpbbgallery.images%'
+            - '%phpbbgallery.tables.gallery_comments%'
+            - '%phpbbgallery.tables.gallery_images%'
     phpbbgallery.core.url:
         class: phpbbgallery\core\url
         arguments:
@@ -209,7 +209,7 @@ services:
             - '@phpbbgallery.core.config'
             - '@phpbbgallery.core.notification'
             - '@phpbbgallery.core.rating'
-            - '%tables.phpbbgallery.images%'
+            - '%phpbbgallery.tables.gallery_images%'
     phpbbgallery.core.search:
         class: phpbbgallery\core\search
         arguments:
@@ -224,15 +224,15 @@ services:
             - '@phpbbgallery.core.image'
             - '@pagination'
             - '@user_loader'
-            - '%tables.phpbbgallery.images%'
-            - '%tables.phpbbgallery.albums%'
-            - '%tables.phpbbgallery.comments%'
+            - '%phpbbgallery.tables.gallery_images%'
+            - '%phpbbgallery.tables.gallery_albums%'
+            - '%phpbbgallery.tables.gallery_comments%'
     phpbbgallery.core.notification:
         class: phpbbgallery\core\notification
         arguments:
             - '@dbal.conn'
             - '@user'
-            - '%tables.phpbbgallery.watch%'
+            - '%phpbbgallery.tables.gallery_watch%'
     phpbbgallery.core.notification.helper:
         class: phpbbgallery\core\notification\helper
         arguments:
@@ -248,7 +248,7 @@ services:
             - '@service_container'
             - '%core.root_path%'
             - '%core.php_ext%'
-            - '%tables.phpbbgallery.watch%'
+            - '%phpbbgallery.tables.gallery_watch%'
         calls:
             - [set_image, ['@phpbbgallery.core.image']]
     phpbbgallery.core.log:
@@ -263,8 +263,8 @@ services:
             - '@pagination'
             - '@phpbbgallery.core.auth'
             - '@phpbbgallery.core.config'
-            - '%tables.phpbbgallery.log%'
-            - '%tables.phpbbgallery.images%'
+            - '%phpbbgallery.tables.gallery_log%'
+            - '%phpbbgallery.tables.gallery_images%'
     phpbbgallery.core.block:
         class: phpbbgallery\core\block
     phpbbgallery.core.contest:
@@ -272,8 +272,8 @@ services:
         arguments:
             - '@dbal.conn'
             - '@phpbbgallery.core.config'
-            - '%tables.phpbbgallery.images%'
-            - '%tables.phpbbgallery.contests%'
+            - '%phpbbgallery.tables.gallery_images%'
+            - '%phpbbgallery.tables.gallery_contests%'
     phpbbgallery.core.upload:
         class: phpbbgallery\core\upload
         arguments:
@@ -288,7 +288,7 @@ services:
             - '@phpbbgallery.core.url'
             - '@phpbbgallery.core.block'
             - '@phpbbgallery.core.file.tool'
-            - '%tables.phpbbgallery.images%'
+            - '%phpbbgallery.tables.gallery_images%'
             - '%core.root_path%'
             - '%core.php_ext%'
     phpbbgallery.core.rating:
@@ -301,9 +301,9 @@ services:
             - '@request'
             - '@phpbbgallery.core.config'
             - '@phpbbgallery.core.auth'
-            - '%tables.phpbbgallery.images%'
-            - '%tables.phpbbgallery.albums%'
-            - '%tables.phpbbgallery.rates%'
+            - '%phpbbgallery.tables.gallery_images%'
+            - '%phpbbgallery.tables.gallery_albums%'
+            - '%phpbbgallery.tables.gallery_rates%'
 #######################
 #### Define event #####
 #######################
@@ -317,8 +317,8 @@ services:
             - '@phpbbgallery.core.search'
             - '@phpbbgallery.core.config'
             - '@dbal.conn'
-            - '%tables.phpbbgallery.albums%'
-            - '%tables.phpbbgallery.users%'
+            - '%phpbbgallery.tables.gallery_albums%'
+            - '%phpbbgallery.tables.gallery_users%'
             - '%core.php_ext%'
         tags:
             - { name: event.listener }

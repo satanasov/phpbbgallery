@@ -174,8 +174,8 @@ class comment
 		$sql = 'SELECT comment_image_id, COUNT(comment_id) AS num_comments, MAX(comment_id) AS last_comment
 			FROM ' . $this->comments_table . ' 
 			' . $sql_where . '
-			GROUP BY comment_image_id, comment_id
-			ORDER BY comment_id DESC';
+			GROUP BY comment_image_id
+			ORDER BY last_comment DESC';
 		$result = $this->db->sql_query($sql);
 
 		while ($row = $this->db->sql_fetchrow($result))

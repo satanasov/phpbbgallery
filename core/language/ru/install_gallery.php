@@ -19,7 +19,7 @@ if (!defined('IN_PHPBB'))
 }
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 $lang = array_merge($lang, array(
 	'BBCODES_NEEDS_REPARSE'		=> 'BBCode нуждается в переобработке.',
@@ -109,6 +109,13 @@ $lang = array_merge($lang, array(
 	'UNINSTALL_START'					=> 'Удаление',
 	'UNINSTALL_FINISHED'				=> 'Удаление почти закончено',
 	'UNINSTALL_FINISHED_EXPLAIN'		=> 'Вы успешно удалили phpBB Gallery.<br/><br/><strong>Теперь вам осталось откатить изменения в файлах конференции, описанные в <em>install.xml</em>, и удалить файлы галереи. После этого ваша конференция будет полностью очищена от галереи.</strong>',
+
 	'UPDATE_INSTALLATION_EXPLAIN'	=> 'Обновление phpBB Gallery.',
-	'VERSION_NOT_SUPPORTED'		=> 'Извините, но обновление галереи с версий < 1.0.6 не поддерживаются данной версией инсталятора.',
+
+	'VERSION_NOT_SUPPORTED'			=> 'Извините, но обновление галереи с версий < 1.0.6 не поддерживаются данной версией инсталятора.',
+
+	'GALLERY_SUB_EXT_UNINSTALL' => array(
+		1 => 'Вы должны удалить расширение: <br /><strong>%s</strong><br /> перед удалением основного расширения.',
+		2 => 'Вы должны удалить расширения: <br /><strong>%s</strong><br /> перед удалением основного расширения.',
+	),
 ));

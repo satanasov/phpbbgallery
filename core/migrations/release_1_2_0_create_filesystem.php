@@ -11,7 +11,9 @@
 
 namespace phpbbgallery\core\migrations;
 
-class release_1_2_0_create_filesystem extends \phpbb\db\migration\migration
+use phpbb\db\migration\migration;
+
+class release_1_2_0_create_filesystem extends migration
 {
 	static public function depends_on()
 	{
@@ -41,7 +43,6 @@ class release_1_2_0_create_filesystem extends \phpbb\db\migration\migration
 		$phpbbgallery_core_file_medium = $phpbb_root_path . 'files/phpbbgallery/core/medium';
 		$phpbbgallery_core_file_mini = $phpbb_root_path . 'files/phpbbgallery/core/mini';
 		$phpbbgallery_core_file_source = $phpbb_root_path . 'files/phpbbgallery/core/source';
-		$phpbbgallery_import_file = $phpbb_root_path . 'files/phpbbgallery/import';
 
 		if (is_writable($phpbb_root_path . 'files'))
 		{
@@ -49,7 +50,6 @@ class release_1_2_0_create_filesystem extends \phpbb\db\migration\migration
 			@mkdir($phpbbgallery_core_file_medium, 0755, true);
 			@mkdir($phpbbgallery_core_file_mini, 0755, true);
 			@mkdir($phpbbgallery_core_file_source, 0755, true);
-			@mkdir($phpbbgallery_import_file, 0755, true);
 		}
 	}
 
@@ -61,17 +61,12 @@ class release_1_2_0_create_filesystem extends \phpbb\db\migration\migration
 		$phpbbgallery_core_file_medium = $phpbb_root_path . 'files/phpbbgallery/core/medium';
 		$phpbbgallery_core_file_mini = $phpbb_root_path . 'files/phpbbgallery/core/mini';
 		$phpbbgallery_core_file_source = $phpbb_root_path . 'files/phpbbgallery/core/source';
-		$phpbbgallery_import_file = $phpbb_root_path . 'files/phpbbgallery/import';
 
 		// Clean dirs
 		$this->recursiveRemoveDirectory($phpbbgallery_core_file_mini);
 		$this->recursiveRemoveDirectory($phpbbgallery_core_file_medium);
 		$this->recursiveRemoveDirectory($phpbbgallery_core_file_source);
 		$this->recursiveRemoveDirectory($phpbbgallery_core_file);
-		if (file_exists($phpbbgallery_import_file))
-		{
-			$this->recursiveRemoveDirectory($phpbbgallery_import_file);
-		}
 		$this->recursiveRemoveDirectory($phpbb_root_path . 'files/phpbbgallery');
 	}
 
@@ -84,6 +79,7 @@ class release_1_2_0_create_filesystem extends \phpbb\db\migration\migration
 		copy($phpbbgallery_core_images_source . '/upload/no_hotlinking.jpg', $phpbbgallery_core_file_source . '/no_hotlinking.jpg');
 		copy($phpbbgallery_core_images_source . '/upload/not_authorised.jpg', $phpbbgallery_core_file_source . '/not_authorised.jpg');
 	}
+
 	function recursiveRemoveDirectory($directory)
 	{
 		foreach (glob("{$directory}/*") as $file)

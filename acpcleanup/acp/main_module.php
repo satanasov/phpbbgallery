@@ -14,28 +14,42 @@ namespace phpbbgallery\acpcleanup\acp;
 
 class main_module
 {
-	var $u_action;
+	public string $u_action;
 
-	function main($id, $mode)
+	public function main(string $id, string $mode): void
 	{
-		global $auth, $cache, $config, $db, $template, $user, $phpEx, $phpbb_root_path, $phpbb_ext_gallery;
+		global $auth, $cache, $config, $db, $template, $request, $user, $phpEx, $phpbb_root_path, $phpbb_ext_gallery;
 
 		$user->add_lang_ext('phpbbgallery/core', array('gallery_acp', 'gallery'));
-		//$user->add_lang_ext('phpbbgallery/acpcleanup', 'cleanup');
 		$this->tpl_name = 'gallery_cleanup';
+
 		add_form_key('acp_gallery');
 
+		$submit = $request->is_set_post('submit');
+
+		if ($submit && !check_form_key('acp_gallery'))
+		{
+			trigger_error($user->lang('FORM_INVALID') . adm_back_link($this->u_action), E_USER_WARNING);
+		}
+
 		$this->page_title = $user->lang['ACP_GALLERY_CLEANUP'];
-		$this->cleanup();
+		$this->cleanup($submit);
 	}
 
-	function cleanup()
+	/**
+	 * Cleanup gallery files and database entries
+	 *
+	 * @param array $missing_entries Files to clean
+	 * @param bool $move_to_import Whether to move files to import dir
+	 * @return array Messages about cleanup results
+	 * @throws \RuntimeException On file operation errors
+	 */
+	public function cleanup(bool $submit = false): void
 	{
 		global $auth, $cache, $db, $template, $user, $phpbb_ext_gallery, $table_prefix, $phpbb_container, $request;
 
-		$delete = (isset($_POST['delete'])) ? true : false;
-		$prune = (isset($_POST['prune'])) ? true : false;
-		$submit = (isset($_POST['submit'])) ? true : false;
+		$delete = $request->is_set_post('delete');
+		$prune = $request->is_set_post('prune');
 
 		$missing_sources = $request->variable('source', array(0));
 		$missing_entries = $request->variable('entry', array(''), true);

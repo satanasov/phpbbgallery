@@ -26,12 +26,12 @@
 		}
 	],
 	"require": {
-		"php": ">=5.3"
+		"php": ">=7.1"
 	},
 	"extra": {
 		"display-name": "phpBB Gallery Add-on: ACP Cleanup",
 		"soft-require": {
-			"phpbb/phpbb": ">=3.1.0-RC2,<3.3.0@dev"
+			"phpbb/phpbb": ">=3.2.0,<4.0.0@dev"
 		}
 	},
 	"version-check": {

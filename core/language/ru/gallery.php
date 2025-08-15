@@ -19,7 +19,7 @@ if (!defined('IN_PHPBB'))
 }
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 $lang = array_merge($lang, array(
 	'ADD_UPLOAD_FIELD'				=> 'Добавить несколько файлов',

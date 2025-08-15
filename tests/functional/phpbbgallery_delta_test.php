@@ -31,7 +31,7 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 
 		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
-		$this->add_lang_ext('phpbbgallery/acpimport', 'info_acp_gallery_acpimport');
+		$this->add_lang_ext('phpbbgallery/acpimport', 'info_acp_gallery_import');
 
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-acpimport-acp-main_module&mode=import_images&sid=' . $this->sid);
 		$album_id = $crawler->filter('option:contains("First test album!")')->attr('value');
@@ -71,7 +71,7 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 
 		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
-		$this->add_lang_ext('phpbbgallery/acpimport', 'info_acp_gallery_acpimport');
+		$this->add_lang_ext('phpbbgallery/acpimport', 'info_acp_gallery_import');
 
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-acpimport-acp-main_module&mode=import_images&sid=' . $this->sid);
 		$album_id = $crawler->filter('option:contains("First test album!")')->attr('value');
@@ -110,7 +110,7 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 
 		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
-		$this->add_lang_ext('phpbbgallery/acpimport', 'info_acp_gallery_acpimport');
+		$this->add_lang_ext('phpbbgallery/acpimport', 'info_acp_gallery_import');
 
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-acpimport-acp-main_module&mode=import_images&sid=' . $this->sid);
 		$album_id = $crawler->filter('option:contains("First test album!")')->attr('value');
@@ -150,7 +150,7 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 
 		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
-		$this->add_lang_ext('phpbbgallery/acpimport', 'info_acp_gallery_acpimport');
+		$this->add_lang_ext('phpbbgallery/acpimport', 'info_acp_gallery_import');
 
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-acpimport-acp-main_module&mode=import_images&sid=' . $this->sid);
 		//$album_id = $crawler->filter('option:contains("First test album!")')->attr('value');
@@ -189,7 +189,7 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 
 		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
-		$this->add_lang_ext('phpbbgallery/acpimport', 'info_acp_gallery_acpimport');
+		$this->add_lang_ext('phpbbgallery/acpimport', 'info_acp_gallery_import');
 
 		$crawler = self::request('GET', 'adm/index.php?i=-phpbbgallery-acpimport-acp-main_module&mode=import_images&sid=' . $this->sid);
 		//$album_id = $crawler->filter('option:contains("First test album!")')->attr('value');
@@ -256,7 +256,7 @@ class phpbbgallery_delta_test extends phpbbgallery_base
 
 		$this->add_lang_ext('phpbbgallery/core', 'gallery_acp');
 		$this->add_lang_ext('phpbbgallery/core', 'gallery');
-		$this->add_lang_ext('phpbbgallery/exif', 'exif');
+		$this->add_lang_ext('phpbbgallery/exif', 'info_exif');
 
 		$this->set_option('disp_exifdata', $state);
 		if ($image == 'first')

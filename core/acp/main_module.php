@@ -571,7 +571,7 @@ class main_module
 			'IMAGES_PER_DAY'		=> $images_per_day,
 			'TOTAL_ALBUMS'			=> $num_albums,
 			'TOTAL_PERSONALS'		=> $config['phpbb_gallery_num_pegas'],
-			'GUPLOAD_DIR_SIZE'		=> get_formatted_filesize($dir_sizes['stat']),
+			'GUPLOAD_DIR_SIZE'	=> get_formatted_filesize($dir_sizes['stat']),
 			'MEDIUM_DIR_SIZE'		=> get_formatted_filesize($dir_sizes['stat_medium']),
 			'CACHE_DIR_SIZE'		=> get_formatted_filesize($dir_sizes['stat_cache']),
 			'GALLERY_VERSION'		=> $config['phpbb_gallery_version'],
