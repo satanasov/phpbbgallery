@@ -66,7 +66,7 @@ class phpbbgallery_new_comment extends \phpbb\notification\type\base
 	 */
 	public static function get_item_id($data)
 	{
-		return $data['comment_id'];
+		return (int) $data['comment_id'];
 	}
 
 	/**
@@ -78,7 +78,7 @@ class phpbbgallery_new_comment extends \phpbb\notification\type\base
 	public static function get_item_parent_id($data)
 	{
 		// No parent
-		return $data['image_id'];
+		return (int) $data['image_id'];
 	}
 
 	/**
@@ -155,7 +155,7 @@ class phpbbgallery_new_comment extends \phpbb\notification\type\base
 	 */
 	public function get_url()
 	{
-		return $this->get_data('url');
+		return $this->get_data('image_id') ? append_sid($this->phpbb_root_path . 'gallery/image/' . $this->get_data('image_id')) : $this->get_data('url');
 	}
 
 	/**
