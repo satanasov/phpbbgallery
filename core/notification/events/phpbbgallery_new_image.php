@@ -66,7 +66,7 @@ class phpbbgallery_new_image extends \phpbb\notification\type\base
 	 */
 	public static function get_item_id($data)
 	{
-		return $data['last_image_id'];
+		return (int) $data['last_image_id'];
 	}
 
 	/**
@@ -78,7 +78,7 @@ class phpbbgallery_new_image extends \phpbb\notification\type\base
 	public static function get_item_parent_id($data)
 	{
 		// No parent
-		return $data['album_id'];
+		return (int) $data['album_id'];
 	}
 
 	/**
@@ -149,7 +149,7 @@ class phpbbgallery_new_image extends \phpbb\notification\type\base
 	 */
 	public function get_url()
 	{
-		return $this->get_data('album_url');
+		return $this->get_data('album_id') ? append_sid($this->phpbb_root_path . 'gallery/album/' . $this->get_data('album_id')) : $this->get_data('album_url');
 	}
 
 	/**
@@ -175,6 +175,7 @@ class phpbbgallery_new_image extends \phpbb\notification\type\base
 	{
 		$this->set_data('album_name', $data['album_name']);
 		$this->set_data('album_url', $data['album_url']);
+		$this->set_data('album_id', $data['album_id']);
 		parent::create_insert_array($data, $pre_create_data);
 	}
 }

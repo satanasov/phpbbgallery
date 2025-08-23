@@ -129,6 +129,7 @@ class helper
 					'user_ids'	=> array_diff($this->gallery_auth->acl_users_ids('m_report', $target['reported_album_id']), array($target['reporter_id'])),
 					'item_id'	=> $target['report_id'],
 					'reporter'	=> $target['reporter_id'],
+					'reported_image_id' => $target['reported_image_id'],
 					'url'		=> $this->url->get_uri($this->helper->route('phpbbgallery_core_moderate_image', array('image_id' => $target['reported_image_id']))),
 				);
 				$phpbb_notifications->add_notifications('phpbbgallery.core.notification.new_report', $notification_data);
