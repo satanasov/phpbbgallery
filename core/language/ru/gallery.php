@@ -124,7 +124,7 @@ $lang = array_merge($lang, array(
 	'FILETYPES_GIF'					=> 'gif',
 	'FILETYPES_JPG'					=> 'jpg',
 	'FILETYPES_PNG'					=> 'png',
-	'FILETYPES_WEBP'				=> 'webp',
+	'FILETYPES_WEBP'					=> 'webp',
 	'FILETYPES_ZIP'					=> 'zip',
 
 	'FULL_EDITOR_GALLERY'					=> 'Редактировать',
