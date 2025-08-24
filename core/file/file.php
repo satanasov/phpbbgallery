@@ -127,7 +127,7 @@ class file
 			case '.jpg':
 				return 'image/jpeg';
 			break;
-			case '.webp':
+			case 'webp':
 				return 'image/webp';
 			break;
 		}
@@ -149,7 +149,7 @@ class file
 			case '.jpg':
 				return 'jpg';
 			break;
-			case '.webp':
+			case 'webp':
 				return 'webp';
 			break;
 		}
@@ -177,7 +177,7 @@ class file
 				imagealphablending($this->image, true); // Set alpha blending on ...
 				imagesavealpha($this->image, true); // ... and save alpha blending!
 			break;
-			case '.webp':
+			case 'webp':
 				$this->image_type = 'webp';
 				$this->image = imagecreatefromwebp($this->image_source);
 			break;
