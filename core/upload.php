@@ -365,7 +365,7 @@ class upload
 			'image_desc_bitfield'		=> $message_parser->bbcode_bitfield,
 			'image_time'				=> time() + $this->file_count,
 		);
-		$new_image_name = $this->get_name();
+		$new_image_name = utf8_encode_ucr($this->get_name());
 		if (($new_image_name != '') && ($new_image_name != $this->image_data[$image_id]['image_name']))
 		{
 			$sql_ary = array_merge($sql_ary, array(
@@ -541,7 +541,7 @@ class upload
 	 */
 	public function file_to_database($additional_sql_ary)
 	{
-		$image_name = utf8_htmlspecialchars(utf8_substr($this->file->get('uploadname'), 0, utf8_strrpos($this->file->get('uploadname'), '.')));
+		$image_name = utf8_encode_ucr(utf8_htmlspecialchars(utf8_substr($this->file->get('uploadname'), 0, utf8_strrpos($this->file->get('uploadname'), '.'))));
 
 		$sql_ary = array_merge(array(
 			'image_name'			=> $image_name,

@@ -858,7 +858,7 @@ class image
 			$image_desc = $this->request->variable('message', array(''), true);
 			$image_desc = $image_desc[0];
 			$image_name = $this->request->variable('image_name', array(''), true);
-			$image_name = $image_name[0];
+			$image_name = utf8_encode_ucr(utf8_normalize_nfc($image_name[0]));
 			if (strlen($image_desc) > $this->gallery_config->get('description_length'))
 			{
 				trigger_error($this->language->lang('DESC_TOO_LONG'));

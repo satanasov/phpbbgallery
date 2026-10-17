@@ -113,7 +113,7 @@ class comment
 
 		$data = $data + array(
 			'comment_user_id'		=> $this->user->data['user_id'],
-			'comment_username'		=> ($this->user->data['user_id'] != ANONYMOUS) ? $this->user->data['username'] : $comment_username,
+			'comment_username'		=> ($this->user->data['user_id'] != ANONYMOUS) ? $this->user->data['username'] : utf8_encode_ucr($comment_username),
 			'comment_user_colour'	=> $this->user->data['user_colour'],
 			'comment_user_ip'		=> $this->user->ip,
 			'comment_time'			=> time(),
