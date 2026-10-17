@@ -92,7 +92,9 @@ class comment
 	 */
 	public function is_able($album_data, $image_data)
 	{
-		return $this->is_allowed($album_data, $image_data); //&& phpbb_ext_gallery_core_contest::is_step('comment', $album_data);
+		// Contest albums only accept comments once the contest has ended
+		return $this->is_allowed($album_data, $image_data) &&
+			(empty($album_data['contest_id']) || (time() > ($album_data['contest_start'] + $album_data['contest_end'])));
 	}
 
 	/**

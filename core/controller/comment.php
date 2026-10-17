@@ -186,6 +186,11 @@ class comment
 		{
 			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 		}
+		// Locked image or album, comments disabled, or contest still running
+		if (!$this->comment->is_able($album_data, $image_data))
+		{
+			$this->misc->not_authorised($image_backlink, $album_loginlink);
+		}
 		add_form_key('gallery');
 		$this->language->add_lang('posting');
 
@@ -463,6 +468,11 @@ class comment
 		{
 			$this->misc->not_authorised($image_backlink, $image_loginlink);
 		}
+		// Moderators may still edit comments where posting is closed
+		if (!$this->comment->is_able($album_data, $image_data) && !$this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']))
+		{
+			$this->misc->not_authorised($image_backlink, $image_loginlink);
+		}
 
 		$this->language->add_lang('posting');
 
@@ -680,6 +690,11 @@ class comment
 			}
 		}
 		else if (($comment_data['comment_user_id'] != $this->user->data['user_id']) && !$this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']))
+		{
+			$this->misc->not_authorised($image_backlink, $image_loginlink);
+		}
+		// Moderators may still delete comments where posting is closed
+		if (!$this->comment->is_able($album_data, $image_data) && !$this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']))
 		{
 			$this->misc->not_authorised($image_backlink, $image_loginlink);
 		}
