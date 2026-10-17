@@ -234,27 +234,32 @@ class upload
 	*/
 	public function upload_zip()
 	{
-		if (!class_exists('compress_zip'))
+		$tmp_dir = $this->gallery_url->path('import') . 'tmp_' . unique_id() . '/';
+
+		// The import directory is only created by the acpimport extension, so make sure it exists
+		if (!is_dir($this->gallery_url->path('import')))
 		{
-			include_once($this->root_path . 'includes/functions_compress.' . $this->php_ext);
+			@mkdir($this->gallery_url->path('import'), 0755, true);
 		}
 
-		$tmp_dir = $this->gallery_url->path('import') . 'tmp_' . md5(unique_id()) . '/';
-
 		$this->zip_file->clean_filename('unique_ext');
-		$this->zip_file->move_file(substr($this->gallery_url->path('import_noroot'), 0, -1), false, false, CHMOD_ALL);
-		if (!empty($this->zip_file->error))
+		if (!$this->zip_file->move_file(substr($this->gallery_url->path('import_noroot'), 0, -1), false, false, CHMOD_ALL) || !empty($this->zip_file->error))
 		{
+			$this->language->add_lang('posting');
+			$zip_errors = (!empty($this->zip_file->error)) ? $this->zip_file->error : array($this->language->lang('GENERAL_UPLOAD_ERROR', $this->gallery_url->path('import_noroot')));
 			$this->zip_file->remove();
-			$this->new_error($this->language->lang('UPLOAD_ERROR', $this->zip_file->get('uploadname'), implode('<br />&raquo; ', $this->zip_file->error)));
+			$this->new_error($this->language->lang('UPLOAD_ERROR', $this->zip_file->get('uploadname'), implode('<br />&raquo; ', $zip_errors)));
 			return false;
 		}
 
-		$compress = new \compress_zip('r', $this->zip_file->get('destination_file'));
-		$compress->extract($tmp_dir);
-		$compress->close();
+		$extracted = $this->extract_zip($this->zip_file->get('destination_file'), $tmp_dir);
 
 		$this->zip_file->remove();
+
+		if (!$extracted)
+		{
+			return false;
+		}
 
 		// Remove zip from allowed extensions
 		$this->file_upload->set_allowed_extensions($this->get_allowed_types(false, true));
@@ -263,6 +268,87 @@ class upload
 
 		// Read zip from allowed extensions
 		$this->file_upload->set_allowed_extensions($this->get_allowed_types());
+	}
+
+	/**
+	 * Extract a zip archive into a flat temporary directory.
+	 * Entry names are never trusted: absolute paths and parent directory segments are
+	 * rejected, and every file is written by its base name only.
+	 *
+	 * @param string $archive Path to the zip archive
+	 * @param string $tmp_dir Target directory, with trailing slash
+	 * @return bool
+	 */
+	protected function extract_zip($archive, $tmp_dir)
+	{
+		$this->language->add_lang('posting');
+		$uploadname = $this->zip_file->get('uploadname');
+
+		if (!class_exists('ZipArchive'))
+		{
+			$this->new_error($this->language->lang('UPLOAD_ERROR', $uploadname, $this->language->lang('GENERAL_UPLOAD_ERROR', $this->gallery_url->path('import_noroot'))));
+			return false;
+		}
+
+		$zip = new \ZipArchive();
+		if ($zip->open($archive) !== true)
+		{
+			$this->new_error($this->language->lang('UPLOAD_ERROR', $uploadname, $this->language->lang('GENERAL_UPLOAD_ERROR', $this->gallery_url->path('import_noroot'))));
+			return false;
+		}
+
+		if (!is_dir($tmp_dir) && !@mkdir($tmp_dir, 0755, true))
+		{
+			$zip->close();
+			$this->new_error($this->language->lang('UPLOAD_ERROR', $uploadname, $this->language->lang('GENERAL_UPLOAD_ERROR', $this->gallery_url->path('import_noroot'))));
+			return false;
+		}
+
+		for ($i = 0; $i < $zip->numFiles; $i++)
+		{
+			$name = (string) $zip->getNameIndex($i);
+			$normalized = str_replace('\\', '/', $name);
+
+			// Directory entries carry no data, the files inside them are listed separately
+			if ($normalized === '' || substr($normalized, -1) === '/')
+			{
+				continue;
+			}
+
+			if ($normalized[0] === '/' || strpos($normalized, ':') !== false || in_array('..', explode('/', $normalized), true))
+			{
+				$this->new_error($this->language->lang('UPLOAD_ERROR', $uploadname, $this->language->lang('INVALID_FILENAME', utf8_htmlspecialchars($name))));
+				continue;
+			}
+
+			$base_name = basename($normalized);
+			if ($base_name === '' || $base_name[0] === '.')
+			{
+				continue;
+			}
+
+			// Entries from different folders may share a name
+			if (file_exists($tmp_dir . $base_name))
+			{
+				$base_name = $i . '_' . $base_name;
+			}
+
+			$stream = $zip->getStream($name);
+			if ($stream === false)
+			{
+				continue;
+			}
+			$target = @fopen($tmp_dir . $base_name, 'wb');
+			if ($target !== false)
+			{
+				stream_copy_to_stream($stream, $target);
+				fclose($target);
+			}
+			fclose($stream);
+		}
+		$zip->close();
+
+		return true;
 	}
 
 	/**
@@ -365,7 +451,7 @@ class upload
 			'image_desc_bitfield'		=> $message_parser->bbcode_bitfield,
 			'image_time'				=> time() + $this->file_count,
 		);
-		$new_image_name = $this->get_name();
+		$new_image_name = utf8_encode_ucr($this->get_name());
 		if (($new_image_name != '') && ($new_image_name != $this->image_data[$image_id]['image_name']))
 		{
 			$sql_ary = array_merge($sql_ary, array(
@@ -441,7 +527,7 @@ class upload
 			$this->new_error($this->language->lang('UPLOAD_ERROR', $this->file->get('uploadname'), implode('<br />&raquo; ', $this->file->error)));
 			return false;
 		}
-		@chmod($this->file->get('destination_file'), 0655);
+		@chmod($this->file->get('destination_file'), 0644);
 		$additional_sql_data = array();
 		$file = $this->file;
 
@@ -541,7 +627,7 @@ class upload
 	 */
 	public function file_to_database($additional_sql_ary)
 	{
-		$image_name = str_replace("_", "_", utf8_substr($this->file->get('uploadname'), 0, utf8_strrpos($this->file->get('uploadname'), '.')));
+		$image_name = utf8_encode_ucr(utf8_htmlspecialchars(utf8_substr($this->file->get('uploadname'), 0, utf8_strrpos($this->file->get('uploadname'), '.'))));
 
 		$sql_ary = array_merge(array(
 			'image_name'			=> $image_name,
@@ -748,12 +834,14 @@ class upload
 		$sql = 'SELECT *
 			FROM ' . $this->images_table . '
 			WHERE image_status = ' . (int) $this->block->get_image_status_orphan() . '
+				AND image_user_id = ' . (int) $this->user->data['user_id'] . '
+				AND image_album_id = ' . (int) $this->album_id . '
 				AND ' . $this->db->sql_in_set('image_id', $image_ids);
 		$result = $this->db->sql_query($sql);
 
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			if ($filenames[$row['image_id']] == substr($row['image_filename'], 0, 8))
+			if (isset($filenames[$row['image_id']]) && $filenames[$row['image_id']] == substr($row['image_filename'], 0, 8))
 			{
 				$this->images[] = (int) $row['image_id'];
 				$this->image_data[(int) $row['image_id']] = $row;

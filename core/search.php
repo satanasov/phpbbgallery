@@ -149,6 +149,10 @@ class search
 				$sql_order = 'NEWID()';
 			break;
 
+			case 'oracle':
+				$sql_order = 'DBMS_RANDOM.VALUE';
+			break;
+
 			default:
 				$sql_order = 'RAND()';
 			break;
@@ -213,10 +217,8 @@ class search
 
 		$id_ary = array_map('intval', $id_ary);
 
-		$sql_where = $this->db->sql_in_set('i.image_id', $id_ary);
-
 		$sql_array = array(
-			'SELECT'		=> 'i.*, a.album_name, a.album_status, a.album_user_id, album_id',
+			'SELECT'		=> 'i.*, a.album_name, a.album_status, a.album_user_id, a.album_id',
 			'FROM'			=> array($this->images_table => 'i'),
 
 			'LEFT_JOIN'		=> array(
@@ -226,8 +228,7 @@ class search
 				),
 			),
 
-			'WHERE'			=> 'i.image_status <> ' . (int) \phpbbgallery\core\block::STATUS_ORPHAN . ' AND ' . $sql_where,
-			'GROUP_BY'	=> 'i.image_id, a.album_name, a.album_status, a.album_user_id, a.album_id',
+			'WHERE'			=> 'i.image_status <> ' . (int) \phpbbgallery\core\block::STATUS_ORPHAN . ' AND ' . $this->db->sql_in_set('i.image_id', $id_ary),
 			'ORDER_BY'		=> $sql_order,
 		);
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
@@ -335,7 +336,6 @@ class search
 				$this->comments_table => 'c',
 			),
 			'WHERE'	=> 'i.image_id = c.comment_image_id and ' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('c_read'), false, true),
-			'GROUP_BY'	=> 'c.comment_id, c.comment_time, i.image_id',
 			'ORDER_BY'	=> 'comment_time DESC'
 		);
 		$sql_array['WHERE'] .= ' AND ((' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums), false, true) . ' AND image_status <> ' . (int) \phpbbgallery\core\block::STATUS_UNAPPROVED . ')
@@ -541,8 +541,6 @@ class search
 
 		$id_ary = array_map('intval', $id_ary);
 
-		$sql_where = $this->db->sql_in_set('i.image_id', $id_ary);
-
 		$sql_array = array(
 			'SELECT'		=> 'i.*, a.album_name, a.album_status, a.album_user_id, a.album_id',
 			'FROM'			=> array($this->images_table => 'i'),
@@ -554,7 +552,7 @@ class search
 				),
 			),
 
-			'WHERE'			=> 'i.image_status <> ' . (int) \phpbbgallery\core\block::STATUS_ORPHAN . ' AND ' . $sql_where,
+			'WHERE'			=> 'i.image_status <> ' . (int) \phpbbgallery\core\block::STATUS_ORPHAN . ' AND ' . $this->db->sql_in_set('i.image_id', $id_ary),
 			'ORDER_BY'		=> $sql_order,
 		);
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
@@ -619,7 +617,7 @@ class search
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 		$count = $row['count'];
-		$sql_array['SELECT'] = '* , a.album_name, a.album_status, a.album_user_id, a.album_id';
+		$sql_array['SELECT'] = 'i.*, a.album_name, a.album_status, a.album_user_id, a.album_id';
 		$sql_array['LEFT_JOIN']	= array(
 			array(
 				'FROM'		=> array($this->albums_table => 'a'),

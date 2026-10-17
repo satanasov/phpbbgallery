@@ -469,6 +469,38 @@ class image
 	}
 
 	/**
+	 * Return non-orphan image IDs that actually belong to an album.
+	 *
+	 * @param array|int $image_ids
+	 * @param int       $album_id
+	 * @return array
+	 */
+	public function get_image_ids_by_album($image_ids, $album_id)
+	{
+		$image_ids = array_values(array_unique(array_map('intval', (array) $image_ids)));
+		$album_id = (int) $album_id;
+		if (empty($image_ids) || !$album_id)
+		{
+			return array();
+		}
+
+		$sql = 'SELECT image_id
+			FROM ' . $this->table_images . '
+			WHERE image_album_id = ' . (int) $album_id . '
+				AND image_status <> ' . (int) \phpbbgallery\core\block::STATUS_ORPHAN . '
+				AND ' . $this->db->sql_in_set('image_id', $image_ids);
+		$result = $this->db->sql_query($sql);
+		$scoped_ids = array();
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$scoped_ids[] = (int) $row['image_id'];
+		}
+		$this->db->sql_freeresult($result);
+
+		return $scoped_ids;
+	}
+
+	/**
 	* Approve image
 	* @param (array)	$image_id_ary	The image ID array to be approved
 	* @param (int)		$album_id	The album image is approved to (just save some queries for log)
@@ -476,9 +508,16 @@ class image
 	*/
 	public function approve_images($image_id_ary, $album_id)
 	{
+		$image_id_ary = $this->get_image_ids_by_album($image_id_ary, $album_id);
+		if (empty($image_id_ary))
+		{
+			return;
+		}
+
 		$sql = 'SELECT image_id, image_name, image_user_id
 			FROM ' . $this->table_images . ' 
 			WHERE image_status = 0
+				AND image_album_id = ' . (int) $album_id . '
 				AND ' . $this->db->sql_in_set('image_id', $image_id_ary);
 		$result = $this->db->sql_query($sql);
 		$targets = array();
@@ -504,6 +543,7 @@ class image
 		$sql = 'UPDATE ' . $this->table_images . '
 			SET image_status = ' . (int) \phpbbgallery\core\block::STATUS_APPROVED . '
 			WHERE image_status <> ' . (int) \phpbbgallery\core\block::STATUS_ORPHAN . '
+				AND image_album_id = ' . (int) $album_id . '
 				AND ' . $this->db->sql_in_set('image_id', $image_id_ary);
 		$this->db->sql_query($sql);
 	}
@@ -515,17 +555,25 @@ class image
 	*/
 	public function unapprove_images($image_id_ary, $album_id)
 	{
+		$image_id_ary = $this->get_image_ids_by_album($image_id_ary, $album_id);
+		if (empty($image_id_ary))
+		{
+			return;
+		}
+
 		self::handle_counter($image_id_ary, false);
 
 		$sql = 'UPDATE ' . $this->table_images .' 
 			SET image_status = ' . (int) \phpbbgallery\core\block::STATUS_UNAPPROVED . '
 			WHERE image_status <> ' . (int) \phpbbgallery\core\block::STATUS_ORPHAN . '
+				AND image_album_id = ' . (int) $album_id . '
 				AND ' . $this->db->sql_in_set('image_id', $image_id_ary);
 		$this->db->sql_query($sql);
 
 		$sql = 'SELECT image_id, image_name
 			FROM ' . $this->table_images .' 
 			WHERE image_status <> ' . (int) \phpbbgallery\core\block::STATUS_ORPHAN . '
+				AND image_album_id = ' . (int) $album_id . '
 				AND ' . $this->db->sql_in_set('image_id', $image_id_ary);
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
@@ -542,8 +590,14 @@ class image
 	 * @param $album_id
 	 * @internal param $ (int)    $album_id    The album we want to move image to
 	 */
-	public function move_image($image_id_ary, $album_id)
+	public function move_image($image_id_ary, $album_id, $source_album_id)
 	{
+		$image_id_ary = $this->get_image_ids_by_album($image_id_ary, $source_album_id);
+		if (empty($image_id_ary))
+		{
+			return;
+		}
+
 		$target_data = $this->album->get_info($album_id);
 
 		// Store images to cache (so we can log them)
@@ -551,7 +605,8 @@ class image
 		//TO DO - Contests
 		$sql = 'UPDATE ' . $this->table_images . '
 			SET image_album_id = ' . (int) $album_id . '
-			WHERE ' . $this->db->sql_in_set('image_id', $image_id_ary);
+			WHERE image_album_id = ' . (int) $source_album_id . '
+				AND ' . $this->db->sql_in_set('image_id', $image_id_ary);
 		$this->db->sql_query($sql);
 
 		$this->gallery_report->move_images($image_id_ary, $album_id);
@@ -571,17 +626,25 @@ class image
 	*/
 	public function lock_images($image_id_ary, $album_id)
 	{
+		$image_id_ary = $this->get_image_ids_by_album($image_id_ary, $album_id);
+		if (empty($image_id_ary))
+		{
+			return;
+		}
+
 		self::handle_counter($image_id_ary, false);
 
 		$sql = 'UPDATE ' . $this->table_images . ' 
 			SET image_status = ' . (int) \phpbbgallery\core\block::STATUS_LOCKED . '
 			WHERE image_status <> ' . (int) \phpbbgallery\core\block::STATUS_ORPHAN . '
+				AND image_album_id = ' . (int) $album_id . '
 				AND ' . $this->db->sql_in_set('image_id', $image_id_ary);
 		$this->db->sql_query($sql);
 
 		$sql = 'SELECT image_id, image_name
 			FROM ' . $this->table_images . ' 
 			WHERE image_status <> ' . (int) \phpbbgallery\core\block::STATUS_ORPHAN . '
+				AND image_album_id = ' . (int) $album_id . '
 				AND ' . $this->db->sql_in_set('image_id', $image_id_ary);
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))

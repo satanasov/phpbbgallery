@@ -136,7 +136,7 @@ class phpbbgallery_new_comment extends \phpbb\notification\type\base
 	 */
 	public function get_email_template()
 	{
-		return false;
+		return '@phpbbgallery_core/newcomment_notify';
 	}
 	/**
 	 * Get email template variables
@@ -145,7 +145,10 @@ class phpbbgallery_new_comment extends \phpbb\notification\type\base
 	 */
 	public function get_email_template_variables()
 	{
-		return array();
+		return array(
+			'IMAGE_NAME'	=> htmlspecialchars_decode(censor_text((string) $this->get_data('image_name')), ENT_COMPAT),
+			'U_IMAGE'		=> generate_board_url() . '/app.' . $this->php_ext . '/gallery/image/' . (int) $this->get_data('image_id'),
+		);
 	}
 
 	/**
@@ -155,7 +158,7 @@ class phpbbgallery_new_comment extends \phpbb\notification\type\base
 	 */
 	public function get_url()
 	{
-		return $this->get_data('image_id') ? append_sid($this->phpbb_root_path . 'gallery/image/' . $this->get_data('image_id')) : $this->get_data('url');
+		return $this->get_data('image_id') ? append_sid($this->phpbb_root_path . 'app.' . $this->php_ext . '/gallery/image/' . (int) $this->get_data('image_id')) : $this->get_data('url');
 	}
 
 	/**
@@ -183,6 +186,7 @@ class phpbbgallery_new_comment extends \phpbb\notification\type\base
 		$this->set_data('comment_id', $data['comment_id']);
 		$this->set_data('poster_id', $data['poster']);
 		$this->set_data('url', $data['url']);
+		$this->set_data('image_name', (isset($data['image_name'])) ? $data['image_name'] : '');
 		parent::create_insert_array($data, $pre_create_data);
 	}
 }

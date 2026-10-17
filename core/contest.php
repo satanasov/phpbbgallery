@@ -151,9 +151,9 @@ class contest
 
 		$sql = 'UPDATE ' . $this->contest_table . '
 			SET contest_marked = ' . $this->NO_CONTEST . ",
-				contest_first = $first,
-				contest_second = $second,
-				contest_third = $third
+				contest_first = " . (int) $first . ",
+				contest_second = " . (int) $second . ",
+				contest_third = " . (int) $third . "
 			WHERE contest_id = " . (int) $contest_id;
 		$this->db->sql_query($sql);
 

@@ -137,6 +137,7 @@ $lang = array_merge($lang, array(
 
 	'GALLERY_IMAGE'					=> 'Imagen',
 	'GALLERY_IMAGES'				=> 'Imágenes',
+	'GALLERY_TOOLS'				=> 'Herramientas de la galería',
 	'GALLERY_VIEWS'					=> 'Vistas',
 
 	'IGNORE_NOTUPTODATE_MESSAGE'		=> 'Recuérdeme en 7 días',
@@ -372,4 +373,7 @@ $lang = array_merge($lang, array(
 
 	// Versions 1.2.1 additions
 	'GALLERY_DROP'		=> 'Deja tus imágenes aquí',
+	'GALLERY_UPLOAD_CANCEL' => 'Cancelar',
+	'GALLERY_UPLOAD_START'  => 'Iniciar',
+	'UPLOAD_TO_ALBUM'       => 'Subir a "%s"',
 ));

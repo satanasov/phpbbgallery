@@ -187,6 +187,14 @@ class search
 			$sort_by_text['lc'] = $this->language->lang('NEW_COMMENT');
 			$sort_by_sql['lc'] = 'image_last_comment';
 		}
+		if (!isset($sort_by_sql[$sort_key]))
+		{
+			$sort_key = 't';
+		}
+		if (!in_array($sort_dir, array('a', 'd'), true))
+		{
+			$sort_dir = 'd';
+		}
 		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 
 		$s_limit_days = $s_sort_key = $s_sort_dir = $u_sort_param = '';
@@ -200,6 +208,7 @@ class search
 		);
 		if ($keywords || $username || $user_id || $search_id || $submit)
 		{
+			$user_id_ary = array();
 			// Let's resolve username to user id ... or array of them.
 			if ($username)
 			{
@@ -214,7 +223,6 @@ class search
 					AND user_type IN (' . USER_NORMAL . ', ' . USER_FOUNDER . ')';
 				$result = $this->db->sql_query_limit($sql, 100);
 
-				$user_id_ary = [];
 				while ($row = $this->db->sql_fetchrow($result))
 				{
 					$user_id_ary[] = (int) $row['user_id'];
@@ -272,14 +280,12 @@ class search
 			}
 			$sql_where[] = $search_query;
 
-			if (empty($search_album))
-			{
-				$sql_where[] = $this->db->sql_in_set('i.image_album_id', $this->gallery_auth->acl_album_ids('i_view'));
-			}
-			else
-			{
-				$sql_where[] = $this->db->sql_in_set('i.image_album_id', $search_album);
-			}
+			$view_album_ids = array_map('intval', $this->gallery_auth->acl_album_ids('i_view'));
+			$requested_album_ids = array_filter(array_map('intval', $search_album));
+			$search_album = empty($requested_album_ids) ? $view_album_ids : array_values(array_intersect($requested_album_ids, $view_album_ids));
+			$sql_where[] = $this->db->sql_in_set('i.image_album_id', $search_album, false, true);
+			$sql_where[] = 'i.image_status <> ' . (int) \phpbbgallery\core\block::STATUS_UNAPPROVED;
+			$sql_where[] = 'i.image_status <> ' . (int) \phpbbgallery\core\block::STATUS_ORPHAN;
 			$sql_array['WHERE'] = implode(' and ', array_filter($sql_where));
 			$sql_array['SELECT'] = 'COUNT(i.image_id) as count';
 
@@ -293,7 +299,7 @@ class search
 			{
 				trigger_error('NO_SEARCH_RESULTS');
 			}
-			$sql_array['SELECT'] = '*, a.album_name, a.album_status, a.album_user_id, a.album_id';
+			$sql_array['SELECT'] = 'i.*, a.album_name, a.album_status, a.album_user_id, a.album_id';
 			$sql_array['LEFT_JOIN']	= array(
 				array(
 					'FROM'		=> array($this->albums_table => 'a'),
@@ -301,7 +307,6 @@ class search
 				)
 			);
 			$sql_array['ORDER_BY'] = $sql_order;
-			$sql_array['GROUP_BY'] = $sort_by_sql[$sort_key] . ', i.image_id, a.album_id';
 
 			$sql = $this->db->sql_build_query('SELECT', $sql_array);
 			$result = $this->db->sql_query_limit($sql, $this->gallery_config->get('items_per_page'), $start);

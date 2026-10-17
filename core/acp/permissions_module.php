@@ -49,7 +49,7 @@ class permissions_module
 		$this->tpl_name = 'gallery_permissions';
 		$this->page_title = $this->language->lang('ALBUM_AUTH_TITLE');
 		add_form_key('acp_gallery');
-		$submit = (isset($_POST['submit_edit_options'])) ? true : ((isset($_POST['submit_add_options'])) ? true : false);
+		$submit = $request->is_set_post('submit_edit_options') || $request->is_set_post('submit_add_options');
 		$action = $request->variable('action', '');
 
 		/**
@@ -164,8 +164,8 @@ class permissions_module
 
 		$this->language->add_lang('acp/permissions');
 
-		$submit = (isset($_POST['submit'])) ? true : false;
-		$delete = (isset($_POST['delete'])) ? true : false;
+		$submit = $request->is_set_post('submit');
+		$delete = $request->is_set_post('delete');
 		$album_id = $request->variable('album_id', array(0));
 		$group_id = $request->variable('group_id', array(0));
 		$user_id = $request->variable('user_id', array(0));
@@ -179,6 +179,11 @@ class permissions_module
 		// Delete permissions
 		if ($delete)
 		{
+			if (!check_form_key('acp_gallery'))
+			{
+				trigger_error($this->language->lang('FORM_INVALID') . adm_back_link($this->u_action), E_USER_WARNING);
+			}
+
 			// Delete group permissions
 			if (!empty($group_id))
 			{
@@ -679,7 +684,7 @@ class permissions_module
 		$phpbb_ext_gallery_core_auth = $phpbb_container->get('phpbbgallery.core.auth');
 
 		// Send constants to the template
-		$submit = (isset($_POST['submit'])) ? true : false;
+		$submit = $request->is_set_post('submit');
 		$album_id = $request->variable('album_id', array(0));
 		$group_id = $request->variable('group_id', array(0));
 		$user_id = $request->variable('user_id', array(0));
@@ -1018,7 +1023,7 @@ class permissions_module
 		$phpbb_ext_gallery_core_album = $phpbb_container->get('phpbbgallery.core.album');
 		$this->language = $phpbb_container->get('language');
 
-		$submit = isset($_POST['submit']) ? true : false;
+		$submit = $request->is_set_post('submit');
 
 		if ($submit)
 		{

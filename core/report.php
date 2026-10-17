@@ -305,7 +305,7 @@ class report
 				$this->reports_table	=> 'r',
 			),
 			'WHERE'	=> 'i.image_id = r.report_image_id and r.report_status = ' . (int) $status . ' and ' . $this->db->sql_in_set('i.image_album_id', $mod_array),
-			'ORBER_BY'	=> 'r.report_id DESC'
+			'ORDER_BY'	=> 'r.report_id DESC'
 		);
 		// Get Count
 		$sql_array['SELECT'] = 'COUNT(r.report_id) as count';

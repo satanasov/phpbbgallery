@@ -170,7 +170,7 @@ class upload
 				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 			}
 		}
-		$page_title = 'Upload to "' . $album_data['album_name'] . '"';
+		$page_title = $this->language->lang('UPLOAD_TO_ALBUM', $album_data['album_name']);
 
 		// Before all
 		if (!$this->check_fs())
@@ -184,6 +184,10 @@ class upload
 		// Anons should suffer.
 		if ($this->request->is_ajax() && $this->user->data['is_registered'])
 		{
+			if (!check_form_key('gallery'))
+			{
+				trigger_error('FORM_INVALID');
+			}
 			// So we use ajax request to upload (so we are going to copy some functions from other upload
 			// Upload Quota Check
 			// 1. Check album-configuration Quota

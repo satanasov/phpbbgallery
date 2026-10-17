@@ -392,7 +392,7 @@ class album
 			$this->template->assign_block_vars('imageblock.image', array(
 				'IMAGE_ID'            => (int) $image_data['image_id'],
 				'U_IMAGE'             => $action_image,
-				'UC_IMAGE_NAME'       => $show_imagename ? htmlspecialchars_decode($image_data['image_name'], ENT_COMPAT) : false,
+				'UC_IMAGE_NAME'       => $show_imagename ? $image_data['image_name'] : false,
 				'U_ALBUM'             => $show_album ? $this->helper->route('phpbbgallery_core_album', array('album_id' => (int) $album_data['album_id'])) : false,
 				'ALBUM_NAME'          => $show_album ? $album_data['album_name'] : false,
 				'IMAGE_VIEWS'         => $show_views ? (int) $image_data['image_view_count'] : -1,

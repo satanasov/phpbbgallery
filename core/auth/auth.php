@@ -376,7 +376,7 @@ class auth
 
 		$zebra = null;
 
-		$albums = array();//@todo $this->cache->obtain_album_list();
+		$albums = $this->cache->get_albums();
 		foreach ($albums as $album)
 		{
 			if (!$album['album_auth_access'] || ($album['album_user_id'] == self::PUBLIC_ALBUM))# || ($album['album_user_id'] == $user_id))

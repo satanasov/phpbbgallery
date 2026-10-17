@@ -11,6 +11,7 @@
 			//acceptFileTypes: '{S_QUICK_FILE_TYPES}', // User side filetype test does not work!
 			maxFileSize: '{S_QUICK_MAX_FILESIZE}', // And it appears that user side size is ignored too.
 			dataType: 'json',
+			formData: $('#postform').serializeArray(),
 			paramName: 'files[]',
 			uploadTemplateId: null,
 			downloadTemplateId: null,
@@ -27,8 +28,8 @@
 						'</td>' +
 						'<td>' +
 						(!index && !o.options.autoUpload ?
-							'<button class="start" disabled>Start</button>' : '') +
-						(!index ? '<button class="cancel">Cancel</button>' : '') +
+							'<button class="start" disabled>{LA_GALLERY_UPLOAD_START}</button>' : '') +
+						(!index ? '<button class="cancel">{LA_GALLERY_UPLOAD_CANCEL}</button>' : '') +
 						'</td>' +
 						'</tr>');
 					row.find('.name').text(file.name);
@@ -136,14 +137,17 @@
 	});
 })(jQuery); // Avoid conflicts with other libraries
 </script>
-<!-- INCLUDEJS @phpbbgallery_core/js/load-image.all.min.js -->
-<!-- INCLUDEJS @phpbbgallery_core/js/jquery.ui.widget.js -->
-<!-- INCLUDEJS @phpbbgallery_core/js/jquery.iframe-transport.js -->
-<!-- INCLUDEJS @phpbbgallery_core/js/jquery.fileupload.js -->
-<!-- INCLUDEJS @phpbbgallery_core/js/jquery.fileupload-process.js -->
-<!-- INCLUDEJS @phpbbgallery_core/js/jquery.fileupload-image.js -->
-<!-- INCLUDEJS @phpbbgallery_core/js/jquery.fileupload-validate.js -->
-<!-- INCLUDEJS @phpbbgallery_core/js/jquery.fileupload-ui.js -->
+<!-- IF not $INCLUDED_JQUERYFILEUPLOADJS -->
+	<!-- INCLUDEJS @phpbbgallery_core/js/load-image.all.min.js -->
+	<!-- INCLUDEJS @phpbbgallery_core/js/jquery.ui.widget.js -->
+	<!-- INCLUDEJS @phpbbgallery_core/js/jquery.iframe-transport.js -->
+	<!-- INCLUDEJS @phpbbgallery_core/js/jquery.fileupload.js -->
+	<!-- INCLUDEJS @phpbbgallery_core/js/jquery.fileupload-process.js -->
+	<!-- INCLUDEJS @phpbbgallery_core/js/jquery.fileupload-image.js -->
+	<!-- INCLUDEJS @phpbbgallery_core/js/jquery.fileupload-validate.js -->
+	<!-- INCLUDEJS @phpbbgallery_core/js/jquery.fileupload-ui.js -->
+	<!-- DEFINE $INCLUDED_JQUERYFILEUPLOADJS = true -->
+<!-- ENDIF -->
 <!-- ENDIF -->
 
 <!--// Let's destroy all gallery stuff -->

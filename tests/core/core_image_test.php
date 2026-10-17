@@ -241,6 +241,32 @@ class core_image_test extends core_base
 		$this->assertEquals($expected, $this->image->get_filenames($request));
 	}
 
+	public function test_get_image_ids_by_album_rejects_images_from_other_albums()
+	{
+		$this->assertSame(array(1, 2), $this->image->get_image_ids_by_album(array(1, 2, 4, 999), 1));
+	}
+
+	public function test_lock_images_is_scoped_to_the_checked_album()
+	{
+		$this->user->data['user_id'] = 2;
+		$this->image->lock_images(array(1, 4), 1);
+
+		$sql = 'SELECT image_id, image_status
+			FROM phpbb_gallery_images
+			WHERE ' . $this->db->sql_in_set('image_id', array(1, 4)) . '
+			ORDER BY image_id ASC';
+		$result = $this->db->sql_query($sql);
+		$statuses = array();
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$statuses[(int) $row['image_id']] = (int) $row['image_status'];
+		}
+		$this->db->sql_freeresult($result);
+
+		$this->assertSame(\phpbbgallery\core\block::STATUS_LOCKED, $statuses[1]);
+		$this->assertSame(\phpbbgallery\core\block::STATUS_APPROVED, $statuses[4]);
+	}
+
 	/**
 	 * TODO: Add test for generate_link
 	 */

@@ -42,6 +42,16 @@ class core_contest_test extends core_base
 		$this->assertEquals($test['contest_id'], 2);
 	}
 
+	public function test_end_handles_contest_with_fewer_than_three_images()
+	{
+		$this->gallery_contest->end(5, 1, 123456);
+		$contest = $this->gallery_contest->get_contest(1);
+
+		$this->assertSame(0, (int) $contest['contest_first']);
+		$this->assertSame(0, (int) $contest['contest_second']);
+		$this->assertSame(0, (int) $contest['contest_third']);
+	}
+
 	/*
 	 * Provide data for get is_step
 	 */

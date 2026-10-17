@@ -18,6 +18,10 @@ namespace phpbbgallery\core\acp;
 class gallery_logs_module
 {
 	var $u_action;
+	/** @var \phpbb\language\language */
+	var $language;
+	var $tpl_name;
+	var $page_title;
 
 	function main($id, $mode)
 	{

@@ -134,6 +134,63 @@ class moderate
 	}
 
 	/**
+	 * Require a moderator permission on a concrete album.
+	 *
+	 * @param string $permission
+	 * @param int    $album_id
+	 * @return array
+	 */
+	protected function require_album_permission($permission, $album_id)
+	{
+		$album_id = (int) $album_id;
+		$album_data = $this->album->get_info($album_id);
+		if (!$album_data || !$this->gallery_auth->acl_check($permission, $album_id, $album_data['album_user_id']))
+		{
+			$back_link = $this->helper->route('phpbbgallery_core_moderate');
+			$login_link = append_sid($this->root_path . 'ucp.' . $this->php_ext . '?mode=login');
+			$this->misc->not_authorised($back_link, $login_link, 'LOGIN_EXPLAIN_UPLOAD');
+		}
+
+		return $album_data;
+	}
+
+	/**
+	 * Resolve client-supplied image IDs to their real albums and authorize each album.
+	 *
+	 * @param array|int $image_ids
+	 * @param string    $permission
+	 * @param int       $route_album_id
+	 * @return array Album ID => image IDs
+	 */
+	protected function get_authorized_image_groups($image_ids, $permission, $route_album_id = 0)
+	{
+		$groups = array();
+		foreach (array_unique(array_map('intval', (array) $image_ids)) as $image_id)
+		{
+			$image_data = $this->image->get_image_data($image_id);
+			if (!$image_data || (int) $image_data['image_status'] === (int) \phpbbgallery\core\block::STATUS_ORPHAN)
+			{
+				continue;
+			}
+
+			$source_album_id = (int) $image_data['image_album_id'];
+			if ($route_album_id && $source_album_id !== (int) $route_album_id)
+			{
+				$this->require_album_permission($permission, $source_album_id);
+				continue;
+			}
+			if (!isset($groups[$source_album_id]))
+			{
+				$this->require_album_permission($permission, $source_album_id);
+				$groups[$source_album_id] = array();
+			}
+			$groups[$source_album_id][] = $image_id;
+		}
+
+		return $groups;
+	}
+
+	/**
 	 * Index Controller
 	 *    Route: gallery/moderate
 	 *
@@ -195,6 +252,7 @@ class moderate
 	{
 		$approve_ary = $this->request->variable('approval', array('' => array(0)));
 		$action_ary = $this->request->variable('action', array('' => 0));
+		$action = '';
 		$back_link = $this->request->variable('back_link', $album_id > 0 ? $this->helper->route('phpbbgallery_core_moderate_queue_approve_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_core_moderate_queue_approve'));
 		foreach ($action_ary as $act => $garb)
 		{
@@ -222,17 +280,24 @@ class moderate
 				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 			}
 		}
-		if (!empty($approve_ary))
+		$submitted_ids = array();
+		foreach ($approve_ary as $approve_array)
 		{
+			$submitted_ids = array_merge($submitted_ids, $approve_array);
+		}
+		$submitted_ids = array_values(array_filter(array_map('intval', $submitted_ids)));
+		if (!empty($submitted_ids))
+		{
+			$image_groups = $this->get_authorized_image_groups($submitted_ids, 'm_status', $album_id);
 			if (confirm_box(true))
 			{
+				$count = 0;
 				if ($action == 'approve')
 				{
-					$count = 0;
-					foreach ($approve_ary as $album_id => $approve_array)
+					foreach ($image_groups as $source_album_id => $approve_array)
 					{
-						$this->image->approve_images($approve_array, $album_id);
-						$this->album->update_info($album_id);
+						$this->image->approve_images($approve_array, $source_album_id);
+						$this->album->update_info($source_album_id);
 						$count = $count + count($approve_array);
 					}
 
@@ -242,17 +307,16 @@ class moderate
 				}
 				if ($action == 'disapprove')
 				{
-					$count = 0;
-					foreach ($approve_ary as $album_id => $delete_array)
+					foreach ($image_groups as $source_album_id => $delete_array)
 					{
 						// Let's load info for images, so we can
 						$filenames = $this->image->get_filenames($delete_array);
 						// Let's log the action
 						foreach ($filenames as $name)
 						{
-							$this->gallery_log->add_log('moderator', 'disapprove', $album_id, 0, array('LOG_GALLERY_DISAPPROVED', $name));
+							$this->gallery_log->add_log('moderator', 'disapprove', $source_album_id, 0, array('LOG_GALLERY_DISAPPROVED', $name));
 						}
-						$this->moderate->delete_images($delete_array);
+						$this->moderate->delete_images($delete_array, array(), $source_album_id);
 						$count = $count + count($delete_array);
 					}
 					$message = $this->language->lang('WAITING_DISAPPROVED_IMAGE', $count);
@@ -342,8 +406,9 @@ class moderate
 	 */
 	public function reports($page, $album_id, $status)
 	{
-		$report_ary = $this->request->variable('report', array(0));
+		$report_ary = array_values(array_filter(array_map('intval', $this->request->variable('report', array(0)))));
 		$action_ary = $this->request->variable('action', array('' => 0));
+		$action = '';
 		$back_link = $this->request->variable('back_link', $album_id > 0 ? $this->helper->route('phpbbgallery_core_moderate_reports_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_core_moderate_reports'));
 		foreach ($action_ary as $act => $garb)
 		{
@@ -352,13 +417,34 @@ class moderate
 
 		$this->language->add_lang(array('gallery_mcp', 'gallery'), 'phpbbgallery/core');
 		$this->language->add_lang('mcp');
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
+		$album_backlink = $album_id === 0 ? $this->helper->route('phpbbgallery_core_moderate') : $this->helper->route('phpbbgallery_core_moderate_album', array('album_id' => $album_id));
+		$album_loginlink = append_sid($this->root_path . 'ucp.' . $this->php_ext . '?mode=login');
+		if ($album_id === 0)
+		{
+			if (!$this->gallery_auth->acl_check_global('m_report'))
+			{
+				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+			}
+			$album = array();
+		}
+		else
+		{
+			$album = $this->require_album_permission('m_report', $album_id);
+		}
+		$report_groups = $this->get_authorized_image_groups($report_ary, 'm_report', $album_id);
 
 		if (!empty($report_ary))
 		{
 			if (confirm_box(true))
 			{
-				$this->report->close_reports_by_image($report_ary);
-				$message = $this->language->lang('WAITING_REPORTED_DONE', count($report_ary));
+				$count = 0;
+				foreach ($report_groups as $image_ids)
+				{
+					$this->report->close_reports_by_image($image_ids);
+					$count += count($image_ids);
+				}
+				$message = $this->language->lang('WAITING_REPORTED_DONE', $count);
 				$this->url->meta_refresh(3, $back_link);
 				trigger_error($message);
 			}
@@ -373,25 +459,6 @@ class moderate
 				confirm_box(false, $this->language->lang('REPORTS_A_CLOSE2_CONFIRM'), $s_hidden_fields);
 			}
 		}
-		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
-		$album_backlink = $album_id === 0 ? $this->helper->route('phpbbgallery_core_moderate') : $this->helper->route('phpbbgallery_core_moderate_album', array('album_id'	=> $album_id));
-		$album_loginlink = append_sid($this->root_path . 'ucp.' . $this->php_ext . '?mode=login');
-		if ($album_id === 0)
-		{
-			if (!$this->gallery_auth->acl_check_global('m_report'))
-			{
-				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
-			}
-		}
-		else
-		{
-			$album = $this->album->get_info($album_id);
-			if (!$this->gallery_auth->acl_check('m_report', $album['album_id'], $album['album_user_id']))
-			{
-				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
-			}
-		}
-
 		$this->template->assign_vars(array(
 			'U_GALLERY_MODERATE_OVERVIEW'	=> $album_id > 0 ? $this->helper->route('phpbbgallery_core_moderate_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_core_moderate'),
 			'U_GALLERY_MODERATE_APPROVE'	=> $album_id > 0 ? $this->helper->route('phpbbgallery_core_moderate_queue_approve_album', array('album_id' => $album_id)) : $this->helper->route('phpbbgallery_core_moderate_queue_approve'),
@@ -420,13 +487,60 @@ class moderate
 		$this->language->add_lang(array('gallery_mcp', 'gallery'), 'phpbbgallery/core');
 		$this->language->add_lang('mcp');
 
-		$actions_array = $this->request->variable('action', array(0));
+		$actions_array = array_values(array_filter(array_map('intval', $this->request->variable('action', array(0)))));
 		$action = $this->request->variable('select_action', '');
 		$back_link = $this->request->variable('back_link', $this->helper->route('phpbbgallery_core_moderate_view', array('album_id' => $album_id)));
-		$moving_target = $this->request->variable('moving_target', '');
+		$moving_target = $this->request->variable('moving_target', 0);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
+		$album = $this->require_album_permission('m_', $album_id);
 		if (!empty($actions_array))
 		{
-			if (confirm_box(true) || $moving_target)
+			$permission_map = array(
+				'approve' => 'm_status',
+				'unapprove' => 'm_status',
+				'lock' => 'm_status',
+				'delete' => 'm_delete',
+				'move' => 'm_move',
+				'report' => 'm_report',
+			);
+			if (!isset($permission_map[$action]))
+			{
+				trigger_error('NO_MODE');
+			}
+			$image_groups = $this->get_authorized_image_groups($actions_array, $permission_map[$action], $album_id);
+			$actions_array = isset($image_groups[$album_id]) ? $image_groups[$album_id] : array();
+			if (empty($actions_array))
+			{
+				trigger_error('NO_IMAGES');
+			}
+			if ($action === 'move' && $moving_target)
+			{
+				$this->require_album_permission('m_move', $moving_target);
+			}
+
+			$s_hidden_fields = '<input type="hidden" name="select_action" value="' . $action . '" />';
+			$s_hidden_fields .= '<input type="hidden" name="back_link" value="' . $back_link . '" />';
+			foreach ($actions_array as $var)
+			{
+				$s_hidden_fields .= '<input type="hidden" name="action[]" value="' . $var . '" />';
+			}
+			if ($moving_target)
+			{
+				$s_hidden_fields .= '<input type="hidden" name="moving_target" value="' . (int) $moving_target . '" />';
+			}
+
+			if ($action === 'move' && !$moving_target)
+			{
+				$category_select = $this->album->get_albumbox(false, 'moving_target', $album_id, 'm_move', $album_id);
+				$this->template->assign_vars(array(
+					'S_MOVING_IMAGES' => true,
+					'S_ALBUM_SELECT' => $category_select,
+					'S_HIDDEN_FIELDS' => $s_hidden_fields,
+				));
+				return $this->helper->render('gallery/mcp_body.html', $this->language->lang('GALLERY'));
+			}
+
+			if (confirm_box(true))
 			{
 				$message = '';
 				switch ($action)
@@ -450,13 +564,13 @@ class moderate
 					break;
 
 					case 'delete':
-						$this->moderate->delete_images($actions_array);
+						$this->moderate->delete_images($actions_array, array(), $album_id);
 						$this->album->update_info($album_id);
 						$message = $this->language->lang('DELETED_IMAGES', count($actions_array));
 					break;
 
 					case 'move':
-						$this->image->move_image($actions_array, $moving_target);
+						$this->image->move_image($actions_array, $moving_target, $album_id);
 						$this->album->update_info($album_id);
 						$this->album->update_info($moving_target);
 						$message = $this->language->lang('MOVED_IMAGES', count($actions_array));
@@ -476,48 +590,14 @@ class moderate
 			}
 			else
 			{
-				$s_hidden_fields = '<input type="hidden" name="select_action" value="' . $action . '" />';
-				$s_hidden_fields .= '<input type="hidden" name="back_link" value="' . $back_link . '" />';
-				foreach ($actions_array as $var)
-				{
-					$s_hidden_fields .= '<input type="hidden" name="action[]" value="' . $var . '" />';
-				}
 				if ($action == 'report')
 				{
 					confirm_box(false, $this->language->lang('REPORT_A_CLOSE2_CONFIRM'), $s_hidden_fields);
-				}
-				if ($action == 'move')
-				{
-					$category_select = $this->album->get_albumbox(false, 'moving_target', $album_id, 'm_move', $album_id);
-					$this->template->assign_vars(array(
-						'S_MOVING_IMAGES'	=> true,
-						'S_ALBUM_SELECT'	=> $category_select,
-						'S_HIDDEN_FIELDS'	=> $s_hidden_fields,
-					));
-					return $this->helper->render('gallery/mcp_body.html', $this->language->lang('GALLERY'));
 				}
 				else
 				{
 					confirm_box(false, $this->language->lang('QUEUES_A_' . strtoupper($action) . '2_CONFIRM'), $s_hidden_fields);
 				}
-			}
-		}
-		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
-		$album_backlink = $album_id === 0 ? $this->helper->route('phpbbgallery_core_moderate') : $this->helper->route('phpbbgallery_core_moderate_album', array('album_id'	=> $album_id));
-		$album_loginlink = append_sid($this->root_path . 'ucp.' . $this->php_ext . '?mode=login');
-		if ($album_id === 0)
-		{
-			if (!$this->gallery_auth->acl_check_global('m_'))
-			{
-				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
-			}
-		}
-		else
-		{
-			$album = $this->album->get_info($album_id);
-			if (!$this->gallery_auth->acl_check('m_', $album['album_id'], $album['album_user_id']))
-			{
-				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 			}
 		}
 		$this->template->assign_vars(array(
@@ -543,6 +623,14 @@ class moderate
 	{
 		$this->language->add_lang(array('gallery_mcp', 'gallery'), 'phpbbgallery/core');
 		$this->language->add_lang('mcp');
+		$image_data = $this->image->get_image_data($image_id);
+		if (!$image_data)
+		{
+			trigger_error('NO_IMAGE');
+		}
+		$album_data = $this->album->get_info($image_data['image_album_id']);
+		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
+		$this->require_album_permission('m_', $image_data['image_album_id']);
 		$quick_action = $this->request->variable('action', '');
 
 		// If we have quick mode (EDIT, DELETE) just send us to the page we need
@@ -550,35 +638,24 @@ class moderate
 		{
 			case 'images_move':
 				$route = $this->helper->route('phpbbgallery_core_moderate_image_move', array('image_id'	=> $image_id));
-				$redirect = new RedirectResponse($route);
-				$redirect->send();
-			break;
+				return new RedirectResponse($route);
 			case 'image_edit':
 				$route = $this->helper->route('phpbbgallery_core_image_edit', array('image_id'	=> $image_id));
-				$redirect = new RedirectResponse($route);
-				$redirect->send();
-			break;
+				return new RedirectResponse($route);
 			case 'images_unapprove':
 				$route = $this->helper->route('phpbbgallery_core_moderate_image_unapprove', array('image_id'	=> $image_id));
-				$redirect = new RedirectResponse($route);
-				$redirect->send();
-			break;
+				return new RedirectResponse($route);
 			case 'images_approve':
 				$route = $this->helper->route('phpbbgallery_core_moderate_image_approve', array('image_id'	=> $image_id));
-				$redirect = new RedirectResponse($route);
-				$redirect->send();
-			break;
+				return new RedirectResponse($route);
 			case 'images_lock':
 				$route = $this->helper->route('phpbbgallery_core_moderate_image_lock', array('image_id'	=> $image_id));
-				$redirect = new RedirectResponse($route);
-				$redirect->send();
-			break;
+				return new RedirectResponse($route);
 			case 'images_delete':
 				$route = $this->helper->route('phpbbgallery_core_image_delete', array('image_id'	=> $image_id));
-				$redirect = new RedirectResponse($route);
-				$redirect->send();
-			break;
+				return new RedirectResponse($route);
 			case 'reports_close':
+				$this->require_album_permission('m_report', $image_data['image_album_id']);
 				if (confirm_box(true))
 				{
 					$back_link =  $this->helper->route('phpbbgallery_core_moderate_image', array('image_id' => $image_id));
@@ -595,12 +672,8 @@ class moderate
 			break;
 			case 'reports_open':
 				$route = $this->helper->route('phpbbgallery_core_image_report', array('image_id'	=> $image_id));
-				$redirect = new RedirectResponse($route);
-				$redirect->send();
-			break;
+				return new RedirectResponse($route);
 		}
-		$image_data = $this->image->get_image_data($image_id);
-		$album_data = $this->album->get_info($image_data['image_album_id']);
 		$users_array = $report_data = array();
 		$open_report = false;
 		$report_data = $this->report->get_data_by_image($image_id);
@@ -617,7 +690,6 @@ class moderate
 		$this->user_loader->load_users(array_keys($users_array));
 		// Now let's get some ACL
 		$select_select = '<option value="" selected="selected">' . $this->language->lang('CHOOSE_ACTION') . '</option>';
-		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
 		if ($this->gallery_auth->acl_check('m_status', $album_data['album_id'], $album_data['album_user_id']))
 		{
 			if ($image_data['image_status'] == 0)
@@ -709,8 +781,7 @@ class moderate
 
 		if ($action === 'disapprove')
 		{
-			$redirect = new RedirectResponse($this->helper->route('phpbbgallery_core_image_delete', ['image_id' => $image_id]));
-			$redirect->send();
+			return new RedirectResponse($this->helper->route('phpbbgallery_core_image_delete', ['image_id' => $image_id]));
 		}
 		$show_notify = true;
 		$this->language->add_lang(array('gallery_mcp', 'gallery'), 'phpbbgallery/core');
@@ -808,17 +879,25 @@ class moderate
 		{
 			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 		}
-		$moving_target = $this->request->variable('moving_target', '');
+		$moving_target = $this->request->variable('moving_target', 0);
 
 		if ($moving_target)
 		{
-			$target = array($image_id);
-			$this->image->move_image($target, $moving_target);
-			$message = sprintf($this->language->lang('IMAGES_MOVED', 1));
-			$this->album->update_info($album_id);
-			$this->album->update_info($moving_target);
-			meta_refresh($meta_refresh_time, $image_backlink);
-			trigger_error($message);
+			$this->require_album_permission('m_move', $moving_target);
+			$s_hidden_fields = build_hidden_fields(array(
+				'moving_target' => $moving_target,
+			));
+			if (confirm_box(true))
+			{
+				$target = array($image_id);
+				$this->image->move_image($target, $moving_target, $album_id);
+				$message = sprintf($this->language->lang('IMAGES_MOVED', 1));
+				$this->album->update_info($album_id);
+				$this->album->update_info($moving_target);
+				meta_refresh($meta_refresh_time, $image_backlink);
+				trigger_error($message);
+			}
+			confirm_box(false, $this->language->lang('QUEUES_A_MOVE2_CONFIRM'), $s_hidden_fields);
 		}
 		else
 		{

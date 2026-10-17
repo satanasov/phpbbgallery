@@ -137,6 +137,7 @@ $lang = array_merge($lang, array(
 
 	'GALLERY_IMAGE'  => 'Afbeelding',
 	'GALLERY_IMAGES' => 'Afbeeldingen',
+	'GALLERY_TOOLS' => 'Galerijhulpmiddelen',
 	'GALLERY_VIEWS'  => 'Weergaves',
 
 	'IGNORE_NOTUPTODATE_MESSAGE'   => 'Herinner mij over 7 dagen weer',
@@ -372,4 +373,7 @@ $lang = array_merge($lang, array(
 
 	// Versions 1.2.1 additions
 	'GALLERY_DROP'     => 'Plaats je afbeeldingen hier',
+	'GALLERY_UPLOAD_CANCEL' => 'Annuleren',
+	'GALLERY_UPLOAD_START'  => 'Starten',
+	'UPLOAD_TO_ALBUM'       => 'Uploaden naar "%s"',
 ));
