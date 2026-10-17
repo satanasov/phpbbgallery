@@ -179,6 +179,11 @@ class permissions_module
 		// Delete permissions
 		if ($delete)
 		{
+			if (!check_form_key('acp_gallery'))
+			{
+				trigger_error($this->language->lang('FORM_INVALID') . adm_back_link($this->u_action), E_USER_WARNING);
+			}
+
 			// Delete group permissions
 			if (!empty($group_id))
 			{

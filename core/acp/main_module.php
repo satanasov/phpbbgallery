@@ -239,6 +239,10 @@ class main_module
 					{
 						trigger_error($this->language->lang('NO_AUTH_OPERATION') . adm_back_link($this->u_action), E_USER_WARNING);
 					}
+					if (!check_form_key('acp_gallery'))
+					{
+						trigger_error($this->language->lang('FORM_INVALID') . adm_back_link($this->u_action), E_USER_WARNING);
+					}
 
 					$username = $request->variable('username', '', true);
 					$user_id = 0;
