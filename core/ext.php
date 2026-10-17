@@ -131,6 +131,7 @@ class ext extends \phpbb\extension\base
 					$phpbb_notifications = $this->container->get('notification_manager');
 					$phpbb_notifications->purge_notifications('phpbbgallery.core.notification.image_for_approval');
 					$phpbb_notifications->purge_notifications('phpbbgallery.core.notification.image_approved');
+					$phpbb_notifications->purge_notifications('phpbbgallery.core.notification.image_not_approved');
 					$phpbb_notifications->purge_notifications('phpbbgallery.core.notification.new_image');
 					$phpbb_notifications->purge_notifications('phpbbgallery.core.notification.new_comment');
 					$phpbb_notifications->purge_notifications('phpbbgallery.core.notification.new_report');
