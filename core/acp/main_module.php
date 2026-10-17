@@ -445,7 +445,7 @@ class main_module
 
 					if (!empty($image_ids))
 					{
-						phpbb_gallery_image_rating::delete_ratings($image_ids, true);
+						$phpbb_container->get('phpbbgallery.core.rating')->delete_ratings($image_ids, true);
 					}
 
 					trigger_error($this->language->lang('RESET_RATING_COMPLETED') . adm_back_link($this->u_action));
