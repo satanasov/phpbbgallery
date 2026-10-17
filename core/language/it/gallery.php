@@ -137,6 +137,7 @@ $lang = array_merge($lang, array(
 
 	'GALLERY_IMAGE'					=> 'Immagine',
 	'GALLERY_IMAGES'					=> 'Immagini',
+	'GALLERY_TOOLS'					=> 'Strumenti della galleria',
 	'GALLERY_VIEWS'					=> 'Visualizzazioni',
 
 	'IGNORE_NOTUPTODATE_MESSAGE'		=> 'Ricordamelo il 7 giorni',

@@ -137,6 +137,7 @@ $lang = array_merge($lang, array(
 
 	'GALLERY_IMAGE'  => 'Afbeelding',
 	'GALLERY_IMAGES' => 'Afbeeldingen',
+	'GALLERY_TOOLS' => 'Galerijhulpmiddelen',
 	'GALLERY_VIEWS'  => 'Weergaves',
 
 	'IGNORE_NOTUPTODATE_MESSAGE'   => 'Herinner mij over 7 dagen weer',

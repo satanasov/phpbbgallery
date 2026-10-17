@@ -131,6 +131,7 @@ $lang = array_merge($lang, array(
 
 	'GALLERY_IMAGE'					=> 'Фото',
 	'GALLERY_IMAGES'				=> 'Фотографии',
+	'GALLERY_TOOLS'				=> 'Инструменты галереи',
 	'GALLERY_VIEWS'					=> 'Просмотры',
 	'IGNORE_NOTUPTODATE_MESSAGE'	=> 'Напомнить через неделю',
 	'IMAGE_ALREADY_REPORTED'		=> 'Фото уже обжаловано.',
