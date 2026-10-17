@@ -95,15 +95,15 @@
 							<div class="pointer"><div class="pointer-inner"></div></div>
 							<div class="dropdown-contents contact-icons">
 								<!-- BEGIN contact -->
-									<!-- DEFINE $REMAINDER = (contact.S_ROW_COUNT % 4) -->
-									<!-- DEFINE $S_LAST_CELL = (($REMAINDER eq 3) or (contact.S_LAST_ROW and contact.S_NUM_ROWS < 4)) -->
-									<!-- IF $REMAINDER eq 0 -->
+									{% set REMAINDER = contact.S_ROW_COUNT % 4 %}
+									<!-- DEFINE $S_LAST_CELL = ((REMAINDER eq 3) or (contact.S_LAST_ROW and contact.S_NUM_ROWS < 4)) -->
+									<!-- IF REMAINDER eq 0 -->
 									<div>
 										<!-- ENDIF -->
 										<a href="<!-- IF contact.U_CONTACT -->{contact.U_CONTACT}<!-- ELSE -->{U_POST_AUTHOR}<!-- ENDIF -->" title="{contact.NAME}"<!-- IF $S_LAST_CELL --> class="last-cell"<!-- ENDIF --><!-- IF contact.ID eq 'jabber' --> onclick="popup(this.href, 750, 320); return false;"<!-- ENDIF -->>
 										<span class="contact-icon {contact.ID}-icon">{contact.NAME}</span>
 										</a>
-										<!-- IF $REMAINDER eq 3 or contact.S_LAST_ROW -->
+										<!-- IF REMAINDER eq 3 or contact.S_LAST_ROW -->
 									</div>
 									<!-- ENDIF -->
 								<!-- END contact -->
@@ -282,15 +282,15 @@
 							<div class="pointer"><div class="pointer-inner"></div></div>
 							<div class="dropdown-contents contact-icons">
 								<!-- BEGIN commentrow.contact -->
-								<!-- DEFINE $REMAINDER = (commentrow.contact.S_ROW_COUNT % 4) -->
-								<!-- DEFINE $S_LAST_CELL = (($REMAINDER eq 3) or (commentrow.contact.S_LAST_ROW and commentrow.contact.S_NUM_ROWS < 4)) -->
-								<!-- IF $REMAINDER eq 0 -->
+								{% set REMAINDER = commentrow.contact.S_ROW_COUNT % 4 %}
+								<!-- DEFINE $S_LAST_CELL = ((REMAINDER eq 3) or (commentrow.contact.S_LAST_ROW and commentrow.contact.S_NUM_ROWS < 4)) -->
+								<!-- IF REMAINDER eq 0 -->
 								<div>
 									<!-- ENDIF -->
 									<a href="<!-- IF commentrow.contact.U_CONTACT -->{commentrow.contact.U_CONTACT}<!-- ELSE -->{commentrow.U_POST_AUTHOR}<!-- ENDIF -->" title="{commentrow.contact.NAME}"<!-- IF $S_LAST_CELL --> class="last-cell"<!-- ENDIF --><!-- IF commentrow.contact.ID eq 'jabber' --> onclick="popup(this.href, 750, 320); return false;"<!-- ENDIF -->>
 									<span class="contact-icon {commentrow.contact.ID}-icon">{commentrow.contact.NAME}</span>
 									</a>
-									<!-- IF $REMAINDER eq 3 or commentrow.contact.S_LAST_ROW -->
+									<!-- IF REMAINDER eq 3 or commentrow.contact.S_LAST_ROW -->
 								</div>
 								<!-- ENDIF -->
 								<!-- END commentrow.contact -->
