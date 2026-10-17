@@ -19,6 +19,7 @@ require_once __DIR__ . '/../../core/migrations/release_3_2_1_1.php';
 require_once __DIR__ . '/../../core/migrations/release_3_3_0.php';
 require_once __DIR__ . '/../../core/migrations/release_3_4_0.php';
 require_once __DIR__ . '/../../core/migrations/remove_gallery_version.php';
+require_once __DIR__ . '/../../core/migrations/create_import_dir.php';
 
 class migration_order_test extends \phpbb_test_case
 {
@@ -59,6 +60,10 @@ class migration_order_test extends \phpbb_test_case
 		$this->assertSame(
 			array('\phpbbgallery\core\migrations\release_3_4_0'),
 			\phpbbgallery\core\migrations\remove_gallery_version::depends_on()
+		);
+		$this->assertSame(
+			array('\phpbbgallery\core\migrations\remove_gallery_version'),
+			\phpbbgallery\core\migrations\create_import_dir::depends_on()
 		);
 	}
 

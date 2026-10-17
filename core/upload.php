@@ -234,27 +234,32 @@ class upload
 	*/
 	public function upload_zip()
 	{
-		if (!class_exists('compress_zip'))
-		{
-			include_once($this->root_path . 'includes/functions_compress.' . $this->php_ext);
-		}
-
 		$tmp_dir = $this->gallery_url->path('import') . 'tmp_' . unique_id() . '/';
 
-		$this->zip_file->clean_filename('unique_ext');
-		$this->zip_file->move_file(substr($this->gallery_url->path('import_noroot'), 0, -1), false, false, CHMOD_ALL);
-		if (!empty($this->zip_file->error))
+		// The import directory is only created by the acpimport extension, so make sure it exists
+		if (!is_dir($this->gallery_url->path('import')))
 		{
+			@mkdir($this->gallery_url->path('import'), 0755, true);
+		}
+
+		$this->zip_file->clean_filename('unique_ext');
+		if (!$this->zip_file->move_file(substr($this->gallery_url->path('import_noroot'), 0, -1), false, false, CHMOD_ALL) || !empty($this->zip_file->error))
+		{
+			$this->language->add_lang('posting');
+			$zip_errors = (!empty($this->zip_file->error)) ? $this->zip_file->error : array($this->language->lang('GENERAL_UPLOAD_ERROR', $this->gallery_url->path('import_noroot')));
 			$this->zip_file->remove();
-			$this->new_error($this->language->lang('UPLOAD_ERROR', $this->zip_file->get('uploadname'), implode('<br />&raquo; ', $this->zip_file->error)));
+			$this->new_error($this->language->lang('UPLOAD_ERROR', $this->zip_file->get('uploadname'), implode('<br />&raquo; ', $zip_errors)));
 			return false;
 		}
 
-		$compress = new \compress_zip('r', $this->zip_file->get('destination_file'));
-		$compress->extract($tmp_dir);
-		$compress->close();
+		$extracted = $this->extract_zip($this->zip_file->get('destination_file'), $tmp_dir);
 
 		$this->zip_file->remove();
+
+		if (!$extracted)
+		{
+			return false;
+		}
 
 		// Remove zip from allowed extensions
 		$this->file_upload->set_allowed_extensions($this->get_allowed_types(false, true));
@@ -263,6 +268,87 @@ class upload
 
 		// Read zip from allowed extensions
 		$this->file_upload->set_allowed_extensions($this->get_allowed_types());
+	}
+
+	/**
+	 * Extract a zip archive into a flat temporary directory.
+	 * Entry names are never trusted: absolute paths and parent directory segments are
+	 * rejected, and every file is written by its base name only.
+	 *
+	 * @param string $archive Path to the zip archive
+	 * @param string $tmp_dir Target directory, with trailing slash
+	 * @return bool
+	 */
+	protected function extract_zip($archive, $tmp_dir)
+	{
+		$this->language->add_lang('posting');
+		$uploadname = $this->zip_file->get('uploadname');
+
+		if (!class_exists('ZipArchive'))
+		{
+			$this->new_error($this->language->lang('UPLOAD_ERROR', $uploadname, $this->language->lang('GENERAL_UPLOAD_ERROR', $this->gallery_url->path('import_noroot'))));
+			return false;
+		}
+
+		$zip = new \ZipArchive();
+		if ($zip->open($archive) !== true)
+		{
+			$this->new_error($this->language->lang('UPLOAD_ERROR', $uploadname, $this->language->lang('GENERAL_UPLOAD_ERROR', $this->gallery_url->path('import_noroot'))));
+			return false;
+		}
+
+		if (!is_dir($tmp_dir) && !@mkdir($tmp_dir, 0755, true))
+		{
+			$zip->close();
+			$this->new_error($this->language->lang('UPLOAD_ERROR', $uploadname, $this->language->lang('GENERAL_UPLOAD_ERROR', $this->gallery_url->path('import_noroot'))));
+			return false;
+		}
+
+		for ($i = 0; $i < $zip->numFiles; $i++)
+		{
+			$name = (string) $zip->getNameIndex($i);
+			$normalized = str_replace('\\', '/', $name);
+
+			// Directory entries carry no data, the files inside them are listed separately
+			if ($normalized === '' || substr($normalized, -1) === '/')
+			{
+				continue;
+			}
+
+			if ($normalized[0] === '/' || strpos($normalized, ':') !== false || in_array('..', explode('/', $normalized), true))
+			{
+				$this->new_error($this->language->lang('UPLOAD_ERROR', $uploadname, $this->language->lang('INVALID_FILENAME', utf8_htmlspecialchars($name))));
+				continue;
+			}
+
+			$base_name = basename($normalized);
+			if ($base_name === '' || $base_name[0] === '.')
+			{
+				continue;
+			}
+
+			// Entries from different folders may share a name
+			if (file_exists($tmp_dir . $base_name))
+			{
+				$base_name = $i . '_' . $base_name;
+			}
+
+			$stream = $zip->getStream($name);
+			if ($stream === false)
+			{
+				continue;
+			}
+			$target = @fopen($tmp_dir . $base_name, 'wb');
+			if ($target !== false)
+			{
+				stream_copy_to_stream($stream, $target);
+				fclose($target);
+			}
+			fclose($stream);
+		}
+		$zip->close();
+
+		return true;
 	}
 
 	/**
