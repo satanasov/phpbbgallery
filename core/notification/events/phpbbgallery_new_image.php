@@ -153,7 +153,7 @@ class phpbbgallery_new_image extends \phpbb\notification\type\base
 	 */
 	public function get_url()
 	{
-		return $this->get_data('album_id') ? append_sid($this->phpbb_root_path . 'gallery/album/' . $this->get_data('album_id')) : $this->get_data('album_url');
+		return $this->get_data('album_id') ? append_sid($this->phpbb_root_path . 'app.' . $this->php_ext . '/gallery/album/' . (int) $this->get_data('album_id')) : $this->get_data('album_url');
 	}
 
 	/**

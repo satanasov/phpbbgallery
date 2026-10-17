@@ -158,7 +158,7 @@ class phpbbgallery_new_comment extends \phpbb\notification\type\base
 	 */
 	public function get_url()
 	{
-		return $this->get_data('image_id') ? append_sid($this->phpbb_root_path . 'gallery/image/' . $this->get_data('image_id')) : $this->get_data('url');
+		return $this->get_data('image_id') ? append_sid($this->phpbb_root_path . 'app.' . $this->php_ext . '/gallery/image/' . (int) $this->get_data('image_id')) : $this->get_data('url');
 	}
 
 	/**
