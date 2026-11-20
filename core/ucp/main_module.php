@@ -201,7 +201,7 @@ class main_module
 
 			$album_data = array(
 				'album_name'					=> $user->data['username'],
-				'parent_id'						=> $request->variable('parent_id', 0),
+				'parent_id'						=> 0,
 				//left_id and right_id default by db
 				'album_desc_options'			=> 7,
 				'album_desc'					=> utf8_normalize_nfc($request->variable('album_desc', '', true)),
@@ -431,6 +431,9 @@ class main_module
 			// Parent should always be filled otherwise we use initialise_album()
 			if ($album_data['parent_id'])
 			{
+				// The parent comes from the request again, so it must still be one of the member's albums.
+				$phpbb_ext_gallery_core_album->check_user($album_data['parent_id']);
+
 				$sql = 'SELECT left_id, right_id, album_type
 					FROM ' . $albums_table . '
 					WHERE album_id = ' . (int) $album_data['parent_id'];
@@ -564,6 +567,11 @@ class main_module
 			generate_text_for_storage($album_data['album_desc'], $album_data['album_desc_uid'], $album_data['album_desc_bitfield'], $album_data['album_desc_options'], $request->variable('desc_parse_bbcode', false), $request->variable('desc_parse_urls', false), $request->variable('desc_parse_smilies', false));
 			$row = $phpbb_ext_gallery_core_album->get_info($album_id);
 			$parent_id = (int) $album_data['parent_id'];
+			if ($parent_id)
+			{
+				// A member may only move an album below one of their own albums.
+				$phpbb_ext_gallery_core_album->check_user($parent_id);
+			}
 			if (!$row['parent_id'])
 			{
 				// do not allow to restrict access on the base-album
