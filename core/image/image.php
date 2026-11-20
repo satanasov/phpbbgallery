@@ -672,7 +672,7 @@ class image
 						' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('i_view'), false, true) . '
 						AND (
 							image_status <> ' . (int) \phpbbgallery\core\block::STATUS_UNAPPROVED . '
-							OR image_user_id = ' . ($this->user->data['is_registered'] ? (int) $this->user->data['user_id'] : 0) . '
+							OR image_user_id = ' . (!empty($this->user->data['is_registered']) ? (int) $this->user->data['user_id'] : 0) . '
 						)
 					)
 					OR ' . $this->db->sql_in_set('image_album_id', $this->gallery_auth->acl_album_ids('m_status'), false, true) . '

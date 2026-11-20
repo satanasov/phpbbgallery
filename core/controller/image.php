@@ -270,7 +270,7 @@ class image
 		else
 		{
 			// Guests share one user id, so none of them owns a waiting image.
-			$user_id = $this->user->data['is_registered'] ? (int) $this->user->data['user_id'] : 0;
+			$user_id = !empty($this->user->data['is_registered']) ? (int) $this->user->data['user_id'] : 0;
 			$image_status_check = '(image_status = ' . (int) \phpbbgallery\core\block::STATUS_APPROVED . ' OR image_user_id = ' . $user_id . ')';
 		}
 
@@ -1272,7 +1272,7 @@ class image
 				redirect('gallery/album/' . $album_id);
 			}
 		}
-		if (!$this->gallery_auth->acl_check('m_status', $album_id, $owner_id) && ($user_data['image_user_id'] != $this->user->data['user_id'] || !$this->user->data['is_registered']) && ($image_status == (int) \phpbbgallery\core\block::STATUS_UNAPPROVED))
+		if (!$this->gallery_auth->acl_check('m_status', $album_id, $owner_id) && ($user_data['image_user_id'] != $this->user->data['user_id'] || empty($this->user->data['is_registered'])) && ($image_status == (int) \phpbbgallery\core\block::STATUS_UNAPPROVED))
 		{
 			//return $this->error('NOT_AUTHORISED', 403);
 			redirect('gallery/album/' . $album_id);

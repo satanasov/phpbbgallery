@@ -293,7 +293,7 @@ class file
 				!$this->auth->acl_check('m_status', $this->data['album_id'], $this->data['album_user_id'])
 				&& $this->data['image_status'] == (int) \phpbbgallery\core\block::STATUS_UNAPPROVED
 				// All guests share one user id, so only a registered uploader sees their own waiting image.
-				&& ($this->data['image_user_id'] != $this->user->data['user_id'] || !$this->user->data['is_registered'])
+				&& ($this->data['image_user_id'] != $this->user->data['user_id'] || empty($this->user->data['is_registered']))
 			))
 		{
 			// Missing permissions

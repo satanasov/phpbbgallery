@@ -257,7 +257,7 @@ class album
 		$image_counter = $album_data['album_images'];
 
 		// Guests share one user id, so none of them owns a waiting image.
-		$user_id = $this->user->data['is_registered'] ? (int) $this->user->data['user_id'] : 0;
+		$user_id = !empty($this->user->data['is_registered']) ? (int) $this->user->data['user_id'] : 0;
 		$album_owner_id = $album_data['album_user_id'];
 
 		if ($this->auth->acl_check('m_status', $album_id, $album_owner_id))
