@@ -869,7 +869,7 @@ class image
 		$owner_id = $image_data['image_user_id'];
 		$album_loginlink = './ucp.php?mode=login';
 		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
-		if ((int) $owner_id !== (int) $this->user->data['user_id'] || !$this->gallery_auth->acl_check('i_edit', $album_id, $album_data['album_user_id']) || ($image_data['image_status'] == (int) \phpbbgallery\core\block::STATUS_ORPHAN))
+		if ((int) $owner_id !== (int) $this->user->data['user_id'] || !$this->gallery_auth->acl_check('i_edit', $album_id, $album_data['album_user_id']) || ($image_data['image_status'] == (int) \phpbbgallery\core\block::STATUS_ORPHAN) || ($album_data['album_status'] == (int) \phpbbgallery\core\block::ALBUM_LOCKED))
 		{
 			if (!$this->gallery_auth->acl_check('m_edit', $album_id, $album_data['album_user_id']))
 			{
@@ -1115,7 +1115,7 @@ class image
 		$image_backlink = $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_id));
 		$album_backlink = $this->helper->route('phpbbgallery_core_album', array('album_id' => $image_data['image_album_id']));
 		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
-		if ((int) $image_data['image_user_id'] !== (int) $this->user->data['user_id'] || !$this->gallery_auth->acl_check('i_delete', $album_id, $album_data['album_user_id']) || ($image_data['image_status'] == (int) \phpbbgallery\core\block::STATUS_ORPHAN))
+		if ((int) $image_data['image_user_id'] !== (int) $this->user->data['user_id'] || !$this->gallery_auth->acl_check('i_delete', $album_id, $album_data['album_user_id']) || ($image_data['image_status'] == (int) \phpbbgallery\core\block::STATUS_ORPHAN) || ($album_data['album_status'] == (int) \phpbbgallery\core\block::ALBUM_LOCKED))
 		{
 			if (!$this->gallery_auth->acl_check('m_delete', $album_id, $album_data['album_user_id']))
 			{
