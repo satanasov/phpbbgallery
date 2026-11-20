@@ -488,7 +488,8 @@ class search
 		{
 			$sql_ary['WHERE'] .= ' and image_user_id = ' . (int) $user;
 		}
-		$user_id = $this->user->data['user_id'];
+		// Guests share one user id, so none of them owns a waiting image.
+		$user_id = $this->user->data['is_registered'] ? (int) $this->user->data['user_id'] : 0;
 		$sql_ary['WHERE'] .= ' AND ((' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('i_view'), $exclude_albums), false, true) . ' AND (image_status <> ' . \phpbbgallery\core\block::STATUS_UNAPPROVED . ' OR image_user_id = ' . $user_id . '))
 					OR ' . $this->db->sql_in_set('image_album_id', array_diff($this->gallery_auth->acl_album_ids('m_status'), $exclude_albums), false, true) . ')';
 
