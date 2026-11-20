@@ -67,6 +67,7 @@ $lang = array_merge($lang, array(
 	'QUEUES_A_LOCK2'				=> 'Заблокировать фотографии?',
 	'QUEUES_A_LOCK2_CONFIRM'		=> 'Подтвердите блокировку фотографий.',
 	'QUEUES_A_MOVE'					=> 'Переместить фотографии',
+	'QUEUES_A_MOVE2_CONFIRM'		=> 'Подтвердите перемещение фотографии.',
 	'QUEUES_A_UNAPPROVE'			=> 'Отклонить фотографии',
 	'QUEUES_A_UNAPPROVE2'			=> 'Отклонить фотографии?',
 	'QUEUES_A_UNAPPROVE2_CONFIRM'	=> 'Подтвердите, что хотите отклонить эти фотографии.',

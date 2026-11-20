@@ -132,7 +132,6 @@ $lang = array_merge($lang, array(
 	'DESC_TOO_LONG'					=> 'Votre description est trop longue.',
 	'DESCRIPTION_LENGTH'			=> 'Saisissez votre description ici. Elle ne peut pas contenir plus de <strong>%d</strong> caractères.',
 	'DETAILS'						=> 'Détails',
-	'DISALLOWED_EXTENSION'			=> 'L’extension de cette image n’est pas autorisée.',
 	'DO_NOT_RATE_IMAGE'				=> 'Ne pas noter l’image',
 
 	'EDIT_COMMENT'					=> 'Modifier le commentaire',
@@ -381,8 +380,7 @@ $lang = array_merge($lang, array(
 		2	=> 	'%s images déplacées',
 	),
 
-	'QUICK_MOD'	=> 'Sélectionner l’action du modérateur',
-	'WRONG_FILESIZE'	=> 'L’image est plus lourde que la limite de poids autorisée.',
+	'GALLERY_QUICK_MOD'	=> 'Sélectionner l’action du modérateur',
 	'UNREAD_IMAGES'		=> 'Unviewed images',
 	'NO_UNREAD_IMAGES'	=> 'No unviewed images',
 

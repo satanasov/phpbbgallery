@@ -76,6 +76,7 @@ $lang = array_merge($lang, array(
 	'QUEUES_A_LOCK2'				=> 'Bilder sperren?',
 	'QUEUES_A_LOCK2_CONFIRM'		=> 'Bist du dir sicher, dass du die Bilder sperren möchtest?',
 	'QUEUES_A_MOVE'					=> 'Bilder verschieben',
+	'QUEUES_A_MOVE2_CONFIRM'		=> 'Bist du dir sicher, dass du das Bild verschieben möchtest?',
 	'QUEUES_A_UNAPPROVE'			=> 'erneute Freischaltung erzwingen',
 	'QUEUES_A_UNAPPROVE2'			=> 'erneute Freischaltung erzwingen?',
 	'QUEUES_A_UNAPPROVE2_CONFIRM'	=> 'Bist du dir sicher, dass eine erneute Freischaltung erzwungen werden soll?',

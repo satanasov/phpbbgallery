@@ -116,7 +116,6 @@ $lang = array_merge($lang, array(
 	'DESC_TOO_LONG'           => 'Deine Beschreibung ist zu lang',
 	'DESCRIPTION_LENGTH'      => 'Gib deine Beschreibung hier ein. Sie darf nicht mehr als <strong>%d</strong> Zeichen enthalten.',
 	'DETAILS'                 => 'Details',
-	'DISALLOWED_EXTENSION'    => 'Diese Bilderweiterung ist nicht erlaubt',
 	'DO_NOT_RATE_IMAGE'         => 'Bild nicht bewerten',
 
 	'EDIT_COMMENT'             => 'Kommentar ändern',
@@ -216,7 +215,7 @@ $lang = array_merge($lang, array(
 
 	'QUOTA_REACHED' => 'Die Anzahl der Bilder, die du hochladen kannst, wurde erreicht.',
 	'QUOTE_COMMENT' => 'Kommentar zitieren',
-	'QUICK_MOD'     => 'Schnellmoderation',
+	'GALLERY_QUICK_MOD'     => 'Schnellmoderation',
 
 	'RANDOM_IMAGES'       => 'Zufällige Bilder',
 	'RATE_IMAGE'          => 'Bild bewerten',
@@ -364,7 +363,6 @@ $lang = array_merge($lang, array(
 		1 => 'Bild verschoben',
 		2 => '%s Bilder verschoben',
 	),
-	'WRONG_FILESIZE' => 'Das Bild ist größer als das Limit!',
 
 	'UNREAD_IMAGES'    => 'Unbewertete Bilder',
 	'NO_UNREAD_IMAGES' => 'Es gibt keine ungeprüften Bilder',

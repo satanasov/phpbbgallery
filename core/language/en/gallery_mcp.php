@@ -75,6 +75,7 @@ $lang = array_merge($lang, array(
 	'QUEUES_A_LOCK2'				=> 'Lock images?',
 	'QUEUES_A_LOCK2_CONFIRM'		=> 'Are you sure, you want to lock these images?',
 	'QUEUES_A_MOVE'					=> 'Move images',
+	'QUEUES_A_MOVE2_CONFIRM'		=> 'Are you sure you want to move this image?',
 	'QUEUES_A_UNAPPROVE'			=> 'Unapprove images',
 	'QUEUES_A_UNAPPROVE2'			=> 'Unapprove images?',
 	'QUEUES_A_UNAPPROVE2_CONFIRM'	=> 'Are you sure, you want to unapprove these images?',

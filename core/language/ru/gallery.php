@@ -110,7 +110,6 @@ $lang = array_merge($lang, array(
 	'DESC_TOO_LONG'					=> 'Описание слишком длинное',
 	'DESCRIPTION_LENGTH'			=> 'Введите описание (не более <strong>%d</strong> символов).',
 	'DETAILS'						=> 'Информация',
-	'DISALLOWED_EXTENSION'			=> 'Изображение с таким расширением не разрешено',
 	'DO_NOT_RATE_IMAGE'				=> 'Нет оценки',
 
 	'EDIT_COMMENT'					=> 'Редактировать комментарий',
@@ -341,8 +340,7 @@ $lang = array_merge($lang, array(
 		1	=>	'Фото перемещено',
 		2	=> 	'%s фото перемещено',
 	),
-	'WRONG_FILESIZE'	=> 'Размер файла превышает лимит!',
-	'QUICK_MOD'		=> 'Выбрать действие',
+	'GALLERY_QUICK_MOD'		=> 'Выбрать действие',
 	'UNREAD_IMAGES'		=> 'Непросмотренные фото',
 	'NO_UNREAD_IMAGES'	=> 'Нет непросмотренных фото',
 

@@ -92,6 +92,7 @@ $lang = array_merge($lang, array(
 	'QUEUES_A_LOCK2'				=> 'Verrouiller les images ?',
 	'QUEUES_A_LOCK2_CONFIRM'		=> 'Êtes-vous sûr de vouloir verrouiller ces images ?',
 	'QUEUES_A_MOVE'					=> 'Déplacer les images',
+	'QUEUES_A_MOVE2_CONFIRM'		=> 'Êtes-vous sûr de vouloir déplacer cette image ?',
 	'QUEUES_A_UNAPPROVE'			=> 'Refuser les images',
 	'QUEUES_A_UNAPPROVE2'			=> 'Refuser les images ?',
 	'QUEUES_A_UNAPPROVE2_CONFIRM'	=> 'Êtes-vous sûr de vouloir refuser ces images ?',

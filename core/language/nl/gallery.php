@@ -116,7 +116,6 @@ $lang = array_merge($lang, array(
 	'DESC_TOO_LONG'           => 'Je omschrijving is te lang',
 	'DESCRIPTION_LENGTH'      => 'Je kan hier een omschrijving invoeren, deze mag niet meer dan <strong>%d</strong> karakters bevatten.',
 	'DETAILS'                 => 'Details',
-	'DISALLOWED_EXTENSION'    => 'De afbeeldingsextensie is niet toegestaan',
 	'DO_NOT_RATE_IMAGE'         => 'Beoordeel afbeeldingen niet',
 
 	'EDIT_COMMENT'             => 'Wijzig reactie',
@@ -365,8 +364,7 @@ $lang = array_merge($lang, array(
 		2 => '%s afbeeldingen verplaatst',
 	),
 
-	'QUICK_MOD'      => 'Selecteer moderator actie',
-	'WRONG_FILESIZE' => 'De afbeeldingsgrootte is groter dan toegestaan!',
+	'GALLERY_QUICK_MOD'      => 'Selecteer moderator actie',
 
 	'UNREAD_IMAGES'    => 'Unviewed images',
 	'NO_UNREAD_IMAGES' => 'No unviewed images',

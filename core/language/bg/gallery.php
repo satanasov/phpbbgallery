@@ -116,7 +116,6 @@ $lang = array_merge($lang, array(
 	'DESC_TOO_LONG'           => 'Your description is too long',
 	'DESCRIPTION_LENGTH'      => 'Enter your descriptions here, it may contain no more than <strong>%d</strong> characters.',
 	'DETAILS'                 => 'Details',
-	'DISALLOWED_EXTENSION'    => 'Не разрешено разширение на изборажението',
 	'DO_NOT_RATE_IMAGE'         => 'Don’t rate image',
 
 	'EDIT_COMMENT'             => 'Edit comment',
@@ -365,8 +364,7 @@ $lang = array_merge($lang, array(
 		2 => '%s изображения са преместени',
 	),
 
-	'QUICK_MOD'        => 'Изберете модераторско действие',
-	'WRONG_FILESIZE'   => 'Изображението е по-голямо от лимита!',
+	'GALLERY_QUICK_MOD'        => 'Изберете модераторско действие',
 	'UNREAD_IMAGES'    => 'непрегледани изображения',
 	'NO_UNREAD_IMAGES' => 'Няма непрегледани изображения',
 
