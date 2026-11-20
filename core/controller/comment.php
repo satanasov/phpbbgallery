@@ -544,6 +544,11 @@ class comment
 					$error .= (($error) ? '<br />' : '') . $this->language->lang('MISSING_USERNAME');
 				}
 
+				if (!function_exists('validate_username'))
+				{
+					include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
+				}
+
 				if (validate_username($comment_username))
 				{
 					$error .= (($error) ? '<br />' : '') . $this->language->lang('INVALID_USERNAME');

@@ -677,13 +677,37 @@ class image
 
 				// Let's deploy new profile
 				$poster_id = $row['comment_user_id'];
-				$user_data = $this->users_data_array[$poster_id] ?? [];
+				// Guests and deleted members have no user row: show the stored name without a profile link.
+				$user_deleted = !isset($this->users_data_array[$poster_id]['username']);
+				$user_data = $user_deleted ? array(
+					'user_type'				=> USER_IGNORE,
+					'user_inactive_reason'	=> 0,
+					'username'				=> $row['comment_username'],
+					'user_colour'			=> $row['comment_user_colour'],
+					'sig'					=> '',
+					'sig_bbcode_uid'		=> '',
+					'sig_bbcode_bitfield'	=> '',
+					'allow_pm'				=> 0,
+					'email'					=> '',
+					'jabber'				=> '',
+				) : $this->users_data_array[$poster_id];
+				if ($user_deleted)
+				{
+					$poster_id = ANONYMOUS;
+				}
 				if ($row['comment_edit_count'] > 0)
 				{
+					// The member who last edited the comment may have been deleted since.
+					$editor_id = (int) $row['comment_edit_user_id'];
+					$editor_exists = isset($this->users_data_array[$editor_id]['username']);
 					$edit_info = ($row['comment_edit_count'] == 1) ? $this->language->lang('IMAGE_EDITED_TIME_TOTAL') : $this->language->lang('IMAGE_EDITED_TIMES_TOTAL');
-					$edit_info = sprintf($edit_info, get_username_string('full', $row['comment_edit_user_id'], $this->users_data_array[$row['comment_edit_user_id']]['username'], $this->users_data_array[$row['comment_edit_user_id']]['user_colour']), $this->user->format_date($row['comment_edit_time'], false, true), $row['comment_edit_count']);
+					$edit_info = sprintf($edit_info, get_username_string(
+						'full',
+						$editor_exists ? $editor_id : ANONYMOUS,
+						$editor_exists ? $this->users_data_array[$editor_id]['username'] : $this->language->lang('GUEST'),
+						$editor_exists ? $this->users_data_array[$editor_id]['user_colour'] : ''
+					), $this->user->format_date($row['comment_edit_time'], false, true), $row['comment_edit_count']);
 				}
-				$user_deleted = (isset($user_data) ? false : true);
 				// End signature parsing, only if needed
 				if ($user_data['sig'] && empty($user_data['sig_parsed']))
 				{
@@ -714,7 +738,6 @@ class image
 					$u_pm = append_sid("{$this->phpbb_root_path}ucp.$this->php_ext", 'i=pm&amp;mode=compose');
 				}
 
-				$user_data = $this->users_data_array[$poster_id] ?? [];
 				$comment_row = array(
 					'U_COMMENT'  => $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_id)) . '#comment_' . $row['comment_id'],
 					'COMMENT_ID' => $row['comment_id'],
