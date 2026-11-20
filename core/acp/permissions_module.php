@@ -747,7 +747,8 @@ class permissions_module
 						$value = (int) $value;
 						if (substr($p_mask, -6, 6) == '_count')
 						{
-							$auth_settings[$c_mask][$v_mask][$p_mask] = $value;
+							// The count columns are unsigned: MySQL and PostgreSQL refuse a negative number.
+							$auth_settings[$c_mask][$v_mask][$p_mask] = max(0, $value);
 						}
 						else
 						{
