@@ -496,7 +496,9 @@ class album
 			$s_hidden_fields = '';
 			confirm_box(false, $lang, $s_hidden_fields);
 		}
-		//return $this->helper->render('gallery/moderate_approve.html', $this->language->lang('GALLERY'));
+
+		// "No" on the confirmation goes back to the album.
+		return new \Symfony\Component\HttpFoundation\RedirectResponse($this->helper->route('phpbbgallery_core_album', array('album_id' => (int) $album_id)));
 	}
 
 	/**

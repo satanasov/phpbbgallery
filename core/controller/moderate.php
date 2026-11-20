@@ -862,6 +862,9 @@ class moderate
 			$s_hidden_fields = '';
 			confirm_box(false, 'QUEUE_A_UNAPPROVE2', $s_hidden_fields);
 		}
+
+		// "No" on the confirmation goes back to the image.
+		return new RedirectResponse($image_backlink);
 	}
 
 	/**
@@ -965,5 +968,8 @@ class moderate
 			$s_hidden_fields = '';
 			confirm_box(false, 'QUEUE_A_LOCK2', $s_hidden_fields);
 		}
+
+		// "No" on the confirmation goes back to the image.
+		return new RedirectResponse($image_backlink);
 	}
 }
