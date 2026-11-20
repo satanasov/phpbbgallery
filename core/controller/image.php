@@ -853,6 +853,10 @@ class image
 	{
 		//we cheat a little but we will make good later
 		$image_data = $this->image->get_image_data($image_id);
+		if (!$image_data)
+		{
+			throw new \phpbb\exception\http_exception(404, 'INVALID_IMAGE');
+		}
 		$album_id = $image_data['image_album_id'];
 		$album_data = $this->album->get_info($album_id);
 		$this->language->add_lang(array('gallery'), 'phpbbgallery/core');
@@ -1100,6 +1104,10 @@ class image
 	public function delete($image_id)
 	{
 		$image_data = $this->image->get_image_data($image_id);
+		if (!$image_data)
+		{
+			throw new \phpbb\exception\http_exception(404, 'INVALID_IMAGE');
+		}
 		$album_id = $image_data['image_album_id'];
 		$album_data = $this->album->get_info($album_id);
 		$this->language->add_lang(array('gallery'), 'phpbbgallery/core');
@@ -1158,6 +1166,10 @@ class image
 	public function report($image_id)
 	{
 		$image_data = $this->image->get_image_data($image_id);
+		if (!$image_data)
+		{
+			throw new \phpbb\exception\http_exception(404, 'INVALID_IMAGE');
+		}
 		$album_id = $image_data['image_album_id'];
 		$album_data = $this->album->get_info($album_id);
 		$this->language->add_lang(array('gallery'), 'phpbbgallery/core');

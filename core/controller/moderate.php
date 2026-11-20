@@ -765,6 +765,10 @@ class moderate
 	public function approve($image_id)
 	{
 		$image_data = $this->image->get_image_data($image_id);
+		if (!$image_data)
+		{
+			throw new \phpbb\exception\http_exception(404, 'INVALID_IMAGE');
+		}
 		$album_data = $this->album->get_info($image_data['image_album_id']);
 
 		$album_backlink = $this->helper->route('phpbbgallery_core_album', array('album_id' => $image_data['image_album_id']));
@@ -826,6 +830,10 @@ class moderate
 	public function unapprove($image_id)
 	{
 		$image_data = $this->image->get_image_data($image_id);
+		if (!$image_data)
+		{
+			throw new \phpbb\exception\http_exception(404, 'INVALID_IMAGE');
+		}
 		$album_data = $this->album->get_info($image_data['image_album_id']);
 
 		$album_backlink = $this->helper->route('phpbbgallery_core_index');
@@ -866,6 +874,10 @@ class moderate
 	public function move($image_id): \Symfony\Component\HttpFoundation\Response
 	{
 		$image_data = $this->image->get_image_data($image_id);
+		if (!$image_data)
+		{
+			throw new \phpbb\exception\http_exception(404, 'INVALID_IMAGE');
+		}
 		$album_id = $image_data['image_album_id'];
 		//$user_id = $image_data['image_user_id'];
 		$album_data =  $this->album->get_info($album_id);
@@ -922,6 +934,10 @@ class moderate
 	public function lock($image_id)
 	{
 		$image_data = $this->image->get_image_data($image_id);
+		if (!$image_data)
+		{
+			throw new \phpbb\exception\http_exception(404, 'INVALID_IMAGE');
+		}
 		$album_id = $image_data['image_album_id'];
 		//$user_id = $image_data['image_user_id'];
 		$album_data =  $this->album->get_info($album_id);
