@@ -219,6 +219,11 @@ class main_module
 				'personal_album_id'	=> $album_id,
 			));
 
+			// Fill the personal album profile field, as the ACP does when it creates the album.
+			$phpbb_container->get('profilefields.manager')->update_profile_field_data((int) $user->data['user_id'], array(
+				'pf_gallery_palbum'	=> (int) $album_id,
+			));
+
 			$this->subscribe_pegas($album_id);
 			$phpbb_ext_gallery_config->inc('num_pegas', 1);
 
