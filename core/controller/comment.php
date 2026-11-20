@@ -165,6 +165,10 @@ class comment
 			$result = $this->db->sql_query($sql);
 			$comment_data = $this->db->sql_fetchrow($result);
 			$this->db->sql_freeresult($result);
+			if (!$comment_data)
+			{
+				throw new \phpbb\exception\http_exception(404, 'INVALID_IMAGE');
+			}
 			$image_id = (int) $comment_data['comment_image_id'];
 		}
 
@@ -172,6 +176,10 @@ class comment
 		$error = $message = '';
 		// load Image Data
 		$image_data = $this->image->get_image_data($image_id);
+		if (!$image_data)
+		{
+			throw new \phpbb\exception\http_exception(404, 'INVALID_IMAGE');
+		}
 		$album_id = (int) $image_data['image_album_id'];
 		$album_data = $this->loader->get($album_id);
 		$this->display->generate_navigation($album_data);
@@ -446,6 +454,10 @@ class comment
 		// Derive the image and album used for permission checks from the comment.
 		$image_id = (int) $comment_data['comment_image_id'];
 		$image_data = $this->image->get_image_data($image_id);
+		if (!$image_data)
+		{
+			throw new \phpbb\exception\http_exception(404, 'INVALID_IMAGE');
+		}
 		$album_id = (int) $image_data['image_album_id'];
 		$album_data = $this->loader->get($album_id);
 		$this->display->generate_navigation($album_data);
@@ -676,6 +688,10 @@ class comment
 		// Derive the image and album used for permission checks from the comment.
 		$image_id = (int) $comment_data['comment_image_id'];
 		$image_data = $this->image->get_image_data($image_id);
+		if (!$image_data)
+		{
+			throw new \phpbb\exception\http_exception(404, 'INVALID_IMAGE');
+		}
 		$album_id = (int) $image_data['image_album_id'];
 		$album_data = $this->loader->get($album_id);
 		$this->display->generate_navigation($album_data);
@@ -687,7 +703,7 @@ class comment
 		$album_loginlink = $login_link;
 
 		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
-		if (!$this->gallery_auth->acl_check('c_edit', $album_id, $album_data['album_user_id']))
+		if (!$this->gallery_auth->acl_check('c_delete', $album_id, $album_data['album_user_id']))
 		{
 			if (!$this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']))
 			{
@@ -822,6 +838,10 @@ class comment
 		$error = $message = '';
 		// load Image Data
 		$image_data = $this->image->get_image_data($image_id);
+		if (!$image_data)
+		{
+			throw new \phpbb\exception\http_exception(404, 'INVALID_IMAGE');
+		}
 		$album_id = (int) $image_data['image_album_id'];
 		$album_data = $this->loader->get($album_id);
 		$this->display->generate_navigation($album_data);
