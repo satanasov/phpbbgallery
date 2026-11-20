@@ -1191,7 +1191,7 @@ class image
 				trigger_error('FORM_INVALID');
 			}
 
-			$report_message = $this->request->variable('message', '', true);
+			$report_message = utf8_encode_ucr($this->request->variable('message', '', true));
 			$error = '';
 			if ($report_message == '')
 			{
