@@ -359,7 +359,8 @@ class album
 			$image_data['rating'] = '0';//@todo: $rating->get_image_rating(false, false);
 			//@todo: unset($rating);
 
-			$s_user_allowed = (($image_data['image_user_id'] == $this->user->data['user_id']) && ($album_status != (int) \phpbbgallery\core\block::ALBUM_LOCKED));
+			// All guests share one user id, so only a registered uploader owns an image.
+			$s_user_allowed = (($image_data['image_user_id'] == $this->user->data['user_id']) && !empty($this->user->data['is_registered']) && ($album_status != (int) \phpbbgallery\core\block::ALBUM_LOCKED));
 
 			switch ($this->gallery_config->get('link_thumbnail'))
 			{

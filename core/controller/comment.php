@@ -476,7 +476,8 @@ class comment
 				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 			}
 		}
-		else if (($comment_data['comment_user_id'] != $this->user->data['user_id']) && !$this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']))
+		// All guests share one user id, so only a registered member owns a comment.
+		else if (($comment_data['comment_user_id'] != $this->user->data['user_id'] || empty($this->user->data['is_registered'])) && !$this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']))
 		{
 			$this->misc->not_authorised($image_backlink, $image_loginlink);
 		}
@@ -710,7 +711,8 @@ class comment
 				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 			}
 		}
-		else if (($comment_data['comment_user_id'] != $this->user->data['user_id']) && !$this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']))
+		// All guests share one user id, so only a registered member owns a comment.
+		else if (($comment_data['comment_user_id'] != $this->user->data['user_id'] || empty($this->user->data['is_registered'])) && !$this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']))
 		{
 			$this->misc->not_authorised($image_backlink, $image_loginlink);
 		}

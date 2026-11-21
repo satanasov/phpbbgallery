@@ -275,7 +275,8 @@ class file
 		$this->auth->load_user_permissions($this->user->data['user_id']);
 		$zebra_array = $this->auth->get_user_zebra($this->user->data['user_id']);
 		// Check permissions
-		if (($this->data['image_user_id'] != $this->user->data['user_id']) && ($this->data['image_status'] == (int) \phpbbgallery\core\block::STATUS_ORPHAN))
+		// All guests share one user id, so only a registered uploader sees their own unsubmitted upload.
+		if (($this->data['image_user_id'] != $this->user->data['user_id'] || empty($this->user->data['is_registered'])) && ($this->data['image_status'] == (int) \phpbbgallery\core\block::STATUS_ORPHAN))
 		{
 			// The image is currently being uploaded
 			// trigger_error('NOT_AUTHORISED');
