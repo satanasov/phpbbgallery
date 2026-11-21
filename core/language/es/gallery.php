@@ -116,7 +116,6 @@ $lang = array_merge($lang, array(
 	'DESC_TOO_LONG'					=> 'Tu descripción es demasiado larga',
 	'DESCRIPTION_LENGTH'			=> 'Introduzca sus descripciones aquí, puede contener no más de <strong>%d</strong> caracteres.',
 	'DETAILS'						=> 'Detalles',
-	'DISALLOWED_EXTENSION'			=> 'Esta extensión de imagen no está permitida',
 	'DO_NOT_RATE_IMAGE'				=> 'No valorar la imagen',
 
 	'EDIT_COMMENT'					=> 'Editar comentario',
@@ -137,6 +136,7 @@ $lang = array_merge($lang, array(
 
 	'GALLERY_IMAGE'					=> 'Imagen',
 	'GALLERY_IMAGES'				=> 'Imágenes',
+	'GALLERY_TOOLS'				=> 'Herramientas de la galería',
 	'GALLERY_VIEWS'					=> 'Vistas',
 
 	'IGNORE_NOTUPTODATE_MESSAGE'		=> 'Recuérdeme en 7 días',
@@ -365,11 +365,13 @@ $lang = array_merge($lang, array(
 		2	=>	'%s imágenes movidas',
 	),
 
-	'QUICK_MOD'	=> 'Seleccionar la acción del moderador',
-	'WRONG_FILESIZE'	=> 'La imagen es más grande que el límite!',
+	'GALLERY_QUICK_MOD'	=> 'Seleccionar la acción del moderador',
 	'UNREAD_IMAGES'    => 'Unviewed images',
 	'NO_UNREAD_IMAGES' => 'No unviewed images',
 
 	// Versions 1.2.1 additions
 	'GALLERY_DROP'		=> 'Deja tus imágenes aquí',
+	'GALLERY_UPLOAD_CANCEL' => 'Cancelar',
+	'GALLERY_UPLOAD_START'  => 'Iniciar',
+	'UPLOAD_TO_ALBUM'       => 'Subir a "%s"',
 ));

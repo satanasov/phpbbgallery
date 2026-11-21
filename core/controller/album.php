@@ -256,7 +256,8 @@ class album
 
 		$image_counter = $album_data['album_images'];
 
-		$user_id = $this->user->data['user_id'];
+		// Guests share one user id, so none of them owns a waiting image.
+		$user_id = !empty($this->user->data['is_registered']) ? (int) $this->user->data['user_id'] : 0;
 		$album_owner_id = $album_data['album_user_id'];
 
 		if ($this->auth->acl_check('m_status', $album_id, $album_owner_id))
@@ -358,7 +359,8 @@ class album
 			$image_data['rating'] = '0';//@todo: $rating->get_image_rating(false, false);
 			//@todo: unset($rating);
 
-			$s_user_allowed = (($image_data['image_user_id'] == $this->user->data['user_id']) && ($album_status != (int) \phpbbgallery\core\block::ALBUM_LOCKED));
+			// All guests share one user id, so only a registered uploader owns an image.
+			$s_user_allowed = (($image_data['image_user_id'] == $this->user->data['user_id']) && !empty($this->user->data['is_registered']) && ($album_status != (int) \phpbbgallery\core\block::ALBUM_LOCKED));
 
 			switch ($this->gallery_config->get('link_thumbnail'))
 			{
@@ -392,7 +394,7 @@ class album
 			$this->template->assign_block_vars('imageblock.image', array(
 				'IMAGE_ID'            => (int) $image_data['image_id'],
 				'U_IMAGE'             => $action_image,
-				'UC_IMAGE_NAME'       => $show_imagename ? htmlspecialchars_decode($image_data['image_name'], ENT_COMPAT) : false,
+				'UC_IMAGE_NAME'       => $show_imagename ? $image_data['image_name'] : false,
 				'U_ALBUM'             => $show_album ? $this->helper->route('phpbbgallery_core_album', array('album_id' => (int) $album_data['album_id'])) : false,
 				'ALBUM_NAME'          => $show_album ? $album_data['album_name'] : false,
 				'IMAGE_VIEWS'         => $show_views ? (int) $image_data['image_view_count'] : -1,
@@ -495,7 +497,9 @@ class album
 			$s_hidden_fields = '';
 			confirm_box(false, $lang, $s_hidden_fields);
 		}
-		//return $this->helper->render('gallery/moderate_approve.html', $this->language->lang('GALLERY'));
+
+		// "No" on the confirmation goes back to the album.
+		return new \Symfony\Component\HttpFoundation\RedirectResponse($this->helper->route('phpbbgallery_core_album', array('album_id' => (int) $album_id)));
 	}
 
 	/**

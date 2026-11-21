@@ -116,7 +116,6 @@ $lang = array_merge($lang, array(
 	'DESC_TOO_LONG'           => 'Je omschrijving is te lang',
 	'DESCRIPTION_LENGTH'      => 'Je kan hier een omschrijving invoeren, deze mag niet meer dan <strong>%d</strong> karakters bevatten.',
 	'DETAILS'                 => 'Details',
-	'DISALLOWED_EXTENSION'    => 'De afbeeldingsextensie is niet toegestaan',
 	'DO_NOT_RATE_IMAGE'         => 'Beoordeel afbeeldingen niet',
 
 	'EDIT_COMMENT'             => 'Wijzig reactie',
@@ -137,6 +136,7 @@ $lang = array_merge($lang, array(
 
 	'GALLERY_IMAGE'  => 'Afbeelding',
 	'GALLERY_IMAGES' => 'Afbeeldingen',
+	'GALLERY_TOOLS' => 'Galerijhulpmiddelen',
 	'GALLERY_VIEWS'  => 'Weergaves',
 
 	'IGNORE_NOTUPTODATE_MESSAGE'   => 'Herinner mij over 7 dagen weer',
@@ -364,12 +364,14 @@ $lang = array_merge($lang, array(
 		2 => '%s afbeeldingen verplaatst',
 	),
 
-	'QUICK_MOD'      => 'Selecteer moderator actie',
-	'WRONG_FILESIZE' => 'De afbeeldingsgrootte is groter dan toegestaan!',
+	'GALLERY_QUICK_MOD'      => 'Selecteer moderator actie',
 
 	'UNREAD_IMAGES'    => 'Unviewed images',
 	'NO_UNREAD_IMAGES' => 'No unviewed images',
 
 	// Versions 1.2.1 additions
 	'GALLERY_DROP'     => 'Plaats je afbeeldingen hier',
+	'GALLERY_UPLOAD_CANCEL' => 'Annuleren',
+	'GALLERY_UPLOAD_START'  => 'Starten',
+	'UPLOAD_TO_ALBUM'       => 'Uploaden naar "%s"',
 ));

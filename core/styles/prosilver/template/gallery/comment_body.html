@@ -18,7 +18,7 @@
 		<h3>{L_POST_COMMENT}</h3>
 		<fieldset class="fields1">
 			<!-- IF ERROR --><p class="error">{ERROR}</p><!-- ENDIF -->
-			<!-- IF not S_USER_LOGGED_IN -->
+			<!-- IF REQ_USERNAME -->
 			<dl>
 				<dt><label for="username">{L_USERNAME}{L_COLON}</label></dt>
 				<dd id="username"><input class="inputbox autowidth" type="text" tabindex="1" name="username" value="{USERNAME}" size="60" maxlength="32" /></dd>

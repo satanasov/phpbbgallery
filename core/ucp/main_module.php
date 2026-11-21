@@ -64,69 +64,95 @@ class main_module
 
 		$mode = $request->variable('mode', 'manage_albums');
 		$action = $request->variable('action', '');
-		$cancel = (isset($_POST['cancel'])) ? true : false;
+		$cancel = $request->is_set_post('cancel');
 		$phpbb_ext_gallery_core_auth->load_user_permissions($user->data['user_id']);
 		if ($cancel)
 		{
 			$action = '';
 		}
-		switch ($mode)
+		try
 		{
-			case 'manage_albums':
-				switch ($action)
-				{
-					case 'manage':
-						$title = 'MANAGE_SUBALBUMS';
-						$this->page_title = $this->language->lang($title);
-						$this->manage_albums();
-					break;
-
-					case 'create':
-						$title = 'CREATE_SUBALBUM';
-						$this->page_title = $this->language->lang($title);
-						$this->create_album();
-					break;
-
-					case 'edit':
-						$title = 'EDIT_SUBALBUM';
-						$this->page_title = $this->language->lang($title);
-						$this->edit_album();
-					break;
-
-					case 'delete':
-						$title = 'DELETE_ALBUM';
-						$this->page_title = $this->language->lang($title);
-						$this->delete_album();
-					break;
-
-					case 'move':
-						$this->move_album();
-					break;
-
-					case 'initialise':
-						$this->initialise_album();
-					break;
-
-					default:
-						$title = 'UCP_GALLERY_PERSONAL_ALBUMS';
-						$this->page_title = $this->language->lang($title);
-						if (!$phpbb_ext_gallery_user->get_data('personal_album_id'))
-						{
-							$this->info();
-						}
-						else
-						{
+			switch ($mode)
+			{
+				case 'manage_albums':
+					$this->repair_personal_album_id();
+					switch ($action)
+					{
+						case 'manage':
+							$title = 'MANAGE_SUBALBUMS';
+							$this->page_title = $this->language->lang($title);
 							$this->manage_albums();
-						}
-					break;
-				}
-			break;
+						break;
 
-			case 'manage_subscriptions':
-				$title = 'UCP_GALLERY_WATCH';
-				$this->page_title = $this->language->lang($title);
-				$this->manage_subscriptions();
-			break;
+						case 'create':
+							$title = 'CREATE_SUBALBUM';
+							$this->page_title = $this->language->lang($title);
+							$this->create_album();
+						break;
+
+						case 'edit':
+							$title = 'EDIT_SUBALBUM';
+							$this->page_title = $this->language->lang($title);
+							$this->edit_album();
+						break;
+
+						case 'delete':
+							$title = 'DELETE_ALBUM';
+							$this->page_title = $this->language->lang($title);
+							$this->delete_album();
+						break;
+
+						case 'move':
+							$this->move_album();
+						break;
+
+						case 'initialise':
+							$this->initialise_album();
+						break;
+
+						default:
+							$title = 'UCP_GALLERY_PERSONAL_ALBUMS';
+							$this->page_title = $this->language->lang($title);
+							if (!$phpbb_ext_gallery_user->get_data('personal_album_id'))
+							{
+								$this->info();
+							}
+							else
+							{
+								$this->manage_albums();
+							}
+						break;
+					}
+				break;
+
+				case 'manage_subscriptions':
+					$title = 'UCP_GALLERY_WATCH';
+					$this->page_title = $this->language->lang($title);
+					$this->manage_subscriptions();
+				break;
+			}
+		}
+		catch (\phpbb\exception\http_exception $e)
+		{
+			// UCP modules run outside the HTTP kernel, which would turn the exception into a fatal error.
+			trigger_error(call_user_func_array(array($this->language, 'lang'), array_merge(array($e->getMessage()), $e->get_parameters())), E_USER_WARNING);
+		}
+	}
+
+	/**
+	 * Repair a stored personal album id that no longer points at the member's own root album
+	 */
+	protected function repair_personal_album_id()
+	{
+		global $cache, $user, $phpbb_ext_gallery_core_album, $phpbb_ext_gallery_user, $users_table;
+
+		$user_id = (int) $user->data['user_id'];
+		$phpbb_ext_gallery_user->set_user_id($user_id);
+		$stored_id = (int) $phpbb_ext_gallery_user->get_data('personal_album_id');
+
+		if ($phpbb_ext_gallery_core_album->repair_personal_album_id($phpbb_ext_gallery_user, $user_id) !== $stored_id)
+		{
+			$cache->destroy('sql', $users_table);
 		}
 	}
 
@@ -158,6 +184,10 @@ class main_module
 	{
 		global $cache, $db,  $user, $phpbb_ext_gallery_core_auth, $phpbb_ext_gallery_core_album, $phpbb_ext_gallery_config, $albums_table, $phpbb_ext_gallery_user;
 		global $request, $users_table, $phpbb_container;
+		if (!$request->is_set_post('submit') || !check_form_key('ucp_gallery'))
+		{
+			trigger_error('FORM_INVALID');
+		}
 
 		// we will have to initialise $phpbb_ext_gallery_user
 		$phpbb_ext_gallery_user->set_user_id($user->data['user_id']);
@@ -171,7 +201,7 @@ class main_module
 
 			$album_data = array(
 				'album_name'					=> $user->data['username'],
-				'parent_id'						=> $request->variable('parent_id', 0),
+				'parent_id'						=> 0,
 				//left_id and right_id default by db
 				'album_desc_options'			=> 7,
 				'album_desc'					=> utf8_normalize_nfc($request->variable('album_desc', '', true)),
@@ -187,6 +217,11 @@ class main_module
 
 			$phpbb_ext_gallery_user->update_data(array(
 				'personal_album_id'	=> $album_id,
+			));
+
+			// Fill the personal album profile field, as the ACP does when it creates the album.
+			$phpbb_container->get('profilefields.manager')->update_profile_field_data((int) $user->data['user_id'], array(
+				'pf_gallery_palbum'	=> (int) $album_id,
 			));
 
 			$this->subscribe_pegas($album_id);
@@ -276,8 +311,8 @@ class main_module
 				'U_ALBUM'				=> $this->u_action . '&amp;action=manage&amp;parent_id=' . $album[$i]['album_id'],
 				'ALBUM_NAME'			=> $album[$i]['album_name'],
 				'ALBUM_DESCRIPTION'		=> generate_text_for_display($album[$i]['album_desc'], $album[$i]['album_desc_uid'], $album[$i]['album_desc_bitfield'], $album[$i]['album_desc_options']),
-				'U_MOVE_UP'				=> $this->u_action . '&amp;action=move&amp;move=move_up&amp;album_id=' . $album[$i]['album_id'],
-				'U_MOVE_DOWN'			=> $this->u_action . '&amp;action=move&amp;move=move_down&amp;album_id=' . $album[$i]['album_id'],
+				'U_MOVE_UP'				=> $this->u_action . '&amp;action=move&amp;move=move_up&amp;album_id=' . $album[$i]['album_id'] . '&amp;hash=' . generate_link_hash('ucp_gallery'),
+				'U_MOVE_DOWN'			=> $this->u_action . '&amp;action=move&amp;move=move_down&amp;album_id=' . $album[$i]['album_id'] . '&amp;hash=' . generate_link_hash('ucp_gallery'),
 				'U_EDIT'				=> $this->u_action . '&amp;action=edit&amp;album_id=' . $album[$i]['album_id'],
 				'U_DELETE'				=> $this->u_action . '&amp;action=delete&amp;album_id=' . $album[$i]['album_id'],
 			));
@@ -324,7 +359,7 @@ class main_module
 			trigger_error('NO_MORE_SUBALBUMS_ALLOWED');
 		}
 
-		$submit = (isset($_POST['submit'])) ? true : false;
+		$submit = $request->is_set_post('submit');
 		$redirect = $request->variable('redirect', '');
 
 		if (!$submit)
@@ -372,7 +407,7 @@ class main_module
 
 			// Create the subalbum
 			$album_data = array(
-				'album_name'					=> $request->variable('album_name', '', true),
+				'album_name'					=> utf8_encode_ucr(utf8_normalize_nfc($request->variable('album_name', '', true))),
 				'parent_id'						=> $request->variable('parent_id', 0),
 				'album_parents'					=> '',
 				'album_type'					=> (int) \phpbbgallery\core\block::TYPE_UPLOAD,
@@ -401,6 +436,9 @@ class main_module
 			// Parent should always be filled otherwise we use initialise_album()
 			if ($album_data['parent_id'])
 			{
+				// The parent comes from the request again, so it must still be one of the member's albums.
+				$phpbb_ext_gallery_core_album->check_user($album_data['parent_id']);
+
 				$sql = 'SELECT left_id, right_id, album_type
 					FROM ' . $albums_table . '
 					WHERE album_id = ' . (int) $album_data['parent_id'];
@@ -455,7 +493,7 @@ class main_module
 		$album_id = $request->variable('album_id', 0);
 		$phpbb_ext_gallery_core_album->check_user($album_id);
 
-		$submit = (isset($_POST['submit'])) ? true : false;
+		$submit = $request->is_set_post('submit');
 		$redirect = $request->variable('redirect', '');
 		if (!$submit)
 		{
@@ -521,7 +559,7 @@ class main_module
 			}
 
 			$album_data = array(
-				'album_name'					=> ($album_id == $phpbb_ext_gallery_user->get_data('personal_album_id')) ? $user->data['username'] : $request->variable('album_name', '', true),
+				'album_name'					=> ($album_id == $phpbb_ext_gallery_user->get_data('personal_album_id')) ? $user->data['username'] : utf8_encode_ucr(utf8_normalize_nfc($request->variable('album_name', '', true))),
 				'parent_id'						=> $request->variable('parent_id', (($album_id == $phpbb_ext_gallery_user->get_data('personal_album_id')) ? 0 : $phpbb_ext_gallery_user->get_data('personal_album_id'))),
 				//left_id and right_id are created some lines later
 				'album_parents'					=> '',
@@ -534,6 +572,11 @@ class main_module
 			generate_text_for_storage($album_data['album_desc'], $album_data['album_desc_uid'], $album_data['album_desc_bitfield'], $album_data['album_desc_options'], $request->variable('desc_parse_bbcode', false), $request->variable('desc_parse_urls', false), $request->variable('desc_parse_smilies', false));
 			$row = $phpbb_ext_gallery_core_album->get_info($album_id);
 			$parent_id = (int) $album_data['parent_id'];
+			if ($parent_id)
+			{
+				// A member may only move an album below one of their own albums.
+				$phpbb_ext_gallery_core_album->check_user($parent_id);
+			}
 			if (!$row['parent_id'])
 			{
 				// do not allow to restrict access on the base-album
@@ -880,9 +923,17 @@ class main_module
 		global $cache, $db, $user, $phpbb_ext_gallery_core_album, $albums_table, $request, $phpbb_gallery_url, $users_table;
 
 		$album_id = $request->variable('album_id', 0);
+		if (!check_link_hash($request->variable('hash', ''), 'ucp_gallery'))
+		{
+			trigger_error('FORM_INVALID');
+		}
 		$phpbb_ext_gallery_core_album->check_user($album_id);
 
 		$move = $request->variable('move', '', true);
+		if (!in_array($move, array('move_up', 'move_down'), true))
+		{
+			trigger_error('NO_MODE');
+		}
 		$moving = $phpbb_ext_gallery_core_album->get_info($album_id);
 
 		$sql = 'SELECT album_id, left_id, right_id
@@ -961,6 +1012,10 @@ class main_module
 		$album_id_ary = $request->variable('album_id_ary', array(0));
 		if (($image_id_ary || $album_id_ary) && ($action == 'unsubscribe'))
 		{
+			if (!$request->is_set_post('action') || !check_form_key('ucp_gallery'))
+			{
+				trigger_error('FORM_INVALID');
+			}
 			if ($album_id_ary)
 			{
 				$phpbb_gallery_notification->remove_albums($album_id_ary);

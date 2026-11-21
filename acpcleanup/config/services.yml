@@ -16,5 +16,6 @@ services:
             - '@phpbbgallery.core.config'
             - '@phpbbgallery.core.log'
             - '@phpbbgallery.core.moderate'
+            - '@phpbbgallery.core.user'
             - '%phpbbgallery.tables.gallery_albums%'
             - '%phpbbgallery.tables.gallery_images%'

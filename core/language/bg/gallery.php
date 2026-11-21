@@ -116,7 +116,6 @@ $lang = array_merge($lang, array(
 	'DESC_TOO_LONG'           => 'Your description is too long',
 	'DESCRIPTION_LENGTH'      => 'Enter your descriptions here, it may contain no more than <strong>%d</strong> characters.',
 	'DETAILS'                 => 'Details',
-	'DISALLOWED_EXTENSION'    => 'Не разрешено разширение на изборажението',
 	'DO_NOT_RATE_IMAGE'         => 'Don’t rate image',
 
 	'EDIT_COMMENT'             => 'Edit comment',
@@ -137,6 +136,7 @@ $lang = array_merge($lang, array(
 
 	'GALLERY_IMAGE'  => 'Изображение',
 	'GALLERY_IMAGES' => 'Изображения',
+	'GALLERY_TOOLS' => 'Инструменти на галерията',
 	'GALLERY_VIEWS'  => 'Прегледи',
 
 	'IGNORE_NOTUPTODATE_MESSAGE'   => 'Напомни ми след 7 дни',
@@ -364,11 +364,13 @@ $lang = array_merge($lang, array(
 		2 => '%s изображения са преместени',
 	),
 
-	'QUICK_MOD'        => 'Изберете модераторско действие',
-	'WRONG_FILESIZE'   => 'Изображението е по-голямо от лимита!',
+	'GALLERY_QUICK_MOD'        => 'Изберете модераторско действие',
 	'UNREAD_IMAGES'    => 'непрегледани изображения',
 	'NO_UNREAD_IMAGES' => 'Няма непрегледани изображения',
 
 	// Versions 1.2.1 additions
 	'GALLERY_DROP'     => 'Пуснете изображенията си тук',
+	'GALLERY_UPLOAD_CANCEL' => 'Отказ',
+	'GALLERY_UPLOAD_START'  => 'Стартиране',
+	'UPLOAD_TO_ALBUM'       => 'Качване в „%s“',
 ));

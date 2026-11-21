@@ -18,6 +18,10 @@ namespace phpbbgallery\core\acp;
 class gallery_logs_module
 {
 	var $u_action;
+	/** @var \phpbb\language\language */
+	var $language;
+	var $tpl_name;
+	var $page_title;
 
 	function main($id, $mode)
 	{
@@ -36,7 +40,7 @@ class gallery_logs_module
 		$sort_key		= $request->variable('sk', 't');
 		$sort_dir		= $request->variable('sd', 'd');
 		$deletemark		= $request->is_set_post('delmarked');
-		$marked			= $request->variable('mark', []);
+		$marked			= array_filter($request->variable('mark', [0]));
 
 		$log = $phpbb_container->get('phpbbgallery.core.log');
 
@@ -61,17 +65,18 @@ class gallery_logs_module
 		// Delete entries if requested and able
 		if ($deletemark && $auth->acl_get('a_clearlogs') && !empty($marked))
 		{
-			if (!check_form_key('acp_logs'))
-			{
-				trigger_error($this->language->lang('FORM_INVALID'));
-			}
-
 			if (confirm_box(true))
 			{
 				$log->delete_logs($marked);
 			}
 			else
 			{
+				// The confirmation page posts its own key, so the form key is checked on the first submit only.
+				if (!check_form_key('acp_logs'))
+				{
+					trigger_error($this->language->lang('FORM_INVALID'));
+				}
+
 				confirm_box(false, $this->language->lang('CONFIRM_OPERATION'), build_hidden_fields([
 					'page'		=> $page,
 					'delmarked'	=> $deletemark,

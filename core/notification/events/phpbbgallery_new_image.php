@@ -130,7 +130,7 @@ class phpbbgallery_new_image extends \phpbb\notification\type\base
 	*/
 	public function get_email_template()
 	{
-		return false;
+		return '@phpbbgallery_core/newimage_notify';
 	}
 	/**
 	* Get email template variables
@@ -139,7 +139,11 @@ class phpbbgallery_new_image extends \phpbb\notification\type\base
 	*/
 	public function get_email_template_variables()
 	{
-		return array();
+		return array(
+			'ALBUM_NAME'	=> htmlspecialchars_decode(censor_text((string) $this->get_data('album_name')), ENT_COMPAT),
+			'IMAGE_NAME'	=> htmlspecialchars_decode(censor_text((string) $this->get_data('image_name')), ENT_COMPAT),
+			'U_ALBUM'		=> generate_board_url() . '/app.' . $this->php_ext . '/gallery/album/' . (int) $this->get_data('album_id'),
+		);
 	}
 
 	/**
@@ -149,7 +153,7 @@ class phpbbgallery_new_image extends \phpbb\notification\type\base
 	 */
 	public function get_url()
 	{
-		return $this->get_data('album_id') ? append_sid($this->phpbb_root_path . 'gallery/album/' . $this->get_data('album_id')) : $this->get_data('album_url');
+		return $this->get_data('album_id') ? append_sid($this->phpbb_root_path . 'app.' . $this->php_ext . '/gallery/album/' . (int) $this->get_data('album_id')) : $this->get_data('album_url');
 	}
 
 	/**
@@ -176,6 +180,7 @@ class phpbbgallery_new_image extends \phpbb\notification\type\base
 		$this->set_data('album_name', $data['album_name']);
 		$this->set_data('album_url', $data['album_url']);
 		$this->set_data('album_id', $data['album_id']);
+		$this->set_data('image_name', (isset($data['image_name'])) ? $data['image_name'] : '');
 		parent::create_insert_array($data, $pre_create_data);
 	}
 }

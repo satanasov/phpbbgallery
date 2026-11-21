@@ -165,6 +165,10 @@ class comment
 			$result = $this->db->sql_query($sql);
 			$comment_data = $this->db->sql_fetchrow($result);
 			$this->db->sql_freeresult($result);
+			if (!$comment_data)
+			{
+				throw new \phpbb\exception\http_exception(404, 'INVALID_IMAGE');
+			}
 			$image_id = (int) $comment_data['comment_image_id'];
 		}
 
@@ -172,6 +176,10 @@ class comment
 		$error = $message = '';
 		// load Image Data
 		$image_data = $this->image->get_image_data($image_id);
+		if (!$image_data)
+		{
+			throw new \phpbb\exception\http_exception(404, 'INVALID_IMAGE');
+		}
 		$album_id = (int) $image_data['image_album_id'];
 		$album_data = $this->loader->get($album_id);
 		$this->display->generate_navigation($album_data);
@@ -185,6 +193,11 @@ class comment
 		if (!$this->gallery_auth->acl_check('c_post', $album_id, $album_data['album_user_id']))
 		{
 			$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
+		}
+		// Locked image or album, comments disabled, or contest still running
+		if (!$this->comment->is_able($album_data, $image_data))
+		{
+			$this->misc->not_authorised($image_backlink, $album_loginlink);
 		}
 		add_form_key('gallery');
 		$this->language->add_lang('posting');
@@ -267,7 +280,7 @@ class comment
 			}
 
 			$comment_plain = $this->request->variable('message', '', true);
-			$comment_username = $this->request->variable('username', '', true);
+			$comment_username = utf8_normalize_nfc($this->request->variable('username', '', true));
 
 			if ($comment_username_req)
 			{
@@ -287,7 +300,7 @@ class comment
 					$submit = false;
 				}
 			}
-			if (($comment_plain == '') && !$s_user_rated)
+			if ($comment_plain == '')
 			{
 				$error .= (($error) ? '<br />' : '') . $this->language->lang('MISSING_COMMENT');
 			}
@@ -317,7 +330,7 @@ class comment
 				'comment'				=> $message_parser->message,
 				'comment_uid'			=> $message_parser->bbcode_uid,
 				'comment_bitfield'		=> $message_parser->bbcode_bitfield,
-				'comment_signature'		=> ($this->auth->acl_get('u_sig') && isset($_POST['attach_sig'])),
+				'comment_signature'		=> ($this->auth->acl_get('u_sig') && $this->request->is_set_post('attach_sig')),
 			);
 			if ((!$error) && ($sql_ary['comment'] != ''))
 			{
@@ -344,7 +357,7 @@ class comment
 			{
 				$s_captcha_hidden_fields = ($captcha->is_solved()) ? build_hidden_fields($captcha->get_hidden_fields()) : '';
 			}
-			$sig_checked = ($this->auth->acl_get('u_sig') && isset($_POST['attach_sig']));
+			$sig_checked = ($this->auth->acl_get('u_sig') && $this->request->is_set_post('attach_sig'));
 		}
 		else
 		{
@@ -420,8 +433,31 @@ class comment
 
 		$submit = $this->request->variable('submit', false);
 		$error = $message = '';
-		// load Image Data
+		$image_backlink = $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_id));
+		$login_link = append_sid($this->phpbb_root_path . 'ucp.' . $this->php_ext . '?mode=login');
+		if ($comment_id == 0)
+		{
+			$this->misc->not_authorised($image_backlink, $login_link);
+		}
+
+		$sql = 'SELECT *
+			FROM ' . $this->table_comments . '
+			WHERE comment_id = ' . (int) $comment_id;
+		$result = $this->db->sql_query($sql);
+		$comment_data = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
+		if (!$comment_data)
+		{
+			$this->misc->not_authorised($image_backlink, $login_link);
+		}
+
+		// Derive the image and album used for permission checks from the comment.
+		$image_id = (int) $comment_data['comment_image_id'];
 		$image_data = $this->image->get_image_data($image_id);
+		if (!$image_data)
+		{
+			throw new \phpbb\exception\http_exception(404, 'INVALID_IMAGE');
+		}
 		$album_id = (int) $image_data['image_album_id'];
 		$album_data = $this->loader->get($album_id);
 		$this->display->generate_navigation($album_data);
@@ -429,31 +465,24 @@ class comment
 
 		$image_backlink = $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_id));
 		$album_backlink = $this->helper->route('phpbbgallery_core_album', array('album_id' => $album_id));
-		$image_loginlink = $this->url->append_sid('relative', 'image_page', "album_id=$album_id&amp;image_id=$image_id");
-		$album_loginlink = append_sid($this->phpbb_root_path . 'ucp.' . $this->php_ext . '?mode=login');
-		if ($comment_id != 0)
-		{
-			$sql = 'SELECT *
-				FROM ' . $this->table_comments . '
-				WHERE comment_id = ' . (int) $comment_id;
-			$result = $this->db->sql_query($sql);
-			$comment_data = $this->db->sql_fetchrow($result);
-			$this->db->sql_freeresult($result);
-			$image_id = (int) $comment_data['comment_image_id'];
-		}
-		else
-		{
-			$this->misc->not_authorised($image_backlink, $image_loginlink);
-		}
+		$image_loginlink = $login_link;
+		$album_loginlink = $login_link;
+
 		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
-		if (!$this->gallery_auth->acl_check('c_edit', $album_id, $album_data['album_user_id']) /*&& $mode == 'add'*/)
+		if (!$this->gallery_auth->acl_check('c_edit', $album_id, $album_data['album_user_id']))
 		{
 			if (!$this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']))
 			{
 				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 			}
 		}
-		else if (($comment_data['comment_user_id'] != $this->user->data['user_id']) && !$this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']))
+		// All guests share one user id, so only a registered member owns a comment.
+		else if (($comment_data['comment_user_id'] != $this->user->data['user_id'] || empty($this->user->data['is_registered'])) && !$this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']))
+		{
+			$this->misc->not_authorised($image_backlink, $image_loginlink);
+		}
+		// Moderators may still edit comments where posting is closed
+		if (!$this->comment->is_able($album_data, $image_data) && !$this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']))
 		{
 			$this->misc->not_authorised($image_backlink, $image_loginlink);
 		}
@@ -522,10 +551,15 @@ class comment
 
 			if ($comment_username_req)
 			{
-				$comment_username = $this->request->variable('username', '');
+				$comment_username = utf8_normalize_nfc($this->request->variable('username', '', true));
 				if ($comment_username == '')
 				{
 					$error .= (($error) ? '<br />' : '') . $this->language->lang('MISSING_USERNAME');
+				}
+
+				if (!function_exists('validate_username'))
+				{
+					include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
 				}
 
 				if (validate_username($comment_username))
@@ -535,7 +569,7 @@ class comment
 				}
 
 				$sql_ary = array(
-					'comment_username'	=> $comment_username,
+					'comment_username'	=> utf8_encode_ucr($comment_username),
 				);
 			}
 
@@ -567,7 +601,7 @@ class comment
 				'comment_uid'			=> $message_parser->bbcode_uid,
 				'comment_bitfield'		=> $message_parser->bbcode_bitfield,
 				'comment_edit_count'	=> $comment_data['comment_edit_count'] + 1,
-				'comment_signature'		=> ($this->auth->acl_get('u_sig') && isset($_POST['attach_sig'])),
+				'comment_signature'		=> ($this->auth->acl_get('u_sig') && $this->request->is_set_post('attach_sig')),
 			));
 
 			if (!$error)
@@ -634,8 +668,31 @@ class comment
 
 		$submit = $this->request->variable('submit', false);
 		$error = $message = '';
-		// load Image Data
+		$image_backlink = $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_id));
+		$login_link = append_sid($this->phpbb_root_path . 'ucp.' . $this->php_ext . '?mode=login');
+		if ($comment_id == 0)
+		{
+			$this->misc->not_authorised($image_backlink, $login_link);
+		}
+
+		$sql = 'SELECT *
+			FROM ' . $this->table_comments . '
+			WHERE comment_id = ' . (int) $comment_id;
+		$result = $this->db->sql_query($sql);
+		$comment_data = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
+		if (!$comment_data)
+		{
+			$this->misc->not_authorised($image_backlink, $login_link);
+		}
+
+		// Derive the image and album used for permission checks from the comment.
+		$image_id = (int) $comment_data['comment_image_id'];
 		$image_data = $this->image->get_image_data($image_id);
+		if (!$image_data)
+		{
+			throw new \phpbb\exception\http_exception(404, 'INVALID_IMAGE');
+		}
 		$album_id = (int) $image_data['image_album_id'];
 		$album_data = $this->loader->get($album_id);
 		$this->display->generate_navigation($album_data);
@@ -643,31 +700,24 @@ class comment
 
 		$image_backlink = $this->helper->route('phpbbgallery_core_image', array('image_id' => $image_id));
 		$album_backlink = $this->helper->route('phpbbgallery_core_album', array('album_id' => $album_id));
-		$image_loginlink = $this->url->append_sid('relative', 'image_page', "album_id=$album_id&amp;image_id=$image_id");
-		$album_loginlink = append_sid($this->phpbb_root_path . 'ucp.' . $this->php_ext . '?mode=login');
-		if ($comment_id != 0)
-		{
-			$sql = 'SELECT *
-				FROM ' . $this->table_comments . '
-				WHERE comment_id = ' . (int) $comment_id;
-			$result = $this->db->sql_query($sql);
-			$comment_data = $this->db->sql_fetchrow($result);
-			$this->db->sql_freeresult($result);
-			$image_id = (int) $comment_data['comment_image_id'];
-		}
-		else
-		{
-			$this->misc->not_authorised($image_backlink, $image_loginlink);
-		}
+		$image_loginlink = $login_link;
+		$album_loginlink = $login_link;
+
 		$this->gallery_auth->load_user_permissions($this->user->data['user_id']);
-		if (!$this->gallery_auth->acl_check('c_edit', $album_id, $album_data['album_user_id']) /*&& $mode == 'add'*/)
+		if (!$this->gallery_auth->acl_check('c_delete', $album_id, $album_data['album_user_id']))
 		{
 			if (!$this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']))
 			{
 				$this->misc->not_authorised($album_backlink, $album_loginlink, 'LOGIN_EXPLAIN_UPLOAD');
 			}
 		}
-		else if (($comment_data['comment_user_id'] != $this->user->data['user_id']) && !$this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']))
+		// All guests share one user id, so only a registered member owns a comment.
+		else if (($comment_data['comment_user_id'] != $this->user->data['user_id'] || empty($this->user->data['is_registered'])) && !$this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']))
+		{
+			$this->misc->not_authorised($image_backlink, $image_loginlink);
+		}
+		// Moderators may still delete comments where posting is closed
+		if (!$this->comment->is_able($album_data, $image_data) && !$this->gallery_auth->acl_check('m_comments', $album_id, $album_data['album_user_id']))
 		{
 			$this->misc->not_authorised($image_backlink, $image_loginlink);
 		}
@@ -737,7 +787,7 @@ class comment
 		}
 		else
 		{
-			if (isset($_POST['cancel']))
+			if ($this->request->is_set_post('cancel'))
 			{
 				$message = $this->language->lang('DELETED_COMMENT_NOT') . '<br />';
 				$submit = true;
@@ -782,10 +832,18 @@ class comment
 		$this->language->add_lang(array('gallery'), 'phpbbgallery/core');
 		add_form_key('gallery');
 
-		$submit = $this->request->variable('submit', false);
+		$rate_submitted = $this->request->is_set_post('rating');
+		if ($rate_submitted && !check_form_key('gallery'))
+		{
+			trigger_error('FORM_INVALID');
+		}
 		$error = $message = '';
 		// load Image Data
 		$image_data = $this->image->get_image_data($image_id);
+		if (!$image_data)
+		{
+			throw new \phpbb\exception\http_exception(404, 'INVALID_IMAGE');
+		}
 		$album_id = (int) $image_data['image_album_id'];
 		$album_data = $this->loader->get($album_id);
 		$this->display->generate_navigation($album_data);
@@ -842,7 +900,7 @@ class comment
 
 				// User just rated the image, so we store it
 				$rate_point = $this->request->variable('rating', 0);
-				if ($rating->rating_enabled && $rate_point > 0)
+				if ($rate_submitted && $rating->rating_enabled && $rate_point > 0)
 				{
 					$rating->submit_rating();
 					$s_user_rated = true;

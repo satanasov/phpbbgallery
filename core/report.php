@@ -305,7 +305,6 @@ class report
 				$this->reports_table	=> 'r',
 			),
 			'WHERE'	=> 'i.image_id = r.report_image_id and r.report_status = ' . (int) $status . ' and ' . $this->db->sql_in_set('i.image_album_id', $mod_array),
-			'ORBER_BY'	=> 'r.report_id DESC'
 		);
 		// Get Count
 		$sql_array['SELECT'] = 'COUNT(r.report_id) as count';
@@ -316,6 +315,7 @@ class report
 		$count = $row['count'];
 		// Request reports
 		$sql_array['SELECT'] = 'i.image_id, i.image_name, i.image_user_id, i.image_username, i.image_user_colour, i.image_time, i.image_album_id, r.report_id, r.reporter_id, r.report_time';
+		$sql_array['ORDER_BY'] = 'r.report_id DESC';
 		$page = $page - 1;
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query_limit($sql, $per_page, $page * $per_page);

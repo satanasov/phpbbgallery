@@ -100,19 +100,23 @@ class helper
 			case 'new_image':
 				$targets = $target['targets'];
 				$album_data = $this->album_load->get($target['album_id']);
+				$image_data = $this->image->get_image_data($target['last_image']);
 				$notification_data = array(
 					'user_ids' => $targets,
 					'album_id' => $target['album_id'],
 					'album_name' => $album_data['album_name'],
+					'image_name'	=> (isset($image_data['image_name'])) ? $image_data['image_name'] : '',
 					'last_image_id'	=> $target['last_image'],
 					'album_url'	=> $this->url->get_uri($this->helper->route('phpbbgallery_core_album', array('album_id' => $target['album_id']))),
 				);
 				$phpbb_notifications->add_notifications('phpbbgallery.core.notification.new_image', $notification_data);
 			break;
 			case 'new_comment':
+				$image_data = $this->image->get_image_data($target['image_id']);
 				$notification_data = array(
 					'user_ids'	=> array_diff($this->get_image_watchers($target['image_id']), array($target['poster_id'])),
 					'image_id'	=> $target['image_id'],
+					'image_name'	=> (isset($image_data['image_name'])) ? $image_data['image_name'] : '',
 					'comment_id'	=> $target['comment_id'],
 					'poster'	=> $target['poster_id'],
 					'url'		=> $this->url->get_uri($this->helper->route('phpbbgallery_core_image', array('image_id' => $target['image_id']))),

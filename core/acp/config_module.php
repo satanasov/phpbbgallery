@@ -14,6 +14,13 @@ namespace phpbbgallery\core\acp;
 
 class config_module
 {
+	/** @var \phpbb\language\language */
+	public $language;
+	public $new_config;
+	public $tpl_name;
+	public $page_title;
+	public $u_action;
+
 	/**
 	* This function is called, when the main() function is called.
 	* You can use this function to add your language files, check for a valid mode, unset config options and more.
@@ -37,7 +44,7 @@ class config_module
 		$this->language = $phpbb_container->get('language');
 		$this->language->add_lang(array('gallery', 'gallery_acp'), 'phpbbgallery/core');
 
-		$submit = (isset($_POST['submit'])) ? true : false;
+		$submit = $request->is_set_post('submit');
 		$form_key = 'acp_time';
 		add_form_key($form_key);
 
@@ -52,7 +59,7 @@ class config_module
 		// Init gallery configs class
 		$phpbb_gallery_configs = new \phpbbgallery\core\config($config);
 		$this->new_config = $phpbb_gallery_configs->get_all();
-		$cfg_array = (isset($_REQUEST['config'])) ? utf8_normalize_nfc($request->variable('config', array('' => ''), true)) : $this->new_config;
+		$cfg_array = $request->is_set_post('config') ? utf8_normalize_nfc($request->variable('config', array('' => ''), true)) : $this->new_config;
 		$error = array();
 
 		// We validate the complete config if whished

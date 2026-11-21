@@ -275,7 +275,8 @@ class file
 		$this->auth->load_user_permissions($this->user->data['user_id']);
 		$zebra_array = $this->auth->get_user_zebra($this->user->data['user_id']);
 		// Check permissions
-		if (($this->data['image_user_id'] != $this->user->data['user_id']) && ($this->data['image_status'] == (int) \phpbbgallery\core\block::STATUS_ORPHAN))
+		// All guests share one user id, so only a registered uploader sees their own unsubmitted upload.
+		if (($this->data['image_user_id'] != $this->user->data['user_id'] || empty($this->user->data['is_registered'])) && ($this->data['image_status'] == (int) \phpbbgallery\core\block::STATUS_ORPHAN))
 		{
 			// The image is currently being uploaded
 			// trigger_error('NOT_AUTHORISED');
@@ -292,7 +293,8 @@ class file
 		if (!$this->auth->acl_check('i_view', $this->data['album_id'], $this->data['album_user_id']) || (
 				!$this->auth->acl_check('m_status', $this->data['album_id'], $this->data['album_user_id'])
 				&& $this->data['image_status'] == (int) \phpbbgallery\core\block::STATUS_UNAPPROVED
-				&& $this->data['image_user_id'] != $this->user->data['user_id']
+				// All guests share one user id, so only a registered uploader sees their own waiting image.
+				&& ($this->data['image_user_id'] != $this->user->data['user_id'] || empty($this->user->data['is_registered']))
 			))
 		{
 			// Missing permissions
@@ -307,7 +309,7 @@ class file
 			$this->data['image_filemissing'] = 0;
 			$this->data['album_watermark'] = 0;
 		}
-		if (($this->auth->get_zebra_state($zebra_array, (int) $this->data['album_user_id'], $this->data['album_id']) < (int) $this->data['album_auth_access'] && !$this->error))
+		if (!$this->error && $this->auth->get_zebra_state($zebra_array, (int) $this->data['album_user_id'], $this->data['album_id']) < (int) $this->data['album_auth_access'])
 		{
 			// Zebra parameters not met
 			// trigger_error('NOT_AUTHORISED');

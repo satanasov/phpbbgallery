@@ -1770,7 +1770,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		}
 		else
 		{
-			$this->assertContains($this->lang('DISALLOWED_EXTENSION'), $crawler->filter('p.error')->text());
+			$this->assertContains($this->lang('DISALLOWED_EXTENSION', 'gif'), $crawler->filter('p.error')->text());
 		}
 		$this->logout();
 		$this->logout();
@@ -1815,7 +1815,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		}
 		else
 		{
-			$this->assertContains($this->lang('DISALLOWED_EXTENSION'), $crawler->filter('p.error')->text());
+			$this->assertContains($this->lang('DISALLOWED_EXTENSION', 'jpg'), $crawler->filter('p.error')->text());
 		}
 		$this->logout();
 		$this->logout();
@@ -1860,7 +1860,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		}
 		else
 		{
-			$this->assertContains($this->lang('DISALLOWED_EXTENSION'), $crawler->filter('p.error')->text());
+			$this->assertContains($this->lang('DISALLOWED_EXTENSION', 'png'), $crawler->filter('p.error')->text());
 		}
 		$this->logout();
 		$this->logout();
@@ -1905,7 +1905,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		}
 		else
 		{
-			$this->assertContains($this->lang('DISALLOWED_EXTENSION'), $crawler->filter('p.error')->text());
+			$this->assertContains($this->lang('DISALLOWED_EXTENSION', 'webp'), $crawler->filter('p.error')->text());
 		}
 		$this->logout();
 		$this->logout();
@@ -1950,7 +1950,7 @@ class phpbbgallery_beta_test extends phpbbgallery_base
 		}
 		else
 		{
-			$this->assertContains($this->lang('DISALLOWED_EXTENSION'), $crawler->filter('p.error')->text());
+			$this->assertContains($this->lang('DISALLOWED_EXTENSION', 'zip'), $crawler->filter('p.error')->text());
 		}
 		$this->logout();
 		$this->logout();

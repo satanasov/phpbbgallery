@@ -422,7 +422,7 @@ class rating
 			$image_ids = (int) $image_ids;
 		}
 
-		$sql = 'SELECT rate_image_id, COUNT(rate_user_ip) image_rates, AVG(rate_point) image_rate_avg, SUM(rate_point) image_rate_points
+		$sql = 'SELECT rate_image_id, COUNT(rate_user_ip) image_rates, AVG(rate_point * 1.0) image_rate_avg, SUM(rate_point) image_rate_points
 			FROM ' . $this->rates_table . '
 			WHERE ' . $this->db->sql_in_set('rate_image_id', $image_ids, false, true) . '
 			GROUP BY rate_image_id';

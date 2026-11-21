@@ -7,5 +7,14 @@
 			"eol": null,
 			"security": false
 		}
+	},
+	"unstable": {
+		"3.3": {
+			"current": "1.4.0",
+			"download": "https://leinad4mind.top/forum/aps/shop/extensions/phpbb-gallery-addon-acp-import",
+			"announcement": "https://leinad4mind.top/forum/viewtopic.php?t=159",
+			"eol": null,
+			"security": false
+		}
 	}
 }

@@ -17,7 +17,7 @@ class release_3_2_1_0 extends profilefield_base_migration
 {
 	static public function depends_on()
 	{
-		return array('\phpbbgallery\core\migrations\release_1_2_0');
+		return array('\phpbbgallery\core\migrations\split_ucp_module_settings');
 	}
 
 	public function update_data()
@@ -61,6 +61,7 @@ class release_3_2_1_0 extends profilefield_base_migration
 	static public $configs = array(
 		'version'					=> '3.2.1',
 		'disp_gallery_icon'			=> true,
+		'allow_webp'				=> true,
 	);
 
 	protected $profilefield_name = 'gallery_palbum';

@@ -245,30 +245,10 @@ jobs:
               run: mkdir -p phpBB/ext/$EXTNAME/.github && cp .github/phpunit* $_
               working-directory: ./phpBB3
 
-            - name: Run unit tests for non 7.3
-              if: matrix.php != '7.3'
+            - name: Run unit tests
               env:
                   DB: ${{steps.database-type.outputs.db}}
               run: phpBB/vendor/bin/phpunit --configuration phpBB/ext/$EXTNAME/.github/phpunit-$DB-github.xml --bootstrap ./tests/bootstrap.php --exclude functional,functional1
-              working-directory: ./phpBB3
-
-            - name: Prepare XML whitelist
-              if: matrix.php == '7.3'
-              env:
-                  DB: ${{steps.database-type.outputs.db}}
-              run: sed -n '1h;1!H;${;g;s/<\/php>/<\/php>\n\t<filter>\n\t\t<whitelist>\n\t\t\t<directory>..\/<\/directory>\n\t\t\t<exclude>\n\t\t\t\t<directory>..\/tests\/<\/directory>\n\t\t\t\t<directory>..\/core\/language\/<\/directory>\n\t\t\t\t<directory>..\/core\/migrations\/<\/directory>\n\t\t\t\t<directory>..\/acpcleanup\/migrations\/<\/directory>\n\t\t\t\t<directory>..\/acpcleanup\/language\/<\/directory>\n\t\t\t\t<directory>..\/acpimport\/migrations\/<\/directory>\n\t\t\t\t<directory>..\/acpimport\/language\/<\/directory>\n\t\t\t\t<directory>..\/exif\/migrations\/<\/directory>\n\t\t\t\t<directory>..\/exif\/language\/<\/directory>\n\t\t\t<\/exclude>\n\t\t<\/whitelist>\n\t<\/filter>/g;p;}' phpBB/ext/"$EXTNAME"/.github/phpunit-$DB-github.xml &> phpBB/ext/"$EXTNAME"/.github/phpunit-$DB-github.xml.bak; cp phpBB/ext/"$EXTNAME"/.github/phpunit-$DB-github.xml.bak phpBB/ext/"$EXTNAME"/.github/phpunit-$DB-github.xml
-              working-directory: ./phpBB3
-
-            - name: Run unit tests for 7.3 with clover
-              if: matrix.php == '7.3'
-              env:
-                  DB: ${{steps.database-type.outputs.db}}
-              run: phpBB/vendor/bin/phpunit --configuration phpBB/ext/$EXTNAME/.github/phpunit-$DB-github.xml --bootstrap ./tests/bootstrap.php --coverage-clover phpBB/ext/$EXTNAME/.github/clover.xml --exclude functional,functional1
-              working-directory: ./phpBB3
-
-            - name: Upload Scrutinizer coverage
-              if: matrix.php == '7.3'
-              run: wget https://scrutinizer-ci.com/ocular.phar; php ocular.phar code-coverage:upload --format=php-clover --repository g/$GITREPO --revision=${{ github.event.pull_request.head.sha || github.sha }} phpBB/ext/$EXTNAME/.github/clover.xml
               working-directory: ./phpBB3
     # END MySQL and MariaDB Job
 

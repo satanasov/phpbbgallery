@@ -115,7 +115,6 @@ $lang = array_merge($lang, array(
 	'DESC_TOO_LONG'           => 'Your description is too long',
 	'DESCRIPTION_LENGTH'      => 'Enter your descriptions here, it may contain no more than <strong>%d</strong> characters.',
 	'DETAILS'                 => 'Details',
-	'DISALLOWED_EXTENSION'    => 'This image extension is not allowed',
 	'DO_NOT_RATE_IMAGE'         => 'Don’t rate image',
 
 	'EDIT_COMMENT'             => 'Edit comment',
@@ -136,6 +135,7 @@ $lang = array_merge($lang, array(
 
 	'GALLERY_IMAGE'  => 'Image',
 	'GALLERY_IMAGES' => 'Images',
+	'GALLERY_TOOLS' => 'Gallery tools',
 	'GALLERY_VIEWS'  => 'Views',
 
 	'IGNORE_NOTUPTODATE_MESSAGE'   => 'Remind me in 7 days',
@@ -306,6 +306,9 @@ $lang = array_merge($lang, array(
 	'UNWATCHED_PEGAS'           => 'You are no longer automatically subscribed to new personal galleries.',
 	'UPLOAD_ERROR'              => 'While uploading “%1$s“ the following error occurred:<br />&raquo; %2$s',
 	'UPLOAD_IMAGE'              => 'Upload Image',
+	'GALLERY_UPLOAD_CANCEL'     => 'Cancel',
+	'GALLERY_UPLOAD_START'      => 'Start',
+	'UPLOAD_TO_ALBUM'           => 'Upload to "%s"',
 	'UPLOAD_IMAGE_SIZE_TOO_BIG' => 'Your image dimension size is too large',
 	'UPLOAD_NO_FILE'            => 'You must enter your path and filename',
 	'UPLOADED_BY_USER'          => 'Uploaded by',
@@ -363,8 +366,7 @@ $lang = array_merge($lang, array(
 		2 => '%s images moved',
 	),
 
-	'QUICK_MOD'        => 'Select moderator action',
-	'WRONG_FILESIZE'   => 'Image is bigger then the limit!',
+	'GALLERY_QUICK_MOD'        => 'Select moderator action',
 	'UNREAD_IMAGES'    => 'Unviewed images',
 	'NO_UNREAD_IMAGES' => 'No unviewed images',
 

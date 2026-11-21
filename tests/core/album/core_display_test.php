@@ -303,5 +303,58 @@ class core_display_test extends \phpbbgallery\tests\core\core_base
 		$this->assertEquals($expected, $this->display->get_branch($branch_user_id, $album_id, $type, $order, $include_album));
 	}
 
+	public function test_get_parents_uses_json_cache()
+	{
+		$expected = array(
+			1 => array('Parent album', 1),
+		);
+		$album_data = array(
+			'parent_id' => 1,
+			'album_parents' => json_encode($expected),
+		);
+
+		$this->assertSame($expected, $this->display->get_parents($album_data));
+	}
+
+	public function test_get_parents_rebuilds_legacy_cache_as_json()
+	{
+		$this->db->sql_query('UPDATE phpbb_gallery_albums
+			SET left_id = 1, right_id = 6
+			WHERE album_id = 1');
+		$this->db->sql_query('UPDATE phpbb_gallery_albums
+			SET left_id = 2, right_id = 5
+			WHERE album_id = 2');
+		$this->db->sql_query("UPDATE phpbb_gallery_albums
+			SET parent_id = 2, left_id = 3, right_id = 4, album_parents = 'legacy-cache'
+			WHERE album_id = 3");
+
+		$album_data = array(
+			'parent_id' => 2,
+			'left_id' => 3,
+			'right_id' => 4,
+			'album_user_id' => 0,
+			'album_parents' => 'legacy-cache',
+		);
+		$expected = array(
+			1 => array('TestPublicAlbum1', 1),
+			2 => array('TestPublicAlbumSubAlbum1', 1),
+		);
+
+		$this->assertSame($expected, $this->display->get_parents($album_data));
+
+		$sql = 'SELECT album_parents
+			FROM phpbb_gallery_albums
+			WHERE parent_id = 2';
+		$result = $this->db->sql_query($sql);
+		$cached_rows = 0;
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$cached_rows++;
+			$this->assertSame($expected, json_decode($row['album_parents'], true));
+		}
+		$this->db->sql_freeresult($result);
+		$this->assertSame(1, $cached_rows);
+	}
+
 
 }

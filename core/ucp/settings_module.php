@@ -88,6 +88,11 @@ class settings_module
 		$this->language = $phpbb_container->get('language');
 		if ($this->request->is_set_post('submit'))
 		{
+			if (!check_form_key('ucp_gallery'))
+			{
+				trigger_error('FORM_INVALID');
+			}
+
 			$gallery_settings = array(
 				'watch_own'				=> $this->request->variable('watch_own', false),
 				'watch_com'				=> $this->request->variable('watch_com', false),

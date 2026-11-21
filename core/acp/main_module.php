@@ -18,6 +18,10 @@ namespace phpbbgallery\core\acp;
 class main_module
 {
 	var $u_action;
+	/** @var \phpbb\language\language */
+	var $language;
+	var $tpl_name;
+	var $page_title;
 
 	function main($id, $mode)
 	{
@@ -235,6 +239,10 @@ class main_module
 					{
 						trigger_error($this->language->lang('NO_AUTH_OPERATION') . adm_back_link($this->u_action), E_USER_WARNING);
 					}
+					if (!check_form_key('acp_gallery'))
+					{
+						trigger_error($this->language->lang('FORM_INVALID') . adm_back_link($this->u_action), E_USER_WARNING);
+					}
 
 					$username = $request->variable('username', '', true);
 					$user_id = 0;
@@ -437,7 +445,7 @@ class main_module
 
 					if (!empty($image_ids))
 					{
-						phpbb_gallery_image_rating::delete_ratings($image_ids, true);
+						$phpbb_container->get('phpbbgallery.core.rating')->delete_ratings($image_ids, true);
 					}
 
 					trigger_error($this->language->lang('RESET_RATING_COMPLETED') . adm_back_link($this->u_action));
@@ -562,6 +570,11 @@ class main_module
 		$dir_sizes = $db->sql_fetchrow($result);
 		$db->sql_freeresult($result);
 
+		$gallery_version = $phpbb_container
+			->get('ext.manager')
+			->create_extension_metadata_manager('phpbbgallery/core')
+			->get_metadata('version');
+
 		$template->assign_vars(array(
 			'S_GALLERY_OVERVIEW'			=> true,
 			'ACP_GALLERY_TITLE'				=> $this->language->lang('ACP_GALLERY_OVERVIEW'),
@@ -574,7 +587,7 @@ class main_module
 			'GUPLOAD_DIR_SIZE'	=> get_formatted_filesize($dir_sizes['stat']),
 			'MEDIUM_DIR_SIZE'		=> get_formatted_filesize($dir_sizes['stat_medium']),
 			'CACHE_DIR_SIZE'		=> get_formatted_filesize($dir_sizes['stat_cache']),
-			'GALLERY_VERSION'		=> $config['phpbb_gallery_version'],
+			'GALLERY_VERSION'		=> $gallery_version,
 			'U_FIND_USERNAME'		=> $gallery_url->append_sid('phpbb', 'memberlist', 'mode=searchuser&amp;form=action_create_pega_form&amp;field=username&amp;select_single=true'),
 			'S_SELECT_ALBUM'		=> $phpbb_ext_gallery_core_album->get_albumbox(false, 'reset_album_id', false, false, false, (int) \phpbbgallery\core\block::PUBLIC_ALBUM, (int) \phpbbgallery\core\block::TYPE_UPLOAD),
 

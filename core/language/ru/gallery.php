@@ -110,7 +110,6 @@ $lang = array_merge($lang, array(
 	'DESC_TOO_LONG'					=> 'Описание слишком длинное',
 	'DESCRIPTION_LENGTH'			=> 'Введите описание (не более <strong>%d</strong> символов).',
 	'DETAILS'						=> 'Информация',
-	'DISALLOWED_EXTENSION'			=> 'Изображение с таким расширением не разрешено',
 	'DO_NOT_RATE_IMAGE'				=> 'Нет оценки',
 
 	'EDIT_COMMENT'					=> 'Редактировать комментарий',
@@ -131,6 +130,7 @@ $lang = array_merge($lang, array(
 
 	'GALLERY_IMAGE'					=> 'Фото',
 	'GALLERY_IMAGES'				=> 'Фотографии',
+	'GALLERY_TOOLS'				=> 'Инструменты галереи',
 	'GALLERY_VIEWS'					=> 'Просмотры',
 	'IGNORE_NOTUPTODATE_MESSAGE'	=> 'Напомнить через неделю',
 	'IMAGE_ALREADY_REPORTED'		=> 'Фото уже обжаловано.',
@@ -340,11 +340,13 @@ $lang = array_merge($lang, array(
 		1	=>	'Фото перемещено',
 		2	=> 	'%s фото перемещено',
 	),
-	'WRONG_FILESIZE'	=> 'Размер файла превышает лимит!',
-	'QUICK_MOD'		=> 'Выбрать действие',
+	'GALLERY_QUICK_MOD'		=> 'Выбрать действие',
 	'UNREAD_IMAGES'		=> 'Непросмотренные фото',
 	'NO_UNREAD_IMAGES'	=> 'Нет непросмотренных фото',
 
 	// Versions 1.2.1 additions
 	'GALLERY_DROP'		=> 'Перетащите сюда ваши фото',
+	'GALLERY_UPLOAD_CANCEL' => 'Отмена',
+	'GALLERY_UPLOAD_START'  => 'Начать',
+	'UPLOAD_TO_ALBUM'       => 'Загрузить в «%s»',
 ));

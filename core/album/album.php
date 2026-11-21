@@ -172,6 +172,48 @@ class album
 	}
 
 	/**
+	 * Point the member's stored personal album at a root album they really own
+	 *
+	 * The ACP cleanup deleted personal albums without clearing the stored id, which left the
+	 * UCP checking an album the member no longer owns.
+	 *
+	 * @param \phpbbgallery\core\user $gallery_user Gallery user already set to the member
+	 * @param int                     $user_id
+	 * @return int The member's personal album id, 0 when they have none
+	 */
+	public function repair_personal_album_id($gallery_user, $user_id)
+	{
+		$stored_id = (int) $gallery_user->get_data('personal_album_id');
+
+		$sql = 'SELECT album_id
+			FROM ' . $this->albums_table . '
+			WHERE album_user_id = ' . (int) $user_id . '
+				AND parent_id = 0
+			ORDER BY album_id ASC';
+		$result = $this->db->sql_query($sql);
+		$root_ids = array();
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$root_ids[] = (int) $row['album_id'];
+		}
+		$this->db->sql_freeresult($result);
+
+		if (in_array($stored_id, $root_ids, true))
+		{
+			return $stored_id;
+		}
+
+		$root_id = isset($root_ids[0]) ? $root_ids[0] : 0;
+		if ($root_id !== $stored_id)
+		{
+			$gallery_user->update_data(array('personal_album_id' => $root_id));
+			$this->user_cpf->update_profile_field_data((int) $user_id, array('pf_gallery_palbum' => $root_id));
+		}
+
+		return $root_id;
+	}
+
+	/**
 	 * Generate gallery-albumbox
 	 *
 	 * @param bool        $ignore_personals     list personal albums

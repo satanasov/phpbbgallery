@@ -402,8 +402,15 @@ class moderate
 		));
 	}
 
-	public function delete_images($images, $files = array())
+	public function delete_images($images, $files, $album_id)
 	{
+		$images = $this->image->get_image_ids_by_album($images, $album_id);
+		if (empty($images))
+		{
+			return;
+		}
+		$files = array_intersect_key($files, array_flip($images));
+
 		// We are going to do some cleanup
 		$this->gallery_rating->loader(0);
 		$this->gallery_rating->delete_ratings($images);

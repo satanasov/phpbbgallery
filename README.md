@@ -1,6 +1,6 @@
 # phpBB Gallery
 
-[![Tests](https://github.com/satanasov/phpbbgallery/actions/workflows/tests.yml/badge.svg)](https://github.com/satanasov/phpbbgallery/actions/workflows/tests.yml) [![Code Coverage](https://scrutinizer-ci.com/g/satanasov/phpbbgallery/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/satanasov/phpbbgallery/?branch=master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/satanasov/phpbbgallery/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/satanasov/phpbbgallery/?branch=master)
+[![Tests](https://github.com/satanasov/phpbbgallery/actions/workflows/tests.yml/badge.svg)](https://github.com/satanasov/phpbbgallery/actions/workflows/tests.yml) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/satanasov/phpbbgallery/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/satanasov/phpbbgallery/?branch=master)
 
 © 2008 - 2012 - [nickvergessen](https://web.archive.org/web/20131104154014/http://www.flying-bits.org/index.php)
 
